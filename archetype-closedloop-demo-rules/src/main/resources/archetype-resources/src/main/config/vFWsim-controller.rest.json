@@ -1,0 +1,31 @@
+{
+	"controller.name": "vFWsim",
+	
+	"ueb.source.topics": "${appcTopic}",
+	
+	"ueb.source.topics.${appcTopic}.servers": "${appcServers}",
+	"ueb.source.topics.${appcTopic}.apiKey": "${appcApiKey}",
+	"ueb.source.topics.${appcTopic}.apiSecret": "${appcApiSecret}",
+	"ueb.source.topics.${appcTopic}.events": "org.openecomp.policy.appc.Request,org.openecomp.policy.sim.vfw.OnsetEvent",
+	"ueb.source.topics.${appcTopic}.events.org.openecomp.policy.appc.Request.filter": "CommonHeader=.*,Action=.*",
+	"ueb.source.topics.${appcTopic}.events.org.openecomp.policy.sim.vfw.OnsetEvent.filter": "appcResponseCode=.*",
+	"ueb.source.topics.${appcTopic}.events.custom.gson": "org.openecomp.policy.appc.util.Serialization,gsonPretty",
+	
+	"ueb.sink.topics": "${dcaeTopic},${appcTopic}",
+
+	"ueb.sink.topics.${dcaeTopic}.servers": "${dcaeServers}",
+	"ueb.sink.topics.${dcaeTopic}.apiKey": "${dcaeApiKey}",
+	"ueb.sink.topics.${dcaeTopic}.apiSecret": "${dcaeApiSecret}",
+	"ueb.sink.topics.${dcaeTopic}.events": "org.openecomp.policy.controlloop.VirtualControlLoopEvent",
+	"ueb.sink.topics.${dcaeTopic}.events.custom.gson": "org.openecomp.policy.controlloop.util.Serialization,gsonPretty",
+
+	"ueb.sink.topics.${appcTopic}.servers": "${appcServers}",
+	"ueb.sink.topics.${appcTopic}.apiKey": "${appcApiKey}",
+	"ueb.sink.topics.${appcTopic}.apiSecret": "${appcApiSecret}",
+	"ueb.sink.topics.${appcTopic}.events": "org.openecomp.policy.appc.Response",
+	"ueb.sink.topics.${appcTopic}.events.custom.gson": "org.openecomp.policy.appc.util.Serialization,gsonPretty",
+	
+	"rules.groupId": "org.openecomp.policy.apps",
+	"rules.artifactId": "vfwsim",
+	"rules.version": "${dependenciesVersion}"
+}

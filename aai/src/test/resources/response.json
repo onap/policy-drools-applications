@@ -1,0 +1,69 @@
+{
+	"inventory-response-item": [{
+		"vserver": {
+			"vserver-id": "vserver-id-Manisha-01",
+			"vserver-name": "vserver-name-16102016-aai3255-data-11-1",
+			"vserver-name2": "example-vserver-name2-val-68608",
+			"prov-status": "example-prov-status-val-59118",
+			"vserver-selflink": "example-vserver-selflink-val-10902",
+			"in-maint": true,
+			"is-closed-loop-disabled": true,
+			"resource-version": "1477946963"
+		},
+		"extra-properties": {},
+		"inventory-response-items": {
+			"inventory-response-item": [{
+				"generic-vnf": {
+					"vnf-id": "generic-vnf-id-Manisha-01",
+					"vnf-name": "bpsx0001v-16102016-aai3255-data-11",
+					"vnf-name2": "example-vnf-name2-val-8204",
+					"vnf-type": "my-vnf-type",
+					"service-id": "c7611ebe-c324-48f1-8085-94aef0c6ef3d",
+					"regional-resource-zone": "example-regional-resource-zone-val-8204",
+					"prov-status": "ACTIVE",
+					"operational-state": "example-operational-state-val-3289",
+					"license-key": "example-license-key-val-3289",
+					"equipment-role": "example-equipment-role-val-3289",
+					"orchestration-status": "example-orchestration-status-val-3289",
+					"heat-stack-id": "example-heat-stack-id-val-3289",
+					"mso-catalog-key": "example-mso-catalog-key-val-3289",
+					"management-option": "example-management-option-val-8204",
+					"ipv4-oam-address": "example-ipv4-oam-address-val-8204",
+					"ipv4-loopback0-address": "example-ipv4-loopback0-address-val-8204",
+					"nm-lan-v6-address": "example-nm-lan-v6-address-val-8204",
+					"management-v6-address": "example-management-v6-address-val-8204",
+					"vcpu": 7957,
+					"vcpu-units": "example-vcpu-units-val-8204",
+					"vmemory": 168,
+					"vmemory-units": "example-vmemory-units-val-8204",
+					"vdisk": 3227,
+					"vdisk-units": "example-vdisk-units-val-8204",
+					"in-maint": false,
+					"is-closed-loop-disabled": false,
+					"resource-version": "1477946966"
+				},
+				"extra-properties": {},
+				"inventory-response-items": {
+					"inventory-response-item": [{
+						"service-instance": {
+							"service-instance-id": "service-instance-id-Manisha-01",
+							"service-instance-name": "example-service-instance-name-val-5008-1",
+							"widget-model-id": "example-widget-model-id-val-52958",
+							"widget-model-version": "example-widget-model-version-val-42840",
+							"bandwidth-total": "example-bandwidth-total-val-99587",
+							"bandwidth-up-wan1": "example-bandwidth-up-wan1-val-73709",
+							"bandwidth-down-wan1": "example-bandwidth-down-wan1-val-20007",
+							"bandwidth-up-wan2": "example-bandwidth-up-wan2-val-16857",
+							"bandwidth-down-wan2": "example-bandwidth-down-wan2-val-95839",
+							"vhn-portal-url": "example-vhn-portal-url-val-21541",
+							"operational-status": "example-operational-status-val-48090",
+							"service-instance-location-id": "example-service-instance-location-id-val-9684",
+							"resource-version": "1477946961"
+						},
+						"extra-properties": {}
+					}]
+				}
+			}]
+		}
+	}]
+}
