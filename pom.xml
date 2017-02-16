@@ -30,6 +30,28 @@
 	<name>Drools PDP Application Models</name>
 	<packaging>pom</packaging>
 
+	<properties>
+		<nexusproxy>https://nexus.openecomp.org</nexusproxy>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Maven 2 repository</name>
+			<url>http://repo2.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>ecomp-releases</id>
+			<name>OpenECOMP Release Repository</name>
+			<url>${nexusproxy}/content/repositories/releases/</url>
+		</repository>
+		<repository>
+			<id>ecomp-staging</id>
+			<name>OpenECOMP Staging Repository</name>
+			<url>${nexusproxy}/content/repositories/staging/</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -164,4 +186,19 @@
 		<module>archetype-closedloop-demo-rules</module>
 		<module>packages</module>
 	</modules>
+
+
+	<distributionManagement>
+		<repository>
+			<id>ecomp-releases</id>
+			<name>OpenECOMP Release Repository</name>
+			<url>${nexusproxy}/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ecomp-snapshots</id>
+			<name>OpenECOMP Snapshot Repository</name>
+			<url>${nexusproxy}/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
