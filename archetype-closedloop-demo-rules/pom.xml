@@ -29,7 +29,6 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.openecomp.policy.drools-applications</groupId>
 	<artifactId>archetype-closedloop-demo-rules</artifactId>
 	<packaging>maven-archetype</packaging>
 
