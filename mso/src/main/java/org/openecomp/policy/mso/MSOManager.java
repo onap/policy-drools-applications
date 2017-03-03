@@ -60,7 +60,7 @@ public final class MSOManager {
 				System.out.println(body);
 				
 				String requestId = response.requestReferences.requestId;
-				int attemptsLeft = 7;
+				int attemptsLeft = 20;
 				
 				//String getUrl = "/orchestrationRequests/v2/"+requestId;
 				String urlGet = urlBase + "/orchestrationRequests/v2/"+requestId;
@@ -84,7 +84,7 @@ public final class MSOManager {
 					Thread.sleep(20000);
 				}
 				
-				System.out.println("***** ########  VF Module Creation takes too long... can't wait longer. Status: ("+responseGet.request.requestStatus.requestState+")");
+				System.out.println("***** ########  VF Module Creation timeout. Status: ("+responseGet.request.requestStatus.requestState+")");
 				return responseGet;
 			} catch (JsonSyntaxException e) {
 				System.err.println("Failed to deserialize into MSOResponse" + e.getLocalizedMessage());
