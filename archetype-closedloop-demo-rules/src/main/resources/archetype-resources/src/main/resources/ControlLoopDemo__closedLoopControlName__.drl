@@ -1122,24 +1122,6 @@ rule "${policyName}.MSO.RESPONSE"
 end
 
 
-query "eventsQuery"
-	events : VirtualControlLoopEvent()
-end
-
-query "paramsQuery"
-	param : Params()
-end
-
-query "onsetsQuery"
-	onsets : VirtualControlLoopEvent(closedLoopEventStatus == ControlLoopEventStatus.ONSET)
-end
-
-/*
-*
-* Queries
-*
-*/
-
 /*
 *
 * Queries
