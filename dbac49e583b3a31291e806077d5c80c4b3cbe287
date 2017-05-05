@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da141535_76442074",
+        "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/config/vFWsim-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-05-05T16:01:05Z",
+      "side": 0,
+      "message": "this is the group id of the parent pom.xml that contains the vfwsim, it will require to change all projects underneath.   We can do at some point later on in all projects, all at once.",
+      "parentUuid": "da141535_9668d4f6",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 27
+      },
+      "revId": "dbac49e583b3a31291e806077d5c80c4b3cbe287",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_766d4004",
         "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/config/vFWsim-controller.rest.json",
         "patchSetId": 1
