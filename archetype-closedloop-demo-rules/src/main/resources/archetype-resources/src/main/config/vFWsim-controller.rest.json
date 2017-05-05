@@ -25,7 +25,7 @@
 	"ueb.sink.topics.${appcTopic}.events": "org.openecomp.policy.appc.Response",
 	"ueb.sink.topics.${appcTopic}.events.custom.gson": "org.openecomp.policy.appc.util.Serialization,gsonPretty",
 	
-	"rules.groupId": "org.openecomp.policy.apps",
+	"rules.groupId": "org.openecomp.policy.drools-applications",
 	"rules.artifactId": "vfwsim",
 	"rules.version": "${dependenciesVersion}"
 }

@@ -29,7 +29,7 @@ echo
 
 GROUPID="org.openecomp.policy.demo.rules"
 ARTIFACTID="closed-loop-demo-rules"
-VERSION="1.0.0-SNAPSHOT"
+VERSION="1.1.0-SNAPSHOT"
 PACKAGE="org.openecomp.policy.demo.rules"
 CLOSEDLOOPCONTROLNAME="CL-FRWL-LOW-TRAFFIC-SIG-d925ed73-8231-4d02-9545-db4e101f88f8"
 POLICYSCOPE="service=test;resource=FRWL;type=configuration"
@@ -52,7 +52,7 @@ AAIURL="http://localhost:7676/aai/test"
 AAIUSERNAME="policy"
 AAIPASSWORD="policy"
 AAINAMEDQUERYUUID=d925ed73-8231-4d02-9545-db4e101fffff
-AAIPATTERNMATCH=true
+AAIPATTERNMATCH=1
 MSOURL="http://localhost:7677/mso/test"
 MSOUSERNAME="policy"
 MSOPASSWORD="policy"
@@ -82,7 +82,7 @@ read -e -i "${AAIURL}" -p "Closed Loop AAI URL> " AAIURL
 read -e -i "${AAIUSERNAME}" -p "Closed Loop AAI Username> " AAIUSERNAME
 read -e -i "${AAIPASSWORD}" -p "Closed Loop AAI Password> " AAIPASSWORD
 read -e -i "${AAINAMEDQUERYUUID}" -p "Closed Loop AAI Named Query UUID> " AAINAMEDQUERYUUID
-read -e -i "${AAIPATTERNMATCH}" -p "Closed Loop AAI Pattern Match ('true' or 'false')> " AAINAMEDQUERYUUID
+read -e -i "${AAIPATTERNMATCH}" -p "Closed Loop AAI Pattern Match (1 for vFW, otherwise vDNS)> " AAIPATTERNMATCH
 read -e -i "${MSOURL}" -p "Closed Loop MSO URL> " MSOURL
 read -e -i "${MSOUSERNAME}" -p "Closed Loop MSO Username> " MSOUSERNAME
 read -e -i "${MSOPASSWORD}" -p "Closed Loop MSO Password> " MSOPASSWORD
@@ -122,7 +122,7 @@ if [ -z "${NOTIFICATIONAPIKEY}" ]; then NOTIFICATIONAPIKEY="NULL"; fi
 if [ -z "${NOTIFICATIONAPISECRET}" ]; then NOTIFICATIONAPISECRET="NULL"; fi
 
 if [[ "$VERSION" == *-SNAPSHOT ]]; then
-	DEPENDENCIES_VERSION="1.0.0-SNAPSHOT"
+	DEPENDENCIES_VERSION="1.1.0-SNAPSHOT"
 else
 	DEPENDENCIES_VERSION="${VERSION}"
 fi

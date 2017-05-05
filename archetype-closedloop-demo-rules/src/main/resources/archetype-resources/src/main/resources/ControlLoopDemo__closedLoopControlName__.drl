@@ -101,32 +101,34 @@ end
 /*
 *
 * Called once and only once to insert the parameters into working memory for this Closed Loop policy.
-* (Comment SETUP rule out for the first ECOMP opensource release since policy BRMS_GW already puts a Params fact in there)
+* NOTE:  If this file is to be used as a template to be used with the policy BRMS GW, please comment out this line 
+* as the BRMS_GW already generates a SETUP rule
 *
-*
-*rule "${policyName}.SETUP"
-*	when
-*	then
-*		System.out.println("rule SETUP is triggered.");
-*		Params params = new Params();
-*		params.setClosedLoopControlName("${closedLoopControlName}");
-*		params.setActor("${actor}");
-*		params.setAaiURL("${aaiURL}");
-*		params.setAaiUsername("${aaiUsername}");
-*		params.setAaiPassword("${aaiPassword}");
-*		params.setMsoURL("${msoURL}");
-*		params.setMsoUsername("${msoUsername}");
-*		params.setMsoPassword("${msoPassword}");
-*		params.setAaiNamedQueryUUID("${aaiNamedQueryUUID}");
-*		params.setAaiPatternMatch(${aaiPatternMatch});
-*		params.setNotificationTopic("${notificationTopic}");
-*		params.setAppcTopic("${appcTopic}");
-*		//
-*		// This stays in memory as long as the rule is alive and running
-*		//
-*		insert(params);
-*end
 */
+rule "${policyName}.SETUP"
+	when
+	then
+		System.out.println("rule SETUP is triggered.");
+		Params params = new Params();
+		params.setClosedLoopControlName("${closedLoopControlName}");
+		params.setActor("${actor}");
+		params.setAaiURL("${aaiURL}");
+		params.setAaiUsername("${aaiUsername}");
+		params.setAaiPassword("${aaiPassword}");
+		params.setMsoURL("${msoURL}");
+		params.setMsoUsername("${msoUsername}");
+		params.setMsoPassword("${msoPassword}");
+		params.setAaiNamedQueryUUID("${aaiNamedQueryUUID}");
+		params.setAaiPatternMatch(${aaiPatternMatch});
+		params.setNotificationTopic("${notificationTopic}");
+		params.setAppcTopic("${appcTopic}");
+		//
+		// This stays in memory as long as the rule is alive and running
+		//
+		insert(params);
+end
+
+
 /*
 *
 * This rule responds to DCAE Events
@@ -1116,6 +1118,61 @@ rule "${policyName}.MSO.RESPONSE"
 			retract($response);
 			retract($event);
 			retract($manager);
-		}
-		
-end				
+		}		
+end
+
+
+query "eventsQuery"
+	events : VirtualControlLoopEvent()
+end
+
+query "paramsQuery"
+	param : Params()
+end
+
+query "onsetsQuery"
+	onsets : VirtualControlLoopEvent(closedLoopEventStatus == ControlLoopEventStatus.ONSET)
+end
+
+/*
+*
+* Queries
+*
+*/
+
+/*
+*
+* Queries
+*
+*/
+query "${policyName}.QUERY.PARAMS"
+	param : Params()
+end
+
+query "${policyName}.QUERY.EVENTS"
+	event : VirtualControlLoopEvent()
+end
+
+query "${policyName}.QUERY.MANAGERS"
+	manager : EventManager()
+end
+
+query "${policyName}.QUERY.OPERATIONS"
+	manager : ControlLoopOperationWrapper()
+end
+
+query "${policyName}.QUERY.APPC.REQUEST"
+	appcRequest : Request()
+end
+
+query "${policyName}.QUERY.APPC.RESPONSE"
+	appcResponse : Response()
+end
+
+query "${policyName}.QUERY.MSO.REQUEST"
+	msoRequest : MSORequest()
+end
+
+query "${policyName}.QUERY.MSO.RESPONSE"
+	msoResponse : MSOResponse()
+end
