@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_01035cb9",
+        "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/resources/ControlLoopDemo__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2017-05-08T08:38:11Z",
+      "side": 1,
+      "message": "I don\u0027t see any of the queries being used. Also, these first few are the same as other queries, but don\u0027t have ${policyName} as part of the name.",
+      "revId": "b96b87daf71d368fe0d07b851564b53b0c7c71f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
