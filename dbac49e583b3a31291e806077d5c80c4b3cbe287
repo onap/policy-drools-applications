@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "da141535_365ea846",
+        "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/config/vFWsim-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-05-08T13:36:27Z",
+      "side": 0,
+      "message": "Oh yes - my bad.",
+      "parentUuid": "da141535_76442074",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 27
+      },
+      "revId": "dbac49e583b3a31291e806077d5c80c4b3cbe287",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_766d4004",
         "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/config/vFWsim-controller.rest.json",
         "patchSetId": 1
