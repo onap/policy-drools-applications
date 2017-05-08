@@ -16,6 +16,24 @@
       "revId": "b96b87daf71d368fe0d07b851564b53b0c7c71f9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_a1bf10d0",
+        "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/resources/ControlLoopDemo__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-05-08T13:16:22Z",
+      "side": 1,
+      "message": "I had another commit from last week, removing these lines, it seems the way I did it, it\u0027s not tied up to this code inspection, and didn\u0027t have any reviewers yet.  I just added you and Pam for that one, if you can take a look.\n\nThe queries are accessible through the REST API on demand by the user.   There are some new ../drools/.. URIs for this purpose.\n\nThe queries are samples, it will be up to drl writer to define their own, may be they want to consider to do queries with appropriate drl conditions.",
+      "parentUuid": "da141535_01035cb9",
+      "revId": "b96b87daf71d368fe0d07b851564b53b0c7c71f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
