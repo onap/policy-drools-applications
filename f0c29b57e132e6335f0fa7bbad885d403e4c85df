@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_b0099b2e",
+        "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/config/appc.success.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-05-10T12:27:26Z",
+      "side": 1,
+      "message": "How are these 3 extra JSON files used? For testing?",
+      "revId": "f0c29b57e132e6335f0fa7bbad885d403e4c85df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
