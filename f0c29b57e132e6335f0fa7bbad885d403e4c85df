@@ -16,6 +16,24 @@
       "revId": "f0c29b57e132e6335f0fa7bbad885d403e4c85df",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_f026f3b9",
+        "filename": "archetype-closedloop-demo-rules/src/main/resources/archetype-resources/src/main/config/appc.success.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-05-10T13:21:24Z",
+      "side": 1,
+      "message": "That is correct.   Everything under this archetype directory is used for testing in a drools-pdp (generate custom closed-loop, and messages for testing, independent of other components).",
+      "parentUuid": "da141535_b0099b2e",
+      "revId": "f0c29b57e132e6335f0fa7bbad885d403e4c85df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
