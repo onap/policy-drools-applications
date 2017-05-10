@@ -7,7 +7,7 @@
   "target_type": "VF",
   "target": "generic-vnf.vnf-id",
   "AAI": {
-    "generic-vnf.vnf-id": "fw0001vm001fw001",
+    "generic-vnf.vnf-id": "fw0001vm001fw001"
   },
   "from": "DCAE",
   "version": "1.0.2"

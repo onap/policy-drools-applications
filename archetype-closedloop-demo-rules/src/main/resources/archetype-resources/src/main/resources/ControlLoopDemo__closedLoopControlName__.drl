@@ -1121,40 +1121,18 @@ rule "${policyName}.MSO.RESPONSE"
 		}		
 end
 
-
 /*
-*
-* Queries
-*
-*/
-query "${policyName}.QUERY.PARAMS"
-	param : Params()
+ * Sample Queries for illustration with and without arguments
+ * The results of the query can be introspected (and retracted if desired)
+ * through REST API.
+ */
+query "${policyName}.QUERY.EVENT.ONSET"
+	event : VirtualControlLoopEvent( closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 end
 
-query "${policyName}.QUERY.EVENTS"
-	event : VirtualControlLoopEvent()
-end
-
-query "${policyName}.QUERY.MANAGERS"
-	manager : EventManager()
-end
-
-query "${policyName}.QUERY.OPERATIONS"
-	manager : ControlLoopOperationWrapper()
-end
-
-query "${policyName}.QUERY.APPC.REQUEST"
-	appcRequest : Request()
-end
-
-query "${policyName}.QUERY.APPC.RESPONSE"
-	appcResponse : Response()
-end
-
-query "${policyName}.QUERY.MSO.REQUEST"
-	msoRequest : MSORequest()
-end
-
-query "${policyName}.QUERY.MSO.RESPONSE"
-	msoResponse : MSOResponse()
+query "${policyName}.QUERY.MANAGER.RNA" (String aRequestId, Integer numOnsetsLowerBound, Boolean aActivated)
+	manager : EventManager( closedLoopControlName == "${closedLoopControlName}", 
+	                        requestID.toString() == aRequestId, 
+	                        numOnsets > numOnsetsLowerBound,
+	                        activated == aActivated )
 end
