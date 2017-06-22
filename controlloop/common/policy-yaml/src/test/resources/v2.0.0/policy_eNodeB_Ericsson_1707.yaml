@@ -1,0 +1,86 @@
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ControlLoop-eNodeB-Ericsson-0732e76a-4228-42d1-8185-972510be388c
+  services: 
+  resources:
+  pnf:
+    PNFName: eNodeB.Ericsson
+  trigger_policy: unique-policy-id-1-check-aots-ticket
+  timeout: 2400
+
+policies:
+  - id: unique-policy-id-1-check-aots-ticket
+    name: Check AOTS CTS
+    description: Discard sleeping cell based on the new signature if it appears in recent CTS tickets
+    actor: AOTS
+    recipe: checkENodeBTicketHours
+    payload:
+      timeWindow: 5
+    retry: 2
+    timeout: 300
+    success: unique-policy-id-2-check-aots-cts
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
+
+  - id: unique-policy-id-2-check-aots-cts
+    name: Check AOTS CTS Equipment
+    description: Discard sleeping cell based on the new signature if it is not active in CTS equipment data
+    actor: AOTS
+    recipe: checkEquipmentStatus
+    payload:
+    retry: 2
+    timeout: 300
+    success: unique-policy-id-3-check-aots-eim
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
+
+  - id: unique-policy-id-3-check-aots-eim
+    name: Check AOTS EIM_RT
+    description: Discard sleeping cell based on the new signature if it appears in EIM_RT data
+    actor: AOTS
+    recipe: checkEimStatus
+    retry: 2
+    timeout: 300
+    success: unique-policy-id-3-check-aots-maintenance
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
+    
+  - id: unique-policy-id-4-check-aots-maintenance
+    name: Check AOTS MAINTENANCE
+    description: Discard sleeping cell based on the new signature if it appears in Maintenance
+    actor: AOTS
+    recipe: checkMaintenanceWindow
+    retry: 2
+    timeout: 300
+    success: unique-policy-id-5-sdnr-reset
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
+    
+  - id: unique-policy-id-5-sdnr-reset
+    name: Have SDNR Reset
+    description: SDNR should now reset this sleeper
+    actor: SDNR
+    recipe: Reset
+    operationsAccumulateParams:
+      period: 15m
+      limit: 5
+    retry: 2
+    timeout: 300
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard

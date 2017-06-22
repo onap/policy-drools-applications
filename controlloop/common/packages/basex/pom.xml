@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-  drools-pdp-apps
+  PDP-D Application Installation Packages
   ================================================================================
   Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
   ================================================================================
@@ -22,20 +22,40 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-    
-	<artifactId>controlloop</artifactId>
-    <packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>drools-pdp-apps</artifactId>
-	    <version>1.1.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.onap.policy.drools-applications</groupId>
+		<artifactId>packages</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
 
-    <modules>
-    	<module>common</module>
-    	<module>templates</module>
-    </modules>
+	<artifactId>basex</artifactId>
+	<packaging>pom</packaging>
 
+	<name>PDP-D APPS Base Package</name>
+	<description>PDP-D APPS Packaging</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<descriptors>
+								<descriptor>src/assembly/zip.xml</descriptor>
+							</descriptors>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
+

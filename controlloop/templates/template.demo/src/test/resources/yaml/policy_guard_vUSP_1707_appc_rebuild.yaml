@@ -1,0 +1,24 @@
+guard:
+  version: 2.0.0
+
+guards:
+  - id: unique_guard_vUSP_1
+    name: APPC 5 Rebuild
+    description: |
+      We only allow 2 restarts over 10 minute window during the day time hours (avoid midnight to 5am)
+    actor: APPC
+    recipe: Rebuild
+    limit_constraints:
+      - num: 2    
+        duration:
+          value: 10
+          units: minute
+        time_in_range:
+          arg2: 00:00:00-05:00
+          arg3: 23:59:59-05:00
+          
+          
+          
+          
+          
+          
