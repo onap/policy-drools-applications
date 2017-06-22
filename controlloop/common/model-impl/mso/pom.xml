@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-  drools-pdp-apps
+  Drools PDP Application Models
   ================================================================================
   Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
   ================================================================================
@@ -18,24 +18,34 @@
   ============LICENSE_END=========================================================
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<modelVersion>4.0.0</modelVersion>
-    
-	<artifactId>controlloop</artifactId>
-    <packaging>pom</packaging>
+  <artifactId>mso</artifactId>
 
-    <parent>
-        <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>drools-pdp-apps</artifactId>
-	    <version>1.1.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.onap.policy.drools-applications</groupId>
+		<artifactId>model-impl</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
 
-    <modules>
-    	<module>common</module>
-    	<module>templates</module>
-    </modules>
-
-
+  <dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.12</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.5</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.onap.policy.drools-applications</groupId>
+		<artifactId>rest</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+  </dependencies>
 </project>

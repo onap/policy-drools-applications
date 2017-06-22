@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-  drools-pdp-apps
+  drools-pdp-apps Control Loop Drools Templates
   ================================================================================
   Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
   ================================================================================
@@ -23,18 +23,18 @@
 
 	<modelVersion>4.0.0</modelVersion>
     
-	<artifactId>controlloop</artifactId>
+	<artifactId>template.demo.v1.0.0</artifactId>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>drools-pdp-apps</artifactId>
+        <artifactId>templates</artifactId>
 	    <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <modules>
-    	<module>common</module>
-    	<module>templates</module>
+    	<module>archetype-closedloop-demo-rules</module>
+    	<module>template.demo</module>
     </modules>
 
 

@@ -23,7 +23,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.openecomp.policy.drools-applications</groupId>
+	<groupId>org.onap.policy.drools-applications</groupId>
 	<artifactId>drools-pdp-apps</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 
@@ -218,17 +218,7 @@
 	</build>
 
 	<modules>
-		<module>rest</module>
-		<module>aai</module>
-		<module>appc</module>
 		<module>controlloop</module>
-		<module>mso</module>
-		<module>sdnc</module>
-		<module>trafficgenerator</module>
-		<module>template.demo</module>
-		<module>vfwsim</module>
-		<module>archetype-closedloop-demo-rules</module>
-		<module>packages</module>
 	</modules>
 
 
