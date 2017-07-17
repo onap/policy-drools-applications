@@ -1,0 +1,118 @@
+package org.onap.policy.controlloop.policy.guard;
+
+import java.util.LinkedList;
+
+
+public class MatchParameters {
+
+	//public ControlLoopParameter controlLoop;
+	public String controlLoopName;
+	public String actor;
+	public String recipe;
+	public LinkedList<String> targets;
+	
+	
+	public MatchParameters() {
+
+	}
+	
+	public MatchParameters(String actor, String recipe) {
+		this.actor = actor;
+		this.recipe = recipe;
+	}
+
+	public MatchParameters(String actor, String recipe, LinkedList<String> targets) {
+		this(actor, recipe);
+		if (targets != null) {
+			this.targets = new LinkedList<String>(targets);
+		}
+	}
+	
+	
+	public MatchParameters(String controlLoopName, String actor, String recipe, LinkedList<String> targets) {
+		this(actor, recipe, targets);
+		this.controlLoopName = controlLoopName;
+	}
+	
+	
+
+
+	
+	public MatchParameters(MatchParameters matchParameters) {
+
+		this.controlLoopName = matchParameters.controlLoopName;
+		this.actor = matchParameters.actor;
+		this.recipe = matchParameters.recipe;
+		if (matchParameters.targets != null) {
+			//this.targets = (LinkedList<String>) Collections.unmodifiableList(matchParameters.targets);
+			this.targets = new LinkedList<String>(matchParameters.targets);
+		}
+	}
+	
+	/*
+	public boolean isValid() {
+		try {
+			if (actor == null) {
+				throw new NullPointerException();
+			}
+			if (recipe == null) {
+				throw new NullPointerException();
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	*/
+	
+	@Override
+	public String toString() {
+		return "MatchParameters [controlLoopName=" + controlLoopName + ", actor=" + actor + ", recipe=" + recipe
+				+ ", targets=" + targets + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actor == null) ? 0 : actor.hashCode());
+		result = prime * result + ((controlLoopName == null) ? 0 : controlLoopName.hashCode());
+		result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
+		result = prime * result + ((targets == null) ? 0 : targets.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MatchParameters other = (MatchParameters) obj;
+		if (actor == null) {
+			if (other.actor != null)
+				return false;
+		} else if (!actor.equals(other.actor))
+			return false;
+		if (controlLoopName == null) {
+			if (other.controlLoopName != null)
+				return false;
+		} else if (!controlLoopName.equals(other.controlLoopName))
+			return false;
+		if (recipe == null) {
+			if (other.recipe != null)
+				return false;
+		} else if (!recipe.equals(other.recipe))
+			return false;
+		if (targets == null) {
+			if (other.targets != null)
+				return false;
+		} else if (!targets.equals(other.targets))
+			return false;
+		return true;
+	}
+	
+	
+}
