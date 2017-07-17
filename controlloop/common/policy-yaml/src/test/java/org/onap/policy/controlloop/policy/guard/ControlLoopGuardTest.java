@@ -29,12 +29,12 @@ public class ControlLoopGuardTest {
 	
 	@Test 
 	public void testGuardvDNS() {
-		this.test("src/test/resources/v2.0.0-guard/policy_guard_OpenECOMP_demo_vDNS.yaml");
+		this.test("src/test/resources/v2.0.0-guard/policy_guard_ONAP_demo_vDNS.yaml");
 	}
 
 	@Test 
 	public void testGuardvUSP() {
-		this.test("src/test/resources/v2.0.0-guard/policy_guard_vUSP_1707_appc.yaml");
+		this.test("src/test/resources/v2.0.0-guard/policy_guard_vUSP_1_appc.yaml");
 	}
 
 	

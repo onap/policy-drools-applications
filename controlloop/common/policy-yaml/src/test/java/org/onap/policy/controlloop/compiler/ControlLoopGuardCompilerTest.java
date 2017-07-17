@@ -17,7 +17,7 @@ public class ControlLoopGuardCompilerTest {
 	@Test 
 	public void testTest1() {
 		try {
-			this.test("src/test/resources/v2.0.0-guard/policy_guard_OpenECOMP_demo_vDNS.yaml");
+			this.test("src/test/resources/v2.0.0-guard/policy_guard_ONAP_demo_vDNS.yaml");
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -26,7 +26,7 @@ public class ControlLoopGuardCompilerTest {
 	@Test 
 	public void testTest2() {
 		try {
-			this.test("src/test/resources/v2.0.0-guard/policy_guard_vUSP_1707_appc.yaml");
+			this.test("src/test/resources/v2.0.0-guard/policy_guard_vUSP_1_appc.yaml");
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
