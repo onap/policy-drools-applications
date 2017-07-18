@@ -4,14 +4,28 @@
         <Target>
             <AnyOf>
                 <AllOf>
-                   <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                
+                	<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                        <!-- <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">.*</AttributeValue>-->
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${clname}</AttributeValue>
+                        <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:clname:clname-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+                   	</Match>
+             
+                   	<!--  <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">-->
+                   	<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
                         <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${actor}</AttributeValue>
                         <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:actor:actor-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
                     </Match>
-                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
                         <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${recipe}</AttributeValue>
                         <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" AttributeId="urn:oasis:names:tc:xacml:1.0:operation:operation-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
                     </Match>
+                    
+                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${targets}</AttributeValue>
+                        <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" AttributeId="urn:oasis:names:tc:xacml:1.0:target:target-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+                    </Match>
+                    
                 </AllOf>
             </AnyOf>
         </Target>

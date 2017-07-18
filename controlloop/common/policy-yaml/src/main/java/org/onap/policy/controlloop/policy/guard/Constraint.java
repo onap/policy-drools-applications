@@ -1,23 +1,3 @@
-/*-
- * ============LICENSE_START=======================================================
- * policy-yaml
- * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
 package org.onap.policy.controlloop.policy.guard;
 
 import java.util.Collections;
@@ -27,10 +7,9 @@ import java.util.Map;
 
 public class Constraint {
 
-	public Integer num;
-	//public String duration;
-	public Map<String, String> duration;
-	public Map<String, String> time_in_range;
+	public Integer freq_limit_per_target;
+	public Map<String, String> time_window;
+	public Map<String, String> active_time_range;
 	
 	public LinkedList<String> blacklist;
 	
@@ -38,9 +17,11 @@ public class Constraint {
 		
 	}
 	
-	public Constraint(Integer num, Map<String, String> duration) {
-		this.num = num;
-		this.duration = duration;
+	public Constraint(Integer freq_limit_per_target, Map<String, String> time_window) {
+		this.freq_limit_per_target = freq_limit_per_target;
+		if (time_window != null) {
+			this.time_window = Collections.unmodifiableMap(time_window);
+		}
 	}
 	
 	public Constraint(List<String> blacklist) {
@@ -48,38 +29,43 @@ public class Constraint {
 		
 	}
 	
-	public Constraint(Integer num, Map<String, String> duration, List<String> blacklist) {
-		this.num = num;
-		this.duration = Collections.unmodifiableMap(duration);
+	public Constraint(Integer freq_limit_per_target, Map<String, String> time_window, List<String> blacklist) {
+		this.freq_limit_per_target = freq_limit_per_target;
+		this.time_window = Collections.unmodifiableMap(time_window);
 		this.blacklist = new LinkedList<String>(blacklist);
 	}
 	
-	public Constraint(Integer num, Map<String, String> duration, Map<String, String> time_in_range, List<String> blacklist) {
-		//this(num, duration);
-		if (duration != null) {
-			this.duration = Collections.unmodifiableMap(duration);
-		}
-		if (time_in_range != null) {
-			this.time_in_range = Collections.unmodifiableMap(time_in_range);
+	public Constraint(Integer freq_limit_per_target, Map<String, String> time_window, Map<String, String> active_time_range, List<String> blacklist) {
+		this(freq_limit_per_target, time_window);
+		if (active_time_range != null) {
+			this.active_time_range = Collections.unmodifiableMap(active_time_range);
 		}
 		this.blacklist = new LinkedList<String>(blacklist);
+	}
+	
+	public Constraint(Integer freq_limit_per_target, Map<String, String> time_window, Map<String, String> active_time_range) {
+		this(freq_limit_per_target, time_window);
+		if (active_time_range != null) {
+			this.active_time_range = Collections.unmodifiableMap(active_time_range);
+		}
 	}
 	
 	public Constraint(Constraint constraint) {
-		this.num = constraint.num;
-		this.duration = constraint.duration;
-		if (constraint.time_in_range != null) {
-			this.time_in_range = Collections.unmodifiableMap(constraint.time_in_range);
+		this.freq_limit_per_target = constraint.freq_limit_per_target;
+		this.time_window = constraint.time_window;
+		if (constraint.active_time_range != null) {
+			this.active_time_range = Collections.unmodifiableMap(constraint.active_time_range);
 		}
 		this.blacklist = new LinkedList<String>(constraint.blacklist);
 	}
 	
 	public boolean isValid() {
+		//System.out.println("freq_limit_per_target: " + freq_limit_per_target + " time_window" + time_window );
 		try {
-			if (num == null && duration != null) {
+			if (freq_limit_per_target == null && time_window != null) {
 				throw new NullPointerException();
 			}
-			if (duration == null && num != null) {
+			if (time_window == null && freq_limit_per_target != null) {
 				throw new NullPointerException();
 			}
 		} catch (Exception e) {
@@ -90,16 +76,16 @@ public class Constraint {
 	
 	@Override
 	public String toString() {
-		return "Constraint [num=" + num + ", duration=" + duration + ", time_in_range=" + time_in_range + ", blacklist=" + blacklist + "]";
+		return "Constraint [freq_limit_per_target=" + freq_limit_per_target + ", time_window=" + time_window + ", active_time_range=" + active_time_range + ", blacklist=" + blacklist + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((num == null) ? 0 : num.hashCode());
-		result = prime * result + ((duration == null) ? 0 : duration.hashCode());
-		result = prime * result + ((time_in_range == null) ? 0 : time_in_range.hashCode());
+		result = prime * result + ((freq_limit_per_target == null) ? 0 : freq_limit_per_target.hashCode());
+		result = prime * result + ((time_window == null) ? 0 : time_window.hashCode());
+		result = prime * result + ((active_time_range == null) ? 0 : active_time_range.hashCode());
 		result = prime * result + ((blacklist == null) ? 0 : blacklist.hashCode());
 		return result;
 	}
@@ -113,20 +99,20 @@ public class Constraint {
 		if (getClass() != obj.getClass())
 			return false;
 		Constraint other = (Constraint) obj;
-		if (num == null) {
-			if (other.num != null) 
+		if (freq_limit_per_target == null) {
+			if (other.freq_limit_per_target != null) 
 				return false;
-		} else if (!num.equals(other.num))
+		} else if (!freq_limit_per_target.equals(other.freq_limit_per_target))
 			return false;
-		if (duration == null) {
-			if (other.duration != null)
+		if (time_window == null) {
+			if (other.time_window != null)
 				return false;
-		} else if (!duration.equals(other.duration))
+		} else if (!time_window.equals(other.time_window))
 			return false;
-		if (time_in_range == null) {
-			if (other.time_in_range != null)
+		if (active_time_range == null) {
+			if (other.active_time_range != null)
 				return false;
-		} else if (!time_in_range.equals(other.time_in_range))
+		} else if (!active_time_range.equals(other.active_time_range))
 			return false;
 		if (blacklist == null) {
 			if (other.blacklist != null)
