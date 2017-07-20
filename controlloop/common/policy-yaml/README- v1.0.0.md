@@ -1,8 +1,8 @@
-ECOMP Control Loop Policy
+ONAP Control Loop Policy v1.0.0
 
 A control loop policy is a YAML specification for creating and chaining policies for ControlLoop.
 
-1610 ECOMP Control Loop Policy Features:
+Features of ONAP Control Loop Policy v1.0.0:
 
 * A single DCAE Closed Loop Event is the trigger for the overall Control Loop Policy
 * APPC is the only Actor that Policy will interact with. The operations available are: RESTART, REBUILD, MIGRATE.
@@ -11,18 +11,18 @@ A control loop policy is a YAML specification for creating and chaining policies
 * If there are zero Operational Policies, i.e. no automated action is to be taken, then the policy is an Open Loop policy.
 * Operational Policies can have retries and timeout's given to control how they are processed.
 
-This SDK helps build the YAML specification for 1610 ECOMP Control Loop Polices.
+This SDK helps build the YAML specification for ONAP Control Loop Policy v1.0.0.
 
 # Create Builder Object
 
-To begin with, the ControlLoopPolicyBuilder.Factory class has static methods that one should use to begin building a Control Loop Policy. It will return a [ControlLoopPolicyBuilder object](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/ControlLoopPolicyBuilder.java) that can then be used to continue to build and define the Control Loop Policy.
+To begin with, the ControlLoopPolicyBuilder.Factory class has static methods that one should use to begin building a Control Loop Policy. It will return a [ControlLoopPolicyBuilder object](src/main/java/org/onap/policy/controlloop/policy/builder/ControlLoopPolicyBuilder.java) that can then be used to continue to build and define the Control Loop Policy.
 
 ```java
 		ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(
 				UUID.randomUUID().toString(), 
 				2400, 
-				new Resource("vCTS", ResourceType.VF),
-				new Service("vUSP")
+				new Resource("sampleResource", ResourceType.VF),
+				new Service("sampleService")
 				);
 ```
 
@@ -43,7 +43,7 @@ After the name of the Control Loop and the resource and services have been defin
 
 # Chain Operational Policies Together Using Operational Results
 
-Operational Policies are chained together using the results of each Operational Policy. The results are defined in [PolicyResult.java](src/main/java/com/att/ecomp/policy/controlloop/policy/PolicyResult.java). To create an Operational Policy that is tied to the result of another, use the 
+Operational Policies are chained together using the results of each Operational Policy. The results are defined in [PolicyResult.java](src/main/java/org/onap/policy/controlloop/policy/PolicyResult.java). To create an Operational Policy that is tied to the result of another, use the 
 setPolicyForPolicyResult() method.
 
 ```java
@@ -65,7 +65,7 @@ An Operational Policy MUST have place to go for every one of its results. By def
 
 # Build the YAML Specification
 
-When finished defining the Policies, build the specification and analyze the [Results.java](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/Results.java)
+When finished defining the Policies, build the specification and analyze the [Results.java](src/main/java/org/onap/policy/controlloop/policy/builder/Results.java)
 
 ```java
 		Results results = builder.buildSpecification();
@@ -79,15 +79,10 @@ When finished defining the Policies, build the specification and analyze the [Re
 		}
 ```
 
-# Sample Code
-
-Sample code is available in this project: https://codecloud.web.att.com/projects/ST_POLICY/repos/com.att.ecomp.policy.controlloop.sample/browse
-
-
 
 # Use the YAML Specification to call the Create Policy API
 
-Now that you have a valid YAML specification, call the createPolicy API via the ECOMP Policy Platform API.
+Now that you have a valid YAML specification, call the createPolicy API via the ONAP Policy Platform API.
 
 # YAML Specification
 
@@ -107,34 +102,34 @@ The YAML specification has 2 sections to it: [controlLoop](#controlloop-object) 
 
 ### resource Object
 
-This object was derived via ASDC Catalog API and ASDC Data Dictionary (POC) in an attempt to use common naming conventions.
+This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an attempt to use common naming conventions.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
-| resourceInvariantUUID | string - UUID | optional | via ASDC, the unique ID for the resource version |
-| resourceName | string | required if NO resourceUUID available | Name of the resource, ideally from ASDC catalog. But if not available, use well-known name. |
-| resourceType | string | optional | Use values defined by ASDC: VF, VFC, VL, CP. |
-| resourceUUID | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via ASDC.
-| resourceVersion | string | optional | string version of the resource via ASDC catalog
+| resourceInvariantUUID | string - UUID | optional | via SDC, the unique ID for the resource version |
+| resourceName | string | required if NO resourceUUID available | Name of the resource, ideally from SDC catalog. But if not available, use well-known name. |
+| resourceType | string | optional | Use values defined by SDC: VF, VFC, VL, CP. |
+| resourceUUID | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via SDC.
+| resourceVersion | string | optional | string version of the resource via SDC catalog
 
-Given in 1610 the ASDC catalog is not fully available and resources have not been defined yet, use resourceName. Eg. F5FW
+SDC catalog is not fully available and resources have not been defined yet, use resourceName. Eg. vFW
 
 ### service Object
 
-This object was derived via ASDC Catalog API and ASDC Data Dictionary (POC) in an attempt to use common naming conventions.
+This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an attempt to use common naming conventions.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
-| serviceInvariantUUID | string - UUID | optional | via ASDC catalog, the unique ID for the service version |
-| serviceName | string | required if NO serviceUUID available | Name of the service, ideally from ASDC catalog. But if not available, use well-known name. |
-| serviceUUID | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via ASDC
-| serviceVersion | string | optional | string version of the service via ASDC catalog
+| serviceInvariantUUID | string - UUID | optional | via SDC catalog, the unique ID for the service version |
+| serviceName | string | required if NO serviceUUID available | Name of the service, ideally from SDC catalog. But if not available, use well-known name. |
+| serviceUUID | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via SDC
+| serviceVersion | string | optional | string version of the service via SDC catalog
     
-Given in 1610 the ASDC catalog is not fully available and some services have not been defined yet, use resourceName. Eg. vUSP, vSCP, trinity.
+SDC catalog is not fully available and some services have not been defined yet, use serviceName. Eg. vLB.
 
 ### pnf Object
 
-This object is used for a physical network function. In the case of 1610, eNodeB is the use case supported. Expect this object to change in the future when ECOMP Policy fully integrates with A&AI.
+This object is used for a physical network function. Expect this object to change in the future when ONAP Policy fully integrates with A&AI.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
@@ -148,7 +143,7 @@ The policies section is an array of [Policy objects](#policy-object).
 
 ### Policy Object
 
-This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invoke a recipe (eg. "Restart") on a target entity (eg. a "VM"). For 1610, there are 2 actors: APPC and RAN. An operation is simply defined as performing a recipe (or operation) on an actor.
+This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invoke a recipe (eg. "Restart") on a target entity (eg. a "VM"). An operation is simply defined as performing a recipe (or operation) on an actor.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
@@ -168,62 +163,29 @@ This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invok
 
 Every Operational Policy MUST have a place to go for every possible result (success, failure, failure_retries, failure_timeout, failure_exception). By default, all the results are final results.
   
-## Examples of YAML Control Loops for 1610
+## Examples of YAML Control Loops v1.0.0
 
-[1607-F5](src/test/resources/v1.0.0/policy_vSCP_F5_1610.yaml)
-[1610-vUSP](src/test/resources/v1.0.0/policy_vUSP_1610.yaml)
-[1610-Open-Loop](src/test/resources/v1.0.0/policy_OpenLoop_1610.yaml)
-[1610-vProbes](src/test/resources/v1.0.0/policy_vProbes_1610.yaml)
-[VNF-with-Multiple-Services](src/test/resources/v1.0.0/policy_Test_MultipleService.yaml)
+[vService](src/test/resources/v1.0.0/policy_vService.yaml)
+[Open-Loop](src/test/resources/v1.0.0/policy_OpenLoop.yaml)
 
-### 1607 F5
-``` 
-controlLoop:
-  version: 1.0.0
-  controlLoopName: ClosedLoop-FRWL-SIG-d925ed73-8231-4d02-9545-db4e101f88f8
-  services: 
-    - serviceName: vSCP
-    - serviceName: trinity
-  resources: 
-    - resourceName: F5FW
-      resourceType: VF
-  trigger_policy: unique-policy-id-1-restart
-  timeout: 1200
 
-policies:
-  - id: unique-policy-id-1-restart
-    name: Restart Policy
-    description:
-    actor: APPC
-    recipe: Restart
-    target: VM
-    retry: 2
-    timeout: 300
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-
-```
-
-### 1610 vUSP
+### vService
 ```
 controlLoop:
   version: 1.0.0
-  controlLoopName: ControlLoop-vUSP-vCTS-cbed919f-2212-4ef7-8051-fe6308da1bda
+  controlLoopName: ControlLoop-vService-cbed919f-2212-4ef7-8051-fe6308da1bda
   services: 
-    - serviceName: vUSP
+    - serviceName: service1
   resources: 
-    - resourceName: vCTS
+    - resourceName: resource1
       resourceType: VF
-    - resourceName: vCOM
+    - resourceName: resource2
       resourceType: VF
-    - resourceName: vRAR
+    - resourceName: resource3
       resourceType: VF
-    - resourceName: vLCS
+    - resourceName: resource4
       resourceType: VF
-    - resourceName: v3CB
+    - resourceName: resource5
       resourceType: VF
   trigger_policy: unique-policy-id-1-restart
   timeout: 1200
@@ -273,84 +235,25 @@ policies:
 
 ```
 
-### 1610 Open Loop
+### Open Loop
 ```
 controlLoop:
   version: 1.0.0
   controlLoopName: ControlLoop-Open-fac4ae3d-c3f5-4bab-8e54-0a8581ede132
   services:
-    - serviceName: Service
+    - serviceName: service1
   resources:
     - resourceType: VF
-      resourceName: Example
+      resourceName: resource1
   trigger_policy: final_openloop
   timeout: 0
 
 policies:
 ```
 
-### 1610 vProbes
-```
-controlLoop:
-  version: 1.0.0
-  controlLoopName: ControlLoop-vProbes-41aba939-9a93-4535-b193-973c68fc8763
-  services: 
-  resources: 
-    - resourceName: vProbes
-      resourceType: VF
-  trigger_policy: unique-policy-id-1-restart
-  timeout: 600
-
-policies:
-  - id: unique-policy-id-1-restart
-    name: Restart Policy
-    description:
-    actor: APPC
-    recipe: Restart
-    target: VM
-    retry: 2
-    timeout: 300
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-
-```
-
-### VNF with Multiple Services
-```
-controlLoop:
-  version: 1.0.0
-  controlLoopName: ClosedLoop-FRWL-SIG-d925ed73-8231-4d02-9545-db4e101f88f8
-  services: 
-    - serviceName: vSCP
-    - serviceName: vSBG
-  resources: 
-    - resourceName: F5FW
-      resourceType: VF
-  trigger_policy: unique-policy-id-1-restart
-  timeout: 1200
-
-policies:
-  - id: unique-policy-id-1-restart
-    name: Restart Policy
-    description:
-    actor: APPC
-    recipe: Restart
-    target: VM
-    retry: 2
-    timeout: 300
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-
-```
 
 
 # Control Loop Final Results Explained
 
-A Control Loop Policy has the following set of final results, as defined in [FinalResult.java](src/main/java/com/att/ecomp/policy/controlloop/policy/FinalResult.java). A final result indicates when a Control Loop Policy has finished execution and is finished processing a Closed Loop Event. All paths must lead to a Final Result.
+A Control Loop Policy has the following set of final results, as defined in [FinalResult.java](src/main/java/org/onap/policy/controlloop/policy/FinalResult.java). A final result indicates when a Control Loop Policy has finished execution and is finished processing a Closed Loop Event. All paths must lead to a Final Result.
 
