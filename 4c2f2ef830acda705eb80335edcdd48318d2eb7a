@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a202591_1b408355",
+        "filename": "controlloop/common/policy-yaml/README-guard-v2.0.0.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T18:38:20Z",
+      "side": 1,
+      "message": "SO",
+      "range": {
+        "startLine": 12,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "4c2f2ef830acda705eb80335edcdd48318d2eb7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_db21ebb5",
+        "filename": "controlloop/common/policy-yaml/README-guard-v2.0.0.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T18:38:20Z",
+      "side": 1,
+      "message": "SO",
+      "range": {
+        "startLine": 175,
+        "startChar": 10,
+        "endLine": 175,
+        "endChar": 13
+      },
+      "revId": "4c2f2ef830acda705eb80335edcdd48318d2eb7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_bb2e2fa4",
+        "filename": "controlloop/common/policy-yaml/README-guard-v2.0.0.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T18:38:20Z",
+      "side": 1,
+      "message": "SO",
+      "range": {
+        "startLine": 177,
+        "startChar": 11,
+        "endLine": 177,
+        "endChar": 14
+      },
+      "revId": "4c2f2ef830acda705eb80335edcdd48318d2eb7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_3b3b3fed",
+        "filename": "controlloop/common/policy-yaml/README-v2.0.0.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T18:38:20Z",
+      "side": 1,
+      "message": "VNF",
+      "range": {
+        "startLine": 23,
+        "startChar": 40,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "4c2f2ef830acda705eb80335edcdd48318d2eb7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_5b36fb04",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T18:38:20Z",
+      "side": 1,
+      "message": "Ser3",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "4c2f2ef830acda705eb80335edcdd48318d2eb7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
