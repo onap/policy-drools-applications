@@ -1,10 +1,10 @@
-ECOMP Control Loop Policy v2.0.0
+ONAP Control Loop Policy v2.0.0
 
 A control loop policy is a YAML specification for creating and chaining policies for ControlLoop.
 
-1707 ECOMP Control Loop Policy Features:
+Features of ONAP Control Loop Policy v2.0.0:
 
-* Backward compatible with 1610 ECOMP Control Loop Policy
+* Backward compatible with ONAP Control Loop Policy v1.0.0
 * A single DCAE Closed Loop Event is the trigger for the overall Control Loop Policy. 
 * An overall timeout for the Control Loop Policy must be provided.
 * An abatement flag indicating whether Policy will receive abatement event for the Control Loop could be provided.
@@ -17,36 +17,25 @@ A control loop policy is a YAML specification for creating and chaining policies
 
 | Actor        | Recipe                      | Target   | Payload  |
 | -------------|:---------------------------:| ---------| ------------:|
-| APPC         | Restart                     | VM       | AICVServerSelfLink, AICIdentity |
-| APPC         | Rebuild                     | VM   	| AICVServerSelfLink, AICIdentity |
-| APPC         | Migrate          			 | VM   	| AICVServerSelfLink, AICIdentity |
-| APPC         | ModifyConfig     			 | VFC  	| generic-vnf.vnf-id |
-| MSO          | VF Module Create 			 | VFC  	| optional |
-| SDNO         | health-diagnostic-type      | VM   	| health-diagnostic-code, health-diagnostic-code-parameters |
-| SDNO         | health-diagnostic           | VM   	| optional |
-| SDNO         | health-diagnostic-history   | VM   	| optional |
-| SDNO         | health-diagnostic-commands  | VM   	| optional |
-| SDNO         | health-diagnostic-aes       | VM   	| optional |
-| SDNR         | Reset                       | PNF  	| optional |
-| AOTS         | checkMaintenanceWindow      | VM   	| optional |
-| AOTS         | checkENodeBTicketHours      | VM   	| timeWindow |
-| AOTS         | checkEquipmentStatus        | VM   	| optional |
-| AOTS         | checkEimStatus              | VM   	| optional |
+| APPC         | Restart                     | VM       | CloudVServerSelfLink, CloudIdentity |
+| APPC         | Rebuild                     | VM   	| CloudVServerSelfLink, CloudIdentity |
+| APPC         | Migrate          			 | VM   	| CloudVServerSelfLink, CloudIdentity |
+| APPC         | ModifyConfig     			 | VNF  	| generic-vnf.vnf-id |
+| SO           | VF Module Create 			 | VFC  	| optional |
 
 
-
-This SDK helps build the YAML specification for 1707 ECOMP Control Loop Polices.
+This SDK helps build the YAML specification for ONAP Control Loop Policy v2.0.0.
 
 # Create Builder Object
 
-To begin with, the ControlLoopPolicyBuilder.Factory class has static methods that one should use to begin building a Control Loop Policy. It will return a [ControlLoopPolicyBuilder object](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/ControlLoopPolicyBuilder.java) that can then be used to continue to build and define the Control Loop Policy.
+To begin with, the ControlLoopPolicyBuilder.Factory class has static methods that one should use to begin building a Control Loop Policy. It will return a [ControlLoopPolicyBuilder object](src/main/java/org/onap/policy/controlloop/policy/builder/ControlLoopPolicyBuilder.java) that can then be used to continue to build and define the Control Loop Policy.
 
 ```java
 		ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(
 				UUID.randomUUID().toString(), 
 				2400, 
-				new Resource("vCTS", ResourceType.VF),
-				new Service("vUSP")
+				new Resource("sampleResource", ResourceType.VF),
+				new Service("sampleService")
 				);
 ```
 
@@ -76,7 +65,7 @@ After the trigger policy, the name, the resource(s) and services of the Control 
 
 # Chain Operational Policies Together Using Operational Results
 
-Operational Policies are chained together using the results of each Operational Policy. The results are defined in [PolicyResult.java](src/main/java/com/att/ecomp/policy/controlloop/policy/PolicyResult.java). To create an Operational Policy that is tied to the result of another, use the 
+Operational Policies are chained together using the results of each Operational Policy. The results are defined in [PolicyResult.java](src/main/java/org/onap/policy/controlloop/policy/PolicyResult.java). To create an Operational Policy that is tied to the result of another, use the 
 setPolicyForPolicyResult() method.
 
 ```java
@@ -102,7 +91,7 @@ An Operational Policy MUST have place to go for every one of its results. By def
 
 # Build the YAML Specification
 
-When finished defining the Policies, build the specification and analyze the [Results.java](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/Results.java)
+When finished defining the Policies, build the specification and analyze the [Results.java](src/main/java/org/onap/policy/controlloop/policy/builder/Results.java)
 
 ```java
 		Results results = builder.buildSpecification();
@@ -116,15 +105,10 @@ When finished defining the Policies, build the specification and analyze the [Re
 		}
 ```
 
-# Sample Code
-
-Sample code is available in this project: https://codecloud.web.att.com/projects/ST_POLICY/repos/com.att.ecomp.policy.controlloop.sample/browse
-
-
 
 # Use the YAML Specification to call the Create Policy API
 
-Now that you have a valid YAML specification, call the createPolicy API via the ECOMP Policy Platform API.
+Now that you have a valid YAML specification, call the createPolicy API via the ONAP Policy Platform API.
 
 
 # YAML Specification
@@ -146,32 +130,32 @@ The YAML specification has 2 sections to it: [controlLoop](#controlloop-object) 
 
 ### resource Object
 
-This object was derived via ASDC Catalog API and ASDC Data Dictionary (POC) in an attempt to use common naming conventions.
+This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an attempt to use common naming conventions.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
-| resourceInvariantUUID | string - UUID | optional | via ASDC, the unique ID for the resource version |
-| resourceName | string | required if NO resourceUUID available | Name of the resource, ideally from ASDC catalog. But if not available, use well-known name. |
-| resourceType | string | optional | Use values defined by ASDC: VF, VFC, VL, CP. |
-| resourceUUID | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via ASDC.
-| resourceVersion | string | optional | string version of the resource via ASDC catalog
+| resourceInvariantUUID | string - UUID | optional | via SDC, the unique ID for the resource version |
+| resourceName | string | required if NO resourceUUID available | Name of the resource, ideally from SDC catalog. But if not available, use well-known name. |
+| resourceType | string | optional | Use values defined by SDC: VF, VFC, VL, CP. |
+| resourceUUID | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via SDC.
+| resourceVersion | string | optional | string version of the resource via SDC catalog
 
 
 ### service Object
 
-This object was derived via ASDC Catalog API and ASDC Data Dictionary (POC) in an attempt to use common naming conventions.
+This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an attempt to use common naming conventions.
 
 | Field Name      | Type          | Required   | Description  |
 | ---------------:| -------------:| ----------:| ------------:|
-| serviceInvariantUUID | string - UUID | optional | via ASDC catalog, the unique ID for the service version |
-| serviceName | string | required if NO serviceUUID available | Name of the service, ideally from ASDC catalog. But if not available, use well-known name. |
-| serviceUUID | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via ASDC
-| serviceVersion | string | optional | string version of the service via ASDC catalog
+| serviceInvariantUUID | string - UUID | optional | via SDC catalog, the unique ID for the service version |
+| serviceName | string | required if NO serviceUUID available | Name of the service, ideally from SDC catalog. But if not available, use well-known name. |
+| serviceUUID | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via SDC
+| serviceVersion | string | optional | string version of the service via SDC catalog
     
 
 ### pnf Object
 
-This object is used for a physical network function. In the case of 1707, eNodeB is the use case supported. Expect this object to change in the future when ECOMP Policy fully integrates with A&AI.
+This object is used for a physical network function. Expect this object to change in the future when ONAP Policy fully integrates with A&AI.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
@@ -185,7 +169,7 @@ The policies section is an array of [Policy objects](#policy-object).
 
 ### Policy Object
 
-This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invoke a recipe (eg. "Restart") on a target entity (eg. a "VM"). For 1707, there are 5 actors: APPC, MSO, SDNO, SDNR and AOTS. An operation is simply defined as performing a recipe (or operation) on an actor.
+This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invoke a recipe (eg. "Restart") on a target entity (eg. a "VM"). An operation is simply defined as performing a recipe (or operation) on an actor.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
@@ -196,7 +180,7 @@ This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invok
 | recipe          | string        | required   | Name of recipe to be performed. Example "Restart" |
 | target          | [target](#target-object) object        | required   | Entity being targeted. Example: VM |
 | timeout         | int           | required   | Timeout for the actor to perform the recipe. |
-| retry           | int           | optional   | Optional number of retries for ECOMP Policy to invoke the recipe on the actor. |
+| retry           | int           | optional   | Optional number of retries for ONAP Policy to invoke the recipe on the actor. |
 | success         | string        | required   | By default, this value should be FINAL_SUCCESS. Otherwise this can be the ID of the operational Policy (included in this specification) to invoke upon successfully completing the recipe on the actor.
 | failure         | string        | required   | By default, this value should be FINAL_FAILURE. Otherwise this can be the ID of the operational Policy (included in this specification) to invoke upon failure to perform the operation. |
 | failure_exception | string      | required   | By default, this value should be FINAL_FAILURE_EXCEPTION. Otherwise this can be the ID of an Operational Policy (included in this specification) to invoke upon an exception occurring while attempting to perform the operation. |
@@ -213,34 +197,32 @@ This object is used for defining a target entity of a recipe.
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
 | type            | enums of VM, PNF and VNC | required   | Type of the target. |
-| resourceID      | string        | optional   | Resource ID of the target. Should be supplied via ASDC Catalog. |
+| resourceID      | string        | optional   | Resource ID of the target. Should be supplied via SDC Catalog. |
   
   
-## Examples of YAML Control Loops for 1707
+## Examples of YAML Control Loops v2.0.0
 
-[1707-vUSP](src/test/resources/v2.0.0/policy_vUSP_1707.yaml)
-[1707-eNodeB-Ericsson](src/test/resources/v2.0.0/policy_eNodeB_Ericsson_1707.yaml)
-[1707-eNodeB-ALU](src/test/resources/v2.0.0/policy_eNodeB_ALU_1707.yaml)
-[OpenECOMP-vFirewall](src/test/resources/v2.0.0/policy_OpenECOMP_demo_vFirewall.yaml)
-[OpenECOMP-vDNS](src/test/resources/v2.0.0/policy_OpenECOMP_demo_vDNS.yaml)
+[vService](src/test/resources/v2.0.0/policy_vService.yaml)
+[ONAP-vFirewall](src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml)
+[ONAP-vDNS](src/test/resources/v2.0.0/policy_ONAP_demo_vDNS.yaml)
 
-### 1707 vUSP
+### vService
 ``` 
 controlLoop:
   version: 2.0.0
-  controlLoopName: ControlLoop-vUSP-vCTS-cbed919f-2212-4ef7-8051-fe6308da1bda
+  controlLoopName: ControlLoop-vService-cbed919f-2212-4ef7-8051-fe6308da1bda
   services: 
-    - serviceName: vUSP
+    - serviceName: service1
   resources: 
-    - resourceName: vCTS
+    - resourceName: resource1
       resourceType: VFC
-    - resourceName: vCOM
+    - resourceName: resource2
       resourceType: VFC
-    - resourceName: vRAR
+    - resourceName: resource3
       resourceType: VFC
-    - resourceName: vLCS
+    - resourceName: resource4
       resourceType: VFC
-    - resourceName: v3CB
+    - resourceName: resource5
       resourceType: VFC
   trigger_policy: unique-policy-id-1-restart
   timeout: 1200
@@ -256,7 +238,7 @@ policies:
       type: VM
     retry: 2
     timeout: 300
-    success: unique-policy-id-1-healthdiagnostic
+    success: final_success
     failure: unique-policy-id-2-rebuild
     failure_timeout: unique-policy-id-2-rebuild
     failure_retries: unique-policy-id-2-rebuild
@@ -272,7 +254,7 @@ policies:
       type: VM 
     retry: 0
     timeout: 600
-    success: unique-policy-id-2-healthdiagnostic
+    success: final_success
     failure: unique-policy-id-3-migrate
     failure_timeout: unique-policy-id-3-migrate
     failure_retries: unique-policy-id-3-migrate
@@ -294,212 +276,11 @@ policies:
     failure_retries: final_failure_retries
     failure_exception: final_failure_exception
     failure_guard: final_failure_guard
-    
-  - id: unique-policy-id-1-healthdiagnostic
-    name: Do SDNO Health Diagnostic
-    description:
-    actor: SDNO
-    recipe: health-diagnostic
-    payload: 
-      health-diagnostic-code: HC99
-      health-diagnostic-code-parameters: "{\"Junk\":\"--version\",\"Junk2\":\"--help\"}"
-    target: 
-      type: VM 
-    retry: 0
-    timeout: 600
-    success: final_success
-    failure: unique-policy-id-2-rebuild
-    failure_timeout: unique-policy-id-2-rebuild
-    failure_retries: unique-policy-id-2-rebuild
-    failure_exception: final_failure_exception
-    failure_guard: unique-policy-id-2-rebuild
-
-  - id: unique-policy-id-2-healthdiagnostic
-    name: Do SDNO Health Diagnostic
-    description:
-    actor: SDNO
-    recipe: health-diagnostic
-    payload: 
-      health-diagnostic-code: HC99
-      health-diagnostic-code-parameters: "{\"Junk\":\"--version\",\"Junk2\":\"--help\"}" 
-    target:
-      type: VM
-    retry: 0
-    timeout: 600
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
 ```
 
-### 1707 eNodeB Ericsson
-```
-controlLoop:
-  version: 2.0.0
-  controlLoopName: ControlLoop-eNodeB-Ericsson-0732e76a-4228-42d1-8185-972510be388c
-  services: 
-  resources:
-  pnf:
-    PNFName: eNodeB.Ericsson
-  trigger_policy: unique-policy-id-1-check-aots-ticket
-  timeout: 2400
 
-policies:
-  - id: unique-policy-id-1-check-aots-ticket
-    name: Check AOTS CTS
-    description: Discard sleeping cell based on the new signature if it appears in recent CTS tickets
-    actor: AOTS
-    recipe: checkENodeBTicketHours
-    payload:
-      timeWindow: 5
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-2-check-aots-cts
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
 
-  - id: unique-policy-id-2-check-aots-cts
-    name: Check AOTS CTS Equipment
-    description: Discard sleeping cell based on the new signature if it is not active in CTS equipment data
-    actor: AOTS
-    recipe: checkEquipmentStatus
-    payload:
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-3-check-aots-eim
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-
-  - id: unique-policy-id-3-check-aots-eim
-    name: Check AOTS EIM_RT
-    description: Discard sleeping cell based on the new signature if it appears in EIM_RT data
-    actor: AOTS
-    recipe: checkEimStatus
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-3-check-aots-maintenance
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-    
-  - id: unique-policy-id-4-check-aots-maintenance
-    name: Check AOTS MAINTENANCE
-    description: Discard sleeping cell based on the new signature if it appears in Maintenance
-    actor: AOTS
-    recipe: checkMaintenanceWindow
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-5-sdnr-reset
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-    
-  - id: unique-policy-id-5-sdnr-reset
-    name: Have SDNR Reset
-    description: SDNR should now reset this sleeper
-    actor: SDNR
-    recipe: Reset
-    operationsAccumulateParams:
-      period: 15m
-      limit: 5
-    retry: 2
-    timeout: 300
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-```
-
-### 1707 eNodeB ALU
-```
-controlLoop:
-  version: 2.0.0
-  controlLoopName: ControlLoop-eNodeB-ALU-3ee91181-6f05-4cd3-8437-cad5f58653ca
-  services: 
-  resources:
-  pnf:
-    PNFName: eNodeB.ALU
-  trigger_policy: unique-policy-id-1-check-aots
-  timeout: 2400
-
-policies:
-  - id: unique-policy-id-1-check-aots
-    name: Check AOTS CTS
-    description: Discard sleeping cell based on the new signature if it appears in recent CTS tickets
-    actor: AOTS
-    recipe: checkENodeBTicketHours
-    payload:
-      timeWindow: 5
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-2-check-aots-cts
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-
-  - id: unique-policy-id-2-check-aots-cts
-    name: Check AOTS CTS Equipment
-    description: Discard sleeping cell based on the new signature if it is not active in CTS equipment data
-    actor: AOTS
-    recipe: checkEquipmentStatus
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-3-check-aots-eim
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-
-  - id: unique-policy-id-3-check-aots-eim
-    name: Check AOTS EIM_RT
-    description: Discard sleeping cell based on the new signature if it appears in EIM_RT data
-    actor: AOTS
-    recipe: checkEimStatus
-    retry: 2
-    timeout: 300
-    success: unique-policy-id-4-sdnr-reset
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-
-  - id: unique-policy-id-4-sdnr-reset
-    name: Have SDNR Reset
-    description: SDNR should now reset this sleeper
-    actor: SDNR
-    recipe: Reset
-    operationsAccumulateParams:
-      period: 15m
-      limit: 5
-    retry: 2
-    timeout: 300
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-```
-
-### OpenECOMP vFirewall
+### ONAP vFirewall
 ```
 controlLoop:
   version: 2.0.0
@@ -532,7 +313,7 @@ policies:
     failure_guard: final_failure_guard
 ```
 
-### OpenECOMP vDNS
+### ONAP vDNS
 ```
 controlLoop:
   version: 2.0.0
@@ -548,7 +329,7 @@ policies:
   - id: unique-policy-id-1-scale-up
     name: Create a new VF Module
     description:
-    actor: MSO
+    actor: SO
     recipe: VF Module Create
     target:
       resourceID: 59a2ee3fB58045feB5a1.nodes.heat.vdns
@@ -565,5 +346,5 @@ policies:
 
 # Control Loop Final Results Explained
 
-A Control Loop Policy has the following set of final results, as defined in [FinalResult.java](src/main/java/com/att/ecomp/policy/controlloop/policy/FinalResult.java). A final result indicates when a Control Loop Policy has finished execution and is finished processing a Closed Loop Event. All paths must lead to a Final Result.
+A Control Loop Policy has the following set of final results, as defined in [FinalResult.java](src/main/java/org/onap/policy/controlloop/policy/FinalResult.java). A final result indicates when a Control Loop Policy has finished execution and is finished processing a Closed Loop Event. All paths must lead to a Final Result.
 

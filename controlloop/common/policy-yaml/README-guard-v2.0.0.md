@@ -1,21 +1,21 @@
-ECOMP Control Loop Guard
+ONAP Control Loop Guard
 
 A control loop guard is a YAML specification for creating policy guard for ControlLoop.
 
-1707 ECOMP Control Loop Guard Features:
+ONAP Control Loop Guard Features:
 
 * The Control Loop Guard can specify the frequency limiter and the blacklist of target entities but not both in the same Guard.
 * Two parts are incorporated. One is the common guard header including guard version while the other part is a set of guard policies. 
 * The Control Loop Guard should contain at least one guard policies.
 * Each guard policy is bound to a specific Actor and Recipe.
 * Each guard policy should have at least one limit constraints which define how the guard policy should be enforced.
-* Supported Actors are APPC, MSO, SDNO, SDNR and AOTS. 
+* Supported Actors are APPC and SO. 
 
-This SDK helps build the YAML specification for 1707 ECOMP Control Loop Guard.
+This SDK helps build the YAML specification for ONAP Control Loop Guard.
 
 # Create Builder Object
 
-To begin with, the ControlLoopGuardBuilder.Factory class has static methods that one should use to begin building a Control Loop Guard. It will return a [ControlLoopGuardBuilder object](src/main/java/com/att/ecomp/policy/controlloop/policy/guard/builder/ControlLoopGuardBuilder.java) that can then be used to continue to build and define the Control Loop Guard.
+To begin with, the ControlLoopGuardBuilder.Factory class has static methods that one should use to begin building a Control Loop Guard. It will return a [ControlLoopGuardBuilder object](src/main/java/org/onap/policy/controlloop/policy/guard/builder/ControlLoopGuardBuilder.java) that can then be used to continue to build and define the Control Loop Guard.
 
 ```java
 		ControlLoopGuardBuilder builder = ControlLoopGuardBuilder.Factory.buildControlLoopGuard(new Guard());
@@ -53,7 +53,7 @@ The limit constraint defines the details of how to enforce the guard policy. Eac
 
 # Build the YAML Specification
 
-When finished defining the Guard Policies, build the specification and analyze the [Results.java](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/Results.java)
+When finished defining the Guard Policies, build the specification and analyze the [Results.java](src/main/java/org/onap/policy/controlloop/policy/builder/Results.java)
 
 ```java
 		Results results = builder.buildSpecification();
@@ -67,15 +67,11 @@ When finished defining the Guard Policies, build the specification and analyze t
 		}
 ```
 
-# Sample Code
-
-Sample code is available in this project: https://codecloud.web.att.com/projects/ST_POLICY/repos/com.att.ecomp.policy.controlloop.sample/browse
-
-
 
 # Use the YAML Specification to Generate the XACML Guard Policies
 
-Now that you have a valid YAML specification, call the method in [PolicyGuardYamlToXacml.java](guard/src/main/java/com/att/ecomp/policy/guard/PolicyGuardYamlToXacml.java) to generate the XACML Guard Policies.
+Now that you have a valid YAML specification, call the method in [PolicyGuardYamlToXacml.java](guard/src/main/java/org/onap/policy/guard/PolicyGuardYamlToXacml.java) to generate the XACML Guard Policies.
+
 
 # YAML Specification
 
@@ -119,21 +115,20 @@ The first three attributes define the frequency limiter which means that only a 
 The "duration" parameter should have one of the following values: [5min, 10min, 30min, 1h, 12h, 1d, 5d, 1w, 1mon].
 
   
-## Examples of YAML Control Loop Guards for 1707
+## Examples of YAML Control Loop Guards
 
-[1707-vUSP-Guard](src/test/resources/v2.0.0-guard/policy_guard_vUSP_1707_appc.yaml)
-[1707-eNodeB-Ericsson-Frequency-Limiter-Guard](template.enodeb/src/test/resources/policy_guard_eNodeB_1707_sdnr_reset.yaml)
-[1707-eNodeB-Ericsson-Blacklist-Guard](template.enodeb/src/test/resources/policy_guard_vUSP_1707_sdnr_reset_blacklist.yaml)
-[OpenECOMP-vDNS-Guard](src/test/resources/v2.0.0-guard/policy_guard_OpenECOMP_demo_vDNS.yaml)
+[vService-Frequency-Limiter-Guard](src/test/resources/v2.0.0-guard/policy_guard_appc_restart.yaml)
+[vService-Blacklist-Guard](src/test/resources/v2.0.0-guard/policy_guard_blacklist.yaml)
+[ONAP-vDNS-Guard](src/test/resources/v2.0.0-guard/policy_guard_ONAP_demo_vDNS.yaml)
 
 
-### 1707 vUSP Guard
+### vService Frequency Limiter Guard
 ```
 guard:
   version: 2.0.0
 
 guards:
-  - id: unique_guard_vUSP_1
+  - id: unique_guard_vService_frequency_limiter
     name: APPC 5 Restart
     description: 
       We only allow 5 restarts over 15 minute window during the day time hours (i.e. avoid midnight to 5am)
@@ -147,57 +142,39 @@ guards:
           arg3: PT24H	
 ```
 
-### 1707 eNodeB Ericsson Frequency Limiter Guard
+
+### vService Blacklist Guard
 ```
 guard:
   version: 2.0.0
 
 guards:
-  - id: unique_guard_eNodeB_Ericsson
-    name: SDNR 1 Reset
-    description: |
-      We only allow 1 reset over 24 hour window
-    actor: SDNR
-    recipe: Reset
-    limit_constraints:
-      - num: 100
-        duration: 1d
-        time_in_range:
-          arg2: 00:00:00-05:00
-          arg3: 23:59:59-05:00
-```
-
-### 1707 eNodeB Ericsson Blacklist Guard
-```
-guard:
-  version: 2.0.0
-
-guards:
-  - id: unique_guard_eNodeB_Ericsson_Blacklist
-    name: SDNR Reset Blacklist
+  - id: unique_guard_vService_blacklist
+    name: APPC Restart Blacklist
     description: |
       We deny restart of the blacklisted targets (avoid midnight to 5am)
     actor: APPC
-    recipe: Reset
+    recipe: Restart
     limit_constraints:
       - blacklist:
-          - HNVJAL22_DMH1_U_L
-          - MNYKAQ35_DMH1_U_L
+          - TargetName1
+          - TargetName2
         time_in_range:
           arg2: 00:00:00-05:00
           arg3: 23:59:59-05:00
 ```
 
-### OpenECOMP vDNS Guard
+
+### ONAP vDNS Guard
 ```
 guard:
   version: 2.0.0
 
 guards:
   - id: unique_guard_ONAP_vDNS_1
-    name: MSO Spinup
+    name: SO Spinup
     description: We only spin up 1 instance over a 10 minute window
-    actor: MSO
+    actor: SO
     recipe: VF Module Create
     limit_constraints:
       - num: 1

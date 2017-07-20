@@ -61,30 +61,30 @@ public class ControlLoopPolicyBuilderTest {
 			//
 			// Test add services
 			//
-			Service vSCP = new Service("vSCP");
-			Service vUSP = new Service("vUSP");
-			Service vTrinity = new Service("Trinity");
-			builder = builder.addService(vSCP, vUSP, vTrinity);
+			Service Ser1 = new Service("Ser1");
+			Service Ser2 = new Service("Ser2");
+			Service Ser3 = new Service("Ser3");
+			builder = builder.addService(Ser1, Ser2, Ser3);
 			assertTrue(builder.getControlLoop().services.size() == 3);
 			//
 			// Test remove services
 			//
-			builder = builder.removeService(vSCP);
+			builder = builder.removeService(Ser1);
 			assertTrue(builder.getControlLoop().services.size() == 2);
 			builder = builder.removeAllServices();
 			assertTrue(builder.getControlLoop().services.size() == 0);
 			//
 			// Test add resources
 			//
-			Resource vCTS = new Resource("vCTS", ResourceType.VF);
-			Resource vCOM = new Resource("vCTS", ResourceType.VF);
-			Resource vRAR = new Resource("vCTS", ResourceType.VF);
-			builder = builder.addResource(vCTS, vCOM, vRAR);
+			Resource Resrc1 = new Resource("Resrc1", ResourceType.VF);
+			Resource Resrc2 = new Resource("Resrc1", ResourceType.VF);
+			Resource Resrc3 = new Resource("Resrc1", ResourceType.VF);
+			builder = builder.addResource(Resrc1, Resrc2, Resrc3);
 			assertTrue(builder.getControlLoop().resources.size() == 3);
 			//
 			// Test remove resources
 			//
-			builder = builder.removeResource(vCTS);
+			builder = builder.removeResource(Resrc1);
 			assertTrue(builder.getControlLoop().resources.size() == 2);
 			builder = builder.removeAllResources();
 			assertTrue(builder.getControlLoop().resources.size() == 0);
@@ -308,7 +308,7 @@ public class ControlLoopPolicyBuilderTest {
             Policy triggerPolicy = builder.setTriggerPolicy(
                     "Restart the eNodeB",
                     "Upon getting the trigger event, restart the eNodeB",
-                    "SDNR",
+                    "RANController",
                     new Target(TargetType.PNF),
                     "Restart",
                     null,

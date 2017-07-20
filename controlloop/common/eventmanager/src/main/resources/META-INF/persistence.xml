@@ -12,9 +12,9 @@
      <property name="eclipselink.ddl-generation" value="create-tables"/>
        <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
        <!--  <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:7779/policy"/>-->
-       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://135.207.129.112:3306/policy"/>
+       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/policy"/>
        <property name="javax.persistence.jdbc.user" value="root"/>
-       <property name="javax.persistence.jdbc.password" value="lmpg"/>
+       <property name="javax.persistence.jdbc.password" value="aaaa"/>
        <property name="eclipselink.logging.level" value="INFO" />
      </properties>
    </persistence-unit>
