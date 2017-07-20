@@ -36,54 +36,25 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 
 public class ControlLoopPolicyTest {
-	@Test 
-	public void testSDNO() {
-		this.test("src/test/resources/v1.0.0/policy_SDNO_1702.yaml");
-	}
 
 	@Test 
 	public void test() {
 		this.test("src/test/resources/v1.0.0/policy_Test.yaml");
 	}
-
-	@Test 
-	public void testMultipleService() {
-		this.test("src/test/resources/v1.0.0/policy_Test_MultipleService.yaml");
-	}
-
-	@Test
-	public void testF5() {
-		this.test("src/test/resources/v1.0.0/policy_vSCP_F5_1610.yaml");
-	}
 	
 	@Test 
-	public void testUSP() {
-		this.test("src/test/resources/v1.0.0/policy_vUSP_1610.yaml");
+	public void testvService1() {
+		this.test("src/test/resources/v1.0.0/policy_vService.yaml");
 	}
 
 	@Test 
 	public void testOpenLoop() {
-		this.test("src/test/resources/v1.0.0/policy_OpenLoop_1610.yaml");
+		this.test("src/test/resources/v1.0.0/policy_OpenLoop.yaml");
 	}
 
 	@Test 
-	public void testvProbes() {
-		this.test("src/test/resources/v1.0.0/policy_vProbes_1610.yaml");
-	}
-
-	@Test 
-	public void test1707() {
-		this.test("src/test/resources/v2.0.0/policy_vUSP_1707.yaml");
-	}
-
-	@Test 
-	public void testeNodeBALU() {
-		this.test("src/test/resources/v2.0.0/policy_eNodeB_ALU_1707.yaml");
-	}
-
-	@Test 
-	public void testeNodeBEricsson() {
-		this.test("src/test/resources/v2.0.0/policy_eNodeB_Ericsson_1707.yaml");
+	public void testvService2() {
+		this.test("src/test/resources/v2.0.0/policy_vService.yaml");
 	}
 
 	public void test(String testFile) {
