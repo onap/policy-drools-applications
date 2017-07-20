@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a202591_1b03e374",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/compiler/ControlLoopGuardCompilerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T15:42:25Z",
+      "side": 1,
+      "message": "not sure this has a license header? Can you verify?",
+      "revId": "c1a1b2c11a69ffdf3090361ab0fcc87ab0a5967c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_bbf18f97",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/ControlLoopGuardBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T15:42:25Z",
+      "side": 1,
+      "message": "license header?",
+      "revId": "c1a1b2c11a69ffdf3090361ab0fcc87ab0a5967c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_9beed3b3",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/ControlLoopGuardTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T15:42:25Z",
+      "side": 1,
+      "message": "wrong license",
+      "revId": "c1a1b2c11a69ffdf3090361ab0fcc87ab0a5967c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
