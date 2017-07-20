@@ -1,24 +1,3 @@
-/*-
- * ============LICENSE_START=======================================================
- * guard
- * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
-
 package org.onap.policy.guard;
 
 import com.att.research.xacml.api.DataTypeException;
@@ -34,16 +13,18 @@ public class CallGuardTask implements Runnable {
 	WorkingMemory workingMemory;
 	PDPEngine embeddedPdpEngine;
 	String restfulPdpUrl;
+	String clname;
 	String actor;
 	String recipe;
 	String target;
 	String requestId;
 	
-    public CallGuardTask(PDPEngine engine, String url, WorkingMemory wm, String act, String rec, String tar, String reqId) { 
+    public CallGuardTask(PDPEngine engine, String url, WorkingMemory wm, String cl, String act, String rec, String tar, String reqId) { 
     
     	embeddedPdpEngine = engine; 
     	restfulPdpUrl = url;
     	workingMemory = wm;
+    	clname = cl;
     	actor = act;
     	recipe = rec;
     	requestId = reqId;
@@ -53,7 +34,7 @@ public class CallGuardTask implements Runnable {
     	long startTime = System.nanoTime();
     	com.att.research.xacml.api.Request request = null;
     	
-    	PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(actor,  recipe, target, requestId);
+    	PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(clname, actor,  recipe, target, requestId);
     	
     	try {
     		request = RequestParser.parseRequest(xacmlReq);
@@ -61,14 +42,7 @@ public class CallGuardTask implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-    	/*
-    	try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
+    	
 		
   		System.out.println("\n********** XACML REQUEST START ********");
 		System.out.println(request);

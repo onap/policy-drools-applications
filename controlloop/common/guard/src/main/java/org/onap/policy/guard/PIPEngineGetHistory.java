@@ -1,23 +1,3 @@
-/*-
- * ============LICENSE_START=======================================================
- * guard
- * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
 package org.onap.policy.guard;
 
 import java.math.BigInteger;
@@ -28,6 +8,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -97,9 +79,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	
 	public PIPEngineGetHistory() {
 		super();
-		
-		System.out.println("HAHAHAHAHAHAHAHAHAHAHAHAHAHAHA");
-		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -108,21 +87,19 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	@Override
 	public Collection<PIPRequest> attributesRequired() {
 		// TODO Auto-generated method stub
-		System.out.println("DADADADADADADADADADADADADA");
 		return null;
 	}
 
 	@Override
 	public Collection<PIPRequest> attributesProvided() {
 		// TODO Auto-generated method stub
-		System.out.println("GAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAG");
 		return null;
 	}
 
 	@Override
 	public PIPResponse getAttributes(PIPRequest pipRequest, PIPFinder pipFinder) throws PIPException {
 		// TODO Auto-generated method stub
-		System.out.println("MAMAMAMAMAMAMAMAMAMAMAMAMA - Entering FeqLimiter PIP!!!");
+		System.out.println("Entering FeqLimiter PIP");
 		
 		/*
 		 * First check to see if the issuer is set and then match it
@@ -130,14 +107,14 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		String string;
 		if ((string = pipRequest.getIssuer()) == null) {
 			this.logger.debug("No issuer in the request...");
-			System.out.println("MAMAMAMAMAMAMAMAMAMAMAMAMA - FeqLimiter PIP - No issuer in the request!!!");
+			System.out.println("FeqLimiter PIP - No issuer in the request!");
 			return StdPIPResponse.PIP_RESPONSE_EMPTY;
 		}
 		else{
 			//Notice, we are checking here for the base issuer prefix.
 			if (!string.contains(this.getIssuer())) {
 				this.logger.debug("Requested issuer '" + string + "' does not match " + (this.getIssuer() == null ? "null" : "'" + this.getIssuer() + "'"));
-				System.out.println("MAMAMAMAMAMAMAMAMAMAMAMAMA - FeqLimiter PIP - Issuer "+ string +" does not match with: "+this.getIssuer());
+				System.out.println("FeqLimiter PIP - Issuer "+ string +" does not match with: "+this.getIssuer());
 				return StdPIPResponse.PIP_RESPONSE_EMPTY;
 			}
 		}
@@ -146,9 +123,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		String[] s2 = s1[1].split(":");
 		String timeWindowVal = s2[0];// number [of minutes, hours, days...]
 		String timeWindowScale = s2[1];//e.g., minute, hour, day, week, month, year
-		
-		//System.out.println("MAMAMAMAMAMAMAMAMAMAMAMAMA - FeqLimiter PIP - Issuer " + string + " is OK - proceeding with the request!!!");
-		//System.out.println("MAMAMAMAMAMAMAMAMAMAMAMAMA - FeqLimiter PIP - TimeWindow: " + timeWindowVal + " " + timeWindowScale);
 
 		String actor = getActor(pipFinder).iterator().next();
 		String operation = getRecipe(pipFinder).iterator().next();
@@ -159,7 +133,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		System.out.println("Going to query DB about: "+actor + " " + operation + " " + target + " " + timeWindow);
 		int countFromDB = getCountFromDB(actor, operation, target, timeWindow);
 		 
-		
 		StdMutablePIPResponse stdPIPResponse	= new StdMutablePIPResponse();
 		
 		this.addIntegerAttribute(stdPIPResponse,
@@ -175,25 +148,31 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	@Override
 	public void configure(String id, Properties properties) throws PIPException {
 		super.configure(id, properties);
-		//System.out.println("MAMAMAMAMAMAMAMAMAMAMAMAMA - Configuring FeqLimiter PIP!!!");
+
 		if (this.getDescription() == null) {
 			this.setDescription(DEFAULT_DESCRIPTION);
 		}
 		if (this.getIssuer() == null) {
 			this.setIssuer(DEFAULT_ISSUER);
 		}
-		/*
-		try{
-			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();//emf.createEntityManager();
-		}catch(Exception e){
-			System.err.println("Freq limiter PIP got Exception " + e.getLocalizedMessage() + " Can't connect to Operations History DB.");
-			return;
-		}
-		*/
-		
 	}
 
 	
+	
+	
+	private void addStringAttribute(StdMutablePIPResponse stdPIPResponse, Identifier category, Identifier attributeId, String value) {
+		if (value != null) {
+			AttributeValue<String> attributeValue	= null;
+			try {
+				attributeValue	= DataTypes.DT_STRING.createAttributeValue(value);
+			} catch (Exception ex) {
+				//this.logger.error("Failed to convert " + value + " to an AttributeValue<String>", ex);
+			}
+			if (attributeValue != null) {
+				stdPIPResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue, this.getIssuer(), false));
+			}
+		}
+	}
 	
 	private PIPResponse getAttribute(PIPRequest pipRequest, PIPFinder pipFinder) {
 		PIPResponse pipResponse	= null;
@@ -305,20 +284,16 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	
 	private static int getCountFromDB(String actor, String operation, String target, String timeWindow){
 		
-		long startTime = System.nanoTime();
+		//long startTime = System.nanoTime();
 	
-		
-		
 		EntityManager em;
 		try{
-			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();//emf.createEntityManager();
+			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();
 		}catch(Exception e){
-			System.err.println("Test thread got Exception " + e.getLocalizedMessage() + " Can't write to Operations History DB.");
+			System.err.println("PIP thread got Exception " + e.getLocalizedMessage() + " Can't connect to Operations History DB.");
 			return -1;
 		}
 		
-		
-		//em.getTransaction().begin();
 		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard' and actor='"
 				+ actor
 				+ "' and operation='"
@@ -332,19 +307,23 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		
 		Query nq = em.createNativeQuery(sql);
 		
-		int ret = ((Number)nq.getSingleResult()).intValue();
-
-		System.out.println("###########************** History count: " + ret);
+		int ret = -1;
+		try{
+			ret = ((Number)nq.getSingleResult()).intValue();
+		}
+		catch(NoResultException | NonUniqueResultException ex){
+			System.err.println("PIP thread got Exception " + ex.getLocalizedMessage());
+			return -1;
+		}
 		
-		//em.getTransaction().commit();
-		long estimatedTime = System.nanoTime() - startTime;
-		System.out.println("time took: " + (double)estimatedTime/1000/1000 + " mili sec.");
+		//System.out.println("###########************** History count: " + ret);
+		
+		//long estimatedTime = System.nanoTime() - startTime;
+		//System.out.println("time took: " + (double)estimatedTime/1000/1000 + " mili sec.");
 
 		em.close();
 		
-		return ret;
-		
-		
+		return ret;	
 	
 	}
 

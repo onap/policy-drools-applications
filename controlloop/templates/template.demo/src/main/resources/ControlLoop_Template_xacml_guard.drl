@@ -17,8 +17,8 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-
-package com.att.ecomp.policy.controlloop;
+ 
+package org.onap.policy.controlloop;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
@@ -528,8 +528,6 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		Logger.metrics($lock);
 
 
-		
-		
 		//
 		// We are starting the operation but the actor won't be contacted until Guard is queried and permitted.
 		//
@@ -561,7 +559,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 			Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
 		    												XacmlPdpEngine, 
 		    												"", 
-		    												drools.getWorkingMemory(), 
+		    												drools.getWorkingMemory(),
+		    												$event.closedLoopControlName,
 		    												$operation.policy.actor.toString(),
 		    												$operation.policy.recipe,
 		    												$manager.getTargetInstance($operation.policy),

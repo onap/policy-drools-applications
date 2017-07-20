@@ -1,23 +1,3 @@
-/*-
- * ============LICENSE_START=======================================================
- * policy-yaml
- * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
 package org.onap.policy.controlloop.policy.guard;
 
 import java.util.Collections;
@@ -30,11 +10,11 @@ public class GuardPolicy {
 	public String id = UUID.randomUUID().toString();
 	public String name;
 	public String description;
-	public String actor;
-	public String recipe;
+	public MatchParameters match_parameters;
 	public LinkedList<Constraint> limit_constraints;
 	
-	public GuardPolicy() {
+	
+public GuardPolicy() {
 		
 	}
 	
@@ -42,41 +22,45 @@ public class GuardPolicy {
 		this.id = id;
 	}
 	
-	public GuardPolicy(String name, String actor, String recipe) {
+	public GuardPolicy(String name, MatchParameters match_parameters) {
 		this.name = name;
-		this.actor = actor;
-		this.recipe = recipe;
+		System.out.println("match_parameters: " + match_parameters);
+		this.match_parameters = new MatchParameters(match_parameters);
 	}
 	
-	public GuardPolicy(String id, String name, String description, String actor, String recipe) {
-		this(name, actor, recipe);
+	public GuardPolicy(String id, String name, String description, MatchParameters match_parameters) {
+		this(name, match_parameters);
 		this.id = id;
 		this.description = description;
 	}
 	
-	public GuardPolicy(String name, String actor, String recipe, List<Constraint> limit_constraints) {
-		this(name, actor, recipe);
+	public GuardPolicy(String name, MatchParameters match_parameters, List<Constraint> limit_constraints) {
+		this(name, match_parameters);
 		if (limit_constraints != null) {
 			this.limit_constraints = (LinkedList<Constraint>) Collections.unmodifiableList(limit_constraints);
 		}
 	}
 	
-	public GuardPolicy(String name, String description, String actor, String recipe, List<Constraint> limit_constraints) {
-		this(name, actor, recipe, limit_constraints);
+	public GuardPolicy(String name, String description, MatchParameters match_parameters, List<Constraint> limit_constraints) {
+		this(name, match_parameters, limit_constraints);
 		this.description = description;
 	}
 	
-	public GuardPolicy(String id, String name, String description, String actor, String recipe, List<Constraint> limit_constraints) {
-		this(name, description, actor, recipe, limit_constraints);
+	public GuardPolicy(String id, String name, String description, MatchParameters match_parameters, List<Constraint> limit_constraints) {
+		this(name, description, match_parameters, limit_constraints);
 		this.id = id;
 	}
+	
+	
+	
+	
+	
 	
 	public GuardPolicy(GuardPolicy policy) {
 		this.id = policy.id;
 		this.name = policy.name;
 		this.description = policy.description;
-		this.actor = policy.actor;
-		this.recipe = policy.recipe;
+		this.match_parameters = new MatchParameters(policy.match_parameters);
 		if (policy.limit_constraints != null) {
 			this.limit_constraints = (LinkedList<Constraint>) Collections.unmodifiableList(policy.limit_constraints);
 		}
@@ -90,12 +74,7 @@ public class GuardPolicy {
 			if (name == null) {
 				throw new NullPointerException();
 			}
-			if (actor == null) {
-				throw new NullPointerException();
-			}
-			if (recipe == null) {
-				throw new NullPointerException();
-			}
+			
 		} catch (Exception e) {
 			return false;
 		}
@@ -104,20 +83,19 @@ public class GuardPolicy {
 	
 	@Override
 	public String toString() {
-		return "Policy [id=" + id + ", name=" + name + ", description=" + description + ", actor=" + actor + ", recipe="
-				+ recipe + ", limit_constraints=" + limit_constraints + "]";
+		return "GuardPolicy [id=" + id + ", name=" + name + ", description=" + description + ", match_parameters="
+				+ match_parameters + ", limit_constraints=" + limit_constraints + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((actor == null) ? 0 : actor.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((limit_constraints == null) ? 0 : limit_constraints.hashCode());
-		result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
+		result = prime * result + ((match_parameters == null) ? 0 : match_parameters.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -130,11 +108,6 @@ public class GuardPolicy {
 		if (getClass() != obj.getClass())
 			return false;
 		GuardPolicy other = (GuardPolicy) obj;
-		if (actor == null) {
-			if (other.actor != null) 
-				return false;
-		} else if (!actor.equals(other.actor))
-			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -145,20 +118,20 @@ public class GuardPolicy {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		if (limit_constraints == null) {
 			if (other.limit_constraints != null)
 				return false;
 		} else if (!limit_constraints.equals(other.limit_constraints))
 			return false;
-		if (recipe == null) {
-			if (other.recipe != null)
+		if (match_parameters == null) {
+			if (other.match_parameters != null)
 				return false;
-		} else if (!recipe.equals(other.recipe))
+		} else if (!match_parameters.equals(other.match_parameters))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
