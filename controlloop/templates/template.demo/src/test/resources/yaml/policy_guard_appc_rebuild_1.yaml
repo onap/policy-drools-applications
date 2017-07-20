@@ -1,0 +1,26 @@
+guard:
+  version: 2.0.0
+
+guards:
+  - id: unique_guard_2
+    name: APPC 5 Rebuild
+    description: |
+      We only allow 2 restarts over 10 minute window during the day time hours (avoid midnight to 5am)
+    match_parameters:
+      controlLoopName: ControlLoop-Service123-cbed919f-2212-4ef7-8051-fe6308da1bda
+      actor:     
+      recipe: Rebuild
+    limit_constraints:
+      - freq_limit_per_target: 25
+        time_window:
+          value: 1
+          units: week
+        active_time_range:
+          start: 00:00:00-05:00
+          end: 23:59:59-05:00
+          
+          
+          
+          
+          
+          

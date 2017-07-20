@@ -34,9 +34,10 @@ public class PolicyGuardXacmlRequestAttributes {
 		
 		
 
-		public PolicyGuardXacmlRequestAttributes(String actor_id, String operation_id, String target_id,
+		public PolicyGuardXacmlRequestAttributes(String clname_id, String actor_id, String operation_id, String target_id,
 				String request_id) {
 			super();
+			this.clname_id = clname_id;
 			this.actor_id = actor_id;
 			this.operation_id = operation_id;
 			this.target_id = target_id;
@@ -58,6 +59,9 @@ public class PolicyGuardXacmlRequestAttributes {
 		
 		//@XACMLAction()
 		//String	action;
+		
+		@XACMLSubject(includeInResults=true, attributeId="urn:oasis:names:tc:xacml:1.0:clname:clname-id")
+		String	clname_id;
 		
 		@XACMLSubject(includeInResults=true, attributeId="urn:oasis:names:tc:xacml:1.0:actor:actor-id")
 		String	actor_id;
@@ -118,6 +122,18 @@ public class PolicyGuardXacmlRequestAttributes {
 
 		public void setRequest_id(String request_id) {
 			this.request_id = request_id;
+		}
+
+
+
+		public String getClname_id() {
+			return clname_id;
+		}
+
+
+
+		public void setClname_id(String clname_id) {
+			this.clname_id = clname_id;
 		}
 		
 		

@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.processor;
+package org.onap.policy.template.demo;
 
 import static org.junit.Assert.fail;
 

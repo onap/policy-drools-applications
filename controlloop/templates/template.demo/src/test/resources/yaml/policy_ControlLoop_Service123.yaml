@@ -1,19 +1,13 @@
 controlLoop:
-  version: 1.0.0
-  controlLoopName: ControlLoop-vUSP-vCTS-cbed919f-2212-4ef7-8051-fe6308da1bda
+  version: 2.0.0
+  controlLoopName: ControlLoop-Service123-cbed919f-2212-4ef7-8051-fe6308da1bda
   services: 
-    - serviceName: vUSP
+    - serviceName: Service123
   resources: 
-    - resourceName: vCTS
-      resourceType: VF
-    - resourceName: vCOM
-      resourceType: VF
-    - resourceName: vRAR
-      resourceType: VF
-    - resourceName: vLCS
-      resourceType: VF
-    - resourceName: v3CB
-      resourceType: VF
+    - resourceName: res1
+      resourceType: VFC
+    - resourceName: res2
+      resourceType: VFC
   trigger_policy: unique-policy-id-1-restart
   timeout: 60
   abatement: true
