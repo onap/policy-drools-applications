@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a202591_dbe32b04",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T14:10:27Z",
+      "side": 1,
+      "message": "Missing license information",
+      "revId": "f5c4f2a8bd5b3badd2d4e214b7299c56733c17c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_1be2c303",
+        "filename": "controlloop/common/policy-yaml/src/test/resources/v2.0.0-guard/policy_guard_vUSP_1_appc.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T14:10:27Z",
+      "side": 1,
+      "message": "remove vUSP from any of the naming",
+      "revId": "f5c4f2a8bd5b3badd2d4e214b7299c56733c17c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_fbe6e715",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_guard_vUSP_1707_appc_migrate.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-07-20T14:10:27Z",
+      "side": 1,
+      "message": "remove vUSP from all these files",
+      "revId": "f5c4f2a8bd5b3badd2d4e214b7299c56733c17c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
