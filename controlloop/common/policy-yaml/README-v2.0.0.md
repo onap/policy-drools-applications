@@ -1,10 +1,10 @@
-ECOMP Control Loop Policy v2.0.0
+ONAP Control Loop Policy v2.0.0
 
 A control loop policy is a YAML specification for creating and chaining policies for ControlLoop.
 
-1707 ECOMP Control Loop Policy Features:
+1707 ONAP Control Loop Policy Features:
 
-* Backward compatible with 1610 ECOMP Control Loop Policy
+* Backward compatible with 1610 ONAP Control Loop Policy
 * A single DCAE Closed Loop Event is the trigger for the overall Control Loop Policy. 
 * An overall timeout for the Control Loop Policy must be provided.
 * An abatement flag indicating whether Policy will receive abatement event for the Control Loop could be provided.
@@ -35,11 +35,11 @@ A control loop policy is a YAML specification for creating and chaining policies
 
 
 
-This SDK helps build the YAML specification for 1707 ECOMP Control Loop Polices.
+This SDK helps build the YAML specification for 1707 ONAP Control Loop Polices.
 
 # Create Builder Object
 
-To begin with, the ControlLoopPolicyBuilder.Factory class has static methods that one should use to begin building a Control Loop Policy. It will return a [ControlLoopPolicyBuilder object](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/ControlLoopPolicyBuilder.java) that can then be used to continue to build and define the Control Loop Policy.
+To begin with, the ControlLoopPolicyBuilder.Factory class has static methods that one should use to begin building a Control Loop Policy. It will return a [ControlLoopPolicyBuilder object](src/main/java/org.onap.policy/controlloop/policy/builder/ControlLoopPolicyBuilder.java) that can then be used to continue to build and define the Control Loop Policy.
 
 ```java
 		ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(
@@ -76,7 +76,7 @@ After the trigger policy, the name, the resource(s) and services of the Control 
 
 # Chain Operational Policies Together Using Operational Results
 
-Operational Policies are chained together using the results of each Operational Policy. The results are defined in [PolicyResult.java](src/main/java/com/att/ecomp/policy/controlloop/policy/PolicyResult.java). To create an Operational Policy that is tied to the result of another, use the 
+Operational Policies are chained together using the results of each Operational Policy. The results are defined in [PolicyResult.java](src/main/java/org.onap.policy/controlloop/policy/PolicyResult.java). To create an Operational Policy that is tied to the result of another, use the 
 setPolicyForPolicyResult() method.
 
 ```java
@@ -102,7 +102,7 @@ An Operational Policy MUST have place to go for every one of its results. By def
 
 # Build the YAML Specification
 
-When finished defining the Policies, build the specification and analyze the [Results.java](src/main/java/com/att/ecomp/policy/controlloop/policy/builder/Results.java)
+When finished defining the Policies, build the specification and analyze the [Results.java](src/main/java/org.onap.policy/controlloop/policy/builder/Results.java)
 
 ```java
 		Results results = builder.buildSpecification();
@@ -118,13 +118,13 @@ When finished defining the Policies, build the specification and analyze the [Re
 
 # Sample Code
 
-Sample code is available in this project: https://codecloud.web.att.com/projects/ST_POLICY/repos/com.att.ecomp.policy.controlloop.sample/browse
+Sample code is available in this project: https://codecloud.web.att.com/projects/ST_POLICY/repos/org.onap.policy.controlloop.sample/browse
 
 
 
 # Use the YAML Specification to call the Create Policy API
 
-Now that you have a valid YAML specification, call the createPolicy API via the ECOMP Policy Platform API.
+Now that you have a valid YAML specification, call the createPolicy API via the ONAP Policy Platform API.
 
 
 # YAML Specification
@@ -171,7 +171,7 @@ This object was derived via ASDC Catalog API and ASDC Data Dictionary (POC) in a
 
 ### pnf Object
 
-This object is used for a physical network function. In the case of 1707, eNodeB is the use case supported. Expect this object to change in the future when ECOMP Policy fully integrates with A&AI.
+This object is used for a physical network function. In the case of 1707, eNodeB is the use case supported. Expect this object to change in the future when ONAP Policy fully integrates with A&AI.
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
@@ -196,7 +196,7 @@ This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invok
 | recipe          | string        | required   | Name of recipe to be performed. Example "Restart" |
 | target          | [target](#target-object) object        | required   | Entity being targeted. Example: VM |
 | timeout         | int           | required   | Timeout for the actor to perform the recipe. |
-| retry           | int           | optional   | Optional number of retries for ECOMP Policy to invoke the recipe on the actor. |
+| retry           | int           | optional   | Optional number of retries for ONAP Policy to invoke the recipe on the actor. |
 | success         | string        | required   | By default, this value should be FINAL_SUCCESS. Otherwise this can be the ID of the operational Policy (included in this specification) to invoke upon successfully completing the recipe on the actor.
 | failure         | string        | required   | By default, this value should be FINAL_FAILURE. Otherwise this can be the ID of the operational Policy (included in this specification) to invoke upon failure to perform the operation. |
 | failure_exception | string      | required   | By default, this value should be FINAL_FAILURE_EXCEPTION. Otherwise this can be the ID of an Operational Policy (included in this specification) to invoke upon an exception occurring while attempting to perform the operation. |
@@ -221,8 +221,8 @@ This object is used for defining a target entity of a recipe.
 [1707-vUSP](src/test/resources/v2.0.0/policy_vUSP_1707.yaml)
 [1707-eNodeB-Ericsson](src/test/resources/v2.0.0/policy_eNodeB_Ericsson_1707.yaml)
 [1707-eNodeB-ALU](src/test/resources/v2.0.0/policy_eNodeB_ALU_1707.yaml)
-[OpenECOMP-vFirewall](src/test/resources/v2.0.0/policy_OpenECOMP_demo_vFirewall.yaml)
-[OpenECOMP-vDNS](src/test/resources/v2.0.0/policy_OpenECOMP_demo_vDNS.yaml)
+[ONAP-vFirewall](src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml)
+[ONAP-vDNS](src/test/resources/v2.0.0/policy_ONAP_demo_vDNS.yaml)
 
 ### 1707 vUSP
 ``` 
@@ -499,7 +499,7 @@ policies:
     failure_guard: final_failure_guard
 ```
 
-### OpenECOMP vFirewall
+### ONAP vFirewall
 ```
 controlLoop:
   version: 2.0.0
@@ -532,7 +532,7 @@ policies:
     failure_guard: final_failure_guard
 ```
 
-### OpenECOMP vDNS
+### ONAP vDNS
 ```
 controlLoop:
   version: 2.0.0
@@ -565,5 +565,5 @@ policies:
 
 # Control Loop Final Results Explained
 
-A Control Loop Policy has the following set of final results, as defined in [FinalResult.java](src/main/java/com/att/ecomp/policy/controlloop/policy/FinalResult.java). A final result indicates when a Control Loop Policy has finished execution and is finished processing a Closed Loop Event. All paths must lead to a Final Result.
+A Control Loop Policy has the following set of final results, as defined in [FinalResult.java](src/main/java/org.onap.policy/controlloop/policy/FinalResult.java). A final result indicates when a Control Loop Policy has finished execution and is finished processing a Closed Loop Event. All paths must lead to a Final Result.
 

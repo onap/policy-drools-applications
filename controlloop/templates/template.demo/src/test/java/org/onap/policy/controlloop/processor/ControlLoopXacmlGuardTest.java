@@ -98,7 +98,7 @@ public class ControlLoopXacmlGuardTest {
 					"src/test/resources/yaml/policy_ControlLoop_vUSP_1707.yaml",
 					"service=vUSP;resource=vCTS;type=operational", 
 					"CL_VUSP_8888", 
-					"com.att.ecomp.closed_loop.vUSP:VNFS:0.0.1");
+					"com.att.onap.closed_loop.vUSP:VNFS:0.0.1");
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -431,7 +431,7 @@ public class ControlLoopXacmlGuardTest {
 		
 		for (FactHandle handle : kieSession.getFactHandles()) {
 			Object fact = kieSession.getObject(handle);
-			assertEquals("", "com.att.ecomp.policy.controlloop.Params", fact.getClass().getName());
+			assertEquals("", "org.onap.policy.controlloop.Params", fact.getClass().getName());
 		}
 	}
 	

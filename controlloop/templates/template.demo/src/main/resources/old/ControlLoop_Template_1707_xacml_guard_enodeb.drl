@@ -8,42 +8,42 @@
  *              Unpublished and Not for Publication
  *                     All Rights Reserved
  */
-package com.att.ecomp.policy.controlloop;
+package org.onap.policy.controlloop;
 
-import com.att.ecomp.policy.controlloop.ATTControlLoopEvent;
-import org.openecomp.policy.controlloop.VirtualControlLoopEvent;
-import org.openecomp.policy.controlloop.VirtualControlLoopNotification;
-import org.openecomp.policy.controlloop.ControlLoopEventStatus;
-import com.att.ecomp.policy.controlloop.ATTControlLoopNotification;
-import org.openecomp.policy.controlloop.ControlLoopNotificationType;
-import com.att.ecomp.policy.controlloop.ControlLoopLogger;
-import com.att.ecomp.policy.controlloop.policy.PolicyResult;
-import com.att.ecomp.policy.controlloop.eventmanager.ControlLoopEventManager;
-import com.att.ecomp.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
-import com.att.ecomp.policy.controlloop.eventmanager.ControlLoopOperationManager;
-import org.openecomp.policy.appc.Request;
-import org.openecomp.policy.appc.Response;
-import org.openecomp.policy.appc.CommonHeader;
-import com.att.ecomp.policy.guard.PolicyGuard;
-import com.att.ecomp.policy.guard.PolicyGuard.LockResult;
-import com.att.ecomp.policy.guard.TargetLock;
-import com.att.ecomp.policy.guard.GuardResult;
-import com.att.ecomp.policy.guard.PolicyGuardRequest;
-import com.att.ecomp.policy.guard.PolicyGuardResponse;
-import com.att.ecomp.policy.guard.PolicyGuardXacmlRequestAttributes;
+import org.onap.policy.controlloop.ATTControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.controlloop.ATTControlLoopNotification;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopLogger;
+import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
+import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
+import org.onap.policy.appc.Request;
+import org.onap.policy.appc.Response;
+import org.onap.policy.appc.CommonHeader;
+import org.onap.policy.guard.PolicyGuard;
+import org.onap.policy.guard.PolicyGuard.LockResult;
+import org.onap.policy.guard.TargetLock;
+import org.onap.policy.guard.GuardResult;
+import org.onap.policy.guard.PolicyGuardRequest;
+import org.onap.policy.guard.PolicyGuardResponse;
+import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
 import com.att.research.xacml.api.pdp.PDPEngine;
 import com.att.research.xacml.std.annotations.RequestParser;
-import com.att.ecomp.policy.guard.PolicyGuardXacmlHelper;
-import com.att.ecomp.policy.controlloop.policy.ControlLoopPolicy;
-import com.att.ecomp.policy.controlloop.policy.Policy;
+import org.onap.policy.guard.PolicyGuardXacmlHelper;
+import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.controlloop.policy.Policy;
 import java.net.URLDecoder;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 //
 // REPLACE THESE WITH PRODUCTION VERSIONS
 //
-import com.att.ecomp.policy.controlloop.ControlLoopLogger;
-import com.att.ecomp.policy.drools.PolicyEngine;
+import org.onap.policy.controlloop.ControlLoopLogger;
+import org.onap.policy.drools.PolicyEngine;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -594,7 +594,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		
 		if(guardEnabled){
 		
-			Thread t = new Thread(new com.att.ecomp.policy.guard.CallGuardTask(
+			Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
 		    												XacmlPdpEngine, 
 		    												"", 
 		    												drools.getWorkingMemory(), 

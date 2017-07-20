@@ -78,7 +78,7 @@ import org.onap.policy.mso.MSORelatedInstanceListElement;
 import org.onap.policy.mso.MSORelatedInstance;
 import org.onap.policy.mso.MSOResponse;
 
-import org.openecomp.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngine;
 
 //
 // These parameters are required to build the runtime policy

@@ -27,10 +27,10 @@ echo "Closed Loop Demo Creator for standalone PDP-D"
 echo "----------------------------------------------"
 echo
 
-GROUPID="org.openecomp.policy.demo.rules"
+GROUPID="org.onap.policy.demo.rules"
 ARTIFACTID="closed-loop-demo-rules"
 VERSION="1.1.0-SNAPSHOT"
-PACKAGE="org.openecomp.policy.demo.rules"
+PACKAGE="org.onap.policy.demo.rules"
 CLOSEDLOOPCONTROLNAME="CL-FRWL-LOW-TRAFFIC-SIG-d925ed73-8231-4d02-9545-db4e101f88f8"
 POLICYSCOPE="service=test;resource=FRWL;type=configuration"
 POLICYNAME="FirewallDemo"
@@ -198,7 +198,7 @@ if [ ! -w "${DIR_TMP}" ]; then
 	exit 1
 fi
 
-ARCHETYPE_GROUP_ID="org.openecomp.policy.drools-applications"
+ARCHETYPE_GROUP_ID="org.onap.policy.drools-applications"
 ARCHETYPE_ARTIFACT_ID="archetype-closedloop-demo-rules"
 
 if [ -d "${DIR_TMP}/${ARTIFACTID}/" ]; then

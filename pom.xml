@@ -45,18 +45,18 @@
 
 	<repositories>
 		<repository>
-			<id>ecomp-releases</id>
-			<name>OpenECOMP Release Repository</name>
+			<id>onap-releases</id>
+			<name>ONAP Release Repository</name>
 			<url>${nexusproxy}/${releases.path}</url>
 		</repository>
 		<repository>
-			<id>ecomp-staging</id>
-			<name>OpenECOMP Staging Repository</name>
+			<id>onap-staging</id>
+			<name>ONAP Staging Repository</name>
 			<url>${nexusproxy}/${staging.path}</url>
 		</repository>
 		<repository>
-			<id>ecomp-snapshots</id>
-			<name>OpenECOMP Snapshot Repository</name>
+			<id>onap-snapshots</id>
+			<name>ONAP Snapshot Repository</name>
 			<url>${nexusproxy}/${snapshots.path}</url>
 		</repository>
 	</repositories>
@@ -71,7 +71,7 @@
 				<configuration>
 					<nexusUrl>${nexusproxy}</nexusUrl>
 					<stagingProfileId>176c31dfe190a</stagingProfileId>
-					<serverId>ecomp-staging</serverId>
+					<serverId>onap-staging</serverId>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -224,17 +224,17 @@
 
 	<distributionManagement>
 		<repository>
-			<id>ecomp-releases</id>
-			<name>OpenECOMP Release Repository</name>
+			<id>onap-releases</id>
+			<name>ONAP Release Repository</name>
 			<url>${nexusproxy}/${releases.path}</url>
 		</repository>
 		<snapshotRepository>
-			<id>ecomp-snapshots</id>
-			<name>OpenECOMP Snapshot Repository</name>
+			<id>onap-snapshots</id>
+			<name>ONAP Snapshot Repository</name>
 			<url>${nexusproxy}/${snapshots.path}</url>
 		</snapshotRepository>
 		<site>
-			<id>ecomp-site</id>
+			<id>onap-site</id>
 			<url>dav:${nexusproxy}${sitePath}</url>
 		</site>
 

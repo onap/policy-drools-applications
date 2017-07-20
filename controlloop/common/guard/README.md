@@ -1,2 +1,2 @@
-ECOMP Policy Guard Implementation
+ONAP Policy Guard Implementation
 

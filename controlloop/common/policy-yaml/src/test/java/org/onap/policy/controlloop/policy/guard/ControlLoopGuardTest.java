@@ -39,7 +39,7 @@ public class ControlLoopGuardTest {
 	
 	@Test 
 	public void testGuardvDNS() {
-		this.test("src/test/resources/v2.0.0-guard/policy_guard_OpenECOMP_demo_vDNS.yaml");
+		this.test("src/test/resources/v2.0.0-guard/policy_guard_ONAP_demo_vDNS.yaml");
 	}
 
 	@Test 
