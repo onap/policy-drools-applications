@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.policy.mso;
+package org.onap.policy.mso;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -22,10 +22,10 @@ topology_template:
   inputs:
     vf_module_id:
       type: string
-      description: The vLoadBalancer Module ID is provided by ECOMP
-    ecomp_private_subnet_id:
+      description: The vLoadBalancer Module ID is provided by ONAP
+    onap_private_subnet_id:
       type: string
-      description: Private sub-network that connects ECOMP component and the VNF
+      description: Private sub-network that connects ONAP component and the VNF
     repo_url_blob:
       type: string
       description: URL of the repository that hosts the demo packages
@@ -42,15 +42,15 @@ topology_template:
     demo_artifacts_version:
       type: string
       description: Artifacts (jar, tar.gz) version used in demo vnfs
-    ecomp_private_net_id:
+    onap_private_net_id:
       type: string
-      description: Private network that connects ECOMP component and the VNF
+      description: Private network that connects ONAP component and the VNF
     pub_key:
       type: string
       description: Public key to be installed on the compute instance
     vlb_private_ip_1:
       type: string
-      description: Private IP address that is assigned to the vLoadBalancer to communicate with ECOMP components
+      description: Private IP address that is assigned to the vLoadBalancer to communicate with ONAP components
     key_name:
       type: string
       description: Public/Private key pair name
@@ -68,13 +68,13 @@ topology_template:
       description: Private IP address that is assigned to the vDNS to communicate with the vLoadBalancer
     vnf_id:
       type: string
-      description: The VNF ID is provided by ECOMP
+      description: The VNF ID is provided by ONAP
     dcae_collector_ip:
       type: string
       description: IP address of the DCAE collector
     vdns_private_ip_1:
       type: string
-      description: Private IP address that is assigned to the vDNS to communicate with ECOMP components
+      description: Private IP address that is assigned to the vDNS to communicate with ONAP components
     dcae_collector_port:
       type: string
       description: Port of the DCAE collector
@@ -89,12 +89,12 @@ topology_template:
     vlb_private_ip_0:
       type: string
       description: Private IP address that is assigned to the vLoadBalancer to communicate with the vDNSs
-    ecomp_private_net_cidr:
+    onap_private_net_cidr:
       type: string
       description: The CIDR of the protected private network
   node_templates:
     vdns_private_1_port:
-      type: org.openecomp.resource.cp.nodes.heat.network.neutron.Port
+      type: org.onap.resource.cp.nodes.heat.network.neutron.Port
       metadata:
         invariantUUID: 7feb77d3-dcc5-4826-8a78-0c9089814a45
         UUID: 06bc8ea7-0f6a-489a-9f8f-c7253653b457
@@ -107,18 +107,18 @@ topology_template:
       properties:
         fixed_ips:
         - subnet:
-            get_input: ecomp_private_subnet_id
+            get_input: onap_private_subnet_id
           ip_address:
             get_input: vdns_private_ip_1
         network:
-          get_input: ecomp_private_net_id
+          get_input: onap_private_net_id
       requirements:
       - binding:
           capability: tosca.capabilities.network.Bindable
           node: vdns_0
           relationship: tosca.relationships.network.BindsTo
     vlb_private_network:
-      type: org.openecomp.resource.vl.nodes.heat.network.neutron.Net
+      type: org.onap.resource.vl.nodes.heat.network.neutron.Net
       metadata:
         invariantUUID: 2870cc3a-d6cd-4423-b7f6-2d63619b0eeb
         UUID: b7e764ba-17f9-4f0a-ad29-29877766ef21
@@ -138,7 +138,7 @@ topology_template:
             cidr:
               get_input: vlb_private_net_cidr
     vlb_private_1_port:
-      type: org.openecomp.resource.cp.nodes.heat.network.neutron.Port
+      type: org.onap.resource.cp.nodes.heat.network.neutron.Port
       metadata:
         invariantUUID: 7feb77d3-dcc5-4826-8a78-0c9089814a45
         UUID: 06bc8ea7-0f6a-489a-9f8f-c7253653b457
@@ -151,18 +151,18 @@ topology_template:
       properties:
         fixed_ips:
         - subnet:
-            get_input: ecomp_private_subnet_id
+            get_input: onap_private_subnet_id
           ip_address:
             get_input: vlb_private_ip_1
         network:
-          get_input: ecomp_private_net_id
+          get_input: onap_private_net_id
       requirements:
       - binding:
           capability: tosca.capabilities.network.Bindable
           node: vlb_0
           relationship: tosca.relationships.network.BindsTo
     vdns_0:
-      type: org.openecomp.resource.vfc.59a2ee3fB58045feB5a1.abstact.nodes.heat.vdns
+      type: org.onap.resource.vfc.59a2ee3fB58045feB5a1.abstact.nodes.heat.vdns
       metadata:
         invariantUUID: ee585c30-127b-492e-b2c1-871dc61d1dde
         UUID: d816cb01-b5d0-4bbb-b614-f7c3e230ab19
@@ -187,7 +187,7 @@ topology_template:
         name:
           get_input: vdns_name_0
     vlb_private_0_port:
-      type: org.openecomp.resource.cp.nodes.heat.network.neutron.Port
+      type: org.onap.resource.cp.nodes.heat.network.neutron.Port
       metadata:
         invariantUUID: 7feb77d3-dcc5-4826-8a78-0c9089814a45
         UUID: 06bc8ea7-0f6a-489a-9f8f-c7253653b457
@@ -213,7 +213,7 @@ topology_template:
           node: vlb_0
           relationship: tosca.relationships.network.BindsTo
     vdns_private_0_port:
-      type: org.openecomp.resource.cp.nodes.heat.network.neutron.Port
+      type: org.onap.resource.cp.nodes.heat.network.neutron.Port
       metadata:
         invariantUUID: 7feb77d3-dcc5-4826-8a78-0c9089814a45
         UUID: 06bc8ea7-0f6a-489a-9f8f-c7253653b457
@@ -237,7 +237,7 @@ topology_template:
           node: vdns_0
           relationship: tosca.relationships.network.BindsTo
     vlb_0:
-      type: org.openecomp.resource.vfc.59a2ee3fB58045feB5a1.abstact.nodes.heat.vlb
+      type: org.onap.resource.vfc.59a2ee3fB58045feB5a1.abstact.nodes.heat.vlb
       metadata:
         invariantUUID: f7f1d745-cfb1-4aa9-83fc-31280d0ce513
         UUID: 1821f13e-411f-4b29-87a5-ae935897b2e1
@@ -263,7 +263,7 @@ topology_template:
           get_input: vlb_name_0
   groups:
     base_vlb:
-      type: org.openecomp.groups.heat.HeatStack
+      type: org.onap.groups.heat.HeatStack
       members:
       - vdns_private_1_port
       - vlb_private_network
@@ -278,7 +278,7 @@ topology_template:
         version: '1'
         name: base_vlb
     59a2ee3fB58045feB5a1..dnsscaling..module-1:
-      type: org.openecomp.groups.VfModule
+      type: org.onap.groups.VfModule
       members:
       - vdns_private_1_port
       - vdns_0
@@ -293,7 +293,7 @@ topology_template:
         vf_module_description:
         volume_group: false
     59a2ee3fB58045feB5a1..base_vlb..module-0:
-      type: org.openecomp.groups.VfModule
+      type: org.onap.groups.VfModule
       members:
       - vdns_private_1_port
       - vlb_private_network
@@ -312,7 +312,7 @@ topology_template:
         vf_module_description:
         volume_group: false
     dnsscaling:
-      type: org.openecomp.groups.heat.HeatStack
+      type: org.onap.groups.heat.HeatStack
       members:
       - vdns_private_1_port
       - vdns_0
@@ -323,10 +323,10 @@ topology_template:
         version: '1'
         name: dnsscaling
   substitution_mappings:
-    node_type: org.openecomp.resource.vf.59a2ee3fB58045feB5a1
+    node_type: org.onap.resource.vf.59a2ee3fB58045feB5a1
     capabilities:
       vdns_0.memory:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM allocated to the instance
         occurrences:
         - 1
@@ -384,7 +384,7 @@ topology_template:
             type: string
             required: false
       vdns_0.memory.resident:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM used by the instance on the physical machine
         occurrences:
         - 1
@@ -442,7 +442,7 @@ topology_template:
             type: string
             required: false
       vdns_0.cpu:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: CPU time used
         occurrences:
         - 1
@@ -568,7 +568,7 @@ topology_template:
         - 1
         - UNBOUNDED
       vlb_0.memory:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM allocated to the instance
         occurrences:
         - 1
@@ -650,7 +650,7 @@ topology_template:
         - 0
         - UNBOUNDED
       vlb_0.vcpus:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Average disk latency
         occurrences:
         - 1
@@ -708,7 +708,7 @@ topology_template:
             type: string
             required: false
       vlb_0.instance:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Existence of instance
         occurrences:
         - 1
@@ -794,7 +794,7 @@ topology_template:
         - 1
         - UNBOUNDED
       vlb_0.cpu:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: CPU time used
         occurrences:
         - 1
@@ -852,7 +852,7 @@ topology_template:
             type: string
             required: false
       vdns_0.cpu.delta:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: CPU time used since previous datapoint
         occurrences:
         - 1
@@ -910,7 +910,7 @@ topology_template:
             type: string
             required: false
       vlb_0.memory.resident:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM used by the instance on the physical machine
         occurrences:
         - 1
@@ -968,7 +968,7 @@ topology_template:
             type: string
             required: false
       vdns_0.vcpus:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Average disk latency
         occurrences:
         - 1
@@ -1026,7 +1026,7 @@ topology_template:
             type: string
             required: false
       vdns_0.memory.usage:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM used by the instance from the amount of its allocated memory
         occurrences:
         - 1
@@ -1084,7 +1084,7 @@ topology_template:
             type: string
             required: false
       vlb_0.cpu.delta:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: CPU time used since previous datapoint
         occurrences:
         - 1
@@ -1142,7 +1142,7 @@ topology_template:
             type: string
             required: false
       vdns_0.instance:type:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Existence of instance <type> (OpenStack types)
         occurrences:
         - 1
@@ -1243,7 +1243,7 @@ topology_template:
             type: scalar-unit.size
             required: false
       vlb_0.instance:type:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Existence of instance <type> (OpenStack types)
         occurrences:
         - 1
@@ -1316,7 +1316,7 @@ topology_template:
         - 0
         - UNBOUNDED
       vlb_0.cpu_util:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Average CPU utilization
         occurrences:
         - 1
@@ -1384,7 +1384,7 @@ topology_template:
         - 1
         - UNBOUNDED
       vdns_0.cpu_util:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Average CPU utilization
         occurrences:
         - 1
@@ -1442,7 +1442,7 @@ topology_template:
             type: string
             required: false
       vdns_0.instance:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Existence of instance
         occurrences:
         - 1
@@ -1524,7 +1524,7 @@ topology_template:
         - 1
         - UNBOUNDED
       vlb_0.memory.usage:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM used by the instance from the amount of its allocated memory
         occurrences:
         - 1
