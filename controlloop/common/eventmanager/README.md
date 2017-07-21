@@ -1,3 +1,3 @@
-ECOMP Policy Closed Loop Event Management Code
+ONAP Policy Closed Loop Event Management Code
 
 

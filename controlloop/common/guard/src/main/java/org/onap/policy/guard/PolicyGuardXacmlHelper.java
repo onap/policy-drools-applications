@@ -30,7 +30,6 @@ import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
-//import org.openecomp.policy.appc.Response;
 
 import com.att.research.xacml.api.Attribute;
 import com.att.research.xacml.api.AttributeCategory;

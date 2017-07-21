@@ -7,7 +7,6 @@
    <persistence-unit name="OperationsHistoryPU11" transaction-type="RESOURCE_LOCAL">
        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
      <!-- <jar-file>packedEntity.jar</jar-file>-->
-   <!--       <class>com.att.ecomp.policy.controlloop.eventmanager.OperationsHistoryDbEntry</class> -->
      <properties>
      <property name="eclipselink.ddl-generation" value="create-tables"/>
        <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />

@@ -154,7 +154,7 @@ This is an Operation Policy. It is used to instruct an actor (eg. APPC) to invok
 | recipe          | string        | required   | Name of recipe to be performed. Example "Restart" |
 | target          | string        | required   | Entity being targeted. Example: VM |
 | timeout         | int           | required   | Timeout for the actor to perform the recipe. |
-| retry           | int           | optional   | Optional number of retries for ECOMP Policy to invoke the recipe on the actor. |
+| retry           | int           | optional   | Optional number of retries for ONAP Policy to invoke the recipe on the actor. |
 | success         | string        | required   | By default, this value should be FINAL_SUCCESS. Otherwise this can be the ID of the operational Policy (included in this specification) to invoke upon successfully completing the recipe on the actor.
 | failure         | string        | required   | By default, this value should be FINAL_FAILURE. Otherwise this can be the ID of the operational Policy (included in this specification) to invoke upon failure to perform the operation. |
 | failure_exception | string      | required   | By default, this value should be FINAL_FAILURE_EXCEPTION. Otherwise this can be the ID of an Operational Policy (included in this specification) to invoke upon an exception occurring while attempting to perform the operation. |
