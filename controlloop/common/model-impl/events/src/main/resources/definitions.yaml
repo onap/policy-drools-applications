@@ -37,12 +37,12 @@ ControlLoop:
       type: string
       description: A UNIQUE string identifying the Closed Loop ID this event is for. There are no semantics behind this string.
     serviceInstance:
-      $ref: '../../../com.att.ecomp.policy.asdc/src/main/resources/definitions.yaml#/serviceInstance'
+      $ref: '../../../org.onap.policy.asdc/src/main/resources/definitions.yaml#/serviceInstance'
     resourceInstance:
-      $ref: '../../../com.att.ecomp.policy.asdc/src/main/resources/definitions.yaml#/resourceInstance'
+      $ref: '../../../org.onap.policy.asdc/src/main/resources/definitions.yaml#/resourceInstance'
     requestID:
       type: string
-      description: This is required via ECOMP Platform Logging Requirements.
+      description: This is required via ONAP Platform Logging Requirements.
       pattern: /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
     triggerID:
       type: string
@@ -52,10 +52,10 @@ ControlLoop:
       description: pulled from eventSourceName of trigger H.P. alarm. The contents of this field should also be contained in the AAI Json sub-tag (see below).
     closedLoopAlarmStart:
       type: string
-      description: firstEpoch. UTC Timestamp when this event was detected by DCAE. Conform to ECOMP Logging requirements.
+      description: firstEpoch. UTC Timestamp when this event was detected by DCAE. Conform to ONAP Logging requirements.
     closedLoopAlarmEnd:
       type: string
-      description: lastEpoch.  UTC Timestamp when this event was detected as cleared by DCAE. Conform to ECOMP Logging requirements.
+      description: lastEpoch.  UTC Timestamp when this event was detected as cleared by DCAE. Conform to ONAP Logging requirements.
     closedLoopEventClient:
       type: string
       description: Open DCAE sub-system that detected the event and published this event message.

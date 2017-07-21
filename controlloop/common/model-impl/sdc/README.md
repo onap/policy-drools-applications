@@ -1,3 +1,3 @@
-ECOMP ASDC
+ONAP ASDC
 
 
