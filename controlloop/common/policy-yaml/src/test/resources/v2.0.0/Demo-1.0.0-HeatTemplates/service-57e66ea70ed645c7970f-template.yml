@@ -6,7 +6,7 @@ metadata:
   description: catalog service description
   type: Service
   category: Network L1-3
-  serviceEcompNaming: false
+  serviceOnapNaming: false
   serviceHoming: false
 imports:
 - eace9331-04d4-43b4-96b8:
@@ -14,7 +14,7 @@ imports:
 topology_template:
   node_templates:
     eace9331-04d4-43b4-96b8 1:
-      type: org.openecomp.resource.vf.Eace933104d443b496b8
+      type: org.onap.resource.vf.Eace933104d443b496b8
       metadata:
         invariantUUID: 06fe411e-d006-4ac3-8b0e-fb4f13cd78d3
         UUID: 172ce7c5-c2e4-4f8d-b66c-edb49e8e548a
@@ -25,10 +25,10 @@ topology_template:
         category: Generic
         subcategory: Abstract
   substitution_mappings:
-    node_type: org.openecomp.service.57e66ea70ed645c7970f
+    node_type: org.onap.service.57e66ea70ed645c7970f
     capabilities:
       eace9331-04d4-43b4-96b8 1.memory.resident:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM used by the instance on the physical machine
         occurrences:
         - 1
@@ -129,7 +129,7 @@ topology_template:
             type: scalar-unit.size
             required: false
       eace9331-04d4-43b4-96b8 1.instance:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Existence of instance
         occurrences:
         - 1
@@ -201,7 +201,7 @@ topology_template:
           default_instances:
             type: integer
       eace9331-04d4-43b4-96b8 1.memory:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM allocated to the instance
         occurrences:
         - 1
@@ -264,7 +264,7 @@ topology_template:
         - 1
         - UNBOUNDED
       eace9331-04d4-43b4-96b8 1.vcpus:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Average disk latency
         occurrences:
         - 1
@@ -322,7 +322,7 @@ topology_template:
             type: string
             required: false
       eace9331-04d4-43b4-96b8 1.cpu_util:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Average CPU utilization
         occurrences:
         - 1
@@ -380,7 +380,7 @@ topology_template:
             type: string
             required: false
       eace9331-04d4-43b4-96b8 1.cpu.delta:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: CPU time used since previous datapoint
         occurrences:
         - 1
@@ -443,7 +443,7 @@ topology_template:
         - 1
         - UNBOUNDED
       eace9331-04d4-43b4-96b8 1.cpu:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: CPU time used
         occurrences:
         - 1
@@ -501,7 +501,7 @@ topology_template:
             type: string
             required: false
       eace9331-04d4-43b4-96b8 1.instance:type:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Existence of instance <type> (OpenStack types)
         occurrences:
         - 1
@@ -564,7 +564,7 @@ topology_template:
         - 0
         - UNBOUNDED
       eace9331-04d4-43b4-96b8 1.memory.usage:
-        type: org.openecomp.capabilities.metric.Ceilometer
+        type: org.onap.capabilities.metric.Ceilometer
         description: Volume of RAM used by the instance from the amount of its allocated memory
         occurrences:
         - 1

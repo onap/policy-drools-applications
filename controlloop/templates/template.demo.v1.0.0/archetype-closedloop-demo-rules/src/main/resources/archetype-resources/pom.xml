@@ -37,37 +37,37 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>demo</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>	
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>controlloop</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>rest</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>		
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>appc</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>aai</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>mso</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.policy.drools-applications</groupId>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>trafficgenerator</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>

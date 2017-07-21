@@ -120,7 +120,7 @@ public interface ControlLoopPolicyBuilder {
 	public Integer calculateTimeout();
 	
 	/**
-	 * Sets the initial trigger policy when a DCAE Closed Loop Event arrives in the ECOMP Policy Platform.
+	 * Sets the initial trigger policy when a DCAE Closed Loop Event arrives in the ONAP Policy Platform.
 	 * 
 	 * 
 	 * @param name
