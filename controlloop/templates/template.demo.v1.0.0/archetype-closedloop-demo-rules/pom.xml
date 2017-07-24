@@ -35,6 +35,16 @@
 	<name>archetype-closed-loop-demo-rules</name>
 	<description>archetype to generate a closed loop demo rules jar</description>
 
+    
+    <dependencies>
+        <dependency>
+        	<groupId>org.onap.policy.drools-applications</groupId>
+        	<artifactId>events</artifactId>
+        	<version>${project.version}</version>
+        	<scope>provided</scope>
+        </dependency>
+    </dependencies>
+
 	<build>
 		<extensions>
 			<extension>
