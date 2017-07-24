@@ -58,31 +58,38 @@
 	</build>
 
 	<!-- The following are placed in the local repository at installation -->
-	<dependencies>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>drools-pdp-apps</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>demo</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>	
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>events</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>rest</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>		
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications</groupId>
+            <artifactId>drools-pdp-apps</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications</groupId>
+            <artifactId>controlloop</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications</groupId>
+            <artifactId>model-impl</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.onap.policy.drools-applications</groupId>
+        	<artifactId>events</artifactId>
+        	<version>${project.version}</version>
+        	<type>jar</type>
+        </dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>appc</artifactId>
@@ -106,13 +113,24 @@
 			<artifactId>trafficgenerator</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>archetype-closedloop-demo-rules</artifactId>
+			<artifactId>eventmanager</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
-	</dependencies>
-
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>guard</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+            <groupId>org.onap.policy.drools-applications</groupId>
+            <artifactId>policy-yaml</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>

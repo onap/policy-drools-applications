@@ -232,7 +232,7 @@ fi
 (
 cd "${DIR_TMP}"
 
-"$M2_HOME"/bin/mvn archetype:generate \
+mvn archetype:generate \
     -B \
     -DarchetypeCatalog=local \
     -DarchetypeGroupId="${ARCHETYPE_GROUP_ID}" \
@@ -299,7 +299,7 @@ fi
 echo
 echo "generating deployable ${ARTIFACTID} maven artifact .."
 
-"$M2_HOME"/bin/mvn install
+mvn install
 
 if [ "${?}" -ne 0 ]; then
 	echo
