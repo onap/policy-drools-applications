@@ -40,17 +40,17 @@
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>demo</artifactId>
 			<version>${dependenciesVersion}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>controlloop</artifactId>
+			<artifactId>events</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>rest</artifactId>
 			<version>${dependenciesVersion}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>appc</artifactId>
@@ -69,6 +69,21 @@
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>trafficgenerator</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>eventmanager</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>guard</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>policy-yaml</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 	</dependencies>
