@@ -60,59 +60,94 @@
 	<!-- The following are placed in the local repository at installation -->
 	<dependencies>
 		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>drools-pdp-apps</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
+        	<groupId>org.onap.policy.drools-applications</groupId>
+        	<artifactId>events</artifactId>
+        	<version>${project.version}</version>
+        	<scope>jar</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>model-impl</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+			<scope>pom</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>demo</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>	
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>events</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
+        	<artifactId>common</artifactId>
+        	<version>1.1.0-SNAPSHOT</version>
+        	<scope>pom</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>rest</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>		
+        	<artifactId>controlloop</artifactId>
+        	<version>1.1.0-SNAPSHOT</version>
+        	<scope>pom</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.onap.policy.drools-applications</groupId>
+        	<artifactId>drools-pdp-apps</artifactId>
+	    	<version>1.1.0-SNAPSHOT</version>
+	    	<scope>pom</scope>
+	    </dependency>
+        <dependency>
+	    	<groupId>org.apache.httpcomponents</groupId>
+	    	<artifactId>httpclient</artifactId>
+	    	<version>4.5.2</version>
+	    	<scope>jar</scope>
+		</dependency>  
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>jar</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.5</version>
+			<scope>jar</scope>
+		</dependency>
+		<dependency>
+	    	<groupId>org.drools</groupId>
+	    	<artifactId>drools-core</artifactId>
+	    	<version>6.3.0.Final</version>
+	    	<scope>jar</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<version>6.3.0.Final</version>
+			<scope>jar</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>appc</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
+			<scope>jar</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>aai</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
+			<scope>jar</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>mso</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
+			<scope>jar</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>trafficgenerator</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>	
+			<scope>jar</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>archetype-closedloop-demo-rules</artifactId>
+			<artifactId>eventmanager</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
+			<scope>jar</scope>
 		</dependency>
 	</dependencies>
-
 </project>
