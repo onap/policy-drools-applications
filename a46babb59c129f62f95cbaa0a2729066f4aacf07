@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a202591_e9f5fdcb",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "this should be provided, not sure why this is used here ??",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_c90241b4",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "same q here",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_a9ff05aa",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_892c494c",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "provided for drools core, change to 6.5.0 instead",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_6931eda1",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "not sure why all these deps are necessary, and will pull out quite a large base perhaps at runtime.   Only include if absolutely necessary.   In any case, not sure if this one should be provided or not.",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_4926316a",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "do you really need this one?",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_292bf531",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "This file is just for drools-applications, not 3rd parties.     http-client, guava, etc .. are part of the base, need to make sure same version is used.",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_09203948",
+        "filename": "controlloop/templates/template.demo.v1.0.0/archetype-closedloop-demo-rules/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-24T23:06:52Z",
+      "side": 1,
+      "message": "This file should not be touched.  It is just to generate rules jar from archetype.",
+      "revId": "a46babb59c129f62f95cbaa0a2729066f4aacf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
