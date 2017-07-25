@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a202591_64791493",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "in this file, include only the ONAP ones",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_446e18cb",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_24731cb3",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_046820b9",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_e46404e7",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_849b10c9",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "no scope, general, follow the same pattern, as in previous version of the file, there is no scopes here, type should be jar",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_c46108d5",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "this is ok, if you can fix the formatting",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_a45e0c11",
+        "filename": "controlloop/common/packages/artifacts/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "no scope, general, follow the same pattern, as in previous version of the file, there is no scopes here, type should be jar",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_64a0f4f4",
+        "filename": "controlloop/templates/template.demo.v1.0.0/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "change to 6.5.0",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_44a5f802",
+        "filename": "controlloop/templates/template.demo.v1.0.0/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "change to 6.5.0",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_24aafcd4",
+        "filename": "controlloop/templates/template.demo.v1.0.0/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "fix format",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_e4abe4d4",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "where are all these",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_8482f050",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "note att packaging?  It is compatible with ONAP.  Is it necessary?   Is it to interface with PE side?  I am concerned that this won\u0027t work with current APIs on ONAP PE.   Can you verify with Ravi/Tarun?",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_04af00e5",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-07-25T19:42:41Z",
+      "side": 1,
+      "message": "where is this project?   att?",
+      "revId": "38b7d998ea1f4f86552cd68473cb1a1a21ac512c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
