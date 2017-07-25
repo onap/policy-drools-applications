@@ -179,21 +179,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 	
 	
-	
-	private void addStringAttribute(StdMutablePIPResponse stdPIPResponse, Identifier category, Identifier attributeId, String value) {
-		if (value != null) {
-			AttributeValue<String> attributeValue	= null;
-			try {
-				attributeValue	= DataTypes.DT_STRING.createAttributeValue(value);
-			} catch (Exception ex) {
-				//this.logger.error("Failed to convert " + value + " to an AttributeValue<String>", ex);
-			}
-			if (attributeValue != null) {
-				stdPIPResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue, this.getIssuer(), false));
-			}
-		}
-	}
-	
 	private PIPResponse getAttribute(PIPRequest pipRequest, PIPFinder pipFinder) {
 		PIPResponse pipResponse	= null;
 
