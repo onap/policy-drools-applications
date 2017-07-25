@@ -53,8 +53,24 @@ public class ControlLoopPolicyTest {
 	}
 
 	@Test 
-	public void testvService2() {
-		this.test("src/test/resources/v2.0.0/policy_vService.yaml");
+	public void testvDNS() {
+		this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vDNS.yaml");
+	}
+
+	@Test 
+	public void testvFirewall() {
+		// Chenfei to fix this.
+//		this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
+	}
+
+	@Test 
+	public void testvCPE() {
+		this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vCPE.yaml");
+	}
+
+	@Test 
+	public void testVOLTE() {
+		this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
 	}
 
 	public void test(String testFile) {
