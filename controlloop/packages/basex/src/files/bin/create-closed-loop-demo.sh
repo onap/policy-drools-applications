@@ -29,7 +29,7 @@ echo
 
 GROUPID="org.onap.policy.demo.rules"
 ARTIFACTID="closed-loop-demo-rules"
-VERSION="1.1.0-SNAPSHOT"
+VERSION="1.1.0"
 PACKAGE="org.onap.policy.demo.rules"
 CLOSEDLOOPCONTROLNAME="CL-FRWL-LOW-TRAFFIC-SIG-d925ed73-8231-4d02-9545-db4e101f88f8"
 POLICYSCOPE="service=test;resource=FRWL;type=configuration"
@@ -232,7 +232,7 @@ fi
 (
 cd "${DIR_TMP}"
 
-"$M2_HOME"/bin/mvn archetype:generate \
+mvn archetype:generate \
     -B \
     -DarchetypeCatalog=local \
     -DarchetypeGroupId="${ARCHETYPE_GROUP_ID}" \
@@ -299,7 +299,7 @@ fi
 echo
 echo "generating deployable ${ARTIFACTID} maven artifact .."
 
-"$M2_HOME"/bin/mvn install
+mvn install
 
 if [ "${?}" -ne 0 ]; then
 	echo
