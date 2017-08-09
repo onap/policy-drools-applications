@@ -38,11 +38,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>demo</artifactId>
-			<version>${dependenciesVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>events</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>

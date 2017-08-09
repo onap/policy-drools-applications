@@ -57,7 +57,7 @@
 		</plugins>
 	</build>
 
-	<!-- The following are placed in the local repository at installation -->
+	<!-- The following are placed in the local or remote repository at installation -->
 	<dependencies>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
@@ -129,6 +129,24 @@
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>policy-yaml</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>demo</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>template.demo</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>archetype-closedloop-demo-rules</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>

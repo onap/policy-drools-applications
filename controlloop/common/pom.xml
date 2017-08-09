@@ -37,7 +37,6 @@
     	<module>eventmanager</module>
         <module>guard</module>
         <module>model-impl</module>
-    	<module>packages</module>
     	<module>policy-yaml</module>
     </modules>
 
