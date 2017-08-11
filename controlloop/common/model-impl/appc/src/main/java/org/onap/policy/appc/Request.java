@@ -32,7 +32,7 @@ public class Request implements Serializable{
 	public String				Action;
 	public String				TargetID;
 	public String				ObjectID;
-	public Map<String, Object>	Payload = new HashMap<String, Object>();
+	public Map<String, Object>	Payload = new HashMap<>();
 	
 	public Request() {
 		
