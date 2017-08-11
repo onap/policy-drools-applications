@@ -75,6 +75,9 @@ public class AAINQF199GenericVNF implements Serializable {
 	
 	@SerializedName("persona-model-version")
 	public String personaModelVersion;
+	
+	@SerializedName("model-invariant-id")
+	public String modelInvariantId;
 
 	public AAINQF199GenericVNF() {
 	}

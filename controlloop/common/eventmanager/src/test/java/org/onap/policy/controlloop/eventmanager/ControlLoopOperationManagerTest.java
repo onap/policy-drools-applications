@@ -30,10 +30,10 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.onap.policy.appc.Request;
-import org.onap.policy.appc.Response;
-import org.onap.policy.appc.ResponseCode;
-import org.onap.policy.appc.ResponseValue;
+import org.onap.policy.appclcm.LCMRequest;
+import org.onap.policy.appclcm.LCMRequestWrapper;
+import org.onap.policy.appclcm.LCMResponse;
+import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -91,20 +91,24 @@ public class ControlLoopOperationManagerTest {
 			Object request = manager.startOperation(onset);
 			logger.debug("{}",manager);
 			assertNotNull(request);
-			assertTrue(request instanceof Request);
-			assertTrue(((Request)request).CommonHeader.SubRequestID.contentEquals("1"));
+			assertTrue(request instanceof LCMRequestWrapper);
+			LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) request;
+			LCMRequest appcRequest = dmaapRequest.getBody();
+			assertTrue(appcRequest.getCommonHeader().getSubRequestId().contentEquals("1"));
 			assertFalse(manager.isOperationComplete());
 			assertTrue(manager.isOperationRunning());
 			//
 			// Accept
 			//
-			Response response = new Response((Request) request);
-			response.Status.Code = ResponseCode.ACCEPT.getValue();
-			response.Status.Value = ResponseValue.ACCEPT.toString();
+			LCMResponseWrapper dmaapResponse = new LCMResponseWrapper();
+			LCMResponse appcResponse = new LCMResponse((LCMRequest) appcRequest);
+			appcResponse.getStatus().setCode(100);
+			appcResponse.getStatus().setMessage("ACCEPT");
+			dmaapResponse.setBody(appcResponse);
 			//
 			//
 			//
-			PolicyResult result = manager.onResponse(response);
+			PolicyResult result = manager.onResponse(dmaapResponse);
 			logger.debug("{}",manager);
 			assertTrue(result == null);
 			assertFalse(manager.isOperationComplete());
@@ -112,11 +116,11 @@ public class ControlLoopOperationManagerTest {
 			//
 			// Now we are going to Fail it
 			//
-			response = new Response((Request) request);
-			response.Status.Code = ResponseCode.FAILURE.getValue();
-			response.Status.Value = ResponseValue.FAILURE.toString();
-			response.Status.Description = "AppC failed for some reason";
-			result = manager.onResponse(response);
+			appcResponse = new LCMResponse(appcRequest);
+			appcResponse.getStatus().setCode(401);
+			appcResponse.getStatus().setMessage("AppC failed for some reason");
+			dmaapResponse.setBody(appcResponse);
+			result = manager.onResponse(dmaapResponse);
 			logger.debug("{}",manager);
 			assertTrue(result.equals(PolicyResult.FAILURE));
 			assertFalse(manager.isOperationComplete());
@@ -127,21 +131,24 @@ public class ControlLoopOperationManagerTest {
 			request = manager.startOperation(onset);
 			logger.debug("{}",manager);
 			assertNotNull(request);
-			assertTrue(request instanceof Request);
-			assertTrue(((Request)request).CommonHeader.SubRequestID.contentEquals("2"));
+			assertTrue(request instanceof LCMRequestWrapper);
+			dmaapRequest = (LCMRequestWrapper) request;
+			appcRequest = dmaapRequest.getBody();
+			assertTrue(appcRequest.getCommonHeader().getSubRequestId().contentEquals("2"));
 			assertFalse(manager.isOperationComplete());
 			assertTrue(manager.isOperationRunning());
 			//
 			// 
 			//
-			response = new Response((Request) request);
+			appcResponse = new LCMResponse((LCMRequest) appcRequest);
 			logger.debug("{}",manager);
-			response.Status.Code = ResponseCode.ACCEPT.getValue();
-			response.Status.Value = ResponseValue.ACCEPT.toString();
+			appcResponse.getStatus().setCode(100);
+			appcResponse.getStatus().setMessage("ACCEPT");
+			dmaapResponse.setBody(appcResponse);
 			//
 			//
 			//
-			result = manager.onResponse(response);
+			result = manager.onResponse(dmaapResponse);
 			logger.debug("{}",manager);
 			assertTrue(result == null);
 			assertFalse(manager.isOperationComplete());
@@ -149,11 +156,11 @@ public class ControlLoopOperationManagerTest {
 			//
 			// Now we are going to Fail it
 			//
-			response = new Response((Request) request);
-			response.Status.Code = ResponseCode.FAILURE.getValue();
-			response.Status.Value = ResponseValue.FAILURE.toString();
-			response.Status.Description = "AppC failed for some reason";
-			result = manager.onResponse(response);
+			appcResponse = new LCMResponse((LCMRequest) appcRequest);
+			appcResponse.getStatus().setCode(401);
+			appcResponse.getStatus().setMessage("AppC failed for some reason");
+			dmaapResponse.setBody(appcResponse);
+			result = manager.onResponse(dmaapResponse);
 			logger.debug("{}",manager);
 			assertTrue(result.equals(PolicyResult.FAILURE));
 			//
@@ -199,20 +206,24 @@ public class ControlLoopOperationManagerTest {
 			Object request = manager.startOperation(onset);
 			logger.debug("{}",manager);
 			assertNotNull(request);
-			assertTrue(request instanceof Request);
-			assertTrue(((Request)request).CommonHeader.SubRequestID.contentEquals("1"));
+			assertTrue((request) instanceof LCMRequestWrapper);
+			LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) request;
+			LCMRequest appcRequest = dmaapRequest.getBody();
+			assertTrue((appcRequest).getCommonHeader().getSubRequestId().contentEquals("1"));
 			assertFalse(manager.isOperationComplete());
 			assertTrue(manager.isOperationRunning());
 			//
 			// Accept
 			//
-			Response response = new Response((Request) request);
-			response.Status.Code = ResponseCode.ACCEPT.getValue();
-			response.Status.Value = ResponseValue.ACCEPT.toString();
+			LCMResponseWrapper dmaapResponse = new LCMResponseWrapper();
+			LCMResponse appcResponse = new LCMResponse(appcRequest);
+	        dmaapResponse.setBody(appcResponse);
+			appcResponse.getStatus().setCode(100);
+			appcResponse.getStatus().setMessage("ACCEPT");
 			//
 			//
 			//
-			PolicyResult result = manager.onResponse(response);
+			PolicyResult result = manager.onResponse(dmaapResponse);
 			logger.debug("{}",manager);
 			assertTrue(result == null);
 			assertFalse(manager.isOperationComplete());
@@ -229,11 +240,11 @@ public class ControlLoopOperationManagerTest {
 			//
 			// Now we are going to Fail the previous request
 			//
-			response = new Response((Request) request);
-			response.Status.Code = ResponseCode.FAILURE.getValue();
-			response.Status.Value = ResponseValue.FAILURE.toString();
-			response.Status.Description = "AppC failed for some reason";
-			result = manager.onResponse(response);
+			appcResponse = new LCMResponse(appcRequest);
+			appcResponse.getStatus().setCode(401);
+			appcResponse.getStatus().setMessage("AppC failed for some reason");
+			dmaapResponse.setBody(appcResponse);
+			result = manager.onResponse(dmaapResponse);
 			logger.debug("{}",manager);
 			//
 			//

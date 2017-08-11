@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.eventmanager;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.AbstractMap;
 import java.util.LinkedList;
 
 import javax.persistence.EntityManager;
@@ -30,6 +31,7 @@ import javax.persistence.Persistence;
 
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
+import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -40,7 +42,7 @@ import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 
 public class ControlLoopOperationManager implements Serializable {
 	
@@ -196,8 +198,18 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		switch (policy.getActor()) {
 		case "APPC":
-			//Request request = APPCActorServiceProvider.constructRequest(onset, operation.operation, this.policy);
-			this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
+		    /* 
+		     * If the recipe is ModifyConfig, a legacy APPC 
+		     * request is constructed. Otherwise an LCMRequest
+		     * is constructed.
+		     */
+		    if (policy.getRecipe().equalsIgnoreCase("ModifyConfig")) {
+		      
+	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
+		    }
+		    else {
+		        this.operationRequest = AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy);
+		    }
 			//
 			// Save the operation
 			//
@@ -306,7 +318,34 @@ public class ControlLoopOperationManager implements Serializable {
 				}
 				return PolicyResult.FAILURE;
 			}
-		} 
+		}
+		else if (response instanceof LCMResponseWrapper) {
+		    
+		    LCMResponseWrapper dmaapResponse = (LCMResponseWrapper) response;
+		    
+		    /*
+		     * Parse out the operation attempt using the subrequestid
+		     */
+		    Integer operationAttempt = AppcLcmActorServiceProvider.parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
+		    if (operationAttempt == null) {
+		        this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
+		    }
+		    
+		    /*
+		     * Process the APPCLCM response to see what PolicyResult 
+		     * should be returned
+		     */
+		    AbstractMap.SimpleEntry<PolicyResult, String> result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
+		    
+		    if (result.getKey() != null) {
+    		    this.completeOperation(operationAttempt, result.getValue(), result.getKey());
+    		    if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+                    return null;
+                }
+    		    return result.getKey();
+		    }
+		    return null;
+		}
 		return null;
 	}
 	

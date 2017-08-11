@@ -32,14 +32,16 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
-import org.onap.policy.appc.Request;
-import org.onap.policy.appc.Response;
-import org.onap.policy.appc.ResponseCode;
-import org.onap.policy.appc.ResponseValue;
+import org.onap.policy.appclcm.LCMRequest;
+import org.onap.policy.appclcm.LCMRequestWrapper;
+import org.onap.policy.appclcm.LCMResponse;
+import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 
@@ -47,6 +49,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.guard.PolicyGuard;
 import org.slf4j.Logger;
@@ -55,8 +58,22 @@ import org.slf4j.LoggerFactory;
 
 
 public class ControlLoopXacmlGuardTest {
+    @BeforeClass
+    public static void setUpSimulator() {
+        try {
+            Util.buildAaiSim();
+        } catch (InterruptedException e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
+    
 	private static final Logger logger = LoggerFactory.getLogger(ControlLoopXacmlGuardTest.class);
-	
+
 	@Test
 	public void test() {
 		try {
@@ -216,8 +233,10 @@ public class ControlLoopXacmlGuardTest {
 						
 						obj = engine.subscribe("UEB", "APPC-CL");
 						assertNotNull(obj);
-						assertTrue(obj instanceof Request);
-						assertTrue(((Request)obj).CommonHeader.SubRequestID.equals("1"));
+						assertTrue(obj instanceof LCMRequestWrapper);
+						LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
+						LCMRequest appcRequest = dmaapRequest.getBody();
+						assertTrue(appcRequest.getCommonHeader().getSubRequestId().equals("1"));
 						
 						logger.debug("\n============ APP-C Got request!!! ===========\n");
 						//
@@ -232,11 +251,12 @@ public class ControlLoopXacmlGuardTest {
 						//
 						// Now we are going to success it
 						//
-						Response response = new Response((Request) obj);
-						response.Status.Code = ResponseCode.SUCCESS.getValue();
-						response.Status.Value = ResponseValue.SUCCESS.toString();
-						response.Status.Description = "AppC success";
-						kieSession.insert(response);
+						LCMResponseWrapper dmaapResponse = new LCMResponseWrapper();
+						LCMResponse appcResponse = new LCMResponse(appcRequest);
+						appcResponse.getStatus().setCode(400);
+						appcResponse.getStatus().setMessage("AppC success");
+						dmaapResponse.setBody(appcResponse);
+						kieSession.insert(dmaapResponse);
 						//
 						// Give it some time to process
 						//
@@ -248,7 +268,7 @@ public class ControlLoopXacmlGuardTest {
 						//
 						// now wait for it to finish
 						//
-						Thread.sleep(5000);				
+						Thread.sleep(15000);				
 						//
 						// Ensure they released the lock
 						//
@@ -288,6 +308,7 @@ public class ControlLoopXacmlGuardTest {
 			Object fact = kieSession.getObject(handle);
 			assertEquals("", "org.onap.policy.controlloop.Params", fact.getClass().getName());
 		}
+		kieSession.dispose();
 	}
 	
 

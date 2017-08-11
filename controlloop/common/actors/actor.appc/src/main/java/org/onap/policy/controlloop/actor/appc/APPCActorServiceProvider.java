@@ -21,16 +21,17 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.policy.Policy;
-
+import org.onap.policy.vnf.trafficgenerator.PGRequest;
+import org.onap.policy.vnf.trafficgenerator.PGStream;
+import org.onap.policy.vnf.trafficgenerator.PGStreams;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -43,7 +44,7 @@ public class APPCActorServiceProvider implements Actor {
 										.put("Restart", ImmutableList.of("VM"))
 										.put("Rebuild", ImmutableList.of("VM"))
 										.put("Migrate", ImmutableList.of("VM"))
-										.put("ModifyConfig", ImmutableList.of("VFC"))
+										.put("ModifyConfig", ImmutableList.of("VNF"))
 										.build();
 	private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
 										.put("ModifyConfig", ImmutableList.of("generic-vnf.vnf-id"))
@@ -69,43 +70,63 @@ public class APPCActorServiceProvider implements Actor {
 		return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
 	}
 
-	
+	/**
+	 * Constructs an APPC request conforming to the legacy API.
+	 * The legacy API will be deprecated in future releases as
+	 * all legacy functionality is moved into the LCM API.
+	 * 
+	 * @param onset
+	 *         the event that is reporting the alert for policy
+     *            to perform an action
+	 * @param operation
+	 *         the control loop operation specifying the actor,
+     *         operation, target, etc.
+	 * @param policy
+	 *         the policy the was specified from the yaml generated
+     *         by CLAMP or through the Policy GUI/API
+	 * @return an APPC request conforming to the legacy API
+	 */
 	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
-		//
-		// Construct an APPC request
-		//
+		/*
+		 * Construct an APPC request
+		 */
 		Request request = new Request();
 		request.CommonHeader = new CommonHeader();
 		request.CommonHeader.RequestID = onset.requestID;
 		request.CommonHeader.SubRequestID = operation.subRequestId;
 		request.Action = policy.getRecipe();
 		
-		//
-		// TODO: do we need to take care of the target
-		//
+		/*
+		 * The target vnf-id may not be the same as the source vnf-id
+		 * specified in the yaml, the target vnf-id is retrieved by
+		 * a named query to A&AI.
+		 */
+		String resourceId = policy.getTarget().getResourceID();
+		String sourceVnfId = onset.AAI.get("generic-vnf.vnf-id");
+		String vnfId = "test"; //AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, sourceVnfId);
 		
-		//
-		// Handle the payload
-		//
-		if (policy.getPayload() != null && !policy.getPayload().isEmpty()) {
-			request.Payload = new HashMap<String, Object>();	
-			//
-			// Add each payload entry
-			//
-			for (Map.Entry<String, String> entry : policy.getPayload().entrySet()) {
-			//
-			// TODO: entry key has ref$, value has {xxxx}
-			//
-				request.Payload.put(entry.getKey(), entry.getValue());	
-			}
+		/*
+		 * For now Policy generates the PG Streams as a demo, in the
+		 * future the payload can be provided by CLAMP
+		 */
+		request.Payload.put("generic-vnf.vnf-id", vnfId);
+		
+		PGRequest pgRequest = new PGRequest();
+		pgRequest.pgStreams = new PGStreams();
+		
+		PGStream pgStream;
+		for (int i = 0; i < 5; i++) {
+		    pgStream = new PGStream();
+		    pgStream.streamId = "fw_udp"+(i+1);
+            pgStream.isEnabled = "true";
+            pgRequest.pgStreams.pgStream.add(pgStream);
 		}
+		request.Payload.put("pg-streams", pgRequest.pgStreams);
 		
+		/*
+		 * Return the request
+		 */
 		
-		request.Payload.put("AICVServerSelfLink", onset.AAI.get("vserver.selflink"));//.AICVServerSelfLink);
-		request.Payload.put("AICIdentity", onset.AAI.get("cloud-region.identity-url"));//AICIdentity);
-		//
-		// Return the request
-		//
 		return request;
 	}
 	
