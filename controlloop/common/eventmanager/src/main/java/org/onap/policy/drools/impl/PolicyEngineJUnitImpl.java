@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import org.onap.policy.appc.Request;
+import org.onap.policy.appclcm.LCMRequestWrapper;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.util.Serialization;
 import org.slf4j.Logger;
@@ -49,6 +50,10 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 			Request request = (Request) obj;
 			logger.debug("Request: {} subrequst {}", request.Action, request.CommonHeader.SubRequestID);
 		}
+		else if (obj instanceof LCMRequestWrapper) {
+		    LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
+		    logger.debug("Request: {} subrequest {}", dmaapRequest.getBody().getAction(), dmaapRequest.getBody().getCommonHeader().getSubRequestId());
+		}
 		//
 		// Does the bus exist?
 		//
@@ -57,7 +62,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 			//
 			// Create the bus
 			//
-			busMap.put(busType, new HashMap<String, Queue<Object>>());
+			busMap.put(busType, new HashMap<>());
 		}
 		//
 		// Get the bus
@@ -71,7 +76,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 			//
 			// Create the topic
 			//
-			topicMap.put(topic, new LinkedList<Object>());
+			topicMap.put(topic, new LinkedList<>());
 		}
 		//
 		// Get the topic queue

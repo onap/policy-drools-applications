@@ -36,8 +36,8 @@ public class CommonHeader implements Serializable {
 	public String	OriginatorID;
 	public UUID	RequestID;
 	public String	SubRequestID;
-	public Collection<String>	RequestTrack = new ArrayList<String>();
-	public Collection<Map<String, String>> Flags = new ArrayList<Map<String, String>>();
+	public Collection<String>	RequestTrack = new ArrayList<>();
+	public Collection<Map<String, String>> Flags = new ArrayList<>();
 	
 	public CommonHeader() {
 		
