@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_632b6a83",
+        "filename": "controlloop/common/policy-yaml/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-15T19:04:40Z",
+      "side": 1,
+      "message": "Tarun, is this dependency really needed?   I would prefer not to have dependencies on the logging side being pulled when running drools applications on the drools side.   In fact, we currently don\u0027t use it in the ONAP side of drools.  I would like to keep it this way, not using it as I consider it suboptimal.  We can have an offline conversation about it.",
+      "revId": "23086c74f96432eec49f5fcc067dc7ea09646f13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
