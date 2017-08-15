@@ -24,68 +24,84 @@ import java.io.Serializable;
 
 public class Target implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2180988443264988319L;
-	 
-	public String resourceID;
-	public TargetType type;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2180988443264988319L;
+     
+    private String resourceID;
+    private TargetType type;
 
-	public Target() {
-		
-	}
-	
-	public Target(TargetType type) {
-		this.type = type;
-	}
-	
-	public Target(String resourceID) {
-		this.resourceID = resourceID;
-	}
-	
-	public Target(TargetType type, String resourceID) {
-		this.type = type;
-		this.resourceID = resourceID;
-	}
-	
-	public Target(Target target) {
-		this.type = target.type;
-		this.resourceID = target.resourceID;
-	}
-	
-	@Override
-	public String toString() {
-		return "Target [type=" + type + ", resourceID=" + resourceID + "]";
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((resourceID == null) ? 0 : resourceID.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Target other = (Target) obj;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		if (resourceID == null) {
-			if (other.resourceID != null)
-				return false;
-		} else if (!resourceID.equals(other.resourceID))
-			return false;
-		return true;
-	}
+    public Target() {
+        //Does Nothing Empty Constructor
+    }
+    
+    public String getResourceID() {
+        return resourceID;
+    }
+
+    public void setResourceID(String resourceID) {
+        this.resourceID = resourceID;
+    }
+
+    public TargetType getType() {
+        return type;
+    }
+
+    public void setType(TargetType type) {
+        this.type = type;
+    }
+
+    public Target(TargetType type) {
+        this.type = type;
+    }
+    
+    public Target(String resourceID) {
+        this.resourceID = resourceID;
+    }
+    
+    public Target(TargetType type, String resourceID) {
+        this.type = type;
+        this.resourceID = resourceID;
+    }
+    
+    public Target(Target target) {
+        this.type = target.type;
+        this.resourceID = target.resourceID;
+    }
+    
+    @Override
+    public String toString() {
+        return "Target [type=" + type + ", resourceID=" + resourceID + "]";
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((resourceID == null) ? 0 : resourceID.hashCode());
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Target other = (Target) obj;
+        if (type == null) {
+            if (other.type != null)
+                return false;
+        } else if (!type.equals(other.type))
+            return false;
+        if (resourceID == null) {
+            if (other.resourceID != null)
+                return false;
+        } else if (!resourceID.equals(other.resourceID))
+            return false;
+        return true;
+    }
 }

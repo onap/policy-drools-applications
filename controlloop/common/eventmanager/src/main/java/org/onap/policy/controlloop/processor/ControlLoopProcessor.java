@@ -43,7 +43,7 @@ public class ControlLoopProcessor {
 			Object obj = y.load(this.yaml);
 			if (obj instanceof ControlLoopPolicy) {
 				this.policy = (ControlLoopPolicy) obj;
-				this.currentPolicy = this.policy.controlLoop.trigger_policy;
+				this.currentPolicy = this.policy.getControlLoop().getTrigger_policy();
 			} else {
 				this.policy = null;
 				throw new ControlLoopException("Unable to parse yaml into ControlLoopPolicy object");
@@ -57,7 +57,7 @@ public class ControlLoopProcessor {
 	}
 	
 	public ControlLoop getControlLoop() {
-		return this.policy.controlLoop;
+		return this.policy.getControlLoop();
 	}
 	
 	public FinalResult	checkIsCurrentPolicyFinal() {
@@ -65,8 +65,8 @@ public class ControlLoopProcessor {
 	}
 	
 	public Policy	getCurrentPolicy() {
-		for (Policy policy : this.policy.policies) {
-			if (policy.id.equals(this.currentPolicy)) {
+		for (Policy policy : this.policy.getPolicies()) {
+			if (policy.getId().equals(this.currentPolicy)) {
 				return policy;
 			}
 		}
@@ -81,22 +81,22 @@ public class ControlLoopProcessor {
 			}
 			switch (result) {
 			case SUCCESS:
-				this.currentPolicy = policy.success;
+				this.currentPolicy = policy.getSuccess();
 				break;
 			case FAILURE:
-				this.currentPolicy = policy.failure;
+				this.currentPolicy = policy.getFailure();
 				break;
 			case FAILURE_TIMEOUT:
-				this.currentPolicy = policy.failure_timeout;
+				this.currentPolicy = policy.getFailure_timeout();
 				break;
 			case FAILURE_RETRIES:
-				this.currentPolicy = policy.failure_retries;
+				this.currentPolicy = policy.getFailure_retries();
 				break;
 			case FAILURE_EXCEPTION:
-				this.currentPolicy = policy.failure_exception;
+				this.currentPolicy = policy.getFailure_exception();
 				break;
 			case FAILURE_GUARD:
-				this.currentPolicy = policy.failure_guard;
+				this.currentPolicy = policy.getFailure_guard();
 				break;
 			default:
 				throw new ControlLoopException("Bad policy result given: " + result);

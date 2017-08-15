@@ -21,62 +21,63 @@
 package org.onap.policy.controlloop.policy;
 
 public enum PolicyResult {
-	/**
-	 * Operation was successful.
-	 */
-	SUCCESS("Success"),
-	/**
-	 * Operation failed.
-	 */
-	FAILURE("Failure"),
-	/**
-	 * Operation failed due to maximum retries being met.
-	 */
-	FAILURE_RETRIES("Failure_Retries"),
-	/**
-	 * Operation failed due to timeout occurring.
-	 */
-	FAILURE_TIMEOUT("Failure_Timeout"),
-	/**
-	 * Operation failed due to an exception.
-	 */
-	FAILURE_EXCEPTION("Failure_Exception"), 
-	/**
-	 * Operation failed since Guard did not permit.
-	 */
-	FAILURE_GUARD("Failure_Guard")
-	;
-	
-	private String result;
-	
-	private PolicyResult(String result) {
-		this.result = result;
-	}
-	
-	public String toString() {
-		return this.result;
-	}
-	
-	public static PolicyResult toResult(String result) {
-		if (result.equalsIgnoreCase(SUCCESS.toString())) {
-			return SUCCESS;
-		}
-		if (result.equalsIgnoreCase(FAILURE.toString())) {
-			return FAILURE;
-		}
-		if (result.equalsIgnoreCase(FAILURE_RETRIES.toString())) {
-			return FAILURE_RETRIES;
-		}
-		if (result.equalsIgnoreCase(FAILURE_TIMEOUT.toString())) {
-			return FAILURE_TIMEOUT;
-		}
-		if (result.equalsIgnoreCase(FAILURE_EXCEPTION.toString())) {
-			return FAILURE_EXCEPTION;
-		}
-		if (result.equalsIgnoreCase(FAILURE_GUARD.toString())) {
-			return FAILURE_GUARD;
-		}
-		return null;
-	}
+    /**
+     * Operation was successful.
+     */
+    SUCCESS("Success"),
+    /**
+     * Operation failed.
+     */
+    FAILURE("Failure"),
+    /**
+     * Operation failed due to maximum retries being met.
+     */
+    FAILURE_RETRIES("Failure_Retries"),
+    /**
+     * Operation failed due to timeout occurring.
+     */
+    FAILURE_TIMEOUT("Failure_Timeout"),
+    /**
+     * Operation failed due to an exception.
+     */
+    FAILURE_EXCEPTION("Failure_Exception"), 
+    /**
+     * Operation failed since Guard did not permit.
+     */
+    FAILURE_GUARD("Failure_Guard")
+    ;
+    
+    private String result;
+    
+    private PolicyResult(String result) {
+        this.result = result;
+    }
+    
+    @Override
+    public String toString() {
+        return this.result;
+    }
+    
+    public static PolicyResult toResult(String result) {
+        if (result.equalsIgnoreCase(SUCCESS.toString())) {
+            return SUCCESS;
+        }
+        if (result.equalsIgnoreCase(FAILURE.toString())) {
+            return FAILURE;
+        }
+        if (result.equalsIgnoreCase(FAILURE_RETRIES.toString())) {
+            return FAILURE_RETRIES;
+        }
+        if (result.equalsIgnoreCase(FAILURE_TIMEOUT.toString())) {
+            return FAILURE_TIMEOUT;
+        }
+        if (result.equalsIgnoreCase(FAILURE_EXCEPTION.toString())) {
+            return FAILURE_EXCEPTION;
+        }
+        if (result.equalsIgnoreCase(FAILURE_GUARD.toString())) {
+            return FAILURE_GUARD;
+        }
+        return null;
+    }
 
 }

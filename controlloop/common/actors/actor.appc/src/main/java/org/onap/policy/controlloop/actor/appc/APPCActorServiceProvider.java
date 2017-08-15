@@ -78,7 +78,7 @@ public class APPCActorServiceProvider implements Actor {
 		request.CommonHeader = new CommonHeader();
 		request.CommonHeader.RequestID = onset.requestID;
 		request.CommonHeader.SubRequestID = operation.subRequestId;
-		request.Action = policy.recipe;
+		request.Action = policy.getRecipe();
 		
 		//
 		// TODO: do we need to take care of the target
@@ -87,12 +87,12 @@ public class APPCActorServiceProvider implements Actor {
 		//
 		// Handle the payload
 		//
-		if (policy.payload != null && !policy.payload.isEmpty()) {
+		if (policy.getPayload() != null && !policy.getPayload().isEmpty()) {
 			request.Payload = new HashMap<String, Object>();	
 			//
 			// Add each payload entry
 			//
-			for (Map.Entry<String, String> entry : policy.payload.entrySet()) {
+			for (Map.Entry<String, String> entry : policy.getPayload().entrySet()) {
 			//
 			// TODO: entry key has ref$, value has {xxxx}
 			//
