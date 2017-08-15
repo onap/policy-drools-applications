@@ -335,7 +335,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// PLD - this is simply comparing the policy. Do we want to equals the whole object?
 			//
 			if (this.currentOperation.policy.equals(operation.policy)) {
-				System.out.println("Finishing " + this.currentOperation.policy.recipe + " result is " + this.currentOperation.getOperationResult());
+				System.out.println("Finishing " + this.currentOperation.policy.getRecipe() + " result is " + this.currentOperation.getOperationResult());
 				//
 				// Save history
 				//
@@ -380,7 +380,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// Ask the Guard
 			//
 			LockResult<GuardResult, TargetLock> lockResult = PolicyGuard.lockTarget(
-																		this.currentOperation.policy.target.type, 
+																		this.currentOperation.policy.getTarget().getType(), 
 																		this.getTargetInstance(this.currentOperation.policy),
 																		this.onset.requestID,
 																		this);
@@ -486,7 +486,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	
 	public int	getControlLoopTimeout(Integer defaultTimeout) {
 		if (this.processor != null && this.processor.getControlLoop() != null) {
-			return this.processor.getControlLoop().timeout;
+			return this.processor.getControlLoop().getTimeout();
 		}
 		if (defaultTimeout != null) {
 			return defaultTimeout;
@@ -543,9 +543,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 
 	public String getTargetInstance(Policy policy) {
-		if (policy.target != null) {
-			if (policy.target.type != null) {
-				switch(policy.target.type) {
+		if (policy.getTarget() != null) {
+			if (policy.getTarget().getType() != null) {
+				switch(policy.getTarget().getType()) {
 				case PNF:
 					break;
 				case VM:

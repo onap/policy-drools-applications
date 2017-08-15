@@ -68,7 +68,7 @@ public class ControlLoopProcessorTest {
 			}
 			Policy policy = processor.getCurrentPolicy();
 			assertNotNull(policy);
-			System.out.println("current policy is: " + policy.id + " " + policy.name);
+			System.out.println("current policy is: " + policy.getId() + " " + policy.getName());
 			processor.nextPolicyForResult(PolicyResult.SUCCESS);
 		}
 	}
@@ -84,7 +84,7 @@ public class ControlLoopProcessorTest {
 			}
 			Policy policy = processor.getCurrentPolicy();
 			assertNotNull(policy);
-			System.out.println("current policy is: " + policy.id + " " + policy.name);
+			System.out.println("current policy is: " + policy.getId() + " " + policy.getName());
 			processor.nextPolicyForResult(PolicyResult.FAILURE);
 		}		
 	}

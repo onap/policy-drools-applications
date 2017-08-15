@@ -115,14 +115,14 @@ public class ControlLoopXacmlGuardTest {
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml(yamlFile);
 		assertNotNull(pair);
 		assertNotNull(pair.a);
-		assertNotNull(pair.a.controlLoop);
-		assertNotNull(pair.a.controlLoop.controlLoopName);
-		assertTrue(pair.a.controlLoop.controlLoopName.length() > 0);
+		assertNotNull(pair.a.getControlLoop());
+		assertNotNull(pair.a.getControlLoop().getControlLoopName());
+		assertTrue(pair.a.getControlLoop().getControlLoopName().length() > 0);
 		//
 		// Build a container
 		//
 		final KieSession kieSession = buildContainer(droolsTemplate, 
-				pair.a.controlLoop.controlLoopName, 
+				pair.a.getControlLoop().getControlLoopName(), 
 				policyScope, 
 				policyName, 
 				policyVersion, 
@@ -446,7 +446,7 @@ public class ControlLoopXacmlGuardTest {
 
 	protected void sendAbatement(KieSession kieSession, ControlLoopPolicy policy, UUID requestID, String triggerSourceName) throws InterruptedException {
 		VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-		event.closedLoopControlName = policy.controlLoop.controlLoopName;
+		event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
 		event.requestID = requestID;
 		event.target = "vserver.vserver-name";
 		event.closedLoopAlarmStart = Instant.now().minusSeconds(5);
@@ -462,7 +462,7 @@ public class ControlLoopXacmlGuardTest {
 	
 	protected void sendGoodEvents(KieSession kieSession, ControlLoopPolicy policy, UUID requestID, String triggerSourceName) throws InterruptedException {
 		VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-		event.closedLoopControlName = policy.controlLoop.controlLoopName;
+		event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
 		event.requestID = requestID;
 		event.target = "vserver.vserver-name";
 		event.closedLoopAlarmStart = Instant.now();
@@ -482,7 +482,7 @@ public class ControlLoopXacmlGuardTest {
 		// Insert a bad Event
 		//
 		VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-		event.closedLoopControlName = policy.controlLoop.controlLoopName;
+		event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
 		kieSession.insert(event);
 		Thread.sleep(250);
 		//

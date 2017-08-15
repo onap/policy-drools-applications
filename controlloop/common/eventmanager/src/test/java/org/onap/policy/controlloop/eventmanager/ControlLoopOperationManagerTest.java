@@ -65,7 +65,7 @@ public class ControlLoopOperationManagerTest {
 		// Load up the policy
 		//
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-		onset.closedLoopControlName = pair.a.controlLoop.controlLoopName;
+		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
 			//
 			// Create a processor
@@ -173,7 +173,7 @@ public class ControlLoopOperationManagerTest {
 		// Load up the policy
 		//
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-		onset.closedLoopControlName = pair.a.controlLoop.controlLoopName;
+		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
 			//
 			// Create a processor

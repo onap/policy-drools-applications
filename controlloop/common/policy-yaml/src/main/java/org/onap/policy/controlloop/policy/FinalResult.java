@@ -21,73 +21,73 @@
 package org.onap.policy.controlloop.policy;
 
 public enum FinalResult {
-	/**
-	 * The Control Loop Policy successfully completed its Operations.
-	 */
-	FINAL_SUCCESS("Final_Success"),
-	/**
-	 * The Control Loop Policy was an Open Loop and is finished.
-	 */
-	FINAL_OPENLOOP("Final_OpenLoop"),
-	/**
-	 * The Control Loop Policy failed in its last Operation Policy. NOTE: Previous Operation Policies may have been successful.
-	 */
-	FINAL_FAILURE("Final_Failure"),
-	/**
-	 * The Control Loop Policy failed because the overall timeout was met.
-	 */
-	FINAL_FAILURE_TIMEOUT("Final_Failure_Timeout"),
-	/**
-	 * The Control Loop Policy failed because an Operation Policy met its retry limit.
-	 */
-	FINAL_FAILURE_RETRIES("Final_Failure_Retries"),
-	/**
-	 * The Control Loop Policy failed due to an exception.
-	 */
-	FINAL_FAILURE_EXCEPTION("Final_Failure_Exception"), 
-	/**
-	 *  The Control Loop Policy failed due to guard denied
-	 */
-	FINAL_FAILURE_GUARD("Final_Failure_Guard")
-	;
-	
-	String result;
-	
-	private FinalResult(String result) {
-		this.result = result;
-	}
-	
-	public static FinalResult	toResult(String result) {
-		if (result.equalsIgnoreCase(FINAL_SUCCESS.toString())) {
-			return FINAL_SUCCESS;
-		}
-		if (result.equalsIgnoreCase(FINAL_OPENLOOP.toString())) {
-			return FINAL_OPENLOOP;
-		}
-		if (result.equalsIgnoreCase(FINAL_FAILURE.toString())) {
-			return FINAL_FAILURE;
-		}
-		if (result.equalsIgnoreCase(FINAL_FAILURE_TIMEOUT.toString())) {
-			return FINAL_FAILURE_TIMEOUT;
-		}
-		if (result.equalsIgnoreCase(FINAL_FAILURE_RETRIES.toString())) {
-			return FINAL_FAILURE_RETRIES;
-		}
-		if (result.equalsIgnoreCase(FINAL_FAILURE_EXCEPTION.toString())) {
-			return FINAL_FAILURE_EXCEPTION;
-		}
-		if (result.equalsIgnoreCase(FINAL_FAILURE_GUARD.toString())) {
-			return FINAL_FAILURE_GUARD;
-		}
-		return null;
-	}
-	
-	public static boolean isResult(String result, FinalResult finalResult) {
-		FinalResult toResult = FinalResult.toResult(result);
-		if (toResult == null) {
-			return false;
-		}
-		return (toResult.equals(finalResult));
-	}
+    /**
+     * The Control Loop Policy successfully completed its Operations.
+     */
+    FINAL_SUCCESS("Final_Success"),
+    /**
+     * The Control Loop Policy was an Open Loop and is finished.
+     */
+    FINAL_OPENLOOP("Final_OpenLoop"),
+    /**
+     * The Control Loop Policy failed in its last Operation Policy. NOTE: Previous Operation Policies may have been successful.
+     */
+    FINAL_FAILURE("Final_Failure"),
+    /**
+     * The Control Loop Policy failed because the overall timeout was met.
+     */
+    FINAL_FAILURE_TIMEOUT("Final_Failure_Timeout"),
+    /**
+     * The Control Loop Policy failed because an Operation Policy met its retry limit.
+     */
+    FINAL_FAILURE_RETRIES("Final_Failure_Retries"),
+    /**
+     * The Control Loop Policy failed due to an exception.
+     */
+    FINAL_FAILURE_EXCEPTION("Final_Failure_Exception"), 
+    /**
+     *  The Control Loop Policy failed due to guard denied
+     */
+    FINAL_FAILURE_GUARD("Final_Failure_Guard")
+    ;
+    
+    String result;
+    
+    private FinalResult(String result) {
+        this.result = result;
+    }
+    
+    public static FinalResult   toResult(String result) {
+        if (result.equalsIgnoreCase(FINAL_SUCCESS.toString())) {
+            return FINAL_SUCCESS;
+        }
+        if (result.equalsIgnoreCase(FINAL_OPENLOOP.toString())) {
+            return FINAL_OPENLOOP;
+        }
+        if (result.equalsIgnoreCase(FINAL_FAILURE.toString())) {
+            return FINAL_FAILURE;
+        }
+        if (result.equalsIgnoreCase(FINAL_FAILURE_TIMEOUT.toString())) {
+            return FINAL_FAILURE_TIMEOUT;
+        }
+        if (result.equalsIgnoreCase(FINAL_FAILURE_RETRIES.toString())) {
+            return FINAL_FAILURE_RETRIES;
+        }
+        if (result.equalsIgnoreCase(FINAL_FAILURE_EXCEPTION.toString())) {
+            return FINAL_FAILURE_EXCEPTION;
+        }
+        if (result.equalsIgnoreCase(FINAL_FAILURE_GUARD.toString())) {
+            return FINAL_FAILURE_GUARD;
+        }
+        return null;
+    }
+    
+    public static boolean isResult(String result, FinalResult finalResult) {
+        FinalResult toResult = FinalResult.toResult(result);
+        if (toResult == null) {
+            return false;
+        }
+        return toResult.equals(finalResult);
+    }
 
 }
