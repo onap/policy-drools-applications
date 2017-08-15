@@ -51,7 +51,7 @@ public class ControlLoopOperationManager implements Serializable {
 	@Override
 	public String toString() {
 		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.requestID : "null") + ", policy=" 
-				+ (policy != null ? policy.id : "null") + ", attempts=" + attempts
+				+ (policy != null ? policy.getId() : "null") + ", attempts=" + attempts
 				+ ", policyResult=" + policyResult 
 				+ ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
 				+ "]";
@@ -122,7 +122,7 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		// Let's make a sanity check
 		//
-		switch (policy.actor) {
+		switch (policy.getActor()) {
 		case "APPC":
 			break;
 		case "AOTS":
@@ -151,7 +151,7 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		// Check if we have maxed out on retries
 		//
-		if (this.policy.retry == null || this.policy.retry < 1) {
+		if (this.policy.getRetry() == null || this.policy.getRetry() < 1) {
 			//
 			// No retries are allowed, so check have we even made
 			// one attempt to execute the operation?
@@ -172,7 +172,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			// Have we maxed out on retries?
 			//
-			if (this.attempts > this.policy.retry) {
+			if (this.attempts > this.policy.getRetry()) {
 				if (this.policyResult == null) {
 					this.policyResult = PolicyResult.FAILURE_RETRIES;
 				}
@@ -185,14 +185,14 @@ public class ControlLoopOperationManager implements Serializable {
 		this.policyResult = null;
 		Operation operation = new Operation();
 		operation.attempt = ++this.attempts;
-		operation.operation.actor = this.policy.actor.toString();
-		operation.operation.operation = this.policy.recipe;
-		operation.operation.target = this.policy.target.toString();
+		operation.operation.actor = this.policy.getActor().toString();
+		operation.operation.operation = this.policy.getRecipe();
+		operation.operation.target = this.policy.getTarget().toString();
 		operation.operation.subRequestId = Integer.toString(operation.attempt);
 		//
 		// Now determine which actor we need to construct a request for
 		//
-		switch (policy.actor) {
+		switch (policy.getActor()) {
 		case "APPC":
 			//Request request = APPCActorServiceProvider.constructRequest(onset, operation.operation, this.policy);
 			this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
@@ -311,8 +311,8 @@ public class ControlLoopOperationManager implements Serializable {
 			System.out.println("getOperationTimeout returning 0");
 			return 0;
 		}
-		System.out.println("getOperationTimeout returning " + this.policy.timeout);
-		return this.policy.timeout;
+		System.out.println("getOperationTimeout returning " + this.policy.getTimeout());
+		return this.policy.getTimeout();
 	}
 	
 	public String	getOperationTimeoutString(int defaultTimeout) {
@@ -398,7 +398,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			// Check if there were no retries specified
 			//
-			if (policy.retry == null || policy.retry == 0) {
+			if (policy.getRetry() == null || policy.getRetry() == 0) {
 				//
 				// The result is the failure
 				//
@@ -433,14 +433,14 @@ public class ControlLoopOperationManager implements Serializable {
 	}
 	
 	private boolean	isRetriesMaxedOut() {
-		if (policy.retry == null || policy.retry == 0) {
+		if (policy.getRetry() == null || policy.getRetry() == 0) {
 			//
 			// There were NO retries specified, so declare
 			// this as completed.
 			//
 			return (this.attempts > 0);
 		}
-		return (this.attempts > policy.retry);
+		return (this.attempts > policy.getRetry());
 	}
 	
 	private void	storeOperationInDataBase(){

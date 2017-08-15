@@ -21,19 +21,20 @@
 package org.onap.policy.controlloop.policy;
 
 public enum TargetType {
-	VM("VM"),
-	PNF("PNF"),
-	VFC("VFC")
-	;
-	
-	private String targetType;
-	
-	private TargetType(String targetType) {
-		this.targetType = targetType;
-	}
-	
-	public String toString() {
-		return this.targetType;
-	}
+    VM("VM"),
+    PNF("PNF"),
+    VFC("VFC")
+    ;
+    
+    private String target;
+    
+    private TargetType(String targetType) {
+        this.target = targetType;
+    }
+    
+    @Override
+    public String toString() {
+        return this.target;
+    }
 
 }

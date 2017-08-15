@@ -20,48 +20,64 @@
 
 package org.onap.policy.controlloop.policy;
 
-import java.util.LinkedList;
+import java.util.List;
 
 public class ControlLoopPolicy {
-	
-	public ControlLoop controlLoop;
+    
+    private ControlLoop controlLoop;
 
-	public LinkedList<Policy> policies;
+    private List<Policy> policies;
 
-	@Override
-	public String toString() {
-		return "ControlLoopPolicy [controlLoop=" + controlLoop + ", policies=" + policies + "]";
-	}
+    public ControlLoop getControlLoop() {
+        return controlLoop;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((controlLoop == null) ? 0 : controlLoop.hashCode());
-		result = prime * result + ((policies == null) ? 0 : policies.hashCode());
-		return result;
-	}
+    public void setControlLoop(ControlLoop controlLoop) {
+        this.controlLoop = controlLoop;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ControlLoopPolicy other = (ControlLoopPolicy) obj;
-		if (controlLoop == null) {
-			if (other.controlLoop != null)
-				return false;
-		} else if (!controlLoop.equals(other.controlLoop))
-			return false;
-		if (policies == null) {
-			if (other.policies != null)
-				return false;
-		} else if (!policies.equals(other.policies))
-			return false;
-		return true;
-	}
+    public List<Policy> getPolicies() {
+        return policies;
+    }
+
+    public void setPolicies(List<Policy> policies) {
+        this.policies = policies;
+    }
+
+    @Override
+    public String toString() {
+        return "ControlLoopPolicy [controlLoop=" + controlLoop + ", policies=" + policies + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((controlLoop == null) ? 0 : controlLoop.hashCode());
+        result = prime * result + ((policies == null) ? 0 : policies.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ControlLoopPolicy other = (ControlLoopPolicy) obj;
+        if (controlLoop == null) {
+            if (other.controlLoop != null)
+                return false;
+        } else if (!controlLoop.equals(other.controlLoop))
+            return false;
+        if (policies == null) {
+            if (other.policies != null)
+                return false;
+        } else if (!policies.equals(other.policies))
+            return false;
+        return true;
+    }
 
 }
