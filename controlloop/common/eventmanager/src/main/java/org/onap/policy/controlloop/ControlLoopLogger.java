@@ -22,6 +22,10 @@ package org.onap.policy.controlloop;
 
 import java.lang.reflect.Constructor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 public interface ControlLoopLogger {
 	
 	public void info(String... parameters);
@@ -32,13 +36,17 @@ public interface ControlLoopLogger {
 	
 	public static class Factory {
 		
-		public ControlLoopLogger buildLogger(String className) {
+		private Logger logger = LoggerFactory.getLogger(Factory.class);
+		
+				
+		public ControlLoopLogger buildLogger(String className) throws ControlLoopException {
+			
 			try {
 				Constructor<?> constr = Class.forName(className).getConstructor();
 				return (ControlLoopLogger) constr.newInstance();
 			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Cannot load class " + className);
+				logger.error("{}: buildLogger threw: ", e);
+				throw new ControlLoopException("Cannot load class " + className);
 			}
 		}
 		

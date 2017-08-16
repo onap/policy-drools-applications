@@ -37,7 +37,7 @@ public class VMTargetLock implements TargetLock, Serializable {
 	private final TargetType 	targetType;
 	private final String 	target;
 	private final UUID 		requestID;
-	private final LockCallback callback;
+	private final transient LockCallback callback;
 
 	public VMTargetLock(TargetType targetType, String target, UUID requestID, LockCallback callback) {
 		this.lockID = UUID.randomUUID();

@@ -28,10 +28,13 @@ import org.onap.policy.aai.AAIGETResponse;
 import org.onap.policy.aai.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonSyntaxException;
 
 public final class AAINQF199Manager {
+	private static Logger logger = LoggerFactory.getLogger(AAINQF199Manager.class);
 	
 	public static AAINQF199Response	postQuery(String url, String username, String password, AAINQF199Request request, UUID requestID) {
 		
@@ -57,7 +60,7 @@ public final class AAINQF199Manager {
 				AAINQF199Response response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQF199Response.class);
 				return response;
 			} catch (JsonSyntaxException e) {
-				System.err.println("Failed to deserialize into AAIResponse" + e.getLocalizedMessage());
+				logger.error("{}: postQuery threw: ", e);
 			}
 		}
 
@@ -93,7 +96,7 @@ public final class AAINQF199Manager {
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETResponse.class);
 					return responseGet;
 				} catch (JsonSyntaxException e) {
-					System.err.println("Failed to deserialize into AAIResponse" + e.getLocalizedMessage());
+					logger.error("{}: getQuery threw: ", e);
 				}
 			}
 			try {
