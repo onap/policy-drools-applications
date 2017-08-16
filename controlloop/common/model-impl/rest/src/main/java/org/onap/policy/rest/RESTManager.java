@@ -34,9 +34,13 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class RESTManager {
 
+	private static Logger logger = LoggerFactory.getLogger(RESTManager.class);
+	
 	public static class Pair<A, B> {
 		public final A a;
 		public final B b;
@@ -81,7 +85,9 @@ public final class RESTManager {
 
 			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
 		} catch (IOException e) {
-			System.err.println("Failed to POST to " + url + e.getLocalizedMessage());
+			String msg= "{} Failed to POST to " + url;
+			logger.error(msg,RESTManager.class, e);
+
 			return null;
 		}
 		
@@ -108,7 +114,8 @@ public final class RESTManager {
 
 			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
 		} catch (IOException e) {
-			System.err.println("Failed to GET to " + url + e.getLocalizedMessage());
+			String msg = "{} Failed to GET to " + url;
+			logger.error(msg,RESTManager.class, e);
 			return null;
 		}
 	}

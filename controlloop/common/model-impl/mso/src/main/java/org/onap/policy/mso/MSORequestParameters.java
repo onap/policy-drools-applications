@@ -39,7 +39,7 @@ public class MSORequestParameters implements Serializable {
 	public String subscriptionServiceType;
 	
 	@SerializedName("userParams")
-	public List<Map<String, String>> userParams = new LinkedList<Map<String, String>>();
+	public transient List<Map<String, String>> userParams = new LinkedList<Map<String, String>>();
 
 	public MSORequestParameters() {
 	}

@@ -493,7 +493,7 @@ public class ControlLoopCompiler implements Serializable{
     
     private static class PolicyNodeWrapper implements NodeWrapper {
         private static final long serialVersionUID = 8170162175653823082L;
-        private Policy policy;
+        private transient Policy policy;
         
         public PolicyNodeWrapper(Policy operPolicy) {
             this.policy = operPolicy;
@@ -580,8 +580,8 @@ public class ControlLoopCompiler implements Serializable{
     private static class LabeledEdge extends DefaultEdge {
         private static final long serialVersionUID = 579384429573385524L;
         
-        private NodeWrapper from;
-        private NodeWrapper to;
+        private transient NodeWrapper from;
+        private transient NodeWrapper to;
         private EdgeWrapper edge;
         
         public LabeledEdge(NodeWrapper from, NodeWrapper to, EdgeWrapper edge) {
