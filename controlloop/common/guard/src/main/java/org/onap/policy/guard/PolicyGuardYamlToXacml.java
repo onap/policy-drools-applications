@@ -30,11 +30,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
 public class PolicyGuardYamlToXacml {
 	
+	private static Logger logger = LoggerFactory.getLogger(PolicyGuardYamlToXacml.class);
 	
 	public static void fromYamlToXacml(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput){
 		
@@ -67,7 +70,8 @@ public class PolicyGuardYamlToXacml {
 	        Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
         
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			logger.error("{}: fromYamlToXacml threw: ",PolicyGuardYamlToXacml.class, e);
+			System.err.println("PolicyGuardYamlToXacml threw exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -198,7 +202,7 @@ public class PolicyGuardYamlToXacml {
 	        Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
         
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			logger.error("{}: fromYamlToXacmlBlacklist threw: ",PolicyGuardYamlToXacml.class, e);
 			e.printStackTrace();
 		}
 		

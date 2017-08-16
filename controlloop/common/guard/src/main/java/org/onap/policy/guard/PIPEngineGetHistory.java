@@ -47,15 +47,16 @@ import com.att.research.xacml.api.Attribute;
 import com.att.research.xacml.api.AttributeValue;
 import com.att.research.xacml.api.Identifier;
 import com.att.research.xacml.std.datatypes.DataTypes;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
 public class PIPEngineGetHistory extends StdConfigurableEngine{
 
-	private Log logger							= LogFactory.getLog(this.getClass());
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	//private static EntityManager em;
 	
 	public static final String DEFAULT_DESCRIPTION		= "PIP for retrieving Operations History from DB";
@@ -193,7 +194,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				pipResponse	= null;
 			}
 		} catch (PIPException ex) {
-			System.out.println("PIPException getting subject-id attribute: " + ex.getMessage());			
+			logger.error("{}: getAttribute threw: ",this, ex);
 		}
 		return pipResponse;
 	}
@@ -299,18 +300,17 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			return -1;
 		}
 		
-		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard' and actor='"
-				+ actor
-				+ "' and operation='"
-				+ operation
-				+ "' and target='"
-				+ target
-				+ "' "
-				+ "and endtime between date_sub(now(),interval "
-				+ timeWindow
-				+ ") and now()";
-		
-		Query nq = em.createNativeQuery(sql);
+		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard'"
+				+ " and actor=:actor" 
+				+ " and operation=:operation" 
+				+ " and target=:target" 
+				+ " and endtime between date_sub(now(),interval :timeWindow) and now()"; 
+ 
+		Query nq = em.createNativeQuery(sql); 
+		nq = nq.setParameter("actor", actor); 
+		nq = nq.setParameter("operation", operation); 
+		nq = nq.setParameter("target", target); 
+		nq = nq.setParameter("timeWindow", timeWindow);
 		
 		int ret = -1;
 		try{
