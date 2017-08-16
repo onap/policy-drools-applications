@@ -33,7 +33,6 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
@@ -43,12 +42,16 @@ import org.onap.policy.guard.LockCallback;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ControlLoopEventManager implements LockCallback, Serializable {
 	
 	/**
 	 * 
 	 */
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private static final long serialVersionUID = -1216568161322872641L;
 	public final String closedLoopControlName;
 	public final UUID requestID;
@@ -62,11 +65,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	private FinalResult controlLoopTimedOut = null;
 
 	private boolean isActivated = false;
-	private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<ControlLoopOperation>();
+	private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
 	private ControlLoopOperationManager currentOperation = null;
 	private TargetLock targetLock = null;
 	
-	private static Collection<String> requiredAAIKeys = new ArrayList<String>();
+	private static Collection<String> requiredAAIKeys = new ArrayList<>();
 	static {
 		requiredAAIKeys.add("AICVServerSelfLink");
 		requiredAAIKeys.add("AICIdentity");
@@ -148,6 +151,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			//
 			this.isActivated = true;
 		} catch (ControlLoopException e) {
+			logger.error("{}: activate threw: ",this, e);
 			notification.notification = ControlLoopNotificationType.REJECTED;
 			notification.message = e.getMessage();
 		}
@@ -183,6 +187,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					yamlSpecification = decodedYaml;
 				}
 			} catch (UnsupportedEncodingException e) {
+				logger.error("{}: activate threw: ",this, e);
 			}
 			//
 			// Parse the YAML specification
@@ -203,6 +208,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			//
 			this.isActivated = true;
 		} catch (ControlLoopException e) {
+			logger.error("{}: activate threw: ",this, e);
 			notification.notification = ControlLoopNotificationType.REJECTED;
 			notification.message = e.getMessage();
 		}
@@ -467,6 +473,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				return NEW_EVENT_STATUS.SYNTAX_ERROR;
 			}
 		} catch (ControlLoopException e) {
+			logger.error("{}: onNewEvent threw: ",this, e);
 			return NEW_EVENT_STATUS.SYNTAX_ERROR;
 		}
 	}

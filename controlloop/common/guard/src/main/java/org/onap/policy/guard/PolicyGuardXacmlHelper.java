@@ -30,6 +30,8 @@ import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.att.research.xacml.api.Attribute;
 import com.att.research.xacml.api.AttributeCategory;
@@ -44,7 +46,7 @@ import com.att.research.xacml.std.json.JSONResponse;
 
 public class PolicyGuardXacmlHelper {
 	
-	
+	private static Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
 
 	public static com.att.research.xacml.api.Response callPDP(PDPEngine xacmlEmbeddedPdpEngine, String restfulPdpUrl, com.att.research.xacml.api.Request request, boolean isREST) {
 		//
@@ -133,19 +135,21 @@ public class PolicyGuardXacmlHelper {
         					contentType.getMimeType().equalsIgnoreCase("application/xacml+xml") ) {
                 		response = (com.att.research.xacml.api.Response) DOMResponse.load(connection.getInputStream());
         			} else {
-        				System.err.println("unknown content-type: " + contentType);
+        				logger.error("{}: unknown content-type: ", contentType);
                 	}
 
                 } catch (Exception e) {
         			String message = "Parsing Content-Type: " + connection.getContentType() + ", error=" + e.getMessage();
-        			System.err.println(message);
+        			logger.error("{}: callRESTfulPDP threw: ", message);
         		}
 
             } else {
-            	System.err.println(connection.getResponseCode() + " " + connection.getResponseMessage());
+            	String msg = connection.getResponseCode() + " " + connection.getResponseMessage();
+            	logger.error("{}: unknown content-type: ", msg);
             }
 		} catch (Exception e) {
-			System.err.println(e);
+			
+			logger.error("callRESTfulPDP threw: ", e);
 		}
 		
 		return response;
