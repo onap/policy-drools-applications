@@ -67,7 +67,7 @@ public class PolicyGuardYamlToXacml {
 	        Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
         
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("PolicyGuardYamlToXacml threw exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -198,7 +198,7 @@ public class PolicyGuardYamlToXacml {
 	        Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
         
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("PolicyGuardYamlToXacml threw exception: " + e.getMessage());
 			e.printStackTrace();
 		}
 		

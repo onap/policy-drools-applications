@@ -54,7 +54,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	public final UUID requestID;
 	
 	private String controlLoopResult;
-	private ControlLoopProcessor processor = null;
+	private transient ControlLoopProcessor processor = null;
 	private VirtualControlLoopEvent onset;
 	private Integer numOnsets = 0;
 	private Integer numAbatements = 0;
@@ -62,11 +62,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	private FinalResult controlLoopTimedOut = null;
 
 	private boolean isActivated = false;
-	private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<ControlLoopOperation>();
+	private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
 	private ControlLoopOperationManager currentOperation = null;
-	private TargetLock targetLock = null;
+	private transient TargetLock targetLock = null;
 	
-	private static Collection<String> requiredAAIKeys = new ArrayList<String>();
+	private static Collection<String> requiredAAIKeys = new ArrayList<>();
 	static {
 		requiredAAIKeys.add("AICVServerSelfLink");
 		requiredAAIKeys.add("AICIdentity");
@@ -183,6 +183,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					yamlSpecification = decodedYaml;
 				}
 			} catch (UnsupportedEncodingException e) {
+				System.err.println("ControlLoopEventManager threw exception: " + e.getMessage());
 			}
 			//
 			// Parse the YAML specification
@@ -467,6 +468,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				return NEW_EVENT_STATUS.SYNTAX_ERROR;
 			}
 		} catch (ControlLoopException e) {
+			System.err.println("ControlLoopEventManager threw exception: " + e.getMessage());
 			return NEW_EVENT_STATUS.SYNTAX_ERROR;
 		}
 	}

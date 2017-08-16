@@ -32,13 +32,14 @@ public interface ControlLoopLogger {
 	
 	public static class Factory {
 		
-		public ControlLoopLogger buildLogger(String className) {
+		public ControlLoopLogger buildLogger(String className) throws ControlLoopException {
 			try {
 				Constructor<?> constr = Class.forName(className).getConstructor();
 				return (ControlLoopLogger) constr.newInstance();
 			} catch (Exception e) {
+				System.err.println("ControlLoopLogger threw: " + e.getMessage());
 				e.printStackTrace();
-				throw new RuntimeException("Cannot load class " + className);
+				throw new ControlLoopException("Cannot load class " + className);
 			}
 		}
 		

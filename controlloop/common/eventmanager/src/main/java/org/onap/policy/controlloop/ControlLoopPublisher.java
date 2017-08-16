@@ -28,13 +28,14 @@ public interface ControlLoopPublisher {
 	
 	public static class Factory {
 		
-		public ControlLoopPublisher buildLogger(String className) {
+		public ControlLoopPublisher buildLogger(String className) throws ControlLoopException {
 			try {
 				Constructor<?> constr = Class.forName(className).getConstructor();
 				return (ControlLoopPublisher) constr.newInstance();
 			} catch (Exception e) {
+				System.err.println("ControlLoopPublisher threw: " + e.getMessage());
 				e.printStackTrace();
-				throw new RuntimeException("Cannot load class " + className);
+				throw new ControlLoopException("Cannot load class " + className);
 			}
 		}
 		

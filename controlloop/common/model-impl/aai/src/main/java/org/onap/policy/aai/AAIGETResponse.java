@@ -32,7 +32,7 @@ public class AAIGETResponse implements Serializable {
 	private static final long serialVersionUID = 7311418432051756161L;
 	
 	@SerializedName("relationship-list")
-	public RelationshipList relationshipList;
+	public transient RelationshipList relationshipList;
 
 	public AAIGETResponse() {
 	}

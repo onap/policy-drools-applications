@@ -35,7 +35,7 @@ public class AAINQF199InstanceFilters implements Serializable {
 	private static final long serialVersionUID = 8993824591338121185L;
 	
 	@SerializedName("instance-filter")
-	public List<Map<String, Map<String, String>>> instanceFilter = new LinkedList<Map<String, Map<String, String>>>();
+	public transient List<Map<String, Map<String, String>>> instanceFilter = new LinkedList<Map<String, Map<String, String>>>();
 
 	public AAINQF199InstanceFilters() {
 	}

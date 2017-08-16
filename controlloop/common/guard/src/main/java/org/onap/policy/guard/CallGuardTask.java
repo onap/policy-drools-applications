@@ -59,7 +59,7 @@ public class CallGuardTask implements Runnable {
     	try {
     		request = RequestParser.parseRequest(xacmlReq);
 		} catch (IllegalArgumentException | IllegalAccessException | DataTypeException e) {
-			// TODO Auto-generated catch block
+			System.err.println("CallGuardTask Thread threw: " + e.getMessage());
 			e.printStackTrace();
 		} 
     	
