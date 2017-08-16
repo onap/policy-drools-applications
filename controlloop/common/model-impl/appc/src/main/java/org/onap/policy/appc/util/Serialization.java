@@ -25,6 +25,9 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -37,16 +40,17 @@ import com.google.gson.JsonSerializer;
 
 public final class Serialization {
 	
-	public static DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
+	public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
 	public static class gsonUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-
+		private static final Logger logger = LoggerFactory.getLogger(gsonUTCAdapter.class);
+		
 		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
 				throws JsonParseException {
 			try {
 				return ZonedDateTime.parse(element.getAsString(), format);
 			} catch (Exception e) {
-				System.err.println(e);
+				logger.error("deserialize threw: ", e);
 			}
 			return null;
 		}
