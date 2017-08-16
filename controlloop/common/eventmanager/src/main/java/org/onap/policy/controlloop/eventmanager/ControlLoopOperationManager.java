@@ -30,15 +30,15 @@ import javax.persistence.Persistence;
 
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ControlLoopOperationManager implements Serializable {
@@ -47,6 +47,7 @@ public class ControlLoopOperationManager implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3773199283624595410L;
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public String toString() {
@@ -63,13 +64,13 @@ public class ControlLoopOperationManager implements Serializable {
 	//
 	//public final ATTControlLoopEvent onset;
 	public final ControlLoopEvent onset;
-	public final Policy policy;
+	public final transient Policy policy;
 
 	//
 	// Properties used to track the Operation
 	//
 	private int attempts = 0;
-	private Operation currentOperation = null;
+	private transient Operation currentOperation = null;
 	private LinkedList<Operation> operationHistory = new LinkedList<Operation>();
 	private PolicyResult policyResult = null;
 	private ControlLoopEventManager eventManager = null;
@@ -99,7 +100,7 @@ public class ControlLoopOperationManager implements Serializable {
 	}
 	
 	private String guardApprovalStatus = "NONE";//"NONE", "PERMIT", "DENY"
-	private Object operationRequest;
+	private transient Object operationRequest;
 	
 	public Object getOperationRequest() {
 		return operationRequest;
@@ -449,7 +450,7 @@ public class ControlLoopOperationManager implements Serializable {
 		try{
 			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();//emf.createEntityManager();		
 		}catch(Exception e){
-			System.err.println("Test thread got Exception " + e.getLocalizedMessage() + " Can't write to Operations History DB.");
+			logger.error("storeOperationInDataBase threw: ", e);
 			return;	
 		}
 			

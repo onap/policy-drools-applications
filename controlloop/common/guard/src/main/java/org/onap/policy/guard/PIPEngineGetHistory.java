@@ -47,15 +47,16 @@ import com.att.research.xacml.api.Attribute;
 import com.att.research.xacml.api.AttributeValue;
 import com.att.research.xacml.api.Identifier;
 import com.att.research.xacml.std.datatypes.DataTypes;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
 public class PIPEngineGetHistory extends StdConfigurableEngine{
 
-	private Log logger							= LogFactory.getLog(this.getClass());
 	
+	private static Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
 	//private static EntityManager em;
 	
 	public static final String DEFAULT_DESCRIPTION		= "PIP for retrieving Operations History from DB";
@@ -88,7 +89,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		try {
 			attributeValue	= DataTypes.DT_INTEGER.createAttributeValue(value);
 		} catch (Exception ex) {
-			this.logger.error("Failed to convert " + value + " to an AttributeValue<Boolean>", ex);
+			this.logger.error("Failed to convert {} to an AttributeValue<Boolean>",value, ex);
 		}
 		if (attributeValue != null) {
 			stdPIPResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue, pipRequest.getIssuer()/*this.getIssuer()*/, false));
@@ -193,7 +194,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				pipResponse	= null;
 			}
 		} catch (PIPException ex) {
-			System.out.println("PIPException getting subject-id attribute: " + ex.getMessage());			
+			logger.error("getAttribute threw: ", ex);
 		}
 		return pipResponse;
 	}
@@ -295,29 +296,28 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		try{
 			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();
 		}catch(Exception e){
-			System.err.println("PIP thread got Exception " + e.getLocalizedMessage() + " Can't connect to Operations History DB.");
+			logger.error("getCountFromDB threw: ", e);
 			return -1;
 		}
 		
-		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard' and actor='"
-				+ actor
-				+ "' and operation='"
-				+ operation
-				+ "' and target='"
-				+ target
-				+ "' "
-				+ "and endtime between date_sub(now(),interval "
-				+ timeWindow
-				+ ") and now()";
-		
-		Query nq = em.createNativeQuery(sql);
+		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard'"
+				+ " and actor=:actor" 
+				+ " and operation=:operation" 
+				+ " and target=:target" 
+				+ " and endtime between date_sub(now(),interval :timeWindow) and now()"; 
+ 
+		Query nq = em.createNativeQuery(sql); 
+		nq = nq.setParameter("actor", actor); 
+		nq = nq.setParameter("operation", operation); 
+		nq = nq.setParameter("target", target); 
+		nq = nq.setParameter("timeWindow", timeWindow);
 		
 		int ret = -1;
 		try{
 			ret = ((Number)nq.getSingleResult()).intValue();
 		}
 		catch(NoResultException | NonUniqueResultException ex){
-			System.err.println("PIP thread got Exception " + ex.getLocalizedMessage());
+			logger.error("getCountFromDB threw: ", ex);
 			return -1;
 		}
 		
