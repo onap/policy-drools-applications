@@ -22,19 +22,24 @@ package org.onap.policy.controlloop;
 
 import java.lang.reflect.Constructor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public interface ControlLoopPublisher {
 	
 	public void 	publish(Object object);
 	
 	public static class Factory {
+		private Logger logger = LoggerFactory.getLogger(Factory.class);
 		
-		public ControlLoopPublisher buildLogger(String className) {
+				
+		public ControlLoopPublisher buildLogger(String className) throws ControlLoopException {
 			try {
 				Constructor<?> constr = Class.forName(className).getConstructor();
 				return (ControlLoopPublisher) constr.newInstance();
 			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Cannot load class " + className);
+				logger.error("{}: ControlLoopPublisher.buildLogger threw: ",this, e);
+				throw new ControlLoopException("Cannot load class " + className);
 			}
 		}
 		

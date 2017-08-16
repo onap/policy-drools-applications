@@ -73,7 +73,7 @@ public final class Serialization {
 	}
 	
 	public static class gsonUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-		public static DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
+		public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
 		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
 				throws JsonParseException {
