@@ -26,11 +26,15 @@ import java.util.Map;
 import org.onap.policy.mso.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonSyntaxException;
 
 public final class MSOManager {
 
+	private static final Logger logger = LoggerFactory.getLogger(MSOManager.class);
+	
 	public static MSOResponse createModuleInstance(String url, String urlBase, String username, String password, MSORequest request) {
 		
 		//
@@ -87,9 +91,9 @@ public final class MSOManager {
 				System.out.println("***** ########  VF Module Creation timeout. Status: ("+responseGet.request.requestStatus.requestState+")");
 				return responseGet;
 			} catch (JsonSyntaxException e) {
-				System.err.println("Failed to deserialize into MSOResponse" + e.getLocalizedMessage());
+				logger.error("Failed to deserialize into MSOResponse: ", e);
 			} catch (InterruptedException e) {
-				System.err.println("Interrupted exception: " + e.getLocalizedMessage());
+				logger.error("Interrupted exception: ", e);
 			}
 		}
 		
