@@ -146,7 +146,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>archetype-closedloop-demo-rules</artifactId>
+			<artifactId>archetype-cl-legacy</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>

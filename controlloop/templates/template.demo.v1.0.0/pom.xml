@@ -24,18 +24,17 @@
 	<modelVersion>4.0.0</modelVersion>
     
 	<artifactId>template.demo.v1.0.0</artifactId>
-    <packaging>pom</packaging>
+	<packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>templates</artifactId>
-	    <version>1.1.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.onap.policy.drools-applications</groupId>
+		<artifactId>templates</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
 
-    <modules>
-    	<module>archetype-closedloop-demo-rules</module>
-    	<module>template.demo</module>
-    </modules>
-
+	<modules>
+		<module>archetype-cl-legacy</module>
+		<module>template.demo</module>
+	</modules>
 
 </project>
