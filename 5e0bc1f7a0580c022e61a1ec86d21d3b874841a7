@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_cc023e0b",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T19:36:55Z",
+      "side": 1,
+      "message": "change to \n\nlogger.error(\"CallGuardTask.run threw: \", e);",
+      "revId": "5e0bc1f7a0580c022e61a1ec86d21d3b874841a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_87041116",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T19:36:55Z",
+      "side": 1,
+      "message": "replace these previous 2 lines with this one:\n\nlogger.error(\"unknown content-type: {} {}\", connection.getResponseCode(), connection.getResponseMessage() );",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 61
+      },
+      "revId": "5e0bc1f7a0580c022e61a1ec86d21d3b874841a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
