@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_0c2286b9",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ControlLoopPublisher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T19:11:11Z",
+      "side": 1,
+      "message": "should be static private static Logger logger ..\n\nThis is a general comment",
+      "revId": "7713888722154d1c522016bf81fe35f90da8192b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
