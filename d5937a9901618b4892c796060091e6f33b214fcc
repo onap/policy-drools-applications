@@ -45,6 +45,30 @@
       "revId": "d5937a9901618b4892c796060091e6f33b214fcc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_31bb6374",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSORequestParameters.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1645
+      },
+      "writtenOn": "2017-08-18T12:50:53Z",
+      "side": 1,
+      "message": "I believe sonar flags these as \u0027major\u0027 issues.",
+      "parentUuid": "9a437d4f_eecdfa5e",
+      "range": {
+        "startLine": 42,
+        "startChar": 76,
+        "endLine": 42,
+        "endChar": 90
+      },
+      "revId": "d5937a9901618b4892c796060091e6f33b214fcc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
