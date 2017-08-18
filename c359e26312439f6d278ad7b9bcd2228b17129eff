@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_cc4a3eac",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ControlLoopLogger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T17:57:08Z",
+      "side": 1,
+      "message": "remove {}, that needs one argument, this is a global, \"e\" can go by itself, does not need matching {}",
+      "revId": "c359e26312439f6d278ad7b9bcd2228b17129eff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
