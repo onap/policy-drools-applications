@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_2cdd4a71",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ControlLoopLogger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "I think \"this\" should be removed since there is no toString method defined, it will use the Object.toString() which is not meaningful.   The comment is to remove \"this\" as the parameter.",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0cda8678",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ControlLoopPublisher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "I think \"this\" should be removed since there is no toString method defined, it will use the Object.toString() which is not meaningful.   The comment is to remove \"this\".",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8c0af6d0",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "I don\u0027t think we can use transient at all since we may want to persist sessions, or in some cases for serialization of messages.",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_cce35e32",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "I think \"this\" should be removed since there is no toString method defined in this object, it will use the Object.toString() which is not meaningful.   The comment is to remove \"this\".",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6cca32a3",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "It would be good to convert all System.out to slf4j so all logging output goes to the same place.    We could create another user story for it.",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4ccf6eb1",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "I think you are missing this one",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ccba3e0a",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "Same comment, if there is not a suitable \"toString\" method, better not to pass the \"this\" to the first \"{}\".\n\nThe Policy*.class should be removed.",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ac37faaf",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "Missing System.err",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8c3c3695",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "Same comment as before with regards toString().   This is a general comment",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6c41120b",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardYamlToXacml.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "see previous comments",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4c464e25",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "same comments",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2c4b0a2d",
+        "filename": "controlloop/common/model-impl/appc/src/main/java/org/onap/policy/appc/util/Serialization.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "System.err missing",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0c48462c",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSOManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "System.out  should be using logger, for consistency on logging output",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ec54e2cb",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSOManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "same comments in .class and this",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6c58f2fa",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSORequestParameters.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "I am not sure if \"transient\" should be used.   I don\u0027t think so.",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2c72ea7c",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "better \n\nlogger.error(\"failed to POST to {}\", url, e)",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ec6bc283",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-18T15:42:01Z",
+      "side": 1,
+      "message": "general comments about transient",
+      "revId": "2e187bdfd1e1b87e9d04458866383f668b212cd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
