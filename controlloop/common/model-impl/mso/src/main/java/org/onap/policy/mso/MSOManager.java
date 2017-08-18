@@ -83,8 +83,9 @@ public final class MSOManager {
 					}
 					Thread.sleep(20000);
 				}
-				
-				System.out.println("***** ########  VF Module Creation timeout. Status: ("+responseGet.request.requestStatus.requestState+")");
+				if (responseGet.request.requestStatus.requestState != null) {
+					System.out.println("***** ########  VF Module Creation timeout. Status: ("+responseGet.request.requestStatus.requestState+")");
+				}	
 				return responseGet;
 			} catch (JsonSyntaxException e) {
 				System.err.println("Failed to deserialize into MSOResponse" + e.getLocalizedMessage());

@@ -63,8 +63,10 @@ public final class RESTManager {
 		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
 
 			HttpPost post = new HttpPost(url);
-			for (String key : headers.keySet()) {
-				post.addHeader(key, headers.get(key));
+			if (headers != null) {
+				for (String key : headers.keySet()) {
+					post.addHeader(key, headers.get(key));
+				}
 			}
 			post.addHeader("Content-Type", contentType);
 			
