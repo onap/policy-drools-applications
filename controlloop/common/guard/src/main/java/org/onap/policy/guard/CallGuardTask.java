@@ -23,13 +23,17 @@ package org.onap.policy.guard;
 import com.att.research.xacml.api.DataTypeException;
 import com.att.research.xacml.api.pdp.PDPEngine;
 import com.att.research.xacml.std.annotations.RequestParser;
+
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class CallGuardTask implements Runnable {
 	
+	private static final Logger logger = LoggerFactory.getLogger(CallGuardTask.class);
 	WorkingMemory workingMemory;
 	PDPEngine embeddedPdpEngine;
 	String restfulPdpUrl;
@@ -59,8 +63,7 @@ public class CallGuardTask implements Runnable {
     	try {
     		request = RequestParser.parseRequest(xacmlReq);
 		} catch (IllegalArgumentException | IllegalAccessException | DataTypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("CallGuardTask.run threw: ", e);
 		} 
     	
 		
