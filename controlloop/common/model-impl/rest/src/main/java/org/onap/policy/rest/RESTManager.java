@@ -67,8 +67,10 @@ public final class RESTManager {
 		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
 
 			HttpPost post = new HttpPost(url);
-			for (String key : headers.keySet()) {
-				post.addHeader(key, headers.get(key));
+			if (headers != null)  {
+				for (String key : headers.keySet()) {
+					post.addHeader(key, headers.get(key));
+				}
 			}
 			post.addHeader("Content-Type", contentType);
 			
@@ -100,16 +102,17 @@ public final class RESTManager {
 		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
 
 			HttpGet get = new HttpGet(url);
-			for (String key : headers.keySet()) {
-				get.addHeader(key, headers.get(key));
+			if (headers != null) {
+				for (String key : headers.keySet()) {
+					get.addHeader(key, headers.get(key));
+				}
 			}
 			
 			HttpResponse response = client.execute(get);
 			
 			String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-			System.out.println("HTTP GET Response Status Code: " + response.getStatusLine().getStatusCode());
-			System.out.println("HTTP GET Response Body:");
-			System.out.println(returnBody);
+			logger.debug("HTTP GET Response Status Code: " + response.getStatusLine().getStatusCode());
+			logger.debug("HTTP GET Response Body: " + returnBody);
 
 			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
 		} catch (IOException e) {

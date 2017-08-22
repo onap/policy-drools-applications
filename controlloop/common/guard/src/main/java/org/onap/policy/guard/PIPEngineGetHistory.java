@@ -189,8 +189,8 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				System.out.println("Error retrieving " + pipRequest.getAttributeId().stringValue() + ": " + pipResponse.getStatus().toString());
 				pipResponse	= null;
 			}
-			if (pipResponse.getAttributes().size() == 0) {
-				System.out.println("No value for " + pipRequest.getAttributeId().stringValue());
+			if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+				this.logger.debug("No value for " + pipRequest.getAttributeId().stringValue());
 				pipResponse	= null;
 			}
 		} catch (PIPException ex) {
