@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_e45196d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-22T11:38:25Z",
+      "side": 1,
+      "message": "Mike, move the JIRA ID to the extra reference section (eg. \"Issue-Id: POLICY-111\", which may need a clean up. See this wiki for more details on commit messages: https://wiki.onap.org/display/DW/Commit+Messages",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "740f9b0e2917ebf33470bf8e90d8a3eff1368fe8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c45e92e9",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-22T11:38:25Z",
+      "side": 1,
+      "message": "This will generate a sonar critical or something of the like. Its an easy change to pipResponse.getAttributes.isEmpty()",
+      "range": {
+        "startLine": 192,
+        "startChar": 46,
+        "endLine": 192,
+        "endChar": 85
+      },
+      "revId": "740f9b0e2917ebf33470bf8e90d8a3eff1368fe8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a4638eb0",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-22T11:38:25Z",
+      "side": 1,
+      "message": "Is there a logger for this class? Perhaps we should add as sonar will also flag that.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 14
+      },
+      "revId": "740f9b0e2917ebf33470bf8e90d8a3eff1368fe8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_84588afb",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-22T11:38:25Z",
+      "side": 1,
+      "message": "Use the logger for this instead please!!",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 23
+      },
+      "revId": "740f9b0e2917ebf33470bf8e90d8a3eff1368fe8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_645da6e9",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-22T11:38:25Z",
+      "side": 1,
+      "message": "Please use the logger, so sonar won\u0027t flag this.",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 116,
+        "endChar": 22
+      },
+      "revId": "740f9b0e2917ebf33470bf8e90d8a3eff1368fe8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
