@@ -57,7 +57,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 	
 	private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
-	//private static EntityManager em;
 	
 	public static final String DEFAULT_DESCRIPTION		= "PIP for retrieving Operations History from DB";
 	
@@ -89,7 +88,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		try {
 			attributeValue	= DataTypes.DT_INTEGER.createAttributeValue(value);
 		} catch (Exception ex) {
-			this.logger.error("Failed to convert {} to an AttributeValue<Boolean>",value, ex);
+			logger.error("Failed to convert {} to an AttributeValue<Boolean>",value, ex);
 		}
 		if (attributeValue != null) {
 			stdPIPResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue, pipRequest.getIssuer()/*this.getIssuer()*/, false));
@@ -120,22 +119,20 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	@Override
 	public PIPResponse getAttributes(PIPRequest pipRequest, PIPFinder pipFinder) throws PIPException {
 		// TODO Auto-generated method stub
-		System.out.println("Entering FeqLimiter PIP");
+		logger.debug("Entering FeqLimiter PIP");
 		
 		/*
 		 * First check to see if the issuer is set and then match it
 		 */
 		String string;
 		if ((string = pipRequest.getIssuer()) == null) {
-			this.logger.debug("No issuer in the request...");
-			System.out.println("FeqLimiter PIP - No issuer in the request!");
+			logger.debug("No issuer in the request...");
 			return StdPIPResponse.PIP_RESPONSE_EMPTY;
 		}
 		else{
 			//Notice, we are checking here for the base issuer prefix.
 			if (!string.contains(this.getIssuer())) {
-				this.logger.debug("Requested issuer '" + string + "' does not match " + (this.getIssuer() == null ? "null" : "'" + this.getIssuer() + "'"));
-				System.out.println("FeqLimiter PIP - Issuer "+ string +" does not match with: "+this.getIssuer());
+				logger.debug("Requested issuer '" + string + "' does not match " + (this.getIssuer() == null ? "null" : "'" + this.getIssuer() + "'"));
 				return StdPIPResponse.PIP_RESPONSE_EMPTY;
 			}
 		}
@@ -151,7 +148,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	
 		String timeWindow = timeWindowVal + " " + timeWindowScale;
 		
-		System.out.println("Going to query DB about: "+actor + " " + operation + " " + target + " " + timeWindow);
+		logger.debug("Going to query DB about: "+actor + " " + operation + " " + target + " " + timeWindow);
 		int countFromDB = getCountFromDB(actor, operation, target, timeWindow);
 		 
 		StdMutablePIPResponse stdPIPResponse	= new StdMutablePIPResponse();
@@ -186,11 +183,11 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		try {
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
 			if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
-				System.out.println("Error retrieving " + pipRequest.getAttributeId().stringValue() + ": " + pipResponse.getStatus().toString());
+				logger.debug("Error retrieving " + pipRequest.getAttributeId().stringValue() + ": " + pipResponse.getStatus().toString());
 				pipResponse	= null;
 			}
-			if (pipResponse.getAttributes().size() == 0) {
-				System.out.println("No value for " + pipRequest.getAttributeId().stringValue());
+			if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+				logger.debug("No value for {}", pipRequest.getAttributeId().stringValue());
 				pipResponse	= null;
 			}
 		} catch (PIPException ex) {
@@ -290,8 +287,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	
 	private static int getCountFromDB(String actor, String operation, String target, String timeWindow){
 		
-		//long startTime = System.nanoTime();
-	
 		EntityManager em;
 		try{
 			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();
@@ -321,10 +316,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			return -1;
 		}
 		
-		//System.out.println("###########************** History count: " + ret);
-		
-		//long estimatedTime = System.nanoTime() - startTime;
-		//System.out.println("time took: " + (double)estimatedTime/1000/1000 + " mili sec.");
 
 		em.close();
 		
