@@ -32,6 +32,8 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
+import org.onap.policy.vfc.VFCRequest;
+import org.onap.policy.vfc.VFCManager;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
@@ -491,6 +493,14 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 					if (request instanceof Request) {
 						Engine.deliver("UEB", "APPC-CL", request);
 					}
+				 case "VFC":
+                                   if (request instanceof VFCRequest) {
+                                       // Start VFC thread
+                                       Thread t = new Thread(new org.onap.policy.vfc.VFCManager(request));
+                                       t.start();
+                                   }
+                                   break;
+
 				case "SDNR":
 				default:
 			}
