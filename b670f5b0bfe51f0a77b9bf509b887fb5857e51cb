@@ -140,6 +140,23 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_d0a9a87c",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-23T17:58:35Z",
+      "side": 1,
+      "message": "usually loggers should be \"static final\" in the declarations, so should not be accessed by \"this.\", can you check out if this is the case and if so, remove \"this.\" from it.",
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_30959440",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
         "patchSetId": 3
@@ -163,6 +180,23 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_70b0bcdd",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-23T17:58:35Z",
+      "side": 1,
+      "message": "use instead:\n\nlogger.debug(\"No value for {}\", pipRequest.getAttributeId().stringValue());",
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_307c7420",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
         "patchSetId": 3
@@ -180,6 +214,40 @@
         "endLine": 293,
         "endChar": 39
       },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f0c38c36",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSOManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-23T17:58:35Z",
+      "side": 1,
+      "message": "Do you have to check that \n\nresponseGet.request !\u003d null  \u0026\u0026\nresponseGet.request.requestStatus !\u003d null \n\nin same condition, just a question",
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b0886423",
+        "filename": "controlloop/common/model-impl/mso/src/main/java/org/onap/policy/mso/MSOManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-23T17:58:35Z",
+      "side": 1,
+      "message": "if you can do instead:\n\nlogger.warn(\"***** ########  VF Module Creation timeout. Status: ( {})\", responseGet.request.requestStatus.requestState);\n\nis better.\n\nNote also the severity, I think it is an abnormal circumstance.",
       "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
