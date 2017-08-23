@@ -37,6 +37,7 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
+import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,7 +133,7 @@ public class ControlLoopOperationManager implements Serializable {
 			break;
 		case "SDNO":
 			break;
-		case "SDNR":
+		case "VFC":
 			break;
 		default:
 			throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
@@ -212,6 +213,11 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			System.out.println("We are not supporting MSO actor in the latest release.");
 			return null;
+		case "VFC":
+                        this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy);
+                        this.currentOperation = operation;
+                        return operationRequest;
+
 		}
 		return null;
 	}

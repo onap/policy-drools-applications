@@ -96,6 +96,12 @@
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
+                <dependency>
+                        <groupId>org.onap.policy.drools-applications</groupId>
+                        <artifactId>vfc</artifactId>
+                        <version>${project.version}</version>
+                        <type>jar</type>
+                </dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>aai</artifactId>
