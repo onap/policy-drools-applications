@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_1079702f",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "removing this can help us remove a sonar major/minor. I know its a little out of scope, but midaswell snag these as we go along.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d09be870",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "convert to logger",
+      "range": {
+        "startLine": 123,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 12
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7082fc01",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "no need for this.",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 8
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_908d6034",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "convert to logger",
+      "range": {
+        "startLine": 131,
+        "startChar": 3,
+        "endLine": 131,
+        "endChar": 13
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f09eec62",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "no need for \"this\"",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 9
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_10929057",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "convert to logger",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 22
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30959440",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "Probably don\u0027t need the this since it is static final. Let\u0027s make sure all the System.out message use the logger. It will save us sonar flags.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 9
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_307c7420",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-23T17:48:54Z",
+      "side": 1,
+      "message": "getting rid of this may remove a sonar major/minor nit.",
+      "range": {
+        "startLine": 293,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 39
+      },
+      "revId": "b670f5b0bfe51f0a77b9bf509b887fb5857e51cb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
