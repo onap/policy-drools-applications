@@ -33,9 +33,11 @@ import org.onap.policy.mso.MSORequestDetails;
 import org.onap.policy.mso.MSORequestInfo;
 import org.onap.policy.mso.MSORequestParameters;
 import org.onap.policy.mso.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestDemo {
-
+	private static final Logger logger = LoggerFactory.getLogger(TestDemo.class);
 	@Test
 	public void test() {
 		
@@ -102,19 +104,19 @@ public class TestDemo {
 		request.requestDetails.requestParameters.userParams.add(userParam2);
 		
 		String body = Serialization.gsonPretty.toJson(request);
-		System.out.println(body);
+		logger.debug(body);
 		
 		//MSOResponse response = MSOManager.createModuleInstance("http://localhost:7780/", "my_username", "my_passwd", request);
 		
 		//body = Serialization.gsonPretty.toJson(response);
-		//System.out.println(body);
+		//logger.debug(body);
 		
 	}
 	
 	@Test
 	public void testHack() {
 		
-		System.out.println("**  HACK  **");
+		logger.debug("**  HACK  **");
 		
 		MSORequest request = new MSORequest();
 		//
@@ -166,7 +168,7 @@ public class TestDemo {
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement2);
 		
 		String body = Serialization.gsonPretty.toJson(request);
-		System.out.println(body);
+		logger.debug(body);
 	}
 
 }

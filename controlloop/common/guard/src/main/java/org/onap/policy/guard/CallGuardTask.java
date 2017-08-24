@@ -63,19 +63,19 @@ public class CallGuardTask implements Runnable {
     	try {
     		request = RequestParser.parseRequest(xacmlReq);
 		} catch (IllegalArgumentException | IllegalAccessException | DataTypeException e) {
-			logger.error("CallGuardTask.run threw: ", e);
+			logger.error("CallGuardTask.run threw: {}", e);
 		} 
     	
 		
-  		System.out.println("\n********** XACML REQUEST START ********");
-		System.out.println(request);
-		System.out.println("********** XACML REQUEST END ********\n");
+  		logger.debug("\n********** XACML REQUEST START ********");
+		logger.debug(request.toString());
+		logger.debug("********** XACML REQUEST END ********\n");
 		
 		com.att.research.xacml.api.Response xacmlResponse = PolicyGuardXacmlHelper.callPDP(embeddedPdpEngine, "", request, false);
 		
-		System.out.println("\n********** XACML RESPONSE START ********");
-		System.out.println(xacmlResponse);
-		System.out.println("********** XACML RESPONSE END ********\n");
+		logger.debug("\n********** XACML RESPONSE START ********");
+		logger.debug(xacmlResponse.toString());
+		logger.debug("********** XACML RESPONSE END ********\n");
 						
 		PolicyGuardResponse guardResponse = PolicyGuardXacmlHelper.ParseXacmlPdpResponse(xacmlResponse);
 		
@@ -88,7 +88,8 @@ public class CallGuardTask implements Runnable {
 		}
 		
 		long estimatedTime = System.nanoTime() - startTime;
-		System.out.println("\n\n============ Guard inserted with decision "+ guardResponse.result + " !!! =========== time took: " +(double)estimatedTime/1000/1000 +" mili sec \n\n");
+		logger.debug("\n\n============ Guard inserted with decision {} !!! =========== time took: {} mili sec \n\n",
+				guardResponse.result, (double)estimatedTime/1000/1000);
 		workingMemory.insert(guardResponse);
 
     }

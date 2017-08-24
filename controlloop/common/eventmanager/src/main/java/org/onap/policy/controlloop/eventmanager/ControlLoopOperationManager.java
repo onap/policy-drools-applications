@@ -210,7 +210,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			// We are not supporting MSO interface at the moment
 			//
-			System.out.println("We are not supporting MSO actor in the latest release.");
+			logger.debug("We are not supporting MSO actor in the latest release.");
 			return null;
 		}
 		return null;
@@ -309,10 +309,10 @@ public class ControlLoopOperationManager implements Serializable {
 		// Sanity check
 		//
 		if (this.policy == null) {
-			System.out.println("getOperationTimeout returning 0");
+			logger.debug("getOperationTimeout returning 0");
 			return 0;
 		}
-		System.out.println("getOperationTimeout returning " + this.policy.getTimeout());
+		logger.debug("getOperationTimeout returning {}", this.policy.getTimeout());
 		return this.policy.getTimeout();
 	}
 	
@@ -479,7 +479,7 @@ public class ControlLoopOperationManager implements Serializable {
 	
 	private void	completeOperation(Integer attempt, String message, PolicyResult result) {
 		if (attempt == null) {
-			System.out.println("attempt cannot be null (i.e. subRequestID)");
+			logger.debug("attempt cannot be null (i.e. subRequestID)");
 			return;
 		}
 		if (this.currentOperation != null) {
@@ -503,7 +503,7 @@ public class ControlLoopOperationManager implements Serializable {
 				this.currentOperation = null;
 				return;
 			}
-			System.out.println("not current");
+			logger.debug("not current");
 		}
 		for (Operation op : this.operationHistory) {
 			if (op.attempt == attempt.intValue()) {
@@ -514,7 +514,7 @@ public class ControlLoopOperationManager implements Serializable {
 				return;
 			}
 		}
-		System.out.println("Could not find associated operation");
+		logger.debug("Could not find associated operation");
 		
 	}
 	
