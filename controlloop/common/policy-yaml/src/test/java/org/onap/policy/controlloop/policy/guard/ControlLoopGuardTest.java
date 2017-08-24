@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -36,7 +38,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 
 public class ControlLoopGuardTest {
-	
+	private static final Logger logger = LoggerFactory.getLogger(ControlLoopGuardTest.class);
 	@Test 
 	public void testGuardvDNS() {
 		this.test("src/test/resources/v2.0.0-guard/policy_guard_ONAP_demo_vDNS.yaml");
@@ -66,7 +68,7 @@ public class ControlLoopGuardTest {
 			options.setPrettyFlow(true);
 			yaml = new Yaml(options);
 			String dumpedYaml = yaml.dump(obj);
-			System.out.println(dumpedYaml);
+			logger.debug(dumpedYaml);
 			//
 			// Read that string back into our java object
 			//
@@ -87,7 +89,7 @@ public class ControlLoopGuardTest {
 	}
 	
 	public void dump(Object obj) {
-		System.out.println("Dumping " + obj.getClass().getCanonicalName());
-		System.out.println(obj.toString());
+		logger.debug("Dumping {}", obj.getClass().getCanonicalName());
+		logger.debug("{}", obj);
 	}
 }

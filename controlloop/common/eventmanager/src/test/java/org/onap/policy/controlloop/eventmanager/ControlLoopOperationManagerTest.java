@@ -42,9 +42,11 @@ import org.onap.policy.controlloop.Util;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ControlLoopOperationManagerTest {
-	
+	private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationManagerTest.class);
 	private static VirtualControlLoopEvent onset;
 	static {
 		onset = new VirtualControlLoopEvent();
@@ -77,7 +79,7 @@ public class ControlLoopOperationManagerTest {
 			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
 
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			//
 			//
 			//
@@ -87,7 +89,7 @@ public class ControlLoopOperationManagerTest {
 			// Start
 			//
 			Object request = manager.startOperation(onset);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertNotNull(request);
 			assertTrue(request instanceof Request);
 			assertTrue(((Request)request).CommonHeader.SubRequestID.contentEquals("1"));
@@ -103,7 +105,7 @@ public class ControlLoopOperationManagerTest {
 			//
 			//
 			PolicyResult result = manager.onResponse(response);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertTrue(result == null);
 			assertFalse(manager.isOperationComplete());
 			assertTrue(manager.isOperationRunning());
@@ -115,7 +117,7 @@ public class ControlLoopOperationManagerTest {
 			response.Status.Value = ResponseValue.FAILURE.toString();
 			response.Status.Description = "AppC failed for some reason";
 			result = manager.onResponse(response);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertTrue(result.equals(PolicyResult.FAILURE));
 			assertFalse(manager.isOperationComplete());
 			assertFalse(manager.isOperationRunning());
@@ -123,7 +125,7 @@ public class ControlLoopOperationManagerTest {
 			// Retry it
 			//
 			request = manager.startOperation(onset);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertNotNull(request);
 			assertTrue(request instanceof Request);
 			assertTrue(((Request)request).CommonHeader.SubRequestID.contentEquals("2"));
@@ -133,14 +135,14 @@ public class ControlLoopOperationManagerTest {
 			// 
 			//
 			response = new Response((Request) request);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			response.Status.Code = ResponseCode.ACCEPT.getValue();
 			response.Status.Value = ResponseValue.ACCEPT.toString();
 			//
 			//
 			//
 			result = manager.onResponse(response);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertTrue(result == null);
 			assertFalse(manager.isOperationComplete());
 			assertTrue(manager.isOperationRunning());
@@ -152,7 +154,7 @@ public class ControlLoopOperationManagerTest {
 			response.Status.Value = ResponseValue.FAILURE.toString();
 			response.Status.Description = "AppC failed for some reason";
 			result = manager.onResponse(response);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertTrue(result.equals(PolicyResult.FAILURE));
 			//
 			// Should be complete now
@@ -188,14 +190,14 @@ public class ControlLoopOperationManagerTest {
 			//
 			//
 			//
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertFalse(manager.isOperationComplete());
 			assertFalse(manager.isOperationRunning());
 			//
 			// Start
 			//
 			Object request = manager.startOperation(onset);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertNotNull(request);
 			assertTrue(request instanceof Request);
 			assertTrue(((Request)request).CommonHeader.SubRequestID.contentEquals("1"));
@@ -211,7 +213,7 @@ public class ControlLoopOperationManagerTest {
 			//
 			//
 			PolicyResult result = manager.onResponse(response);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertTrue(result == null);
 			assertFalse(manager.isOperationComplete());
 			assertTrue(manager.isOperationRunning());
@@ -219,7 +221,7 @@ public class ControlLoopOperationManagerTest {
 			// Now we are going to simulate Timeout
 			//
 			manager.setOperationHasTimedOut();
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			assertTrue(manager.isOperationComplete());
 			assertFalse(manager.isOperationRunning());
 			assertTrue(manager.getHistory().size() == 1);
@@ -232,7 +234,7 @@ public class ControlLoopOperationManagerTest {
 			response.Status.Value = ResponseValue.FAILURE.toString();
 			response.Status.Description = "AppC failed for some reason";
 			result = manager.onResponse(response);
-			System.out.println(manager);
+			logger.debug("{}",manager);
 			//
 			//
 			//

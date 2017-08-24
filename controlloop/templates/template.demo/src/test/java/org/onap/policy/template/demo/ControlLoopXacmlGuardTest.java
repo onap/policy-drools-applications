@@ -78,6 +78,8 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuardYamlToXacml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.att.research.xacml.api.pdp.PDPEngine;
 import com.att.research.xacml.api.pdp.PDPEngineFactory;
 import com.att.research.xacml.util.FactoryException;
@@ -87,7 +89,7 @@ import com.att.research.xacml.util.XACMLProperties;
 
 
 public class ControlLoopXacmlGuardTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(ControlLoopXacmlGuardTest.class);
 	
 	@Ignore
 	@Test
@@ -130,9 +132,9 @@ public class ControlLoopXacmlGuardTest {
 		
 		
 		
-		System.out.println("============");
-		System.out.println(URLEncoder.encode(pair.b, "UTF-8"));
-		System.out.println("============");
+		logger.debug("============");
+		logger.debug(URLEncoder.encode(pair.b, "UTF-8"));
+		logger.debug("============");
 		
 		
 		kieSession.addEventListener(new RuleRuntimeEventListener() {
@@ -153,7 +155,7 @@ public class ControlLoopXacmlGuardTest {
 
 			@Override
 			public void matchCreated(MatchCreatedEvent event) {
-				//System.out.println("matchCreated: " + event.getMatch().getRule());
+				//logger.debug("matchCreated: " + event.getMatch().getRule());
 			}
 
 			@Override
@@ -162,7 +164,7 @@ public class ControlLoopXacmlGuardTest {
 
 			@Override
 			public void beforeMatchFired(BeforeMatchFiredEvent event) {
-				//System.out.println("beforeMatchFired: " + event.getMatch().getRule() + event.getMatch().getObjects());
+				//logger.debug("beforeMatchFired: " + event.getMatch().getRule() + event.getMatch().getObjects());
 			}
 
 			@Override
@@ -223,7 +225,6 @@ public class ControlLoopXacmlGuardTest {
 		//
 		// Insert our globals
 		//
-		final ControlLoopLogger logger = new ControlLoopLoggerStdOutImpl();
 		kieSession.setGlobal("Logger", logger);
 		final PolicyEngineJUnitImpl engine = new PolicyEngineJUnitImpl();
 		kieSession.setGlobal("Engine", engine);
@@ -284,8 +285,8 @@ public class ControlLoopXacmlGuardTest {
 					// "About to query Guard" notification (Querying about Restart)
 					obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 					assertNotNull(obj);
-					System.out.println("\n\n####################### GOING TO QUERY GUARD about Restart!!!!!!");
-					System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+					logger.debug("\n\n####################### GOING TO QUERY GUARD about Restart!!!!!!");
+					logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
 					assertTrue(obj instanceof VirtualControlLoopNotification);
 					assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 				
@@ -293,7 +294,7 @@ public class ControlLoopXacmlGuardTest {
 					// "Response from Guard" notification
 					obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 					assertNotNull(obj);
-					System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+					logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
 					assertTrue(obj instanceof VirtualControlLoopNotification);
 					assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 				
@@ -303,8 +304,8 @@ public class ControlLoopXacmlGuardTest {
 						// "About to query Guard" notification (Querying about Rebuild)
 						obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 						assertNotNull(obj);
-						System.out.println("\n\n####################### GOING TO QUERY GUARD about Rebuild!!!!!!");
-						System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+						logger.debug("\n\n####################### GOING TO QUERY GUARD about Rebuild!!!!!!");
+						logger.debug("Rule: {} Message", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
 						assertTrue(obj instanceof VirtualControlLoopNotification);
 						assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 					
@@ -313,7 +314,7 @@ public class ControlLoopXacmlGuardTest {
 						// "Response from Guard" notification
 						obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 						assertNotNull(obj);
-						System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+						logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
 						assertTrue(obj instanceof VirtualControlLoopNotification);
 						assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 						
@@ -323,8 +324,8 @@ public class ControlLoopXacmlGuardTest {
 							// "About to query Guard" notification (Querying about Migrate)
 							obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 							assertNotNull(obj);
-							System.out.println("\n\n####################### GOING TO QUERY GUARD!!!!!!");
-							System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+							logger.debug("\n\n####################### GOING TO QUERY GUARD!!!!!!");
+							logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
 							assertTrue(obj instanceof VirtualControlLoopNotification);
 							assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 							
@@ -333,7 +334,7 @@ public class ControlLoopXacmlGuardTest {
 							// "Response from Guard" notification
 							obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 							assertNotNull(obj);
-							System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+							logger.debug("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
 							assertTrue(obj instanceof VirtualControlLoopNotification);
 							assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 							
@@ -352,7 +353,7 @@ public class ControlLoopXacmlGuardTest {
 					if(true == ((VirtualControlLoopNotification)obj).message.contains("Guard result: Permit")){
 						obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 						assertNotNull(obj);
-						System.out.println("Rule: " + ((VirtualControlLoopNotification)obj).policyName +" Message: " + ((VirtualControlLoopNotification)obj).message);
+						logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
 						assertTrue(obj instanceof VirtualControlLoopNotification);
 						assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 						
@@ -363,7 +364,7 @@ public class ControlLoopXacmlGuardTest {
 						assertTrue(obj instanceof Request);
 						assertTrue(((Request)obj).CommonHeader.SubRequestID.equals("1"));
 						
-						System.out.println("\n============ APP-C Got request!!! ===========\n");
+						logger.debug("\n============ APP-C Got request!!! ===========\n");
 						//
 						// Ok - let's simulate ACCEPT
 						//
@@ -403,12 +404,12 @@ public class ControlLoopXacmlGuardTest {
 					
 					
 				} catch (InterruptedException e) {
-					System.err.println("Test thread got InterruptedException " + e.getLocalizedMessage());
+					logger.error("Test thread got InterruptedException ", e.getLocalizedMessage());
 				} catch (AssertionError e) {
-					System.err.println("Test thread got AssertionError " + e.getLocalizedMessage());
+					logger.error("Test thread got AssertionError ", e.getLocalizedMessage());
 					e.printStackTrace();
 				} catch (Exception e) {
-					System.err.println("Test thread got Exception " + e.getLocalizedMessage());
+					logger.error("Test thread got Exception ", e.getLocalizedMessage());
 					e.printStackTrace();
 				}
 				kieSession.halt();
@@ -438,9 +439,9 @@ public class ControlLoopXacmlGuardTest {
 	
 	
 	public static void dumpFacts(KieSession kieSession) {
-		System.out.println("Fact Count: " + kieSession.getFactCount());
+		logger.debug("Fact Count: {}", kieSession.getFactCount());
 		for (FactHandle handle : kieSession.getFactHandles()) {
-			System.out.println("FACT: " + handle);
+			logger.debug("FACT: {}", handle);
 		}
 	}
 
@@ -560,7 +561,7 @@ public class ControlLoopXacmlGuardTest {
 		p = Pattern.compile("\\$\\{controlLoopYaml\\}");
 		m = p.matcher(ruleContents);
 		ruleContents = m.replaceAll(controlLoopYaml);
-		System.out.println(ruleContents);
+		logger.debug(ruleContents);
 
 		return ruleContents;
 	}
@@ -573,7 +574,7 @@ public class ControlLoopXacmlGuardTest {
         
         KieModuleModel kModule = ks.newKieModuleModel();
         
-        System.out.println("KMODULE:" + System.lineSeparator() + kModule.toXML());
+        logger.debug("KMODULE: {} {}", System.lineSeparator(), kModule.toXML());
         
         //
         // Generate our drools rule from our template
@@ -600,18 +601,18 @@ public class ControlLoopXacmlGuardTest {
         Results results = builder.getResults();
         if (results.hasMessages(Message.Level.ERROR)) {
         	for (Message msg : results.getMessages()) {
-        		System.err.println(msg.toString());
+        		logger.error("{}", msg);
         	}
     		throw new RuntimeException("Drools Rule has Errors");
         }
     	for (Message msg : results.getMessages()) {
-    		System.out.println(msg.toString());
+    		logger.debug("{}", msg);
     	}
     	//
     	// Create our kie Session and container
     	//
         ReleaseId releaseId = ks.getRepository().getDefaultReleaseId();
-        System.out.println(releaseId);
+        logger.debug("{}", releaseId);
 	    KieContainer kContainer = ks.newKieContainer(releaseId);
 	    
 	    return kContainer.newKieSession();

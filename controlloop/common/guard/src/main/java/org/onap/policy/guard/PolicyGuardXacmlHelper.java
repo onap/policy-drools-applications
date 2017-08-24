@@ -61,7 +61,7 @@ public class PolicyGuardXacmlHelper {
 				//
 				response = (com.att.research.xacml.api.Response) callRESTfulPDP(new ByteArrayInputStream(jsonString.getBytes()), new URL(restfulPdpUrl/*"https://localhost:8443/pdp/"*/));
 			} catch (Exception e) {
-				System.err.println("Error in sending RESTful request: " + e);
+				logger.error("Error in sending RESTful request: ", e);
 			}
 		} else if(xacmlEmbeddedPdpEngine != null){
 			//
@@ -71,10 +71,10 @@ public class PolicyGuardXacmlHelper {
 			try {
 				response = (com.att.research.xacml.api.Response) xacmlEmbeddedPdpEngine.decide((com.att.research.xacml.api.Request) request);
 			} catch (PDPException e) {
-				System.err.println(e);
+				logger.error(e.getMessage());
 			}
 			long lTimeEnd = System.currentTimeMillis();
-			System.out.println("Elapsed Time: " + (lTimeEnd - lTimeStart) + "ms");
+			logger.debug("Elapsed Time: {} ms", (lTimeEnd - lTimeStart));
 		}
 		return response;
 	}
@@ -178,16 +178,13 @@ public class PolicyGuardXacmlHelper {
 			while(it_attr.hasNext()){
 				Attribute current_attr = it_attr.next();
 				String s = current_attr.getAttributeId().stringValue();
-				//System.out.println("ATTR ID = " + s);
 				if(s.equals("urn:oasis:names:tc:xacml:1.0:request:request-id")){
 					Iterator<AttributeValue<?>> it_values = current_attr.getValues().iterator();
 					req_id_from_xacml_response = UUID.fromString(it_values.next().getValue().toString());
-					//System.out.println("UUID = " + req_id_from_xacml_response);
 				}
 				if(s.equals("urn:oasis:names:tc:xacml:1.0:operation:operation-id")){
 					Iterator<AttributeValue<?>> it_values = current_attr.getValues().iterator();
 					operation_from_xacml_response = it_values.next().getValue().toString();
-					//System.out.println("OPERATION = " + operation_from_xacml_response);
 				}
 				
 			}

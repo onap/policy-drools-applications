@@ -28,29 +28,32 @@ import java.util.Queue;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.onap.policy.drools.PolicyEngine;
 
 public class PolicyEngineJUnitImpl implements PolicyEngine {
 
+	private static final Logger logger = LoggerFactory.getLogger(PolicyEngineJUnitImpl.class);
 	private Map<String, Map<String, Queue<Object>>> busMap = new HashMap<String, Map<String, Queue<Object>>>();
 
 	@Override
 	public boolean deliver(String busType, String topic, Object obj) {
 		if (obj instanceof ControlLoopNotification) {
 			ControlLoopNotification notification = (ControlLoopNotification) obj;
-			//System.out.println("Notification: " + notification.notification + " " + (notification.message == null ? "" : notification.message) + " " + notification.history);
-			System.out.println(Serialization.gsonPretty.toJson(notification));
+			//logger.debug("Notification: " + notification.notification + " " + (notification.message == null ? "" : notification.message) + " " + notification.history);
+			logger.debug(Serialization.gsonPretty.toJson(notification));
 		}
 		if (obj instanceof Request) {
 			Request request = (Request) obj;
-			System.out.println("Request: " + request.Action + " subrequest " + request.CommonHeader.SubRequestID);
+			logger.debug("Request: {} subrequst {}", request.Action, request.CommonHeader.SubRequestID);
 		}
 		//
 		// Does the bus exist?
 		//
 		if (busMap.containsKey(busType) == false) {
-			System.out.println("creating new bus type " + busType);
+			logger.debug("creating new bus type {}", busType);
 			//
 			// Create the bus
 			//
@@ -64,7 +67,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		// Does the topic exist?
 		//
 		if (topicMap.containsKey(topic) == false) {
-			System.out.println("creating new topic " + topic);
+			logger.debug("creating new topic {}", topic);
 			//
 			// Create the topic
 			//
@@ -73,7 +76,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		//
 		// Get the topic queue
 		//
-		System.out.println("queueing");
+		logger.debug("queueing");
 		return topicMap.get(topic).add(obj);
 	}
 	
@@ -90,13 +93,13 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 			// Does the topic exist?
 			//
 			if (topicMap.containsKey(topic)) {
-				System.out.println("The queue has " + topicMap.get(topic).size());
+				logger.debug("The queue has {}", topicMap.get(topic).size());
 				return topicMap.get(topic).poll();
 			} else {
-				System.err.println("No topic exists " + topic);
+				logger.error("No topic exists {}", topic);
 			}
 		} else {
-			System.err.println("No bus exists " + busType);
+			logger.error("No bus exists {}", busType);
 		}
 		return null;
 	}

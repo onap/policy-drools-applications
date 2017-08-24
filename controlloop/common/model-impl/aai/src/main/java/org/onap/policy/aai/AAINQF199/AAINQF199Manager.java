@@ -48,13 +48,13 @@ public final class AAINQF199Manager {
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
 
 		if (httpDetails == null) {
-			System.out.println("AAI POST Null Response to " + url);
+			logger.debug("AAI POST Null Response to {}", url);
 			return null;
 		}
 		
-		System.out.println(url);
-		System.out.println(httpDetails.a);
-		System.out.println(httpDetails.b);
+		logger.debug(url);
+		logger.debug("{}", httpDetails.a);
+		logger.debug("{}", httpDetails.b);
 		if (httpDetails.a == 200) {
 			try {
 				AAINQF199Response response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQF199Response.class);
@@ -83,13 +83,13 @@ public final class AAINQF199Manager {
 		
 			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 			if (httpDetailsGet == null) {
-				System.out.println("AAI GET Null Response to " + urlGet);
+				logger.debug("AAI GET Null Response to {}", urlGet);
 				return null;
 			}
 			
-			System.out.println(urlGet);
-			System.out.println(httpDetailsGet.a);
-			System.out.println(httpDetailsGet.b);
+			logger.debug(urlGet);
+			logger.debug("{}", httpDetailsGet.a);
+			logger.debug("{}", httpDetailsGet.b);
 			
 			if (httpDetailsGet.a == 200) {
 				try {

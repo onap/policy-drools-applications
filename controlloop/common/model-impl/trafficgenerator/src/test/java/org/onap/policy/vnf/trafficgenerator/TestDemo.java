@@ -26,9 +26,11 @@ import org.onap.policy.vnf.trafficgenerator.PGRequest;
 import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;
 import org.onap.policy.vnf.trafficgenerator.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestDemo {
-
+	private static final Logger logger = LoggerFactory.getLogger(TestDemo.class);
 	@Test
 	public void test() {
 		PGRequest request = new PGRequest();
@@ -43,7 +45,7 @@ public class TestDemo {
 		}
 				
 		String body = Serialization.gsonPretty.toJson(request);
-		System.out.println(body);
+		logger.debug(body);
 		
 		// fail("Not yet implemented");
 	}

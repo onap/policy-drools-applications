@@ -60,8 +60,8 @@ public final class MSOManager {
 				MSOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, MSOResponse.class);
 				
 				String body = Serialization.gsonPretty.toJson(response);
-				System.out.println("***** Response to post:");
-				System.out.println(body);
+				logger.debug("***** Response to post:");
+				logger.debug(body);
 				
 				String requestId = response.requestReferences.requestId;
 				int attemptsLeft = 20;
@@ -75,24 +75,26 @@ public final class MSOManager {
 					Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, MSOResponse.class);
 					body = Serialization.gsonPretty.toJson(responseGet);
-					System.out.println("***** Response to get:");
-					System.out.println(body);
+					logger.debug("***** Response to get:");
+					logger.debug(body);
 					
 					if(httpDetailsGet.a == 200){
 						if(responseGet.request.requestStatus.requestState.equalsIgnoreCase("COMPLETE") || 
 								responseGet.request.requestStatus.requestState.equalsIgnoreCase("FAILED")){
-							System.out.println("***** ########  VF Module Creation "+responseGet.request.requestStatus.requestState);
+							logger.debug("***** ########  VF Module Creation "+responseGet.request.requestStatus.requestState);
 							return responseGet;
 						}
 					}
 					Thread.sleep(20000);
 				}
+
 				if (responseGet != null
 				 && responseGet.request != null
 				 &&	responseGet.request.requestStatus != null
 				 && responseGet.request.requestStatus.requestState != null) {
 					logger.warn("***** ########  VF Module Creation timeout. Status: ( {})", responseGet.request.requestStatus.requestState);
 				}
+
 				return responseGet;
 			} catch (JsonSyntaxException e) {
 				logger.error("Failed to deserialize into MSOResponse: ", e);

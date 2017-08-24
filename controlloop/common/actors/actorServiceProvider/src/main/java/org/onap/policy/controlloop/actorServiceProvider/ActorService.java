@@ -24,10 +24,13 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableList;
 
 public class ActorService {
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
 	private static ActorService service;
 	
 	private ServiceLoader<Actor> loader;
@@ -45,9 +48,9 @@ public class ActorService {
 	
 	public ImmutableList<Actor> actors() {
 		Iterator<Actor> iter = loader.iterator();
-		System.out.println("returning actors");
+		logger.debug("returning actors");
 		while (iter.hasNext()) {
-			System.out.println("Got " + iter.next().actor());
+			logger.debug("Got {}", iter.next().actor());
 		}
 		
 		return ImmutableList.copyOf(loader.iterator());

@@ -55,14 +55,14 @@ public final class RESTManager {
 		CredentialsProvider credentials = new BasicCredentialsProvider();
 		credentials.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
 		
-		System.out.println("HTTP REQUEST: " + url + " -> " + username + ((password!=null)?password.length():"-") + " -> " + contentType);
+		logger.debug("HTTP REQUEST: {} -> {} {} -> {}", url, username, ((password!=null)?password.length():"-"), contentType);
 		if (headers != null) {
-			System.out.println("Headers: ");
+			logger.debug("Headers: ");
 			headers.forEach((name, value) -> {
-			    System.out.println(name + " -> " + value);
+			    logger.debug("{} -> {}", name, value);
 			});
 		}
-		System.out.println(body);
+		logger.debug(body);
 		
 		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
 
@@ -81,9 +81,9 @@ public final class RESTManager {
 			HttpResponse response = client.execute(post);
 			
 			String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-			System.out.println("HTTP POST Response Status Code: " + response.getStatusLine().getStatusCode());
-			System.out.println("HTTP POST Response Body:");
-			System.out.println(returnBody);
+			logger.debug("HTTP POST Response Status Code: {}", response.getStatusLine().getStatusCode());
+			logger.debug("HTTP POST Response Body:");
+			logger.debug(returnBody);
 
 			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
 		} catch (IOException e) {
@@ -111,8 +111,10 @@ public final class RESTManager {
 			HttpResponse response = client.execute(get);
 			
 			String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-			logger.debug("HTTP GET Response Status Code: " + response.getStatusLine().getStatusCode());
-			logger.debug("HTTP GET Response Body: " + returnBody);
+
+			logger.debug("HTTP GET Response Status Code: {}", response.getStatusLine().getStatusCode());
+			logger.debug("HTTP GET Response Body:");
+			logger.debug(returnBody);
 
 			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
 		} catch (IOException e) {
