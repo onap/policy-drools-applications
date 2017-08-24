@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -36,7 +38,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 
 public class ControlLoopPolicyTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(ControlLoopPolicyTest.class);
 	@Test 
 	public void test() {
 		this.test("src/test/resources/v1.0.0/policy_Test.yaml");
@@ -91,7 +93,7 @@ public class ControlLoopPolicyTest {
 			options.setPrettyFlow(true);
 			yaml = new Yaml(options);
 			String dumpedYaml = yaml.dump(obj);
-			System.out.println(dumpedYaml);
+			logger.debug(dumpedYaml);
 			//
 			// Read that string back into our java object
 			//
@@ -112,7 +114,7 @@ public class ControlLoopPolicyTest {
 	}
 	
 	public void dump(Object obj) {
-		System.out.println("Dumping " + obj.getClass().getCanonicalName());
-		System.out.println(obj.toString());
+		logger.debug("Dumping ", obj.getClass().getCanonicalName());
+		logger.debug(obj.toString());
 	}
 }

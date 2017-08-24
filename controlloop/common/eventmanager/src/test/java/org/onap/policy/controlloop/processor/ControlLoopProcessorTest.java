@@ -36,9 +36,12 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ControlLoopProcessorTest {
-		
+	private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessorTest.class);
+	
 	@Test
 	public void test() {
 		try (InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"))) {
@@ -59,32 +62,32 @@ public class ControlLoopProcessorTest {
 	
 	public void testSuccess(String yaml) throws ControlLoopException {
 		ControlLoopProcessor processor = new ControlLoopProcessor(yaml);
-		System.out.println("testSuccess: " + processor.getControlLoop().toString());
+		logger.debug("testSuccess: {}", processor.getControlLoop().toString());
 		while (true) {
 			FinalResult result = processor.checkIsCurrentPolicyFinal();
 			if (result != null) {
-				System.out.println(result);
+				logger.debug(result.toString());
 				break;
 			}
 			Policy policy = processor.getCurrentPolicy();
 			assertNotNull(policy);
-			System.out.println("current policy is: " + policy.getId() + " " + policy.getName());
+			logger.debug("current policy is: {} {}", policy.getId(), policy.getName());
 			processor.nextPolicyForResult(PolicyResult.SUCCESS);
 		}
 	}
 
 	public void testFailure(String yaml) throws ControlLoopException {
 		ControlLoopProcessor processor = new ControlLoopProcessor(yaml);
-		System.out.println("testFailure: " + processor.getControlLoop().toString());
+		logger.debug("testFailure: {}", processor.getControlLoop().toString());
 		while (true) {
 			FinalResult result = processor.checkIsCurrentPolicyFinal();
 			if (result != null) {
-				System.out.println(result);
+				logger.debug(result.toString());
 				break;
 			}
 			Policy policy = processor.getCurrentPolicy();
 			assertNotNull(policy);
-			System.out.println("current policy is: " + policy.getId() + " " + policy.getName());
+			logger.debug("current policy is: {} {}", policy.getId(), policy.getName());
 			processor.nextPolicyForResult(PolicyResult.FAILURE);
 		}		
 	}

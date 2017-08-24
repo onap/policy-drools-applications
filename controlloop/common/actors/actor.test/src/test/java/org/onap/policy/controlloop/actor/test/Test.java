@@ -24,23 +24,26 @@ import static org.junit.Assert.*;
 
 import org.onap.policy.controlloop.actorServiceProvider.ActorService;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Test {
-
+	private static final Logger logger = LoggerFactory.getLogger(Test.class);
+	
 	@org.junit.Test
 	public void test() {
-		System.out.println("Dumping actors");
+		logger.debug("Dumping actors");
 		ActorService actorService = ActorService.getInstance();
 		assertNotNull(actorService);
 		int num = 0;
 		for (Actor actor : actorService.actors()) {
-			System.out.println(actor.actor());
+			logger.debug(actor.actor());
 			for (String recipe : actor.recipes()) {
-				System.out.println("\t" + recipe + " " + actor.recipeTargets(recipe) + " " + actor.recipePayloads(recipe));
+				logger.debug("\t {} {} {}", recipe, actor.recipeTargets(recipe), actor.recipePayloads(recipe));
 			}
 			num++;
 		}
-		System.out.println("Found " + num + " actors");
+		logger.debug("Found {} actors", num);
 	}
 
 }
