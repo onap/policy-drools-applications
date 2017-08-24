@@ -26,11 +26,13 @@ import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.guard.impl.PNFTargetLock;
 import org.onap.policy.guard.impl.VMTargetLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PolicyGuard {
 
 	private static Map<String, TargetLock> activeLocks = new HashMap<String, TargetLock>();
-		
+	private static final Logger logger = LoggerFactory.getLogger(PolicyGuard.class);
 	public static class LockResult<A, B> {
 		private A a;
 		private B b;
@@ -86,7 +88,7 @@ public class PolicyGuard {
 			//
 			// Return result
 			//
-			System.out.println("Locking " + lock);
+			logger.debug("Locking {}", lock);
 			return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
 		}
 	}
@@ -94,7 +96,7 @@ public class PolicyGuard {
 	public static boolean	unlockTarget(TargetLock lock) {
 		synchronized(activeLocks) {
 			if (activeLocks.containsKey(lock.getTargetInstance())) {
-				System.out.println("Unlocking " + lock);
+				logger.debug("Unlocking {}", lock);
 				return (activeLocks.remove(lock.getTargetInstance()) != null);
 			}
 			return false;

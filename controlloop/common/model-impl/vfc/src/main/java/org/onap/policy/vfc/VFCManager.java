@@ -24,6 +24,8 @@ import java.util.Map;
 import org.onap.policy.vfc.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -33,7 +35,8 @@ public final class VFCManager implements Runnable {
     private String username;
     private String password;
     private VFCRequest vfcRequest;
-
+    private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
+    		
     public VFCManager(VFCRequest request) {
         vfcRequest = request;
         // TODO: Get base URL, username and password from MSB?
@@ -67,8 +70,8 @@ public final class VFCManager implements Runnable {
                 VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
 
                 String body = Serialization.gsonPretty.toJson(response);
-                System.out.println("Response to VFC Heal post:");
-                System.out.println(body);
+                logger.debug("Response to VFC Heal post:");
+                logger.debug(body);
 
                 String jobId = response.jobId;
                 int attemptsLeft = 20;
@@ -81,27 +84,27 @@ public final class VFCManager implements Runnable {
                     Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
                     responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
                     body = Serialization.gsonPretty.toJson(responseGet);
-                    System.out.println("Response to VFC Heal get:");
-                    System.out.println(body);
+                    logger.debug("Response to VFC Heal get:");
+                    logger.debug(body);
 
                     if (httpDetailsGet.a == 200) {
                         if (responseGet.responseDescriptor.status.equalsIgnoreCase("finished") ||
                                 responseGet.responseDescriptor.status.equalsIgnoreCase("error")) {
-                            System.out.println("VFC Heal Status " + responseGet.responseDescriptor.status);
+                            logger.debug("VFC Heal Status {}", responseGet.responseDescriptor.status);
                             break;
                         }
                     }
                     Thread.sleep(20000);
                 }
                 if (attemptsLeft <= 0)
-                    System.out.println("VFC timeout. Status: (" + responseGet.responseDescriptor.status + ")");
+                    logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
             } catch (JsonSyntaxException e) {
-                System.err.println("Failed to deserialize into VFCResponse" + e.getLocalizedMessage());
+                logger.error("Failed to deserialize into VFCResponse {}",e.getLocalizedMessage(),e);
             } catch (InterruptedException e) {
-                System.err.println("Interrupted exception: " + e.getLocalizedMessage());
+                logger.error("Interrupted exception: {}", e.getLocalizedMessage(), e);
             }
         } else {
-            System.out.println("VFC Heal Restcall failed");
+            logger.warn("VFC Heal Restcall failed");
         }
     }
 }

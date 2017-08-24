@@ -50,12 +50,13 @@ import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.appc.util.Serialization;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class TestFirewallDemo {
 
-	
+	private static final Logger logger = LoggerFactory.getLogger(TestFirewallDemo.class);
 	@Test
 	public void testvDNS() throws IOException {
 		//
@@ -105,8 +106,8 @@ public class TestFirewallDemo {
 				invalidEvent.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
 				invalidEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 				
-				System.out.println("----- Invalid ONSET -----");
-				System.out.println(Serialization.gsonPretty.toJson(invalidEvent));
+				logger.debug("----- Invalid ONSET -----");
+				logger.debug(Serialization.gsonPretty.toJson(invalidEvent));
 				
 				//
 				// Insert invalid DCAE Event into memory
@@ -131,8 +132,8 @@ public class TestFirewallDemo {
 				onsetEvent.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
 				onsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 				
-				System.out.println("----- ONSET -----");
-				System.out.println(Serialization.gsonPretty.toJson(onsetEvent));
+				logger.debug("----- ONSET -----");
+				logger.debug(Serialization.gsonPretty.toJson(onsetEvent));
 				
 				//
 				// Insert first DCAE ONSET Event into memory
@@ -221,8 +222,8 @@ public class TestFirewallDemo {
 				invalidEvent.AAI.put("generic-vnf.vnf-id", "foo");
 				invalidEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 				
-				System.out.println("----- Invalid ONSET -----");
-				System.out.println(Serialization.gsonPretty.toJson(invalidEvent));
+				logger.debug("----- Invalid ONSET -----");
+				logger.debug(Serialization.gsonPretty.toJson(invalidEvent));
 				
 				//
 				// Insert invalid DCAE Event into memory
@@ -248,8 +249,8 @@ public class TestFirewallDemo {
 				//onsetEvent.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
 				onsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 				
-				System.out.println("----- ONSET -----");
-				System.out.println(Serialization.gsonPretty.toJson(onsetEvent));
+				logger.debug("----- ONSET -----");
+				logger.debug(Serialization.gsonPretty.toJson(onsetEvent));
 				
 				//
 				// Insert first DCAE ONSET Event into memory
@@ -282,8 +283,8 @@ public class TestFirewallDemo {
 							//subOnsetEvent.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
 							subOnsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 							
-							System.out.println("----- Subsequent ONSET -----");
-							System.out.println(Serialization.gsonPretty.toJson(subOnsetEvent));
+							logger.debug("----- Subsequent ONSET -----");
+							logger.debug(Serialization.gsonPretty.toJson(subOnsetEvent));
 							
 							//
 							// Insert subsequent DCAE ONSET Event into memory
@@ -320,8 +321,8 @@ public class TestFirewallDemo {
 				responseStatus1.Code = 100;
 				response1.Status = responseStatus1;
 				//
-				System.out.println("----- APP-C RESPONSE 100 -----");
-				System.out.println(Serialization.gsonPretty.toJson(response1));
+				logger.debug("----- APP-C RESPONSE 100 -----");
+				logger.debug(Serialization.gsonPretty.toJson(response1));
 				//
 				// Insert APPC Response into memory
 				//
@@ -347,8 +348,8 @@ public class TestFirewallDemo {
 				responseStatus2.Code = 400;
 				response2.Status = responseStatus2;
 				//
-				System.out.println("----- APP-C RESPONSE 400 -----");
-				System.out.println(Serialization.gsonPretty.toJson(response2));
+				logger.debug("----- APP-C RESPONSE 400 -----");
+				logger.debug(Serialization.gsonPretty.toJson(response2));
 				//
 				// Insert APPC Response into memory
 				//
@@ -385,9 +386,9 @@ public class TestFirewallDemo {
 	}
 	
 	public static void dumpFacts(KieSession kieSession) {
-		System.out.println("Fact Count: " + kieSession.getFactCount());
+		logger.debug("Fact Count: {}", kieSession.getFactCount());
 		for (FactHandle handle : kieSession.getFactHandles()) {
-			System.out.println("FACT: " + handle);
+			logger.debug("FACT: {}", handle);
 		}
 	}
 
@@ -414,7 +415,7 @@ public class TestFirewallDemo {
         
         KieModuleModel kModule = ks.newKieModuleModel();
         
-        System.out.println("KMODULE:" + System.lineSeparator() + kModule.toXML());
+        logger.debug("KMODULE: {} {}", System.lineSeparator(), kModule.toXML());
         
         //
         // Generate our drools rule from our template
@@ -452,18 +453,18 @@ public class TestFirewallDemo {
         Results results = builder.getResults();
         if (results.hasMessages(Message.Level.ERROR)) {
         	for (Message msg : results.getMessages()) {
-        		System.err.println(msg.toString());
+        		logger.error("{}", msg);
         	}
     		throw new RuntimeException("Drools Rule has Errors");
         }
     	for (Message msg : results.getMessages()) {
-    		System.out.println(msg.toString());
+    		logger.debug("{}", msg);
     	}
     	//
     	// Create our kie Session and container
     	//
         ReleaseId releaseId = ks.getRepository().getDefaultReleaseId();
-        System.out.println(releaseId);
+        logger.debug("{}", releaseId);
 	    KieContainer kContainer = ks.newKieContainer(releaseId);
 	    
 	    return kContainer.newKieSession();
@@ -585,7 +586,7 @@ public class TestFirewallDemo {
 			ruleContents = m.replaceAll(appcTopic);
 		}
 		
-		System.out.println(ruleContents);
+		logger.debug(ruleContents);
 
 		return ruleContents;
 	}

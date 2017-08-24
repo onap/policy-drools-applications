@@ -341,7 +341,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// PLD - this is simply comparing the policy. Do we want to equals the whole object?
 			//
 			if (this.currentOperation.policy.equals(operation.policy)) {
-				System.out.println("Finishing " + this.currentOperation.policy.getRecipe() + " result is " + this.currentOperation.getOperationResult());
+				logger.debug("Finishing {} result is {}", this.currentOperation.policy.getRecipe(), this.currentOperation.getOperationResult());
 				//
 				// Save history
 				//
@@ -359,7 +359,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				//
 				return;
 			}
-			System.out.println("Cannot finish current operation " + this.currentOperation.policy + " does not match given operation " + operation.policy);
+			logger.debug("Cannot finish current operation {} does not match given operation {}", this.currentOperation.policy, operation.policy);
 			return;
 		}
 		throw new ControlLoopException("No operation to finish.");

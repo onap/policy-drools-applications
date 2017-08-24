@@ -40,11 +40,13 @@ import org.onap.policy.controlloop.policy.builder.Message;
 import org.onap.policy.controlloop.policy.builder.MessageLevel;
 import org.onap.policy.controlloop.policy.builder.Results;
 import org.onap.policy.controlloop.policy.guard.builder.ControlLoopGuardBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class ControlLoopGuardBuilderTest {
-    
+	private static final Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderTest.class);
     @Test
     public void testControlLoopGuard() {
         try {
@@ -190,7 +192,7 @@ public class ControlLoopGuardBuilderTest {
             //
             // Print out the specification
             //
-            System.out.println(results.getSpecification());
+            logger.debug(results.getSpecification());
             //
         } catch (FileNotFoundException e) {
             fail(e.getLocalizedMessage());

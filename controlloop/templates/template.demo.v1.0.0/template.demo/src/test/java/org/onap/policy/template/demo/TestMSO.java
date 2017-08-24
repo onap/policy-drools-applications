@@ -36,19 +36,23 @@ import org.onap.policy.mso.MSORequestParameters;
 import org.onap.policy.aai.AAINQF199.AAINQF199Response;
 import org.onap.policy.aai.AAINQF199.AAINQF199ResponseWrapper;
 import org.onap.policy.mso.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 public class TestMSO {
 
+	private static final Logger logger = LoggerFactory.getLogger(TestMSO.class);
+			
 	@Test
 	public void test() throws FileNotFoundException {
 		Gson gson = new Gson();
 		JsonReader reader = new JsonReader(new FileReader("src/test/resources/aairesponse.json"));
 		AAINQF199Response response = gson.fromJson(reader, AAINQF199Response.class);
 		
-		System.out.println(Serialization.gsonPretty.toJson(response));
+		logger.debug(Serialization.gsonPretty.toJson(response));
 		
 		AAINQF199ResponseWrapper aainqf199ResponseWrapper = new AAINQF199ResponseWrapper(UUID.randomUUID(), response);
 		
@@ -152,8 +156,8 @@ public class TestMSO {
 		//
 		// print MSO request for debug
 		//
-		System.out.println("MSO request sent:");
-		System.out.println(Serialization.gsonPretty.toJson(request));
+		logger.debug("MSO request sent:");
+		logger.debug(Serialization.gsonPretty.toJson(request));
 	}
 
 }

@@ -27,6 +27,8 @@ import java.time.format.DateTimeFormatter;
 
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopTargetType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,9 +40,11 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+
 public final class Serialization {
 
 	public static class notificationTypeAdapter implements JsonSerializer<ControlLoopNotificationType>, JsonDeserializer<ControlLoopNotificationType> {
+
 
 		@Override
 		public JsonElement serialize(ControlLoopNotificationType src, Type typeOfSrc,
@@ -73,6 +77,7 @@ public final class Serialization {
 	}
 	
 	public static class gsonUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
+		private static final Logger logger = LoggerFactory.getLogger(gsonUTCAdapter.class);
 		public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
 		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
@@ -80,7 +85,7 @@ public final class Serialization {
 			try {
 				return ZonedDateTime.parse(element.getAsString(), format);
 			} catch (Exception e) {
-				System.err.println(e);
+				logger.error(e.getMessage(), e);
 			}
 			return null;
 		}
