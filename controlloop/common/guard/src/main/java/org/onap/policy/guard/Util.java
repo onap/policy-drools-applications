@@ -35,10 +35,12 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Util {
 
+	private static final Logger logger = LoggerFactory.getLogger(Util.class);
 	public static class Pair<A, B> {
 		public final A a;
 		public final B b;
@@ -59,7 +61,7 @@ public final class Util {
 			Object obj = yaml.load(contents);
 			
 			//String ttt = ((ControlLoopPolicy)obj).policies.getFirst().payload.get("asdas");
-			System.out.println(contents);
+			logger.debug(contents);
 			//for(Policy policy : ((ControlLoopPolicy)obj).policies){
 			
 			return new Pair<ControlLoopPolicy, String>((ControlLoopPolicy) obj, contents);

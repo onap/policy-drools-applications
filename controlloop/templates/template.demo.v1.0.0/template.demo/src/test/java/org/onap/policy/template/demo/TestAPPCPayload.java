@@ -30,9 +30,12 @@ import org.onap.policy.appc.util.Serialization;
 import org.onap.policy.vnf.trafficgenerator.PGRequest;
 import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestAPPCPayload {
 
+	private static final Logger logger = LoggerFactory.getLogger(TestAPPCPayload.class);
 	@Test
 	public void test() {
 		PGRequest request = new PGRequest();
@@ -52,7 +55,7 @@ public class TestAPPCPayload {
 		appc.Action = "ModifyConfig";
 		appc.Payload = new HashMap<String, Object>();
 		appc.Payload.put("pg-streams", request);
-		System.out.println(Serialization.gsonPretty.toJson(appc));
+		logger.debug(Serialization.gsonPretty.toJson(appc));
 	}
 
 }

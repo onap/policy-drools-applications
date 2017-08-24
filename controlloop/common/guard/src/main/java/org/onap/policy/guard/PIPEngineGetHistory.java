@@ -192,6 +192,11 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				}
 				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
 					logger.debug("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					logger.debug("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+					pipResponse	= null;
+				}
+				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+					logger.debug("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
 					pipResponse	= null;
 				}
 			}
