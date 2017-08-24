@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_cde22ed5",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-24T17:25:55Z",
+      "side": 1,
+      "message": "If these are commented out, then let\u0027s just remove them. It will save a sonar issue.",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "e71fd3baed87956aab16a4a4992cd91605538bd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
