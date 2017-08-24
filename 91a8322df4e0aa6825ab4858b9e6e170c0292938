@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_2090a194",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_4aad0431",
+      "range": {
+        "startLine": 1,
+        "startChar": 34,
+        "endLine": 1,
+        "endChar": 43
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b6829c50",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-24T01:32:48Z",
       "side": 1,
       "message": "I think you meant this to be VFC",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 12
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_80818d4c",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_b6829c50",
       "range": {
         "startLine": 138,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_008d9d7b",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCHealActionVmInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_8a72cce3",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_4a74e4ce",
         "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCHealAdditionalParams.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-24T13:14:47Z",
       "side": 1,
       "message": "the same here and for other vfc models",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c0ee7522",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCHealAdditionalParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_4a74e4ce",
       "range": {
         "startLine": 28,
         "startChar": 46,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_a0f37109",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_4a5bc454",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_0a55bc1c",
         "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
         "patchSetId": 2
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_80f86de6",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Not sure about the comment here",
+      "parentUuid": "9a437d4f_0a55bc1c",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 8
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_3696ac95",
         "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCResponseHistoryList.java",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2017-08-24T01:32:48Z",
       "side": 1,
       "message": "Remove to avoid Sonar critical.",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4093a5a3",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCResponseHistoryList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_3696ac95",
       "range": {
         "startLine": 32,
         "startChar": 27,
@@ -203,6 +371,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_60dd8970",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_ea31580c",
+      "range": {
+        "startLine": 499,
+        "startChar": 65,
+        "endLine": 499,
+        "endChar": 85
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_ca369403",
         "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
         "patchSetId": 2
@@ -214,6 +406,30 @@
       "writtenOn": "2017-08-24T13:14:47Z",
       "side": 1,
       "message": "can remove \"SDNR\". We don\u0027t have SDNR involved use case in R1",
+      "range": {
+        "startLine": 504,
+        "startChar": 4,
+        "endLine": 504,
+        "endChar": 16
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_40da8579",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-08-24T21:56:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_ca369403",
       "range": {
         "startLine": 504,
         "startChar": 4,
