@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_63db53ee",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-25T12:13:01Z",
+      "side": 1,
+      "message": "I think Chenfei was indicating that the syntax could be:\nthis.vfcUrlBase \u003d baseURL + .....\n\nI don\u0027t think this is a big deal unless Sonar flags it. Let\u0027s wait and see.",
+      "parentUuid": "9a437d4f_80f86de6",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 8
+      },
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_3696ac95",
         "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCResponseHistoryList.java",
         "patchSetId": 2
@@ -342,6 +366,24 @@
       "writtenOn": "2017-08-24T13:19:17Z",
       "side": 1,
       "message": "FYI.  This class is not necessary at least for drools-pdp to run unless there are some non-standard coding/decoding adapters being used.   In the past, there were some of these classes introduced because the coding/decoding of time formats, etc .. was customized with its own adapters, and it was requested to the pdp-d to handle the serialization the drools application itself.   You may still want it for junits.",
+      "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_83d637c4",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/util/Serialization.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-08-25T12:13:01Z",
+      "side": 1,
+      "message": "Yes but its needed in the JUnit tests which help to dump the request out. For debugging etc. So no harm done having it.",
+      "parentUuid": "9a437d4f_8a49ac8d",
       "revId": "91a8322df4e0aa6825ab4858b9e6e170c0292938",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
