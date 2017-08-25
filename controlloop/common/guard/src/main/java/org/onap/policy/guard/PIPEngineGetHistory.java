@@ -126,13 +126,16 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		 */
 		String string;
 		if ((string = pipRequest.getIssuer()) == null) {
+
 			logger.debug("No issuer in the request...");
+			logger.debug("FeqLimiter PIP - No issuer in the request!");
 			return StdPIPResponse.PIP_RESPONSE_EMPTY;
 		}
 		else{
 			//Notice, we are checking here for the base issuer prefix.
 			if (!string.contains(this.getIssuer())) {
-				logger.debug("Requested issuer '" + string + "' does not match " + (this.getIssuer() == null ? "null" : "'" + this.getIssuer() + "'"));
+				logger.debug("Requested issuer '{}' does not match '{}'", string, getIssuer());
+				logger.debug("FeqLimiter PIP - Issuer {}  does not match with: ", string, this.getIssuer());
 				return StdPIPResponse.PIP_RESPONSE_EMPTY;
 			}
 		}
@@ -148,7 +151,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	
 		String timeWindow = timeWindowVal + " " + timeWindowScale;
 		
-		logger.debug("Going to query DB about: "+actor + " " + operation + " " + target + " " + timeWindow);
+		logger.debug("Going to query DB about: {} {} {} {}", actor, operation, target, timeWindow);
 		int countFromDB = getCountFromDB(actor, operation, target, timeWindow);
 		 
 		StdMutablePIPResponse stdPIPResponse	= new StdMutablePIPResponse();
@@ -182,16 +185,18 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 		try {
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
-			if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
-				logger.debug("Error retrieving " + pipRequest.getAttributeId().stringValue() + ": " + pipResponse.getStatus().toString());
-				pipResponse	= null;
-			}
-			if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-				logger.debug("No value for {}", pipRequest.getAttributeId().stringValue());
-				pipResponse	= null;
+			if (pipResponse != null) {
+				if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					pipResponse	= null;
+				}
+				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					pipResponse	= null;
+				}
 			}
 		} catch (PIPException ex) {
-			logger.error("getAttribute threw: ", ex);
+			logger.error("getAttribute threw:", ex);
 		}
 		return pipResponse;
 	}
@@ -316,7 +321,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			return -1;
 		}
 		
-
 		em.close();
 		
 		return ret;	
