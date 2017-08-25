@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_5e54a253",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-25T19:33:22Z",
+      "side": 1,
+      "message": "can embed this in one single statement:\n\n(\"Requested issuer \u0027{}\u0027 does not match \u0027{}\u0027\", string, getIssuer())",
+      "revId": "094f3da545f95ec64a182b808e36c4afdc80fded",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1e4e1ac2",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-25T19:33:22Z",
+      "side": 1,
+      "message": "abnormalities should be marked at least at info level, perhaps warn",
+      "revId": "094f3da545f95ec64a182b808e36c4afdc80fded",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
