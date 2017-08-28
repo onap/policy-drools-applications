@@ -320,7 +320,7 @@ rule "${policyName}.EVENT.MANAGER"
 					//
 					// Check whether we need to wait for abatement
 					//
-					if ($manager.getProcessor().getControlLoop().abatement == true && notification.notification == ControlLoopNotificationType.FINAL_SUCCESS) {
+					if ($manager.getProcessor().getControlLoop().getAbatement() == true && notification.notification == ControlLoopNotificationType.FINAL_SUCCESS) {
 						Logger.info("Waiting for abatement.");
 					} else {
 						Logger.info("No abatement is promised to come, close out the control loop for " + $event.requestID);
@@ -486,7 +486,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 			notification.policyVersion = "${policyVersion}";
 			Engine.deliver("UEB", "POLICY-CL-MGT", notification);
 			
-			switch ($operation.policy.actor){
+			switch ($operation.policy.getActor()){
 				
 				case "APPC":
 			
@@ -567,8 +567,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		    												"", 
 		    												drools.getWorkingMemory(),
 		    												$event.closedLoopControlName,
-		    												$operation.policy.actor.toString(),
-		    												$operation.policy.recipe,
+		    												$operation.policy.getActor().toString(),
+		    												$operation.policy.getRecipe(),
 		    												$manager.getTargetInstance($operation.policy),
 		    												//$event.target,
 		    												$event.requestID.toString()
@@ -576,7 +576,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		    t.start();
 	    }
 	    else{
-	    	insert(new PolicyGuardResponse("Permit", $event.requestID, $operation.policy.recipe));
+	    	insert(new PolicyGuardResponse("Permit", $event.requestID, $operation.policy.getRecipe()));
 	    }
 		
 		
