@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8b3ac9cb",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-28T22:14:50Z",
+      "side": 1,
+      "message": "add e to avoid sonar critical:\n\nlogger.error(\"Failed to deserialize into VFCResponse\", e.getLocalizedMessage(), e);",
+      "revId": "5c1eefa8383adfe49b284c0fa814d825f39d0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ab258dac",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-28T22:14:50Z",
+      "side": 1,
+      "message": "add e as a parameter as above",
+      "revId": "5c1eefa8383adfe49b284c0fa814d825f39d0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
