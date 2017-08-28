@@ -42,12 +42,12 @@ public class PolicyGuardYamlToXacml {
 	public static void fromYamlToXacml(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput){
 		
 		ControlLoopGuard yamlGuardObject = Util.loadYamlGuard(yamlFile);
-		System.out.println("clname: " + yamlGuardObject.getGuards().getFirst().getMatch_parameters().getControlLoopName());
-		System.out.println("actor: " + yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor());
-		System.out.println("recipe: " + yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe());
-		System.out.println("num: " + yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target());
-		System.out.println("duration: " + yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window());
-		System.out.println("time_in_range: " + yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range());
+		logger.debug("clname: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getControlLoopName());
+		logger.debug("actor: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor());
+		logger.debug("recipe: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe());
+		logger.debug("num: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target());
+		logger.debug("duration: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window());
+		logger.debug("time_in_range: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range());
 		
 		Path xacmlTemplatePath = Paths.get(xacmlTemplate);
         String xacmlTemplateContent;
@@ -142,7 +142,7 @@ public class PolicyGuardYamlToXacml {
 		p = Pattern.compile("\\$\\{guardActiveEnd\\}");
 		m = p.matcher(xacmlFileContent);
 		xacmlFileContent = m.replaceAll(guardActiveEnd);
-		System.out.println(xacmlFileContent);
+		logger.debug(xacmlFileContent);
 
 		return xacmlFileContent;
 	}
@@ -175,11 +175,11 @@ public class PolicyGuardYamlToXacml {
 	public static void fromYamlToXacmlBlacklist(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput){
 		
 		ControlLoopGuard yamlGuardObject = Util.loadYamlGuard(yamlFile);
-		System.out.println("actor: " + yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor());
-		System.out.println("recipe: " + yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe());
-		System.out.println("freq_limit_per_target: " + yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target());
-		System.out.println("time_window: " + yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window());
-		System.out.println("active_time_range: " + yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range());
+		logger.debug("actor: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor());
+		logger.debug("recipe: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe());
+		logger.debug("freq_limit_per_target: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target());
+		logger.debug("time_window: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window());
+		logger.debug("active_time_range: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range());
 		
 		Path xacmlTemplatePath = Paths.get(xacmlTemplate);
         String xacmlTemplateContent;
@@ -236,7 +236,7 @@ public class PolicyGuardYamlToXacml {
 		p = Pattern.compile("\\$\\{guardActiveEnd\\}");
 		m = p.matcher(xacmlFileContent);
 		xacmlFileContent = m.replaceAll(guardActiveEnd);
-		System.out.println(xacmlFileContent);
+		logger.debug(xacmlFileContent);
 		
 		for(String target : blacklist){
 			p = Pattern.compile("\\$\\{blackListElement\\}");

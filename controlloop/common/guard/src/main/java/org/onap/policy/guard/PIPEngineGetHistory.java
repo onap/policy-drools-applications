@@ -134,7 +134,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		else{
 			//Notice, we are checking here for the base issuer prefix.
 			if (!string.contains(this.getIssuer())) {
-				logger.debug("Requested issuer '{}' does not match {}", string, (this.getIssuer() == null ? "null" : "'" + this.getIssuer() + "'"));
+				logger.debug("Requested issuer '{}' does not match {}", string, getIssuer());
 				logger.debug("FeqLimiter PIP - Issuer {}  does not match with: ", string, this.getIssuer());
 				return StdPIPResponse.PIP_RESPONSE_EMPTY;
 			}
@@ -187,11 +187,16 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
 			if (pipResponse != null) {
 				if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
-					logger.debug("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
 					pipResponse	= null;
 				}
 				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.debug("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+					pipResponse	= null;
+				}
+				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
 					pipResponse	= null;
 				}
 			}
