@@ -89,7 +89,6 @@ import com.att.research.xacml.util.XACMLProperties;
 public class ControlLoopXacmlGuardTest {
 
 	
-	@Ignore
 	@Test
 	public void test() {
 		try {
