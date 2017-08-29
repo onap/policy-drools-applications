@@ -224,7 +224,8 @@ public class ControlLoopXacmlGuardTest {
 		//
 		// Insert our globals
 		//
-		kieSession.setGlobal("Logger", logger);
+		final ControlLoopLogger controlLoopLogger = new ControlLoopLoggerStdOutImpl();
+		kieSession.setGlobal("Logger", controlLoopLogger);
 		final PolicyEngineJUnitImpl engine = new PolicyEngineJUnitImpl();
 		kieSession.setGlobal("Engine", engine);
 		
