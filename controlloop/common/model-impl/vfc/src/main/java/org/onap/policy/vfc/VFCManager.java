@@ -96,8 +96,13 @@ public final class VFCManager implements Runnable {
                     }
                     Thread.sleep(20000);
                 }
-                if (attemptsLeft <= 0)
-                    logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
+                if  ((attemptsLeft <= 0)
+                  && (responseGet != null)
+                  && (responseGet.responseDescriptor != null)
+                  && (responseGet.responseDescriptor.status != null) 
+                  && (!responseGet.responseDescriptor.status.isEmpty())) {	
+                        logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
+                }       
             } catch (JsonSyntaxException e) {
                 logger.error("Failed to deserialize into VFCResponse {}",e.getLocalizedMessage(),e);
             } catch (InterruptedException e) {
