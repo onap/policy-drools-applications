@@ -84,7 +84,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 // These parameters are required to build the runtime policy
 //
 declare Params
-    closedLoopControlName : String
+    controlLoopName : String
     actor : String
     aaiURL : String
     aaiUsername : String
@@ -110,7 +110,7 @@ rule "${policyName}.SETUP"
 	then
 		System.out.println("rule SETUP is triggered.");
 		Params params = new Params();
-		params.setClosedLoopControlName("${closedLoopControlName}");
+		params.setClosedLoopControlName("${controlLoopName}");
 		params.setActor("${actor}");
 		params.setAaiURL("${aaiURL}");
 		params.setAaiUsername("${aaiUsername}");
@@ -136,7 +136,7 @@ end
 */
 rule "${policyName}.EVENT"
 	when
-        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+        $params : Params( getClosedLoopControlName() == "${controlLoopName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
         not ( ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName ))
 	then
@@ -257,7 +257,7 @@ end
 */
 rule "${policyName}.EVENT.MANAGER"
 	when
-		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$params : Params( getClosedLoopControlName() == "${controlLoopName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, controlLoopResult == null)
 	then
@@ -442,7 +442,7 @@ end
 */
 rule "${policyName}.EVENT.MANAGER.AAINQF199REQUEST"
 	when
-		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$params : Params( getClosedLoopControlName() == "${controlLoopName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
 		$aainqf199RequestWrapper : AAINQF199RequestWrapper(requestID == $event.requestID)
@@ -484,7 +484,7 @@ end
 */
 rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 	when 
-		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$params : Params( getClosedLoopControlName() == "${controlLoopName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
 		$aainqf199RequestWrapper : AAINQF199RequestWrapper(requestID == $event.requestID)
@@ -886,7 +886,7 @@ end
 */
 rule "${policyName}.APPC.RESPONSE"
 	when
-		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$params : Params( getClosedLoopControlName() == "${controlLoopName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
 		$operationWrapper : ControlLoopOperationWrapper( requestID == $event.requestID )
@@ -1014,7 +1014,7 @@ end
 */		
 rule "${policyName}.APPC.RESPONSE.CLEANUP"
 	when
-		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$params : Params( getClosedLoopControlName() == "${controlLoopName}" )
         $response : Response($id : getCommonHeader().RequestID )
 		not ( VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), requestID == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
 	then
@@ -1029,7 +1029,7 @@ end
 */
 rule "${policyName}.MSO.RESPONSE"
 	when
-		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$params : Params( getClosedLoopControlName() == "${controlLoopName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
 		$operationWrapper : ControlLoopOperationWrapper( requestID == $event.requestID )
@@ -1133,7 +1133,7 @@ query "${policyName}.QUERY.EVENT.ONSET"
 end
 
 query "${policyName}.QUERY.MANAGER.RNA" (String aRequestId, Integer numOnsetsLowerBound, Boolean aActivated)
-	manager : ControlLoopEventManager( closedLoopControlName == "${closedLoopControlName}", 
+	manager : ControlLoopEventManager( closedLoopControlName == "${controlLoopName}", 
 	                        requestID.toString() == aRequestId, 
 	                        numOnsets > numOnsetsLowerBound,
 	                        activated == aActivated )

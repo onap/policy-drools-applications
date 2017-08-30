@@ -1,5 +1,5 @@
 {
-  "closedLoopControlName": "${closedLoopControlName}",
+  "closedLoopControlName": "${controlLoopName}",
   "closedLoopAlarmStart": 1463679805324,
   "closedLoopEventClient": "microservice.stringmatcher",
   "closedLoopEventStatus": "ONSET",

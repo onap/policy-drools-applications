@@ -25,7 +25,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     
  <requiredProperties>
-     <requiredProperty key="closedLoopControlName"></requiredProperty>
+     <requiredProperty key="controlLoopName"></requiredProperty>
      <requiredProperty key="policyScope"></requiredProperty>
      <requiredProperty key="policyName"></requiredProperty>
      <requiredProperty key="policyVersion"></requiredProperty>
@@ -37,19 +37,12 @@
      <requiredProperty key="aaiPatternMatch"></requiredProperty>
      <requiredProperty key="msoURL"></requiredProperty>
      <requiredProperty key="msoUsername"></requiredProperty>
-     <requiredProperty key="msoPassword"></requiredProperty>     
+     <requiredProperty key="msoPassword"></requiredProperty>
+     <requiredProperty key="dmaapServers"></requiredProperty>       
      <requiredProperty key="appcTopic"></requiredProperty>
-     <requiredProperty key="appcServers"></requiredProperty>
-     <requiredProperty key="appcApiKey"></requiredProperty>
-     <requiredProperty key="appcApiSecret"></requiredProperty>
      <requiredProperty key="notificationTopic"></requiredProperty>
-     <requiredProperty key="notificationServers"></requiredProperty>
-     <requiredProperty key="notificationApiKey"></requiredProperty>
-     <requiredProperty key="notificationApiSecret"></requiredProperty>
      <requiredProperty key="dcaeTopic"></requiredProperty>
      <requiredProperty key="dcaeServers"></requiredProperty>
-     <requiredProperty key="dcaeApiKey"></requiredProperty>
-     <requiredProperty key="dcaeApiSecret"></requiredProperty>
      <requiredProperty key="dependenciesVersion"></requiredProperty>
   </requiredProperties>
       
