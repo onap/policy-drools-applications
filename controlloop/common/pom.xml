@@ -34,8 +34,8 @@
 
     <modules>
     	<module>actors</module>
-    	<module>eventmanager</module>
         <module>guard</module>
+    	<module>eventmanager</module>
         <module>model-impl</module>
     	<module>policy-yaml</module>
     </modules>
