@@ -185,21 +185,19 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 		try {
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
-			if (pipResponse != null) {
-				if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
+			if  ((pipResponse != null)
+			  && (pipResponse.getStatus() != null) 
+			  && (!pipResponse.getStatus().isOk())) {
 					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
 					pipResponse	= null;
-				}
-				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-					pipResponse	= null;
-				}
-				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-					pipResponse	= null;
-				}
 			}
+			if  ((pipResponse != null)
+			  && (pipResponse.getAttributes() != null)
+			  && (pipResponse.getAttributes().isEmpty())) {
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+					pipResponse	= null;
+				}
 		} catch (PIPException ex) {
 			logger.error("getAttribute threw:", ex);
 		}
