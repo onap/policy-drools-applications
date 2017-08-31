@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_e31731a2",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/AaiSimulator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-31T19:31:40Z",
+      "side": 1,
+      "message": "let\u0027s set the \"v8\" to \"v11\" I think that\u0027s what we are going to be using.  May need to change the invoked url in the junits in some other places",
+      "revId": "35793da23e698ad44a4fb83c572aa613317b9fa5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_43495dcf",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-08-31T19:31:40Z",
+      "side": 1,
+      "message": "You can have a setUp method annotated with @BeforeClass and another one tearDown with @AfterClass.   The @BeforeClass you will call only once the Util.buildAaiSim() and in the @AfterClass the HttpServletServer.factory.destroy().   This will avoid some race conditions running junits with ports opening and shutting down.   Sometimes in jenkins environment, it happens, I think it may save some headaches down the line.",
+      "revId": "35793da23e698ad44a4fb83c572aa613317b9fa5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
