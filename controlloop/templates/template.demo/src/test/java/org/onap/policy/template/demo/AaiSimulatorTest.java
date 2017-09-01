@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ import org.onap.policy.aai.AAINQF199.AAINQF199Response;
 import org.onap.policy.drools.http.server.HttpServletServer;
 
 public class AaiSimulatorTest {
-	
+
 	@BeforeClass
 	public static void setUpSimulator() {
 		try {
@@ -44,12 +44,12 @@ public class AaiSimulatorTest {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@AfterClass
 	public static void tearDownSimulator() {
 		HttpServletServer.factory.destroy();
 	}
-	
+
 	@Test
 	public void testGet() {
 		AAIGETResponse response = AAINQF199Manager.getQuery("http://localhost:6666", "testUser", "testPass", UUID.randomUUID(), "5e49ca06-2972-4532-9ed4-6d071588d792");
