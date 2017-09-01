@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,18 +43,18 @@ import org.slf4j.LoggerFactory;
 
 
 public class ControlLoopOperationManager implements Serializable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3773199283624595410L;
 	private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationManager.class);
 
 	@Override
 	public String toString() {
-		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.requestID : "null") + ", policy=" 
+		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.requestID : "null") + ", policy="
 				+ (policy != null ? policy.getId() : "null") + ", attempts=" + attempts
-				+ ", policyResult=" + policyResult 
+				+ ", policyResult=" + policyResult
 				+ ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
 				+ "]";
 	}
@@ -92,17 +92,17 @@ public class ControlLoopOperationManager implements Serializable {
 		public ControlLoopOperation operation = new ControlLoopOperation();
 		public PolicyResult policyResult = null;
 		public int attempt = 0;
-		
+
 		@Override
 		public String toString() {
 			return "Operation [attempt=" + attempt + ", policyResult=" + policyResult + ", operation=" + operation
 					+ "]";
 		}
 	}
-	
+
 	private String guardApprovalStatus = "NONE";//"NONE", "PERMIT", "DENY"
 	private Object operationRequest;
-	
+
 	public Object getOperationRequest() {
 		return operationRequest;
 	}
@@ -113,14 +113,14 @@ public class ControlLoopOperationManager implements Serializable {
 	public void setGuardApprovalStatus(String guardApprovalStatus) {
 		this.guardApprovalStatus = guardApprovalStatus;
 	}
-	
-	
+
+
 	public ControlLoopOperationManager(/*ATTControlLoopEvent*/ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException {
 		this.onset = onset;
 		this.policy = policy;
 		this.guardApprovalStatus = "NONE";
 		this.eventManager = em;
-		
+
 		//
 		// Let's make a sanity check
 		//
@@ -139,7 +139,7 @@ public class ControlLoopOperationManager implements Serializable {
 			throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
 		}
 	}
-	
+
 	public Object startOperation(/*VirtualControlLoopEvent*/ControlLoopEvent onset) {
 		//
 		// They shouldn't call us if we currently running something
@@ -221,7 +221,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public PolicyResult	onResponse(Object response) {
 		//
 		// Which response is it?
@@ -306,10 +306,10 @@ public class ControlLoopOperationManager implements Serializable {
 				}
 				return PolicyResult.FAILURE;
 			}
-		} 
+		}
 		return null;
 	}
-	
+
 	public Integer	getOperationTimeout() {
 		//
 		// Sanity check
@@ -321,7 +321,7 @@ public class ControlLoopOperationManager implements Serializable {
 		logger.debug("getOperationTimeout returning {}", this.policy.getTimeout());
 		return this.policy.getTimeout();
 	}
-	
+
 	public String	getOperationTimeoutString(int defaultTimeout) {
 		Integer to = this.getOperationTimeout();
 		if (to == null || to == 0) {
@@ -329,11 +329,11 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return to.toString() + "s";
 	}
-	
+
 	public PolicyResult	getOperationResult() {
 		return this.policyResult;
 	}
-	
+
 	public String	getOperationMessage() {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toMessage();
@@ -343,7 +343,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public String	getOperationMessage(String guardResult) {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toMessage()+ ", Guard result: " + guardResult;
@@ -353,7 +353,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public String	getOperationHistory() {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toHistory();
@@ -363,23 +363,23 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public LinkedList<ControlLoopOperation>	getHistory() {
 		LinkedList<ControlLoopOperation> history = new LinkedList<ControlLoopOperation>();
 		for (Operation op : this.operationHistory) {
 			history.add(new ControlLoopOperation(op.operation));
-			
+
 		}
 		return history;
 	}
-	
+
 	public void		setOperationHasTimedOut() {
 		//
 		//
 		//
 		this.completeOperation(this.attempts, "Operation timed out", PolicyResult.FAILURE_TIMEOUT);
 	}
-	
+
 	public void		setOperationHasGuardDeny() {
 		//
 		//
@@ -434,11 +434,11 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		return true;
 	}
-	
+
 	public boolean	isOperationRunning() {
 		return (this.currentOperation != null);
 	}
-	
+
 	private boolean	isRetriesMaxedOut() {
 		if (policy.getRetry() == null || policy.getRetry() == 0) {
 			//
@@ -449,19 +449,23 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return (this.attempts > policy.getRetry());
 	}
-	
+
 	private void	storeOperationInDataBase(){
-		
+
+		String OpsHistPU = System.getProperty("OperationsHistoryPU");
+		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
+			OpsHistPU = "OperationsHistoryPU";
+		}
 		EntityManager em;
 		try{
-			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();//emf.createEntityManager();		
+			em = Persistence.createEntityManagerFactory(OpsHistPU).createEntityManager();
 		}catch(Exception e){
 			logger.error("storeOperationInDataBase threw: ", e);
-			return;	
+			return;
 		}
-			
-		OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry(); 
-			
+
+		OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry();
+
 		newEntry.closedLoopName = this.onset.closedLoopControlName;
 		newEntry.requestId = this.onset.requestID.toString();
 		newEntry.actor = this.currentOperation.operation.actor;
@@ -472,17 +476,17 @@ public class ControlLoopOperationManager implements Serializable {
 		newEntry.endtime = new Timestamp(this.currentOperation.operation.end.toEpochMilli());
 		newEntry.message = this.currentOperation.operation.message;
 		newEntry.outcome = this.currentOperation.operation.outcome;
-			
+
 		em.getTransaction().begin();
 		em.persist(newEntry);
 		em.getTransaction().commit();
-			
+
 		em.close();
 
 	}
 
-	
-	
+
+
 	private void	completeOperation(Integer attempt, String message, PolicyResult result) {
 		if (attempt == null) {
 			logger.debug("attempt cannot be null (i.e. subRequestID)");
@@ -521,7 +525,7 @@ public class ControlLoopOperationManager implements Serializable {
 			}
 		}
 		logger.debug("Could not find associated operation");
-		
+
 	}
-	
+
 }
