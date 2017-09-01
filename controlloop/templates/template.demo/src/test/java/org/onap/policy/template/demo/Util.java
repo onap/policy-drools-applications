@@ -46,6 +46,7 @@ import org.kie.api.builder.Results;
 import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.onap.policy.aai.util.AaiSimulator;
 import org.onap.policy.controlloop.ControlLoopLogger;
 import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -58,6 +59,7 @@ import com.att.research.xacml.api.pdp.PDPEngine;
 import com.att.research.xacml.api.pdp.PDPEngineFactory;
 import com.att.research.xacml.util.FactoryException;
 import com.att.research.xacml.util.XACMLProperties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

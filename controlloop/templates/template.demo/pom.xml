@@ -162,12 +162,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>aai</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.onap.policy.drools-pdp</groupId>
 			<artifactId>policy-endpoints</artifactId>
 			<version>${project.version}</version>
