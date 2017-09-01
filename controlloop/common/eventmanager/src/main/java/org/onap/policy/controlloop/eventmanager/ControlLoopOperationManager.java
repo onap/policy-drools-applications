@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,30 +33,30 @@ import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEvent;
+import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
+import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.policy.PolicyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 
 public class ControlLoopOperationManager implements Serializable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3773199283624595410L;
 	private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationManager.class);
 
 	@Override
 	public String toString() {
-		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.requestID : "null") + ", policy=" 
+		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.requestID : "null") + ", policy="
 				+ (policy != null ? policy.getId() : "null") + ", attempts=" + attempts
-				+ ", policyResult=" + policyResult 
+				+ ", policyResult=" + policyResult
 				+ ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
 				+ "]";
 	}
@@ -94,17 +94,17 @@ public class ControlLoopOperationManager implements Serializable {
 		public ControlLoopOperation operation = new ControlLoopOperation();
 		public PolicyResult policyResult = null;
 		public int attempt = 0;
-		
+
 		@Override
 		public String toString() {
 			return "Operation [attempt=" + attempt + ", policyResult=" + policyResult + ", operation=" + operation
 					+ "]";
 		}
 	}
-	
+
 	private String guardApprovalStatus = "NONE";//"NONE", "PERMIT", "DENY"
 	private Object operationRequest;
-	
+
 	public Object getOperationRequest() {
 		return operationRequest;
 	}
@@ -115,14 +115,14 @@ public class ControlLoopOperationManager implements Serializable {
 	public void setGuardApprovalStatus(String guardApprovalStatus) {
 		this.guardApprovalStatus = guardApprovalStatus;
 	}
-	
-	
-	public ControlLoopOperationManager(/*ATTControlLoopEvent*/ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException {
+
+
+	public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException {
 		this.onset = onset;
 		this.policy = policy;
 		this.guardApprovalStatus = "NONE";
 		this.eventManager = em;
-		
+
 		//
 		// Let's make a sanity check
 		//
@@ -141,7 +141,7 @@ public class ControlLoopOperationManager implements Serializable {
 			throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
 		}
 	}
-	
+
 	public Object startOperation(/*VirtualControlLoopEvent*/ControlLoopEvent onset) {
 		//
 		// They shouldn't call us if we currently running something
@@ -198,13 +198,13 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		switch (policy.getActor()) {
 		case "APPC":
-		    /* 
-		     * If the recipe is ModifyConfig, a legacy APPC 
+		    /*
+		     * If the recipe is ModifyConfig, a legacy APPC
 		     * request is constructed. Otherwise an LCMRequest
 		     * is constructed.
 		     */
 		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
-		      
+
 	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
 		    }
 		    else {
@@ -229,7 +229,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public PolicyResult	onResponse(Object response) {
 		//
 		// Which response is it?
@@ -316,9 +316,9 @@ public class ControlLoopOperationManager implements Serializable {
 			}
 		}
 		else if (response instanceof LCMResponseWrapper) {
-		    
+
 		    LCMResponseWrapper dmaapResponse = (LCMResponseWrapper) response;
-		    
+
 		    /*
 		     * Parse out the operation attempt using the subrequestid
 		     */
@@ -326,13 +326,13 @@ public class ControlLoopOperationManager implements Serializable {
 		    if (operationAttempt == null) {
 		        this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
 		    }
-		    
+
 		    /*
-		     * Process the APPCLCM response to see what PolicyResult 
+		     * Process the APPCLCM response to see what PolicyResult
 		     * should be returned
 		     */
 		    AbstractMap.SimpleEntry<PolicyResult, String> result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
-		    
+
 		    if (result.getKey() != null) {
     		    this.completeOperation(operationAttempt, result.getValue(), result.getKey());
     		    if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
@@ -344,7 +344,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public Integer	getOperationTimeout() {
 		//
 		// Sanity check
@@ -356,7 +356,7 @@ public class ControlLoopOperationManager implements Serializable {
 		logger.debug("getOperationTimeout returning {}", this.policy.getTimeout());
 		return this.policy.getTimeout();
 	}
-	
+
 	public String	getOperationTimeoutString(int defaultTimeout) {
 		Integer to = this.getOperationTimeout();
 		if (to == null || to == 0) {
@@ -364,11 +364,11 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return to.toString() + "s";
 	}
-	
+
 	public PolicyResult	getOperationResult() {
 		return this.policyResult;
 	}
-	
+
 	public String	getOperationMessage() {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toMessage();
@@ -378,7 +378,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public String	getOperationMessage(String guardResult) {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toMessage()+ ", Guard result: " + guardResult;
@@ -388,7 +388,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public String	getOperationHistory() {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toHistory();
@@ -398,23 +398,23 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public LinkedList<ControlLoopOperation>	getHistory() {
 		LinkedList<ControlLoopOperation> history = new LinkedList<ControlLoopOperation>();
 		for (Operation op : this.operationHistory) {
 			history.add(new ControlLoopOperation(op.operation));
-			
+
 		}
 		return history;
 	}
-	
+
 	public void		setOperationHasTimedOut() {
 		//
 		//
 		//
 		this.completeOperation(this.attempts, "Operation timed out", PolicyResult.FAILURE_TIMEOUT);
 	}
-	
+
 	public void		setOperationHasGuardDeny() {
 		//
 		//
@@ -469,11 +469,11 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		return true;
 	}
-	
+
 	public boolean	isOperationRunning() {
 		return (this.currentOperation != null);
 	}
-	
+
 	private boolean	isRetriesMaxedOut() {
 		if (policy.getRetry() == null || policy.getRetry() == 0) {
 			//
@@ -484,19 +484,23 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return (this.attempts > policy.getRetry());
 	}
-	
+
 	private void	storeOperationInDataBase(){
-		
+
+		String OpsHistPU = System.getProperty("OperationsHistoryPU");
+		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
+			OpsHistPU = "OperationsHistoryPU";
+		}
 		EntityManager em;
 		try{
-			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();//emf.createEntityManager();		
+			em = Persistence.createEntityManagerFactory(OpsHistPU).createEntityManager();
 		}catch(Exception e){
 			logger.error("storeOperationInDataBase threw: ", e);
-			return;	
+			return;
 		}
-			
-		OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry(); 
-			
+
+		OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry();
+
 		newEntry.closedLoopName = this.onset.closedLoopControlName;
 		newEntry.requestId = this.onset.requestID.toString();
 		newEntry.actor = this.currentOperation.operation.actor;
@@ -507,17 +511,17 @@ public class ControlLoopOperationManager implements Serializable {
 		newEntry.endtime = new Timestamp(this.currentOperation.operation.end.toEpochMilli());
 		newEntry.message = this.currentOperation.operation.message;
 		newEntry.outcome = this.currentOperation.operation.outcome;
-			
+
 		em.getTransaction().begin();
 		em.persist(newEntry);
 		em.getTransaction().commit();
-			
+
 		em.close();
 
 	}
 
-	
-	
+
+
 	private void	completeOperation(Integer attempt, String message, PolicyResult result) {
 		if (attempt == null) {
 			logger.debug("attempt cannot be null (i.e. subRequestID)");
@@ -556,7 +560,7 @@ public class ControlLoopOperationManager implements Serializable {
 			}
 		}
 		logger.debug("Could not find associated operation");
-		
+
 	}
-	
+
 }
