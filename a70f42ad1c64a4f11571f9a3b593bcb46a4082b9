@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a36c849d",
+        "filename": "controlloop/common/model-impl/aai/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-01T19:13:01Z",
+      "side": 1,
+      "message": "why is this one needed, should be coming transitively from policy-endpoints everything necessary?",
+      "revId": "a70f42ad1c64a4f11571f9a3b593bcb46a4082b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_430b98d6",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/util/AaiSimulator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-01T19:13:01Z",
+      "side": 1,
+      "message": "Ideally this should be in the src/test directory instead of under src/main.\n\nWhy did it have to change packages, it got messier than before .. ?",
+      "revId": "a70f42ad1c64a4f11571f9a3b593bcb46a4082b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_63069cd0",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-01T19:13:01Z",
+      "side": 1,
+      "message": "shouldnt this one be removed too and leave the \"aai\" one that will pick up the policy-endpoints?",
+      "revId": "a70f42ad1c64a4f11571f9a3b593bcb46a4082b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
