@@ -120,6 +120,20 @@ public final class Util {
 		return testServer;
 	}
 	
+	public static HttpServletServer buildMsoSim() throws InterruptedException {
+		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6667, "/", false, true);
+		testServer.addServletClass("/*", MsoSimulatorJaxRs.class.getName());
+		testServer.waitedStart(5000);
+		return testServer;
+	}
+	
+	public static HttpServletServer buildVfcSim() throws InterruptedException {
+		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6668, "/", false, true);
+		testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
+		testServer.waitedStart(5000);
+		return testServer;
+	}
+	
 	private static String	generatePolicy(String ruleContents, 
 			String closedLoopControlName, 
 			String policyScope, 
