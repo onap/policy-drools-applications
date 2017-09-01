@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,9 @@
 package org.onap.policy.guard;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
@@ -33,56 +35,59 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.att.research.xacml.api.Attribute;
+import com.att.research.xacml.api.AttributeValue;
+import com.att.research.xacml.api.Identifier;
 import com.att.research.xacml.api.pip.PIPException;
 import com.att.research.xacml.api.pip.PIPFinder;
 import com.att.research.xacml.api.pip.PIPRequest;
 import com.att.research.xacml.api.pip.PIPResponse;
 import com.att.research.xacml.std.IdentifierImpl;
 import com.att.research.xacml.std.StdMutableAttribute;
+import com.att.research.xacml.std.datatypes.DataTypes;
 import com.att.research.xacml.std.pip.StdMutablePIPResponse;
 import com.att.research.xacml.std.pip.StdPIPRequest;
 import com.att.research.xacml.std.pip.StdPIPResponse;
 import com.att.research.xacml.std.pip.engines.StdConfigurableEngine;
-import com.att.research.xacml.api.Attribute;
-import com.att.research.xacml.api.AttributeValue;
-import com.att.research.xacml.api.Identifier;
-import com.att.research.xacml.std.datatypes.DataTypes;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 
 public class PIPEngineGetHistory extends StdConfigurableEngine{
+	private interface DateUtil{
+        public long getMs();
+        public DateUtil init(String sqlValUnit) throws Exception;
+    }
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
-	
+
 	public static final String DEFAULT_DESCRIPTION		= "PIP for retrieving Operations History from DB";
-	
+
 	//
 	// Base issuer string. The issuer in the policy will also contain time window information
 	// E.g., "com:att:research:xacml:guard:historydb:tw:10:min"
 	//
 	public static final String DEFAULT_ISSUER			= "com:att:research:xacml:guard:historydb";
 
-	
+
 	private static final PIPRequest PIP_REQUEST_ACTOR	= new StdPIPRequest(
-					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"), 
-					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:actor:actor-id"), 
+					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"),
+					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:actor:actor-id"),
 					new IdentifierImpl("http://www.w3.org/2001/XMLSchema#string"));
-	
+
 	private static final PIPRequest PIP_REQUEST_RECIPE		= new StdPIPRequest(
-					new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:action"), 
-					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:operation:operation-id"), 
+					new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:action"),
+					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:operation:operation-id"),
 					new IdentifierImpl("http://www.w3.org/2001/XMLSchema#string"));
-	
+
 	private static final PIPRequest PIP_REQUEST_TARGET		= new StdPIPRequest(
-			new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:resource"), 
-			new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:target:target-id"), 
+			new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:resource"),
+			new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:target:target-id"),
 			new IdentifierImpl("http://www.w3.org/2001/XMLSchema#string"));
 
-	
+
 	private void addIntegerAttribute(StdMutablePIPResponse stdPIPResponse, Identifier category, Identifier attributeId, int value, PIPRequest pipRequest) {
 		AttributeValue<BigInteger> attributeValue	= null;
 		try {
@@ -95,14 +100,14 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		}
 	}
 
-	
-	
+
+
 	public PIPEngineGetHistory() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 
 	@Override
 	public Collection<PIPRequest> attributesRequired() {
@@ -120,7 +125,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	public PIPResponse getAttributes(PIPRequest pipRequest, PIPFinder pipFinder) throws PIPException {
 		// TODO Auto-generated method stub
 		logger.debug("Entering FeqLimiter PIP");
-		
+
 		/*
 		 * First check to see if the issuer is set and then match it
 		 */
@@ -139,7 +144,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				return StdPIPResponse.PIP_RESPONSE_EMPTY;
 			}
 		}
-		
+
 		String[] s1 = string.split("tw:");
 		String[] s2 = s1[1].split(":");
 		String timeWindowVal = s2[0];// number [of minutes, hours, days...]
@@ -148,24 +153,24 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		String actor = getActor(pipFinder).iterator().next();
 		String operation = getRecipe(pipFinder).iterator().next();
 		String target = getTarget(pipFinder).iterator().next();
-	
+
 		String timeWindow = timeWindowVal + " " + timeWindowScale;
-		
+
 		logger.debug("Going to query DB about: {} {} {} {}", actor, operation, target, timeWindow);
 		int countFromDB = getCountFromDB(actor, operation, target, timeWindow);
-		 
+
 		StdMutablePIPResponse stdPIPResponse	= new StdMutablePIPResponse();
-		
+
 		this.addIntegerAttribute(stdPIPResponse,
-				new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:resource"), 
-				new IdentifierImpl("com:att:research:xacml:test:sql:resource:operations:count"), 
+				new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:resource"),
+				new IdentifierImpl("com:att:research:xacml:test:sql:resource:operations:count"),
 				countFromDB,
 				pipRequest);
-		
+
 		return new StdPIPResponse(stdPIPResponse);
 	}
-	
-	
+
+
 	@Override
 	public void configure(String id, Properties properties) throws PIPException {
 		super.configure(id, properties);
@@ -178,33 +183,35 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		}
 	}
 
-	
-	
+
+
 	private PIPResponse getAttribute(PIPRequest pipRequest, PIPFinder pipFinder) {
 		PIPResponse pipResponse	= null;
 
 		try {
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
-			if  ((pipResponse != null)
-			  && (pipResponse.getStatus() != null) 
-			  && (!pipResponse.getStatus().isOk())) {
+			if (pipResponse != null) {
+				if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
 					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
 					pipResponse	= null;
-			}
-			if  ((pipResponse != null)
-			  && (pipResponse.getAttributes() != null)
-			  && (pipResponse.getAttributes().isEmpty())) {
+				}
+				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
 					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
 					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
 					pipResponse	= null;
 				}
+				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+					pipResponse	= null;
+				}
+			}
 		} catch (PIPException ex) {
 			logger.error("getAttribute threw:", ex);
 		}
 		return pipResponse;
 	}
-	
-	
+
+
 	private Set<String> getActor(PIPFinder pipFinder) {
 		/*
 		 * Get the AT&T UID from either the subject id or the attuid property
@@ -213,7 +220,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		if (pipResponseATTUID == null) {
 			return null;
 		}
-		
+
 		/*
 		 * Iterate over all of the returned results and do the LDAP requests
 		 */
@@ -230,7 +237,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				}
 			}
 		}
-		
+
 		return setATTUIDs;
 	}
 
@@ -242,7 +249,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		if (pipResponseATTUID == null) {
 			return null;
 		}
-		
+
 		/*
 		 * Iterate over all of the returned results and do the LDAP requests
 		 */
@@ -259,11 +266,11 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				}
 			}
 		}
-		
+
 		return setATTUIDs;
 	}
-	
-	
+
+
 	private Set<String> getTarget(PIPFinder pipFinder) {
 		/*
 		 * Get the AT&T UID from either the subject id or the attuid property
@@ -272,7 +279,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		if (pipResponseATTUID == null) {
 			return null;
 		}
-		
+
 		/*
 		 * Iterate over all of the returned results and do the LDAP requests
 		 */
@@ -289,32 +296,94 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				}
 			}
 		}
-		
+
 		return setATTUIDs;
 	}
-	
+
 	private static int getCountFromDB(String actor, String operation, String target, String timeWindow){
-		
-		EntityManager em;
+
+		EntityManager em = null;
+		String OpsHistPU = System.getProperty("OperationsHistoryPU");
+		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
+			OpsHistPU = "OperationsHistoryPU";
+		}
 		try{
-			em = Persistence.createEntityManagerFactory("OperationsHistoryPU").createEntityManager();
-		}catch(Exception e){
-			logger.error("getCountFromDB threw: ", e);
+			em = Persistence.createEntityManagerFactory(OpsHistPU).createEntityManager();
+		}catch(Exception ex){
+			logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", OpsHistPU);
+			logger.error("getCountFromDB threw: ", ex);
+		}
+
+		DateUtil dateUtil = new DateUtil(){
+			private long ms = 0;
+			private double multiplier = 0;
+
+			@Override
+			public DateUtil init(String sqlValUnit) throws Exception{
+				String[] split = sqlValUnit.split(" ");
+				if(split.length != 2){
+					throw new Exception("Invalid Value Unit pair for SQL");
+				}
+
+				ms = Long.parseLong(split[0]);
+
+				if(split[1].compareToIgnoreCase("SECOND") == 0){
+					multiplier = 1000;
+				}
+				else if(split[1].compareToIgnoreCase("MINUTE") == 0){
+					multiplier = 60000;
+				}
+				else if(split[1].compareToIgnoreCase("HOUR") == 0){
+					multiplier = 3.6e+6;
+				}
+				else if(split[1].compareToIgnoreCase("DAY") == 0){
+					multiplier = 8.64e+7;
+				}
+				else if(split[1].compareToIgnoreCase("WEEK") == 0){
+					multiplier = 6.048e+8;
+				}
+				else if(split[1].compareToIgnoreCase("MONTH") == 0){
+					multiplier = 2.628e+9;
+				}
+				else if(split[1].compareToIgnoreCase("QUARTER") == 0){
+					multiplier = 2.628e+9 * 3;
+				}
+				else if(split[1].compareToIgnoreCase("YEAR") == 0){
+					multiplier = 3.154e+10;
+				}
+				else{
+					logger.error("{} not supported", split[1]);
+				}
+
+				ms *= multiplier;
+				return this;
+			}
+			public long getMs(){
+				return ms;
+			}
+		};
+
+		long now = new Date().getTime();
+		long diff;
+		try {
+			diff = now - dateUtil.init(timeWindow).getMs();
+		} catch (Exception ex) {
+			System.err.println("PIP thread got Exception " + ex.getLocalizedMessage());
 			return -1;
 		}
-		
+
 		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard'"
-				+ " and actor=:actor" 
-				+ " and operation=:operation" 
-				+ " and target=:target" 
-				+ " and endtime between date_sub(now(),interval :timeWindow) and now()"; 
- 
-		Query nq = em.createNativeQuery(sql); 
-		nq = nq.setParameter("actor", actor); 
-		nq = nq.setParameter("operation", operation); 
-		nq = nq.setParameter("target", target); 
-		nq = nq.setParameter("timeWindow", timeWindow);
-		
+				+ " and actor= ?"
+				+ " and operation= ?"
+				+ " and target= ?"
+				+ " and endtime between '" + new Timestamp(diff) + "' and '" + new Timestamp(now) + "'";
+
+		Query nq = em.createNativeQuery(sql);
+		nq.setParameter(1, actor);
+		nq.setParameter(2, operation);
+		nq.setParameter(3, target);
+		//nq.setParameter("timeWindow", timeWindow);
+
 		int ret = -1;
 		try{
 			ret = ((Number)nq.getSingleResult()).intValue();
@@ -323,11 +392,11 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			logger.error("getCountFromDB threw: ", ex);
 			return -1;
 		}
-		
+
 		em.close();
-		
-		return ret;	
-	
+
+		return ret;
+
 	}
 
 

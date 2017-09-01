@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
- http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
- 
-   <persistence-unit name="OperationsHistoryPU" transaction-type="RESOURCE_LOCAL">
-       <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-     <!-- <jar-file>packedEntity.jar</jar-file>-->
-     <class>org.onap.policy.controlloop.eventmanager.OperationsHistoryDbEntry</class>
-     <properties>
-     <property name="eclipselink.ddl-generation" value="create-tables"/>
-       <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
-       <!--  <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:7779/policy"/>-->
-       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/policy"/>
-       <property name="javax.persistence.jdbc.user" value="root"/>
-       <property name="javax.persistence.jdbc.password" value="aaaa"/>
-       <property name="eclipselink.logging.level" value="INFO" />
-     </properties>
-   </persistence-unit>
- 
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="OperationsHistoryPU"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<!-- <jar-file>packedEntity.jar</jar-file> -->
+		<class>org.onap.policy.controlloop.eventmanager.OperationsHistoryDbEntry</class>
+		<properties>
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/policy" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="aaaa" />
+			<property name="eclipselink.logging.level" value="WARNING" />
+		</properties>
+	</persistence-unit>
+
+	
 </persistence>
