@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_d1af4ee2",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "I know this is not related to your code, but \"ATT\" should not be here ..",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_91b9c630",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "We should not have distinction, ideally between junit test code and prod release code, I hope there are other ways to accomplish this.\n\nHow would it work for release code?   Should the system property be set up externally?",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9162e6d6",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "I know this is not related to your code, but ysernames/passwords cannot be hardcoded here, should be parametarized.",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_715f820f",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "Same with this, this cannot be hardcoded here.",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b165eae2",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "This should go into src/test/resources.",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_519c7ec0",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "we don\u0027t want to make h2 be loaded from maven at runtime when a control loop is loaded in a real environment.",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_31a1faf8",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "let\u0027s check with Mike B. about these changes, he was working on similar changes for sonar blocker ..",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_11a6f610",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-02T18:55:21Z",
+      "side": 1,
+      "message": "no System.err, use logger instead",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
