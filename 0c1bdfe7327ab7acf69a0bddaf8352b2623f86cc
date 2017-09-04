@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_b73cba30",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-04T15:15:33Z",
+      "side": 1,
+      "message": "Not sure how this will work, h2",
+      "parentUuid": "9a437d4f_d7729e7b",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 15
+      },
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_d1af4ee2",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 2
