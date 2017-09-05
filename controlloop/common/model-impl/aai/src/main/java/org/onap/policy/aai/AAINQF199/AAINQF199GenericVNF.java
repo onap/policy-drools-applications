@@ -70,9 +70,15 @@ public class AAINQF199GenericVNF implements Serializable {
 	@SerializedName("encrypted-access-flag")
 	public Boolean encrypedAccessFlag;
 	
+//	@SerializedName("model-invariant-id")
+//	public String modelInvariantId;
+//	
+//	@SerializedName("model-version-id")
+//	public String modelVersionId;
+
 	@SerializedName("persona-model-id")
 	public String personaModelId;
-	
+
 	@SerializedName("persona-model-version")
 	public String personaModelVersion;
 
