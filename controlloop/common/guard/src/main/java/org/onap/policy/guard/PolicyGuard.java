@@ -26,6 +26,7 @@ import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.guard.impl.PNFTargetLock;
 import org.onap.policy.guard.impl.VMTargetLock;
+import org.onap.policy.guard.impl.VNFTargetLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +79,13 @@ public class PolicyGuard {
 				//
 				lock = new VMTargetLock(targetType, targetInstance, requestID, callback);
 				break;
+			case VNF:
+				//
+				// Create the Lock object
+				//
+				lock = new VNFTargetLock(targetType, targetInstance, requestID, callback);
+				break;
+
 			default:
 				return LockResult.createLockResult(GuardResult.LOCK_EXCEPTION, null);
 			}

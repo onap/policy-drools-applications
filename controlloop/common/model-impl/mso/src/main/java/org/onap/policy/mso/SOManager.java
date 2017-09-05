@@ -20,22 +20,29 @@
 
 package org.onap.policy.mso;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.onap.policy.mso.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
+import org.drools.core.WorkingMemory;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-public final class MSOManager {
+public final class SOManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(MSOManager.class);
-	
-	public static MSOResponse createModuleInstance(String url, String urlBase, String username, String password, MSORequest request) {
+	private static final Logger logger = LoggerFactory.getLogger(SOManager.class);
+	private static ExecutorService executors = Executors.newCachedThreadPool();
+		
+	public static SOResponse createModuleInstance(String url, String urlBase, String username, String password, SORequest request) {
 		
 		//
 		// Call REST
@@ -57,7 +64,7 @@ public final class MSOManager {
 		
 		if (httpDetails.a == 202) {
 			try {
-				MSOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, MSOResponse.class);
+				SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
 				
 				String body = Serialization.gsonPretty.toJson(response);
 				logger.debug("***** Response to post:");
@@ -68,12 +75,12 @@ public final class MSOManager {
 				
 				//String getUrl = "/orchestrationRequests/v2/"+requestId;
 				String urlGet = urlBase + "/orchestrationRequests/v2/"+requestId;
-				MSOResponse responseGet = null;
+				SOResponse responseGet = null;
 				
 				while(attemptsLeft-- > 0){
 					
 					Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
-					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, MSOResponse.class);
+					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, SOResponse.class);
 					body = Serialization.gsonPretty.toJson(responseGet);
 					logger.debug("***** Response to get:");
 					logger.debug(body);
@@ -97,7 +104,7 @@ public final class MSOManager {
 
 				return responseGet;
 			} catch (JsonSyntaxException e) {
-				logger.error("Failed to deserialize into MSOResponse: ", e);
+				logger.error("Failed to deserialize into SOResponse: ", e);
 			} catch (InterruptedException e) {
 				logger.error("Interrupted exception: ", e);
 			}
@@ -108,5 +115,54 @@ public final class MSOManager {
 		
 		return null;
 	}
+
+	/**
+	 * 
+	 * @param wm
+	 * @param url
+	 * @param urlBase
+	 * @param username
+	 * @param password
+	 * @param request
+	 * 
+	 * This method makes an asynchronous Rest call to MSO and inserts the response into the Drools working memory
+	 */
+	  public void asyncMSORestCall(WorkingMemory wm, String serviceInstanceId, String vnfInstanceId, SORequest request) {
+		  executors.submit(new Runnable()
+		  	{
+			  @Override
+			  	public void run()
+			  {
+			  	String serverRoot = ""; // TODO
+			  	String username = ""; // TODO
+			  	String password = ""; // TODO
+				String url = serverRoot + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModules";
+				
+				String auth = username + ":" + password;
+				
+				Map<String, String> headers = new HashMap<String, String>();
+				byte[] encodedBytes = Base64.getEncoder().encode(auth.getBytes());
+				headers.put("Accept", "application/json");
+				headers.put("Authorization", "Basic " + new String(encodedBytes));
+				
+				Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
+						.setPrettyPrinting()
+						.create();
+
+				String msoJson = gsonPretty.toJson(request);
+				
+				SOResponse mso = new SOResponse();
+				Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", msoJson);
+				if (httpResponse != null) {
+					Gson gson = new Gson();
+					mso = gson.fromJson(httpResponse.b, SOResponse.class);
+					mso.httpResponseCode = httpResponse.a;
+				}
+		
+//				logger.info("MSOResponse inserted " + mso.toString());
+				wm.insert(mso);
+			  }
+		  	});
+	  }
 
 }
