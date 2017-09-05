@@ -38,7 +38,7 @@ public final class AAINQF199Manager {
 	
 	public static AAINQF199Response	postQuery(String url, String username, String password, AAINQF199Request request, UUID requestID) {
 		
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
@@ -47,8 +47,10 @@ public final class AAINQF199Manager {
 
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
 
+		logger.debug("Performing AAI POST to " + url + "\nSending: \n" + Serialization.gsonPretty.toJson(request) + "END");
+		
 		if (httpDetails == null) {
-			logger.debug("AAI POST Null Response to {}", url);
+			logger.debug("AAI POST - Null Response from {}", url);
 			return null;
 		}
 		
@@ -69,7 +71,7 @@ public final class AAINQF199Manager {
 	
 	public static AAIGETResponse getQuery(String urlGet, String username, String password, UUID requestID, String vnfId) {
 		
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
@@ -101,7 +103,9 @@ public final class AAINQF199Manager {
 			}
 			try {
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+				logger.error(e.getMessage());
+			}
 
 		}
 		

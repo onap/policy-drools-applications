@@ -24,14 +24,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.onap.policy.mso.MSOCloudConfiguration;
-import org.onap.policy.mso.MSOModelInfo;
-import org.onap.policy.mso.MSORelatedInstance;
-import org.onap.policy.mso.MSORelatedInstanceListElement;
-import org.onap.policy.mso.MSORequest;
-import org.onap.policy.mso.MSORequestDetails;
-import org.onap.policy.mso.MSORequestInfo;
-import org.onap.policy.mso.MSORequestParameters;
+import org.onap.policy.mso.SOCloudConfiguration;
+import org.onap.policy.mso.SOModelInfo;
+import org.onap.policy.mso.SORelatedInstance;
+import org.onap.policy.mso.SORelatedInstanceListElement;
+import org.onap.policy.mso.SORequest;
+import org.onap.policy.mso.SORequestDetails;
+import org.onap.policy.mso.SORequestInfo;
+import org.onap.policy.mso.SORequestParameters;
 import org.onap.policy.mso.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +41,12 @@ public class TestDemo {
 	@Test
 	public void test() {
 		
-		MSORequest request = new MSORequest();
-		request.requestDetails = new MSORequestDetails();
-		request.requestDetails.modelInfo = new MSOModelInfo();
-		request.requestDetails.cloudConfiguration = new MSOCloudConfiguration();
-		request.requestDetails.requestInfo = new MSORequestInfo();
-		request.requestDetails.requestParameters = new MSORequestParameters();
+		SORequest request = new SORequest();
+		request.requestDetails = new SORequestDetails();
+		request.requestDetails.modelInfo = new SOModelInfo();
+		request.requestDetails.cloudConfiguration = new SOCloudConfiguration();
+		request.requestDetails.requestInfo = new SORequestInfo();
+		request.requestDetails.requestParameters = new SORequestParameters();
 		
 		request.requestDetails.modelInfo.modelType = "vfModule";
 		request.requestDetails.modelInfo.modelInvariantId = "ff5256d2-5a33-55df-13ab-12abad84e7ff";
@@ -57,24 +57,24 @@ public class TestDemo {
 		request.requestDetails.cloudConfiguration.lcpCloudRegionId = "mdt1";
 		request.requestDetails.cloudConfiguration.tenantId = "88a6ca3ee0394ade9403f075db23167e";
 		
-		request.requestDetails.requestInfo.instanceName = "MSOTEST103a-vSAMP12_base_module-0";
+		request.requestDetails.requestInfo.instanceName = "SOTEST103a-vSAMP12_base_module-0";
 		request.requestDetails.requestInfo.source = "VID";
 		request.requestDetails.requestInfo.suppressRollback = true;
 		
-		MSORelatedInstanceListElement relatedInstanceListElement1 = new MSORelatedInstanceListElement();
-		MSORelatedInstanceListElement relatedInstanceListElement2 = new MSORelatedInstanceListElement();
-		MSORelatedInstanceListElement relatedInstanceListElement3 = new MSORelatedInstanceListElement();
-		relatedInstanceListElement1.relatedInstance = new MSORelatedInstance();
-		relatedInstanceListElement2.relatedInstance = new MSORelatedInstance();
-		relatedInstanceListElement3.relatedInstance = new MSORelatedInstance();
+		SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
+		SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
+		SORelatedInstanceListElement relatedInstanceListElement3 = new SORelatedInstanceListElement();
+		relatedInstanceListElement1.relatedInstance = new SORelatedInstance();
+		relatedInstanceListElement2.relatedInstance = new SORelatedInstance();
+		relatedInstanceListElement3.relatedInstance = new SORelatedInstance();
 		
 		relatedInstanceListElement1.relatedInstance.instanceId = "17ef4658-bd1f-4ef0-9ca0-ea76e2bf122c";
-		relatedInstanceListElement1.relatedInstance.instanceName = "MSOTESTVOL103a-vSAMP12_base_module-0_vol";
-		relatedInstanceListElement1.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement1.relatedInstance.instanceName = "SOTESTVOL103a-vSAMP12_base_module-0_vol";
+		relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "volumeGroup";
 		
 		relatedInstanceListElement2.relatedInstance.instanceId = "serviceInstanceId";
-		relatedInstanceListElement2.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "service";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = "ff3514e3-5a33-55df-13ab-12abad84e7ff";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = "fe6985cd-ea33-3346-ac12-ab121484a3fe";
@@ -82,7 +82,7 @@ public class TestDemo {
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelVersion = "1.0";
 		
 		relatedInstanceListElement3.relatedInstance.instanceId = "vnfInstanceId";
-		relatedInstanceListElement3.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement3.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelType = "vnf";
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelInvariantId = "ff5256d1-5a33-55df-13ab-12abad84e7ff";
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelNameVersionId = "fe6478e4-ea33-3346-ac12-ab121484a3fe";
@@ -94,23 +94,17 @@ public class TestDemo {
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement2);
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement3);
 		
-		Map<String, String> userParam1 = new HashMap<String, String>();
+		Map<String, String> userParam1 = new HashMap<>();
 		userParam1.put("name1", "value1");
 		
-		Map<String, String> userParam2 = new HashMap<String, String>();
+		Map<String, String> userParam2 = new HashMap<>();
 		userParam2.put("name2", "value2");
 		
 		request.requestDetails.requestParameters.userParams.add(userParam1);
 		request.requestDetails.requestParameters.userParams.add(userParam2);
 		
-		String body = Serialization.gsonPretty.toJson(request);
-		logger.debug(body);
-		
-		//MSOResponse response = MSOManager.createModuleInstance("http://localhost:7780/", "my_username", "my_passwd", request);
-		
-		//body = Serialization.gsonPretty.toJson(response);
-		//logger.debug(body);
-		
+		logger.debug(Serialization.gsonPretty.toJson(request));
+				
 	}
 	
 	@Test
@@ -118,13 +112,13 @@ public class TestDemo {
 		
 		logger.debug("**  HACK  **");
 		
-		MSORequest request = new MSORequest();
+		SORequest request = new SORequest();
 		//
-		request.requestDetails = new MSORequestDetails();
-		request.requestDetails.modelInfo = new MSOModelInfo();
-		request.requestDetails.cloudConfiguration = new MSOCloudConfiguration();
-		request.requestDetails.requestInfo = new MSORequestInfo();
-		request.requestDetails.requestParameters = new MSORequestParameters();
+		request.requestDetails = new SORequestDetails();
+		request.requestDetails.modelInfo = new SOModelInfo();
+		request.requestDetails.cloudConfiguration = new SOCloudConfiguration();
+		request.requestDetails.requestInfo = new SORequestInfo();
+		request.requestDetails.requestParameters = new SORequestParameters();
 		request.requestDetails.requestParameters.userParams = null;
 		
 		request.requestDetails.modelInfo.modelType = "vfModule";
@@ -140,14 +134,14 @@ public class TestDemo {
 		request.requestDetails.requestInfo.source = "POLICY";
 		request.requestDetails.requestInfo.suppressRollback = false;
 		
-		MSORelatedInstanceListElement relatedInstanceListElement1 = new MSORelatedInstanceListElement();
-		MSORelatedInstanceListElement relatedInstanceListElement2 = new MSORelatedInstanceListElement();
-		relatedInstanceListElement1.relatedInstance = new MSORelatedInstance();
-		relatedInstanceListElement2.relatedInstance = new MSORelatedInstance();
+		SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
+		SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
+		relatedInstanceListElement1.relatedInstance = new SORelatedInstance();
+		relatedInstanceListElement2.relatedInstance = new SORelatedInstance();
 		
 		String serviceInstanceId = "98af39ce-6408-466b-921f-c2c7a8f59ed6";
 		relatedInstanceListElement1.relatedInstance.instanceId = serviceInstanceId;
-		relatedInstanceListElement1.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = "24329a0c-1d57-4210-b1af-a65df64e9d59";
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId = "ac642881-8e7e-4217-bd64-16ad41c42e30";
@@ -156,7 +150,7 @@ public class TestDemo {
 		
 		String vnfInstanceId = "8eb411b8-a936-412f-b01f-9a9a435c0e93";
 		relatedInstanceListElement2.relatedInstance.instanceId = vnfInstanceId;
-		relatedInstanceListElement2.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = "09fd971e-db5f-475d-997c-cf6704b6b8fe";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = "152ed917-6dcc-46ee-bf8a-a775c5aa5a74";
@@ -167,8 +161,7 @@ public class TestDemo {
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement1);
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement2);
 		
-		String body = Serialization.gsonPretty.toJson(request);
-		logger.debug(body);
+		logger.debug(Serialization.gsonPretty.toJson(request));
 	}
 
 }
