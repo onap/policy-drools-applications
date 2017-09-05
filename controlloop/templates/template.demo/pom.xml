@@ -91,6 +91,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>mso</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>sdc</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -146,6 +152,12 @@
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>actor.appc</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.mso</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

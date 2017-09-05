@@ -24,7 +24,7 @@ public enum ControlLoopTargetType {
 	VM("VM"),
 	VF("VF"),
 	VFC("VFC"),
-	ENODEB("eNodeB")
+	VNF("VNF")
 	;
 	
 	private String type;
@@ -49,7 +49,11 @@ public enum ControlLoopTargetType {
 		}
 		if (ENODEB.toString().equals(type)) {
 			return ENODEB;
+		}	
+		if (VNF.toString().equals(type)) {
+			return VNF;
 		}		
+
 		return null;
 	}
 }
