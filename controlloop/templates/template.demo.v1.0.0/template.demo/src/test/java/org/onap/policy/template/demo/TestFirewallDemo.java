@@ -68,7 +68,7 @@ public class TestFirewallDemo {
 				"type=operational", 
 				"myFirewallDemoPolicy", 
 				"v1.0",
-				"MSO",
+				"SO",
 				"http://localhost:8080/TestREST/Test",
 				"POLICY",
 				"POLICY",
