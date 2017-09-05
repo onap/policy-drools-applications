@@ -37,6 +37,7 @@ public class AAINQF199Response implements Serializable {
 	public List<AAINQF199InventoryResponseItem> inventoryResponseItems = new LinkedList<AAINQF199InventoryResponseItem>();
 
 	public AAINQF199Response() {
+		
 	}
-
+	
 }

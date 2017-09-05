@@ -47,8 +47,10 @@ public final class AAINQF199Manager {
 
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
 
+		System.out.println("Performing AAI POST to " + url + "\nSending: \n" + Serialization.gsonPretty.toJson(request) + "END");
+		
 		if (httpDetails == null) {
-			logger.debug("AAI POST Null Response to {}", url);
+			logger.debug("AAI POST - Null Response from {}", url);
 			return null;
 		}
 		
