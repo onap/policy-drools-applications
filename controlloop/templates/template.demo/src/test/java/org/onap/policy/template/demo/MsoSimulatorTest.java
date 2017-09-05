@@ -28,7 +28,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.mso.MSOResponse;
+import org.onap.policy.mso.SOResponse;
 import org.onap.policy.mso.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
@@ -53,7 +53,7 @@ public class MsoSimulatorTest {
 	public void testResponse(){
 		Pair<Integer, String> httpDetails = RESTManager.post("http://localhost:6667/serviceInstances/v2/12345/vnfs/12345/vfModulesHTTPS/1.1", "username", "password", new HashMap<String, String>(), "application/json", "Some Request Here");
 		assertNotNull(httpDetails);
-		MSOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, MSOResponse.class);
+		SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
 		assertNotNull(response);
 	}
 }

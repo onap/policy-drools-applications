@@ -21,27 +21,39 @@
 package org.onap.policy.mso;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 
 import com.google.gson.annotations.SerializedName;
 
-public class MSORequestParameters implements Serializable {
+public class SOModelInfo implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3283942659786236032L;
 	
-	@SerializedName("subscriptionServiceType")
-	public String subscriptionServiceType;
+	@SerializedName("modelType")
+	public String modelType;
 	
-	@SerializedName("userParams")
-	public List<Map<String, String>> userParams = new LinkedList<Map<String, String>>();
+	@SerializedName("modelInvariantId")
+	public String modelInvariantId;
+	
+	@SerializedName("modelNameVersionId")
+	public String modelNameVersionId;
+	
+	@SerializedName("modelName")
+	public String modelName;
+	
+	@SerializedName("modelVersion")
+	public String modelVersion;
 
-	public MSORequestParameters() {
+	@SerializedName("modelCustomizationName")
+	public String modelCustomizationName;
+
+	@SerializedName("modelCustomizationId")
+	public String modelCustomizationId;
+
+	public SOModelInfo() {
 	}
 
 }

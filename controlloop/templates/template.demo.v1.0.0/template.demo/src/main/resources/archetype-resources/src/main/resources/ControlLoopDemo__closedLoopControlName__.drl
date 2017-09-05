@@ -66,17 +66,17 @@ import org.onap.policy.vnf.trafficgenerator.PGRequest;
 import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;
 
-import org.onap.policy.mso.MSOManager;
-import org.onap.policy.mso.MSORequest;
-import org.onap.policy.mso.MSORequestStatus;
-import org.onap.policy.mso.MSORequestDetails;
-import org.onap.policy.mso.MSOModelInfo;
-import org.onap.policy.mso.MSOCloudConfiguration;
-import org.onap.policy.mso.MSORequestInfo;
-import org.onap.policy.mso.MSORequestParameters;
-import org.onap.policy.mso.MSORelatedInstanceListElement;
-import org.onap.policy.mso.MSORelatedInstance;
-import org.onap.policy.mso.MSOResponse;
+import org.onap.policy.mso.SOManager;
+import org.onap.policy.mso.SORequest;
+import org.onap.policy.mso.SORequestStatus;
+import org.onap.policy.mso.SORequestDetails;
+import org.onap.policy.mso.SOModelInfo;
+import org.onap.policy.mso.SOCloudConfiguration;
+import org.onap.policy.mso.SORequestInfo;
+import org.onap.policy.mso.SORequestParameters;
+import org.onap.policy.mso.SORelatedInstanceListElement;
+import org.onap.policy.mso.SORelatedInstance;
+import org.onap.policy.mso.SOResponse;
 
 
 //
@@ -638,7 +638,7 @@ end
 
 /*
 *
-* This rule happens when we got a valid AAI response. We can start sending request to APPC or MSO now.
+* This rule happens when we got a valid AAI response. We can start sending request to APPC or SO now.
 *
 */
 rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
@@ -880,7 +880,7 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 				}
 			}
 			break;
-			case "MSO":
+			case "SO":
 			{
 				//
 				// Construct an operation
@@ -894,14 +894,14 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 				//
 				ControlLoopOperationWrapper operationWrapper = new ControlLoopOperationWrapper($event.requestID, operation);
 				//
-				// Construct an MSO request
+				// Construct an SO request
 				//
-				MSORequest request = new MSORequest();
-				request.requestDetails = new MSORequestDetails();
-				request.requestDetails.modelInfo = new MSOModelInfo();
-				request.requestDetails.cloudConfiguration = new MSOCloudConfiguration();
-				request.requestDetails.requestInfo = new MSORequestInfo();
-				request.requestDetails.requestParameters = new MSORequestParameters();
+				SORequest request = new SORequest();
+				request.requestDetails = new SORequestDetails();
+				request.requestDetails.modelInfo = new SOModelInfo();
+				request.requestDetails.cloudConfiguration = new SOCloudConfiguration();
+				request.requestDetails.requestInfo = new SORequestInfo();
+				request.requestDetails.requestParameters = new SORequestParameters();
 				request.requestDetails.requestParameters.userParams = null;
 				//
 				// cloudConfiguration
@@ -925,13 +925,13 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 				//
 				// relatedInstanceList
 				//
-				MSORelatedInstanceListElement relatedInstanceListElement1 = new MSORelatedInstanceListElement();
-				MSORelatedInstanceListElement relatedInstanceListElement2 = new MSORelatedInstanceListElement();
-				relatedInstanceListElement1.relatedInstance = new MSORelatedInstance();
-				relatedInstanceListElement2.relatedInstance = new MSORelatedInstance();
+				SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
+				SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
+				relatedInstanceListElement1.relatedInstance = new SORelatedInstance();
+				relatedInstanceListElement2.relatedInstance = new SORelatedInstance();
 				//
 				relatedInstanceListElement1.relatedInstance.instanceId = serviceItemServiceInstanceId;
-				relatedInstanceListElement1.relatedInstance.modelInfo = new MSOModelInfo();
+				relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 				relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
 				relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = serviceItemPersonaModelId;
 				relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId = serviceItemModelNameVersionId;
@@ -939,7 +939,7 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 				relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = serviceItemModelVersion;
 				//
 				relatedInstanceListElement2.relatedInstance.instanceId = vnfItemVnfId;
-				relatedInstanceListElement2.relatedInstance.modelInfo = new MSOModelInfo();
+				relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 				relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
 				relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = vnfItemPersonaModelId;
 				relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = vnfItemModelNameVersionId;
@@ -950,9 +950,9 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 				request.requestDetails.relatedInstanceList.add(relatedInstanceListElement1);
 				request.requestDetails.relatedInstanceList.add(relatedInstanceListElement2);
 				//
-				// print MSO request for debug
+				// print SO request for debug
 				//
-				System.out.println("MSO request sent:");
+				System.out.println("SO request sent:");
 				System.out.println(Serialization.gsonPretty.toJson(request));
 				//
 				//
@@ -977,22 +977,22 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 					//
 					// Concatenate serviceItemServiceInstanceId and vnfItemVnfId to msoURL
 					//
-					String MSOUrl = $params.getMsoURL() + "/serviceInstances/v2/" + serviceItemServiceInstanceId + "/vnfs/" + vnfItemVnfId + "/vfModules";
+					String SOUrl = $params.getMsoURL() + "/serviceInstances/v2/" + serviceItemServiceInstanceId + "/vnfs/" + vnfItemVnfId + "/vfModules";
 					//
-					// Call MSO
+					// Call SO
 					//
-					MSOResponse response = MSOManager.createModuleInstance(MSOUrl, $params.getMsoURL(), $params.getMsoUsername(), $params.getMsoPassword(), request);
+					SOResponse response = SOManager.createModuleInstance(SOUrl, $params.getMsoURL(), $params.getMsoUsername(), $params.getMsoPassword(), request);
 					
 					
 					
 					
 					//////////////////////////////////////////////////////////
-					// Simulate a valid MSOResponse for junit test
+					// Simulate a valid SOResponse for junit test
 					// Remove this for real deployment
 					//
-					response = new MSOResponse();
-					response.request = new MSORequest();
-					response.request.requestStatus = new MSORequestStatus();
+					response = new SOResponse();
+					response.request = new SORequest();
+					response.request.requestStatus = new SORequestStatus();
 					response.request.requestStatus.requestState = "COMPLETE";
 					//////////////////////////////////////////////////////////
 					
@@ -1014,7 +1014,7 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 						insert(response);
 					} else {
 						//
-						// MSO request not even accepted
+						// SO request not even accepted
 						//
 						notification.message = operationWrapper.operation.toMessage();
 						operationWrapper.operation.message = operationWrapper.operation.toMessage();
@@ -1047,7 +1047,7 @@ rule "${policyName}.EVENT.MANAGER.AAINQF199RESPONSE"
 						retract($manager);
 					}
 				} else {
-					System.err.println("constructed MSO request is invalid.");
+					System.err.println("constructed SO request is invalid.");
 				}
 			}
 			break; 
@@ -1199,19 +1199,19 @@ end
 
 /*
 *
-* This rule responds to MSO Response Events
+* This rule responds to SO Response Events
 *
 */
-rule "${policyName}.MSO.RESPONSE"
+rule "${policyName}.SO.RESPONSE"
 	when
 		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
 		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
 		$operationWrapper : ControlLoopOperationWrapper( requestID == $event.requestID )
-		$request : MSORequest( requestId == $event.requestID.toString() )
-		$response : MSOResponse( request.requestId == $event.requestID.toString() )	
+		$request : SORequest( requestId == $event.requestID.toString() )
+		$response : SOResponse( request.requestId == $event.requestID.toString() )	
 	then
-		System.out.println("rule MSO.RESPONSE is triggered.");
+		System.out.println("rule SO.RESPONSE is triggered.");
 		//
 		// Construct notification
 		//

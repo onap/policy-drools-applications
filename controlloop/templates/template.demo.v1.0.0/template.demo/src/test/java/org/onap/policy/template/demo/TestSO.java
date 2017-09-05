@@ -25,14 +25,14 @@ import java.io.FileReader;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.onap.policy.mso.MSOCloudConfiguration;
-import org.onap.policy.mso.MSOModelInfo;
-import org.onap.policy.mso.MSORelatedInstance;
-import org.onap.policy.mso.MSORelatedInstanceListElement;
-import org.onap.policy.mso.MSORequest;
-import org.onap.policy.mso.MSORequestDetails;
-import org.onap.policy.mso.MSORequestInfo;
-import org.onap.policy.mso.MSORequestParameters;
+import org.onap.policy.mso.SOCloudConfiguration;
+import org.onap.policy.mso.SOModelInfo;
+import org.onap.policy.mso.SORelatedInstance;
+import org.onap.policy.mso.SORelatedInstanceListElement;
+import org.onap.policy.mso.SORequest;
+import org.onap.policy.mso.SORequestDetails;
+import org.onap.policy.mso.SORequestInfo;
+import org.onap.policy.mso.SORequestParameters;
 import org.onap.policy.aai.AAINQF199.AAINQF199Response;
 import org.onap.policy.aai.AAINQF199.AAINQF199ResponseWrapper;
 import org.onap.policy.mso.util.Serialization;
@@ -42,9 +42,9 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-public class TestMSO {
+public class TestSO {
 
-	private static final Logger logger = LoggerFactory.getLogger(TestMSO.class);
+	private static final Logger logger = LoggerFactory.getLogger(TestSO.class);
 			
 	@Test
 	public void test() throws FileNotFoundException {
@@ -98,14 +98,14 @@ public class TestMSO {
 		String cloudRegionItemCloudRegionId = aainqf199ResponseWrapper.aainqf199response.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).items.inventoryResponseItems.get(0).cloudRegion.cloudRegionId;
 
 		//
-		// Construct an MSO request
+		// Construct an SO request
 		//
-		MSORequest request = new MSORequest();
-		request.requestDetails = new MSORequestDetails();
-		request.requestDetails.modelInfo = new MSOModelInfo();
-		request.requestDetails.cloudConfiguration = new MSOCloudConfiguration();
-		request.requestDetails.requestInfo = new MSORequestInfo();
-		request.requestDetails.requestParameters = new MSORequestParameters();
+		SORequest request = new SORequest();
+		request.requestDetails = new SORequestDetails();
+		request.requestDetails.modelInfo = new SOModelInfo();
+		request.requestDetails.cloudConfiguration = new SOCloudConfiguration();
+		request.requestDetails.requestInfo = new SORequestInfo();
+		request.requestDetails.requestParameters = new SORequestParameters();
 		request.requestDetails.requestParameters.userParams = null;
 		//
 		// cloudConfiguration
@@ -129,13 +129,13 @@ public class TestMSO {
 		//
 		// relatedInstanceList
 		//
-		MSORelatedInstanceListElement relatedInstanceListElement1 = new MSORelatedInstanceListElement();
-		MSORelatedInstanceListElement relatedInstanceListElement2 = new MSORelatedInstanceListElement();
-		relatedInstanceListElement1.relatedInstance = new MSORelatedInstance();
-		relatedInstanceListElement2.relatedInstance = new MSORelatedInstance();
+		SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
+		SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
+		relatedInstanceListElement1.relatedInstance = new SORelatedInstance();
+		relatedInstanceListElement2.relatedInstance = new SORelatedInstance();
 		//
 		relatedInstanceListElement1.relatedInstance.instanceId = serviceItemServiceInstanceId;
-		relatedInstanceListElement1.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = serviceItemPersonaModelId;
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId = serviceItemModelNameVersionId;
@@ -143,7 +143,7 @@ public class TestMSO {
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = serviceItemModelVersion;
 		//
 		relatedInstanceListElement2.relatedInstance.instanceId = vnfItemVnfId;
-		relatedInstanceListElement2.relatedInstance.modelInfo = new MSOModelInfo();
+		relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = vnfItemPersonaModelId;
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = vnfItemModelNameVersionId;
@@ -154,9 +154,9 @@ public class TestMSO {
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement1);
 		request.requestDetails.relatedInstanceList.add(relatedInstanceListElement2);
 		//
-		// print MSO request for debug
+		// print SO request for debug
 		//
-		logger.debug("MSO request sent:");
+		logger.debug("SO request sent:");
 		logger.debug(Serialization.gsonPretty.toJson(request));
 	}
 
