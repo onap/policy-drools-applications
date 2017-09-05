@@ -52,6 +52,12 @@
 			<version>1.1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.mso</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
                 <dependency>
                         <groupId>org.onap.policy.drools-applications</groupId>
                         <artifactId>actor.vfc</artifactId>
@@ -124,6 +130,12 @@
 			<version>1.1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>mso</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 </project>
