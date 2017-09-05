@@ -72,7 +72,7 @@ public class AAINQF199GenericVNF implements Serializable {
 	
 	@SerializedName("persona-model-id")
 	public String personaModelId;
-	
+
 	@SerializedName("persona-model-version")
 	public String personaModelVersion;
 

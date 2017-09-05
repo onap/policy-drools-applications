@@ -22,28 +22,28 @@ package org.onap.policy.mso;
 
 import java.io.Serializable;
 
-
-
 import com.google.gson.annotations.SerializedName;
 
-public class MSORelatedInstance implements Serializable {
+public class SOResponse implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3283942659786236032L;
 	
-	@SerializedName("instanceId")
-	public String instanceId;
+	@SerializedName("requestReferences")
+	public SORequestReferences requestReferences;
 	
-	@SerializedName("instanceName")
-	public String instanceName;
+	@SerializedName("requestError")
+	public SORequestError requestError;
 	
-	@SerializedName("modelInfo")
-	public MSOModelInfo modelInfo;
+	@SerializedName("request")
+	public SORequest request;
+
+	public int httpResponseCode;
 	
-	
-	public MSORelatedInstance() {
+
+	public SOResponse() {
 	}
 
 }
