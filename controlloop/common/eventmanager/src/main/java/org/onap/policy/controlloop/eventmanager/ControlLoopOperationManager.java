@@ -40,6 +40,8 @@ import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.actor.mso.MSOActorServiceProvider;
+import org.onap.policy.mso.SOResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
@@ -129,11 +131,7 @@ public class ControlLoopOperationManager implements Serializable {
 		switch (policy.getActor()) {
 		case "APPC":
 			break;
-		case "AOTS":
-			break;
-		case "MSO":
-			break;
-		case "SDNO":
+		case "SO":
 			break;
 		case "VFC":
 			break;
@@ -215,12 +213,14 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			this.currentOperation = operation;
 			return operationRequest;
-		case "MSO":
-			//
-			// We are not supporting MSO interface at the moment
-			//
-			logger.debug("We are not supporting MSO actor in the latest release.");
-			return null;
+		case "SO":
+			MSOActorServiceProvider SOAsp = new MSOActorServiceProvider();
+			this.operationRequest = SOAsp.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
+			
+			// Save the operation
+			this.currentOperation = operation;
+			
+			return operationRequest;
 		case "VFC":
                         this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy);
                         this.currentOperation = operation;
@@ -341,7 +341,32 @@ public class ControlLoopOperationManager implements Serializable {
     		    return result.getKey();
 		    }
 		    return null;
+		} else if (response instanceof SOResponse) {
+			SOResponse msoResponse = (SOResponse) response;
+			switch (msoResponse.httpResponseCode) {
+			case 200:
+			case 202:
+				//
+				// Consider it as success
+				//
+				this.completeOperation(new Integer(1), msoResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
+				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+					return null;
+				}
+				return PolicyResult.SUCCESS;
+			default:
+				//
+				// Consider it as failure
+				//
+				this.completeOperation(new Integer(1), msoResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
+				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+					return null;
+				}
+				return PolicyResult.FAILURE;
+			}
+			
 		}
+		
 		return null;
 	}
 
