@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_7ce75241",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "I will see if it still runs ok with scope test.",
+      "parentUuid": "9a437d4f_d7729e7b",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 15
+      },
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_d1af4ee2",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 2
@@ -60,6 +84,24 @@
       "writtenOn": "2017-09-02T18:55:21Z",
       "side": 1,
       "message": "I know this is not related to your code, but \"ATT\" should not be here ..",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fc09022d",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "I will remove it.",
+      "parentUuid": "9a437d4f_d1af4ee2",
       "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -83,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_1c05e610",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "In release code, if the system property is not set then it will default to using the default remote db (not h2). It only needs to be set in testing, which is done in the junit; so no need for setting it externally. Tarun and Ravi recommended the System properties as being the least intrusive method, so I need guidance from a SME if that is not acceptable.",
+      "parentUuid": "9a437d4f_91b9c630",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_9162e6d6",
         "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
         "patchSetId": 2
@@ -94,6 +154,24 @@
       "writtenOn": "2017-09-02T18:55:21Z",
       "side": 1,
       "message": "I know this is not related to your code, but ysernames/passwords cannot be hardcoded here, should be parametarized.",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9cac36ef",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "Can I put credentials in the .properties file?",
+      "parentUuid": "9a437d4f_9162e6d6",
       "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -134,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_bc137a5b",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "JIRA asks to put it in this location. I can move unless Mike wants to keep it here.",
+      "parentUuid": "9a437d4f_b165eae2",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_519c7ec0",
         "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
         "patchSetId": 2
@@ -168,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_bc96da92",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "I did\u0027t touch this manually. This is from git rebase. Mike B should definitely look at this.",
+      "parentUuid": "9a437d4f_31a1faf8",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_11a6f610",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
         "patchSetId": 2
@@ -179,6 +293,24 @@
       "writtenOn": "2017-09-02T18:55:21Z",
       "side": 1,
       "message": "no System.err, use logger instead",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fcf34208",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-05T16:12:11Z",
+      "side": 1,
+      "message": "I will change to logger.",
+      "parentUuid": "9a437d4f_11a6f610",
       "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
