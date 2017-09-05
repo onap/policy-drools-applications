@@ -23,7 +23,8 @@ package org.onap.policy.controlloop.policy;
 public enum TargetType {
     VM("VM"),
     PNF("PNF"),
-    VFC("VFC")
+    VFC("VFC"), 
+    VNF("VNF")
     ;
     
     private String target;
