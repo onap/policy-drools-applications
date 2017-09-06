@@ -17,19 +17,22 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
-import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
+import java.io.Serializable; 
+import java.util.UUID;
+import org.onap.policy.aai.AAIGETResponse;
 
-public class RelationshipList {
-
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<>();
+public class AAIGETResponseWrapper implements Serializable {
+	public UUID requestID;
+	public AAIGETResponse aairesponse;
 	
-	public RelationshipList() {
+	public AAIGETResponseWrapper() {
+		
+	}
+	
+	public AAIGETResponseWrapper(UUID requestID, AAIGETResponse aairesponse){
+		this.requestID = requestID;
+		this.aairesponse = aairesponse;
 	}
 }

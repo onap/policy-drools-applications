@@ -20,16 +20,23 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
+import java.util.LinkedList;
+import java.util.List;
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<>();
+public class AAINQInventoryResponseItems implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7602807659381179004L;
+
+	@SerializedName("inventory-response-item")
+	public List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
 	
-	public RelationshipList() {
+	public AAINQInventoryResponseItems() {
 	}
+
 }

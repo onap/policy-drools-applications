@@ -20,16 +20,48 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<>();
+public class AAIGETVnfResponse implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6247505944905898870L;
+ 
+	@SerializedName("vnf-id")
+	public String vnfID;
 	
-	public RelationshipList() {
+	@SerializedName("vnf-name")
+	public String vnfName;
+	
+	@SerializedName("vnf-type")
+	public String vnfType;
+	
+	@SerializedName("service-id")
+	public String serviceId;
+	
+	@SerializedName("orchestration-status")
+	public String orchestrationStatus;
+	
+	@SerializedName("in-maint")
+	public String inMaint;
+	
+	@SerializedName("is-closed-loop-disabled")
+	public String isClosedLoopDisabled;
+	
+	@SerializedName("resource-version")
+	public String resourceVersion; 
+	
+	@SerializedName("model-invariant-id")
+	public String modelInvariantId;
+	
+	@SerializedName("relationship-list")
+	public RelationshipList relationshipList;
+
+	public AAIGETVnfResponse() {
 	}
+
 }
