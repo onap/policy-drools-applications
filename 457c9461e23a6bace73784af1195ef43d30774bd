@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_7093f3fa",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "I have yet to complete renaming of every MSO package/class. This will be included in the next patch",
+      "parentUuid": "9a437d4f_b0f95bca",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_90f657d6",
         "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-06T14:00:26Z",
       "side": 1,
       "message": "Will the yaml from CLAMP have an actor of MSO or SO?",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5090efeb",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_90f657d6",
       "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_b0db9bec",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Yes, I will remove it",
+      "parentUuid": "9a437d4f_5017cfed",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_90c77745",
         "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2017-09-06T14:00:26Z",
       "side": 1,
       "message": "replace print statements with logging",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d0bbbf70",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_90c77745",
       "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -127,6 +199,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_b0b03b8c",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_70c41340",
+      "range": {
+        "startLine": 424,
+        "startChar": 3,
+        "endLine": 425,
+        "endChar": 64
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_50c10f2d",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -138,6 +234,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "Please remove AOTS and SDNO, they are internal.",
+      "range": {
+        "startLine": 132,
+        "startChar": 8,
+        "endLine": 132,
+        "endChar": 14
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8b106a4f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_50c10f2d",
       "range": {
         "startLine": 132,
         "startChar": 8,
@@ -190,6 +310,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_ab41ee3a",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199GenericVNF.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_30de8b12",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b0d15bfd",
         "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
         "patchSetId": 1
@@ -201,6 +345,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "Remove this to avoid Sonar critical.",
+      "range": {
+        "startLine": 41,
+        "startChar": 43,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_eb20169d",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_b0d15bfd",
       "range": {
         "startLine": 41,
         "startChar": 43,
@@ -253,6 +421,48 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_cb2552ac",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_70f1b3cc",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ab3a0ecb",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_d0ecdfc9",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_90ce5759",
         "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
         "patchSetId": 1
@@ -264,6 +474,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "If you can remove this to avoid Sonar critical that would be great.",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 58
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8b374ae3",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_90ce5759",
       "range": {
         "startLine": 74,
         "startChar": 44,
@@ -299,6 +533,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_6b3426de",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_70dbf31b",
+      "range": {
+        "startLine": 106,
+        "startChar": 5,
+        "endLine": 106,
+        "endChar": 38
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_50d8ef1c",
         "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Response.java",
         "patchSetId": 1
@@ -310,6 +568,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "Remove to avoid sonar critical.",
+      "range": {
+        "startLine": 37,
+        "startChar": 85,
+        "endLine": 37,
+        "endChar": 115
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6b4b065a",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Response.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_50d8ef1c",
       "range": {
         "startLine": 37,
         "startChar": 85,
@@ -345,6 +627,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_0b7a3a88",
+        "filename": "controlloop/common/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopTargetType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_30056b7a",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b0f83b7d",
         "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
         "patchSetId": 1
@@ -356,6 +662,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "Remove to avoid sonar.",
+      "range": {
+        "startLine": 97,
+        "startChar": 47,
+        "endLine": 97,
+        "endChar": 62
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_cb7312b0",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_b0f83b7d",
       "range": {
         "startLine": 97,
         "startChar": 47,
@@ -391,6 +721,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_8b650ae3",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_f0fec36a",
+      "range": {
+        "startLine": 100,
+        "startChar": 47,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_f035a346",
         "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
         "patchSetId": 1
@@ -402,6 +756,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "Combine into one statement.",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 21
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6b62e6d9",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_f035a346",
       "range": {
         "startLine": 106,
         "startChar": 2,
@@ -437,6 +815,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_4b5f220f",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_70f2d39b",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 23
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_302c4b02",
         "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
         "patchSetId": 1
@@ -448,6 +850,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "Combine into one statement to avoid sonar.",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 21
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2b9cdebf",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_302c4b02",
       "range": {
         "startLine": 170,
         "startChar": 2,
@@ -477,6 +903,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_0ba11af8",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Yes, I do :)",
+      "parentUuid": "9a437d4f_90f53785",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_5046afc0",
         "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
         "patchSetId": 1
@@ -488,6 +932,30 @@
       "writtenOn": "2017-09-06T14:03:59Z",
       "side": 1,
       "message": "This should not be there anymore since we are utilizing the archetype. This rule should be generated by the JUnit test. This avoid 2 separate .drl files being supported.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 3
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6bb9c62d",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_5046afc0",
       "range": {
         "startLine": 101,
         "startChar": 0,
@@ -523,6 +991,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_4bb6023f",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_b03f1b25",
+      "range": {
+        "startLine": 528,
+        "startChar": 4,
+        "endLine": 528,
+        "endChar": 16
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_108ee72e",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
         "patchSetId": 1
@@ -540,6 +1032,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_abdd6e72",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_108ee72e",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_d0b05ff6",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
         "patchSetId": 1
@@ -551,6 +1061,24 @@
       "writtenOn": "2017-09-06T14:00:26Z",
       "side": 1,
       "message": "I think you meant to type \"testvDNS\", might want to remove the extra \"S\"",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8bdaaa76",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_d0b05ff6",
       "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -591,6 +1119,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_6be78641",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_709f7360",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_3089eb26",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
         "patchSetId": 1
@@ -602,6 +1148,24 @@
       "writtenOn": "2017-09-06T14:00:26Z",
       "side": 1,
       "message": "You may want more assertions in the test at different points of the vDNS flow to make sure it works accordingly.",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4be4c23a",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-06T17:42:15Z",
+      "side": 1,
+      "message": "I agree. This is just to test the basic functionality of sending and receiving the AAI named query. Will add more tests once additional functionality is implemented",
+      "parentUuid": "9a437d4f_3089eb26",
       "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
