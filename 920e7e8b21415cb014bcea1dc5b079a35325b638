@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_2796524d",
+        "filename": "controlloop/common/actors/actor.appclcm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_4b55e21b",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_0b37da00",
         "filename": "controlloop/common/actors/actor.appclcm/pom.xml",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-06T21:12:43Z",
       "side": 1,
       "message": "test scope only",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_07910e52",
+        "filename": "controlloop/common/actors/actor.appclcm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_0b37da00",
       "range": {
         "startLine": 47,
         "startChar": 3,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_27cf7281",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "The existing model code actually can support serialization and deserialization of both vDNS and vFW. Charles tested this with his simulator so I don\u0027t think additional model code is needed.",
+      "parentUuid": "9a437d4f_c72f8687",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_073d8ebb",
         "filename": "controlloop/common/actors/actor.appclcm/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
         "patchSetId": 2
@@ -140,6 +212,54 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_c79ae66d",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_2742d23e",
+      "range": {
+        "startLine": 1,
+        "startChar": 34,
+        "endLine": 1,
+        "endChar": 38
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e79f2a5e",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_073d8ebb",
+      "range": {
+        "startLine": 1,
+        "startChar": 39,
+        "endLine": 1,
+        "endChar": 63
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_67cb3aa6",
         "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcServiceProviderTest.java",
         "patchSetId": 2
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_a7892228",
+        "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_67cb3aa6",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 17
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_4745d615",
         "filename": "controlloop/common/model-impl/appclcm/pom.xml",
         "patchSetId": 2
@@ -174,6 +318,30 @@
       "writtenOn": "2017-09-06T21:12:43Z",
       "side": 1,
       "message": "test only",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_878cde36",
+        "filename": "controlloop/common/model-impl/appclcm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_4745d615",
       "range": {
         "startLine": 36,
         "startChar": 2,
@@ -243,6 +411,30 @@
       "writtenOn": "2017-09-06T21:12:43Z",
       "side": 1,
       "message": "VNF",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 14
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_67b57aed",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_ControlLoop_vFW.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T22:20:21Z",
+      "side": 1,
+      "message": "This is temporary until there is a fix for supporting target locks on VNFs. The test cases will fail if this is set to VNF. I\u0027m very aware of this and will be working on the fix once I get Ali\u0027s work in (it contains some VNF target lock work but it is not complete)",
+      "parentUuid": "9a437d4f_6710da01",
       "range": {
         "startLine": 20,
         "startChar": 12,
