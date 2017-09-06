@@ -20,12 +20,19 @@
 
 package org.onap.policy.aai;
 
+import java.util.List;
+import java.util.LinkedList;
+
 import com.google.gson.annotations.SerializedName;
-import java.util.List; 
-import java.util.LinkedList; 
 
-public class RelationshipList {
+public class RelationshipDataItem {
+	
+	@SerializedName("relationship-key")
+	public String relationshipKey;
+	@SerializedName("relationship-value")
+	public String relationshipValue;
+	
+	public RelationshipDataItem() {
+	}
 
-	@SerializedName("relationship-list")
-	public List<Relationship> relationshipList = new LinkedList<Relationship>();
 }
