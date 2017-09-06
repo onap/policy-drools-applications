@@ -20,16 +20,23 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<Relationship>();
+public class AAINQRequest implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3283942659786236032L;
 	
-	public RelationshipList() {
+	@SerializedName("query-parameters")
+	public AAINQQueryParameters queryParameters;
+	@SerializedName("instance-filters")
+	public AAINQInstanceFilters instanceFilters;
+
+	public AAINQRequest() {
 	}
+
 }

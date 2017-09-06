@@ -20,16 +20,45 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<Relationship>();
+public class AAINQInventoryResponseItem implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7142072567154675183L;
 	
-	public RelationshipList() {
+	@SerializedName("model-name")
+	public String modelName;
+	
+	@SerializedName("vf-module")
+	public AAINQVfModule vfModule;
+	
+	@SerializedName("service-instance")
+	public AAINQServiceInstance serviceInstance;
+	
+	@SerializedName("vserver")
+	public AAINQVServer vserver;
+	
+	@SerializedName("tenant")
+	public AAINQTenant tenant;
+	
+	@SerializedName("cloud-region")
+	public AAINQCloudRegion cloudRegion;
+	
+	@SerializedName("generic-vnf")
+	public AAINQGenericVNF genericVNF;
+	
+	@SerializedName("extra-properties")
+	public AAINQExtraProperties extraProperties;
+	
+	@SerializedName("inventory-response-items")
+	public AAINQInventoryResponseItems items;
+
+	public AAINQInventoryResponseItem() {
 	}
+
 }

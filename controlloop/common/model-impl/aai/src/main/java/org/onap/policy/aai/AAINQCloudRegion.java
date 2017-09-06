@@ -20,16 +20,32 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<Relationship>();
+public class AAINQCloudRegion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -897231529157222683L;
+
+	@SerializedName("cloud-owner")
+	public String cloudOwner;
 	
-	public RelationshipList() {
+	@SerializedName("cloud-region-id")
+	public String cloudRegionId;
+	
+	@SerializedName("cloud-region-version")
+	public String cloudRegionVersion;
+	
+	@SerializedName("complex-name")
+	public String complexName;
+	
+	@SerializedName("resource-version")
+	public String resourceVersion;
+	
+	public AAINQCloudRegion() {
 	}
 }

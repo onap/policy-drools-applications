@@ -20,16 +20,46 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
+import java.util.LinkedList;
+import java.util.List;
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<Relationship>();
+public class AAIGETVserverResponse implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6247505944905898870L;
+ 
+	@SerializedName("vserver-id")
+	public String vserverID;
 	
-	public RelationshipList() {
+	@SerializedName("vserver-name")
+	public String vserverName;
+	
+	@SerializedName("vserver-name2")
+	public String vserverName2;
+	
+	@SerializedName("vserver-selflink")
+	public String vserverSelflink;
+	
+	@SerializedName("in-maint")
+	public String inMaint;
+	
+	@SerializedName("is-closed-loop-disabled")
+	public String isClosedLoopDisabled;
+	
+	@SerializedName("resource-version")
+	public String resourceVersion; 
+	
+	@SerializedName("model-invariant-id")
+	public String modelInvariantId;
+	
+	public RelationshipList relationshipList;
+
+	public AAIGETVserverResponse() {
 	}
+
 }
