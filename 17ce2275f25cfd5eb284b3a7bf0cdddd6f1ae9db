@@ -1,0 +1,337 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_b0771bd4",
+        "filename": "controlloop/common/actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/APPCActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Possible this will generate sonar critical",
+      "range": {
+        "startLine": 43,
+        "startChar": 92,
+        "endLine": 43,
+        "endChar": 112
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_106947f9",
+        "filename": "controlloop/common/actors/actor.appclcm/.checkstyle",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "This should probably not be added.",
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7081b38e",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Sonar critical",
+      "range": {
+        "startLine": 64,
+        "startChar": 95,
+        "endLine": 64,
+        "endChar": 115
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_304b2b89",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Sonar critical",
+      "range": {
+        "startLine": 67,
+        "startChar": 96,
+        "endLine": 67,
+        "endChar": 116
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b05efb43",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Rework this code to avoid sonar critical:\n\"Restart\".equalsIgnoreCase(policy.getRecipe())\netc.",
+      "range": {
+        "startLine": 195,
+        "startChar": 12,
+        "endLine": 196,
+        "endChar": 64
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_905bf753",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Log the exception to avoid sonar critical",
+      "range": {
+        "startLine": 224,
+        "startChar": 17,
+        "endLine": 224,
+        "endChar": 40
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_50558f1b",
+        "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcServiceProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Remove to avoid sonar critical",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 51
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30320b11",
+        "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcServiceProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "avoid sonar critical",
+      "range": {
+        "startLine": 111,
+        "startChar": 64,
+        "endLine": 111,
+        "endChar": 78
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_101ee770",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "remove to avoid sonar",
+      "range": {
+        "startLine": 217,
+        "startChar": 3,
+        "endLine": 220,
+        "endChar": 5
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f0124361",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Possible this will get flagged by sonar. Just reverse the equals",
+      "range": {
+        "startLine": 316,
+        "startChar": 37,
+        "endLine": 316,
+        "endChar": 91
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9009b733",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/drools/impl/PolicyEngineJUnitImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "Possible sonar will flag this.",
+      "range": {
+        "startLine": 65,
+        "startChar": 35,
+        "endLine": 65,
+        "endChar": 56
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30644b21",
+        "filename": "controlloop/common/model-impl/appclcm/.checkstyle",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this is here, was it a mistake? It contains developer specific local installation details.",
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d0405f58",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LCMCommonHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "remove to avoid sonar",
+      "range": {
+        "startLine": 51,
+        "startChar": 52,
+        "endLine": 51,
+        "endChar": 66
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b025dbc3",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LCMCommonHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "remove to avoid sonar",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9022d7b7",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LCMRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T15:05:58Z",
+      "side": 1,
+      "message": "remove to avoid sonar",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 41
+      },
+      "revId": "17ce2275f25cfd5eb284b3a7bf0cdddd6f1ae9db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
