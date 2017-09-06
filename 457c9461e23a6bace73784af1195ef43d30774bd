@@ -104,6 +104,52 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_70c41340",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Let\u0027s add a logger and dump via that.",
+      "range": {
+        "startLine": 424,
+        "startChar": 3,
+        "endLine": 425,
+        "endChar": 64
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_50c10f2d",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Please remove AOTS and SDNO, they are internal.",
+      "range": {
+        "startLine": 132,
+        "startChar": 8,
+        "endLine": 132,
+        "endChar": 14
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b0e71b12",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -115,6 +161,52 @@
       "writtenOn": "2017-09-06T14:00:26Z",
       "side": 1,
       "message": "You are always submitting an operation attempt of one, this can be problematic for retries specified in the yaml",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30de8b12",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199GenericVNF.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Sonar will flag this. Just remove it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b0d15bfd",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Remove this to avoid Sonar critical.",
+      "range": {
+        "startLine": 41,
+        "startChar": 43,
+        "endLine": 41,
+        "endChar": 58
+      },
       "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -138,6 +230,236 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_d0ecdfc9",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Change this to logger.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_90ce5759",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "If you can remove this to avoid Sonar critical that would be great.",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 58
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_70dbf31b",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Sonar will flag if we don\u0027t log the exception.",
+      "range": {
+        "startLine": 106,
+        "startChar": 5,
+        "endLine": 106,
+        "endChar": 38
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_50d8ef1c",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Response.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Remove to avoid sonar critical.",
+      "range": {
+        "startLine": 37,
+        "startChar": 85,
+        "endLine": 37,
+        "endChar": 115
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30056b7a",
+        "filename": "controlloop/common/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopTargetType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "This should not be here, its internal.",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b0f83b7d",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Remove to avoid sonar.",
+      "range": {
+        "startLine": 97,
+        "startChar": 47,
+        "endLine": 97,
+        "endChar": 62
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f0fec36a",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Remove to avoid sonar.",
+      "range": {
+        "startLine": 100,
+        "startChar": 47,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f035a346",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Combine into one statement.",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 21
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_70f2d39b",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Delete to avoid sonar.",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 23
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_302c4b02",
+        "filename": "controlloop/common/model-impl/mso/src/test/java/org/onap/policy/mso/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Combine into one statement to avoid sonar.",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 21
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_90f53785",
         "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
         "patchSetId": 1
@@ -149,6 +471,52 @@
       "writtenOn": "2017-09-06T14:00:26Z",
       "side": 1,
       "message": "I think you may need to migrate these drl changes into the \"ControlLoopXacmlGuard\" drl",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5046afc0",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "This should not be there anymore since we are utilizing the archetype. This rule should be generated by the JUnit test. This avoid 2 separate .drl files being supported.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 3
+      },
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b03f1b25",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-06T14:03:59Z",
+      "side": 1,
+      "message": "Please remove, this is internal",
+      "range": {
+        "startLine": 528,
+        "startChar": 4,
+        "endLine": 528,
+        "endChar": 16
+      },
       "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
