@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_b0f95bca",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Should this say MSOActorServiceProvider or SOActorServiceProvider?",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_90f657d6",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Will the yaml from CLAMP have an actor of MSO or SO?",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f026c367",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "This will probably be needed in the future for asynchronous A\u0026AI queries",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d02bbf2e",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "I think this needs to be a logging statement",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5017cfed",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Is this commented out code intentional?",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_90c77745",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "replace print statements with logging",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b0e71b12",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "You are always submitting an operation attempt of one, this can be problematic for retries specified in the yaml",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_70f1b3cc",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Remove print statement and switch to logging",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_90f53785",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_SO-closedLoop.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "I think you may need to migrate these drl changes into the \"ControlLoopXacmlGuard\" drl",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_108ee72e",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Are these needed? If not, can we remove them?",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d0b05ff6",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "I think you meant to type \"testvDNS\", might want to remove the extra \"S\"",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_509c6f69",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Starting and stopping the simulator may be better in a method with an @Before/@After Class annotation",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_709f7360",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "Should remove all print statements and replace with logging statements",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3089eb26",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-06T14:00:26Z",
+      "side": 1,
+      "message": "You may want more assertions in the test at different points of the vDNS flow to make sure it works accordingly.",
+      "revId": "457c9461e23a6bace73784af1195ef43d30774bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
