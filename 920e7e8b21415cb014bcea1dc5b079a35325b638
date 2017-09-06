@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_4b55e21b",
+        "filename": "controlloop/common/actors/actor.appclcm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "we only need this in testing, right? better to change to test scope",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0b37da00",
+        "filename": "controlloop/common/actors/actor.appclcm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "test scope only",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_cb40b258",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "this named-query is used for vDNS case. Here for vFW case, we should use AAINQA93A",
+      "range": {
+        "startLine": 109,
+        "startChar": 42,
+        "endLine": 109,
+        "endChar": 51
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c72f8687",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "this response is for vDNS named-query. It has different structure from the one used for vFW.",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_073d8ebb",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "change to AppcLCM",
+      "range": {
+        "startLine": 1,
+        "startChar": 39,
+        "endLine": 1,
+        "endChar": 63
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2742d23e",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "should change to appclcm",
+      "range": {
+        "startLine": 1,
+        "startChar": 34,
+        "endLine": 1,
+        "endChar": 38
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_67cb3aa6",
+        "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "AppcLCM",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 17
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4745d615",
+        "filename": "controlloop/common/model-impl/appclcm/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "test only",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6759fafd",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/AaiSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "suggest this simple GET method getQuery not be put under AAINQF199Manager since this GET has nothing to do with named-query.",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2773f281",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/AaiSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "we might need another test for AAINQA93A which is for vFW named-query since vFW and vDNS named-query will return different response structures (need different response models)",
+      "range": {
+        "startLine": 62,
+        "startChar": 31,
+        "endLine": 62,
+        "endChar": 57
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6710da01",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_ControlLoop_vFW.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-06T21:12:43Z",
+      "side": 1,
+      "message": "VNF",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 14
+      },
+      "revId": "920e7e8b21415cb014bcea1dc5b079a35325b638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
