@@ -282,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_70589356",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 107
+      },
+      "writtenOn": "2017-09-06T15:10:16Z",
+      "side": 1,
+      "message": "What is the question about this piece of code?",
+      "parentUuid": "9a437d4f_bc96da92",
+      "revId": "0c1bdfe7327ab7acf69a0bddaf8352b2623f86cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_11a6f610",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
         "patchSetId": 2
