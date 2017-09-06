@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * unit test
+ * aai
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -18,137 +18,189 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.eventmanager;
+package org.onap.policy.aai;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import org.junit.Test;
 import org.onap.policy.aai.AAIGETVserverResponse;
 import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.RelatedToPropertyItem;
-import org.onap.policy.aai.Relationship;
-import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipDataItem;
-import org.onap.policy.aai.RelationshipList;
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.RelatedToProperty;
-import org.onap.policy.appc.Request;
-import org.onap.policy.appc.Response;
-import org.onap.policy.appc.ResponseCode;
-import org.onap.policy.appc.ResponseValue;
-import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.aai.RelationshipData;
+import org.onap.policy.aai.util.Serialization;
+import org.onap.policy.aai.AAINQF199.AAINQF199Request;
+import org.onap.policy.aai.AAINQF199.AAINQF199Response;
+import org.onap.policy.rest.RESTManager;
+import org.onap.policy.rest.RESTManager.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.Util;
-import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.processor.ControlLoopProcessor;
+import com.google.gson.JsonSyntaxException;
 
-public class ControlLoopEventManagerTest {
+public final class AAIManager {
+	private static final Logger logger = LoggerFactory.getLogger(AAIManager.class);
 	
-	private static VirtualControlLoopEvent onset;
-	static {
-		onset = new VirtualControlLoopEvent();
-		onset.closedLoopControlName = "ControlLoop-vUSP"; 
-		onset.requestID = UUID.randomUUID();
-		onset.target = "VM_NAME";
-		onset.closedLoopAlarmStart = Instant.now();
-		onset.AAI = new HashMap<String, String>();
-		onset.AAI.put("cloud-region.identity-url", "foo");
-		onset.AAI.put("vserver.selflink", "bar");
-		//onset.AAI.put("vserver.is-closed-loop-disabled", "false");
-		onset.AAI.put("generic-vnf.vnf-id", "83f674e8-7555-44d7-9a39-bdc3770b0491");
-		onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
-	}
-	
-	@Test
-	public void testGetAAIInfo() {
-		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+	public static AAINQF199Response	postQuery(String url, String username, String password, AAINQF199Request request, UUID requestID) {
 		
-		try {
-			System.out.println("1 - testGetAAIVnfInfo started");
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
-			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
-			 
-			AAIGETVnfResponse response = eventManager.getAAIVnfInfo(onset); // vnf-id 
-			System.out.println("testGetAAIInfo end ...");
-		} catch (Exception e) {
-			fail(e.getMessage());
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("X-FromAppId", "POLICY");
+		headers.put("X-TransactionId", requestID.toString());
+		headers.put("Accept", "application/json");
+		
+		url = url + "/aai/search/named-query";
+
+		logger.debug("ESTManager.post before"); 
+		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
+		logger.debug("ESTManager.post after"); 
+		
+		if (httpDetails == null) {
+			System.out.println("AAI POST Null Response to " + url);
+			return null;
 		}
-	}
-
-	@Test
-	public void testIsClosedLoopDisabled() {
-		//
-		// Load up the policy
-		//
-		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		
-		try {
-			System.out.println("2- testIsClosedLoopDisabled started");
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
-			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
-			
-			System.out.println("-- manager.getQuery - vnfID");
-			AAIManager manager = new AAIManager(); 
-			String user = "POLICY";
-			String password = "POLICY";
-			String vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
-			String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/"; 
-			//AAIGETVnfResponse response = manager.getQueryByVnfID(url, user, password, onset.requestID, vnfID); // ???
-			AAIGETVnfResponse response = manager.getQueryByVnfID2(url, user, password, onset.requestID, vnfID); // ???
-			if (response != null) {
-				System.out.println("aaiResponse is NOT null");
-				boolean disabled = eventManager.isClosedLoopDisabled(response);
-				System.out.println("isClosedLoopDisabled: " + disabled);
-			} else {
-				System.out.println("aaiResponse IS null");
-			}	
-            //
-			System.out.println("-- manager.getQuery - vnfName");
-			String vnfName = "lll_vnf_010317";
-			url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
-			//response = manager.getQueryByVnfName(url, user, password, onset.requestID, vnfName); // ???
-			response = manager.getQueryByVnfName2(url, user, password, onset.requestID, vnfName); // ???
-			if (response != null) {
-				System.out.println("aaiResponse is NOT null");
-				boolean disabled = eventManager.isClosedLoopDisabled(response);
-				System.out.println("isClosedLoopDisabled: " + disabled);
-			} else {
-				System.out.println("aaiResponse IS null");
+		System.out.println(url);
+		System.out.println(httpDetails.a);
+		System.out.println(httpDetails.b);
+		if (httpDetails.a == 200) {
+			try {
+				AAINQF199Response response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQF199Response.class);
+				return response;
+			} catch (JsonSyntaxException e) {
+				logger.error("postQuery threw: ", e);
+				System.out.println("postQuery threw: " + e.toString());
 			}
-			//
-			System.out.println("-- manager.getQuery - vserverName");
-			String vserverName = "USMSO1SX7NJ0103UJZZ01-vjunos0";
-			url = "https://aai-ext1.test.att.com:8443//aai/v11/nodes/vservers?vserver-name="; 
-			//AAIGETVserverResponse response2 = manager.getQueryByVserverName(url, user, password, onset.requestID, vserverName); // ???
-			AAIGETVserverResponse response2 = manager.getQueryByVserverName2(url, user, password, onset.requestID, vserverName); // ???
-			if (response2 != null) {
-				System.out.println("aaiResponse is NOT null");
-				boolean disabled = eventManager.isClosedLoopDisabled(response);
-				System.out.println("isClosedLoopDisabled: " + disabled);
-			} else {
-				System.out.println("aaiResponse IS null");
-			}			
-			System.out.println("testIsClosedLoopDisabled end");
-
-		} catch (Exception e) {
-			fail(e.getMessage());
 		}
- 	}
+
+		return null;
+	}
 	
+	public static AAIGETVserverResponse getQueryByVserverName(String urlGet, String username, String password, UUID requestID, String key) {
+		
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("X-FromAppId", "POLICY");
+		headers.put("X-TransactionId", requestID.toString());
+		headers.put("Accept", "application/json");
+		
+		urlGet = urlGet + key; 
+		
+		int attemptsLeft = 3;
+		AAIGETVserverResponse responseGet = null;
+		
+		while(attemptsLeft-- > 0){
+		
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			if (httpDetailsGet == null) {
+				System.out.println("AAI GET Null Response to " + urlGet);
+				return null;
+			}
+			
+			System.out.println(urlGet);
+			System.out.println(httpDetailsGet.a);
+			System.out.println(httpDetailsGet.b);
+			
+			if (httpDetailsGet.a == 200) {
+				try {
+					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVserverResponse.class);
+					return responseGet;
+				} catch (JsonSyntaxException e) {
+					System.out.println("postQuery threw: " + e.toString());
+				}
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+
+		}
+		
+		return null;
+	}
+	
+	public static AAIGETVnfResponse getQueryByVnfID(String urlGet, String username, String password, UUID requestID, String key) {
+		
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("X-FromAppId", "POLICY");
+		headers.put("X-TransactionId", requestID.toString());
+		headers.put("Accept", "application/json");
+		
+		urlGet = urlGet + key; 
+		
+		int attemptsLeft = 3;
+		AAIGETVnfResponse responseGet = null;
+		
+		while(attemptsLeft-- > 0){
+		
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			if (httpDetailsGet == null) {
+				System.out.println("AAI GET Null Response to " + urlGet);
+				return null;
+			}
+			
+			System.out.println(urlGet);
+			System.out.println(httpDetailsGet.a);
+			System.out.println(httpDetailsGet.b);
+			
+			if (httpDetailsGet.a == 200) {
+				try {
+					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
+					return responseGet;
+				} catch (JsonSyntaxException e) {
+					System.out.println("postQuery threw: " + e.toString());
+				}
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+
+		}
+		
+		return null;
+	}
+	
+	public static AAIGETVnfResponse getQueryByVnfName(String urlGet, String username, String password, UUID requestID, String key) {
+		
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("X-FromAppId", "POLICY");
+		headers.put("X-TransactionId", requestID.toString());
+		headers.put("Accept", "application/json");
+		
+		urlGet = urlGet + key; 
+		
+		int attemptsLeft = 3;
+		AAIGETVnfResponse responseGet = null;
+		
+		while(attemptsLeft-- > 0){
+		
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			if (httpDetailsGet == null) {
+				System.out.println("AAI GET Null Response to " + urlGet);
+				return null;
+			}
+			
+			System.out.println(urlGet);
+			System.out.println(httpDetailsGet.a);
+			System.out.println(httpDetailsGet.b);
+			
+			if (httpDetailsGet.a == 200) {
+				try {
+					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
+					return responseGet;
+				} catch (JsonSyntaxException e) {
+					System.out.println("postQuery threw: " + e.toString());
+				}
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+
+		}
+		
+		return null;
+	}
+
 	// Simulate a response 
 	public static AAIGETVnfResponse getQueryByVnfID2(String urlGet, String username, String password, UUID requestID, String key) {
 		AAIGETVnfResponse response = new AAIGETVnfResponse();
