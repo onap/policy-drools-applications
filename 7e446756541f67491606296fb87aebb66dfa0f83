@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_50ceaab5",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T10:12:09Z",
+      "side": 1,
+      "message": "Did we determine if these should be removed? Or was this persistence.xml just for JUnit testing?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30de866e",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T10:12:09Z",
+      "side": 1,
+      "message": "Wondering if sonar will complain about this. Feasible to re-write as:\n(\"SECOND\").compareToIgnoreCase(split[1])",
+      "range": {
+        "startLine": 330,
+        "startChar": 7,
+        "endLine": 330,
+        "endChar": 45
+      },
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_70f40ef2",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T10:12:09Z",
+      "side": 1,
+      "message": "Remove to avoid sonar nit",
+      "range": {
+        "startLine": 385,
+        "startChar": 2,
+        "endLine": 385,
+        "endChar": 46
+      },
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_67e9fa7f",
         "filename": "controlloop/templates/template.demo/pom.xml",
         "patchSetId": 3
