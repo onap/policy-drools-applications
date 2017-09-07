@@ -7,6 +7,8 @@
   "target_type": "VF",
   "target": "generic-vnf.vnf-id",
   "AAI": {
+    "vserver.is-closed-loop-disabled": "false",
+    "vserver.vserver-name": "dfw1lb01lb01",
     "generic-vnf.vnf-id": "fw0001vm001fw001"
   },
   "from": "DCAE",
