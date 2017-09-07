@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_67e9fa7f",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-07T00:40:38Z",
+      "side": 1,
+      "message": "\u003cscope\u003etest\u003c/scope\u003e\n\u003c/dependency\u003e \n\nmissing the previous at end",
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
