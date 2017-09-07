@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_5080ea45",
+        "filename": "controlloop/templates/template.demo.v1.0.0/archetype-cl-legacy/src/main/resources/archetype-resources/src/main/config/dcae.onset.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T10:02:04Z",
+      "side": 1,
+      "message": "For 1.0.0 - DCAE would never send all 3 of these fields at once. If this is just to get things compiling for a test then maybe this is ok.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "74466b2c028d80b070b197ed1233cc42165b02dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
