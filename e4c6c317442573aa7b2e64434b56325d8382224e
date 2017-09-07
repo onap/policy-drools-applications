@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_d0e05a98",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-07T15:07:41Z",
+      "side": 1,
+      "message": "Remove commented out code, it will be picked up by sonar",
+      "revId": "e4c6c317442573aa7b2e64434b56325d8382224e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_50ec6a8f",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-07T15:07:41Z",
+      "side": 1,
+      "message": "Use logging statements instead of system.out",
+      "revId": "e4c6c317442573aa7b2e64434b56325d8382224e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30032644",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-07T15:07:41Z",
+      "side": 1,
+      "message": "use logger to log your exception, sonar will pick this up",
+      "revId": "e4c6c317442573aa7b2e64434b56325d8382224e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5b248bae",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETVnfResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-07T15:07:41Z",
+      "side": 1,
+      "message": "Maybe be a problem with sonar but good information to have, maybe this can go in a readme?",
+      "revId": "e4c6c317442573aa7b2e64434b56325d8382224e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
