@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_612a022e",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:16:45Z",
+      "side": 1,
+      "message": "do we need to change all MSO to SO in R1? Both MSO and SO occur everywhere. We might need to make them consistent.",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_21e3da06",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:16:45Z",
+      "side": 1,
+      "message": "they are null by default. Do we still need these assignments?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 156,
+        "endChar": 46
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_21caba6e",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:16:45Z",
+      "side": 1,
+      "message": "before this, I would suggest a piece of code to check if we need AAI named-query. You can check the policy.actor and policy.recipe first then invoke named-query. Perhaps for some SO recipe, we don\u0027t need named-query. Just easier for extension in the future.",
+      "range": {
+        "startLine": 358,
+        "startChar": 2,
+        "endLine": 358,
+        "endChar": 29
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c1a2cead",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:16:45Z",
+      "side": 1,
+      "message": "need some cleanup to make them consistent",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 37
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8183a603",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:16:45Z",
+      "side": 1,
+      "message": "should not ignore this vDNS flow junit test",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
