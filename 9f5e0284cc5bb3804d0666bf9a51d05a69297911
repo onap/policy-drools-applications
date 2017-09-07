@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_41d25e01",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T21:52:27Z",
+      "side": 1,
+      "message": "I suggest we keep the package naming for now. Do another commit to take care of this later.",
+      "parentUuid": "9a437d4f_612a022e",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_21e3da06",
         "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
         "patchSetId": 11
@@ -105,6 +129,30 @@
       "writtenOn": "2017-09-07T21:40:09Z",
       "side": 1,
       "message": "Looks like we don\u0027t need this AAINQF199Manager. Joseph commit another general AAIManager which duplicates the postQuery method here. Please work with Joseph to make sure we have only one AAIManager.",
+      "range": {
+        "startLine": 36,
+        "startChar": 19,
+        "endLine": 36,
+        "endChar": 35
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_81e846b5",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199Manager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T21:52:27Z",
+      "side": 1,
+      "message": "Let\u0027s wait for Joseph to commit it. I don\u0027t see that he\u0027s made that commit yet.",
+      "parentUuid": "9a437d4f_c1b76ed7",
       "range": {
         "startLine": 36,
         "startChar": 19,
