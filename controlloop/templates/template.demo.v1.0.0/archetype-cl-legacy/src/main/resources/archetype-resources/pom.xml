@@ -35,6 +35,17 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-maven-plugin</artifactId>
+				<version>6.5.0.Final</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
@@ -80,6 +91,13 @@
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>policy-yaml</artifactId>
 			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.onap.policy.drools-pdp</groupId>
+		   <artifactId>policy-management</artifactId>
+		   <version>${dependenciesVersion}</version>
+		   <scope>provided</scope>
+		   <optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>
