@@ -15,6 +15,7 @@
 		<module>actorServiceProvider</module>
 		<module>actor.appc</module>
 		<module>actor.vfc</module>
+		<module>actor.appclcm</module>
 	    <module>actor.mso</module>
 		<module>actor.test</module>
     </modules>

@@ -27,7 +27,6 @@ import java.util.UUID;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.policy.aai.AAIGETResponse;
 import org.onap.policy.aai.AAINQF199.AAINQF199Manager;

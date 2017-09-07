@@ -32,6 +32,11 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
+import org.onap.policy.appclcm.LCMRequestWrapper;
+import org.onap.policy.appclcm.LCMResponseWrapper;
+import org.onap.policy.appclcm.LCMRequest;
+import org.onap.policy.appclcm.LCMResponse;
+import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.vfc.VFCRequest;
 import org.onap.policy.vfc.VFCManager;
 import org.onap.policy.guard.PolicyGuard;
@@ -490,7 +495,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 				
 				case "APPC":
 			
-					if (request instanceof Request) {
+					if (request instanceof Request || request instanceof LCMRequestWrapper) {
 						Engine.deliver("UEB", "APPC-CL", request);
 					}
 					break;
@@ -771,6 +776,122 @@ rule "${policyName}.APPC.RESPONSE.CLEANUP"
 		//
 		retract($response);
 end
+
+/*
+*
+* This rule responds to APPC Response Events using the new LCM interface provided by appc
+*
+*/
+rule "${policyName}.APPC.LCM.RESPONSE"
+    when
+        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
+        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
+        $lock : TargetLock (requestID == $event.requestID)
+        $response : LCMResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.requestID )
+	then
+    	//
+    	// Logging
+    	//
+    	Logger.info("------------------------------------------------------------------------------------------------");
+    	Logger.metrics(Instant.now() + " " + drools.getRule().getName() + " " + drools.getRule().getPackage());
+		Logger.metrics($params);
+		Logger.metrics($event);
+		Logger.metrics($manager);
+		Logger.metrics($operation);
+		Logger.metrics($opTimer);
+		Logger.metrics($lock);
+		Logger.metrics($response);
+		//
+		// Get the result of the operation
+		//
+		PolicyResult policyResult = $operation.onResponse($response);
+		if (policyResult != null) {
+			Logger.info("operation finished with result: " + policyResult);
+			//
+			// This Operation has completed, construct a notification showing our results. (DB write - end operation)
+			//
+			VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+			notification.from = "policy";
+			notification.policyName = drools.getRule().getName();
+			notification.policyScope = "${policyScope}";
+			notification.policyVersion = "${policyVersion}";
+			notification.message = $operation.getOperationHistory();
+			notification.history = $operation.getHistory();
+			if (policyResult.equals(PolicyResult.SUCCESS)) {
+				notification.notification = ControlLoopNotificationType.OPERATION_SUCCESS;
+				//
+				// Let interested parties know
+				//
+				Engine.deliver("UEB", "POLICY-CL-MGT", notification);
+			} else {
+				notification.notification = ControlLoopNotificationType.OPERATION_FAILURE;
+				//
+				// Let interested parties know
+				//
+				Engine.deliver("UEB", "POLICY-CL-MGT", notification);
+			}
+			//
+			// Ensure the operation is complete
+			//
+			if ($operation.isOperationComplete() == true) {
+				//
+				// It is complete, remove it from memory
+				//
+				retract($operation);
+				//
+				// We must also retract the timer object
+				// NOTE: We could write a Rule to do this
+				//
+				retract($opTimer);
+				//
+				// Complete the operation
+				//
+				modify($manager) {finishOperation($operation)};
+			} else {
+				//
+				// Just doing this will kick off the LOCKED rule again
+				//
+				modify($operation) {};
+			}
+		} else {
+			//
+			// Its not finished yet (i.e. expecting more Response objects)
+			//
+			// Or possibly it is a leftover response that we timed the request out previously
+			//
+		}
+		//
+		// We are going to retract these objects from memory
+		//
+		retract($response);
+end
+
+/*
+*
+* Clean Up any lingering LCM reponses
+*
+*/
+rule "${policyName}.APPC.LCM.RESPONSE.CLEANUP"
+    when
+        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+        $response : LCMResponseWrapper($id : getBody().getCommonHeader().getRequestId )
+		not ( VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), requestID == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+	then
+    	//
+    	// Logging
+    	//
+    	Logger.info("------------------------------------------------------------------------------------------------");
+    	Logger.metrics(Instant.now() + " " + drools.getRule().getName() + " " + drools.getRule().getPackage());
+		Logger.metrics($params);
+		//
+		// Retract it
+		//
+		retract($response);
+end
+
 /*
 *
 * This is the timer that manages the timeout for an individual operation.

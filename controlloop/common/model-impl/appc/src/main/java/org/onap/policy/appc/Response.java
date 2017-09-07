@@ -30,7 +30,7 @@ public class Response implements Serializable {
 
 	public CommonHeader CommonHeader;
 	public ResponseStatus Status = new ResponseStatus();
-	public Map<String, Object> Payload = new HashMap<String, Object>();
+	public Map<String, Object> Payload = new HashMap<>();
 	
 	public Response() {
 		

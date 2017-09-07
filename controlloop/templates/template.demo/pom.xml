@@ -67,6 +67,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>appclcm</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>trafficgenerator</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>vfc</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -146,6 +158,12 @@
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>actor.appc</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.appclcm</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
