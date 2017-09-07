@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_903bf29b",
+        "filename": "controlloop/common/model-impl/appclcm/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T10:16:07Z",
+      "side": 1,
+      "message": "Some of the pom\u0027s have a license, some don\u0027t. Let\u0027s play it safe and make sure all the pom.xml\u0027s have a license.",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "7576237fd14304e987eb3c907d481f503dab8232",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
