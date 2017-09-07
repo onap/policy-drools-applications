@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_1b92839f",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-07T14:53:44Z",
+      "side": 1,
+      "message": "This persistence.xml is the \"remote production\" PU. Jorge wants me to get this merged in then move credentials out at a later time since this DB seems to only exist with Bobby\u0027s team. Jorge wants us all to come to an agreement on this DB configuration, like URL I think.",
+      "parentUuid": "9a437d4f_50ceaab5",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_30de866e",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_7bcbcfa5",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-07T14:53:44Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_30de866e",
+      "range": {
+        "startLine": 330,
+        "startChar": 7,
+        "endLine": 330,
+        "endChar": 45
+      },
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_70f40ef2",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-09-07T10:12:09Z",
       "side": 1,
       "message": "Remove to avoid sonar nit",
+      "range": {
+        "startLine": 385,
+        "startChar": 2,
+        "endLine": 385,
+        "endChar": 46
+      },
+      "revId": "7e446756541f67491606296fb87aebb66dfa0f83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3bc5478e",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-07T14:53:44Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_70f40ef2",
       "range": {
         "startLine": 385,
         "startChar": 2,
