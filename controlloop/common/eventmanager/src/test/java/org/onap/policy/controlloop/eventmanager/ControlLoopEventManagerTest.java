@@ -108,7 +108,7 @@ public class ControlLoopEventManagerTest {
 			String vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
 			String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/"; 
 			//AAIGETVnfResponse response = manager.getQueryByVnfID(url, user, password, onset.requestID, vnfID); // ???
-			AAIGETVnfResponse response = manager.getQueryByVnfID2(url, user, password, onset.requestID, vnfID); // ???
+			AAIGETVnfResponse response = getQueryByVnfID2(url, user, password, onset.requestID, vnfID); // ???
 			if (response != null) {
 				System.out.println("aaiResponse is NOT null");
 				boolean disabled = eventManager.isClosedLoopDisabled(response);
@@ -121,7 +121,7 @@ public class ControlLoopEventManagerTest {
 			String vnfName = "lll_vnf_010317";
 			url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
 			//response = manager.getQueryByVnfName(url, user, password, onset.requestID, vnfName); // ???
-			response = manager.getQueryByVnfName2(url, user, password, onset.requestID, vnfName); // ???
+			response = getQueryByVnfName2(url, user, password, onset.requestID, vnfName); // ???
 			if (response != null) {
 				System.out.println("aaiResponse is NOT null");
 				boolean disabled = eventManager.isClosedLoopDisabled(response);
@@ -134,7 +134,7 @@ public class ControlLoopEventManagerTest {
 			String vserverName = "USMSO1SX7NJ0103UJZZ01-vjunos0";
 			url = "https://aai-ext1.test.att.com:8443//aai/v11/nodes/vservers?vserver-name="; 
 			//AAIGETVserverResponse response2 = manager.getQueryByVserverName(url, user, password, onset.requestID, vserverName); // ???
-			AAIGETVserverResponse response2 = manager.getQueryByVserverName2(url, user, password, onset.requestID, vserverName); // ???
+			AAIGETVserverResponse response2 = getQueryByVserverName2(url, user, password, onset.requestID, vserverName); // ???
 			if (response2 != null) {
 				System.out.println("aaiResponse is NOT null");
 				boolean disabled = eventManager.isClosedLoopDisabled(response);
