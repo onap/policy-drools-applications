@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_cb72f2e4",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T15:44:20Z",
+      "side": 1,
+      "message": "Sonar will flag if the exception doesn\u0027t get dumped.\nlogger.debug(e) \u003c- at the very least.",
+      "range": {
+        "startLine": 291,
+        "startChar": 11,
+        "endLine": 291,
+        "endChar": 22
+      },
+      "revId": "84192ee8528ad9da9835cb55fa2a7ee46c823fcf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ab77aed3",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T15:44:20Z",
+      "side": 1,
+      "message": "Add e1 to the logger to avoid sonar",
+      "range": {
+        "startLine": 313,
+        "startChar": 13,
+        "endLine": 313,
+        "endChar": 71
+      },
+      "revId": "84192ee8528ad9da9835cb55fa2a7ee46c823fcf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8b74eacf",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQF199/AAINQF199GenericVNF.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-07T15:44:20Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "84192ee8528ad9da9835cb55fa2a7ee46c823fcf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
