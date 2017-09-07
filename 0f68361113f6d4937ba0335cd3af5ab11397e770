@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_01ae9685",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:36:56Z",
+      "side": 1,
+      "message": "Looks like this AAIManager has conflict with the one in Ali\u0027s commit. Please double check and merge the conflicts.",
+      "range": {
+        "startLine": 44,
+        "startChar": 19,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "0f68361113f6d4937ba0335cd3af5ab11397e770",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_219f5a52",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-07T21:36:56Z",
+      "side": 1,
+      "message": "If the named-queries used in vFW and vDNS follow the same response model, I would suggest rename it to AAINQResponse. Just get rid of UUID.",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "0f68361113f6d4937ba0335cd3af5ab11397e770",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
