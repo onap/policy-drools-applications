@@ -53,11 +53,15 @@ import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.guard.PolicyGuardYamlToXacml;
+import org.onap.policy.simulators.AaiSimulatorJaxRs;
+import org.onap.policy.simulators.MsoSimulatorJaxRs;
+import org.onap.policy.simulators.VfcSimulatorJaxRs;
 
 import com.att.research.xacml.api.pdp.PDPEngine;
 import com.att.research.xacml.api.pdp.PDPEngineFactory;
 import com.att.research.xacml.util.FactoryException;
 import com.att.research.xacml.util.XACMLProperties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,24 +118,15 @@ public final class Util {
 	}
 	
 	public static HttpServletServer buildAaiSim() throws InterruptedException {
-		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6666, "/", false, true);
-		testServer.addServletClass("/*", AaiSimulator.class.getName());
-		testServer.waitedStart(5000);
-		return testServer;
+		return org.onap.policy.simulators.Util.buildAaiSim();
 	}
 	
 	public static HttpServletServer buildMsoSim() throws InterruptedException {
-		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6667, "/", false, true);
-		testServer.addServletClass("/*", MsoSimulatorJaxRs.class.getName());
-		testServer.waitedStart(5000);
-		return testServer;
+		return org.onap.policy.simulators.Util.buildMsoSim();
 	}
 	
 	public static HttpServletServer buildVfcSim() throws InterruptedException {
-		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6668, "/", false, true);
-		testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
-		testServer.waitedStart(5000);
-		return testServer;
+		return org.onap.policy.simulators.Util.buildVfcSim();
 	}
 	
 	private static String	generatePolicy(String ruleContents, 

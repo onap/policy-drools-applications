@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * demo
+ * simulators
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.template.demo;
+package org.onap.policy.simulators;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,7 +26,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 @Path("/aai")
-public class AaiSimulator {
+public class AaiSimulatorJaxRs {
 	
 	@GET
 	@Path("/v8/network/generic-vnfs/generic-vnf/{vnfId}")

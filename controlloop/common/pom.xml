@@ -38,6 +38,7 @@
     	<module>eventmanager</module>
         <module>model-impl</module>
     	<module>policy-yaml</module>
+    	<module>simulators</module>
     </modules>
 
 

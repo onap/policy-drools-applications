@@ -23,6 +23,7 @@ package org.onap.policy.template.demo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -35,6 +36,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieServices;
@@ -53,6 +56,7 @@ import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.mso.util.Serialization;
 import org.slf4j.Logger;
@@ -62,6 +66,20 @@ import org.slf4j.LoggerFactory;
 public class TestSO {
 
 	private static final Logger log = LoggerFactory.getLogger(TestSO.class);
+	
+	@BeforeClass
+	public static void setUpSimulator() {
+		try {
+			Util.buildAaiSim();
+		} catch (InterruptedException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@AfterClass
+	public static void tearDownSimulator() {
+		HttpServletServer.factory.destroy();
+	}
 	
 	@Ignore
 	@Test
@@ -118,9 +136,10 @@ public class TestSO {
 			@Override
 			public void run() {
 				
-				log.debug("\n***** Starting AAI Simulator ***** ");
-				AaiSimulatorTest.setUpSimulator();
-				log.debug("\n***** AAI Simulator started ***** ");
+				//Moved simulator startup to an @BeforeClass method
+//				log.debug("\n***** Starting AAI Simulator ***** ");
+//				AaiSimulatorTest.setUpSimulator();
+//				log.debug("\n***** AAI Simulator started ***** ");
 
 				log.debug("\n************ Starting vDNS Test *************\n");
 
@@ -197,9 +216,10 @@ public class TestSO {
 		//
 		dumpFacts(kieSession);
 		
-		log.debug("\n***** Stopping AAI Simulator ***** ");
-		AaiSimulatorTest.tearDownSimulator();
-		log.debug("\n***** AAI Simulator stopped ***** ");
+		//Moved simulator teardown to an @AfterClass method
+//		log.debug("\n***** Stopping AAI Simulator ***** ");
+//		AaiSimulatorTest.tearDownSimulator();
+//		log.debug("\n***** AAI Simulator stopped ***** ");
 
 		//
 		// See if there is anything left in memory, there SHOULD only be

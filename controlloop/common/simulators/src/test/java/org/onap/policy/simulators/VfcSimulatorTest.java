@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * demo
+ * simulators
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.template.demo;
+package org.onap.policy.simulators;
 
 import static org.junit.Assert.*;
 
@@ -26,19 +26,20 @@ import java.util.HashMap;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.mso.SOResponse;
-import org.onap.policy.mso.util.Serialization;
+import org.onap.policy.vfc.VFCResponse;
+import org.onap.policy.vfc.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
 
-public class MsoSimulatorTest {
+public class VfcSimulatorTest {
 	
 	@BeforeClass
 	public static void setUpSimulator() {
 		try {
-			Util.buildMsoSim();
+			Util.buildVfcSim();
 		} catch (InterruptedException e) {
 			fail(e.getMessage());
 		}
@@ -50,10 +51,20 @@ public class MsoSimulatorTest {
 	}
 	
 	@Test
-	public void testResponse(){
-		Pair<Integer, String> httpDetails = RESTManager.post("http://localhost:6667/serviceInstances/v2/12345/vnfs/12345/vfModulesHTTPS/1.1", "username", "password", new HashMap<String, String>(), "application/json", "Some Request Here");
+	public void testPost(){
+		Pair<Integer, String> httpDetails = RESTManager.post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password", new HashMap<String, String>(), "application/json", "Some Request Here");
 		assertNotNull(httpDetails);
-		SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
+		VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
+		assertNotNull(response);
+	}
+	
+	//This test case fails because the model code does not match the response I was given, I do not know which is wrong
+	
+	@Test
+	public void testGet(){
+		Pair<Integer, String> httpDetails = RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234&responseId=5678", "username", "password", new HashMap<String, String>());
+		assertNotNull(httpDetails);
+		VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
 		assertNotNull(response);
 	}
 }
