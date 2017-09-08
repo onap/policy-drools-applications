@@ -20,9 +20,16 @@
 
 package org.onap.policy.aai.AAINQF199;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class AAINQF199VServer {
+public class AAINQF199VServer implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6718526692734215643L;
 
 	@SerializedName("vserver-id")
 	public String vserverId;
