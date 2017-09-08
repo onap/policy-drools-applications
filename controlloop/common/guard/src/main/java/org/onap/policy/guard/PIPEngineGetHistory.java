@@ -190,23 +190,25 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 		try {
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
-			if (pipResponse != null) {
-				if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
-					pipResponse	= null;
-				}
-				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-					pipResponse	= null;
-				}
-				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-					pipResponse	= null;
-				}
-			}
 		} catch (PIPException ex) {
 			logger.error("getAttribute threw:", ex);
+			return null;
+		}
+		if (pipResponse == null) {
+			return null;
+		}
+		if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
+			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+			return null;
+		}
+		if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+			return null;
+		}
+		if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
+			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+			return null;
 		}
 		return pipResponse;
 	}
@@ -312,6 +314,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		}catch(Exception ex){
 			logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", OpsHistPU);
 			logger.error("getCountFromDB threw: ", ex);
+			return 0;
 		}
 
 		DateUtil dateUtil = new DateUtil(){

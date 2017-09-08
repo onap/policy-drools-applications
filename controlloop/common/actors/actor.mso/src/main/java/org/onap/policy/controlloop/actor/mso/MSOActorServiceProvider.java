@@ -269,7 +269,7 @@ public class MSOActorServiceProvider implements Actor {
 			setCloudRegionItemCloudRegionId(namedQueryResponseWrapper.aainqf199response.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).items.inventoryResponseItems.get(0).cloudRegion.cloudRegionId);
 		
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(), e);
 			VirtualControlLoopNotification notification = new VirtualControlLoopNotification(onset);
 			notification.notification = ControlLoopNotificationType.REJECTED;
 			notification.message = "Exception occurred " + e.getMessage();
@@ -281,7 +281,7 @@ public class MSOActorServiceProvider implements Actor {
 				logger.debug(Serialization.gsonPretty.toJson(notification));
 			} catch (Exception e1) {
 				logger.error("Can't deliver notification: " + notification);
-				logger.error(e1.getMessage());
+				logger.error(e1.getMessage(), e1);
 			}
 			//
 			notification.notification = ControlLoopNotificationType.FINAL_FAILURE;
@@ -291,7 +291,7 @@ public class MSOActorServiceProvider implements Actor {
             	logger.debug(Serialization.gsonPretty.toJson(notification));
             } catch (Exception e1) {
             	logger.error("Can't deliver notification: " + notification);
-            	logger.error(e1.getMessage());
+            	logger.error(e1.getMessage(), e1);
             }	
 			// Retract everything
 			return;

@@ -21,11 +21,17 @@
 package org.onap.policy.aai;
 
 import java.util.List;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RelationshipItem {
+public class RelationshipItem implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1543404460741069628L;
 	
 	@SerializedName("related-to-property")
 	public List<RelatedToPropertyItem> relatedToProperty = new LinkedList<RelatedToPropertyItem>();

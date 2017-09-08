@@ -24,19 +24,17 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public final class Util {
 
@@ -60,14 +58,11 @@ public final class Util {
 			Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
 			Object obj = yaml.load(contents);
 			
-			//String ttt = ((ControlLoopPolicy)obj).policies.getFirst().payload.get("asdas");
 			logger.debug(contents);
-			//for(Policy policy : ((ControlLoopPolicy)obj).policies){
 			
 			return new Pair<ControlLoopPolicy, String>((ControlLoopPolicy) obj, contents);
-		} catch (FileNotFoundException e) {
-			fail(e.getLocalizedMessage());
 		} catch (IOException e) {
+			logger.error(e.getLocalizedMessage(), e);
 			fail(e.getLocalizedMessage());
 		}
 		return null;
@@ -82,9 +77,8 @@ public final class Util {
 			Yaml yaml = new Yaml(new Constructor(ControlLoopGuard.class));
 			Object obj = yaml.load(contents);
 			return (ControlLoopGuard) obj;
-		} catch (FileNotFoundException e) {
-			fail(e.getLocalizedMessage());
 		} catch (IOException e) {
+			logger.error(e.getLocalizedMessage(), e);
 			fail(e.getLocalizedMessage());
 		}
 		return null;
