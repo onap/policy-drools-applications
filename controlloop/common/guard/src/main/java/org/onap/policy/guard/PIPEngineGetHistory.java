@@ -190,21 +190,19 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 		try {
 			pipResponse	= pipFinder.getMatchingAttributes(pipRequest, this);
-			if (pipResponse != null) {
-				if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
+			if  ((pipResponse != null)
+			  && (pipResponse.getStatus() != null)
+			  && (!pipResponse.getStatus().isOk())) {
 					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
 					pipResponse	= null;
-				}
-				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-					pipResponse	= null;
-				}
-				if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-					pipResponse	= null;
-				}
 			}
+			if  ((pipResponse != null)
+			  && (pipResponse.getAttributes() != null)
+			  && (pipResponse.getAttributes().isEmpty())) {
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+					logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+					pipResponse	= null;
+				}
 		} catch (PIPException ex) {
 			logger.error("getAttribute threw:", ex);
 		}
@@ -368,7 +366,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		try {
 			diff = now - dateUtil.init(timeWindow).getMs();
 		} catch (Exception ex) {
-			System.err.println("PIP thread got Exception " + ex.getLocalizedMessage());
+			logger.error("PIP thread got Exception {}", ex.getLocalizedMessage());
 			return -1;
 		}
 
@@ -378,6 +376,9 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				+ " and target= ?"
 				+ " and endtime between '" + new Timestamp(diff) + "' and '" + new Timestamp(now) + "'";
 
+		if(em == null){
+			return -1;
+		}
 		Query nq = em.createNativeQuery(sql);
 		nq.setParameter(1, actor);
 		nq.setParameter(2, operation);
