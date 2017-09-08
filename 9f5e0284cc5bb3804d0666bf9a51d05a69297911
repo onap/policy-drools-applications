@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_33cd6b5e",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-08T14:03:58Z",
+      "side": 1,
+      "message": "Yes, as Pam mentioned, this will be done in a later commit as I was running into issues when I tried changing the package naming earlier.",
+      "parentUuid": "9a437d4f_612a022e",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_21e3da06",
         "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
         "patchSetId": 11
@@ -60,6 +84,30 @@
       "writtenOn": "2017-09-07T21:16:45Z",
       "side": 1,
       "message": "they are null by default. Do we still need these assignments?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 156,
+        "endChar": 46
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f3d6c3f0",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-08T14:03:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_21e3da06",
       "range": {
         "startLine": 137,
         "startChar": 2,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_137827f1",
+        "filename": "controlloop/common/actors/actor.mso/src/main/java/org/onap/policy/controlloop/actor/mso/MSOActorServiceProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-08T14:03:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_21caba6e",
+      "range": {
+        "startLine": 358,
+        "startChar": 2,
+        "endLine": 358,
+        "endChar": 29
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_c1a2cead",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 11
@@ -106,6 +178,30 @@
       "writtenOn": "2017-09-07T21:16:45Z",
       "side": 1,
       "message": "need some cleanup to make them consistent",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 37
+      },
+      "revId": "9f5e0284cc5bb3804d0666bf9a51d05a69297911",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d3617f3a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-08T14:03:58Z",
+      "side": 1,
+      "message": "Yes, I will do in later commit as mentioned.",
+      "parentUuid": "9a437d4f_c1a2cead",
       "range": {
         "startLine": 44,
         "startChar": 23,
