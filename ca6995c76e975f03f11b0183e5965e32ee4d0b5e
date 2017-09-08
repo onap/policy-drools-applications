@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_e9d6d4f0",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-08T18:13:38Z",
+      "side": 1,
+      "message": "Yeah this came back. I thought that we were already fixing a sonar problem. I was thinking the code could be re-written like this:\n\t\tPIPResponse pipResponse\t\u003d null;\n\n\t\ttry {\n\t\t\tpipResponse\t\u003d pipFinder.getMatchingAttributes(pipRequest, this);\n\t\t} catch (PIPException ex) {\n\t\t\tlogger.error(\"getAttribute threw:\", ex);\n\t\t\treturn null;\n\t\t}\n\t\tif (pipResponse \u003d\u003d null) {\n\t\t\treturn null;\n\t\t}\n\t\tif (pipResponse.getStatus() !\u003d null \u0026\u0026 !pipResponse.getStatus().isOk()) {\n\t\t\tlogger.warn(\"Error retrieving {}: {}\", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());\n\t\t\treturn null;\n\t\t}\n\t\tif (pipResponse.getAttributes() !\u003d null \u0026\u0026 pipResponse.getAttributes().isEmpty()) {\n\t\t\tlogger.warn(\"Error retrieving {}: {}\", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());\n\t\t\tlogger.warn(\"Error retrieving {}: {}\", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());\n\t\t\treturn null;\n\t\t}\n\t\tif (pipResponse.getAttributes() !\u003d null \u0026\u0026 pipResponse.getAttributes().isEmpty()) {\n\t\t\tlogger.warn(\"Error retrieving {}: {}\", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());\n\t\t\treturn null;\n\t\t}\n\t\treturn pipResponse;",
+      "revId": "ca6995c76e975f03f11b0183e5965e32ee4d0b5e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
