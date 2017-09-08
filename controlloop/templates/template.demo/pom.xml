@@ -192,27 +192,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>aai</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-pdp</groupId>
-			<artifactId>policy-endpoints</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>mso</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>[1.4.186,)</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>simulators</artifactId>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

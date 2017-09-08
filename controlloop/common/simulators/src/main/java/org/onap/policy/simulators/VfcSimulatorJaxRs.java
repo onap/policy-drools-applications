@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * demo
+ * simulators
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -18,20 +18,27 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.template.demo;
+package org.onap.policy.simulators;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/serviceInstances")
-public class MsoSimulatorJaxRs {
+@Path("/api/nslcm/v1")
+public class VfcSimulatorJaxRs {
 	
 	@POST
-	@Path("/v2/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModulesHTTPS/1.1")
-	public String msoPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
+	@Path("/ns/{nsInstanceId}/heal")
+	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId)
 	{
-		return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": \"rq1234d1-5a33-ffdf-23ab-12abad84e331\"}}";
+		return "{\"jobId\":\"1\"}";
+	}
+	
+	@GET
+	@Path("/jobs/{jobId}&responseId={responseId}")
+	public String vfcGetQuery(@PathParam("jobId") String jobId, @PathParam("responseId") String responseId){
+		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": "+responseId+",\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
 	}
 	
 }

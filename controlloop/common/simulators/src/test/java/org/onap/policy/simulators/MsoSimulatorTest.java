@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * demo
+ * simulators
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.template.demo;
+package org.onap.policy.simulators;
 
 import static org.junit.Assert.*;
 
