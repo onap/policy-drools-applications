@@ -19,7 +19,8 @@
 package org.onap.policy.vfc;
 
 import java.io.Serializable;
-
+import java.util.LinkedList;
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class VFCResponseDescriptor implements Serializable {
@@ -42,7 +43,7 @@ public class VFCResponseDescriptor implements Serializable {
     String responseId;
 
     @SerializedName("responseHistoryList")
-    VFCResponseHistoryList responseHistoryList;
+    public List<VFCResponseDescriptor> responseHistoryList;
 
     public VFCResponseDescriptor() {
     }
