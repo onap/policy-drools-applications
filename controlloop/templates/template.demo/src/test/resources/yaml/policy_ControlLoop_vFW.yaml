@@ -17,7 +17,7 @@ policies:
     recipe: ModifyConfig
     target:
       resourceID: Eace933104d443b496b8.nodes.heat.vpg
-      type: VM
+      type: VNF
     retry: 0
     timeout: 300
     success: final_success

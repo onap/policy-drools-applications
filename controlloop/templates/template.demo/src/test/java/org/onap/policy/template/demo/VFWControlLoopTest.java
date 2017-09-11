@@ -289,7 +289,7 @@ public class VFWControlLoopTest {
             /*
              * One final check to make sure the lock is released 
              */
-            assertFalse(PolicyGuard.isLocked(TargetType.VM, triggerSourceName, requestID));
+            assertFalse(PolicyGuard.isLocked(TargetType.VNF, triggerSourceName, requestID));
         }
         else {
             fail("Operation Denied by Guard");
@@ -384,13 +384,13 @@ public class VFWControlLoopTest {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
-        event.target = "vserver.vserver-name";
+        event.target = "generic-vnf.vnf-id";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
         event.AAI.put("cloud-region.identity-url", "foo");
         event.AAI.put("vserver.selflink", "bar");
         event.AAI.put("vserver.is-closed-loop-disabled", "false");
-        event.AAI.put("vserver.vserver-name", "testGenericVnfName");
+        event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
         event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
         kieSession.insert(event);
         Thread.sleep(2000);
@@ -409,14 +409,14 @@ public class VFWControlLoopTest {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
-        event.target = "vserver.vserver-name";
+        event.target = "generic-vnf.vnf-id";
         event.closedLoopAlarmStart = Instant.now().minusSeconds(5);
         event.closedLoopAlarmEnd = Instant.now();
         event.AAI = new HashMap<>();
         event.AAI.put("cloud-region.identity-url", "foo");
         event.AAI.put("vserver.selflink", "bar");
         event.AAI.put("vserver.is-closed-loop-disabled", "false");
-        event.AAI.put("generic-vnf.vnf-name", "testGenericVnfName");
+        event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
         event.closedLoopEventStatus = ControlLoopEventStatus.ABATED;
         kieSession.insert(event);
     }

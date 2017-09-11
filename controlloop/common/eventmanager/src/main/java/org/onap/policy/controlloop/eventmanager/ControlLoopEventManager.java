@@ -531,6 +531,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			if (! event.target.equalsIgnoreCase("VM_NAME") &&
 				! event.target.equalsIgnoreCase("VNF_NAME") &&
 				! event.target.equalsIgnoreCase("vserver.vserver-name") &&
+				! event.target.equalsIgnoreCase("generic-vnf.vnf-id") &&
 				! event.target.equalsIgnoreCase("generic-vnf.vnf-name") ) {
 				throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
 			}
@@ -556,8 +557,15 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				case PNF:
 					break;
 				case VM:
+				case VNF:
 					if (this.onset.target.equalsIgnoreCase("vserver.vserver-name")) {
 						return this.onset.AAI.get("vserver.vserver-name");
+					}
+					else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-id")) {
+					    return this.onset.AAI.get("generic-vnf.vnf-id");
+					}
+					else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-name")) {
+					    return this.onset.AAI.get("generic-vnf.vnf-name");
 					}
 					break;
 				default:
