@@ -157,8 +157,8 @@ public class MSOActorServiceProvider implements Actor {
 		//
 		// instanceFilters
 		//
-		Map aainqf199instancefiltermap = new HashMap();
-		Map aainqf199instancefiltermapitem = new HashMap();
+		Map<String, Map<String, String>> aainqf199instancefiltermap = new HashMap<>();
+		Map<String, String> aainqf199instancefiltermapitem = new HashMap<>();
 		aainqf199instancefiltermapitem.put("vserver-name", onset.AAI.get("vserver.vserver-name")); // TO DO: get vserver.vname from dcae onset.AAI.get("vserver.vserver-name")
 		aainqf199instancefiltermap.put("vserver", aainqf199instancefiltermapitem);
 		aainqf199instancefilter.instanceFilter.add(aainqf199instancefiltermap);
@@ -438,7 +438,7 @@ public class MSOActorServiceProvider implements Actor {
 	 * @param vnfItemVnfId the vnfItemVnfId to set
 	 */
 	private void setVnfItemVnfId(String vnfItemVnfId) {
-		this.vnfItemVnfId = vnfItemVnfId;
+		MSOActorServiceProvider.vnfItemVnfId = vnfItemVnfId;
 	}
 
 	/**
@@ -537,7 +537,7 @@ public class MSOActorServiceProvider implements Actor {
 	 */
 	private void setServiceItemServiceInstanceId(
 			String serviceItemServiceInstanceId) {
-		this.serviceItemServiceInstanceId = serviceItemServiceInstanceId;
+		MSOActorServiceProvider.serviceItemServiceInstanceId = serviceItemServiceInstanceId;
 	}
 
 	/**
