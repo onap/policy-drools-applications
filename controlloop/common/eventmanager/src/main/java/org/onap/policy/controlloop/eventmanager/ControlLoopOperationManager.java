@@ -45,6 +45,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.so.SOResponse;
+import org.onap.policy.vfc.VFCResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -367,8 +368,28 @@ public class ControlLoopOperationManager implements Serializable {
 				return PolicyResult.FAILURE;
 			}
 
+		} else if (response instanceof VFCResponse) {
+			VFCResponse vfcResponse = (VFCResponse) response;
+			if (vfcResponse.responseDescriptor.getStatus().equalsIgnoreCase("finished")) {
+				//
+				// Consider it as success
+				//
+				this.completeOperation(new Integer(1), " Success", PolicyResult.SUCCESS);
+				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+					return null;
+				}
+				return PolicyResult.SUCCESS;
+			} else {
+				//
+				// Consider it as failure
+				//
+				this.completeOperation(new Integer(1), " Failed", PolicyResult.FAILURE);
+				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+					return null;
+				}
+				return PolicyResult.FAILURE;
+			}
 		}
-
 		return null;
 	}
 
