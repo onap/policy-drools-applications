@@ -60,7 +60,7 @@ public class VfcSimulatorTest {
 	
 	@Test
 	public void testGet(){
-		Pair<Integer, String> httpDetails = RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234&responseId=5678", "username", "password", new HashMap<String, String>());
+		Pair<Integer, String> httpDetails = RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234", "username", "password", new HashMap<String, String>());
 		assertNotNull(httpDetails);
 		VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
 		assertNotNull(response);
