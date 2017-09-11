@@ -41,7 +41,7 @@ public final class VFCManager implements Runnable {
         vfcRequest = request;
         // TODO: Get base URL, username and password from MSB?
         // TODO: Following code is a placeholder, needs to be updated
-        setVFCParams("https://", "vfc", "vfc");
+        setVFCParams("http://localhost:6668", "username", "password");
 
     }
 
