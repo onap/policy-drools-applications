@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_08458916",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/VfcSimulatorJaxRs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-09-11T20:02:49Z",
+      "side": 1,
+      "message": "Everything after this is going to be ignored by gson, the responseHistoryList won\u0027t be put into any Java object",
+      "range": {
+        "startLine": 41,
+        "startChar": 221,
+        "endLine": 41,
+        "endChar": 225
+      },
+      "revId": "d11b6170876e8f07b500537f519d9aed2b5b117a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
