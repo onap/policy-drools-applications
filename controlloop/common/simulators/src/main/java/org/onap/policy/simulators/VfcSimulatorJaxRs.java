@@ -24,21 +24,29 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Context;
 
 @Path("/api/nslcm/v1")
 public class VfcSimulatorJaxRs {
 	
 	@POST
 	@Path("/ns/{nsInstanceId}/heal")
-	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId)
+	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId,  
+                                   @Context final HttpServletResponse response)
 	{
+                response.setStatus(HttpServletResponse.SC_ACCEPTED);
+                try {
+                        response.flushBuffer();
+                }catch(Exception e){}
+
 		return "{\"jobId\":\"1\"}";
 	}
 	
 	@GET
-	@Path("/jobs/{jobId}&responseId={responseId}")
-	public String vfcGetQuery(@PathParam("jobId") String jobId, @PathParam("responseId") String responseId){
-		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": "+responseId+",\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
+	@Path("/jobs/{jobId}")
+	public String vfcGetQuery(@PathParam("jobId") String jobId) {
+		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"finished\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": 101 ,\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
 	}
 	
 }
