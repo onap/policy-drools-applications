@@ -76,7 +76,7 @@ public class VFCActorServiceProvider implements Actor {
         VFCRequest request = new VFCRequest();
         // TODO: Verify service-instance-id is part of onset event
         request.nsInstanceId = getAAIServiceInstance(onset); // onset.AAI.get("service-instance.service-instance-id");
-
+	request.requestId = onset.requestID;
         request.healRequest = new VFCHealRequest();
         request.healRequest.vnfInstanceId = onset.AAI.get("generic-vnf.vnf-id");
         request.healRequest.cause = operation.message;

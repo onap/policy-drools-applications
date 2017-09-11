@@ -27,7 +27,7 @@ public class VFCResponseDescriptor implements Serializable {
     private static final long serialVersionUID = 6827782899144150158L;
 
     @SerializedName("progress")
-    public String progress;
+    String progress;
 
     @SerializedName("status")
     String status;
@@ -45,6 +45,10 @@ public class VFCResponseDescriptor implements Serializable {
     public List<VFCResponseDescriptor> responseHistoryList;
 
     public VFCResponseDescriptor() {
+    }
+
+    public String getStatus() {
+	return status;
     }
 
 }

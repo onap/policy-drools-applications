@@ -19,14 +19,16 @@
 package org.onap.policy.vfc;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
 public class VFCRequest implements Serializable {
 
     private static final long serialVersionUID = 3736300970326332512L;
-    // This field is not serialized and not part of JSON
+    // These fields are not serialized and not part of JSON
     public transient String nsInstanceId;
+    public transient UUID requestId;
 
     @SerializedName("healVnfData")
     public VFCHealRequest healRequest;
