@@ -21,6 +21,7 @@ package org.onap.policy.vfc;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.drools.core.WorkingMemory;
 import org.onap.policy.vfc.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
@@ -35,9 +36,11 @@ public final class VFCManager implements Runnable {
     private String username;
     private String password;
     private VFCRequest vfcRequest;
+    WorkingMemory workingMem;
     private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
     		
-    public VFCManager(VFCRequest request) {
+    public VFCManager(WorkingMemory wm, VFCRequest request) {
+        workingMem = wm;
         vfcRequest = request;
         // TODO: Get base URL, username and password from MSB?
         // TODO: Following code is a placeholder, needs to be updated
@@ -83,6 +86,7 @@ public final class VFCManager implements Runnable {
 
                     Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
                     responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
+		    responseGet.requestId = vfcRequest.requestId.toString();
                     body = Serialization.gsonPretty.toJson(responseGet);
                     logger.debug("Response to VFC Heal get:");
                     logger.debug(body);
@@ -91,6 +95,7 @@ public final class VFCManager implements Runnable {
                         if (responseGet.responseDescriptor.status.equalsIgnoreCase("finished") ||
                                 responseGet.responseDescriptor.status.equalsIgnoreCase("error")) {
                             logger.debug("VFC Heal Status {}", responseGet.responseDescriptor.status);
+                            workingMem.insert(responseGet);
                             break;
                         }
                     }
@@ -102,6 +107,7 @@ public final class VFCManager implements Runnable {
                   && (responseGet.responseDescriptor.status != null) 
                   && (!responseGet.responseDescriptor.status.isEmpty())) {	
                         logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
+                        workingMem.insert(responseGet);
                 }       
             } catch (JsonSyntaxException e) {
                 logger.error("Failed to deserialize into VFCResponse {}",e.getLocalizedMessage(),e);
