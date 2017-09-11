@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_480951dc",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-11T20:22:48Z",
+      "side": 1,
+      "message": "Should this field have a global scope respective to this class? VoLTE needs to access some of the response fields.",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_682d3546",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-11T20:22:48Z",
+      "side": 1,
+      "message": "I think we have to log exceptions so sonar doesn\u0027t flag this",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
