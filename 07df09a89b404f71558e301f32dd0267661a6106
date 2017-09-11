@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8d44ebb7",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-11T17:55:32Z",
+      "side": 1,
+      "message": "2 new imports but I can\u0027t see where they are used in the code???",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "07df09a89b404f71558e301f32dd0267661a6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6d1307b9",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopXacmlGuardTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-11T17:55:32Z",
+      "side": 1,
+      "message": "Is this needed? Seems that checkstyle would prefer the space vs tab",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "07df09a89b404f71558e301f32dd0267661a6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4d1603a9",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-11T17:55:32Z",
+      "side": 1,
+      "message": "Please remove to avoid sonar.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 56
+      },
+      "revId": "07df09a89b404f71558e301f32dd0267661a6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2d0dff90",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/TestSO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-11T17:55:32Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 54
+      },
+      "revId": "07df09a89b404f71558e301f32dd0267661a6106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
