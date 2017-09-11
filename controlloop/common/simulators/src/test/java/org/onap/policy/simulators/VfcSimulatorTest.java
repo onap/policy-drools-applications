@@ -58,8 +58,6 @@ public class VfcSimulatorTest {
 		assertNotNull(response);
 	}
 	
-	//This test case fails because the model code does not match the response I was given, I do not know which is wrong
-	@Ignore
 	@Test
 	public void testGet(){
 		Pair<Integer, String> httpDetails = RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234&responseId=5678", "username", "password", new HashMap<String, String>());

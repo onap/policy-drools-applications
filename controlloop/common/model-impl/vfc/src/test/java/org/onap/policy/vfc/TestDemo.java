@@ -27,9 +27,10 @@ import org.onap.policy.vfc.VFCHealAdditionalParams;
 import org.onap.policy.vfc.VFCHealActionVmInfo;
 import org.onap.policy.vfc.VFCResponse;
 import org.onap.policy.vfc.VFCResponseDescriptor;
-import org.onap.policy.vfc.VFCResponseHistoryList;
 import org.junit.Test;
 import org.onap.policy.vfc.util.Serialization;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TestDemo {
 
@@ -74,9 +75,13 @@ public class TestDemo {
         responseDescriptor.errorCode = null;
         responseDescriptor.responseId = "11";
 
-        response.responseDescriptor.responseHistoryList = new VFCResponseHistoryList();
-        response.responseDescriptor.responseHistoryList.responseDescriptorList.add(responseDescriptor);
+	response.responseDescriptor.responseHistoryList = new LinkedList();
+        response.responseDescriptor.responseHistoryList.add(responseDescriptor);
 
+        body = Serialization.gsonPretty.toJson(response);
+        System.out.println(body);
+
+        response = Serialization.gsonPretty.fromJson(body, VFCResponse.class);
         body = Serialization.gsonPretty.toJson(response);
         System.out.println(body);
 
