@@ -38,7 +38,7 @@ public class VfcSimulatorJaxRs {
 	@GET
 	@Path("/jobs/{jobId}&responseId={responseId}")
 	public String vfcGetQuery(@PathParam("jobId") String jobId, @PathParam("responseId") String responseId){
-		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": "+responseId+",\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
+		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"finished\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": "+responseId+",\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
 	}
 	
 }
