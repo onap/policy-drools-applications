@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -100,7 +101,8 @@ public class APPCActorServiceProvider implements Actor {
 		 * specified in the yaml, the target vnf-id is retrieved by
 		 * a named query to A&AI.
 		 */
-		String vnfId = "test";
+		String vnfId = AppcLcmActorServiceProvider.vnfNamedQuery(
+		        policy.getTarget().getResourceID(), onset.AAI.get("generic-vnf.vnf-id"));
 		
 		/*
 		 * For now Policy generates the PG Streams as a demo, in the

@@ -31,8 +31,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.onap.policy.aai.AAINQF199.AAINQF199InstanceFilters;
 import org.onap.policy.aai.AAINQF199.AAINQF199InventoryResponseItem;
 import org.onap.policy.aai.AAINQF199.AAINQF199Manager;
+import org.onap.policy.aai.AAINQF199.AAINQF199NamedQuery;
+import org.onap.policy.aai.AAINQF199.AAINQF199QueryParameters;
 import org.onap.policy.aai.AAINQF199.AAINQF199Request;
 import org.onap.policy.aai.AAINQF199.AAINQF199Response;
 import org.onap.policy.appclcm.LCMCommonHeader;
@@ -105,28 +108,39 @@ public class AppcLcmActorServiceProvider implements Actor {
      * @return the target entities vnf id to act upon
      */
     public static String vnfNamedQuery(String resourceId, String sourceVnfId) {
-        String targetVnfId = "";
-        AAINQF199Request aaiRequest = new AAINQF199Request();
-        UUID requestId = UUID.randomUUID();
         
+        String targetVnfId = "";
+        
+        //TODO: This request id should not be hard coded in future releases
+        UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
+        
+        AAINQF199Request aaiRequest = new AAINQF199Request();
+        aaiRequest.queryParameters = new AAINQF199QueryParameters();
+        aaiRequest.queryParameters.namedQuery = new AAINQF199NamedQuery();
         aaiRequest.queryParameters.namedQuery.namedQueryUUID = requestId;
         
-        Map<String, Map<String, String>> filter = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> filter = new HashMap<>();        
+        Map<String, String> filterItem = new HashMap<>();
         
-        Map<String, String> filterItem = new HashMap<String, String>();
         filterItem.put("vnf-id", sourceVnfId);
-        
         filter.put("generic-vnf", filterItem);
         
+        aaiRequest.instanceFilters = new AAINQF199InstanceFilters();
         aaiRequest.instanceFilters.instanceFilter.add(filter);
         
-        //TODO: What is the url to use?
-        AAINQF199Response aaiResponse = AAINQF199Manager.postQuery("http://localhost:6666", "policy", "policy", aaiRequest, requestId);
-        
+        //TODO: URL should not be hard coded for future releases
+        AAINQF199Response aaiResponse = AAINQF199Manager.postQuery(
+                        "http://localhost:6666",
+                        "policy", "policy", 
+                        aaiRequest, requestId);
+
         //TODO: What if the resourceId never matches?
         for (AAINQF199InventoryResponseItem item: aaiResponse.inventoryResponseItems) {
-            if (item.genericVNF.modelInvariantId.equals(resourceId)) {
+            if ((item.genericVNF != null)
+                    && (item.genericVNF.modelInvariantId != null) 
+                    && (resourceId.equals(item.genericVNF.modelInvariantId))) {
                 targetVnfId = item.genericVNF.vnfID;
+                break;
             }
         }
         

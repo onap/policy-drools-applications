@@ -28,6 +28,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
@@ -40,6 +42,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.guard.PolicyGuard;
 import org.slf4j.Logger;
@@ -52,6 +55,20 @@ public class VFWControlLoopTest {
     private KieSession kieSession;
     private Util.Pair<ControlLoopPolicy, String> pair;
     private PolicyEngineJUnitImpl engine;     
+    
+    @BeforeClass
+    public static void setUpSimulator() {
+        try {
+            Util.buildAaiSim();
+        } catch (InterruptedException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
     
     @Test
     public void successTest() {
