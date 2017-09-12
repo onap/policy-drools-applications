@@ -112,13 +112,13 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	@Override
 	public Collection<PIPRequest> attributesRequired() {
 		// TODO Auto-generated method stub
-		return null;
+	    return new HashSet<PIPRequest>();
 	}
 
 	@Override
 	public Collection<PIPRequest> attributesProvided() {
 		// TODO Auto-generated method stub
-		return null;
+		return new HashSet<PIPRequest>();
 	}
 
 	@Override
