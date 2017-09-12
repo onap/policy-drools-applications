@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_1b4cac41",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Need to log the exception",
+      "range": {
+        "startLine": 563,
+        "startChar": 4,
+        "endLine": 563,
+        "endChar": 63
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fb468820",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Reverse these so sonar does not trigger:\n\"true\".equalsIgnoreCase(value)",
+      "range": {
+        "startLine": 585,
+        "startChar": 9,
+        "endLine": 586,
+        "endChar": 73
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_bb5000d5",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Reverse",
+      "range": {
+        "startLine": 598,
+        "startChar": 9,
+        "endLine": 599,
+        "endChar": 73
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7b6298ae",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Reverse",
+      "range": {
+        "startLine": 608,
+        "startChar": 6,
+        "endLine": 611,
+        "endChar": 73
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3b5c10ed",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Log the exception to avoid sonar",
+      "range": {
+        "startLine": 630,
+        "startChar": 14,
+        "endLine": 632,
+        "endChar": 9
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1b738c81",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Log this exception",
+      "range": {
+        "startLine": 655,
+        "startChar": 14,
+        "endLine": 655,
+        "endChar": 26
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_bb67e0b6",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "Remove to avoid sonar",
+      "range": {
+        "startLine": 49,
+        "startChar": 44,
+        "endLine": 49,
+        "endChar": 58
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7b0978dc",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 82,
+        "startChar": 44,
+        "endLine": 82,
+        "endChar": 58
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5b10f400",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 58
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3b13f00e",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQExtraProperties.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "remove due to sonar",
+      "range": {
+        "startLine": 37,
+        "startChar": 64,
+        "endLine": 37,
+        "endChar": 82
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1bfa6cbd",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQInstanceFilters.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "I think sonar will flag this",
+      "range": {
+        "startLine": 38,
+        "startChar": 79,
+        "endLine": 38,
+        "endChar": 111
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fbf448d0",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQInventoryResponseItems.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 37,
+        "startChar": 81,
+        "endLine": 37,
+        "endChar": 107
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_db03c4b6",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 38,
+        "startChar": 81,
+        "endLine": 38,
+        "endChar": 107
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7b30589e",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 31,
+        "startChar": 69,
+        "endLine": 31,
+        "endChar": 89
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5b27d464",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipList.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-12T18:31:05Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 31,
+        "startChar": 64,
+        "endLine": 31,
+        "endChar": 76
+      },
+      "revId": "2540548c64bd5393d046fa18f14426070886c063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
