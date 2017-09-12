@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_45ec978f",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCResponseDescriptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-09-12T13:10:42Z",
+      "side": 1,
+      "message": "Do you need this import?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "881838fbf45ad1f3dbe0aff99fa6497a04c548b6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_65e9db7f",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/VfcSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-09-12T13:10:42Z",
+      "side": 1,
+      "message": "You can remove this comment now.",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 116
+      },
+      "revId": "881838fbf45ad1f3dbe0aff99fa6497a04c548b6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
