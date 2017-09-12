@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_82cb951d",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "not sure why this dependency is needed, I dont see anything introduced in this module related to httpclient, can it be removed?",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_480951dc",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
         "patchSetId": 4
@@ -30,6 +47,210 @@
       "writtenOn": "2017-09-11T20:22:48Z",
       "side": 1,
       "message": "I think we have to log exceptions so sonar doesn\u0027t flag this",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_62e8b1b4",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETResponseWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Should it implement Serializable interface?",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_42eb6db0",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETVnfResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "remove this comment, should not have ATT in it, another possibility is to create a serialization junit to show this (without ATT keywords).",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_62ff9168",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETVserverResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "It seems there are vserverID, isClosedLoopDisabled, etc .. is repeated across AAIGET* classes.   It would be better to have a base class with the common fields, ie. AAIGETResponse, and have AAIGETVserverResponse, and others that use these common fields, inherit from it.",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e2db8119",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETVserverResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "remove this, better in wiki page, with ATT information obfuscated",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_02f44585",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "use logger instead of system.out",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_22f98980",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "remove this line, already covered in logger line",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c2ed1db9",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "use logger - this is a general comment across files - use logger statements instead of System.out",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a22c5903",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "logger statement, and pass e exception as argunment, not e.toString()",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c244fdb8",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Do inside the {} in the catch(), \"Thread.interrupt()\"",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e22021f9",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Question: Does the X-FromAppId have relevance, or can it be any value?",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8216f5a5",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "System.out comment",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c21bddc8",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "same comment as above about the catch here and following function as well below",
       "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -105,6 +326,57 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_628431d4",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponseWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Does it need to implement Serializable?",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4287edd7",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponseWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "These are going to give you sonars being public .., sonar will ask to make them private and have a set/get methods I believe.  Not sure if there are other classes with public data members.",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_226e2930",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelatedToProperty.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Implement Serializable?",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_13affa95",
         "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelatedToProperty.java",
         "patchSetId": 4
@@ -122,6 +394,57 @@
         "endLine": 31,
         "endChar": 84
       },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0269e524",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/Relationship.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Implement Serializable? - global comment",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e2770101",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/Relationship.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "same comment as public data members and sonars ..",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a261f93a",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "Serializable ?",
       "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -151,6 +474,57 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_8264b549",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipDataItem.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "serialiable?",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_625b1188",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipDataItem.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "same comment as public data members as before",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_425ecd77",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "serializable",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b39f0e5f",
         "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipList.java",
         "patchSetId": 4
@@ -168,6 +542,91 @@
         "endLine": 31,
         "endChar": 76
       },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0250c55c",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAIGETVnfResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e24ee1c0",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAIGETVnfResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "use logger",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a2c8d922",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAIGETVserverResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "correct formattting",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c2499db8",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAIGETVserverResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "remove any references to att",
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e2c4a141",
+        "filename": "controlloop/templates/template.demo.v1.0.0/template.demo/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-12T09:41:50Z",
+      "side": 1,
+      "message": "This directory refers to 1.0.0 (will go away as as soon as migrations is possible to 1.1.0).   There should be no changes in this file/directory",
       "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
