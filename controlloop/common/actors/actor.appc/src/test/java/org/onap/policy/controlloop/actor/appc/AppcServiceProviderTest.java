@@ -26,6 +26,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.util.Serialization;
@@ -36,6 +38,8 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +60,7 @@ public class AppcServiceProviderTest {
         onsetEvent.closedLoopControlName = "closedLoopControlName-Test";
         onsetEvent.requestID = UUID.randomUUID();
         onsetEvent.closedLoopEventClient = "tca.instance00001";
-        onsetEvent.target_type = ControlLoopTargetType.VF;
+        onsetEvent.target_type = ControlLoopTargetType.VNF;
         onsetEvent.target = "generic-vnf.vnf-id";
         onsetEvent.from = "DCAE";
         onsetEvent.closedLoopAlarmStart = Instant.now();
@@ -68,7 +72,7 @@ public class AppcServiceProviderTest {
         operation = new ControlLoopOperation();
         operation.actor = "APPC";
         operation.operation = "ModifyConfig";
-        operation.target = "VM";
+        operation.target = "VNF";
         operation.end = Instant.now();
         operation.subRequestId = "1";
 
@@ -77,7 +81,8 @@ public class AppcServiceProviderTest {
         policy.setName("Modify Packet Generation Config");
         policy.setDescription("Upon getting the trigger event, modify packet gen config");
         policy.setActor("APPC");
-        policy.setTarget(new Target(TargetType.VM));
+        policy.setTarget(new Target(TargetType.VNF));
+        policy.getTarget().setResourceID("Eace933104d443b496b8.nodes.heat.vpg");
         policy.setRecipe("ModifyConfig");
         policy.setPayload(null);
         policy.setRetry(2);
@@ -85,6 +90,20 @@ public class AppcServiceProviderTest {
 
     }
 
+    @BeforeClass
+    public static void setUpSimulator() {
+        try {
+            Util.buildAaiSim();
+        } catch (InterruptedException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
+    
     @Test
     public void constructModifyConfigRequestTest() {
         
@@ -104,6 +123,7 @@ public class AppcServiceProviderTest {
         /* A payload is required and cannot be null */
         assertNotNull(appcRequest.getPayload());
         assertTrue(appcRequest.getPayload().containsKey("generic-vnf.vnf-id"));
+        assertNotNull(appcRequest.getPayload().get("generic-vnf.vnf-id"));
         assertTrue(appcRequest.getPayload().containsKey("pg-streams"));
 
         logger.debug("APPC Request: \n" + appcRequest.toString());
