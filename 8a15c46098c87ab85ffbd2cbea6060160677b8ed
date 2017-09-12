@@ -33,6 +33,144 @@
       "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f34b5629",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-12T01:58:46Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1345ba16",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-12T01:58:46Z",
+      "side": 1,
+      "message": "we don\u0027t need F199 any more",
+      "range": {
+        "startLine": 28,
+        "startChar": 42,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_33ac3ea0",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-12T01:58:46Z",
+      "side": 1,
+      "message": "remove this to avoid sonar critical ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 85,
+        "endLine": 38,
+        "endChar": 115
+      },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_13affa95",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelatedToProperty.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-12T01:58:46Z",
+      "side": 1,
+      "message": "sonar critical ?",
+      "range": {
+        "startLine": 31,
+        "startChar": 63,
+        "endLine": 31,
+        "endChar": 84
+      },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d3905250",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-12T01:58:46Z",
+      "side": 1,
+      "message": "sonar critical ?",
+      "range": {
+        "startLine": 31,
+        "startChar": 69,
+        "endLine": 31,
+        "endChar": 89
+      },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b39f0e5f",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/RelationshipList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-12T01:58:46Z",
+      "side": 1,
+      "message": "sonar critical ?",
+      "range": {
+        "startLine": 31,
+        "startChar": 64,
+        "endLine": 31,
+        "endChar": 76
+      },
+      "revId": "8a15c46098c87ab85ffbd2cbea6060160677b8ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
