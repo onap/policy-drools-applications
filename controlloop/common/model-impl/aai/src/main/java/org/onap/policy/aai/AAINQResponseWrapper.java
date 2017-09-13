@@ -20,16 +20,21 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
-import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
+import java.util.UUID;
 
-public class RelationshipList {
+import org.onap.policy.aai.AAINQResponse;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<>();
+public class AAINQResponseWrapper {
+
+	public UUID requestID;
+	public AAINQResponse aainqresponse;
 	
-	public RelationshipList() {
+	public AAINQResponseWrapper() {
+		
+	}
+	
+	public AAINQResponseWrapper(UUID requestID, AAINQResponse aainqresponse){
+		this.requestID = requestID;
+		this.aainqresponse = aainqresponse;
 	}
 }

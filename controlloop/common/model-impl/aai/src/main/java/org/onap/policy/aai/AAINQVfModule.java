@@ -20,16 +20,50 @@
 
 package org.onap.policy.aai;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
 
-public class RelationshipList {
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<>();
+public class AAINQVfModule implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8019133081429638231L;
+
+	@SerializedName("vf-module-id")
+	public String vfModuleId;
 	
-	public RelationshipList() {
+	@SerializedName("vf-module-name")
+	public String vfModuleName;
+	
+	@SerializedName("heat-stack-id")
+	public String heatStackId;
+	
+	@SerializedName("orchestration-status")
+	public String orchestrationStatus;
+	
+	@SerializedName("is-base-vf-module")
+	public Boolean isBaseVfModule;
+	
+	@SerializedName("resource-version")
+	public String resourceVersion;
+	
+	@SerializedName("persona-model-id")
+	public String personaModelId;
+	
+	@SerializedName("persona-model-version")
+	public String personaModelVersion;
+	
+	@SerializedName("widget-model-id")
+	public String widgetModelId;
+	
+	@SerializedName("widget-model-version")
+	public String widgetModelVersion;
+	
+	@SerializedName("contrail-service-instance-fqdn")
+	public String contrailServiceInstanceFqdn;
+	
+	public AAINQVfModule() {
 	}
 }
