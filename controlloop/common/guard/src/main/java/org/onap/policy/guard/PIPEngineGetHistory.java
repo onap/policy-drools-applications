@@ -20,6 +20,8 @@
 
 package org.onap.policy.guard;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -64,7 +66,8 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 	private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
 
-	public static final String DEFAULT_DESCRIPTION		= "PIP for retrieving Operations History from DB";
+	public static final String DEFAULT_DESCRIPTION  = "PIP for retrieving Operations History from DB";
+	public static final String OPS_HIST_PROPS_LOC   = "/operation_history.properties";
 
 	//
 	// Base issuer string. The issuer in the policy will also contain time window information
@@ -305,13 +308,25 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 	private static int getCountFromDB(String actor, String operation, String target, String timeWindow){
 
+		// DB Properties
+		Properties props = new Properties();
+		try (InputStream is = org.onap.policy.guard.PIPEngineGetHistory.class.getResourceAsStream(OPS_HIST_PROPS_LOC)){
+			props.load(is);
+		} catch (IOException ex) {
+			logger.error("getCountFromDB threw: ", ex);
+			return -1;
+		}
+
 		EntityManager em = null;
 		String OpsHistPU = System.getProperty("OperationsHistoryPU");
 		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
 			OpsHistPU = "OperationsHistoryPU";
 		}
+		else{
+			props.clear();
+		}
 		try{
-			em = Persistence.createEntityManagerFactory(OpsHistPU).createEntityManager();
+			em = Persistence.createEntityManagerFactory(OpsHistPU, props).createEntityManager();
 		}catch(Exception ex){
 			logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", OpsHistPU);
 			logger.error("getCountFromDB threw: ", ex);
