@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a6910454",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 107
+      },
+      "writtenOn": "2017-09-13T21:29:30Z",
+      "side": 1,
+      "message": "What is this comment? Does it work or not?",
+      "range": {
+        "startLine": 523,
+        "startChar": 125,
+        "endLine": 523,
+        "endChar": 158
+      },
+      "revId": "3a9e9d96852d02966df096902c679674b7aa67b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_468a581c",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 107
+      },
+      "writtenOn": "2017-09-13T21:29:30Z",
+      "side": 1,
+      "message": "Maybe we should also move this line to the operation_history.properties file? This way a user will have a single place to change per new DB. What do you think?",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 92
+      },
+      "revId": "3a9e9d96852d02966df096902c679674b7aa67b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
