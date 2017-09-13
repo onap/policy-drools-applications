@@ -39,7 +39,7 @@ public class MsoSimulatorTest {
 	public static void setUpSimulator() {
 		try {
 			Util.buildMsoSim();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}

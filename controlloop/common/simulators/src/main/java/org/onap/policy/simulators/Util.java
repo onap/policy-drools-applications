@@ -20,30 +20,39 @@
 
 package org.onap.policy.simulators;
 
+import java.io.IOException;
+
 import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.drools.utils.NetworkUtil;
 import org.onap.policy.simulators.AaiSimulatorJaxRs;
 import org.onap.policy.simulators.MsoSimulatorJaxRs;
 import org.onap.policy.simulators.VfcSimulatorJaxRs;
 
 public class Util {
-	public static HttpServletServer buildAaiSim() throws InterruptedException {
+	public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
 		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6666, "/", false, true);
 		testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
 		testServer.waitedStart(5000);
+		if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+			throw new IllegalStateException("cannot connect to port " + testServer.getPort());
 		return testServer;
 	}
 	
-	public static HttpServletServer buildMsoSim() throws InterruptedException {
+	public static HttpServletServer buildMsoSim() throws InterruptedException, IOException {
 		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6667, "/", false, true);
 		testServer.addServletClass("/*", MsoSimulatorJaxRs.class.getName());
 		testServer.waitedStart(5000);
+		if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+			throw new IllegalStateException("cannot connect to port " + testServer.getPort());
 		return testServer;
 	}
 	
-	public static HttpServletServer buildVfcSim() throws InterruptedException {
+	public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
 		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6668, "/", false, true);
 		testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
 		testServer.waitedStart(5000);
+		if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+			throw new IllegalStateException("cannot connect to port " + testServer.getPort());
 		return testServer;
 	}
 }

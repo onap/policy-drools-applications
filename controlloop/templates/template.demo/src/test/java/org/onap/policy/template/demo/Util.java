@@ -117,15 +117,15 @@ public final class Util {
 		return null;
 	}
 	
-	public static HttpServletServer buildAaiSim() throws InterruptedException {
+	public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
 		return org.onap.policy.simulators.Util.buildAaiSim();
 	}
 	
-	public static HttpServletServer buildMsoSim() throws InterruptedException {
+	public static HttpServletServer buildMsoSim() throws InterruptedException, IOException {
 		return org.onap.policy.simulators.Util.buildMsoSim();
 	}
 	
-	public static HttpServletServer buildVfcSim() throws InterruptedException {
+	public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
 		return org.onap.policy.simulators.Util.buildVfcSim();
 	}
 	
