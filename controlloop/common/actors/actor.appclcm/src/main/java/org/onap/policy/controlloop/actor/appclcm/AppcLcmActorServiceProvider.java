@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.onap.policy.aai.AAINQF199.AAINQF199InstanceFilters;
-import org.onap.policy.aai.AAINQF199.AAINQF199InventoryResponseItem;
-import org.onap.policy.aai.AAINQF199.AAINQF199Manager;
-import org.onap.policy.aai.AAINQF199.AAINQF199NamedQuery;
-import org.onap.policy.aai.AAINQF199.AAINQF199QueryParameters;
-import org.onap.policy.aai.AAINQF199.AAINQF199Request;
-import org.onap.policy.aai.AAINQF199.AAINQF199Response;
+import org.onap.policy.aai.AAINQInstanceFilters;
+import org.onap.policy.aai.AAINQInventoryResponseItem;
+import org.onap.policy.aai.AAIManager;
+import org.onap.policy.aai.AAINQNamedQuery;
+import org.onap.policy.aai.AAINQQueryParameters;
+import org.onap.policy.aai.AAINQRequest;
+import org.onap.policy.aai.AAINQResponse;
 import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.appclcm.LCMRequest;
 import org.onap.policy.appclcm.LCMRequestWrapper;
@@ -108,9 +108,9 @@ public class AppcLcmActorServiceProvider implements Actor {
      *          
      * @return the vnf-id of the target vnf to act upon or null if not found
      */
-    private static String parseAAIResponse(List<AAINQF199InventoryResponseItem> items, String resourceId) {
+    private static String parseAAIResponse(List<AAINQInventoryResponseItem> items, String resourceId) {
         String vnfId = null;
-        for (AAINQF199InventoryResponseItem item: items) {
+        for (AAINQInventoryResponseItem item: items) {
             if ((item.genericVNF != null)
                     && (item.genericVNF.modelInvariantId != null) 
                     && (resourceId.equals(item.genericVNF.modelInvariantId))) {
@@ -143,9 +143,9 @@ public class AppcLcmActorServiceProvider implements Actor {
         //TODO: This request id should not be hard coded in future releases
         UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
         
-        AAINQF199Request aaiRequest = new AAINQF199Request();
-        aaiRequest.queryParameters = new AAINQF199QueryParameters();
-        aaiRequest.queryParameters.namedQuery = new AAINQF199NamedQuery();
+        AAINQRequest aaiRequest = new AAINQRequest();
+        aaiRequest.queryParameters = new AAINQQueryParameters();
+        aaiRequest.queryParameters.namedQuery = new AAINQNamedQuery();
         aaiRequest.queryParameters.namedQuery.namedQueryUUID = requestId;
         
         Map<String, Map<String, String>> filter = new HashMap<>();        
@@ -154,11 +154,11 @@ public class AppcLcmActorServiceProvider implements Actor {
         filterItem.put("vnf-id", sourceVnfId);
         filter.put("generic-vnf", filterItem);
         
-        aaiRequest.instanceFilters = new AAINQF199InstanceFilters();
+        aaiRequest.instanceFilters = new AAINQInstanceFilters();
         aaiRequest.instanceFilters.instanceFilter.add(filter);
         
         //TODO: URL should not be hard coded for future releases
-        AAINQF199Response aaiResponse = AAINQF199Manager.postQuery(
+        AAINQResponse aaiResponse = AAIManager.postQuery(
                         "http://localhost:6666",
                         "policy", "policy", 
                         aaiRequest, requestId);
