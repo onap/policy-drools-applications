@@ -35,8 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -53,17 +51,15 @@ import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.guard.PolicyGuardYamlToXacml;
-import org.onap.policy.simulators.AaiSimulatorJaxRs;
-import org.onap.policy.simulators.MsoSimulatorJaxRs;
-import org.onap.policy.simulators.VfcSimulatorJaxRs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import com.att.research.xacml.api.pdp.PDPEngine;
 import com.att.research.xacml.api.pdp.PDPEngineFactory;
 import com.att.research.xacml.util.FactoryException;
 import com.att.research.xacml.util.XACMLProperties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class Util {
 
@@ -121,8 +117,8 @@ public final class Util {
 		return org.onap.policy.simulators.Util.buildAaiSim();
 	}
 	
-	public static HttpServletServer buildMsoSim() throws InterruptedException {
-		return org.onap.policy.simulators.Util.buildMsoSim();
+	public static HttpServletServer buildSoSim() throws InterruptedException {
+		return org.onap.policy.simulators.Util.buildSoSim();
 	}
 	
 	public static HttpServletServer buildVfcSim() throws InterruptedException {

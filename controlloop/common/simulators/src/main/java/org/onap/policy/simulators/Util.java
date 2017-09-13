@@ -22,7 +22,7 @@ package org.onap.policy.simulators;
 
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.simulators.AaiSimulatorJaxRs;
-import org.onap.policy.simulators.MsoSimulatorJaxRs;
+import org.onap.policy.simulators.SoSimulatorJaxRs;
 import org.onap.policy.simulators.VfcSimulatorJaxRs;
 
 public class Util {
@@ -33,9 +33,9 @@ public class Util {
 		return testServer;
 	}
 	
-	public static HttpServletServer buildMsoSim() throws InterruptedException {
+	public static HttpServletServer buildSoSim() throws InterruptedException {
 		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6667, "/", false, true);
-		testServer.addServletClass("/*", MsoSimulatorJaxRs.class.getName());
+		testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
 		testServer.waitedStart(5000);
 		return testServer;
 	}

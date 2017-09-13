@@ -39,18 +39,18 @@ import org.onap.policy.appclcm.LCMResponse;
 import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.vfc.VFCRequest;
 import org.onap.policy.vfc.VFCManager;
-import org.onap.policy.mso.SOManager;
-import org.onap.policy.mso.SORequest;
-import org.onap.policy.mso.SORequestStatus;
-import org.onap.policy.mso.SORequestDetails;
-import org.onap.policy.mso.SOModelInfo;
-import org.onap.policy.mso.SOCloudConfiguration;
-import org.onap.policy.mso.SORequestInfo;
-import org.onap.policy.mso.SORequestParameters;
-import org.onap.policy.mso.SORelatedInstanceListElement;
-import org.onap.policy.mso.SORelatedInstance;
-import org.onap.policy.mso.SOResponse;
-import org.onap.policy.controlloop.actor.mso.MSOActorServiceProvider;
+import org.onap.policy.so.SOManager;
+import org.onap.policy.so.SORequest;
+import org.onap.policy.so.SORequestStatus;
+import org.onap.policy.so.SORequestDetails;
+import org.onap.policy.so.SOModelInfo;
+import org.onap.policy.so.SOCloudConfiguration;
+import org.onap.policy.so.SORequestInfo;
+import org.onap.policy.so.SORequestParameters;
+import org.onap.policy.so.SORelatedInstanceListElement;
+import org.onap.policy.so.SORelatedInstance;
+import org.onap.policy.so.SOResponse;
+import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
@@ -517,7 +517,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 					
 					if(request instanceof SORequest) {
 						// Call SO. The response will be inserted into memory once it's received 
-						MSOActorServiceProvider.sendRequest(drools.getWorkingMemory(), request);						
+						SOActorServiceProvider.sendRequest(drools.getWorkingMemory(), request);						
 					}
 					break;
 				case "VFC":
@@ -926,10 +926,8 @@ rule "${policyName}.SO.RESPONSE"
 		$operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
 		$opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
         $lock : TargetLock (requestID == $event.requestID)
-		$request : SORequest( requestId == $event.requestID.toString() )
-		$response : SOResponse( request.requestId == $event.requestID.toString() )	
-	then
-		
+		$response : SOResponse( requestReferences.requestId.toString() == $event.requestID.toString() )	
+	then				
 		//
     	// Logging		
 		Logger.info("------------------------------------------------------------------------------------------------");
@@ -941,7 +939,6 @@ rule "${policyName}.SO.RESPONSE"
 		Logger.metrics($opTimer);
 		Logger.metrics($lock);
 		Logger.metrics($response);
-		
 		// Get the result of the operation
 		//
 		PolicyResult policyResult = $operation.onResponse($response);
