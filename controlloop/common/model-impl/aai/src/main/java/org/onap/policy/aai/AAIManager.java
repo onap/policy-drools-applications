@@ -53,9 +53,9 @@ public final class AAIManager {
 		
 		url = url + "/aai/search/named-query";
 
-		logger.debug("ESTManager.post before"); 
+		logger.debug("RESTManager.post before"); 
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
-		logger.debug("ESTManager.post after"); 
+		logger.debug("RESTManager.post after"); 
 		
 		if (httpDetails == null) {
 			logger.info("AAI POST Null Response to " + url);
