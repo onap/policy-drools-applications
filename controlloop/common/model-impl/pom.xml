@@ -37,7 +37,7 @@
     	<module>appc</module>
     	<module>appclcm</module>
         <module>events</module>
-        <module>mso</module>
+        <module>so</module>
     	<module>rest</module>
     	<module>sdc</module>
     	<module>trafficgenerator</module>
