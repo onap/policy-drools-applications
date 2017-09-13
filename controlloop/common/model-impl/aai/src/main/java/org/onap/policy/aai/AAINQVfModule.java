@@ -64,6 +64,12 @@ public class AAINQVfModule implements Serializable {
 	@SerializedName("contrail-service-instance-fqdn")
 	public String contrailServiceInstanceFqdn;
 	
+	@SerializedName("model-invariant-id")
+	public String modelInvariantId;
+	
+	@SerializedName("model-version-id")
+	public String modelVersionId;
+	
 	public AAINQVfModule() {
 	}
 }

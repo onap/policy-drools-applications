@@ -77,7 +77,7 @@ public class SOActorServiceProvider implements Actor {
 
 	private static String serviceItemServiceInstanceId;
 
-	private String serviceItemPersonaModelId;
+	private String serviceItemModelInvariantId;
 
 	private String serviceItemModelName;
 
@@ -89,9 +89,9 @@ public class SOActorServiceProvider implements Actor {
 
 	private String vfModuleItemVfModuleName;
 
-	private String vfModuleItemPersonaModelId;
+	private String vfModuleItemModelInvariantId;
 
-	private String vfModuleItemPersonaModelVersion;
+	private String vfModuleItemModelVersionId;
 
 	private String vfModuleItemModelName;
 
@@ -216,17 +216,17 @@ public class SOActorServiceProvider implements Actor {
 			setVnfItemVnfType(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.vnfType);
 			setVnfItemVnfType(vnfItemVnfType.substring(vnfItemVnfType.lastIndexOf("/")+1));
 			setVnfItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.modelInvariantId);
-			setVnfItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.personaModelVersion);
+			setVnfItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.modelVersionId);
 			setVnfItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(0).propertyValue);
 			setVnfItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(2).propertyValue);
 			setVnfItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);			
 
 			// serviceItem
 			setServiceItemServiceInstanceId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.serviceInstanceID);
-			setServiceItemPersonaModelId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.personaModelId);
+			setServiceItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelInvariantId);
 			setServiceItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(0).propertyValue);
 			setServiceItemModelType(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
-			setServiceItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.personaModelVersion);
+			setServiceItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelVersionId);
 			setServiceItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);
 			
 			// Find the index for base vf module and non-base vf module
@@ -256,8 +256,8 @@ public class SOActorServiceProvider implements Actor {
 			setVfModuleItemVfModuleName(vfModuleItemVfModuleName.replace("Vfmodule", "vDNS"));
 
 			// vfModuleItem - NOT the base module
-			setVfModuleItemPersonaModelId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.personaModelId);
-			setVfModuleItemPersonaModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.personaModelVersion);
+			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelInvariantId);
+			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelVersionId);
 			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(0).propertyValue);
 			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(4).propertyValue);
 			
@@ -315,7 +315,7 @@ public class SOActorServiceProvider implements Actor {
 			    (getServiceItemServiceInstanceId() == null) || (getServiceItemModelName() == null) ||
 			    (getServiceItemModelType() == null) || (getServiceItemModelVersion() == null) ||
 			    (getServiceItemModelNameVersionId() == null) || (getVfModuleItemVfModuleName() == null) ||
-			    (getVfModuleItemPersonaModelId() == null) || (getVfModuleItemPersonaModelVersion() == null) ||
+			    (getVfModuleItemModelInvariantId() == null) || (getVfModuleItemModelVersionId() == null) ||
 			    (getVfModuleItemModelName() == null) || (getVfModuleItemModelNameVersionId() == null) ||
 			    (getTenantItemTenantId() == null) || (getCloudRegionItemCloudRegionId() == null)) {
 				return false;
@@ -368,10 +368,10 @@ public class SOActorServiceProvider implements Actor {
 			// modelInfo
 			//
 			request.requestDetails.modelInfo.modelType = "vfModule";
-			request.requestDetails.modelInfo.modelInvariantId = getVfModuleItemPersonaModelId();
+			request.requestDetails.modelInfo.modelInvariantId = getVfModuleItemModelInvariantId();
 			request.requestDetails.modelInfo.modelNameVersionId = getVfModuleItemModelNameVersionId();
 			request.requestDetails.modelInfo.modelName = getVfModuleItemModelName();
-			request.requestDetails.modelInfo.modelVersion = getVfModuleItemPersonaModelVersion();
+			request.requestDetails.modelInfo.modelVersion = getVfModuleItemModelVersionId();
 			//
 			// requestInfo
 			//
@@ -389,7 +389,7 @@ public class SOActorServiceProvider implements Actor {
 			relatedInstanceListElement1.relatedInstance.instanceId = getServiceItemServiceInstanceId();
 			relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = getServiceItemPersonaModelId();
+			relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = getServiceItemModelInvariantId();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId = getServiceItemModelNameVersionId();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelName = getServiceItemModelName();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = getServiceItemModelVersion();
@@ -456,14 +456,14 @@ public class SOActorServiceProvider implements Actor {
 	}
 
 	/**
-	 * @return the vnfItemPersonaModelId
+	 * @return the vnfItemModelInvariantId
 	 */
 	public String getVnfItemModelInvariantId() {
 		return this.vnfItemModelInvariantId;
 	}
 
 	/**
-	 * @param vnfItemPersonaModelId the vnfItemPersonaModelId to set
+	 * @param vnfItemModelInvariantId the vnfItemModelInvariantId to set
 	 */
 	private void setVnfItemModelInvariantId(String vnfItemModelInvariantId) {
 		this.vnfItemModelInvariantId = vnfItemModelInvariantId;
@@ -541,17 +541,17 @@ public class SOActorServiceProvider implements Actor {
 	}
 
 	/**
-	 * @return the serviceItemPersonaModelId
+	 * @return the serviceItemModelInvariantId
 	 */
-	public String getServiceItemPersonaModelId() {
-		return this.serviceItemPersonaModelId;
+	public String getServiceItemModelInvariantId() {
+		return this.serviceItemModelInvariantId;
 	}
 
 	/**
-	 * @param serviceItemPersonaModelId the serviceItemPersonaModelId to set
+	 * @param serviceItemModeInvariantlId the serviceItemModelInvariantId to set
 	 */
-	private void setServiceItemPersonaModelId(String serviceItemPersonaModelId) {
-		this.serviceItemPersonaModelId = serviceItemPersonaModelId;
+	private void setServiceItemModelInvariantId(String serviceItemModelInvariantId) {
+		this.serviceItemModelInvariantId = serviceItemModelInvariantId;
 	}
 
 	/**
@@ -626,32 +626,32 @@ public class SOActorServiceProvider implements Actor {
 	}
 
 	/**
-	 * @return the vfModuleItemPersonaModelId
+	 * @return the vfModuleItemModelInvariantId
 	 */
-	public String getVfModuleItemPersonaModelId() {
-		return this.vfModuleItemPersonaModelId;
+	public String getVfModuleItemModelInvariantId() {
+		return this.vfModuleItemModelInvariantId;
 	}
 
 	/**
-	 * @param vfModuleItemPersonaModelId the vfModuleItemPersonaModelId to set
+	 * @param vfModuleItemModelInvariantId the vfModuleItemModelInvariantId to set
 	 */
-	private void setVfModuleItemPersonaModelId(String vfModuleItemPersonaModelId) {
-		this.vfModuleItemPersonaModelId = vfModuleItemPersonaModelId;
+	private void setVfModuleItemModelInvariantId(String vfModuleItemModelInvariantId) {
+		this.vfModuleItemModelInvariantId = vfModuleItemModelInvariantId;
 	}
 
 	/**
-	 * @return the vfModuleItemPersonaModelVersion
+	 * @return the vfModuleItemModelVersionId
 	 */
-	public String getVfModuleItemPersonaModelVersion() {
-		return this.vfModuleItemPersonaModelVersion;
+	public String getVfModuleItemModelVersionId() {
+		return this.vfModuleItemModelVersionId;
 	}
 
 	/**
-	 * @param vfModuleItemPersonaModelVersion the vfModuleItemPersonaModelVersion to set
+	 * @param vfModuleItemModelVersionId the vfModuleItemModelVersionId to set
 	 */
-	private void setVfModuleItemPersonaModelVersion(
-			String vfModuleItemPersonaModelVersion) {
-		this.vfModuleItemPersonaModelVersion = vfModuleItemPersonaModelVersion;
+	private void setVfModuleItemModelVersionId(
+			String vfModuleItemModelVersionId) {
+		this.vfModuleItemModelVersionId = vfModuleItemModelVersionId;
 	}
 
 	/**
