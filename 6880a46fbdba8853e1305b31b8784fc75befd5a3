@@ -49,6 +49,210 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_17ad989c",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "Will change to so, see comment below",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_37a65cc2",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "FYI, I believe Ali is making a pull request that changes all references of actor.mso and mso to actor.so and so. We\u0027ll have to remember to change these as well",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_179b5868",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "This needs to be the LCMResponseWrapper. The actually LCMResponse is contained inside a dmaap wrapper from APPC, which is why we need to use the wrapper.",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d7a4b0a7",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "The response wrapper needs to be used and it does not contain a common-header or status, has a body object which contains these fields.",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_378d3c32",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "This needs to use the gson object of the appclcm serialization class, not gson pretty. This is because of the need to add extra wrappers in the json around the body of the request, I had to use two different gson objects to get it working properly, the external one to use for the controller (gson) and the internal one used for the inside of the request to change the timestamp.",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_77a9847a",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.rest.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "Should be LCMResponseWrapper",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_17b238e6",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.rest.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "Use LCMResponseWrapper, it has a body object that contains the true response with a common-header and status. Also it is important to not that the request/responses of the LCM API contain hyphens and not upper camel case syntax (ex. \"CommonHeader\" is actually going to be \"common-header\" when sent back from APPC).",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_57b8c0c7",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.rest.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "Use gson, not gsonPretty",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b79fec4f",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.rest.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "Needs to be LCMRequestWrapper",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_97ae2884",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.rest.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "use gson instead of gsonPretty",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d7cb9051",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/dcae.onset.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "target_type should be VNF",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b7cdac5f",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/dcae.onset.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T13:43:18Z",
+      "side": 1,
+      "message": "This is fine but we may want to remove is-closed-loop-disabled to test our aai queries in the future. I don\u0027t think DCAE will actually be sending this for some use cases.",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_37ee5c23",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/test/resources/projects/basic/goal.txt",
         "patchSetId": 1
