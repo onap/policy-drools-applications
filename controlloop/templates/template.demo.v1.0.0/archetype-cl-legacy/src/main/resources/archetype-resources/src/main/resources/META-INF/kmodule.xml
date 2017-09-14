@@ -24,6 +24,6 @@
 
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
     <kbase name="rules">
-        <ksession name="closedloop-demo"/>
+        <ksession name="legacy"/>
     </kbase>
 </kmodule>

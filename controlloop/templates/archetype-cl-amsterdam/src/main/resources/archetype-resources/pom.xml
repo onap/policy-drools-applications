@@ -29,7 +29,7 @@
 	<packaging>kjar</packaging>
 
 	<name>${artifactId}</name>
-	<description>Control Loop Legacy Rules for 1.0.0</description>
+	<description>Control Loop Amsterdam Release Rules</description>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -55,14 +55,24 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>rest</artifactId>
+			<artifactId>appc</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>appc</artifactId>
+			<artifactId>appclcm</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>vfc</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>mso</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>	
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>aai</artifactId>
@@ -70,7 +80,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>mso</artifactId>
+			<artifactId>sdc</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
@@ -82,10 +92,35 @@
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>eventmanager</artifactId>
 			<version>${dependenciesVersion}</version>
-		</dependency>
+		</dependency>			
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>guard</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actorServiceProvider</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.appc</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.appclcm</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.mso</artifactId>
+			<version>${dependenciesVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.vfc</artifactId>
 			<version>${dependenciesVersion}</version>
 		</dependency>
 		<dependency>
