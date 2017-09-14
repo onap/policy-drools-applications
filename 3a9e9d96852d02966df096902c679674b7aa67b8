@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_12b6c6fa",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-14T16:03:15Z",
+      "side": 1,
+      "message": "Yes the resource needs to be closed so try-with-resource is a good way to do that. I\u0027ll implement it.",
+      "parentUuid": "9a437d4f_5784405d",
+      "range": {
+        "startLine": 519,
+        "startChar": 2,
+        "endLine": 525,
+        "endChar": 26
+      },
+      "revId": "3a9e9d96852d02966df096902c679674b7aa67b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_468a581c",
         "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
         "patchSetId": 1
