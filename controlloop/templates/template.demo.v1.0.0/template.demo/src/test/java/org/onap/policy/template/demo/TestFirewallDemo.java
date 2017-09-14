@@ -144,7 +144,7 @@ public class TestFirewallDemo {
 				// So no need to test it again here
 				//
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 				}
 				//

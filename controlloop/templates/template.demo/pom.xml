@@ -73,7 +73,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>mso</artifactId>
+			<artifactId>so</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -175,7 +175,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>actor.mso</artifactId>
+			<artifactId>actor.so</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

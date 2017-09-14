@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -58,7 +57,7 @@ import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
-import org.onap.policy.mso.util.Serialization;
+import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +70,7 @@ public class TestSO {
 	public static void setUpSimulator() {
 		try {
 			Util.buildAaiSim();
+			Util.buildSoSim();
 		} catch (InterruptedException e) {
 			fail(e.getMessage());
 		}
@@ -81,7 +81,6 @@ public class TestSO {
 		HttpServletServer.factory.destroy();
 	}
 	
-	@Ignore
 	@Test
 	public void testvDNS() throws IOException {
 		
@@ -192,7 +191,7 @@ public class TestSO {
 				// So no need to test it again here
 				//
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 				}
 				//

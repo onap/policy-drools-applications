@@ -40,8 +40,8 @@ import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.actor.mso.MSOActorServiceProvider;
-import org.onap.policy.mso.SOResponse;
+import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
+import org.onap.policy.so.SOResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
@@ -214,7 +214,7 @@ public class ControlLoopOperationManager implements Serializable {
 			this.currentOperation = operation;
 			return operationRequest;
 		case "SO":
-			MSOActorServiceProvider SOAsp = new MSOActorServiceProvider();
+			SOActorServiceProvider SOAsp = new SOActorServiceProvider();
 			this.operationRequest = SOAsp.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
 			
 			// Save the operation
