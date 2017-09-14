@@ -22,6 +22,30 @@
       "revId": "e8f1b4097c103cbb3c3c7c7e7f3260a7b36deea9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_529d6ebb",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/SoSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-14T15:04:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_b7ab6cd5",
+      "range": {
+        "startLine": 128,
+        "startChar": 172,
+        "endLine": 128,
+        "endChar": 186
+      },
+      "revId": "e8f1b4097c103cbb3c3c7c7e7f3260a7b36deea9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
