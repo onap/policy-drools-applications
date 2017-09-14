@@ -21,8 +21,6 @@
 package org.onap.policy.aai;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 

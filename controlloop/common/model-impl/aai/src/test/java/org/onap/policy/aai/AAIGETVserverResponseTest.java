@@ -20,21 +20,10 @@
 
 package org.onap.policy.aai;
 
-import static org.junit.Assert.*;
-import java.util.List; 
-import java.util.LinkedList; 
-import org.onap.policy.aai.RelationshipDataItem; 
-import org.onap.policy.aai.RelationshipData; 
-import org.onap.policy.aai.RelatedToPropertyItem;
-import org.onap.policy.aai.Relationship;
-import org.onap.policy.aai.RelatedToProperty;
-import org.onap.policy.aai.RelationshipList;
+import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
-import org.onap.policy.aai.AAIGETVserverResponse; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.junit.Test;
 
 public class AAIGETVserverResponseTest {
 	private static final Logger logger = LoggerFactory.getLogger(AAIGETVserverResponseTest.class);

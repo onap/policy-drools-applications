@@ -20,40 +20,26 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.onap.policy.aai.AAIGETVserverResponse;
 import org.onap.policy.aai.AAIGETVnfResponse;
+import org.onap.policy.aai.AAIGETVserverResponse;
+import org.onap.policy.aai.RelatedToProperty;
 import org.onap.policy.aai.RelatedToPropertyItem;
 import org.onap.policy.aai.Relationship;
 import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipDataItem;
 import org.onap.policy.aai.RelationshipList;
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.RelatedToProperty;
-import org.onap.policy.appc.Request;
-import org.onap.policy.appc.Response;
-import org.onap.policy.appc.ResponseCode;
-import org.onap.policy.appc.ResponseValue;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
-
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.Util;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.processor.ControlLoopProcessor;
-import org.onap.policy.controlloop.processor.ControlLoopProcessorTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +65,7 @@ public class ControlLoopEventManagerTest {
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
+			@SuppressWarnings("unused")
 			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
 			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
 			 
@@ -104,32 +91,31 @@ public class ControlLoopEventManagerTest {
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		
 		try {
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
 			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
 			
 			logger.info("testIsClosedLoopDisabled --");
-			AAIManager manager = new AAIManager(); 
 			String user = "POLICY";
 			String password = "POLICY";
 			String vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
 			String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/"; 
 			AAIGETVnfResponse response = getQueryByVnfID2(url, user, password, onset.requestID, vnfID); 
 			assertNotNull(response);
-			boolean disabled = eventManager.isClosedLoopDisabled(response);
+			boolean disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
 			logger.info("QueryByVnfID - isClosedLoopDisabled: " + disabled); 
 
 			String vnfName = "lll_vnf_010317";
 			url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
 			response = getQueryByVnfName2(url, user, password, onset.requestID, vnfName); 
 			assertNotNull(response);
-			disabled = eventManager.isClosedLoopDisabled(response);
+			disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
 			logger.info("QueryByVnfName2 - isClosedLoopDisabled: " + disabled); 
 
 			String vserverName = "USMSO1SX7NJ0103UJZZ01-vjunos0";
 			url = "https://aai-ext1.test.att.com:8443//aai/v11/nodes/vservers?vserver-name="; 
+			@SuppressWarnings("unused")
 			AAIGETVserverResponse response2 = getQueryByVserverName2(url, user, password, onset.requestID, vserverName); 
 			assertNotNull(response);
-			disabled = eventManager.isClosedLoopDisabled(response);
+			disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
 			logger.info("QueryByVserverName - isClosedLoopDisabled: " + disabled); 
 		} catch (Exception e) {
 			fail(e.getMessage());

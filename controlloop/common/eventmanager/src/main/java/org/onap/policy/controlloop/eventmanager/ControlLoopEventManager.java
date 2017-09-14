@@ -26,18 +26,17 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List; 
 import java.util.UUID;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator; 
 
+import org.onap.policy.aai.AAIGETVnfResponse;
+import org.onap.policy.aai.AAIGETVserverResponse;
+import org.onap.policy.aai.AAIManager;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
@@ -48,13 +47,6 @@ import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.AAIGETVserverResponse;
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.RelatedToPropertyItem;
-import org.onap.policy.aai.RelationshipList; 
-import org.onap.policy.aai.Relationship;
 
 public class ControlLoopEventManager implements LockCallback, Serializable {
 	
@@ -580,7 +572,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static boolean isClosedLoopDisabled(AAIGETVnfResponse aaiResponse) {
-       	RelationshipList relationshipList = new RelationshipList();
        	if (aaiResponse != null && aaiResponse.isClosedLoopDisabled != null) {
        		String value = aaiResponse.isClosedLoopDisabled; 
        		if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) ||
@@ -593,7 +584,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static boolean isClosedLoopDisabled(AAIGETVserverResponse aaiResponse) {
-       	RelationshipList relationshipList = new RelationshipList();
        	if (aaiResponse != null && aaiResponse.isClosedLoopDisabled != null) {
        		String value = aaiResponse.isClosedLoopDisabled; 
        		if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) ||
@@ -624,9 +614,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
 		try {
 	        if (vserverName != null) {
-	    	   AAIManager manager = new AAIManager(); 
 	   		   String url = "https://aai-ext1.test.att.com:8443/aai/v11/nodes/vservers?vserver-name="; 
-			   response = manager.getQueryByVserverName(url, user, password, requestID, vserverName);
+			   response = AAIManager.getQueryByVserverName(url, user, password, requestID, vserverName);
 	        } 
 	    } catch (Exception e) {
 	    	logger.error("getAAIVserverInfo exception: ", e);
@@ -646,13 +635,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
  
 		try {
             if (vnfName != null) {
-	        	AAIManager manager = new AAIManager(); 
 		   	    String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
-			    response = manager.getQueryByVnfName(url, user, password, requestID, vnfName);	        	
+			    response = AAIManager.getQueryByVnfName(url, user, password, requestID, vnfName);	        	
 	        } else if (vnfID != null) {
-	        	AAIManager manager = new AAIManager(); 
 			    String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/"; 
-			    response = manager.getQueryByVnfID(url, user, password, requestID, vnfID);	        	
+			    response = AAIManager.getQueryByVnfID(url, user, password, requestID, vnfID);	        	
 	        }
 	    } catch (Exception e) {
 	    	logger.error("getAAIVnfInfo exception: ", e);

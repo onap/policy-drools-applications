@@ -25,9 +25,13 @@ import java.io.Serializable;
 import java.util.List; 
 import java.util.LinkedList; 
 
-public class RelationshipList {
+public class RelationshipList implements Serializable {
 
-    @SerializedName("relationship-list")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6115655704973981989L;
+	@SerializedName("relationship-list")
     public List<Relationship> relationshipList = new LinkedList<>();
 	
 	public RelationshipList() {

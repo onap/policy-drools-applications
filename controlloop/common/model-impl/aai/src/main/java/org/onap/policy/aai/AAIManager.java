@@ -21,19 +21,10 @@
 package org.onap.policy.aai;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.onap.policy.aai.AAIGETVserverResponse;
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.RelatedToPropertyItem;
-import org.onap.policy.aai.RelationshipDataItem;
-import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.util.Serialization;
-import org.onap.policy.aai.AAINQRequest;
-import org.onap.policy.aai.AAINQResponse;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
 import org.slf4j.Logger;
