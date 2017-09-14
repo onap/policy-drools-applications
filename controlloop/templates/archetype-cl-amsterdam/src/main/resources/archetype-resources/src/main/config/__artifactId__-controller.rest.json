@@ -1,0 +1,29 @@
+{
+	"controller.name": "${artifactId}",
+	
+	"ueb.source.topics": "${dcaeTopic},APPC-CL",
+
+	"ueb.source.topics.${dcaeTopic}.servers": "${dcaeServers}",
+	"ueb.source.topics.${dcaeTopic}.events": "org.onap.policy.controlloop.VirtualControlLoopEvent",
+	"ueb.source.topics.${dcaeTopic}.events.org.onap.policy.controlloop.VirtualControlLoopEvent.filter": "closedLoopEventStatus=.*",
+	"ueb.source.topics.${dcaeTopic}.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gsonPretty",
+	
+	"ueb.source.topics.APPC-CL.servers": "${dmaapServers}",
+	"ueb.source.topics.APPC-CL.events": "org.onap.policy.appclcm.LCMResponse",
+	"ueb.source.topics.APPC-CL.events.org.onap.policy.appclcm.LCMResponse.filter": "CommonHeader=.*,Status=.*",
+	"ueb.source.topics.APPC-CL.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gsonPretty",
+	
+	"ueb.sink.topics": "APPC-CL,POLICY-CL-MGT",
+
+	"ueb.sink.topics.APPC-CL.servers": "${dmaapServers}",
+	"ueb.sink.topics.APPC-CL.events": "org.onap.policy.appclcm.LCMRequest",
+	"ueb.sink.topics.APPC-CL.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gsonPretty",
+	
+	"ueb.sink.topics.POLICY-CL-MGT.servers": "${dmaapServers}",
+	"ueb.sink.topics.POLICY-CL-MGT.events": "org.onap.policy.controlloop.VirtualControlLoopNotification",
+	"ueb.sink.topics.POLICY-CL-MGT.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gsonPretty",
+	
+	"rules.groupId": "${groupId}",
+	"rules.artifactId": "${artifactId}",
+	"rules.version": "${version}"
+}
