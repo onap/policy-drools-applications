@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_125c867d",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "I changed my code to use AAINQRequest, maybe we should do that here as well?",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_32f30a75",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar will flag commented out code",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_92e636b3",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "use non F199 imports?",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b2501a5f",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar critical",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d255de50",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar critical",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f25ea275",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar critical",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_52c9ee24",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar critical",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_924f56bd",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar critical",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_724ab2ad",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/AaiSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "sonar critical",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b2d7fabe",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VFWControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-14T17:21:51Z",
+      "side": 1,
+      "message": "I think sonar wants us to log all exceptions that get caught?",
+      "revId": "baedb0f55dde3ffb76a7fc761ad51f99b27ef628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
