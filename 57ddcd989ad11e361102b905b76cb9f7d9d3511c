@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_7d8f23cd",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-14T19:17:55Z",
+      "side": 1,
+      "message": "There is still the issue that the DB credentials and database name are embedded in the binary (the jar) and therefore not configurable on a per lab installation.   Somebody wanted to change them will have to cahnge the properties file, and re-generate the jar if wanted to use different credentials.\n\nThe solution for now (unless it could also be retrieved from MSB or other means) I think it is to rely on the \"controlloop.properties.environment\" from my code inspection (not yet submitted) that will make the data globally accessible to all drools applications through PolicyEngine API.   In a lab installation should be populated externally by the installation process, right now sql host, and credentials are available.\n\nI can provide you details on how to accomplish this for external global configuration.  It can be part of another review.   We also need to know the name of the \"guard\" database which will store these tables, will have to check with Tarun/Ralph.",
+      "revId": "57ddcd989ad11e361102b905b76cb9f7d9d3511c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
