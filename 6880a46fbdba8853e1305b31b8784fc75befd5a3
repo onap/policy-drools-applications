@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_778ce47f",
+        "filename": "controlloop/packages/basex/src/files/config/controlloop.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-14T12:01:59Z",
+      "side": 1,
+      "message": "Midaswell make these \"SO\" and not mso since Ali renamed the packages in his code also.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_37ee5c23",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/test/resources/projects/basic/goal.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-14T12:01:59Z",
+      "side": 1,
+      "message": "This is an empty file. Should it be here? or go in .gitignore",
+      "revId": "6880a46fbdba8853e1305b31b8784fc75befd5a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
