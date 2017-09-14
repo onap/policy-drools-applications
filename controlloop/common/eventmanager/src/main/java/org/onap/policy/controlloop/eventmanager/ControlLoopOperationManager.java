@@ -20,11 +20,13 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.AbstractMap;
 import java.util.LinkedList;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -37,6 +39,7 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
+import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -44,7 +47,6 @@ import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.so.SOResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 
 public class ControlLoopOperationManager implements Serializable {
 
@@ -216,10 +218,10 @@ public class ControlLoopOperationManager implements Serializable {
 		case "SO":
 			SOActorServiceProvider SOAsp = new SOActorServiceProvider();
 			this.operationRequest = SOAsp.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
-			
+
 			// Save the operation
 			this.currentOperation = operation;
-			
+
 			return operationRequest;
 		case "VFC":
                         this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy);
@@ -364,9 +366,9 @@ public class ControlLoopOperationManager implements Serializable {
 				}
 				return PolicyResult.FAILURE;
 			}
-			
+
 		}
-		
+
 		return null;
 	}
 
@@ -512,13 +514,24 @@ public class ControlLoopOperationManager implements Serializable {
 
 	private void	storeOperationInDataBase(){
 
+		// DB Properties
+		Properties props = new Properties();
+		try (InputStream is = org.onap.policy.guard.PIPEngineGetHistory.class.getResourceAsStream(org.onap.policy.guard.PIPEngineGetHistory.OPS_HIST_PROPS_LOC)){
+			props.load(is);
+		} catch (Exception ex) {
+			logger.error("getCountFromDB threw: ", ex);
+			return;
+		}
 		String OpsHistPU = System.getProperty("OperationsHistoryPU");
 		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
 			OpsHistPU = "OperationsHistoryPU";
 		}
+		else{
+			props.clear();
+		}
 		EntityManager em;
 		try{
-			em = Persistence.createEntityManagerFactory(OpsHistPU).createEntityManager();
+			em = Persistence.createEntityManagerFactory(OpsHistPU, props).createEntityManager();
 		}catch(Exception e){
 			logger.error("storeOperationInDataBase threw: ", e);
 			return;
