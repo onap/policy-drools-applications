@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_78e3b133",
+        "filename": "controlloop/common/guard/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-14T20:17:55Z",
+      "side": 1,
+      "message": "Neeeded to put this back, so this comment cannot be done.   junits libraries seem to be used in non-test code and junit asserts.   See:\n\n egrep  \"junit|fail\\(\" $(find . -name \"*.java\") | grep -v test\n./guard/src/main/java/org/onap/policy/guard/Util.java:import static org.junit.Assert.fail;\n./guard/src/main/java/org/onap/policy/guard/Util.java:\t\t\tfail(e.getLocalizedMessage());\n./guard/src/main/java/org/onap/policy/guard/Util.java:\t\t\tfail(e.getLocalizedMessage());\n\nmaven wise, the structure of the drools-applications repo is messy.",
+      "parentUuid": "9a437d4f_bd210bb6",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 18
+      },
+      "revId": "c1220f1e9dc372969e236e09dd2ac292fe6f3345",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_5d657f1c",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/dcae.onset.json",
         "patchSetId": 4
