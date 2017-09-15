@@ -63,7 +63,7 @@ public class VDNSControlLoopTest {
 		try {
 			Util.buildAaiSim();
 			Util.buildSoSim();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}

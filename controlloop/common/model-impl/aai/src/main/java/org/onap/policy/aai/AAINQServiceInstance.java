@@ -49,6 +49,12 @@ public class AAINQServiceInstance implements Serializable {
 	@SerializedName("resource-version")
 	public String resourceVersion;
 	
+	@SerializedName("model-invariant-id")
+	public String modelInvariantId;
+	
+	@SerializedName("model-version-id")
+	public String modelVersionId;
+	
 	public AAINQServiceInstance() {
 	}
 

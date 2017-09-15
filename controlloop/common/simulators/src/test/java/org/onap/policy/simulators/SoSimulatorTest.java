@@ -48,7 +48,7 @@ public class SoSimulatorTest {
 	public static void setUpSimulator() {
 		try {
 			Util.buildSoSim();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}

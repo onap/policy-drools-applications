@@ -60,7 +60,7 @@ public class ControlLoopXacmlGuardTest {
     public static void setUpSimulator() {
         try {
             Util.buildAaiSim();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
     }

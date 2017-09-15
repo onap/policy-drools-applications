@@ -40,7 +40,7 @@ public class VfcSimulatorTest {
 	public static void setUpSimulator() {
 		try {
 			Util.buildVfcSim();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}

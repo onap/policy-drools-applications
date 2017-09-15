@@ -78,6 +78,9 @@ public class AAINQGenericVNF implements Serializable {
 	
 	@SerializedName("model-invariant-id")
 	public String modelInvariantId;
+	
+	@SerializedName("model-version-id")
+	public String modelVersionId;
 
 	public AAINQGenericVNF() {
 	}
