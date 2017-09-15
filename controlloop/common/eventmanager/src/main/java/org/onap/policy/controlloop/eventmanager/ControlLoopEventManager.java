@@ -537,16 +537,25 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			try {
 				if (event.AAI.get("generic-vnf.vnf-id") != null) {
 			       vnfResponse = getAAIVnfInfo(event); 
+			       if (vnfResponse == null) {
+			    	   throw new ControlLoopException("AAI Response is null (query by vnf-id)");
+			       }
 			       if (vnfResponse != null && isClosedLoopDisabled(vnfResponse) == true) {
 					   throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 			       }
 				} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
 				    vnfResponse = getAAIVnfInfo(event); 
+				    if (vnfResponse == null) {
+				    	throw new ControlLoopException("AAI Response is null (query by vnf-name)");
+				    }
 				    if (vnfResponse != null && isClosedLoopDisabled(vnfResponse) == true) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
 				} else if (event.AAI.get("vserver.vserver-name") != null) {
 				    vserverResponse = getAAIVserverInfo(event); 
+				    if (vserverResponse == null) {
+				       throw new ControlLoopException("AAI Response is null (query by vserver-name)");
+				    }
 				    if (vserverResponse != null && isClosedLoopDisabled(vserverResponse) == true) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
