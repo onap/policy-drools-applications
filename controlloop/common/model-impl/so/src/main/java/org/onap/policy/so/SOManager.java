@@ -107,6 +107,7 @@ public final class SOManager {
 				logger.error("Failed to deserialize into SOResponse: ", e);
 			} catch (InterruptedException e) {
 				logger.error("Interrupted exception: ", e);
+				Thread.currentThread().interrupt();
 			}
 		}
 		

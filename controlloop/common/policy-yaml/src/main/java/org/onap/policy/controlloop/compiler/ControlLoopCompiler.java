@@ -493,7 +493,7 @@ public class ControlLoopCompiler implements Serializable{
     
     private static class PolicyNodeWrapper implements NodeWrapper {
         private static final long serialVersionUID = 8170162175653823082L;
-        private Policy policy;
+        private transient Policy policy;
         
         public PolicyNodeWrapper(Policy operPolicy) {
             this.policy = operPolicy;

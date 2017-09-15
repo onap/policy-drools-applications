@@ -140,7 +140,7 @@ public class PolicyGuardXacmlHelper {
 
                 } catch (Exception e) {
         			String message = "Parsing Content-Type: " + connection.getContentType() + ", error=" + e.getMessage();
-        			logger.error("{}: callRESTfulPDP threw: ", message);
+        			logger.error("{}: callRESTfulPDP threw: ", message, e);
         		}
 
             } else {

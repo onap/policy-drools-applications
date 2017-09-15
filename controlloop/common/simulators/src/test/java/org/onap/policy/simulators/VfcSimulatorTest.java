@@ -20,19 +20,19 @@
 
 package org.onap.policy.simulators;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.vfc.VFCResponse;
-import org.onap.policy.vfc.util.Serialization;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.vfc.VFCResponse;
+import org.onap.policy.vfc.util.Serialization;
 
 public class VfcSimulatorTest {
 	

@@ -105,6 +105,7 @@ public final class AAINQF199Manager {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				logger.error(e.getMessage());
+				Thread.currentThread().interrupt();
 			}
 
 		}

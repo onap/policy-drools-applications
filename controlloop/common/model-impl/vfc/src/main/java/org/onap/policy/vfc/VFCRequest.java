@@ -19,7 +19,6 @@
 package org.onap.policy.vfc;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import com.google.gson.annotations.SerializedName;
 
