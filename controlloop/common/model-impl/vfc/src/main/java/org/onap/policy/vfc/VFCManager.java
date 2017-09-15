@@ -107,6 +107,7 @@ public final class VFCManager implements Runnable {
                 logger.error("Failed to deserialize into VFCResponse {}",e.getLocalizedMessage(),e);
             } catch (InterruptedException e) {
                 logger.error("Interrupted exception: {}", e.getLocalizedMessage(), e);
+                Thread.currentThread().interrupt();
             }
         } else {
             logger.warn("VFC Heal Restcall failed");

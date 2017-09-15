@@ -387,7 +387,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		try {
 			diff = now - dateUtil.init(timeWindow).getMs();
 		} catch (Exception ex) {
-			System.err.println("PIP thread got Exception " + ex.getLocalizedMessage());
+			logger.error("PIP thread got Exception " + ex);
 			return -1;
 		}
 

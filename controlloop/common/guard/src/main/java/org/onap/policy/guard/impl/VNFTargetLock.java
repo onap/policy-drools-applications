@@ -38,7 +38,7 @@ public class VNFTargetLock implements TargetLock, Serializable {
 	private final TargetType 	targetType;
 	private final String 	target;
 	private final UUID 		requestID;
-	private final LockCallback callback;
+	private final transient LockCallback callback;
 
 	public VNFTargetLock (TargetType type, String target, UUID requestID, LockCallback callback) {
 		this.lockID = UUID.randomUUID();

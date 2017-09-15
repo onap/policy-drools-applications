@@ -20,10 +20,17 @@
 
 package org.onap.policy.aai;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class RelatedToPropertyItem {
+public class RelatedToPropertyItem implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5644372985092588637L;
+	
 	@SerializedName("property-key")
 	public String propertyKey;
 	@SerializedName("property-value")

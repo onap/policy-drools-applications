@@ -19,19 +19,17 @@
 package org.onap.policy.controlloop.actor.vfc;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.vfc.VFCRequest;
-import org.onap.policy.vfc.VFCHealRequest;
-import org.onap.policy.vfc.VFCHealAdditionalParams;
-import org.onap.policy.vfc.VFCHealActionVmInfo;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.policy.Policy;
-
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.vfc.VFCHealActionVmInfo;
+import org.onap.policy.vfc.VFCHealAdditionalParams;
+import org.onap.policy.vfc.VFCHealRequest;
+import org.onap.policy.vfc.VFCRequest;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 

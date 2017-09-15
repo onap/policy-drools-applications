@@ -20,9 +20,16 @@
 
 package org.onap.policy.aai;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Relationship {
+public class Relationship implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -68508443869003054L;
 	
 	@SerializedName("related-to")
 	public String relatedTo;
