@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a5f9f181",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAINQResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-15T16:47:04Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 92,
+        "startChar": 70,
+        "endLine": 92,
+        "endChar": 88
+      },
+      "revId": "f4450216c9726749b24ea2bdc0fc29fbc3ef4b2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0509dd94",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAINQResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-15T16:47:04Z",
+      "side": 1,
+      "message": "Good old sonar will flag this.",
+      "range": {
+        "startLine": 99,
+        "startChar": 69,
+        "endLine": 99,
+        "endChar": 95
+      },
+      "revId": "f4450216c9726749b24ea2bdc0fc29fbc3ef4b2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e5fff965",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAINQResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-15T16:47:04Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 117,
+        "startChar": 65,
+        "endLine": 117,
+        "endChar": 91
+      },
+      "revId": "f4450216c9726749b24ea2bdc0fc29fbc3ef4b2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c502b56e",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AAINQResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-15T16:47:04Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 131,
+        "startChar": 66,
+        "endLine": 131,
+        "endChar": 92
+      },
+      "revId": "f4450216c9726749b24ea2bdc0fc29fbc3ef4b2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
