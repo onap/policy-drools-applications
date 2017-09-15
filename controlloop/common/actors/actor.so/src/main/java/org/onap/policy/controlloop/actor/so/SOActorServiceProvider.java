@@ -437,7 +437,7 @@ public class SOActorServiceProvider implements Actor {
 	/**
 	 * @param vnfItemVnfId the vnfItemVnfId to set
 	 */
-	private void setVnfItemVnfId(String vnfItemVnfId) {
+	private static void setVnfItemVnfId(String vnfItemVnfId) {
 		SOActorServiceProvider.vnfItemVnfId = vnfItemVnfId;
 	}
 
@@ -535,7 +535,7 @@ public class SOActorServiceProvider implements Actor {
 	/**
 	 * @param serviceItemServiceInstanceId the serviceItemServiceInstanceId to set
 	 */
-	private void setServiceItemServiceInstanceId(
+	private static void setServiceItemServiceInstanceId(
 			String serviceItemServiceInstanceId) {
 		SOActorServiceProvider.serviceItemServiceInstanceId = serviceItemServiceInstanceId;
 	}
