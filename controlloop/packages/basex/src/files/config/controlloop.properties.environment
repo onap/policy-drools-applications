@@ -26,9 +26,9 @@ aai.url=${{AAI_URL}}
 aai.username=${{AAI_USERNAME}}
 aai.password=${{AAI_PASSWORD}}
 
-mso.url=${{MSO_URL}}
-mso.username=${{MSO_USERNAME}}
-mso.password=${{MSO_PASSWORD}}
+so.url=${{SO_URL}}
+so.username=${{SO_USERNAME}}
+so.password=${{SO_PASSWORD}}
 
 vfc.url=${{VFC_URL}}
 vfc.username=${{VFC_USERNAME}}
