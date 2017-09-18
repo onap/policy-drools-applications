@@ -27,6 +27,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator; 
+import java.util.Properties; 
+import java.io.IOException; 
+import java.io.InputStream; 
+import java.io.FileInputStream;
 
 import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.AAIGETVserverResponse;
@@ -73,6 +80,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	private transient TargetLock targetLock = null;
 	private static AAIGETVnfResponse vnfResponse = null;
 	private static AAIGETVserverResponse vserverResponse = null;
+	private static String aaiHostURL; 
+	private static String aaiUser;   
+	private static String aaiPassword; 
+	private static String aaiGetQueryByVnfID; 
+	private static String aaiGetQueryByVnfName; 
+	private static String aaiGetQueryByVserver; 
 	
 	private static Collection<String> requiredAAIKeys = new ArrayList<>();
 	static {
@@ -85,6 +98,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	public ControlLoopEventManager(String closedLoopControlName, UUID requestID) {
 		this.closedLoopControlName = closedLoopControlName;
 		this.requestID = requestID;
+		getAAIHostInfo(); 
 	}
 	
 	public String getControlLoopResult() {
@@ -615,16 +629,15 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static AAIGETVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-		String user = "POLICY"; 
-		String password = "POLICY";
 		UUID requestID = event.requestID;  
 		AAIGETVserverResponse response = null; 
 		String vserverName = event.AAI.get("vserver.vserver-name"); 
 
 		try {
 	        if (vserverName != null) {
-	   		   String url = "https://aai-ext1.test.att.com:8443/aai/v11/nodes/vservers?vserver-name="; 
-			   response = AAIManager.getQueryByVserverName(url, user, password, requestID, vserverName);
+	    	   AAIManager manager = new AAIManager(); 
+	   		   String url = aaiHostURL + aaiGetQueryByVserver; 
+			   response = manager.getQueryByVserverName(url, aaiUser, aaiPassword, requestID, vserverName);
 	        } 
 	    } catch (Exception e) {
 	    	logger.error("getAAIVserverInfo exception: ", e);
@@ -635,8 +648,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static AAIGETVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-		String user = "POLICY"; 
-		String password = "POLICY";
 		UUID requestID = event.requestID;  
 		AAIGETVnfResponse response = null; 
 		String vnfName = event.AAI.get("generic-vnf.vnf-name"); 
@@ -644,11 +655,14 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
  
 		try {
             if (vnfName != null) {
-		   	    String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
-			    response = AAIManager.getQueryByVnfName(url, user, password, requestID, vnfName);	        	
+	        	AAIManager manager = new AAIManager(); 
+	        	String url = aaiHostURL + aaiGetQueryByVnfName;
+			    response = manager.getQueryByVnfName(url, aaiUser, aaiPassword, requestID, vnfName);	        	
 	        } else if (vnfID != null) {
-			    String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/"; 
-			    response = AAIManager.getQueryByVnfID(url, user, password, requestID, vnfID);	        	
+	        	AAIManager manager = new AAIManager(); 
+	        	String url = aaiHostURL + aaiGetQueryByVnfID;
+	        	logger.info("url: " + url);
+			    response = manager.getQueryByVnfID(url, aaiUser, aaiPassword, requestID, vnfID);	        	
 	        }
 	    } catch (Exception e) {
 	    	logger.error("getAAIVnfInfo exception: ", e);
@@ -694,6 +708,44 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			}
 		}
 		return null;
+	}
+	
+	public void getAAIHostInfo() {
+		Properties prop = new Properties(); 
+		InputStream input = null; 
+		try {
+		   String policyHome = System.getenv("POLICY_HOME");
+		   String configPath; 
+		   if (policyHome != null) {
+			   configPath = policyHome + "/config/drools-applications.properties"; 
+		   } else {
+			   configPath = "/opt/app/policy/config/drools-applications.properties"; 
+		   }
+		   logger.info("configPath: " + configPath);
+		   input = new FileInputStream(configPath);
+		   prop.load(input);
+		   logger.info("-- drools-applications.property loaded --");
+		   aaiHostURL           = prop.getProperty("aai.host.url");
+		   aaiUser              = prop.getProperty("aai.user");		    
+		   aaiPassword          = prop.getProperty("aai.password");
+		   aaiGetQueryByVnfID   = prop.getProperty("aai.get.query.by.vnfid");
+		   aaiGetQueryByVnfName = prop.getProperty("aai.get.query.by.vnfname");
+		   aaiGetQueryByVserver = prop.getProperty("aai.get.query.by.vserver");
+		   logger.info("aaiHostURL          : " + aaiHostURL); 
+		   logger.info("aaiGetQueryByVnfID  : " + aaiGetQueryByVnfID); 
+		   logger.info("aaiGetQueryByVnfName: " + aaiGetQueryByVnfName); 
+		   logger.info("aaiGetQueryByVserver: " + aaiGetQueryByVserver); 
+	 	} catch (Exception e) {
+		   logger.error("Exception in getAAIHostInfo: ", e);
+		} finally {
+		   if (input != null) {
+			   try {
+				   input.close(); 
+			   } catch (Exception e) {
+				   logger.error("Exception in getAAIHostInfo: ", e);
+			   }
+		   }
+		}
 	}
 
 	@Override
