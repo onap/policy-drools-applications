@@ -75,7 +75,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>mso</artifactId>
+			<artifactId>so</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

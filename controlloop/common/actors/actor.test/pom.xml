@@ -17,7 +17,7 @@
 				<configuration>
 					<additionalClasspathElements>
                         <additionalClasspathElement>${settings.localRepository}/org/onap/policy/drools-applications/actor.appc/1.1.0-SNAPSHOT/actor.appc-1.1.0-SNAPSHOT.jar</additionalClasspathElement>
-						<additionalClasspathElement>${settings.localRepository}/org/onap/policy/drools-applications/actor.mso/1.1.0-SNAPSHOT/actor.mso-1.1.0-SNAPSHOT.jar</additionalClasspathElement>
+						<additionalClasspathElement>${settings.localRepository}/org/onap/policy/drools-applications/actor.so/1.1.0-SNAPSHOT/actor.so-1.1.0-SNAPSHOT.jar</additionalClasspathElement>
 					</additionalClasspathElements>
 				</configuration>
 			</plugin>

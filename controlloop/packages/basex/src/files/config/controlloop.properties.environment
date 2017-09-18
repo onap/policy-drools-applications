@@ -22,6 +22,9 @@
 # directory, it will be automatically loaded by PDP-D, after being expanded
 # by installation scripts.
 
+sql.db.username=${{SQL_USER}}
+sql.db.password=${{SQL_PASSWORD}}
+
 aai.url=${{AAI_URL}}
 aai.username=${{AAI_USERNAME}}
 aai.password=${{AAI_PASSWORD}}
@@ -33,3 +36,8 @@ so.password=${{SO_PASSWORD}}
 vfc.url=${{VFC_URL}}
 vfc.username=${{VFC_USERNAME}}
 vfc.password=${{VFC_PASSWORD}}
+
+guard.url=${{GUARD_URL}}
+guard.username=${{GUARD_USERNAME}}
+guard.password=${{GUARD_PASSWORD}}
+guard.jdbc.url=mariadb://${{SQL_HOST}}:3306/operationshistory10

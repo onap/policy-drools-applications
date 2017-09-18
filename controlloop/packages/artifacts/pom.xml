@@ -110,7 +110,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>mso</artifactId>
+			<artifactId>so</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
@@ -147,12 +147,6 @@
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>template.demo</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>archetype-cl-legacy</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
