@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_7b1cc113",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VFCActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T12:36:27Z",
+      "side": 1,
+      "message": "This will produce a sonar critical",
+      "range": {
+        "startLine": 49,
+        "startChar": 95,
+        "endLine": 49,
+        "endChar": 115
+      },
+      "revId": "78d55c53a2ec15267bcd5d16a830b99f784aa5c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
