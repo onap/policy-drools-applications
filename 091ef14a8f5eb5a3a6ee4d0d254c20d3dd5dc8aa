@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_a913030c",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-18T19:26:39Z",
+      "side": 1,
+      "message": "not needed, do for example:\n\n    String aaiUrl \u003d PolicyEngine.manager.getEnvironmentProperty(\"aai.url\");\n    String aaiUsername \u003d PolicyEngine.manager.getEnvironmentProperty(\"aai.username\");\n    String aaiPassword \u003d PolicyEngine.manager.getEnvironmentProperty(\"aai.password\");\n\nto get aai information.\n\nThe aai.get.query* may be those partial urls can be configured in code, they seem to be fixed and not going to change in this release, and one less thing to monitor to end user.    Alternative is to put those parameters in the ./controlloop/packages/basex/src/files/config/controlloop.properties.environment\nbut tend to think better not to keep configuration cleaner, provided it is not going to change in this release.",
+      "revId": "091ef14a8f5eb5a3a6ee4d0d254c20d3dd5dc8aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_491b771b",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-18T19:26:39Z",
+      "side": 1,
+      "message": "Before your tests when using the simulator, simply do \n\nPolicyEngine.manager.setEnvironmentProperty(\"aai.url\", \"the aai url of the simulator\");\n\nPolicyEngine.manager.setEnvironmentProperty(\"aai.username\", \"the aai user name\");\n\n..\n\nand so on, previous to usage ..",
+      "revId": "091ef14a8f5eb5a3a6ee4d0d254c20d3dd5dc8aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_a9454318",
         "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
         "patchSetId": 2
@@ -19,6 +53,40 @@
         "endLine": 105,
         "endChar": 2
       },
+      "revId": "091ef14a8f5eb5a3a6ee4d0d254c20d3dd5dc8aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e9d7cb21",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-18T19:26:39Z",
+      "side": 1,
+      "message": "these urls have to change to non-att ones .. using the simulator  not sure how junits don\u0027t fail in this case .. they should be unreachable",
+      "revId": "091ef14a8f5eb5a3a6ee4d0d254c20d3dd5dc8aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_696e3b98",
+        "filename": "controlloop/packages/basex/src/files/config/drools-applications.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-18T19:26:39Z",
+      "side": 1,
+      "message": "this file is unnecessary, part of the installation, there would be this file already preloaded by the pdpd-d:\n\n./controlloop/packages/basex/src/files/config/controlloop.properties.environment\n\non a particular lab environment.   In any case, there were some issues with this file, ie. url referring to an internal att host, references to att, appc password used instead of policy ..   Regardless, this file should be removed.   Add any desired properties to \n\n./controlloop/packages/basex/src/files/config/controlloop.properties.environment\n\nbut don\u0027t think you need any ..",
       "revId": "091ef14a8f5eb5a3a6ee4d0d254c20d3dd5dc8aa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
