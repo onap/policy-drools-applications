@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_de215ba0",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T14:29:40Z",
+      "side": 1,
+      "message": "These are unused. Please make sure you clean unused imports before submitting code.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "5fd8d791efaf5069732bbe82cab197fb278083be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7e0f0f2f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T14:29:40Z",
+      "side": 1,
+      "message": "Please use try-with-resources",
+      "range": {
+        "startLine": 725,
+        "startChar": 5,
+        "endLine": 725,
+        "endChar": 45
+      },
+      "revId": "5fd8d791efaf5069732bbe82cab197fb278083be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_be2457af",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T14:29:40Z",
+      "side": 1,
+      "message": "This is actually used, but then again it shouldn\u0027t be. You are not accessing the method statically. See note below.",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 69,
+        "endChar": 30
+      },
+      "revId": "5fd8d791efaf5069732bbe82cab197fb278083be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9e3bd3d0",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T14:29:40Z",
+      "side": 1,
+      "message": "This is a static method, pleas access it statically.",
+      "range": {
+        "startLine": 72,
+        "startChar": 32,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "5fd8d791efaf5069732bbe82cab197fb278083be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3e3067e7",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T14:29:40Z",
+      "side": 1,
+      "message": "Please access statically",
+      "range": {
+        "startLine": 88,
+        "startChar": 32,
+        "endLine": 88,
+        "endChar": 44
+      },
+      "revId": "5fd8d791efaf5069732bbe82cab197fb278083be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1e4fe36c",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T14:29:40Z",
+      "side": 1,
+      "message": "Please access statically",
+      "range": {
+        "startLine": 105,
+        "startChar": 36,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "5fd8d791efaf5069732bbe82cab197fb278083be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
