@@ -61,24 +61,52 @@ public class ControlLoopEventManagerTest {
 	}
 	
 	@Test
-	public void testGetAAIInfo() {
+	public void testGetAAIVnfInfo() {
+		logger.info("testGetAAIVnfInfo");
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
-			@SuppressWarnings("unused")
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
 			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
-			 
-			String user = "POLICY";
-			String password = "POLICY";
-			String vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
-			String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/";			
-			AAIGETVnfResponse response = getQueryByVnfID2(url, user, password, onset.requestID, vnfID);  
+			AAIGETVnfResponse response = ControlLoopEventManager.getAAIVnfInfo(onset);  
+			logger.info("testGetAAIVnfInfo test result is " + (response == null ? "null" : "not null"));
 			assertNotNull(response);
-			logger.info("testGetAAIInfo test result is " + (response == null ? "null" : "not null"));
 		} catch (Exception e) {
-			fail(e.getMessage());
-			logger.error("testGetAAIInfo Exception: ", e);
+			logger.error("testGetAAIVnfInfo Exception: ", e);
+		}
+	}
+	
+	@Test
+	public void testGetAAIVnfInfo2() {
+		logger.info("testGetAAIVnfInfo2");
+		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+		try {
+			onset.AAI.remove("generic-vnf.vnf-id");
+			onset.AAI.put("generic-vnf.vnf-name", "lll_vnf_010317");
+			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
+			AAIGETVnfResponse response = ControlLoopEventManager.getAAIVnfInfo(onset);  
+			logger.info("testGetAAIVnfInfo2 test result is " + (response == null ? "null" : "not null"));
+			assertNotNull(response);
+		} catch (Exception e) {
+			logger.error("testGetAAIVnfInfo2 Exception: ", e);
+		}
+	}
+	
+	@Test
+	public void testGetAAIVserver() {
+		logger.info("testGetAAIVserver");
+		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+		try {
+			onset.AAI.remove("generic-vnf.vnf-id");
+			onset.AAI.remove("generic-vnf.vnf-name");
+			onset.AAI.put("vserver.vserver-name", "USMSO1SX7NJ0103UJZZ01-vjunos0");
+			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
+			AAIGETVserverResponse response = ControlLoopEventManager.getAAIVserverInfo(onset);  
+			logger.info("testGetAAIVserver test result is " + (response == null ? "null" : "not null"));	
+			assertNotNull(response);
+		} catch (Exception e) {
+			logger.error("testGetAAIVserver Exception: ", e);			
 		}
 	}
 
