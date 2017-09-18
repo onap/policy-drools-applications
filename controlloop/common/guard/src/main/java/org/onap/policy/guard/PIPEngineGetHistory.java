@@ -59,9 +59,19 @@ import com.att.research.xacml.std.pip.engines.StdConfigurableEngine;
 
 
 public class PIPEngineGetHistory extends StdConfigurableEngine{
+	
 	private interface DateUtil{
+		public class DateUtilException extends Exception {
+			private static final long serialVersionUID = 2612662650481443076L;
+
+			public DateUtilException(String message) {
+				super(message);
+			}
+			
+		}
+		
         public long getMs();
-        public DateUtil init(String sqlValUnit) throws Exception;
+        public DateUtil init(String sqlValUnit) throws DateUtilException;
     }
 
 	private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
@@ -338,10 +348,10 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			private double multiplier = 0;
 
 			@Override
-			public DateUtil init(String sqlValUnit) throws Exception{
+			public DateUtil init(String sqlValUnit) throws DateUtilException{
 				String[] split = sqlValUnit.split(" ");
 				if(split.length != 2){
-					throw new Exception("Invalid Value Unit pair for SQL");
+					throw new DateUtilException("Invalid Value Unit pair for SQL");
 				}
 
 				ms = Long.parseLong(split[0]);
