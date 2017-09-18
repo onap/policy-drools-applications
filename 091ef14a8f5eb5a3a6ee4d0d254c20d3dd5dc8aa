@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a9454318",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-18T19:09:39Z",
+      "side": 1,
+      "message": "Joseph should there be any type of JUnit assert checks here? Do you expect non-null response?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 2
+      },
+      "revId": "091ef14a8f5eb5a3a6ee4d0d254c20d3dd5dc8aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
