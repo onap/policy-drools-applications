@@ -20,14 +20,6 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.UUID;
-
 import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.AAIGETVserverResponse;
 import org.onap.policy.aai.AAIManager;
@@ -47,6 +39,14 @@ import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.UUID;
 
 public class ControlLoopEventManager implements LockCallback, Serializable {
 	
@@ -540,7 +540,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			       if (vnfResponse == null) {
 			    	   throw new ControlLoopException("AAI Response is null (query by vnf-id)");
 			       }
-			       if (vnfResponse != null && isClosedLoopDisabled(vnfResponse) == true) {
+			       if (isClosedLoopDisabled(vnfResponse)) {
 					   throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 			       }
 				} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
@@ -548,7 +548,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				    if (vnfResponse == null) {
 				    	throw new ControlLoopException("AAI Response is null (query by vnf-name)");
 				    }
-				    if (vnfResponse != null && isClosedLoopDisabled(vnfResponse) == true) {
+				    if (isClosedLoopDisabled(vnfResponse)) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
 				} else if (event.AAI.get("vserver.vserver-name") != null) {
@@ -556,7 +556,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				    if (vserverResponse == null) {
 				       throw new ControlLoopException("AAI Response is null (query by vserver-name)");
 				    }
-				    if (vserverResponse != null && isClosedLoopDisabled(vserverResponse) == true) {
+				    if (isClosedLoopDisabled(vserverResponse)) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
 				}
