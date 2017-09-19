@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,34 +49,32 @@ public class PolicyGuardXacmlHelper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
 
-	public static com.att.research.xacml.api.Response callPDP(PDPEngine xacmlEmbeddedPdpEngine, String restfulPdpUrl, com.att.research.xacml.api.Request request, boolean isREST) {
+	public static com.att.research.xacml.api.Response callPDP(PDPEngine xacmlEmbeddedPdpEngine, String restfulPdpUrl, PolicyGuardXacmlRequestAttributes xacmlReq) {
 		//
 		// Send it to the PDP
 		//
 		com.att.research.xacml.api.Response response = null;
-		if (isREST) {
-			try {
-				String jsonString = JSONRequest.toString((com.att.research.xacml.api.Request) request, false);
-				//
-				// Call RESTful PDP
-				//
-				response = (com.att.research.xacml.api.Response) callRESTfulPDP(new ByteArrayInputStream(jsonString.getBytes()), new URL(restfulPdpUrl/*"https://localhost:8443/pdp/"*/));
-			} catch (Exception e) {
-				logger.error("Error in sending RESTful request: ", e);
-			}
-		} else if(xacmlEmbeddedPdpEngine != null){
-			//
-			// Embedded call to PDP
-			//
-			long lTimeStart = System.currentTimeMillis();
-			try {
-				response = (com.att.research.xacml.api.Response) xacmlEmbeddedPdpEngine.decide((com.att.research.xacml.api.Request) request);
-			} catch (PDPException e) {
-				logger.error(e.getMessage(), e);
-			}
-			long lTimeEnd = System.currentTimeMillis();
-			logger.debug("Elapsed Time: {} ms", (lTimeEnd - lTimeStart));
+		
+		JSONObject attributes = new JSONObject();
+		attributes.put("actor", xacmlReq.getActor_id());
+		attributes.put("recipe", xacmlReq.getOperation_id());
+		attributes.put("target", xacmlReq.getTarget_id());
+		if (xacmlReq.getClname_id() != null){
+			attributes.put("clname", xacmlReq.getClname_id());
 		}
+		JSONObject jsonReq = new JSONObject();
+		jsonReq.put("decisionAttributes", attributes);
+		jsonReq.put("onapName", "PDPD");
+		
+		try {
+			//
+			// Call RESTful PDP
+			//
+			response = (com.att.research.xacml.api.Response) callRESTfulPDP(new ByteArrayInputStream(jsonReq.toString().getBytes()), new URL(restfulPdpUrl/*"https://localhost:8443/pdp/"*/));
+		} catch (Exception e) {
+			logger.error("Error in sending RESTful request: ", e);
+		}
+		
 		return response;
 	}
 	

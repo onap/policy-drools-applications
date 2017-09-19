@@ -171,7 +171,7 @@ public class ControlLoopXacmlGuardTest {
 					assertTrue(obj instanceof VirtualControlLoopNotification);
 					assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 
-					Thread.sleep(4000);
+					Thread.sleep(2*4000);
 					// "Response from Guard" notification
 					obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 					assertNotNull(obj);

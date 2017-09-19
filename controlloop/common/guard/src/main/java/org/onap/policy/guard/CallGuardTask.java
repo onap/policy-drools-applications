@@ -27,6 +27,7 @@ import com.att.research.xacml.std.annotations.RequestParser;
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +72,8 @@ public class CallGuardTask implements Runnable {
 		logger.debug("{}", request);
 		logger.debug("********** XACML REQUEST END ********\n");
 		
-		com.att.research.xacml.api.Response xacmlResponse = PolicyGuardXacmlHelper.callPDP(embeddedPdpEngine, "", request, false);
+		PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://127.0.0.1:8443/pdp");
+		com.att.research.xacml.api.Response xacmlResponse = PolicyGuardXacmlHelper.callPDP(embeddedPdpEngine, PolicyEngine.manager.getEnvironmentProperty("guard.url"), xacmlReq);
 		
 		logger.debug("\n********** XACML RESPONSE START ********");
 		logger.debug("{}", xacmlResponse);
