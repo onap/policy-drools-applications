@@ -46,6 +46,52 @@
       "revId": "c71f6e474049623ea7daaf42e585e143210b4c07",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_144a1fac",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/VfcSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-19T19:05:13Z",
+      "side": 1,
+      "message": "Oops, sorry more sonar flag.",
+      "range": {
+        "startLine": 56,
+        "startChar": 148,
+        "endLine": 56,
+        "endChar": 162
+      },
+      "revId": "c71f6e474049623ea7daaf42e585e143210b4c07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f4c8bb23",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/VfcSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-19T19:05:13Z",
+      "side": 1,
+      "message": "sonar",
+      "range": {
+        "startLine": 65,
+        "startChar": 138,
+        "endLine": 65,
+        "endChar": 152
+      },
+      "revId": "c71f6e474049623ea7daaf42e585e143210b4c07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
