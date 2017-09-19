@@ -540,7 +540,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			       if (vnfResponse == null) {
 			    	   throw new ControlLoopException("AAI Response is null (query by vnf-id)");
 			       }
-			       if (vnfResponse != null && isClosedLoopDisabled(vnfResponse) == true) {
+			       if (isClosedLoopDisabled(vnfResponse) == true) {
 					   throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 			       }
 				} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
@@ -548,7 +548,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				    if (vnfResponse == null) {
 				    	throw new ControlLoopException("AAI Response is null (query by vnf-name)");
 				    }
-				    if (vnfResponse != null && isClosedLoopDisabled(vnfResponse) == true) {
+				    if (isClosedLoopDisabled(vnfResponse) == true) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
 				} else if (event.AAI.get("vserver.vserver-name") != null) {
@@ -556,7 +556,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				    if (vserverResponse == null) {
 				       throw new ControlLoopException("AAI Response is null (query by vserver-name)");
 				    }
-				    if (vserverResponse != null && isClosedLoopDisabled(vserverResponse) == true) {
+				    if (isClosedLoopDisabled(vserverResponse) == true) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
 				}

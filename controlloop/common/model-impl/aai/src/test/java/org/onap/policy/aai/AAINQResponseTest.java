@@ -19,14 +19,12 @@
  */
 package org.onap.policy.aai;
 
-import static org.junit.Assert.*;
-import java.util.List; 
-import java.util.LinkedList; 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.LinkedList;
 
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AAINQResponseTest {
 	private static final Logger logger = LoggerFactory.getLogger(AAINQResponseTest.class);
