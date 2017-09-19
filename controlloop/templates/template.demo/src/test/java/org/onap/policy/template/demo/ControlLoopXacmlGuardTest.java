@@ -47,6 +47,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 import org.onap.policy.guard.PolicyGuard;
@@ -75,6 +76,7 @@ public class ControlLoopXacmlGuardTest {
 	@BeforeClass
 	public static void setPUProp(){
 		System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
+		PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://127.0.0.1:8443/pdp");
 	}
 	@AfterClass
 	public static void restorePUProp(){
@@ -171,7 +173,7 @@ public class ControlLoopXacmlGuardTest {
 					assertTrue(obj instanceof VirtualControlLoopNotification);
 					assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 
-					Thread.sleep(4000);
+					Thread.sleep(2*4000);
 					// "Response from Guard" notification
 					obj = engine.subscribe("UEB", "POLICY-CL-MGT");
 					assertNotNull(obj);
@@ -210,7 +212,7 @@ public class ControlLoopXacmlGuardTest {
 							assertTrue(obj instanceof VirtualControlLoopNotification);
 							assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 
-							Thread.sleep(4000);
+							Thread.sleep(2*4000);
 
 							// "Response from Guard" notification
 							obj = engine.subscribe("UEB", "POLICY-CL-MGT");
@@ -238,7 +240,7 @@ public class ControlLoopXacmlGuardTest {
 						assertTrue(obj instanceof VirtualControlLoopNotification);
 						assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
 
-						Thread.sleep(1000);
+						Thread.sleep(2*1000);
 
 						obj = engine.subscribe("UEB", "APPC-CL");
 						assertNotNull(obj);
@@ -277,7 +279,7 @@ public class ControlLoopXacmlGuardTest {
 						//
 						// now wait for it to finish
 						//
-						Thread.sleep(15000);
+						Thread.sleep(2*15000);
 						//
 						// Ensure they released the lock
 						//
