@@ -14,7 +14,7 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="eclipselink.logging.level" value="ALL" />
+			<property name="eclipselink.logging.level" value="CONFIG" />
 		</properties>
 	</persistence-unit>
 
