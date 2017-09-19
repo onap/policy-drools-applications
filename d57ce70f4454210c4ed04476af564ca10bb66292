@@ -52,6 +52,24 @@
       "revId": "d57ce70f4454210c4ed04476af564ca10bb66292",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_01d5431b",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T14:58:03Z",
+      "side": 1,
+      "message": "They have been removing if they need it out in the past.  I think they should not mingle with the .drl since they don\u0027t have domain expertise, and we are in the critical path to making sure it works.  Note that this is the same as in the junits drls now in R0 and in archetype for R0.   No change there.   It would really slow down our testing if we have to accommodate their UI needs.   I don\u0027t see it feasible to change it from our side because of the testing needs.",
+      "parentUuid": "9a437d4f_c1105b03",
+      "revId": "d57ce70f4454210c4ed04476af564ca10bb66292",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
