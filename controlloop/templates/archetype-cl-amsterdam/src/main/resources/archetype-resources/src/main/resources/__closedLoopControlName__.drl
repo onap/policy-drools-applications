@@ -685,7 +685,7 @@ rule "${policyName}.GUARD.RESPONSE"
     
     PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
     
-    if($guardResponse.result == "Permit"){
+    if($guardResponse.result.equals("Permit")){
     
         modify($operation){setGuardApprovalStatus($guardResponse.result)};
     }

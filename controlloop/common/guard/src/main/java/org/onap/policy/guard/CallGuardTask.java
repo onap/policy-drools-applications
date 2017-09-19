@@ -27,6 +27,7 @@ import com.att.research.xacml.std.annotations.RequestParser;
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,13 +72,23 @@ public class CallGuardTask implements Runnable {
 		logger.debug("{}", request);
 		logger.debug("********** XACML REQUEST END ********\n");
 		
-		com.att.research.xacml.api.Response xacmlResponse = PolicyGuardXacmlHelper.callPDP(embeddedPdpEngine, "", request, false);
+		PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://127.0.0.1:8443/pdp");
+		String guardDecision = PolicyGuardXacmlHelper.callPDP(embeddedPdpEngine, PolicyEngine.manager.getEnvironmentProperty("guard.url"), xacmlReq);
 		
 		logger.debug("\n********** XACML RESPONSE START ********");
-		logger.debug("{}", xacmlResponse);
+		logger.debug("{}", guardDecision);
 		logger.debug("********** XACML RESPONSE END ********\n");
-						
-		PolicyGuardResponse guardResponse = PolicyGuardXacmlHelper.ParseXacmlPdpResponse(xacmlResponse);
+
+		//
+		// Check if the restful call was successful
+		//
+		if(guardDecision == null){
+			logger.error("********** XACML FAILED TO CONNECT ********");
+			guardDecision = "Indeterminate";
+		}
+
+		PolicyGuardResponse guardResponse = new PolicyGuardResponse(guardDecision, UUID.fromString(this.requestId), this.recipe);
+
 		
 		//
 		//Create an artificial Guard response in case we didn't get a clear Permit or Deny
