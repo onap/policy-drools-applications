@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_94a3af4e",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T19:15:35Z",
+      "side": 1,
+      "message": "This should be Charles\u0027 simulator url for junits, can you change it?",
+      "revId": "ab43cd31d500e30a4e1676af529d6f4a96ae809a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_748a8bc0",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T19:15:35Z",
+      "side": 1,
+      "message": "This should be Charles\u0027 simulator URL for junits",
+      "revId": "ab43cd31d500e30a4e1676af529d6f4a96ae809a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_349403e1",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T19:15:35Z",
+      "side": 1,
+      "message": "This should be Charles\u0027 simulator URL for junits",
+      "revId": "ab43cd31d500e30a4e1676af529d6f4a96ae809a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
