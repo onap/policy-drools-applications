@@ -27,9 +27,12 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.AAIGETVserverResponse;
+import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.RelatedToProperty;
 import org.onap.policy.aai.RelatedToPropertyItem;
 import org.onap.policy.aai.Relationship;
@@ -40,6 +43,8 @@ import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.Util;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.drools.system.PolicyEngine; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,25 +65,73 @@ public class ControlLoopEventManagerTest {
 		onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 	}
 	
+	@BeforeClass
+	public static void setUpSimulator() {
+		try {
+			org.onap.policy.simulators.Util.buildAaiSim();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@AfterClass
+	public static void tearDownSimulator() {
+		HttpServletServer.factory.destroy();
+	}
+	
 	@Test
-	public void testGetAAIInfo() {
+	public void testAAIVnfInfo() {
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
-			@SuppressWarnings("unused")
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
 			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
-			 
-			String user = "POLICY";
-			String password = "POLICY";
-			String vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
-			String url = "https://aai-ext1.test.att.com:8443/aai/v11/network/generic-vnfs/generic-vnf/";			
-			AAIGETVnfResponse response = getQueryByVnfID2(url, user, password, onset.requestID, vnfID);  
+			PolicyEngine.manager.setEnvironmentProperty("aai.user", "AAI");
+			PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+			PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+			AAIGETVnfResponse response = getQueryByVnfID2("http://localhost:6666/aai/v11/network/generic-vnfs/generic-vnf/", "testUser", "testPass", UUID.randomUUID(), "5e49ca06-2972-4532-9ed4-6d071588d792");
 			assertNotNull(response);
-			logger.info("testGetAAIInfo test result is " + (response == null ? "null" : "not null"));
+			logger.info("testAAIVnfInfo test result is " + (response == null ? "null" : "not null"));
 		} catch (Exception e) {
-			fail(e.getMessage());
-			logger.error("testGetAAIInfo Exception: ", e);
+			logger.error("testAAIVnfInfo Exception: ", e);
+		}
+	}
+	
+	@Test
+	public void testAAIVnfInfo2() {
+		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+		try {
+			onset.AAI.remove("generic-vnf.vnf-id");
+			onset.AAI.put("generic-vnf.vnf-name", "lll_vnf_010317");
+			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
+			PolicyEngine.manager.setEnvironmentProperty("aai.user", "AAI");
+			PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+			PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+			AAIGETVnfResponse response = getQueryByVnfName2("http://localhost:6666/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=", "testUser", "testPass", UUID.randomUUID(), "lll_vnf_010317");
+			assertNotNull(response);
+			logger.info("testAAIVnfInfo2 test result is " + (response == null ? "null" : "not null"));
+		} catch (Exception e) {
+			logger.error("testAAIVnfInfo2 Exception: ", e);
+		}
+	}
+	
+	@Test
+	public void testAAIVserver() {
+		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+		try {
+			onset.AAI.remove("generic-vnf.vnf-id");
+			onset.AAI.remove("generic-vnf.vnf-name");
+			onset.AAI.put("vserver.vserver-name", "USMSO1SX7NJ0103UJZZ01-vjunos0");
+			onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET; 
+			PolicyEngine.manager.setEnvironmentProperty("aai.user", "AAI");
+			PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+			PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+			AAIGETVserverResponse response = getQueryByVserverName2("http://localhost:6666/aai/v11/nodes/vservers?vserver-name=", "testUser", "testPass", UUID.randomUUID(), "USMSO1SX7NJ0103UJZZ01-vjunos0");
+			assertNotNull(response);
+			logger.info("testAAIVserver test result is " + (response == null ? "null" : "not null"));
+		} catch (Exception e) {
+			logger.error("testAAIVserver Exception: ", e);
 		}
 	}
 
@@ -112,10 +165,10 @@ public class ControlLoopEventManagerTest {
 
 			String vserverName = "USMSO1SX7NJ0103UJZZ01-vjunos0";
 			url = "https://aai-ext1.test.att.com:8443//aai/v11/nodes/vservers?vserver-name="; 
-			@SuppressWarnings("unused")
+ 
 			AAIGETVserverResponse response2 = getQueryByVserverName2(url, user, password, onset.requestID, vserverName); 
-			assertNotNull(response);
-			disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
+			assertNotNull(response2);
+			disabled = ControlLoopEventManager.isClosedLoopDisabled(response2);
 			logger.info("QueryByVserverName - isClosedLoopDisabled: " + disabled); 
 		} catch (Exception e) {
 			fail(e.getMessage());
