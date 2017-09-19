@@ -33,25 +33,26 @@ public enum ResponseValue {
 	private ResponseValue(String value) {
 		this.value = value;
 	}
-	
+
+	@Override
 	public String toString() {
 		return this.value;
 	}
 
 	public static ResponseValue toResponseValue(String value) {
-		if (value.toString().equals(ACCEPT.toString())) {
+		if (value.equals(ACCEPT.toString())) {
 			return ACCEPT;
 		}
-		if (value.toString().equals(ERROR.toString())) {
+		if (value.equals(ERROR.toString())) {
 			return ERROR;
 		}
-		if (value.toString().equals(REJECT.toString())) {
+		if (value.equals(REJECT.toString())) {
 			return REJECT;
 		}
-		if (value.toString().equals(SUCCESS.toString())) {
+		if (value.equals(SUCCESS.toString())) {
 			return SUCCESS;
 		}
-		if (value.toString().equals(FAILURE.toString())) {
+		if (value.equals(FAILURE.toString())) {
 			return FAILURE;
 		}
 		
