@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_1e9b5e73",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "Here, you want to simply use:\naaiHostURL  \u003d PolicyEngine.manager.getEnvironmentProperty(\"aai.url\");\naaiUser \u003d PolicyEngine.manager.getEnvironmentProperty(\"aai.user\");  \naaiPassword \u003d PolicyEngine.manager.getEnvironmentProperty(\"aai.password\");\n\nNo need to do \n\nProperties prop \u003d PolicyEngine.manager.getProperties();",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7e7dca1b",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "In the else case, this is an error condition and should be treated as such, not sure if an exception or what\u0027s the right type of processing when we don;t know the URL and credentials to AAI.",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_feb77ad6",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "Note that there should be no references whatsover in the source code to the previous line\u0027s url since it has a company based format.",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5e78c62a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "see my previous comment",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9e9d0e5c",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "Here in your tests, if you are exercising actual aai network queries, you do:\n\nPolicyEngine.manager.setEnvironmentProperty(\"aai.url\", \u003cplace-here-aai-simulator-url\u003e);\n... and corresponding lines for the other parameters ..\n\nNote that for your private testing but not in the source code, you could also place here the url:\n\naai-ext1.test...com that you have in some places before.",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7ea4aaa5",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "same comment",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5e9fa650",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-19T13:05:18Z",
+      "side": 1,
+      "message": "same comment",
+      "revId": "f911786608a56be33d55873101e73c6fdcd818c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
