@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_41910b98",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-19T14:26:03Z",
+      "side": 1,
+      "message": "Do you think maybe we should call \"PolicyEngine.manager.getEnvironmentProperty()\" in our ActorServiceProviders instead of in the drl? If we do it this current way, we will have to pass in all these values to the operation manager and not every use case needs all these values. Or we could set class variables for the ActorServiceProvider objects inside the drl if you want to keep it this way. It would be a bit messy.",
+      "revId": "d57ce70f4454210c4ed04476af564ca10bb66292",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
