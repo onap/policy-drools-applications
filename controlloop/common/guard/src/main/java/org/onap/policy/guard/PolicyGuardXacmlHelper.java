@@ -20,8 +20,10 @@
 
 package org.onap.policy.guard;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,6 +32,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +41,7 @@ import com.att.research.xacml.api.AttributeCategory;
 import com.att.research.xacml.api.AttributeValue;
 import com.att.research.xacml.api.Result;
 import com.att.research.xacml.api.pdp.PDPEngine;
-import com.att.research.xacml.api.pdp.PDPException;
 import com.att.research.xacml.std.dom.DOMResponse;
-import com.att.research.xacml.std.json.JSONRequest;
 import com.att.research.xacml.std.json.JSONResponse;
 
 
@@ -48,34 +49,34 @@ public class PolicyGuardXacmlHelper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
 
-	public static com.att.research.xacml.api.Response callPDP(PDPEngine xacmlEmbeddedPdpEngine, String restfulPdpUrl, com.att.research.xacml.api.Request request, boolean isREST) {
+	public static String callPDP(PDPEngine xacmlEmbeddedPdpEngine, String restfulPdpUrl, PolicyGuardXacmlRequestAttributes xacmlReq) {
 		//
 		// Send it to the PDP
 		//
-		com.att.research.xacml.api.Response response = null;
-		if (isREST) {
-			try {
-				String jsonString = JSONRequest.toString((com.att.research.xacml.api.Request) request, false);
-				//
-				// Call RESTful PDP
-				//
-				response = (com.att.research.xacml.api.Response) callRESTfulPDP(new ByteArrayInputStream(jsonString.getBytes()), new URL(restfulPdpUrl/*"https://localhost:8443/pdp/"*/));
-			} catch (Exception e) {
-				logger.error("Error in sending RESTful request: ", e);
-			}
-		} else if(xacmlEmbeddedPdpEngine != null){
-			//
-			// Embedded call to PDP
-			//
-			long lTimeStart = System.currentTimeMillis();
-			try {
-				response = (com.att.research.xacml.api.Response) xacmlEmbeddedPdpEngine.decide((com.att.research.xacml.api.Request) request);
-			} catch (PDPException e) {
-				logger.error(e.getMessage(), e);
-			}
-			long lTimeEnd = System.currentTimeMillis();
-			logger.debug("Elapsed Time: {} ms", (lTimeEnd - lTimeStart));
+//		com.att.research.xacml.api.Response response = null;
+		String response = null;
+		
+		JSONObject attributes = new JSONObject();
+		attributes.put("actor", xacmlReq.getActor_id());
+		attributes.put("recipe", xacmlReq.getOperation_id());
+		attributes.put("target", xacmlReq.getTarget_id());
+		if (xacmlReq.getClname_id() != null){
+			attributes.put("clname", xacmlReq.getClname_id());
 		}
+		JSONObject jsonReq = new JSONObject();
+		jsonReq.put("decisionAttributes", attributes);
+		jsonReq.put("onapName", "PDPD");
+		
+		try {
+			//
+			// Call RESTful PDP
+			//
+			response = callRESTfulPDP(new ByteArrayInputStream(jsonReq.toString().getBytes()), new URL(restfulPdpUrl/*"https://localhost:8443/pdp/"*/));
+		} catch (Exception e) {
+			logger.error("Error in sending RESTful request: ", e);
+		}
+		
+		
 		return response;
 	}
 	
@@ -84,10 +85,11 @@ public class PolicyGuardXacmlHelper {
 	 * This makes an HTTP POST call to a running PDP RESTful servlet to get a decision.
 	 * 
 	 * @param file
-	 * @return
+	 * @return response from guard which contains "Permit" or "Deny"
 	 */
-	private static com.att.research.xacml.api.Response callRESTfulPDP(InputStream is, URL restURL) {
-		com.att.research.xacml.api.Response response = null;
+	private static String callRESTfulPDP(InputStream is, URL restURL) {
+//		com.att.research.xacml.api.Response response = null;
+		String response = null;
 		HttpURLConnection connection = null;
 		try {
 
@@ -130,28 +132,61 @@ public class PolicyGuardXacmlHelper {
         			contentType = ContentType.parse(connection.getContentType());
         			
         			if (contentType.getMimeType().equalsIgnoreCase(ContentType.APPLICATION_JSON.getMimeType())) {
-                		response = (com.att.research.xacml.api.Response) JSONResponse.load(connection.getInputStream());
-        			} else if (contentType.getMimeType().equalsIgnoreCase(ContentType.APPLICATION_XML.getMimeType()) ||
-        					contentType.getMimeType().equalsIgnoreCase("application/xacml+xml") ) {
-                		response = (com.att.research.xacml.api.Response) DOMResponse.load(connection.getInputStream());
+					  InputStream iStream = connection.getInputStream();
+					  int contentLength = connection.getContentLength();
+
+					  // if content length is -1, respose is chunked, and
+					  // TCP connection will be dropped at the end
+					  byte[] buf =
+						new byte[contentLength < 0 ? 1024 : contentLength];
+					  int offset = 0;
+					  for ( ; ; )
+						{
+						  if (offset == contentLength)
+							{
+							  // all expected bytes have been read
+							  response = new String(buf);
+							  break;
+							}
+						  int size = iStream.read(buf, offset,
+											 buf.length - offset);
+						  if (size < 0)
+							{
+							  if (contentLength > 0)
+								{
+								  logger.error("partial input stream");
+								}
+							  else
+								{
+								  // chunked response --
+								  // dropped connection is expected
+								  response = new String(buf, 0, offset);
+								}
+							  break;
+							}
+						  offset += size;
+						}
         			} else {
-        				logger.error("{}: unknown content-type: ", contentType);
+        				logger.error("unknown content-type: " + contentType);
                 	}
 
                 } catch (Exception e) {
-        			String message = "Parsing Content-Type: " + connection.getContentType() + ", error=" + e.getMessage();
-        			logger.error("{}: callRESTfulPDP threw: ", message, e);
+					String message = "Parsing Content-Type: " + connection.getContentType();
+					logger.error(message, e);
         		}
 
             } else {
-            	logger.error("unknown content-type: {} {}", connection.getResponseCode(), connection.getResponseMessage() );
+            	logger.error(connection.getResponseCode() + " " + connection.getResponseMessage());
             }
 		} catch (Exception e) {
-			
-			logger.error("callRESTfulPDP threw: ", e);
+			logger.error("Exception in 'PolicyGuardXacmlHelper.callRESTfulPDP'", e);
 		}
+
+		System.out.println("HERYERE" + response);
+		String rawDecision = new JSONObject(response).getString("decision");
+		System.out.println("Decision " + rawDecision);
 		
-		return response;
+		return rawDecision;
 	}
 	
 	
@@ -189,9 +224,6 @@ public class PolicyGuardXacmlHelper {
 				
 			}
 		}
-		
-		
-		
 		
 		
 		return new PolicyGuardResponse(decision_from_xacml_response, req_id_from_xacml_response, operation_from_xacml_response);
