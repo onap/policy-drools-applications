@@ -27,7 +27,6 @@
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>artifacts</outputDirectory>
-			<useTransitiveDependencies>false</useTransitiveDependencies>
 		</dependencySet>
 	</dependencySets>
 </assembly>

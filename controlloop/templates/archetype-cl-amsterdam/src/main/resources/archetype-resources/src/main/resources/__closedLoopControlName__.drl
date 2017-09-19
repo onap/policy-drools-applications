@@ -106,12 +106,37 @@ rule "${policyName}.SETUP"
     params.setControlLoopYaml("${controlLoopYaml}");
     insert(params);
 
-
     // Note: globals have bad behavior when persistence is used,
     //       hence explicitly getting the logger vs using a global
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(), params.getControlLoopYaml());
+    
+    String sqlDbUsername = PolicyEngine.manager.getEnvironmentProperty("sql.db.username");
+    String sqlDbPassword = PolicyEngine.manager.getEnvironmentProperty("sql.db.password");
+    
+    String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+    String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
+    String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+    
+    String soUrl =PolicyEngine.manager.getEnvironmentProperty("so.url");
+    String soUsername = PolicyEngine.manager.getEnvironmentProperty("so.username");
+    String soPassword = PolicyEngine.manager.getEnvironmentProperty("so.password");
+    
+    String vfcUrl =PolicyEngine.manager.getEnvironmentProperty("vfc.url");
+    String vfcUsername = PolicyEngine.manager.getEnvironmentProperty("vfc.username");
+    String vfcPassword = PolicyEngine.manager.getEnvironmentProperty("vfc.password");
+    
+    String guardUrl =PolicyEngine.manager.getEnvironmentProperty("guard.url");
+    String guardUsername = PolicyEngine.manager.getEnvironmentProperty("guard.username");
+    String guardPassword = PolicyEngine.manager.getEnvironmentProperty("guard.password");
+    String guardJdbcUrl = PolicyEngine.manager.getEnvironmentProperty("guard.jdbc.url");
+    
+    logger.info("{}: {} : AAI=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), aaiUrl, aaiUsername);
+    logger.info("{}: {} : SO=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), soUrl, soUsername);
+    logger.info("{}: {} : VFC=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), vfcUrl, vfcUsername);
+    logger.info("{}: {} : GUARD=[{}:{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), guardUrl, guardUsername, guardJdbcUrl);
+    logger.info("{}: {} : DB=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), sqlDbUsername, sqlDbPassword);
 end
 
 /*
