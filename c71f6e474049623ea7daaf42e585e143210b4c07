@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_7edcaae4",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/VfcSimulatorJaxRs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-09-19T13:45:17Z",
+      "side": 1,
+      "message": "According to the document you sent me, we need \"\u0026responseId\u003d{responseId}\".",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "c71f6e474049623ea7daaf42e585e143210b4c07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
