@@ -22,6 +22,7 @@ package org.onap.policy.simulators;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
@@ -54,13 +55,14 @@ public class VfcSimulatorTest {
 	public void testPost(){
 		Pair<Integer, String> httpDetails = RESTManager.post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password", new HashMap<String, String>(), "application/json", "Some Request Here");
 		assertNotNull(httpDetails);
+                assertTrue(httpDetails.a == 202);
 		VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
 		assertNotNull(response);
 	}
 	
 	@Test
 	public void testGet(){
-		Pair<Integer, String> httpDetails = RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234&responseId=5678", "username", "password", new HashMap<String, String>());
+		Pair<Integer, String> httpDetails = RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234", "username", "password", new HashMap<String, String>());
 		assertNotNull(httpDetails);
 		VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
 		assertNotNull(response);
