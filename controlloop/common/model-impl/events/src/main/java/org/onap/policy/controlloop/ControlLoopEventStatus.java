@@ -30,7 +30,8 @@ public enum ControlLoopEventStatus {
 	private ControlLoopEventStatus(String status) {
 		this.status = status;
 	}
-	
+
+	@Override
 	public String toString() {
 		return this.status;
 	}
