@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_82a5aca3",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T16:04:40Z",
+      "side": 1,
+      "message": "can you make sure every single occurrence of \"aai-ext1\" in this file is replaced using the same mechanisms as you\u0027ve done above?   These urls cannot appear in the code.   It\u0027s a project directive.  All the occurrences in this file.   I know it is not part of your code inspection, and it leaked into the source code but should be removed.",
+      "revId": "2cad6b6609742dad0521c1223a1b2e498d88a21f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
