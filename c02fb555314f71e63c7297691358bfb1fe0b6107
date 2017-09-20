@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_2867ffb8",
+        "filename": "controlloop/common/guard/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-20T21:50:32Z",
+      "side": 1,
+      "message": "I will change it.",
+      "parentUuid": "9a437d4f_68950786",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_08ec3b29",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-20T21:35:53Z",
       "side": 1,
       "message": "This line should go away, for junits, move it at the start of the junit test, so it is picked up here in the getEnvironmentProperty",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c80d13ea",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-20T21:50:32Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_08ec3b29",
       "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_88fb8bc0",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-20T21:50:32Z",
+      "side": 1,
+      "message": "Good idea. Will do.",
+      "parentUuid": "9a437d4f_c8f19302",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_08d31b61",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2017-09-20T21:35:53Z",
       "side": 1,
       "message": "I understand that PDP-X will use at least basic authentication .. that will have to be accommodate in the future to pass the appropriate parameters but we should find out exactly what they do expect ahead of time.",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_480123ae",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-20T21:50:32Z",
+      "side": 1,
+      "message": "I didn\u0027t find anything on authentication specifically for guard. Ralph grabs it from properties but we don\u0027t have that set up so not sure what do there.",
+      "parentUuid": "9a437d4f_08d31b61",
       "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
