@@ -45,7 +45,7 @@ public enum ControlLoopEventStatus {
 		//
 		// In case DCAE uses the old abatement
 		//
-		if (status.equalsIgnoreCase("abatement")) {
+		if ("abatement".equalsIgnoreCase(status)) {
 			return ABATED;
 		}
 		return null;
