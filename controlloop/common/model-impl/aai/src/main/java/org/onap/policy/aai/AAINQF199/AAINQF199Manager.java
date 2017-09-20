@@ -43,18 +43,18 @@ public final class AAINQF199Manager {
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
 		
-		url = url + "/aai/search/named-query";
+		String postQueryUrl = url + "/aai/search/named-query";
 
-		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
+		Pair<Integer, String> httpDetails = RESTManager.post(postQueryUrl, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
 
-		logger.debug("Performing AAI POST to " + url + "\nSending: \n" + Serialization.gsonPretty.toJson(request) + "END");
+		logger.debug("Performing AAI POST to " + postQueryUrl + "\nSending: \n" + Serialization.gsonPretty.toJson(request) + "END");
 		
 		if (httpDetails == null) {
-			logger.debug("AAI POST - Null Response from {}", url);
+			logger.debug("AAI POST - Null Response from {}", postQueryUrl);
 			return null;
 		}
 		
-		logger.debug(url);
+		logger.debug(postQueryUrl);
 		logger.debug("{}", httpDetails.a);
 		logger.debug("{}", httpDetails.b);
 		if (httpDetails.a == 200) {
@@ -76,20 +76,20 @@ public final class AAINQF199Manager {
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
 		
-		urlGet = urlGet + "/aai/v8/network/generic-vnfs/generic-vnf/" + vnfId;
+		String getQueryUrl = urlGet + "/aai/v8/network/generic-vnfs/generic-vnf/" + vnfId;
 		
 		int attemptsLeft = 3;
 		AAIGETResponse responseGet = null;
 		
 		while(attemptsLeft-- > 0){
 		
-			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(getQueryUrl, username, password, headers);
 			if (httpDetailsGet == null) {
-				logger.debug("AAI GET Null Response to {}", urlGet);
+				logger.debug("AAI GET Null Response to {}", getQueryUrl);
 				return null;
 			}
 			
-			logger.debug(urlGet);
+			logger.debug(getQueryUrl);
 			logger.debug("{}", httpDetailsGet.a);
 			logger.debug("{}", httpDetailsGet.b);
 			
