@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_68950786",
+        "filename": "controlloop/common/guard/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:35:53Z",
+      "side": 1,
+      "message": "this should be of \"provided\" scope",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_08ec3b29",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:35:53Z",
+      "side": 1,
+      "message": "This line should go away, for junits, move it at the start of the junit test, so it is picked up here in the getEnvironmentProperty",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c8f19302",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:35:53Z",
+      "side": 1,
+      "message": "if PolicyEngine.manager.getEnvironmentProperty(\"guard.url\") is null we should take an action, may be set to \"Indeterminate\" as below.  It should not continue into the \"callPDP\"",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_08d31b61",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:35:53Z",
+      "side": 1,
+      "message": "I understand that PDP-X will use at least basic authentication .. that will have to be accommodate in the future to pass the appropriate parameters but we should find out exactly what they do expect ahead of time.",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_28b93f15",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopXacmlGuardTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:35:53Z",
+      "side": 1,
+      "message": "Here in this file (not necessarily this location) at the start of junits is where you do the\n\nPolicyEngine.manager.setEnvironmentProperty(..)\n\nso the guard code picks up the testing environment url",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
