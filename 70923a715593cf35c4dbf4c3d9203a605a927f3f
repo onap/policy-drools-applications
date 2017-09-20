@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_285dbf15",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:20:49Z",
+      "side": 1,
+      "message": "We are going to get sonars about the repeated block of code, should be moved to its own method.  Can you move the repeated lines of code into its own \"private\" method:\n\t\t\tPolicyEngine.manager.setEnvironmentProperty(\"aai.user\", \"AAI\");\n\t\t\tPolicyEngine.manager.setEnvironmentProperty(\"aai.password\", \"AAI\");\n\t\t\tPolicyEngine.manager.setEnvironmentProperty(\"aai.url\", \"http://localhost:6666\");",
+      "revId": "70923a715593cf35c4dbf4c3d9203a605a927f3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_68ae27e8",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:20:49Z",
+      "side": 1,
+      "message": "There should be a \"fail\" assert here to indicate that the test did not pass.  Can you add it here to make sure that these operations indeed pass.   I don\u0027t know if it passes or not right now, based on this code.",
+      "revId": "70923a715593cf35c4dbf4c3d9203a605a927f3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_08855b59",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:20:49Z",
+      "side": 1,
+      "message": "The previous comments apply throughout all the file with all methods",
+      "revId": "70923a715593cf35c4dbf4c3d9203a605a927f3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
