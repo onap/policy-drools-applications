@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8874ab68",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:45:52Z",
+      "side": 1,
+      "message": "setAAIProperties for the name? (plural?)",
+      "revId": "d1eda0b33742787ba92dd2e668f9ec33f46fb6eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_486a4382",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T21:45:52Z",
+      "side": 1,
+      "message": "can you call setAAIProperties() here?",
+      "revId": "d1eda0b33742787ba92dd2e668f9ec33f46fb6eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
