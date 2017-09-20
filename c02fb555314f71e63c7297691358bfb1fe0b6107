@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_c8b2b305",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-20T22:20:08Z",
+      "side": 1,
+      "message": "auth work can come at a later time, what are the security parameters Ralph retrieves from properties?   We need to make them available as \"[s|g]etEnvironmentProperties\" instead, that would be the approach to implement here.",
+      "parentUuid": "9a437d4f_480123ae",
+      "revId": "c02fb555314f71e63c7297691358bfb1fe0b6107",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_28b93f15",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopXacmlGuardTest.java",
         "patchSetId": 7
