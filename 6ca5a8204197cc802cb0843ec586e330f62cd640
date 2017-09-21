@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_eb6b2cef",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-21T17:08:08Z",
+      "side": 1,
+      "message": "\"testUser\" and \"testPass\" do not match what is set up in setAAIProperties().   The inconsistency may be not now, but in future if simulator is enhanced, may give obscured errors.   Assuming those are credentials can you change them to PolicyEngine.manager.setEnvironmentProperty(\"aai.user\")\nand PolicyEngine.manager.setEnvironmentProperty(\"aai.password\").\n\nCan you also construct the url as you did before using PolicyEngine.manager.getEnvironmentProperty(\"aai.url\") to keep all consistent?",
+      "revId": "6ca5a8204197cc802cb0843ec586e330f62cd640",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_cb7068de",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-21T17:08:08Z",
+      "side": 1,
+      "message": "check my previous comment",
+      "revId": "6ca5a8204197cc802cb0843ec586e330f62cd640",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ab79a4c9",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-21T17:08:08Z",
+      "side": 1,
+      "message": "check my previous comment",
+      "revId": "6ca5a8204197cc802cb0843ec586e330f62cd640",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
