@@ -589,7 +589,6 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		if(guardEnabled){
 		
 			Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
-		    												XacmlPdpEngine, 
 		    												"", 
 		    												drools.getWorkingMemory(),
 		    												$event.closedLoopControlName,
@@ -636,7 +635,7 @@ rule "${policyName}.GUARD.RESPONSE"
 		
 		
 		//we will permit the operation if there was no Guard for it
-		if($guardResponse.result == "Indeterminate"){
+		if("Indeterminate".equals($guardResponse.result)){
 			$guardResponse.result = "Permit";
 		}
 		
@@ -655,7 +654,7 @@ rule "${policyName}.GUARD.RESPONSE"
 		
 		
 		
-		if($guardResponse.result == "Permit"){
+		if("Permit".equals($guardResponse.result)){
 		
 			modify($operation){setGuardApprovalStatus($guardResponse.result)};
 		}
