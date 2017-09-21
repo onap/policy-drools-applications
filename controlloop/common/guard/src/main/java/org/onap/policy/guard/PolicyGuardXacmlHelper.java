@@ -179,7 +179,7 @@ public class PolicyGuardXacmlHelper {
 		} catch (Exception e) {
 			logger.error("Exception in 'PolicyGuardXacmlHelper.callRESTfulPDP'", e);
 		}
-
+		
 		rawDecision = new JSONObject(response).getString("decision");
 		
 		return rawDecision;

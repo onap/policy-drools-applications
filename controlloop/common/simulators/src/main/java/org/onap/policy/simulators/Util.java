@@ -29,10 +29,12 @@ public class Util {
   public static final String AAISIM_SERVER_NAME = "aaiSim";
   public static final String SOSIM_SERVER_NAME = "soSim";
   public static final String VFCSIM_SERVER_NAME = "vfcSim";
+  public static final String GUARDSIM_SERVER_NAME = "guardSim";
 
   public static final int AAISIM_SERVER_PORT = 6666;
   public static final int SOSIM_SERVER_PORT = 6667;
   public static final int VFCSIM_SERVER_PORT = 6668;
+  public static final int GUARDSIM_SERVER_PORT = 6669;
 
   public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
     final HttpServletServer testServer = HttpServletServer.factory.build(AAISIM_SERVER_NAME,
@@ -61,6 +63,15 @@ public class Util {
     testServer.waitedStart(5000);
     if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
       throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+    return testServer;
+  }
+
+  public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
+    HttpServletServer testServer = HttpServletServer.factory.build(GUARDSIM_SERVER_NAME, "localhost", GUARDSIM_SERVER_PORT, "/", false, true);
+    testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
+    testServer.waitedStart(5000);
+    if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+    	throw new IllegalStateException("cannot connect to port " + testServer.getPort());
     return testServer;
   }
 }

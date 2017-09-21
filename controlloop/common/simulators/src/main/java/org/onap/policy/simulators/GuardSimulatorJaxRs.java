@@ -23,24 +23,25 @@ package org.onap.policy.simulators;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.util.Serialization;
+import org.json.JSONObject;
 
-@Path("/serviceInstances")
-public class SoSimulatorJaxRs {
-	
+@Path("/pdp/api")
+public class GuardSimulatorJaxRs {
+
 	@POST
-	@Path("/v2/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModulesHTTPS/1.1")
+	@Path("/getDecision")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
-	public String SoPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId, String req)
-	{
-		SORequest request = Serialization.gsonPretty.fromJson(req, SORequest.class);
-		return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": " + request.requestId + "}}";
+	public String getGuardDecision(String req){ 
+		String clName = new JSONObject(req).getJSONObject("decisionAttributes").getString("clname");
+		if ("denyGuard".equals(clName))
+		{
+			return "{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}";
+		}
+		else
+			return "{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}";
 	}
-	
 }
