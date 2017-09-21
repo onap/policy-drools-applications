@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_bea20049",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-21T19:47:01Z",
+      "side": 1,
+      "message": "The operation attempt should not be hard coded to one. I think this will cause problems with retries in the yaml. I see SO is doing the same above.",
+      "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
