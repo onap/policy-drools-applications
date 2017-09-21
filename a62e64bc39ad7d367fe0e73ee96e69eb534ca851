@@ -22,6 +22,30 @@
       "revId": "a62e64bc39ad7d367fe0e73ee96e69eb534ca851",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8801463a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-21T14:32:28Z",
+      "side": 1,
+      "message": "right sorry, a typo, the ports open in the lines below show the right ones",
+      "parentUuid": "9a437d4f_e8b21205",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 59
+      },
+      "revId": "a62e64bc39ad7d367fe0e73ee96e69eb534ca851",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
