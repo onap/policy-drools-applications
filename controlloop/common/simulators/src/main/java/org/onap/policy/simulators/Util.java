@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,35 +24,43 @@ import java.io.IOException;
 
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.NetworkUtil;
-import org.onap.policy.simulators.AaiSimulatorJaxRs;
-import org.onap.policy.simulators.SoSimulatorJaxRs;
-import org.onap.policy.simulators.VfcSimulatorJaxRs;
 
 public class Util {
-	public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
-		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6666, "/", false, true);
-		testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
-		testServer.waitedStart(5000);
-		if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
-			throw new IllegalStateException("cannot connect to port " + testServer.getPort());
-		return testServer;
-	}
-	
-	public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
-		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6667, "/", false, true);
-		testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
-		testServer.waitedStart(5000);
-		if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
-			throw new IllegalStateException("cannot connect to port " + testServer.getPort());
-		return testServer;
-	}
-	
-	public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
-		HttpServletServer testServer = HttpServletServer.factory.build("testServer", "localhost", 6668, "/", false, true);
-		testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
-		testServer.waitedStart(5000);
-		if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
-			throw new IllegalStateException("cannot connect to port " + testServer.getPort());
-		return testServer;
-	}
+  public static final String AAISIM_SERVER_NAME = "aaiSim";
+  public static final String SOSIM_SERVER_NAME = "soSim";
+  public static final String VFCSIM_SERVER_NAME = "vfcSim";
+
+  public static final int AAISIM_SERVER_PORT = 6666;
+  public static final int SOSIM_SERVER_PORT = 6667;
+  public static final int VFCSIM_SERVER_PORT = 6668;
+
+  public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
+    final HttpServletServer testServer = HttpServletServer.factory.build(AAISIM_SERVER_NAME,
+        "localhost", AAISIM_SERVER_PORT, "/", false, true);
+    testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
+    testServer.waitedStart(5000);
+    if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+      throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+    return testServer;
+  }
+
+  public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
+    final HttpServletServer testServer = HttpServletServer.factory.build(SOSIM_SERVER_NAME,
+        "localhost", SOSIM_SERVER_PORT, "/", false, true);
+    testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
+    testServer.waitedStart(5000);
+    if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+      throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+    return testServer;
+  }
+
+  public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
+    final HttpServletServer testServer = HttpServletServer.factory.build(VFCSIM_SERVER_NAME,
+        "localhost", VFCSIM_SERVER_PORT, "/", false, true);
+    testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
+    testServer.waitedStart(5000);
+    if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L))
+      throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+    return testServer;
+  }
 }

@@ -39,6 +39,7 @@
         <module>model-impl</module>
     	<module>policy-yaml</module>
     	<module>simulators</module>
+    	<module>feature-controlloop-utils</module>
     </modules>
 
 
