@@ -16,6 +16,24 @@
       "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8101213a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-09-21T23:52:15Z",
+      "side": 1,
+      "message": "I played around with this for sometime. Any value other than 1 is making the Junit tests to fail. Do you know how is this being used? Is there a requirement that this value will start from 1 and then go up? In case of APPC does APPC keep track of the operation attempts.",
+      "parentUuid": "9a437d4f_bea20049",
+      "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
