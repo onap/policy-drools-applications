@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.onap.policy.so.util.Serialization;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
 import org.drools.core.WorkingMemory;
@@ -134,9 +135,14 @@ public final class SOManager {
 			  @Override
 			  	public void run()
 			  {
-			  	String serverRoot = "http://localhost:6667"; // TODO
-			  	String username = "username"; // TODO
-			  	String password = "password"; // TODO
+
+			    /*
+			     * TODO: What if these are null?
+			     */
+			  	String serverRoot = PolicyEngine.manager.getEnvironmentProperty("so.url");
+			  	String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
+			  	String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
+			  	
 				String url = serverRoot + "/serviceInstances/v2/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModulesHTTPS/1.1";
 				
 				String auth = username + ":" + password;

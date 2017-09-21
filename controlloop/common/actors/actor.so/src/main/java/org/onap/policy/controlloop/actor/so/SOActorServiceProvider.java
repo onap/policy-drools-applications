@@ -41,6 +41,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.so.SOCloudConfiguration;
 import org.onap.policy.so.SOManager;
 import org.onap.policy.so.SOModelInfo;
@@ -176,12 +177,16 @@ public class SOActorServiceProvider implements Actor {
 		//
 //		insert(aainqRequestWrapper);
 		
-		String url = "http://localhost:6666";
-		String username = "testUser";
-		String password = "testPass";
+  		/*
+         * Obtain A&AI credentials from properties.environment file
+         * TODO: What if these are null?
+         */
+        String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+        String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
+        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 		
 		//***** send the request *****\\
-		AAINQResponse aainqresponse = AAIManager.postQuery(url, username, password, // TO DO: get AAI URL, username, and password
+		AAINQResponse aainqresponse = AAIManager.postQuery(aaiUrl, aaiUsername, aaiPassword,
 				aainqrequest, onset.requestID);
 
 		// Check AAI response

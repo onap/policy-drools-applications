@@ -30,6 +30,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.appc.Request;
+import org.onap.policy.appc.Response;
+import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.util.Serialization;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -39,6 +41,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +90,12 @@ public class AppcServiceProviderTest {
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
-
+        
+        /* Set environment properties */
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        
     }
 
     @BeforeClass
@@ -139,6 +147,13 @@ public class AppcServiceProviderTest {
         assertTrue(jsonRequest.contains("Payload"));
         assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
         assertTrue(jsonRequest.contains("pg-streams"));
+        
+        Response appcResponse = new Response(appcRequest);
+        appcResponse.getStatus().Code = ResponseCode.SUCCESS.getValue();
+        appcResponse.getStatus().Description = "AppC success";
+        /* Print out request as json to make sure serialization works */
+        String jsonResponse = Serialization.gsonPretty.toJson(appcResponse);
+        logger.debug("JSON Output: \n" + jsonResponse);
     }
 
 }

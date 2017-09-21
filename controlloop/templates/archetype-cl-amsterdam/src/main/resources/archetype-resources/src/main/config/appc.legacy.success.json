@@ -1,0 +1,41 @@
+{
+  "CommonHeader": {
+    "TimeStamp": 1506051879001,
+    "APIver": "1.01",
+    "RequestID": "c7c6a4aa-bb61-4a15-b831-ba1472dd4a65",
+    "SubRequestID": "1",
+    "RequestTrack": [],
+    "Flags": []
+  },
+  "Status": {
+    "Code": 400,
+    "Value": "SUCCESS"
+  },
+  "Payload": {
+    "generic-vnf.vnf-id": "jimmy-test-vnf2",
+    "pg-streams": {
+      "pg-stream": [
+        {
+          "id": "fw_udp1",
+          "is-enabled": "true"
+        },
+        {
+          "id": "fw_udp2",
+          "is-enabled": "true"
+        },
+        {
+          "id": "fw_udp3",
+          "is-enabled": "true"
+        },
+        {
+          "id": "fw_udp4",
+          "is-enabled": "true"
+        },
+        {
+          "id": "fw_udp5",
+          "is-enabled": "true"
+        }
+      ]
+    }
+  }
+}

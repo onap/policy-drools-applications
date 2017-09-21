@@ -44,6 +44,7 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.PolicyGuard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +55,14 @@ public class VFWControlLoopTest {
     
     private KieSession kieSession;
     private Util.Pair<ControlLoopPolicy, String> pair;
-    private PolicyEngineJUnitImpl engine;     
+    private PolicyEngineJUnitImpl engine;
+    
+    static {
+        /* Set environment properties */
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+    }
     
     @BeforeClass
     public static void setUpSimulator() {
@@ -240,7 +248,7 @@ public class VFWControlLoopTest {
              */
             Response appcResponse = new Response((Request)obj);
             appcResponse.getStatus().Code = ResponseCode.SUCCESS.getValue();
-            appcResponse.getStatus().Description = "AppC success";
+            appcResponse.getStatus().Value = "SUCCESS";
             kieSession.insert(appcResponse);
             
             /* 

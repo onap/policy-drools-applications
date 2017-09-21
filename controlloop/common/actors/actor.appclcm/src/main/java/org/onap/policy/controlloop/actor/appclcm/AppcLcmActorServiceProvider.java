@@ -49,6 +49,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,10 +158,17 @@ public class AppcLcmActorServiceProvider implements Actor {
         aaiRequest.instanceFilters = new AAINQInstanceFilters();
         aaiRequest.instanceFilters.instanceFilter.add(filter);
         
-        //TODO: URL should not be hard coded for future releases
+        /*
+         * Obtain A&AI credentials from properties.environment file
+         * TODO: What if these are null?
+         */
+        String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+        String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
+        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+        
         AAINQResponse aaiResponse = AAIManager.postQuery(
-                        "http://localhost:6666",
-                        "policy", "policy", 
+                        aaiUrl,
+                        aaiUsername, aaiPassword, 
                         aaiRequest, requestId);
 
         //TODO: What if the resourceId never matches?
