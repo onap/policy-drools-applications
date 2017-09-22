@@ -1,0 +1,15 @@
+{
+  "closedLoopControlName": "${closedLoopControlName}",
+  "closedLoopAlarmStart": 1484677482204798,
+  "closedLoopEventClient": "DCAE_INSTANCE_ID.dcae-tca",
+  "closedLoopEventStatus": "ONSET",
+  "requestID": "e4f95e0c-a013-4530-8e59-c5c5f9e539b6",
+  "target_type": "VNF",
+  "target": "vserver.vserver-name",
+  "AAI": {
+    "vserver.is-closed-loop-disabled": "false",
+    "vserver.vserver-name": "dfw1lb01lb01"
+  },   
+  "from": "DCAE",
+  "version": "1.0.2"
+}

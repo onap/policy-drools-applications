@@ -127,7 +127,7 @@ rule "${policyName}.SETUP"
     String vfcUsername = PolicyEngine.manager.getEnvironmentProperty("vfc.username");
     String vfcPassword = PolicyEngine.manager.getEnvironmentProperty("vfc.password");
     
-    String guardUrl =PolicyEngine.manager.getEnvironmentProperty("guard.url");
+    String guardUrl = PolicyEngine.manager.getEnvironmentProperty("guard.url");
     String guardUsername = PolicyEngine.manager.getEnvironmentProperty("guard.username");
     String guardPassword = PolicyEngine.manager.getEnvironmentProperty("guard.password");
     String guardJdbcUrl = PolicyEngine.manager.getEnvironmentProperty("guard.jdbc.url");
@@ -537,8 +537,11 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
           
           case "APPC":
       
-              if (request instanceof Request || request instanceof LCMRequestWrapper) {
+              if (request instanceof Request) {
                   PolicyEngine.manager.deliver("APPC-CL", request);
+              }
+              else if (request instanceof LCMRequestWrapper) {
+                  PolicyEngine.manager.deliver("APPC-LCM-READ", request);
               }
               break;
           case "SO":
@@ -938,15 +941,14 @@ rule "${policyName}.SO.RESPONSE"
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
         $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
         $lock : TargetLock (requestID == $event.requestID)
-        $request : SORequest( requestId == $event.requestID.toString() )
         $response : SOResponse( request.requestId == $event.requestID.toString() )  
     then
         
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} request={} response={}", 
+    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
-                $event, $manager, $operation, $lock, $operation, $opTimer, $request, $response);
+                $event, $manager, $operation, $lock, $operation, $opTimer, $response);
         
     // Get the result of the operation
     //

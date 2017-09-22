@@ -195,7 +195,7 @@ public class VCPEControlLoopTest {
             /*
              * Obtain the request sent from the Policy Engine
              */
-            obj = engine.subscribe("UEB", "APPC-CL");
+            obj = engine.subscribe("UEB", "APPC-LCM-READ");
             assertNotNull(obj);
             
             /*
@@ -235,7 +235,7 @@ public class VCPEControlLoopTest {
              * Give time for processing
              */
             try {
-                Thread.sleep(4000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 logger.debug("An interrupt Exception was thrown");

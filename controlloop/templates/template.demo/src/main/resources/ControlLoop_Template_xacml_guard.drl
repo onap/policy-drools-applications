@@ -507,10 +507,12 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 			switch ($operation.policy.getActor()){
 				
 				case "APPC":
-			
-					if (request instanceof Request || request instanceof LCMRequestWrapper) {
-						Engine.deliver("UEB", "APPC-CL", request);
-					}
+					if (request instanceof Request) {
+                  		Engine.deliver("UEB", "APPC-CL", request);
+	              	}
+	              	else if (request instanceof LCMRequestWrapper) {
+	                  	Engine.deliver("UEB", "APPC-LCM-READ", request);
+	             	}
 					break;
 				case "SO":
 					// at this point the AAI named query request should have already been made, the response recieved and used

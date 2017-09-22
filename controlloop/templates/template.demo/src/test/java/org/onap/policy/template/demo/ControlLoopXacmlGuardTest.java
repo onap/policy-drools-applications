@@ -242,7 +242,7 @@ public class ControlLoopXacmlGuardTest {
 
 						Thread.sleep(2*1000);
 
-						obj = engine.subscribe("UEB", "APPC-CL");
+						obj = engine.subscribe("UEB", "APPC-LCM-READ");
 						assertNotNull(obj);
 						assertTrue(obj instanceof LCMRequestWrapper);
 						LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
