@@ -30,7 +30,9 @@ public class VFCResponse implements Serializable {
     public String jobId;
 
     @SerializedName("responseDescriptor")
-    VFCResponseDescriptor responseDescriptor;
+    public VFCResponseDescriptor responseDescriptor;
+
+    public transient String requestId;
 
     public VFCResponse() {
     }

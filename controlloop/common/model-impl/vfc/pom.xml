@@ -45,5 +45,11 @@
 		<artifactId>rest</artifactId>
 		<version>${project.version}</version>
 	</dependency>
+	<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<version>6.5.0.Final</version>
+			<scope>provided</scope>
+	</dependency>
   </dependencies>
 </project>
