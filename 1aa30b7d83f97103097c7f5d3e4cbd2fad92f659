@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_a179c5c9",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T01:06:20Z",
+      "side": 1,
+      "message": "Here is where APPC tracks this. We utilize the subRequestID field.",
+      "range": {
+        "startLine": 328,
+        "startChar": 6,
+        "endLine": 328,
+        "endChar": 144
+      },
+      "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8176c1d5",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T01:06:20Z",
+      "side": 1,
+      "message": "Unfortunately we can\u0027t pass custom information to SO. This is something we\u0027ll have to fix in the future. The SO should track this info similar to what we are asking VFC to do.",
+      "range": {
+        "startLine": 355,
+        "startChar": 27,
+        "endLine": 355,
+        "endChar": 41
+      },
+      "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_bea20049",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 10
@@ -31,6 +77,29 @@
       "side": 1,
       "message": "I played around with this for sometime. Any value other than 1 is making the Junit tests to fail. Do you know how is this being used? Is there a requirement that this value will start from 1 and then go up? In case of APPC does APPC keep track of the operation attempts.",
       "parentUuid": "9a437d4f_bea20049",
+      "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c17049de",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_ControlLoop_VFC.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T01:06:20Z",
+      "side": 1,
+      "message": "Ritu - here is where a Control Loop designer would set the number of attempts for doing an operation. So yes this needs to be tracked.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 12
+      },
       "revId": "1aa30b7d83f97103097c7f5d3e4cbd2fad92f659",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
