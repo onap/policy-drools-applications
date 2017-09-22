@@ -34,7 +34,7 @@ public class AAINQExtraProperties implements Serializable {
 	private static final long serialVersionUID = 4109625574744702319L;
 
 	@SerializedName("extra-property")
-	public List<AAINQExtraProperty> extraProperty = new LinkedList<AAINQExtraProperty>();
+	public List<AAINQExtraProperty> extraProperty = new LinkedList<>();
 	
 	public AAINQExtraProperties() {
 	}

@@ -24,20 +24,19 @@ import java.util.UUID;
 import org.onap.policy.aai.AAIGETResponse;
 
 public class AAIGETResponseWrapper implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9167822470867043968L;
-	
-	public UUID requestID;
-	public AAIGETResponse aairesponse;
-	
-	public AAIGETResponseWrapper() {
-		
-	}
-	
-	public AAIGETResponseWrapper(UUID requestID, AAIGETResponse aairesponse){
-		this.requestID = requestID;
-		this.aairesponse = aairesponse;
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9167822470867043968L;
+
+        public UUID requestID;
+        public AAIGETResponse aairesponse;
+
+        public AAIGETResponseWrapper() {
+        }
+
+        public AAIGETResponseWrapper(UUID requestID, AAIGETResponse aairesponse){
+            this.requestID = requestID;
+            this.aairesponse = aairesponse;
+        }
 }
