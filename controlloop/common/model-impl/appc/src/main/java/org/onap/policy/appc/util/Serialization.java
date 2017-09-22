@@ -42,9 +42,13 @@ public final class Serialization {
 	
 	public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
+	private Serialization(){
+	}
+
 	public static class gsonUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
 		private static final Logger logger = LoggerFactory.getLogger(gsonUTCAdapter.class);
 		
+		@Override
 		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
 				throws JsonParseException {
 			try {
