@@ -29,8 +29,8 @@ public class AAIGETResponseWrapper implements Serializable {
 	 */
 	private static final long serialVersionUID = 9167822470867043968L;
 	
-	public UUID requestID;
-	public AAIGETResponse aairesponse;
+	public static final UUID requestID;
+	public static final AAIGETResponse aairesponse;
 	
 	public AAIGETResponseWrapper() {
 		
