@@ -37,7 +37,7 @@ public class LCMResponse implements Serializable {
     private String payload;
 
     public LCMResponse() {
-
+    	// EMPTY
     }
 
     /**
@@ -51,7 +51,6 @@ public class LCMResponse implements Serializable {
         this.commonHeader = new LCMCommonHeader(request.getCommonHeader());
         String requestPayload = request.getPayload();
         if (requestPayload != null) {
-            // this.payload.putAll(request.payload);
             this.payload = requestPayload;
         }
     }
