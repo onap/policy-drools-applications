@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_77fef6af",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-22T19:48:59Z",
+      "side": 1,
+      "message": "Does this work for both named queries and get queries?",
+      "revId": "c6352f409fdadf64e150cb97110598ca641c9b2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_31be3eb5",
         "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
         "patchSetId": 2
