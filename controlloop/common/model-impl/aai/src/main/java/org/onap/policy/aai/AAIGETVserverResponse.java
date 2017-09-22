@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AAIGETVserverResponse implements Serializable {
+public class AAIGETVserverResponse extends AAIGETResponse implements Serializable {
 
 	/**
 	 * 
@@ -43,20 +43,6 @@ public class AAIGETVserverResponse implements Serializable {
 	@SerializedName("vserver-selflink")
 	public String vserverSelflink;
 	
-	@SerializedName("in-maint")
-	public String inMaint;
-	
-	@SerializedName("is-closed-loop-disabled")
-	public String isClosedLoopDisabled;
-	
-	@SerializedName("resource-version")
-	public String resourceVersion; 
-	
-	@SerializedName("model-invariant-id")
-	public String modelInvariantId;
-	
-	public RelationshipList relationshipList;
-
 	public AAIGETVserverResponse() {
 	}
 

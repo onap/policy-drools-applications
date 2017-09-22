@@ -27,9 +27,21 @@ import com.google.gson.annotations.SerializedName;
 public class AAIGETResponse implements Serializable {
 
 	/**
-	 * 
+	 * define common fields for AAIGETVnfResponse and AAIGETVserverResponse
 	 */
 	private static final long serialVersionUID = 7311418432051756161L;
+	
+	@SerializedName("in-maint")
+	public String inMaint;
+ 
+	@SerializedName("is-closed-loop-disabled")
+	public String isClosedLoopDisabled;
+	
+	@SerializedName("model-invariant-id")
+	public String modelInvariantId;
+	
+	@SerializedName("resource-version")
+	public String resourceVersion; 
 	
 	@SerializedName("relationship-list")
 	public RelationshipList relationshipList;
