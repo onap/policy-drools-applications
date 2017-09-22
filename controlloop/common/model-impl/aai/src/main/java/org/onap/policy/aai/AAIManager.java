@@ -36,24 +36,25 @@ public final class AAIManager {
 	private static final Logger logger = LoggerFactory.getLogger(AAIManager.class);
 	
 	public static AAINQResponse	postQuery(String url, String username, String password, AAINQRequest request, UUID requestID) {
+		String url1 = url;
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
 		
-		url = url + "/aai/search/named-query";
+		url1 = url1 + "/aai/search/named-query";
 
 		logger.debug("RESTManager.post before"); 
-		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
+		Pair<Integer, String> httpDetails = RESTManager.post(url1, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
 		logger.debug("RESTManager.post after"); 
 		
 		if (httpDetails == null) {
-			logger.info("AAI POST Null Response to " + url);
+			logger.info("AAI POST Null Response to " + url1);
 			return null;
 		}
 		
-		logger.info(url);
+		logger.info(url1);
 		logger.info(httpDetails.a.toString());
 		logger.info(httpDetails.b);
 		if (httpDetails.a == 200) {
@@ -69,26 +70,27 @@ public final class AAIManager {
 	}
 	
 	public static AAIGETVserverResponse getQueryByVserverName(String urlGet, String username, String password, UUID requestID, String key) {
+		String urlGet1 = urlGet;
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
 		
-		urlGet = urlGet + key; 
+		urlGet1 = urlGet1 + key; 
 		
 		int attemptsLeft = 3;
-		AAIGETVserverResponse responseGet = null;
+		AAIGETVserverResponse responseGet;
 		
 		while(attemptsLeft-- > 0){
 		
-			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet1, username, password, headers);
 			if (httpDetailsGet == null) {
-				logger.info("AAI GET Null Response to " + urlGet);
+				logger.info("AAI GET Null Response to " + urlGet1);
 				return null;
 			}
 			
-			logger.info(urlGet);
+			logger.info(urlGet1);
 			logger.info(httpDetailsGet.a.toString());
 			logger.info(httpDetailsGet.b);
 			
@@ -109,26 +111,27 @@ public final class AAIManager {
 	}
 	
 	public static AAIGETVnfResponse getQueryByVnfID(String urlGet, String username, String password, UUID requestID, String key) {
-		
+		String urlGet1 = urlGet;
+
 		Map<String, String> headers = new HashMap<>();
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
 		
-		urlGet = urlGet + key; 
+		urlGet1 = urlGet1 + key; 
 		
 		int attemptsLeft = 3;
-		AAIGETVnfResponse responseGet = null;
+		AAIGETVnfResponse responseGet;
 		
 		while(attemptsLeft-- > 0){
 		
-			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet1, username, password, headers);
 			if (httpDetailsGet == null) {
-				logger.info("AAI GET Null Response to " + urlGet);
+				logger.info("AAI GET Null Response to " + urlGet1);
 				return null;
 			}
 			
-			logger.info(urlGet);
+			logger.info(urlGet1);
 			logger.info(httpDetailsGet.a.toString());
 			logger.info(httpDetailsGet.b);
 			
@@ -150,26 +153,28 @@ public final class AAIManager {
 	}
 	
 	public static AAIGETVnfResponse getQueryByVnfName(String urlGet, String username, String password, UUID requestID, String key) {
+
+		String urlGet1 = urlGet;
 		
 		Map<String, String> headers = new HashMap<>();
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
 		
-		urlGet = urlGet + key; 
+		urlGet1 = urlGet1 + key; 
 		
 		int attemptsLeft = 3;
-		AAIGETVnfResponse responseGet = null;
+		AAIGETVnfResponse responseGet;
 		
 		while(attemptsLeft-- > 0){
 		
-			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet1, username, password, headers);
 			if (httpDetailsGet == null) {
-				logger.info("AAI GET Null Response to " + urlGet);
+				logger.info("AAI GET Null Response to " + urlGet1);
 				return null;
 			}
 			
-			logger.info(urlGet);
+			logger.info(urlGet1);
 			logger.info(httpDetailsGet.a.toString());
 			logger.info(httpDetailsGet.b);
 			
