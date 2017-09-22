@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_ad3c14c9",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T11:04:59Z",
+      "side": 1,
+      "message": "Sonar does not like the use of generic exception, let\u0027s create one for MSB.",
+      "range": {
+        "startLine": 48,
+        "startChar": 36,
+        "endLine": 48,
+        "endChar": 45
+      },
+      "revId": "c6352f409fdadf64e150cb97110598ca641c9b2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6d32acf3",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T11:04:59Z",
+      "side": 1,
+      "message": "Not use a generic exception",
+      "range": {
+        "startLine": 26,
+        "startChar": 38,
+        "endLine": 26,
+        "endChar": 47
+      },
+      "revId": "c6352f409fdadf64e150cb97110598ca641c9b2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_cd5ab829",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/register/MsbHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T11:04:59Z",
+      "side": 1,
+      "message": "So this is good to have, but I believe that OOM is registering our API for us. That would be done outside the scope of any drools-applications code.",
+      "revId": "c6352f409fdadf64e150cb97110598ca641c9b2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2d50240a",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/register/MsbHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T11:04:59Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 33,
+        "startChar": 35,
+        "endLine": 33,
+        "endChar": 44
+      },
+      "revId": "c6352f409fdadf64e150cb97110598ca641c9b2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
