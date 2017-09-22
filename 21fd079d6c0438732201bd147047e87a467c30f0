@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_919dea68",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETResponseWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-22T15:11:34Z",
+      "side": 1,
+      "message": "Can you add a comment so sonar won\u0027t create empty constructor? I don\u0027t see any other changes except checkstyle, which is ok by me.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "21fd079d6c0438732201bd147047e87a467c30f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
