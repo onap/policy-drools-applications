@@ -25,7 +25,10 @@ import com.google.gson.GsonBuilder;
 
 public final class Serialization {
 
-	final static public Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
+	private Serialization(){
+	}
+
+	public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
 			.setPrettyPrinting()
 //			.registerTypeAdapter(AAIQueryParameters.class, new notificationTypeAdapter())
 			.create();
