@@ -32,7 +32,8 @@ public enum ControlLoopTargetType {
 	private ControlLoopTargetType(String type) {
 		this.type = type;
 	}
-	
+
+	@Override
 	public String toString() {
 		return this.type;
 	}
