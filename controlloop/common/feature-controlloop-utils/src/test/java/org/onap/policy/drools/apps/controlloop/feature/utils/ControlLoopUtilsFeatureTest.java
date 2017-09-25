@@ -41,6 +41,7 @@ public class ControlLoopUtilsFeatureTest {
     assertNotNull(HttpServletServer.factory.get(Util.AAISIM_SERVER_PORT));
     assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
     assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
+    assertNotNull(HttpServletServer.factory.get(Util.GUARDSIM_SERVER_PORT));
   }
 
 }

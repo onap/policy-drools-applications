@@ -46,6 +46,7 @@ public class ControlLoopUtilsFeature implements PolicyEngineFeatureAPI {
       Util.buildAaiSim();
       Util.buildSoSim();
       Util.buildVfcSim();
+      Util.buildGuardSim();
     } catch (final InterruptedException e) {
       logger.error("{}: initialization aborted", ControlLoopUtilsFeature.class.getName(), e);
       Thread.currentThread().interrupt();
