@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_9d72940f",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-25T12:48:46Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. Paths.get throws a InvalidPathExpception instead of returning null.",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 1
+      },
+      "revId": "eb04465b036c15405a5791520d86d5125b264061",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5d68ac1c",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-25T12:48:46Z",
+      "side": 1,
+      "message": "Please use try-with-resources as recommended by Sonar.",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 52
+      },
+      "revId": "eb04465b036c15405a5791520d86d5125b264061",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fd56405b",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-25T12:48:46Z",
+      "side": 1,
+      "message": "Log the actual exception object else sonar will flag this as critical",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "eb04465b036c15405a5791520d86d5125b264061",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_bd4c38c9",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/client/Node.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-25T12:48:46Z",
+      "side": 1,
+      "message": "Add:\n//empty constructor\nThis avoids Sonar flagging empty constructor major/minor.",
+      "range": {
+        "startLine": 24,
+        "startChar": 17,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "eb04465b036c15405a5791520d86d5125b264061",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fd04004b",
+        "filename": "controlloop/common/model-impl/msb/src/main/java/org/onap/policy/msb/register/MsbHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-25T12:48:46Z",
+      "side": 1,
+      "message": "Again I don\u0027t think we need this functionality in the drools-application project. But let\u0027s discuss with Jorge. Maybe we keep it here for now.",
+      "revId": "eb04465b036c15405a5791520d86d5125b264061",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_dd013c39",
+        "filename": "controlloop/common/model-impl/msb/src/test/java/org/oanp/policy/msb/client/MSBServiceManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-25T12:48:46Z",
+      "side": 1,
+      "message": "This is great!",
+      "revId": "eb04465b036c15405a5791520d86d5125b264061",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
