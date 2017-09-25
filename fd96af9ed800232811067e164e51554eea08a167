@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_89181676",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-09-25T21:25:42Z",
+      "side": 0,
+      "message": "Why is this setting of VFC URL, username and password being removed here?",
+      "range": {
+        "startLine": 560,
+        "startChar": 18,
+        "endLine": 563,
+        "endChar": 83
+      },
+      "revId": "fd96af9ed800232811067e164e51554eea08a167",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
