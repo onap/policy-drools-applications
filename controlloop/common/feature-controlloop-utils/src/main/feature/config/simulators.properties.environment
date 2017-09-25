@@ -23,4 +23,5 @@
 aai.url=http://localhost:6666
 so.url=http://localhost:6667
 vfc.url=http://localhost:6668
+guard.url=http://localhost:6669/pdp/api/getDecision
 
