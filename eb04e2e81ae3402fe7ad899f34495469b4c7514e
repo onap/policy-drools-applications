@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_f0430740",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 2089
+      },
+      "writtenOn": "2017-09-25T13:42:39Z",
+      "side": 1,
+      "message": "Its already initialized as shown, same is applicable for all comments\n\nprivate LinkedList\u003cOperation\u003e operationHistory \u003d new LinkedList\u003cOperation\u003e();",
+      "parentUuid": "9a437d4f_9d7cd4b6",
+      "revId": "eb04e2e81ae3402fe7ad899f34495469b4c7514e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_7d4db099",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 2
