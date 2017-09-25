@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_9d7cd4b6",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-25T13:12:02Z",
+      "side": 1,
+      "message": "I think you still need the null pointer check, unless it can be guaranteed that operationHistory is always initialized.   Is it always initialized?",
+      "revId": "eb04e2e81ae3402fe7ad899f34495469b4c7514e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7d4db099",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-25T13:12:02Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "eb04e2e81ae3402fe7ad899f34495469b4c7514e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5d52ec3b",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-25T13:12:02Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "eb04e2e81ae3402fe7ad899f34495469b4c7514e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
