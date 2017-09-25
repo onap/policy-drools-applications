@@ -37,7 +37,8 @@ public enum ControlLoopNotificationType {
 		this.type = type;
 	}
 	
-	public String	toString() {
+        @Override
+	public String toString() {
 		return this.type;
 	}
 
