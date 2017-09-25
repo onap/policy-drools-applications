@@ -42,6 +42,7 @@
     	<module>sdc</module>
     	<module>trafficgenerator</module>
         <module>vfc</module>
+		<module>msb</module>
     </modules>
 
 
