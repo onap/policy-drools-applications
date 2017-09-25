@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.drools.core.WorkingMemory;
 import org.onap.policy.vfc.util.Serialization;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
 import org.slf4j.Logger;
@@ -42,9 +43,15 @@ public final class VFCManager implements Runnable {
     public VFCManager(WorkingMemory wm, VFCRequest request) {
         workingMem = wm;
         vfcRequest = request;
-        // TODO: Get base URL, username and password from MSB?
-        // TODO: Following code is a placeholder, needs to be updated
-        setVFCParams("http://localhost:6668", "username", "password");
+        
+        /*
+         * TODO: What if these are null?
+         */
+        String url = PolicyEngine.manager.getEnvironmentProperty("vfc.url");
+        String username = PolicyEngine.manager.getEnvironmentProperty("vfc.username");
+        String password = PolicyEngine.manager.getEnvironmentProperty("vfc.password");
+        
+        setVFCParams(url, username, password);
 
     }
 

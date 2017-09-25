@@ -57,6 +57,7 @@ import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.vfc.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +70,17 @@ public class VFCControlLoopTest {
 	private Util.Pair<ControlLoopPolicy, String> pair;
 	private PolicyEngineJUnitImpl engine;
 
+	static {
+	    /* Set environment properties */
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        
+        PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
+	}
+	
 	@BeforeClass
 	public static void setUpSimulator() {
 		try {
