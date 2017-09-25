@@ -190,7 +190,7 @@ public class ControlLoopOperationManager implements Serializable {
 		this.policyResult = null;
 		Operation operation = new Operation();
 		operation.attempt = ++this.attempts;
-		operation.operation.actor = this.policy.getActor().toString();
+		operation.operation.actor = this.policy.getActor();
 		operation.operation.operation = this.policy.getRecipe();
 		operation.operation.target = this.policy.getTarget().toString();
 		operation.operation.subRequestId = Integer.toString(operation.attempt);
@@ -421,7 +421,8 @@ public class ControlLoopOperationManager implements Serializable {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toMessage();
 		}
-		if (this.operationHistory != null && this.operationHistory.size() > 0) {
+
+		if (!this.operationHistory.isEmpty()) {
 			return this.operationHistory.getLast().operation.toMessage();
 		}
 		return null;
@@ -431,7 +432,8 @@ public class ControlLoopOperationManager implements Serializable {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toMessage()+ ", Guard result: " + guardResult;
 		}
-		if (this.operationHistory != null && this.operationHistory.size() > 0) {
+          
+		if (!this.operationHistory.isEmpty()) {
 			return this.operationHistory.getLast().operation.toMessage() + ", Guard result: " + guardResult;
 		}
 		return null;
@@ -441,7 +443,8 @@ public class ControlLoopOperationManager implements Serializable {
 		if (this.currentOperation != null && this.currentOperation.operation != null) {
 			return this.currentOperation.operation.toHistory();
 		}
-		if (this.operationHistory != null && this.operationHistory.size() > 0) {
+          
+		if (!this.operationHistory.isEmpty()) {
 			return this.operationHistory.getLast().operation.toHistory();
 		}
 		return null;
