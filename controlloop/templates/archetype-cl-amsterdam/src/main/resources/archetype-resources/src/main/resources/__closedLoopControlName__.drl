@@ -506,7 +506,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, getGuardApprovalStatus() == "Permit" )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
         $lock : TargetLock (requestID == $event.requestID)
     then
 
@@ -620,7 +620,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     // to the CallGuardTask() and set the first argument to null 
     // (instead of XacmlPdpEngine).
     //
-    boolean guardEnabled = false;
+    boolean guardEnabled = true;
     
     if(guardEnabled){
     
@@ -682,7 +682,7 @@ rule "${policyName}.GUARD.RESPONSE"
     
     PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
     
-    if("Permit".equals($guardResponse.result)){
+    if("Permit".equalsIgnoreCase($guardResponse.result)){
     
         modify($operation){setGuardApprovalStatus($guardResponse.result)};
     }

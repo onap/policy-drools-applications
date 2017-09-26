@@ -126,6 +126,10 @@ public final class Util {
 		return org.onap.policy.simulators.Util.buildVfcSim();
 	}
 	
+	public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
+        return org.onap.policy.simulators.Util.buildGuardSim();
+    }
+	
 	private static String	generatePolicy(String ruleContents, 
 			String closedLoopControlName, 
 			String policyScope, 

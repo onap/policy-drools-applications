@@ -410,9 +410,6 @@ public class VFWControlLoopTest {
         event.target = "generic-vnf.vnf-id";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("cloud-region.identity-url", "foo");
-        event.AAI.put("vserver.selflink", "bar");
-        event.AAI.put("vserver.is-closed-loop-disabled", "false");
         event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
         event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
         kieSession.insert(event);

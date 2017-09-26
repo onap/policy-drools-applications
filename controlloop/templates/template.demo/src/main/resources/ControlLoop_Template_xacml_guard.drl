@@ -473,7 +473,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, getGuardApprovalStatus() == "Permit" )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
         $lock : TargetLock (requestID == $event.requestID)
 	then
     	//
@@ -657,7 +657,7 @@ rule "${policyName}.GUARD.RESPONSE"
 		
 		
 		
-		if("Permit".equals($guardResponse.result)){
+		if("Permit".equalsIgnoreCase($guardResponse.result)){
 		
 			modify($operation){setGuardApprovalStatus($guardResponse.result)};
 		}

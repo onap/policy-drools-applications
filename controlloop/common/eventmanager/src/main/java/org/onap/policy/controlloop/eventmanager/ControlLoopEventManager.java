@@ -629,7 +629,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		try {
 	        if (vserverName != null) {
 	           aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
-	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.user"); 
+	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.username"); 
 	           aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 	           String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name="; 
  	   		   String url = aaiHostURL + aaiGetQueryByVserver; 
@@ -650,19 +650,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		String vnfName = event.AAI.get("generic-vnf.vnf-name"); 
 		String vnfID   = event.AAI.get("generic-vnf.vnf-id"); 
  
+		aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
+        aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.username"); 
+        aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+		
 		try {
             if (vnfName != null) {
- 	           aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
- 	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.user"); 
- 	           aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
  	           String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
   	   		   String url = aaiHostURL + aaiGetQueryByVnfName; 
   	   		   logger.info("url: " + url);
 			   response = AAIManager.getQueryByVnfName(url, aaiUser, aaiPassword, requestID, vnfName);	        	
 	        } else if (vnfID != null) {
-	 	       aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
-	 	       aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.user"); 
-	 	       aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 	 	       String aaiGetQueryByVnfID = "/aai/v11/network/generic-vnfs/generic-vnf/"; 
 	  	   	   String url = aaiHostURL + aaiGetQueryByVnfID; 
 	  	   	   logger.info("url: " + url);
