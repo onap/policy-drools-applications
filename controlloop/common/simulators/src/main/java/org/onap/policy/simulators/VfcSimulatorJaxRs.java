@@ -32,15 +32,15 @@ import javax.ws.rs.core.Context;
 public class VfcSimulatorJaxRs {
 	
 	@POST
-	@Path("/ns/{nsInstanceId}/heal")
 	@Produces("application/json")
-	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId,
-                                   @Context final HttpServletResponse response)
+	public String vfcPostQuery(@Context final HttpServletResponse response)
 	{
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
                 try {
                         response.flushBuffer();
-                }catch(Exception e){}
+                }catch(Exception e){
+                        LOGGER.error("Exception: ", e);
+                }
 
 		return "{\"jobId\":\"1\"}";
 	}
