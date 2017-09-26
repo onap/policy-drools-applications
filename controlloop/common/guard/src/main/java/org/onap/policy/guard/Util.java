@@ -31,12 +31,23 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public final class Util {
+	
+	/*
+	 * Keys for guard properties
+	 */
+	public static final String PROP_GUARD_URL         = "guard.pdp.rest.url";
+	public static final String PROP_GUARD_USER        = "guard.pdp.rest.user";
+	public static final String PROP_GUARD_PASS        = "guard.pdp.rest.password";
+	public static final String PROP_GUARD_CLIENT_USER = "guard.pdp.rest.client.user";
+	public static final String PROP_GUARD_CLIENT_PASS = "guard.pdp.rest.client.password";
+	public static final String PROP_GUARD_ENV         = "guard.pdp.rest.environment";
 
 	private static final Logger logger = LoggerFactory.getLogger(Util.class);
 	public static class Pair<A, B> {
@@ -82,6 +93,18 @@ public final class Util {
 			fail(e.getLocalizedMessage());
 		}
 		return null;
+	}
+	
+	public static void setGuardProps(){
+		PolicyEngine.manager.setEnvironmentProperty(PROP_GUARD_URL,         "http://127.0.0.1:8443/pdp");
+		PolicyEngine.manager.setEnvironmentProperty(PROP_GUARD_USER,        "python");
+		PolicyEngine.manager.setEnvironmentProperty(PROP_GUARD_PASS,        "test");
+		PolicyEngine.manager.setEnvironmentProperty(PROP_GUARD_CLIENT_USER, "python");
+		PolicyEngine.manager.setEnvironmentProperty(PROP_GUARD_CLIENT_PASS, "test");
+		PolicyEngine.manager.setEnvironmentProperty(PROP_GUARD_ENV,         "TEST");
+	}
+	public static String getGuardProp(String propName){
+		return PolicyEngine.manager.getEnvironmentProperty(propName);
 	}
 
 }

@@ -69,14 +69,14 @@ public class CallGuardTask implements Runnable {
 		logger.debug("{}", request);
 		logger.debug("********** XACML REQUEST END ********\n");
 		
-		String guardUrl = PolicyEngine.manager.getEnvironmentProperty("guard.url");
+		String guardUrl = PolicyEngine.manager.getEnvironmentProperty(Util.PROP_GUARD_URL);
 		String guardDecision = null;
 		
 		//
-		// Check if guard url property exists
+		// Check if guard url property exists and make guard request
 		//
 		if(guardUrl != null){
-			guardDecision = PolicyGuardXacmlHelper.callPDP(guardUrl, xacmlReq);
+			guardDecision = new PolicyGuardXacmlHelper().callPDP(guardUrl, xacmlReq);
 		}
 
 		logger.debug("\n********** XACML RESPONSE START ********");
