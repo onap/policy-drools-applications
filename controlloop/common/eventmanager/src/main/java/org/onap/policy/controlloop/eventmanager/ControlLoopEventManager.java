@@ -72,14 +72,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
 	private ControlLoopOperationManager currentOperation = null;
 	private transient TargetLock targetLock = null;
-	private static AAIGETVnfResponse vnfResponse = null;
-	private static AAIGETVserverResponse vserverResponse = null;
+	private AAIGETVnfResponse vnfResponse = null;
+	private AAIGETVserverResponse vserverResponse = null;
 	private static String aaiHostURL; 
 	private static String aaiUser; 
 	private static String aaiPassword;
-	private static String aaiGetQueryByVserver; 
-	private static String aaiGetQueryByVnfID; 
-	private static String aaiGetQueryByVnfName; 
 	
 	private static Collection<String> requiredAAIKeys = new ArrayList<>();
 	static {
@@ -438,7 +435,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		
 	public NEW_EVENT_STATUS	onNewEvent(VirtualControlLoopEvent event) {
 		try {
-			ControlLoopEventManager.checkEventSyntax(event);
+			this.checkEventSyntax(event);
 			if (event.closedLoopEventStatus == ControlLoopEventStatus.ONSET) {
 				//
 				// Check if this is our original ONSET
@@ -521,7 +518,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		return vserverResponse; 
 	}
 	
-	public static void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
+	public void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
 		if (event.closedLoopEventStatus == null || 
 				(event.closedLoopEventStatus != ControlLoopEventStatus.ONSET &&
 				event.closedLoopEventStatus != ControlLoopEventStatus.ABATED)) {
@@ -629,7 +626,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		try {
 	        if (vserverName != null) {
 	           aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
-	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.user"); 
+	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.username"); 
 	           aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 	           String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name="; 
  	   		   String url = aaiHostURL + aaiGetQueryByVserver; 
@@ -653,7 +650,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		try {
             if (vnfName != null) {
  	           aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
- 	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.user"); 
+ 	           aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.username"); 
  	           aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
  	           String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
   	   		   String url = aaiHostURL + aaiGetQueryByVnfName; 
@@ -661,7 +658,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			   response = AAIManager.getQueryByVnfName(url, aaiUser, aaiPassword, requestID, vnfName);	        	
 	        } else if (vnfID != null) {
 	 	       aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
-	 	       aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.user"); 
+	 	       aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.username"); 
 	 	       aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 	 	       String aaiGetQueryByVnfID = "/aai/v11/network/generic-vnfs/generic-vnf/"; 
 	  	   	   String url = aaiHostURL + aaiGetQueryByVnfID; 
