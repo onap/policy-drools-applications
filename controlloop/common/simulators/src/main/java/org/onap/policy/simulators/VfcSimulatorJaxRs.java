@@ -27,20 +27,23 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Path("/api/nslcm/v1")
 public class VfcSimulatorJaxRs {
 	
+	private static final Logger logger = LoggerFactory.getLogger(VfcSimulatorJaxRs.class);
 	@POST
-	@Path("/ns/{nsInstanceId}/heal")
 	@Produces("application/json")
-	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId,
-                                   @Context final HttpServletResponse response)
+	public String vfcPostQuery(@Context final HttpServletResponse response)
 	{
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
                 try {
                         response.flushBuffer();
-                }catch(Exception e){}
+                }catch(Exception e){
+                        logger.error("Exception: ", e);
+                }
 
 		return "{\"jobId\":\"1\"}";
 	}
