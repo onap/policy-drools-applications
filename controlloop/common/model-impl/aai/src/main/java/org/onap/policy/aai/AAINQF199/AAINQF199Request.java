@@ -18,34 +18,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.aai.AAINQF199;
+package org.onap.policy.aai.aainqf199;
 
 import java.io.Serializable;
 
 import com.google.gson.annotations.SerializedName;
-
-
-/*
- * 
- * {
-           "query-parameters": {
-               "named-query": {
-                 "named-query-uuid": "f199cb88-5e69-4b1f-93e0-6f257877d066"
-               }
-           },
-           "instance-filters": {
-                "instance-filter": [ 
-             		{
-                		"vserver": {
-                                "vserver-name": "dfw1lb01lb01"
-               			}
-             		}
-            	]
-           }
-}
- 
- * 
- */
 
 public class AAINQF199Request implements Serializable {
 
