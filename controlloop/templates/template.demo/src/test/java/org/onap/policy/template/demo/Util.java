@@ -50,6 +50,7 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.PolicyGuardYamlToXacml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -263,6 +264,17 @@ public final class Util {
 			e1.printStackTrace();
 		}
 		return kieSession;
+	}
+	
+	public static void setAAIProps(){
+		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+	}
+	public static void setSOProps(){
+		PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
+        PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
+        PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
 	}
 
 }

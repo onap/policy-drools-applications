@@ -61,13 +61,8 @@ public class VDNSControlLoopTest {
     
     static {
         /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        
-        PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
-        PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
-        PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
+        Util.setAAIProps();
+        Util.setSOProps();
     }
     
 	@BeforeClass

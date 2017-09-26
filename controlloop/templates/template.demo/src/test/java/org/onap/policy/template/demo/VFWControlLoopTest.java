@@ -59,9 +59,7 @@ public class VFWControlLoopTest {
     
     static {
         /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        Util.setAAIProps();
     }
     
     @BeforeClass

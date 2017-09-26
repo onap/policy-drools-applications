@@ -66,6 +66,12 @@ public class TestSO {
 
 	private static final Logger log = LoggerFactory.getLogger(TestSO.class);
 	
+	static{
+		 /* Set environment properties */
+		 Util.setAAIProps();
+		 Util.setSOProps();
+	}
+	
 	@BeforeClass
 	public static void setUpSimulator() {
 		try {

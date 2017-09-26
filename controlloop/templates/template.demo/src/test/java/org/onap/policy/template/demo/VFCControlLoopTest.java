@@ -72,9 +72,7 @@ public class VFCControlLoopTest {
 
 	static {
 	    /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        Util.setAAIProps();
         
         PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668");
         PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
