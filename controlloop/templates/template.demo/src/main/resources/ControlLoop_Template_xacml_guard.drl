@@ -592,7 +592,6 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		if(guardEnabled){
 		
 			Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
-		    												"", 
 		    												drools.getWorkingMemory(),
 		    												$event.closedLoopControlName,
 		    												$operation.policy.getActor().toString(),

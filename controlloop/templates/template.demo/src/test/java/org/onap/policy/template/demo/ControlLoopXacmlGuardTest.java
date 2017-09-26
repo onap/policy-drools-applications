@@ -76,7 +76,7 @@ public class ControlLoopXacmlGuardTest {
 	@BeforeClass
 	public static void setPUProp(){
 		System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
-		PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://127.0.0.1:8443/pdp");
+		org.onap.policy.guard.Util.setGuardProps();
 	}
 	@AfterClass
 	public static void restorePUProp(){
