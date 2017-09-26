@@ -20,16 +20,12 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.drools.core.WorkingMemory;
+import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQInstanceFilters;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
-import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQNamedQuery;
 import org.onap.policy.aai.AAINQQueryParameters;
 import org.onap.policy.aai.AAINQRequest;
@@ -55,8 +51,11 @@ import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class SOActorServiceProvider implements Actor {
 	
@@ -139,8 +138,6 @@ public class SOActorServiceProvider implements Actor {
 	/**
 	 * Constructs and sends an AAI vserver Named Query
 	 * 
-	 * @param eventRequestID
-	 * @returns the response to the AAI Named Query
 	 */
 	private AAINQResponseWrapper AaiNamedQueryRequest(VirtualControlLoopEvent onset) {
 		
@@ -239,9 +236,9 @@ public class SOActorServiceProvider implements Actor {
 			int nonBaseIndex = -1;
 			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems;
 			for (AAINQInventoryResponseItem m : inventoryItems) {
-				if (m.vfModule != null && m.vfModule.isBaseVfModule == true) {
+				if (m.vfModule != null && m.vfModule.isBaseVfModule) {
 					baseIndex = inventoryItems.indexOf(m);
-				} else if (m.vfModule != null && m.vfModule.isBaseVfModule == false && m.vfModule.orchestrationStatus == null) {
+				} else if (m.vfModule != null && m.vfModule.orchestrationStatus == null) {
 					nonBaseIndex = inventoryItems.indexOf(m);
 				}
 				//
@@ -302,7 +299,7 @@ public class SOActorServiceProvider implements Actor {
 		}
 
 		// Extracted fields should not be null
-		if (checkExtractedFields() == false) {
+		if (!checkExtractedFields()) {
 			System.err.println("some fields are missing from AAI response.");
 			return;
 		}
@@ -338,7 +335,7 @@ public class SOActorServiceProvider implements Actor {
 	 */
 	public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
 
-		if (policy.getActor().equals("SO") && policy.getRecipe().equals("VF Module Create")) {
+		if ("SO".equals(policy.getActor()) && "VF Module Create".equals(policy.getRecipe())) {
 			// perform named query request and handle response
 			AaiNamedQueryRequest(onset);
 		} else {
@@ -348,7 +345,7 @@ public class SOActorServiceProvider implements Actor {
           
 		// check if the fields extracted from named query response are 
 		// not null so we can proceed with SO request
-		if (checkExtractedFields() == false) {
+		if (!checkExtractedFields()) {
 			
 			System.err.println("AAI response is missing some required fields. Cannot proceed with SO Request construction.");
 			return null;
@@ -553,7 +550,7 @@ public class SOActorServiceProvider implements Actor {
 	}
 
 	/**
-	 * @param serviceItemModeInvariantlId the serviceItemModelInvariantId to set
+	 * @param serviceItemModelInvariantId the serviceItemModelInvariantId to set
 	 */
 	private void setServiceItemModelInvariantId(String serviceItemModelInvariantId) {
 		this.serviceItemModelInvariantId = serviceItemModelInvariantId;
