@@ -28,6 +28,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
@@ -41,7 +43,9 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.PolicyGuard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +56,33 @@ public class VCPEControlLoopTest {
     
     private KieSession kieSession;
     private Util.Pair<ControlLoopPolicy, String> pair;
-    private PolicyEngineJUnitImpl engine;        
+    private PolicyEngineJUnitImpl engine;    
+    
+    static {
+        /* Set environment properties */
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        
+        PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://localhost:6669/pdp/api/getDecision");
+        PolicyEngine.manager.setEnvironmentProperty("guard.username", "GUARD");
+        PolicyEngine.manager.setEnvironmentProperty("guard.password", "GUARD");
+    }
+    
+    @BeforeClass
+    public static void setUpSimulator() {
+        try {
+            Util.buildAaiSim();
+            Util.buildGuardSim();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
     
     @Test
     public void successTest() {
@@ -168,7 +198,7 @@ public class VCPEControlLoopTest {
          * See if Guard permits this action, if it does 
          * not then the test should fail
          */
-        if (((VirtualControlLoopNotification)obj).message.contains("Guard result: Permit")) {
+        if (((VirtualControlLoopNotification)obj).message.contains("Guard result: PERMIT")) {
             
             /* 
              * A notification should be sent out of the Policy
@@ -395,13 +425,10 @@ public class VCPEControlLoopTest {
         event.target = "generic-vnf.vnf-id";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("cloud-region.identity-url", "foo");
-        event.AAI.put("vserver.selflink", "bar");
-        event.AAI.put("vserver.is-closed-loop-disabled", "false");
         event.AAI.put("generic-vnf.vnf-id", "testGenericVnfId");
         event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
         kieSession.insert(event);
-        Thread.sleep(1000);
+        Thread.sleep(2000);
     }
     
     /**
@@ -421,9 +448,6 @@ public class VCPEControlLoopTest {
         event.closedLoopAlarmStart = Instant.now().minusSeconds(5);
         event.closedLoopAlarmEnd = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("cloud-region.identity-url", "foo");
-        event.AAI.put("vserver.selflink", "bar");
-        event.AAI.put("vserver.is-closed-loop-disabled", "false");
         event.AAI.put("generic-vnf.vnf-id", "testGenericVnfId");
         event.closedLoopEventStatus = ControlLoopEventStatus.ABATED;
         kieSession.insert(event);

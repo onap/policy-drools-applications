@@ -36,6 +36,7 @@ public class AaiSimulatorJaxRs {
 	
 	@GET
 	@Path("/v8/network/generic-vnfs/generic-vnf/{vnfId}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String aaiGetQuery (@PathParam("vnfID") String vnfId)
 	{
@@ -63,6 +64,7 @@ public class AaiSimulatorJaxRs {
 	
 	@GET
 	@Path("/v11/network/generic-vnfs/generic-vnf?vnf-name={vnfName}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String getByVnfName (@PathParam("vnfName") String vnfName)
 	{
@@ -72,6 +74,7 @@ public class AaiSimulatorJaxRs {
 	
 	@GET
 	@Path("/v11/network/generic-vnfs/generic-vnf/{vnfId}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String getByVnfId (@PathParam("vnfId") String vnfId)
 	{
@@ -81,6 +84,7 @@ public class AaiSimulatorJaxRs {
 	
 	@GET
 	@Path("/v11/nodes/vservers?vserver-name={vserverName}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String getByVserverName (@PathParam("vserverName") String vserverName)
 	{

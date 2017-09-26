@@ -20,6 +20,7 @@
 
 package org.onap.policy.simulators;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,12 +28,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 @Path("/api/nslcm/v1")
 public class VfcSimulatorJaxRs {
 	
 	@POST
 	@Path("/ns/{nsInstanceId}/heal")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId,
                                    @Context final HttpServletResponse response)
@@ -47,6 +50,7 @@ public class VfcSimulatorJaxRs {
 	
 	@GET
 	@Path("/jobs/{jobId}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String vfcGetQuery(@PathParam("jobId") String jobId) {
 		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"finished\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": 101 ,\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
