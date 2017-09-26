@@ -52,6 +52,8 @@ public class CallGuardTask implements Runnable {
     	requestId = reqId;
     	target = tar;
     }
+
+    @Override
     public void run() {
     	long startTime = System.nanoTime();
     	com.att.research.xacml.api.Request request = null;
