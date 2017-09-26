@@ -24,9 +24,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.LoggerUtil;
 import org.onap.policy.guard.PolicyGuardXacmlHelper;
 import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
+import org.onap.policy.guard.Util;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -38,10 +40,20 @@ public class GuardSimulatorTest {
 	    LoggerUtil.setLevel("ROOT", "INFO");
 	    LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
 		try {
-			Util.buildGuardSim();
+			org.onap.policy.simulators.Util.buildGuardSim();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+		//
+		// Set guard properties
+		//
+		org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", 
+			"python", 
+			"test", 
+			"python", 
+			"test", 
+			"TEST");
+
 	}
 	
 	@AfterClass
@@ -52,7 +64,7 @@ public class GuardSimulatorTest {
 	@Test
 	public void testGuard() {
 		PolicyGuardXacmlRequestAttributes request = new PolicyGuardXacmlRequestAttributes("clname_id", "actor_id", "operation_id", "target_id", "request_id");
-		String xacmlResponse = PolicyGuardXacmlHelper.callPDP("http://localhost:6669/pdp/api/getDecision", request);
+		String xacmlResponse = new PolicyGuardXacmlHelper().callPDP(request);
 		assertNotNull(xacmlResponse);
 	}
 }
