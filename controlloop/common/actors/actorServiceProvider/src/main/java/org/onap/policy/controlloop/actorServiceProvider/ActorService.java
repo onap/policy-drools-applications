@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actorServiceProvider;
+package org.onap.policy.controlloop.actorserviceprovider;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
