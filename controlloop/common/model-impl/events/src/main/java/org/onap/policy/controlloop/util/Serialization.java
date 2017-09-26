@@ -80,6 +80,7 @@ public final class Serialization {
 		private static final Logger logger = LoggerFactory.getLogger(gsonUTCAdapter.class);
 		public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
+                @Override
 		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
 				throws JsonParseException {
 			try {
@@ -90,6 +91,7 @@ public final class Serialization {
 			return null;
 		}
 
+                @Override
 		public JsonElement serialize(ZonedDateTime datetime, Type type, JsonSerializationContext context) {
 			return new JsonPrimitive(datetime.format(format));
 		}	
