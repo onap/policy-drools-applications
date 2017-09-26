@@ -28,6 +28,9 @@ import javax.ws.rs.Produces;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Path("/api/nslcm/v1")
 public class VfcSimulatorJaxRs {
 	
@@ -40,7 +43,11 @@ public class VfcSimulatorJaxRs {
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
                 try {
                         response.flushBuffer();
-                }catch(Exception e){}
+                }catch(Exception e){
+                	final Logger logger = LoggerFactory.getLogger(VfcSimulatorJaxRs.class);
+                	logger.error("flushBuffer threw: ", e);
+        			return "";
+                }
 
 		return "{\"jobId\":\"1\"}";
 	}

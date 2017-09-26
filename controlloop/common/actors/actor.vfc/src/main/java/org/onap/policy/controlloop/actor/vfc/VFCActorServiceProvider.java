@@ -65,13 +65,16 @@ public class VFCActorServiceProvider implements Actor {
     }
 
     public static VFCRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-                                              Policy policy) {
+                                              Policy policy, AAIGETVnfResponse vnfResponse) {
 
         // Construct an VFC request
         VFCRequest request = new VFCRequest();
         // TODO: Verify service-instance-id is part of onset event
-        request.nsInstanceId = getAAIServiceInstance(onset); // onset.AAI.get("service-instance.service-instance-id");
-	request.requestId = onset.requestID;
+        String serviceInstance = onset.AAI.get("service-instance.service-instance-id");
+        if (serviceInstance == null || "".equals(serviceInstance)) 
+        	serviceInstance = vnfResponse.serviceId;
+        request.nsInstanceId = serviceInstance;
+        request.requestId = onset.requestID;
         request.healRequest = new VFCHealRequest();
         request.healRequest.vnfInstanceId = onset.AAI.get("generic-vnf.vnf-id");
         request.healRequest.cause = operation.message;
@@ -91,36 +94,5 @@ public class VFCActorServiceProvider implements Actor {
                 break;
         }
         return request;
-    }
-
-    private static String getAAIServiceInstance(VirtualControlLoopEvent event) {
-        AAIGETVnfResponse response = null;
-        UUID requestID = event.requestID;
-        String serviceInstance = event.AAI.get("service-instance.service-instance-id");
-        String vnfName = event.AAI.get("generic-vnf.vnf-name");
-        String vnfID = event.AAI.get("generic-vnf.vnf-id");
-
-        String urlBase = "http://localhost:6666";
-        String username = "testUser";
-        String password = "testPass";
-        if (serviceInstance == null) {
-            try {
-                if (vnfName != null) {
-                    String url = urlBase + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                    response = AAIManager.getQueryByVnfName(url, username, password, requestID, vnfName);
-                    serviceInstance = response.serviceId;
-                } else if (vnfID != null) {
-                    String url = urlBase + "/aai/v11/network/generic-vnfs/generic-vnf/";
-                    response = AAIManager.getQueryByVnfID(url, username, password, requestID, vnfID);
-                    serviceInstance = response.serviceId;
-                } else {
-                    logger.error("getAAIServiceInstance failed");
-
-                }
-            } catch (Exception e) {
-                logger.error("getAAIServiceInstance exception: ", e);
-            }
-        }
-        return serviceInstance;
     }
 }
