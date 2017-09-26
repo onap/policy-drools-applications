@@ -22,6 +22,30 @@
       "revId": "fd96af9ed800232811067e164e51554eea08a167",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e1a7b64e",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-26T14:16:27Z",
+      "side": 0,
+      "message": "In the junit template this was also removed, I\u0027m trying to keep what is in the junit templates and mirror it in the official template since I am not familiar with everybody\u0027s code and I don\u0027t want to change anybody\u0027s design. If you look at the junit template, this was removed also.",
+      "parentUuid": "9a437d4f_89181676",
+      "range": {
+        "startLine": 560,
+        "startChar": 18,
+        "endLine": 563,
+        "endChar": 83
+      },
+      "revId": "fd96af9ed800232811067e164e51554eea08a167",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
