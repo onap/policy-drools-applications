@@ -33,7 +33,8 @@ public enum ResourceType {
 		this.type = type;
 	}
 
-	public String	toString() {
+        @Override
+	public String toString() {
 		return this.type;
 	}
 	
