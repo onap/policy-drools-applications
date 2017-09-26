@@ -42,6 +42,11 @@ public class GuardSimulatorTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+		//
+		// Set guard properties
+		//
+		org.onap.policy.guard.Util.setGuardProps();
+		org.onap.policy.guard.Util.setGuardUrl("http://localhost:6669/pdp/api/getDecision");
 	}
 	
 	@AfterClass
@@ -52,7 +57,7 @@ public class GuardSimulatorTest {
 	@Test
 	public void testGuard() {
 		PolicyGuardXacmlRequestAttributes request = new PolicyGuardXacmlRequestAttributes("clname_id", "actor_id", "operation_id", "target_id", "request_id");
-		String xacmlResponse = PolicyGuardXacmlHelper.callPDP("http://localhost:6669/pdp/api/getDecision", request);
+		String xacmlResponse = new PolicyGuardXacmlHelper().callPDP(request);
 		assertNotNull(xacmlResponse);
 	}
 }
