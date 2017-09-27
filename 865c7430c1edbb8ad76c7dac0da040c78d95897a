@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_d31d9bbf",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T17:31:01Z",
+      "side": 1,
+      "message": "The properties have the wrong keys here. Jorge provided them in the environment.properties and I think that will be picked up everywhere.",
+      "parentUuid": "9a437d4f_134d633e",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_d3d8fb1f",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-27T17:06:47Z",
       "side": 1,
       "message": "should this be true? Or set to whatever is in the properties file?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b31a17c4",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T17:31:01Z",
+      "side": 1,
+      "message": "Good catch. I would like to set to true for testing but Jorge seems to prefer the safer route of leaving false for production\u0027s sake.",
+      "parentUuid": "9a437d4f_d3d8fb1f",
       "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
