@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f8c87c56",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T15:32:18Z",
+      "side": 1,
+      "message": "I think this will always succeed, no need for catch since this.attempts is an \"int\" primitive value, and it will always will have a value (by default 0).   Not sure how you\u0027ll want to handle it but I believe the catch exception is unreachable code from static analysis point of view (and sonar will be generated because of it)",
+      "revId": "eb253b9b09c7f8d548ab3d1589b12d47f1d29aaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
