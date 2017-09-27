@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_ae662eb9",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T19:32:13Z",
+      "side": 1,
+      "message": "right, these are what will be made available from installation (modifiable through the rest api by operator).  I think if you look at my comment in patch set 1, should be able to see which ones are the ones to support.",
+      "parentUuid": "9a437d4f_d31d9bbf",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b348d7b3",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
         "patchSetId": 2
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_0ed09a1d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T19:32:13Z",
+      "side": 1,
+      "message": "see my comments on patch set 1.\n\nThis exists.   These are the ones that should be used per this file.\n\nhttps://git.onap.org/policy/drools-applications/tree/controlloop/packages/basex/src/files/config/controlloop.properties.environment\n\nthe pdpx and the guard ones are the ones of interest.",
+      "parentUuid": "9a437d4f_b348d7b3",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_93c95328",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
         "patchSetId": 2
@@ -65,6 +101,24 @@
       "writtenOn": "2017-09-27T17:44:43Z",
       "side": 1,
       "message": "this exists as \"guard.username\" in the properties file. Are we changing it?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2e859e06",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T19:32:13Z",
+      "side": 1,
+      "message": "This does not exist, the pdpx counterpart should be used.   Same for the other ones below.",
+      "parentUuid": "9a437d4f_93c95328",
       "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_aefd0eb3",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T19:32:13Z",
+      "side": 1,
+      "message": "I think that property should not be published in the env file.   We are shooting for it to alway be enabled, but in the meantime while we reach maturity in the short time, I think we have to start with it disabled (it can be a source of additional problems besides the ones that naturally will arise interoperating with all other components).  What I propose we do here is: \n\n1. guard is disabled by default for the time being until we gain confidence in production environment, and we enable it.\n\n2. check the getEnvironmentProperty() - if the property exists just set it to its value, either true or false.\n\nThis will allow us:\n\n1.  Initially go with it disabled (until we are comfortable with it and tested against a PDP-X), so won\u0027t interfere those folks testing our delivery.\n\n2.  For us developers in labs, rackspace and others, we can do more integration testing to bless the functionality, we should be able to switch it on/off without restarting externally using the telemetry REST apis (ie. swagger, curl, etc ..), there are calls to set up environment variables.\n\nOnce we are satisfied with it, we will reverse the default here to guardEnabled\u003dtrue",
+      "parentUuid": "9a437d4f_b31a17c4",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_f352df65",
         "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
         "patchSetId": 2
@@ -151,6 +223,24 @@
       "writtenOn": "2017-09-27T17:44:43Z",
       "side": 1,
       "message": "Jorge, can you confirm whether you want this to true or false?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4ea9028f",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T19:32:13Z",
+      "side": 1,
+      "message": "for junits enabled is better as is, the issues I have is with production, I don\u0027t have a warm feeling it will work.   I need to test it out once we have the official PDP-X delivery to make sure.\n\nThere\u0027s also the issue with unbounded entries in the DB tables for guard, but one issue at the time .. not dealing with it right now",
+      "parentUuid": "9a437d4f_f352df65",
       "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
