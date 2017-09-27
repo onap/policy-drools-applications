@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_898a4419",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VFCActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-09-27T21:26:20Z",
+      "side": 1,
+      "message": "handle the case if vnfresponse is null",
+      "range": {
+        "startLine": 77,
+        "startChar": 10,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "eb893eeb0514c8c1b518fe5c031b17f84427bce9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4980dcf6",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VFCActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-09-27T21:26:20Z",
+      "side": 1,
+      "message": "return null in case of default",
+      "range": {
+        "startLine": 95,
+        "startChar": 12,
+        "endLine": 96,
+        "endChar": 22
+      },
+      "revId": "eb893eeb0514c8c1b518fe5c031b17f84427bce9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_09977449",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VFCActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 285
+      },
+      "writtenOn": "2017-09-27T21:26:20Z",
+      "side": 1,
+      "message": "This should be moved inside the next if this is only needed if that if condition is met",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 89
+      },
+      "revId": "eb893eeb0514c8c1b518fe5c031b17f84427bce9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
