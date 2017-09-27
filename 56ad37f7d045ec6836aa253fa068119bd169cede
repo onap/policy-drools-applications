@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_90d70e4b",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VFCActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T02:28:44Z",
+      "side": 1,
+      "message": "Something that I just noticed, in the event manager, we only do the A\u0026AI queries if vserver.is-closed-loop-disabled is missing. That works for the other use cases but not for VoLTE. If DCAE sends an onset with vserver.is-closed-loop-disabled and other required fields for the VFC request are missing, this vnfResponse object is going to be null and can cause null pointer exceptions.",
+      "revId": "56ad37f7d045ec6836aa253fa068119bd169cede",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_30c6229b",
+        "filename": "controlloop/common/actors/actor.vfc/src/main/java/org/onap/policy/controlloop/actor/vfc/VFCActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T02:28:44Z",
+      "side": 1,
+      "message": "Just an FYI there are a lot of areas in the code where no proper error handling is done in cases like this. I think we might need to create a ticket for pdp-apps to gracefully handle errors as there are many areas where we don\u0027t handle errors properly.",
+      "revId": "56ad37f7d045ec6836aa253fa068119bd169cede",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
