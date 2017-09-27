@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_10f79e8c",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-27T03:53:41Z",
+      "side": 1,
+      "message": "Reverse this statement:\n\"urn:oasis:names:tc:xacml:1.0:request:request-id\".equals(s)",
+      "range": {
+        "startLine": 274,
+        "startChar": 17,
+        "endLine": 274,
+        "endChar": 66
+      },
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d0ec76bd",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-27T03:53:41Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 70
+      },
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_306f422d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-27T03:53:41Z",
+      "side": 1,
+      "message": "Log the exception - use Trace if its inconsequential",
+      "range": {
+        "startLine": 429,
+        "startChar": 11,
+        "endLine": 431,
+        "endChar": 4
+      },
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
