@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_933953a6",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "I was trying to make it compatible with Ralph\u0027s version which will work with 1 url. But I can only allow 1 url if you like. Should I?",
+      "parentUuid": "9a437d4f_73a26ffe",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_33a867da",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_733eef8d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9a437d4f_33a867da",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_10f79e8c",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 1
@@ -64,6 +100,30 @@
       "writtenOn": "2017-09-27T03:53:41Z",
       "side": 1,
       "message": "Reverse this statement:\n\"urn:oasis:names:tc:xacml:1.0:request:request-id\".equals(s)",
+      "range": {
+        "startLine": 274,
+        "startChar": 17,
+        "endLine": 274,
+        "endChar": 66
+      },
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f349bf31",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9a437d4f_10f79e8c",
       "range": {
         "startLine": 274,
         "startChar": 17,
@@ -99,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_d3523bdd",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9a437d4f_d0ec76bd",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 70
+      },
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b3b3374c",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 1
@@ -110,6 +194,24 @@
       "writtenOn": "2017-09-27T16:27:27Z",
       "side": 1,
       "message": "I dont see timeout used anywhere, where is it used?",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_13fb23c2",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "It\u0027s not. I\u0027ll add the timeout.",
+      "parentUuid": "9a437d4f_b3b3374c",
       "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -190,6 +292,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_33298737",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9a437d4f_306f422d",
+      "range": {
+        "startLine": 429,
+        "startChar": 11,
+        "endLine": 431,
+        "endChar": 4
+      },
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_536c0bd0",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 1
@@ -201,6 +327,24 @@
       "writtenOn": "2017-09-27T16:27:27Z",
       "side": 1,
       "message": "This do not exist in our environment.\n\nYou can get environment properties from\n\nPolicyEngine.manage.getEnvironmentProperty(\"SQL_HOST\")\nPolicyEngine.manage.getEnvironmentProperty(\"sql.db.username\")\nPolicyEngine.manage.getEnvironmentProperty(\"sql.db.password\")\n\nThese are from here:\n\nhttps://git.onap.org/policy/drools-applications/tree/controlloop/packages/basex/src/files/config/controlloop.properties.environment\n\nThe SQL_HOST is not in this file, but it is already available to you.  I will add an entry on the above mentioned file at some point for \"sql.db.host\" but is not relevant for this purpose.\n\nWith the previous information you can compose the jdbc url.  The drive is always \"mariadb\".",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b3eb37db",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "These dbProperties are not used. I will remove it.",
+      "parentUuid": "9a437d4f_536c0bd0",
       "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -224,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_13d0c31d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Will fix.",
+      "parentUuid": "9a437d4f_d87498ff",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_58cf8829",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
         "patchSetId": 1
@@ -235,6 +397,24 @@
       "writtenOn": "2017-09-27T16:27:27Z",
       "side": 1,
       "message": "Provided that these are for test only purposes, a pdp-x will never be at 127.0.01, and may interfere with a real installation, better move it to a \"src/test\" package, so there is no room for error during a real installation.   It should never be called by production code.\n\nI think Daniel has some test code that was doing something similar but for tests.",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_73a82f8d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Will fix.",
+      "parentUuid": "9a437d4f_58cf8829",
       "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -303,6 +483,24 @@
       "writtenOn": "2017-09-27T16:27:27Z",
       "side": 1,
       "message": "set explicitly set the environment properties here somehow here per my previous comments under \"test\" packaging.",
+      "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_73e4afe0",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopXacmlGuardTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:59:43Z",
+      "side": 1,
+      "message": "Will use test.",
+      "parentUuid": "9a437d4f_981a907b",
       "revId": "db8d310993f71821fd08a6d67ee7f9903963f5ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
