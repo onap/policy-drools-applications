@@ -16,6 +16,24 @@
       "revId": "eb253b9b09c7f8d548ab3d1589b12d47f1d29aaf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_385de479",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-09-27T15:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_f8c87c56",
+      "revId": "eb253b9b09c7f8d548ab3d1589b12d47f1d29aaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
