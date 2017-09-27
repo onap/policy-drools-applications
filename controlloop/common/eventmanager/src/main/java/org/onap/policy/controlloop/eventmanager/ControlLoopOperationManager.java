@@ -346,13 +346,25 @@ public class ControlLoopOperationManager implements Serializable {
 		    return null;
 		} else if (response instanceof SOResponse) {
 			SOResponse msoResponse = (SOResponse) response;
+			
+			Integer operationAttempt = null;
+			try {
+				operationAttempt = this.attempts;
+			} catch (Exception e) {
+				//
+				// We cannot tell what happened if this doesn't exist
+				//
+				this.completeOperation(operationAttempt, "Policy was unable to operation attempts (it was null).", PolicyResult.FAILURE_EXCEPTION);
+				return PolicyResult.FAILURE_EXCEPTION;
+			}
+
 			switch (msoResponse.httpResponseCode) {
 			case 200:
 			case 202:
 				//
 				// Consider it as success
 				//
-				this.completeOperation(new Integer(1), msoResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
+				this.completeOperation(operationAttempt, msoResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -361,10 +373,12 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as failure
 				//
-				this.completeOperation(new Integer(1), msoResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
+				this.completeOperation(operationAttempt, msoResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
+				// increment operation attempts for retries
+				this.attempts += 1;
 				return PolicyResult.FAILURE;
 			}
 
