@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_134d633e",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:06:47Z",
+      "side": 1,
+      "message": "Do all these properties exist in the ONAP space? If so we should add them for archetype.",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d3d8fb1f",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:06:47Z",
+      "side": 1,
+      "message": "should this be true? Or set to whatever is in the properties file?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
