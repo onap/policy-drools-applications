@@ -37,6 +37,74 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_b348d7b3",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:44:43Z",
+      "side": 1,
+      "message": "this exists as \"guard.url\" in the properties file. Jorge can you confirm what naming convention should be used to grab the properties? Are we changing it to this?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_93c95328",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:44:43Z",
+      "side": 1,
+      "message": "this exists as \"guard.username\" in the properties file. Are we changing it?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_53cf6b29",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:44:43Z",
+      "side": 1,
+      "message": "this exists as \"guard.password\" in the properties file. Are we changing it?",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d34b5baf",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:44:43Z",
+      "side": 1,
+      "message": "the url that we are using for the guard simulator \"http://localhost:6669/pdp/api/getDecision\".",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_d3d8fb1f",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 2
@@ -66,6 +134,23 @@
       "side": 1,
       "message": "Good catch. I would like to set to true for testing but Jorge seems to prefer the safer route of leaving false for production\u0027s sake.",
       "parentUuid": "9a437d4f_d3d8fb1f",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f352df65",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-27T17:44:43Z",
+      "side": 1,
+      "message": "Jorge, can you confirm whether you want this to true or false?",
       "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
