@@ -16,6 +16,24 @@
       "revId": "fc5027322590d1999cc63a2e9515b4cf0b9cb84a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_330ce73a",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-27T16:07:48Z",
+      "side": 1,
+      "message": "The \"actual\" guard decisions have not been tested against a pdp-x server so leaving it as false is the careful route. On the other hand, CallGuardTask will only return with, \"Permit\", \"Deny\", \"Inderterinate\", or null (not with my new change). So it should be ok after my change to allow guard. Even if it fails to connect to the server, it will return null (old) or \"Indeterminate\" (new change -- POLICY-260)",
+      "parentUuid": "9a437d4f_f5908cee",
+      "revId": "fc5027322590d1999cc63a2e9515b4cf0b9cb84a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
