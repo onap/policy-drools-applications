@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f5908cee",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-27T01:05:45Z",
+      "side": 1,
+      "message": "I don\u0027t feel confident yet about guard functionality, the rest of the review looks good, but I think we should leave this as \"false\" until we are sure guard works properly.",
+      "revId": "fc5027322590d1999cc63a2e9515b4cf0b9cb84a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
