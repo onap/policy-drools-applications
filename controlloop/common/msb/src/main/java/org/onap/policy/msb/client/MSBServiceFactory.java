@@ -13,6 +13,16 @@
  ******************************************************************************/
 package org.onap.policy.msb.client;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Properties;
+
 import org.onap.msb.sdk.discovery.common.RouteException;
 import org.onap.msb.sdk.discovery.entity.MicroServiceFullInfo;
 import org.onap.msb.sdk.discovery.entity.NodeInfo;
@@ -20,19 +30,10 @@ import org.onap.msb.sdk.httpclient.msb.MSBServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.Properties;
 
-
-public class MSBServiceFactory {
-    private static final Logger logger = LoggerFactory.getLogger(MSBServiceFactory.class);
+public class MSBServiceFactory implements Serializable {
+	private static final long serialVersionUID = 4638414146278012425L;
+	private static final Logger logger = LoggerFactory.getLogger(MSBServiceFactory.class);
     private static final String msbPropertyFile = "msb.policy.properties";
     private static final String MSB_IP = "msb.ip";
     private static final String MSB_PORT = "msb.port";
