@@ -21,7 +21,17 @@
 # Environment file (.environment) for the simulator for control loop applications
 
 aai.url=http://localhost:6666
+aai.username=policy
+aai.password=policy
+
 so.url=http://localhost:6667
+so.username=policy
+so.password=policy
+
 vfc.url=http://localhost:6668
+vfc.username=policy
+vfc.password=policy
+
 guard.url=http://localhost:6669/pdp/api/getDecision
+guard.disabled=true
 

@@ -46,3 +46,4 @@ pdpx.client.password={{PDP_CLIENT_PASSWORD}}
 
 guard.url=http://${{PDP_HOST}}:8081/pdp/api/getDecision
 guard.jdbc.url=mariadb://${{SQL_HOST}}:3306/operationshistory10
+guard.disabled=true

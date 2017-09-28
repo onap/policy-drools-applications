@@ -132,11 +132,12 @@ rule "${policyName}.SETUP"
     String guardUsername = PolicyEngine.manager.getEnvironmentProperty("guard.username");
     String guardPassword = PolicyEngine.manager.getEnvironmentProperty("guard.password");
     String guardJdbcUrl = PolicyEngine.manager.getEnvironmentProperty("guard.jdbc.url");
+    String guardDisabled = PolicyEngine.manager.getEnvironmentProperty("guard.disabled");
     
     logger.info("{}: {} : AAI=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), aaiUrl, aaiUsername);
     logger.info("{}: {} : SO=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), soUrl, soUsername);
     logger.info("{}: {} : VFC=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), vfcUrl, vfcUsername);
-    logger.info("{}: {} : GUARD=[{}:{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), guardUrl, guardUsername, guardJdbcUrl);
+    logger.info("{}: {} : GUARD=[{}:{}:{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), guardUrl, guardUsername, guardJdbcUrl, guardDisabled);
     logger.info("{}: {} : DB=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), sqlDbUsername, sqlDbPassword);
 end
 
@@ -615,7 +616,9 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     // to the CallGuardTask() and set the first argument to null 
     // (instead of XacmlPdpEngine).
     //
-    boolean guardEnabled = false;
+    
+    // NOTE: The environment properties uses "guard.disabled" but the boolean is guardEnabled
+    boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngine.manager.getEnvironmentProperty("guard.disabled"));
     
     if(guardEnabled){
     
