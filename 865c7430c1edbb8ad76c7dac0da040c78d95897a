@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_ce4612c0",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-28T03:32:51Z",
+      "side": 1,
+      "message": "Daniel, if you agree with this approach, can you do it ont the side on the template, and relieve Temoc as he\u0027s already loaded ?",
+      "parentUuid": "9a437d4f_aefd0eb3",
+      "revId": "865c7430c1edbb8ad76c7dac0da040c78d95897a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_f352df65",
         "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
         "patchSetId": 2
