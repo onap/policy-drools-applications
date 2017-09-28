@@ -114,7 +114,6 @@ rule "${policyName}.SETUP"
     logger.info("{}: {} : YAML=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(), params.getControlLoopYaml());
     
     String sqlDbUsername = PolicyEngine.manager.getEnvironmentProperty("sql.db.username");
-    String sqlDbPassword = PolicyEngine.manager.getEnvironmentProperty("sql.db.password");
     
     String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
     String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
@@ -129,8 +128,8 @@ rule "${policyName}.SETUP"
     String vfcPassword = PolicyEngine.manager.getEnvironmentProperty("vfc.password");
     
     String guardUrl = PolicyEngine.manager.getEnvironmentProperty("guard.url");
-    String guardUsername = PolicyEngine.manager.getEnvironmentProperty("guard.username");
-    String guardPassword = PolicyEngine.manager.getEnvironmentProperty("guard.password");
+    String guardUsername = PolicyEngine.manager.getEnvironmentProperty("pdpx.username");
+    String guardPassword = PolicyEngine.manager.getEnvironmentProperty("pdpx.password");
     String guardJdbcUrl = PolicyEngine.manager.getEnvironmentProperty("guard.jdbc.url");
     String guardDisabled = PolicyEngine.manager.getEnvironmentProperty("guard.disabled");
     
@@ -138,7 +137,7 @@ rule "${policyName}.SETUP"
     logger.info("{}: {} : SO=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), soUrl, soUsername);
     logger.info("{}: {} : VFC=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), vfcUrl, vfcUsername);
     logger.info("{}: {} : GUARD=[{}:{}:{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), guardUrl, guardUsername, guardJdbcUrl, guardDisabled);
-    logger.info("{}: {} : DB=[{}:{}]", params.getClosedLoopControlName(), drools.getRule().getName(), sqlDbUsername, sqlDbPassword);
+    logger.info("{}: {} : DB=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(), sqlDbUsername);
 end
 
 /*
