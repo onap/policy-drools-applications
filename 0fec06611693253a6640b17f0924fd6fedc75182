@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_42954e85",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-28T15:59:45Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 518,
+        "startChar": 21,
+        "endLine": 518,
+        "endChar": 55
+      },
+      "revId": "0fec06611693253a6640b17f0924fd6fedc75182",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_827fb665",
+        "filename": "controlloop/templates/template.demo/src/main/resources/ControlLoop_Template_xacml_guard.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2017-09-28T15:59:45Z",
+      "side": 1,
+      "message": "Seems we can\u0027t startOperation from here. We should startOperation before querying guard then getOperation here after getting permit response. I can\u0027t remember exactly the reason. It might be impacting the subsequent policy which is linked to failure_guard. Michael, we discussed this before, right? You did this change last time I remember. Could you explain more ?",
+      "range": {
+        "startLine": 490,
+        "startChar": 19,
+        "endLine": 490,
+        "endChar": 53
+      },
+      "revId": "0fec06611693253a6640b17f0924fd6fedc75182",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
