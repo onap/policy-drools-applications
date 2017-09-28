@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_67a504a1",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Yea no problem.",
+      "parentUuid": "9a437d4f_70d38004",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b0db284e",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-28T03:32:51Z",
       "side": 1,
       "message": "Let\u0027s remove this comment, not relevant in onap context, there is no such file.",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_27ab7c76",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_b0db284e",
       "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_47c9e057",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_f07bf0f2",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_101b14cb",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2017-09-28T03:32:51Z",
       "side": 1,
       "message": "PERMIT so it is also obvious",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_27c25c34",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_101b14cb",
       "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_87ea28aa",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_5094fc41",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_3075f8f9",
         "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/GuardSimulatorTest.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2017-09-28T03:32:51Z",
       "side": 1,
       "message": "this line and line 50 are updating the same thing with different urls.  Is it on purpose (I don\u0027t see any asserts if so) ?",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_676f442c",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/GuardSimulatorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Not on purpose, will fix.",
+      "parentUuid": "9a437d4f_3075f8f9",
       "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_2775bcf9",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_f0f09068",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_b0e688ae",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/Util.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2017-09-28T03:32:51Z",
       "side": 1,
       "message": "this should change to the simulator URL",
+      "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6704e449",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-09-28T15:01:53Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9a437d4f_b0e688ae",
       "revId": "5bb7635aa429e4f3ff7879ed04a92fe0ad83a73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
