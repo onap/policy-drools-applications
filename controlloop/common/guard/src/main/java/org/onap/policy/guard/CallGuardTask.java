@@ -42,9 +42,10 @@ public class CallGuardTask implements Runnable {
 	String target;
 	String requestId;
 	
-    public CallGuardTask(String guardUrl, WorkingMemory wm, String cl, String act, String rec, String tar, String reqId) { 
-    
-    	restfulPdpUrl = guardUrl;
+	/*
+	 * Guard url is grabbed from PolicyEngine.manager properties
+	 */
+    public CallGuardTask(WorkingMemory wm, String cl, String act, String rec, String tar, String reqId) { 
     	workingMemory = wm;
     	clname = cl;
     	actor = act;
@@ -71,15 +72,13 @@ public class CallGuardTask implements Runnable {
 		logger.debug("{}", request);
 		logger.debug("********** XACML REQUEST END ********\n");
 		
-		String guardUrl = PolicyEngine.manager.getEnvironmentProperty("guard.url");
+		String guardUrl = PolicyEngine.manager.getEnvironmentProperty(Util.PROP_GUARD_URL);
 		String guardDecision = null;
 		
 		//
-		// Check if guard url property exists
+		// Make guard request
 		//
-		if(guardUrl != null){
-			guardDecision = PolicyGuardXacmlHelper.callPDP(guardUrl, xacmlReq);
-		}
+		guardDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
 
 		logger.debug("\n********** XACML RESPONSE START ********");
 		logger.debug("{}", guardDecision);
@@ -90,7 +89,7 @@ public class CallGuardTask implements Runnable {
 		//
 		if(guardDecision == null){
 			logger.error("********** XACML FAILED TO CONNECT ********");
-			guardDecision = "Indeterminate";
+			guardDecision = Util.INDETERMINATE;
 		}
 
 		PolicyGuardResponse guardResponse = new PolicyGuardResponse(guardDecision, UUID.fromString(this.requestId), this.recipe);

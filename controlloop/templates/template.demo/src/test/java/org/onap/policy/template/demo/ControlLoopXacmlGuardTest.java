@@ -60,6 +60,7 @@ public class ControlLoopXacmlGuardTest {
     public static void setUpSimulator() {
         try {
             Util.buildAaiSim();
+            Util.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -75,7 +76,7 @@ public class ControlLoopXacmlGuardTest {
 	@BeforeClass
 	public static void setPUProp(){
 		System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
-		PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://127.0.0.1:8443/pdp");
+		Util.setTestGuardProps();
 	}
 	@AfterClass
 	public static void restorePUProp(){
