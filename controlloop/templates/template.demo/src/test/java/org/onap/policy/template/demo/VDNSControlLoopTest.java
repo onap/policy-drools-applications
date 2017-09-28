@@ -61,6 +61,7 @@ public class VDNSControlLoopTest {
         /* Set environment properties */
         Util.setAAIProps();
         Util.setSOProps();
+        Util.setGuardProps();
     }
     
 	@BeforeClass
@@ -68,6 +69,7 @@ public class VDNSControlLoopTest {
 		try {
 			Util.buildAaiSim();
 			Util.buildSoSim();
+			Util.buildGuardSim();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

@@ -232,7 +232,8 @@ public class AppcLcmActorServiceProvider implements Actor {
          * An action is required for all APPC requests, this will 
          * be the recipe specified in the policy.
          */
-        appcRequest.setAction(policy.getRecipe().toLowerCase());
+        appcRequest.setAction(policy.getRecipe().substring(0, 1).toUpperCase() 
+                + policy.getRecipe().substring(1).toLowerCase());
 
         /*
          * For R1, the payloads will not be required for the Restart, 

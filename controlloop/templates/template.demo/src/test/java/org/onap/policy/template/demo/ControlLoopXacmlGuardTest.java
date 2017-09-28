@@ -76,7 +76,7 @@ public class ControlLoopXacmlGuardTest {
 	@BeforeClass
 	public static void setPUProp(){
 		System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
-		Util.setTestGuardProps();
+		Util.setGuardProps();
 	}
 	@AfterClass
 	public static void restorePUProp(){

@@ -275,18 +275,26 @@ public final class Util {
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 	}
+	
 	public static void setSOProps(){
 		PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
         PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
         PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
 	}
-	public static void setTestGuardProps(){
+
+	public static void setGuardProps(){
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL,         "http://localhost:6669/pdp/api/getDecision");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        "python");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        "test");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_USER, "python");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_PASS, "test");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV,         "TEST");
+    }
+	
+	public static void setVFCProps() {
+	    PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
 	}
-
+	
 }

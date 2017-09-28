@@ -62,12 +62,14 @@ public class VFWControlLoopTest {
     static {
         /* Set environment properties */
         Util.setAAIProps();
+        Util.setGuardProps();
     }
     
     @BeforeClass
     public static void setUpSimulator() {
         try {
             Util.buildAaiSim();
+            Util.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -192,7 +194,7 @@ public class VFWControlLoopTest {
          * See if Guard permits this action, if it does 
          * not then the test should fail
          */
-        if (((VirtualControlLoopNotification)obj).message.contains("Guard result: Permit")) {
+        if (((VirtualControlLoopNotification)obj).message.contains("PERMIT")) {
             
             /*
              * Obtain the ControlLoopNoticiation, it should be of type operation

@@ -45,7 +45,6 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.PolicyGuard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,13 +59,8 @@ public class VCPEControlLoopTest {
     
     static {
         /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        
-        PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://localhost:6669/pdp/api/getDecision");
-        PolicyEngine.manager.setEnvironmentProperty("guard.username", "GUARD");
-        PolicyEngine.manager.setEnvironmentProperty("guard.password", "GUARD");
+        Util.setAAIProps();
+        Util.setGuardProps();
     }
     
     @BeforeClass
@@ -198,7 +192,7 @@ public class VCPEControlLoopTest {
          * See if Guard permits this action, if it does 
          * not then the test should fail
          */
-        if (((VirtualControlLoopNotification)obj).message.contains("Guard result: PERMIT")) {
+        if (((VirtualControlLoopNotification)obj).message.contains("PERMIT")) {
             
             /* 
              * A notification should be sent out of the Policy
