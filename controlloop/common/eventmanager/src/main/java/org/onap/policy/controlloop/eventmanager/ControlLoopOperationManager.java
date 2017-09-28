@@ -375,11 +375,12 @@ public class ControlLoopOperationManager implements Serializable {
 
 		} else if (response instanceof VFCResponse) {
 			VFCResponse vfcResponse = (VFCResponse) response;
+			Integer operationAttempt = this.attempts;
 			if (vfcResponse.responseDescriptor.getStatus().equalsIgnoreCase("finished")) {
 				//
 				// Consider it as success
 				//
-				this.completeOperation(new Integer(1), " Success", PolicyResult.SUCCESS);
+				this.completeOperation(operationAttempt, " Success", PolicyResult.SUCCESS);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -388,10 +389,12 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as failure
 				//
-				this.completeOperation(new Integer(1), " Failed", PolicyResult.FAILURE);
+				this.completeOperation(operationAttempt, " Failed", PolicyResult.FAILURE);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
+				// increment operation attempts for retries
+				this.attempts += 1;
 				return PolicyResult.FAILURE;
 			}
 		}
