@@ -64,7 +64,9 @@ import com.att.research.xacml.util.XACMLProperties;
 
 public final class Util {
 
+	private static final String OPSHISTPUPROP = "OperationsHistoryPU";
 	private static final Logger logger = LoggerFactory.getLogger(Util.class);
+
 	public static class Pair<A, B> {
 		public final A a;
 		public final B b;
@@ -296,5 +298,8 @@ public final class Util {
         PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
         PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
 	}
-	
+	public static void setPUProp(){
+		System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
+	}
+
 }

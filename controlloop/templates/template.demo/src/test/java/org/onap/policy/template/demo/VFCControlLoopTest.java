@@ -61,6 +61,7 @@ public class VFCControlLoopTest {
         Util.setAAIProps();
         Util.setVFCProps();
         Util.setGuardProps();
+        Util.setPUProp();
 	}
 	
 	@BeforeClass
@@ -68,6 +69,7 @@ public class VFCControlLoopTest {
 		try {
 			Util.buildAaiSim();
 			Util.buildVfcSim();
+			Util.buildGuardSim();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

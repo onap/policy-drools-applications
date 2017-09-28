@@ -62,6 +62,7 @@ public class VDNSControlLoopTest {
         Util.setAAIProps();
         Util.setSOProps();
         Util.setGuardProps();
+        Util.setPUProp();
     }
     
 	@BeforeClass
