@@ -157,7 +157,7 @@ public class AppcLcmServiceProviderTest {
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());
-        assertEquals(appcRequest.getAction(), "restart");
+        assertEquals(appcRequest.getAction(), "Restart");
 
         /* Action Identifiers are required and cannot be null */
         assertNotNull(appcRequest.getActionIdentifiers());

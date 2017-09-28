@@ -487,7 +487,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 		Logger.metrics($lock);
 		
 
-		Object request = $operation.getOperationRequest();
+		Object request = $operation.startOperation($event);
 		
 		if (request != null) {
 			Logger.info("Starting operation");
@@ -561,19 +561,13 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		Logger.metrics($manager);
 		Logger.metrics($operation);
 		Logger.metrics($lock);
-
-
-		//
-		// We are starting the operation but the actor won't be contacted until Guard is queried and permitted.
-		//
-		$operation.startOperation($event);
 		
 		//
 		// Sending notification that we are about to query Guard ("DB write - start operation")
 		//
 		VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
 		notification.notification = ControlLoopNotificationType.OPERATION;
-		notification.message = $operation.getOperationMessage();
+		notification.message = "Sending guard query for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe();
 		notification.history = $operation.getHistory();
 		notification.from = "policy";
 		notification.policyName = drools.getRule().getName();
@@ -638,7 +632,7 @@ rule "${policyName}.GUARD.RESPONSE"
 		
 		
 		//we will permit the operation if there was no Guard for it
-		if("Indeterminate".equals($guardResponse.result)){
+		if("Indeterminate".equalsIgnoreCase($guardResponse.result)){
 			$guardResponse.result = "Permit";
 		}
 		
@@ -647,7 +641,7 @@ rule "${policyName}.GUARD.RESPONSE"
 		//
 		VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
 		notification.notification = ControlLoopNotificationType.OPERATION;
-		notification.message = $operation.getOperationMessage($guardResponse.result);
+		notification.message = "Guard result for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe() + " is " + $guardResponse.result;
 		notification.history = $operation.getHistory();
 		notification.from = "policy";
 		notification.policyName = drools.getRule().getName();

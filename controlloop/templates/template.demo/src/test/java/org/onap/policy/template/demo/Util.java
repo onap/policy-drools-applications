@@ -275,10 +275,23 @@ public final class Util {
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 	}
+	
 	public static void setSOProps(){
 		PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
         PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
         PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
+	}
+	
+	public static void setVFCProps() {
+	    PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
+	}
+	
+	public static void setGuardProps() {
+	    PolicyEngine.manager.setEnvironmentProperty("guard.url", "http://localhost:6669/pdp/api/getDecision");
+        PolicyEngine.manager.setEnvironmentProperty("guard.username", "GUARD");
+        PolicyEngine.manager.setEnvironmentProperty("guard.password", "GUARD");
 	}
 
 }

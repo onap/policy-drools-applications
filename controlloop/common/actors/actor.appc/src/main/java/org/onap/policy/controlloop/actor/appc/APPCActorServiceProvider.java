@@ -94,7 +94,8 @@ public class APPCActorServiceProvider implements Actor {
 		request.CommonHeader = new CommonHeader();
 		request.CommonHeader.RequestID = onset.requestID;
 		request.CommonHeader.SubRequestID = operation.subRequestId;
-		request.Action = policy.getRecipe();
+		request.Action = policy.getRecipe().substring(0, 1).toUpperCase() 
+                        + policy.getRecipe().substring(1);
 		
 		/*
 		 * The target vnf-id may not be the same as the source vnf-id
