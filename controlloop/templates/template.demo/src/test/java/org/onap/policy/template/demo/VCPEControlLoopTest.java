@@ -61,6 +61,7 @@ public class VCPEControlLoopTest {
         /* Set environment properties */
         Util.setAAIProps();
         Util.setGuardProps();
+        Util.setPUProp();
     }
     
     @BeforeClass

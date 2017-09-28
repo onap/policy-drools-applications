@@ -69,6 +69,7 @@ public class TestSO {
 		 /* Set environment properties */
 		 Util.setAAIProps();
 		 Util.setSOProps();
+		 Util.setPUProp();
 	}
 	
 	@BeforeClass
@@ -76,6 +77,7 @@ public class TestSO {
 		try {
 			Util.buildAaiSim();
 			Util.buildSoSim();
+			Util.buildGuardSim();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
