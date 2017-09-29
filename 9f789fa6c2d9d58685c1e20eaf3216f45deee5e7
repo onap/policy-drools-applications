@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f952b433",
+        "filename": "controlloop/packages/basex/src/files/config/controlloop.properties.environment",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-09-29T02:50:31Z",
+      "side": 1,
+      "message": "Perhaps this is beyond the scope of this pull request but we should reflect these values in the simulators environment properties as it still uses \"guard.username\" and \"guard.password\". Let me know if you want me to add that.",
+      "revId": "9f789fa6c2d9d58685c1e20eaf3216f45deee5e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
