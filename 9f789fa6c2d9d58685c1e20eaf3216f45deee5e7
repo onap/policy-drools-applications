@@ -16,6 +16,24 @@
       "revId": "9f789fa6c2d9d58685c1e20eaf3216f45deee5e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ac2d0c97",
+        "filename": "controlloop/packages/basex/src/files/config/controlloop.properties.environment",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-29T03:22:08Z",
+      "side": 1,
+      "message": "would be good to change in simulator for consistency only, the simulator doesn\u0027t use these values.",
+      "parentUuid": "9a437d4f_f952b433",
+      "revId": "9f789fa6c2d9d58685c1e20eaf3216f45deee5e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
