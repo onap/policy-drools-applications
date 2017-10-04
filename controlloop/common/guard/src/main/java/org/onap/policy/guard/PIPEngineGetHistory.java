@@ -408,9 +408,9 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				+ " and endtime between '" + new Timestamp(diff) + "' and '" + new Timestamp(now) + "'";
 
 		Query nq = em.createNativeQuery(sql);
-		nq.setParameter(1, actor);
-		nq.setParameter(2, operation);
-		nq.setParameter(3, target);
+		nq.setParameter(0, actor);
+		nq.setParameter(1, operation);
+		nq.setParameter(2, target);
 
 		int ret = -1;
 		try{

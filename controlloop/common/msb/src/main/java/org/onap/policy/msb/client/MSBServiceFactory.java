@@ -37,7 +37,7 @@ public class MSBServiceFactory implements Serializable {
     private static final String msbPropertyFile = "msb.policy.properties";
     private static final String MSB_IP = "msb.ip";
     private static final String MSB_PORT = "msb.port";
-    private MSBServiceClient msbClient;
+    private transient MSBServiceClient msbClient;
     private Properties properties;
 
     public MSBServiceFactory() throws MSBServiceException,IOException{
