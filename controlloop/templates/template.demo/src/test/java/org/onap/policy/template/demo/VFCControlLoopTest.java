@@ -20,6 +20,7 @@
 
 package org.onap.policy.template.demo;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -36,25 +37,26 @@ import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
-import org.onap.policy.controlloop.ControlLoopLogger;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.drools.PolicyEngineListener;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
-import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.vfc.util.Serialization;
+import org.onap.policy.vfc.VFCRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class VFCControlLoopTest {
+public class VFCControlLoopTest implements PolicyEngineListener {
 
-	private static final Logger log = LoggerFactory.getLogger(VFCControlLoopTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(VFCControlLoopTest.class);
 	private KieSession kieSession;
 	private Util.Pair<ControlLoopPolicy, String> pair;
 	private PolicyEngineJUnitImpl engine;
+	private UUID requestID;
 
 	static {
 	    /* Set environment properties */
@@ -81,156 +83,58 @@ public class VFCControlLoopTest {
 	}
 
 	@Test
-	public void testVolte() throws IOException {
+	public void successTest() throws IOException {
 
-		final String yaml = "src/test/resources/yaml/policy_ControlLoop_VFC.yaml";
-
-		//
-		// Pull info from the yaml
-		//
-		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml(yaml);
-		assertNotNull(pair);
-		assertNotNull(pair.a);
-		assertNotNull(pair.a.getControlLoop());
-		assertNotNull(pair.a.getControlLoop().getControlLoopName());
-		assertTrue(pair.a.getControlLoop().getControlLoopName().length() > 0);
-		final String closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
-
-		 /*
+        /*
          * Start the kie session
          */
-		try {
-			kieSession = startSession("src/main/resources/ControlLoop_Template_xacml_guard.drl",
-					"src/test/resources/yaml/policy_ControlLoop_VFC.yaml",
-					"service=ServiceTest;resource=ResourceTest;type=operational",
-					"CL_VFC",
-					"org.onap.closed_loop.ServiceTest:VNFS:1.0.0");
-		} catch (IOException e) {
-			e.printStackTrace();
-			log.debug("Could not create kieSession");
-			fail("Could not create kieSession");
-		}
-
-
-		//
-		// Insert our globals
-		//
-		final ControlLoopLogger logger = new ControlLoopLoggerStdOutImpl();
-		kieSession.setGlobal("Logger", logger);
-		final PolicyEngineJUnitImpl engine = new PolicyEngineJUnitImpl();
-		kieSession.setGlobal("Engine", engine);
-
-		//
-		// Initial fire of rules
-		//
-		kieSession.fireAllRules();
-		//
-		// Kick a thread that starts testing
-		//
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-
-				log.debug("\n************ Starting VoLTE Test *************\n");
-
-				//
-				// Generate an invalid DCAE Event with requestID=null
-				//
-				VirtualControlLoopEvent invalidEvent = new VirtualControlLoopEvent();
-				invalidEvent.closedLoopControlName = closedLoopControlName;
-				invalidEvent.requestID = null;
-				invalidEvent.closedLoopEventClient = "tca.instance00009";
-				invalidEvent.target_type = ControlLoopTargetType.VNF;
-				invalidEvent.target = "generic-vnf.vnf-id";
-				invalidEvent.from = "DCAE";
-				invalidEvent.closedLoopAlarmStart = Instant.now();
-				invalidEvent.AAI = new HashMap<String, String>();
-				invalidEvent.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
-				invalidEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
-
-				log.debug("-------- Sending Invalid ONSET --------");
-				log.debug(Serialization.gsonPretty.toJson(invalidEvent));
-
-				//
-				// Insert invalid DCAE Event into memory
-				//
-				kieSession.insert(invalidEvent);
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-				}
-				//
-				// Generate first DCAE ONSET Event
-				//
-				VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
-				onsetEvent.closedLoopControlName = closedLoopControlName;
-				onsetEvent.requestID = UUID.randomUUID();
-				onsetEvent.closedLoopEventClient = "tca.instance00009";
-				onsetEvent.target_type = ControlLoopTargetType.VM;
-				onsetEvent.target = "VM_NAME";
-				onsetEvent.from = "DCAE";
-				onsetEvent.closedLoopAlarmStart = Instant.now();
-				onsetEvent.AAI = new HashMap<String, String>();
-				onsetEvent.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
-				onsetEvent.AAI.put("vserver.vserver-id", "vserver-id-16102016-aai3255-data-11-1");
-				onsetEvent.AAI.put("generic-vnf.vnf-id", "vnf-id-16102016-aai3255-data-11-1");
-				onsetEvent.AAI.put("service-instance.service-instance-id", "service-instance-id-16102016-aai3255-data-11-1");
-				onsetEvent.AAI.put("vserver.is-closed-loop-disabled", "false");
-				onsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
-
-				log.debug("-------- Sending Valid ONSET --------");
-				log.debug(Serialization.gsonPretty.toJson(onsetEvent));
-
-				//
-				// Insert first DCAE ONSET Event into memory
-				//
-				kieSession.insert(onsetEvent);
-				//
-				// We have test for subsequent ONSET Events in testvFirewall()
-				// So no need to test it again here
-				//
-				try {
-					Thread.sleep(30000);
-				} catch (InterruptedException e) {
-				}
-				//
-				// Test is finished, so stop the kieSession
-				//
-				kieSession.halt();
-			}
-		//
-		}).start();
-		//
-		// Start firing rules
-		//
-		kieSession.fireUntilHalt();
-		//
-		// Dump working memory
-		//
-		dumpFacts(kieSession);
-
-		//
-		// See if there is anything left in memory, there SHOULD only be
-		// a params fact.
-		//
-		//assertEquals("There should only be 1 Fact left in memory.", 1, kieSession.getFactCount());
-		if (kieSession.getFactCount() != 1L) {
-		    log.error("FACT count mismatch: 1 expected but there are {}", kieSession.getFactCount());
-		}
-		for (FactHandle handle : kieSession.getFactHandles()) {
-			Object fact = kieSession.getObject(handle);
-			// assertEquals("Non-Param Fact left in working memory", "org.onap.policy.controlloop.Params", fact.getClass().getName());
-			log.info("Working Memory FACT: {}", fact.getClass().getName());
-		}
-
-	}
-
-	public static void dumpFacts(KieSession kieSession) {
-		log.debug("Fact Count: " + kieSession.getFactCount());
-		for (FactHandle handle : kieSession.getFactHandles()) {
-			log.debug("FACT: " + handle);
-		}
+        try {
+            kieSession = startSession("src/main/resources/ControlLoop_Template_xacml_guard.drl", 
+                        "src/test/resources/yaml/policy_ControlLoop_VFC.yaml",
+                        "type=operational", 
+                        "CL_VoLTE", 
+                        "v2.0");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.debug("Could not create kieSession");
+            fail("Could not create kieSession");
+        }
+        
+        /*
+         * Allows the PolicyEngine to callback to this object to
+         * notify that there is an event ready to be pulled 
+         * from the queue
+         */
+        engine.addListener(this);
+        
+        /*
+         * Create a unique requestId
+         */
+        requestID = UUID.randomUUID();
+        
+        /* 
+         * Simulate an onset event the policy engine will 
+         * receive from DCAE to kick off processing through
+         * the rules
+         */
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
+        
+        kieSession.fireUntilHalt();
+        
+        /*
+         * The only fact in memory should be Params
+         */
+        assertEquals(1, kieSession.getFactCount());
+        
+        /*
+         * Print what's left in memory
+         */
+        dumpFacts(kieSession);
+        
+        /*
+         * Gracefully shut down the kie session
+         */
+        kieSession.dispose();
 	}
 
 	/**
@@ -281,12 +185,112 @@ public class VFCControlLoopTest {
          */
 		engine = (PolicyEngineJUnitImpl) kieSession.getGlobal("Engine");
 
-		log.debug("============");
-		log.debug(URLEncoder.encode(pair.b, "UTF-8"));
-		log.debug("============");
+		logger.debug("============");
+		logger.debug(URLEncoder.encode(pair.b, "UTF-8"));
+		logger.debug("============");
 
 		return kieSession;
 	}
+	
+	/*
+     * (non-Javadoc)
+     * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
+     */
+	public void newEventNotification(String topic) {
+        /*
+         * Pull the object that was sent out to DMAAP and make
+         * sure it is a ControlLoopNoticiation of type active
+         */
+        Object obj = engine.subscribe("UEB", topic);
+        assertNotNull(obj);
+        if (obj instanceof VirtualControlLoopNotification) {
+            VirtualControlLoopNotification notification = (VirtualControlLoopNotification) obj;
+            String policyName = notification.policyName;
+            if (policyName.endsWith("EVENT")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+            }
+            else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.startsWith("Sending guard query"));
+            }
+            else if (policyName.endsWith("GUARD.RESPONSE")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.endsWith("PERMIT"));
+            }
+            else if (policyName.endsWith("GUARD_PERMITTED")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.startsWith("actor=VFC"));
+            }
+            else if (policyName.endsWith("OPERATION.TIMEOUT")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                kieSession.halt();
+                logger.debug("The operation timed out");
+                fail("Operation Timed Out");
+            }
+            else if (policyName.endsWith("VFC.RESPONSE")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.startsWith("actor=VFC"));
+            }
+            else if (policyName.endsWith("EVENT.MANAGER")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                kieSession.halt();
+            }
+            else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                kieSession.halt();
+                logger.debug("The control loop timed out");
+                fail("Control Loop Timed Out");
+            }
+        }
+        else if (obj instanceof VFCRequest) {
+            logger.debug("\n============ VFC received the request!!! ===========\n");
+        }        
+    }
+	
+	/**
+    * This method is used to simulate event messages from DCAE
+    * that start the control loop (onset message) or end the
+    * control loop (abatement message).
+    * 
+    * @param policy the controlLoopName comes from the policy 
+    * @param requestID the requestId for this event
+    * @param status could be onset or abated
+    */
+   protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status) {
+       VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+       event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
+       event.requestID = UUID.randomUUID();
+       event.closedLoopEventClient = "tca.instance00009";
+       event.target_type = ControlLoopTargetType.VM;
+       event.target = "VM_NAME";
+       event.from = "DCAE";
+       event.closedLoopAlarmStart = Instant.now();
+       event.AAI = new HashMap<String, String>();
+       event.AAI.put("vserver.vserver-name", "vserver-name-16102016-aai3255-data-11-1");
+       event.AAI.put("vserver.vserver-id", "vserver-id-16102016-aai3255-data-11-1");
+       event.AAI.put("generic-vnf.vnf-id", "vnf-id-16102016-aai3255-data-11-1");
+       event.AAI.put("service-instance.service-instance-id", "service-instance-id-16102016-aai3255-data-11-1");
+       event.AAI.put("vserver.is-closed-loop-disabled", "false");
+       event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+       kieSession.insert(event);
+   }
+   
+   public static void dumpFacts(KieSession kieSession) {
+       logger.debug("Fact Count: " + kieSession.getFactCount());
+       for (FactHandle handle : kieSession.getFactHandles()) {
+           logger.debug("FACT: " + handle);
+       }
+   }
 
 }
 

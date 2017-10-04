@@ -3,7 +3,7 @@ controlLoop:
   controlLoopName: ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b
 
   trigger_policy: unique-policy-id-1-restart
-  timeout: 3600
+  timeout: 20
 
 policies:
   - id: unique-policy-id-1-restart
@@ -14,7 +14,7 @@ policies:
     target:
       type: VM
     retry: 3
-    timeout: 1200
+    timeout: 10
     success: final_success
     failure: final_failure
     failure_timeout: final_failure_timeout

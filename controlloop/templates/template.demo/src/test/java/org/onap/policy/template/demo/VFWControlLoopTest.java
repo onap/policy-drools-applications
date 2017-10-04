@@ -20,7 +20,7 @@
 
 package org.onap.policy.template.demo;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -44,20 +44,20 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.PolicyEngineListener;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
-import org.onap.policy.guard.PolicyGuard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VFWControlLoopTest {
+public class VFWControlLoopTest implements PolicyEngineListener {
 
     private static final Logger logger = LoggerFactory.getLogger(VFWControlLoopTest.class);
     
     private KieSession kieSession;
     private Util.Pair<ControlLoopPolicy, String> pair;
     private PolicyEngineJUnitImpl engine;
+    private UUID requestID;
     
     static {
         /* Set environment properties */
@@ -100,241 +100,30 @@ public class VFWControlLoopTest {
         }
         
         /*
-         * Create a thread to continuously fire rules 
-         * until main thread calls halt
-         */      
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-                kieSession.fireUntilHalt();
-            }
-          } ).start();
+         * Allows the PolicyEngine to callback to this object to
+         * notify that there is an event ready to be pulled 
+         * from the queue
+         */
+        engine.addListener(this);
         
         /*
-         * Create a unique requestId and a unique trigger source
+         * Create a unique requestId
          */
-        UUID requestID = UUID.randomUUID();
-        String triggerSourceName = "foobartriggersource36";
-        
-        /*
-         * This will be the object returned from the PolicyEngine
-         */
-        Object obj = null;
+        requestID = UUID.randomUUID();
         
         /* 
          * Simulate an onset event the policy engine will 
          * receive from DCAE to kick off processing through
          * the rules
          */
-        try {
-            sendOnset(pair.a, requestID, triggerSourceName);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            logger.debug("Unable to send onset event");
-            fail("Unable to send onset event");
-        }
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
         
-        /*
-         * Pull the object that was sent out to DMAAP and make
-         * sure it is a ControlLoopNoticiation of type active
-         */
-        obj = engine.subscribe("UEB", "POLICY-CL-MGT");
-        assertNotNull(obj);
-        assertTrue(obj instanceof VirtualControlLoopNotification);
-        assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.ACTIVE));
-        
-        /*
-         * Give the control loop time to acquire a lock
-         */
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            logger.debug("An interrupt Exception was thrown");
-            fail("An interrupt Exception was thrown");
-        }
-        
-        /*
-         * The fact should be ready to query guard now to see 
-         * if a ModifyConfig recipe is allowed
-         */
-        obj = engine.subscribe("UEB", "POLICY-CL-MGT");
-        assertNotNull(obj);
-        logger.debug("\n\n####################### GOING TO QUERY GUARD about ModifyConfig!!!!!!");
-        logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
-        
-        /*
-         * Make sure the object is an instance of a ControlLoopNotification
-         * and is of type operation
-         */
-        assertTrue(obj instanceof VirtualControlLoopNotification);
-        assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
-    
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            logger.debug("An interrupt Exception was thrown");
-            fail("An interrupt Exception was thrown");
-        }
-        
-        /*
-         * The guard response should be received at this point
-         */
-        obj = engine.subscribe("UEB", "POLICY-CL-MGT");
-        assertNotNull(obj);
-        logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
-        
-        /*
-         * The object should be a ControlLoopNotification with type operation
-         */
-        assertTrue(obj instanceof VirtualControlLoopNotification);
-        assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
-        
-        /*
-         * See if Guard permits this action, if it does 
-         * not then the test should fail
-         */
-        if (((VirtualControlLoopNotification)obj).message.contains("PERMIT")) {
-            
-            /*
-             * Obtain the ControlLoopNoticiation, it should be of type operation
-             */
-            obj = engine.subscribe("UEB", "POLICY-CL-MGT");
-            assertNotNull(obj);
-            logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
-            
-            /* 
-             * A notification should be sent out of the Policy
-             * Engine at this point, it will be of type operation
-             */
-            assertTrue(obj instanceof VirtualControlLoopNotification);
-            assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION));
-            
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                logger.debug("An interrupt Exception was thrown");
-                fail("An interrupt Exception was thrown");
-            }
-            
-            /*
-             * Obtain the request sent from the Policy Engine
-             */
-            obj = engine.subscribe("UEB", "APPC-CL");
-            assertNotNull(obj);
-            
-            /*
-             * The request should be of type Request 
-             * and the subrequestid should be 1
-             */
-            assertTrue(obj instanceof Request);
-            assertTrue(((Request)obj).getCommonHeader().SubRequestID.equals("1"));
-            
-            logger.debug("\n============ APPC received the request!!! ===========\n");
-
-            /*
-             * Give some time for processing
-             */
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                logger.debug("An interrupt Exception was thrown");
-                fail("An interrupt Exception was thrown");
-            }
-            
-            /*
-             * Simulate a success response from APPC and insert
-             * the response into the working memory
-             */
-            Response appcResponse = new Response((Request)obj);
-            appcResponse.getStatus().Code = ResponseCode.SUCCESS.getValue();
-            appcResponse.getStatus().Value = "SUCCESS";
-            kieSession.insert(appcResponse);
-            
-            /* 
-             * Give time for processing
-             */
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                logger.debug("An interrupt Exception was thrown");
-                fail("An interrupt Exception was thrown");
-            }
-            
-            /*
-             * Make sure the next notification is delivered
-             */
-            obj = engine.subscribe("UEB", "POLICY-CL-MGT");
-            assertNotNull(obj);
-            logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
-            
-            /*
-             * The ControlLoopNotification should be
-             * an OPERATION_SUCCESS
-             */
-            assertTrue(obj instanceof VirtualControlLoopNotification);
-            assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.OPERATION_SUCCESS));
-            
-            /* 
-             * Now simulate the abatement sent from DCAE
-             */
-            try {
-                sendAbatement(pair.a, requestID, triggerSourceName);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-                logger.debug("Abatement could not be sent");
-                fail("Abatement could not be sent");
-            }
-            
-            /*
-             * Give time to finish processing
-             */
-            try {
-                Thread.sleep(20000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                logger.debug("An interrupt Exception was thrown");
-                fail("An interrupt Exception was thrown");
-            }     
-            
-            /*
-             * This should be the final notification from the Policy Engine
-             */
-            obj = engine.subscribe("UEB", "POLICY-CL-MGT");
-            assertNotNull(obj);
-            logger.debug("Rule: {} Message {}", ((VirtualControlLoopNotification)obj).policyName, ((VirtualControlLoopNotification)obj).message);
-            
-            /*
-             * The ControlLoopNotification should be of type FINAL_SUCCESS
-             */
-            assertTrue(obj instanceof VirtualControlLoopNotification);
-            assertTrue(((VirtualControlLoopNotification)obj).notification.equals(ControlLoopNotificationType.FINAL_SUCCESS));
-            
-            /*
-             * One final check to make sure the lock is released 
-             */
-            assertFalse(PolicyGuard.isLocked(TargetType.VNF, triggerSourceName, requestID));
-        }
-        else {
-            fail("Operation Denied by Guard");
-        }
-        
-        /*
-         * This will stop the thread that is firing the rules
-         */
-        kieSession.halt();
+        kieSession.fireUntilHalt();
         
         /*
          * The only fact in memory should be Params
          */
-        // assertEquals(1, kieSession.getFactCount());
-        if (kieSession.getFactCount() != 1L) {
-            logger.error("FACT count mismatch: 1 expected but there are {}", kieSession.getFactCount());
-        }
+        assertEquals(1, kieSession.getFactCount());
         
         /*
          * Print what's left in memory
@@ -401,17 +190,93 @@ public class VFWControlLoopTest {
         
         return kieSession;
     }
-
+    
+    /*
+     * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
+     */
+    public void newEventNotification(String topic) {
+        /*
+         * Pull the object that was sent out to DMAAP and make
+         * sure it is a ControlLoopNoticiation of type active
+         */
+        Object obj = engine.subscribe("UEB", topic);
+        assertNotNull(obj);
+        if (obj instanceof VirtualControlLoopNotification) {
+            VirtualControlLoopNotification notification = (VirtualControlLoopNotification) obj;
+            String policyName = notification.policyName;
+            if (policyName.endsWith("EVENT")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+            }
+            else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.startsWith("Sending guard query"));
+            }
+            else if (policyName.endsWith("GUARD.RESPONSE")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.endsWith("PERMIT"));
+            }
+            else if (policyName.endsWith("GUARD_PERMITTED")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.startsWith("actor=APPC"));
+            }
+            else if (policyName.endsWith("OPERATION.TIMEOUT")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                kieSession.halt();
+                logger.debug("The operation timed out");
+                fail("Operation Timed Out");
+            }
+            else if (policyName.endsWith("APPC.RESPONSE")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.notification));
+                assertNotNull(notification.message);
+                assertTrue(notification.message.startsWith("actor=APPC"));
+                sendEvent(pair.a, requestID, ControlLoopEventStatus.ABATED);
+            }
+            else if (policyName.endsWith("EVENT.MANAGER")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                kieSession.halt();
+            }
+            else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
+                logger.debug("Rule Fired: " + notification.policyName);
+                kieSession.halt();
+                logger.debug("The control loop timed out");
+                fail("Control Loop Timed Out");
+            }
+        }
+        else if (obj instanceof Request) {
+            assertTrue(((Request)obj).getCommonHeader().SubRequestID.equals("1"));
+            
+            logger.debug("\n============ APPC received the request!!! ===========\n");
+            
+            /*
+             * Simulate a success response from APPC and insert
+             * the response into the working memory
+             */
+            Response appcResponse = new Response((Request)obj);
+            appcResponse.getStatus().Code = ResponseCode.SUCCESS.getValue();
+            appcResponse.getStatus().Value = "SUCCESS";
+            kieSession.insert(appcResponse);
+        }        
+    }
+    
     /**
      * This method is used to simulate event messages from DCAE
-     * that start the control loop (onset message).
+     * that start the control loop (onset message) or end the
+     * control loop (abatement message).
      * 
      * @param policy the controlLoopName comes from the policy 
      * @param requestID the requestId for this event
-     * @param triggerSourceName 
-     * @throws InterruptedException
+     * @param status could be onset or abated
      */
-    protected void sendOnset(ControlLoopPolicy policy, UUID requestID, String triggerSourceName) throws InterruptedException {
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
@@ -419,33 +284,7 @@ public class VFWControlLoopTest {
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
         event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
-        event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
-        kieSession.insert(event);
-        Thread.sleep(2000);
-    }
-    
-    /**
-     * This method is used to simulate event messages from DCAE
-     * that end the control loop (abatement message).
-     * 
-     * @param policy the controlLoopName comes from the policy 
-     * @param requestID the requestId for this event
-     * @param triggerSourceName 
-     * @throws InterruptedException
-     */
-    protected void sendAbatement(ControlLoopPolicy policy, UUID requestID, String triggerSourceName) throws InterruptedException {
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
-        event.requestID = requestID;
-        event.target = "generic-vnf.vnf-id";
-        event.closedLoopAlarmStart = Instant.now().minusSeconds(5);
-        event.closedLoopAlarmEnd = Instant.now();
-        event.AAI = new HashMap<>();
-        event.AAI.put("cloud-region.identity-url", "foo");
-        event.AAI.put("vserver.selflink", "bar");
-        event.AAI.put("vserver.is-closed-loop-disabled", "false");
-        event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
-        event.closedLoopEventStatus = ControlLoopEventStatus.ABATED;
+        event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }
     

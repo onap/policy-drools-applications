@@ -20,8 +20,10 @@
 
 package org.onap.policy.drools.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -33,12 +35,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.onap.policy.drools.PolicyEngine;
+import org.onap.policy.drools.PolicyEngineListener;
 
 public class PolicyEngineJUnitImpl implements PolicyEngine {
 
 	private static final Logger logger = LoggerFactory.getLogger(PolicyEngineJUnitImpl.class);
 	private Map<String, Map<String, Queue<Object>>> busMap = new HashMap<String, Map<String, Queue<Object>>>();
-
+	private List<PolicyEngineListener> listeners = new ArrayList<>();
+	
+	/**
+	 * Adds all objects that implement PolicyEngineListener
+     * to the notification list when an event occurs
+     * 
+	 * @param listener an object that is interest in knowing
+	 * about events published to the PolicyEngine
+	 */
+	public void addListener(PolicyEngineListener listener) {
+	    listeners.add(listener);
+	}
+	
+	/**
+	 * Notifies all listeners about a new event
+	 * @param topic the topic in which the notification
+	 * was sent to
+	 */
+	public void notifyListeners(String topic) {
+	    for (PolicyEngineListener listener: listeners) {
+	        listener.newEventNotification(topic);
+	    }
+	}
+	
 	@Override
 	public boolean deliver(String busType, String topic, Object obj) {
 		if (obj instanceof ControlLoopNotification) {
@@ -48,7 +74,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		}
 		if (obj instanceof Request) {
 			Request request = (Request) obj;
-			logger.debug("Request: {} subrequst {}", request.Action, request.CommonHeader.SubRequestID);
+			logger.debug("Request: {} subrequest {}", request.Action, request.CommonHeader.SubRequestID);
 		}
 		else if (obj instanceof LCMRequestWrapper) {
 		    LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
@@ -82,7 +108,9 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		// Get the topic queue
 		//
 		logger.debug("queueing");
-		return topicMap.get(topic).add(obj);
+		boolean res = topicMap.get(topic).add(obj);
+		notifyListeners(topic);
+		return res;
 	}
 	
 	public Object	subscribe(String busType, String topic) {
