@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_14708dda",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VCPEControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-10-05T17:55:12Z",
+      "side": 1,
+      "message": "Should this still be vCPE?",
+      "range": {
+        "startLine": 91,
+        "startChar": 25,
+        "endLine": 91,
+        "endChar": 31
+      },
+      "revId": "cb43fd099fa2eb0256c19f493d2e6add9be662b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
