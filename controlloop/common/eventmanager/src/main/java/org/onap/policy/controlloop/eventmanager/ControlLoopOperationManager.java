@@ -232,8 +232,12 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return null;
 	}
+	
+	public PolicyResult	onResponse(Object response){
+		return onResponse(response, false);
+	}
 
-	public PolicyResult	onResponse(Object response) {
+	public PolicyResult	onResponse(Object response, boolean guardEnabled) {
 		//
 		// Which response is it?
 		//
@@ -252,7 +256,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// We cannot tell what happened if this doesn't exist
 				//
-				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
+				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION, guardEnabled);
 				return PolicyResult.FAILURE_EXCEPTION;
 			}
 			//
@@ -262,7 +266,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// We cannot tell what happened if this doesn't exist
 				//
-				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status field (it was null).", PolicyResult.FAILURE_EXCEPTION);
+				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status field (it was null).", PolicyResult.FAILURE_EXCEPTION, guardEnabled);
 				return PolicyResult.FAILURE_EXCEPTION;
 			}
 			//
@@ -273,7 +277,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// We are unaware of this code
 				//
-				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status code field.", PolicyResult.FAILURE_EXCEPTION);
+				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status code field.", PolicyResult.FAILURE_EXCEPTION, guardEnabled);
 				return PolicyResult.FAILURE_EXCEPTION;
 			}
 			//
@@ -293,7 +297,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// We'll consider these two codes as exceptions
 				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.FAILURE_EXCEPTION);
+				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.FAILURE_EXCEPTION, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -302,7 +306,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				//
 				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.SUCCESS);
+				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.SUCCESS, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -311,7 +315,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				//
 				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.FAILURE);
+				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.FAILURE, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -327,7 +331,7 @@ public class ControlLoopOperationManager implements Serializable {
 		     */
 		    Integer operationAttempt = AppcLcmActorServiceProvider.parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
 		    if (operationAttempt == null) {
-		        this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
+		        this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION, guardEnabled);
 		    }
 
 		    /*
@@ -337,7 +341,7 @@ public class ControlLoopOperationManager implements Serializable {
 		    AbstractMap.SimpleEntry<PolicyResult, String> result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
 
 		    if (result.getKey() != null) {
-    		    this.completeOperation(operationAttempt, result.getValue(), result.getKey());
+    		    this.completeOperation(operationAttempt, result.getValue(), result.getKey(), guardEnabled);
     		    if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
                     return null;
                 }
@@ -353,7 +357,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as success
 				//
-				this.completeOperation(this.attempts, msoResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
+				this.completeOperation(this.attempts, msoResponse.httpResponseCode + " Success", PolicyResult.SUCCESS, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -362,7 +366,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as failure
 				//
-				this.completeOperation(this.attempts, msoResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
+				this.completeOperation(this.attempts, msoResponse.httpResponseCode + " Failed", PolicyResult.FAILURE, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -376,7 +380,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as success
 				//
-				this.completeOperation(this.attempts, " Success", PolicyResult.SUCCESS);
+				this.completeOperation(this.attempts, " Success", PolicyResult.SUCCESS, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -385,7 +389,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as failure
 				//
-				this.completeOperation(this.attempts, " Failed", PolicyResult.FAILURE);
+				this.completeOperation(this.attempts, " Failed", PolicyResult.FAILURE, guardEnabled);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -462,19 +466,25 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		return history;
 	}
-
 	public void		setOperationHasTimedOut() {
+		setOperationHasTimedOut(false);
+	}
+	
+	public void		setOperationHasTimedOut(boolean guardEnabled) {
 		//
 		//
 		//
-		this.completeOperation(this.attempts, "Operation timed out", PolicyResult.FAILURE_TIMEOUT);
+		this.completeOperation(this.attempts, "Operation timed out", PolicyResult.FAILURE_TIMEOUT, guardEnabled);
 	}
 
 	public void		setOperationHasGuardDeny() {
+		setOperationHasGuardDeny(false);
+	}
+	public void		setOperationHasGuardDeny(boolean guardEnabled) {
 		//
 		//
 		//
-		this.completeOperation(this.attempts, "Operation denied by Guard", PolicyResult.FAILURE_GUARD);
+		this.completeOperation(this.attempts, "Operation denied by Guard", PolicyResult.FAILURE_GUARD, guardEnabled);
 	}
 
 	public boolean	isOperationComplete() {
@@ -588,7 +598,7 @@ public class ControlLoopOperationManager implements Serializable {
 
 
 
-	private void	completeOperation(Integer attempt, String message, PolicyResult result) {
+	private void	completeOperation(Integer attempt, String message, PolicyResult result, boolean guardEnabled) {
 		if (attempt == null) {
 			logger.debug("attempt cannot be null (i.e. subRequestID)");
 			return;
@@ -603,7 +613,9 @@ public class ControlLoopOperationManager implements Serializable {
 				// Save it in history
 				//
 				this.operationHistory.add(this.currentOperation);
-				this.storeOperationInDataBase();
+				if(guardEnabled){
+					this.storeOperationInDataBase();					
+				}
 				//
 				// Set our last result
 				//

@@ -93,6 +93,7 @@ declare ControlLoopTimer
   delay : String
 end
 
+
 /*
 *
 * Called once and only once to insert the parameters into working memory for this Closed Loop policy.
@@ -615,10 +616,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     // to the CallGuardTask() and set the first argument to null 
     // (instead of XacmlPdpEngine).
     //
-    
-    // NOTE: The environment properties uses "guard.disabled" but the boolean is guardEnabled
-    boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngine.manager.getEnvironmentProperty("guard.disabled"));
-    
+
+    boolean guardEnabled = false;
     if(guardEnabled){
     
         Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
@@ -684,7 +683,8 @@ rule "${policyName}.GUARD.RESPONSE"
     }
     else {
         //This is the Deny case
-        $operation.setOperationHasGuardDeny();
+        boolean guardEnabled = false;
+        $operation.setOperationHasGuardDeny(guardEnabled);
         retract($opTimer);
         retract($operation);
         modify($manager) {finishOperation($operation)};
@@ -724,7 +724,8 @@ rule "${policyName}.APPC.RESPONSE"
     //
     // Get the result of the operation
     //
-    PolicyResult policyResult = $operation.onResponse($response);
+    boolean guardEnabled = false;
+    PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
     if (policyResult != null) {
         logger.debug("{}: {}: operation finished - result={}", 
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
@@ -839,7 +840,8 @@ rule "${policyName}.APPC.LCM.RESPONSE"
     //
     // Get the result of the operation
     //
-    PolicyResult policyResult = $operation.onResponse($response);
+    boolean guardEnabled = false;
+    PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
     if (policyResult != null) {
       logger.debug("{}: {}: operation finished - result={}", 
                   $params.getClosedLoopControlName(), drools.getRule().getName(),
@@ -943,7 +945,8 @@ rule "${policyName}.SO.RESPONSE"
         
     // Get the result of the operation
     //
-    PolicyResult policyResult = $operation.onResponse($response);
+    boolean guardEnabled = false;
+    PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
     if (policyResult != null) {
         logger.debug("{}: {}: operation finished - result={}", 
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
@@ -1026,7 +1029,8 @@ rule "${policyName}.VFC.RESPONSE"
 		
 		// Get the result of the operation
 		//
-		PolicyResult policyResult = $operation.onResponse($response);
+		boolean guardEnabled = false;
+		PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
 		if (policyResult != null) {
 			//
 			// This Operation has completed, construct a notification showing our results
@@ -1100,7 +1104,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
     //
     // Tell it its timed out
     //
-    $operation.setOperationHasTimedOut();
+    boolean guardEnabled = false;
+    $operation.setOperationHasTimedOut(guardEnabled);
     //
     // Create a notification for it ("DB Write - end operation")
     //

@@ -102,6 +102,7 @@ declare ControlLoopTimer
 end
 
 
+
 /*
 *
 * Called once and only once to insert the parameters into working memory for this Closed Loop policy.
@@ -581,7 +582,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 		// In order to use REST XACML, provide a URL instead of "" as a second argument o the CallGuardTask() and set the first 
 		// argument to null (instead of XacmlPdpEngine).
 		//
-		boolean guardEnabled = true;
+		boolean guardEnabled = false;
 		
 		if(guardEnabled){
 		
@@ -656,7 +657,8 @@ rule "${policyName}.GUARD.RESPONSE"
 		}
 		else {
 			//This is the Deny case
-			$operation.setOperationHasGuardDeny();
+			boolean guardEnabled = false;
+			$operation.setOperationHasGuardDeny(guardEnabled);
 			retract($opTimer);
 			retract($operation);
 			modify($manager) {finishOperation($operation)};
@@ -705,7 +707,8 @@ rule "${policyName}.APPC.RESPONSE"
 		//
 		// Get the result of the operation
 		//
-		PolicyResult policyResult = $operation.onResponse($response);
+		boolean guardEnabled = false;
+		PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
 		if (policyResult != null) {
 			Logger.info("operation finished with result: " + policyResult);
 			//
@@ -823,7 +826,8 @@ rule "${policyName}.APPC.LCM.RESPONSE"
 		//
 		// Get the result of the operation
 		//
-		PolicyResult policyResult = $operation.onResponse($response);
+		boolean guardEnabled = false;
+		PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
 		if (policyResult != null) {
 			Logger.info("operation finished with result: " + policyResult);
 			//
@@ -936,7 +940,8 @@ rule "${policyName}.SO.RESPONSE"
 		Logger.metrics($response);
 		// Get the result of the operation
 		//
-		PolicyResult policyResult = $operation.onResponse($response);
+		boolean guardEnabled = false;
+		PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
 		if (policyResult != null) {
 			//
 			// This Operation has completed, construct a notification showing our results
@@ -1026,7 +1031,8 @@ rule "${policyName}.VFC.RESPONSE"
 		Logger.metrics($response);
 		// Get the result of the operation
 		//
-		PolicyResult policyResult = $operation.onResponse($response);
+		boolean guardEnabled = false;
+		PolicyResult policyResult = $operation.onResponse($response, guardEnabled);
 		if (policyResult != null) {
 			//
 			// This Operation has completed, construct a notification showing our results
@@ -1105,7 +1111,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
 		//
 		// Tell it its timed out
 		//
-		$operation.setOperationHasTimedOut();
+		boolean guardEnabled = false;
+		$operation.setOperationHasTimedOut(guardEnabled);
 		//
 		// Create a notification for it ("DB Write - end operation")
 		//
