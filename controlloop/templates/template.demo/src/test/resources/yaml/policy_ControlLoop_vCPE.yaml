@@ -2,7 +2,7 @@ controlLoop:
   version: 2.0.0
   controlLoopName: ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e
   trigger_policy: unique-policy-id-1-restart
-  timeout: 20
+  timeout: 60
   abatement: true
  
 policies:
@@ -14,7 +14,7 @@ policies:
     target:
       type: VM
     retry: 3
-    timeout: 10
+    timeout: 30
     success: final_success
     failure: final_failure
     failure_timeout: final_failure_timeout
