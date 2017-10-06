@@ -127,5 +127,12 @@ public final class Serialization {
 			.registerTypeAdapter(ControlLoopNotificationType.class, new notificationTypeAdapter())
 			.registerTypeAdapter(ControlLoopTargetType.class, new targetTypeAdapter())
 			.create();
+	
+	final static public Gson gsonJunit = new GsonBuilder().disableHtmlEscaping()
+			.setPrettyPrinting()
+			.registerTypeAdapter(ZonedDateTime.class, new gsonUTCAdapter())
+			.registerTypeAdapter(Instant.class, new gsonInstantAdapter())
+			.registerTypeAdapter(ControlLoopTargetType.class, new targetTypeAdapter())
+			.create();
 
 }

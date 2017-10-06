@@ -81,12 +81,27 @@ public final class Serialization {
         @Override
         public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
-            return Instant.parse(json.getAsString());
+        	return Instant.parse(json.getAsString());
         }
 
         @Override
         public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src.toString());
+        	return new JsonPrimitive(src.toString());
+        }
+
+    }
+    
+    public static class InstantJunitAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+
+        @Override
+        public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+        	return Instant.ofEpochMilli(json.getAsLong());
+        }
+
+        @Override
+        public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
+        	return new JsonPrimitive(src.toEpochMilli());
         }
 
     }
@@ -97,5 +112,8 @@ public final class Serialization {
     public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(LCMRequest.class, new RequestAdapter())
             .registerTypeAdapter(LCMResponse.class, new ResponseAdapter()).create();
+    
+    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+    		.registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
 }

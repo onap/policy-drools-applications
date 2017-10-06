@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import org.junit.AfterClass;
@@ -44,19 +46,26 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.drools.PolicyEngineListener;
+import org.onap.policy.drools.event.comm.TopicEndpoint;
+import org.onap.policy.drools.event.comm.TopicListener;
+import org.onap.policy.drools.event.comm.TopicSink;
+import org.onap.policy.drools.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
+import org.onap.policy.drools.properties.PolicyProperties;
+import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
+import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VFWControlLoopTest implements PolicyEngineListener {
+public class VFWControlLoopTest implements TopicListener {
 
     private static final Logger logger = LoggerFactory.getLogger(VFWControlLoopTest.class);
     
+    private static List<? extends TopicSink> noopTopics;
+    
     private KieSession kieSession;
     private Util.Pair<ControlLoopPolicy, String> pair;
-    private PolicyEngineJUnitImpl engine;
     private UUID requestID;
     
     static {
@@ -68,6 +77,19 @@ public class VFWControlLoopTest implements PolicyEngineListener {
     
     @BeforeClass
     public static void setUpSimulator() {
+    	PolicyEngine.manager.configure(new Properties());
+    	assertTrue(PolicyEngine.manager.start());
+    	Properties noopSinkProperties = new Properties();
+    	noopSinkProperties.put(PolicyProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-CL,POLICY-CL-MGT");
+    	noopSinkProperties.put("noop.sink.topics.APPC-CL.events", "org.onap.policy.appc.Response");
+    	noopSinkProperties.put("noop.sink.topics.APPC-CL.events.custom.gson", "org.onap.policy.appc.util.Serialization,gsonPretty");
+    	noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events", "org.onap.policy.controlloop.VirtualControlLoopNotification");
+    	noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson", "org.onap.policy.controlloop.util.Serialization,gsonPretty");
+    	noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+    	
+    	EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "POLICY-CL-MGT", "org.onap.policy.controlloop.VirtualControlLoopNotification", new JsonProtocolFilter(), null, null, 1111);
+    	EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "APPC-CL", "org.onap.policy.appc.Request", new JsonProtocolFilter(), null, null, 1111);
+
         try {
             Util.buildAaiSim();
             Util.buildGuardSim();
@@ -79,6 +101,7 @@ public class VFWControlLoopTest implements PolicyEngineListener {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServer.factory.destroy();
+        PolicyEngine.manager.shutdown();
     }
     
     @Test
@@ -88,7 +111,7 @@ public class VFWControlLoopTest implements PolicyEngineListener {
          * Start the kie session
          */
         try {
-            kieSession = startSession("src/main/resources/ControlLoop_Template_xacml_guard.drl", 
+            kieSession = startSession("../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl", 
                         "src/test/resources/yaml/policy_ControlLoop_vFW.yaml",
                         "service=ServiceDemo;resource=Res1Demo;type=operational", 
                         "CL_vFW", 
@@ -104,7 +127,10 @@ public class VFWControlLoopTest implements PolicyEngineListener {
          * notify that there is an event ready to be pulled 
          * from the queue
          */
-        engine.addListener(this);
+        for (TopicSink sink : noopTopics) {
+            assertTrue(sink.start());
+            sink.register(this);
+        }
         
         /*
          * Create a unique requestId
@@ -118,7 +144,15 @@ public class VFWControlLoopTest implements PolicyEngineListener {
          */
         sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
         
-        kieSession.fireUntilHalt();
+        try {
+        	kieSession.fireUntilHalt();
+        }
+        catch (Exception e) {
+        	e.printStackTrace();
+        	logger.warn(e.toString());
+        	fail("fail");
+        }
+        
         
         /*
          * The only fact in memory should be Params
@@ -182,7 +216,6 @@ public class VFWControlLoopTest implements PolicyEngineListener {
         /*
          * Retrieve the Policy Engine
          */
-        engine = (PolicyEngineJUnitImpl) kieSession.getGlobal("Engine");
         
         logger.debug("============");
         logger.debug(URLEncoder.encode(pair.b, "UTF-8"));
@@ -194,12 +227,17 @@ public class VFWControlLoopTest implements PolicyEngineListener {
     /*
      * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
      */
-    public void newEventNotification(String topic) {
+    public void onTopicEvent(CommInfrastructure commType, String topic, String event) {
         /*
          * Pull the object that was sent out to DMAAP and make
          * sure it is a ControlLoopNoticiation of type active
          */
-        Object obj = engine.subscribe("UEB", topic);
+    	Object obj = null;
+        if ("POLICY-CL-MGT".equals(topic)) {
+    		obj = org.onap.policy.controlloop.util.Serialization.gsonJunit.fromJson(event, org.onap.policy.controlloop.VirtualControlLoopNotification.class);
+    	}
+    	else if ("APPC-CL".equals(topic))
+    		obj = org.onap.policy.appc.util.Serialization.gsonPretty.fromJson(event, org.onap.policy.appc.Request.class);
         assertNotNull(obj);
         if (obj instanceof VirtualControlLoopNotification) {
             VirtualControlLoopNotification notification = (VirtualControlLoopNotification) obj;
@@ -218,7 +256,7 @@ public class VFWControlLoopTest implements PolicyEngineListener {
                 logger.debug("Rule Fired: " + notification.policyName);
                 assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
                 assertNotNull(notification.message);
-                assertTrue(notification.message.endsWith("PERMIT"));
+                assertTrue(notification.message.toLowerCase().endsWith("permit"));
             }
             else if (policyName.endsWith("GUARD_PERMITTED")) {
                 logger.debug("Rule Fired: " + notification.policyName);
