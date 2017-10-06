@@ -34,7 +34,6 @@
 
 	<modules>
 		<module>archetype-cl-legacy</module>
-		<module>template.demo</module>
 	</modules>
 
 </project>
