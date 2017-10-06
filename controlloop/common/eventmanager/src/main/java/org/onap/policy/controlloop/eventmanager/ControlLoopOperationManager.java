@@ -44,6 +44,7 @@ import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.so.SOResponse;
 import org.onap.policy.vfc.VFCResponse;
 import org.slf4j.Logger;
@@ -541,6 +542,12 @@ public class ControlLoopOperationManager implements Serializable {
 	}
 
 	private void	storeOperationInDataBase(){
+		// Only store in DB if enabled
+		boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngine.manager.getEnvironmentProperty("guard.disabled"));
+		if( !guardEnabled ){
+			return;
+		}
+
 
 		// DB Properties
 		Properties props = new Properties();
