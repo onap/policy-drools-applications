@@ -6,7 +6,7 @@ controlLoop:
       serviceInvariantUUID: dc112d6e-7e73-4777-9c6f-1a7fb5fd1b6f
       serviceUUID: 2eea06c6-e1d3-4c3a-b9c4-478c506eeedf
   trigger_policy: unique-policy-id-1-scale-up
-  timeout: 1200
+  timeout: 20
  
 policies:
   - id: unique-policy-id-1-scale-up
@@ -17,7 +17,7 @@ policies:
     target:
       type: VNF
     retry: 0
-    timeout: 1200
+    timeout: 10
     success: final_success
     failure: final_failure
     failure_timeout: final_failure_timeout

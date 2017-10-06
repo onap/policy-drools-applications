@@ -6,7 +6,7 @@ controlLoop:
       serviceUUID: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
       serviceName: 57e66ea7-0ed6-45c7-970f
   trigger_policy: unique-policy-id-1-modifyConfig
-  timeout: 1200
+  timeout: 20
   abatement: true
  
 policies:
@@ -19,7 +19,7 @@ policies:
       resourceID: Eace933104d443b496b8.nodes.heat.vpg
       type: VNF
     retry: 0
-    timeout: 300
+    timeout: 10
     success: final_success
     failure: final_failure
     failure_timeout: final_failure_timeout
