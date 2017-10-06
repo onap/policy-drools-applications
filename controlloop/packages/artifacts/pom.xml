@@ -182,12 +182,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>demo</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>template.demo</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
