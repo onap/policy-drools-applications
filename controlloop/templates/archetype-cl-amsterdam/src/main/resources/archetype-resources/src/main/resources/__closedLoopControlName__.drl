@@ -800,7 +800,7 @@ rule "${policyName}.APPC.RESPONSE.CLEANUP"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $response : Response($id : getCommonHeader().RequestID )
-        not ( VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), requestID == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+        not ( VirtualControlLoopEvent( requestID == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -906,7 +906,7 @@ rule "${policyName}.APPC.LCM.RESPONSE.CLEANUP"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $response : LCMResponseWrapper($id : getBody().getCommonHeader().getRequestId )
-        not ( VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), requestID == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+        not ( VirtualControlLoopEvent( requestID == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
     then
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
