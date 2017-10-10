@@ -239,6 +239,13 @@ public class PolicyGuardXacmlHelper {
 			}	
 		}
 		
+		//
+		// Connection may have succeeded but not been 200 OK, return Indeterminate
+		//
+		if(response == null || response.isEmpty()){
+			return Util.INDETERMINATE;
+		}
+		
 		rawDecision = new JSONObject(response).getString("decision");
 
 		return rawDecision;
