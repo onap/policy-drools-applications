@@ -36,7 +36,7 @@ public class LCMCommonHeader implements Serializable {
     private Instant timeStamp = Instant.now();
 
     @SerializedName(value="api-ver")
-    private String apiVer="5.00";
+    private String apiVer="2.00";
 
     @SerializedName(value="originator-id")
     private String originatorId;
