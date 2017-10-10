@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_c519fe23",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-10T23:29:20Z",
+      "side": 1,
+      "message": "This \"if\" statement can be deleted since it will fall through below",
+      "revId": "69cb6e2286412b309950d6f7d611c52423e69ede",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
