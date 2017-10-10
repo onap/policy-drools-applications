@@ -75,18 +75,39 @@ import java.util.Iterator;
 
 import org.onap.policy.drools.system.PolicyEngine;
 
+/*
+ * This structure mimics the Params structure
+ * The only purpose of it is to allow management of
+ * the rules by the PAP.
+ * It has no use at runtime since the rules match
+ * in Params instead of this structure
+ */
+declare PapParams
+  closedLoopControlName : String
+  controlLoopYaml : String
+end
+
+/*
+ * Structure used at runtime for rules execution
+ */
 declare Params
   closedLoopControlName : String
   controlLoopYaml : String
 end
 
 
+/*
+ * Operation Timer
+ */
 declare OperationTimer
   closedLoopControlName : String
   requestID : String
   delay : String
 end
 
+/*
+ * Control Loop Timer
+ */
 declare ControlLoopTimer
   closedLoopControlName : String
   requestID : String
