@@ -231,12 +231,13 @@ public class PolicyGuardXacmlHelper {
 		} catch (Exception e) {
 			logger.error(
 					"Exception in 'PolicyGuardXacmlHelper.callRESTfulPDP'", e);
-			//
-			// Connection may have failed, return Indeterminate
-			//
-			if(response == null || response.isEmpty()){
-				return Util.INDETERMINATE;
-			}	
+		}
+		
+		//
+		// Connection may have failed or not been 200 OK, return Indeterminate
+		//
+		if(response == null || response.isEmpty()){
+			return Util.INDETERMINATE;
 		}
 		
 		rawDecision = new JSONObject(response).getString("decision");
