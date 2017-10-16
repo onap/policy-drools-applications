@@ -171,6 +171,8 @@ public class AppcLcmActorServiceProvider implements Actor {
                         aaiUsername, aaiPassword, 
                         aaiRequest, requestId);
 
+//        if (aaiResponse.requestError != null)
+//        	throw new ControlLoopException("Error");
         //TODO: What if the resourceId never matches?
         String targetVnfId = parseAAIResponse(aaiResponse.inventoryResponseItems, resourceId);
         

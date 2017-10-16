@@ -21,26 +21,19 @@
 package org.onap.policy.aai;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
-import org.onap.policy.aai.AAINQInventoryResponseItem;
 
-public class AAINQResponse implements Serializable {
+public class AAINQServiceException implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8411407444051746101L;
+	private static final long serialVersionUID = 2858343404484338546L;
+
+	@SerializedName("messageId")
+	public String messageId;
 	
-	@SerializedName("inventory-response-item")
-	public List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
+	@SerializedName("text")
+	public String text;
 	
-	@SerializedName("requestError")
-	public AAINQRequestError requestError;
-
-	public AAINQResponse() {
-	}
-
+	@SerializedName("variables")
+	public String[] variables;
 }

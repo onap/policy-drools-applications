@@ -30,12 +30,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.junit.Test;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appclcm.LCMRequest;
 import org.onap.policy.appclcm.LCMRequestWrapper;
 import org.onap.policy.appclcm.LCMResponse;
 import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
-
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.Util;
@@ -171,7 +171,7 @@ public class ControlLoopOperationManagerTest {
 			assertNotNull(manager.getOperationResult());
 			assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_RETRIES));
 			assertTrue(manager.getHistory().size() == 2);
-		} catch (ControlLoopException e) {
+		} catch (ControlLoopException | AAIException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -253,7 +253,7 @@ public class ControlLoopOperationManagerTest {
 			assertFalse(manager.isOperationRunning());
 			assertTrue(manager.getHistory().size() == 1);
 			assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_TIMEOUT));
-		} catch (ControlLoopException e) {
+		} catch (ControlLoopException | AAIException e) {
 			fail(e.getMessage());
 		}
 	}

@@ -32,6 +32,7 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
@@ -507,6 +508,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
         $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
         $lock : TargetLock (requestID == $event.requestID)
+        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -514,9 +516,23 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
                 $event, $manager, $operation, $lock);    
 
-    Object request = $operation.startOperation($event);
-    
-    if (request != null) {
+    Object request = null;
+    boolean caughtException = false;
+    try {
+        request = $operation.startOperation($event);
+    }
+    catch (AAIException e) {
+    	//We got an exception, retract everything for this current operation
+        $operation.setOperationHasException(e.getMessage());
+        retract($opTimer);
+        retract($operation);
+        caughtException = true;
+        //modify($manager) {finishOperation($operation)};
+    }
+    if (caughtException) {
+        modify($manager) {finishOperation($operation)};
+    }
+    else if (request != null) {
       logger.debug("{}: {}: starting operation ..", 
                    $params.getClosedLoopControlName(), drools.getRule().getName());
       //
