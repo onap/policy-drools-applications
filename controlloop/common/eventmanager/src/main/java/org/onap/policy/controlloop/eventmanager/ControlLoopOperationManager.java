@@ -224,6 +224,10 @@ public class ControlLoopOperationManager implements Serializable {
 			// Save the operation
 			this.currentOperation = operation;
 
+			if (this.operationRequest == null) {
+				this.policyResult = PolicyResult.FAILURE;
+			}
+
 			return operationRequest;
 		case "VFC":
                         this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy, this.eventManager.getVnfResponse());
