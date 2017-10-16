@@ -47,6 +47,7 @@ import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.so.SOResponse;
 import org.onap.policy.vfc.VFCResponse;
+import org.onap.policy.guard.PIPEngineGetHistory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -551,12 +552,10 @@ public class ControlLoopOperationManager implements Serializable {
 
 		// DB Properties
 		Properties props = new Properties();
-		try (InputStream is = org.onap.policy.guard.PIPEngineGetHistory.class.getResourceAsStream(org.onap.policy.guard.PIPEngineGetHistory.OPS_HIST_PROPS_LOC)){
-			props.load(is);
-		} catch (Exception ex) {
-			logger.error("getCountFromDB threw: ", ex);
-			return;
-		}
+		props.put(PIPEngineGetHistory.ECLIPSE_LINK_KEY_URL, PolicyEngine.manager.getEnvironmentProperty(PIPEngineGetHistory.ONAP_KEY_URL));
+		props.put(PIPEngineGetHistory.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(PIPEngineGetHistory.ONAP_KEY_USER));
+		props.put(PIPEngineGetHistory.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(PIPEngineGetHistory.ONAP_KEY_PASS));
+		
 		String OpsHistPU = System.getProperty("OperationsHistoryPU");
 		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
 			OpsHistPU = "OperationsHistoryPU";

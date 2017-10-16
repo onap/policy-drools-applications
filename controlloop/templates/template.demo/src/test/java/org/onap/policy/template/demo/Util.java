@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +60,7 @@ import com.att.research.xacml.util.XACMLProperties;
 public final class Util {
 
 	private static final String OPSHISTPUPROP = "OperationsHistoryPU";
+	public static final String OPS_HIST_PROPS_LOC   = "/operations-history.properties";
 	private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
 	public static class Pair<A, B> {
@@ -266,6 +268,16 @@ public final class Util {
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_USER, "python");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_PASS, "test");
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV,         "TEST");
+		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,	   "false");
+		
+		// Read operations-history.properties
+		Properties props = new Properties();
+		try (InputStream is = org.onap.policy.guard.PIPEngineGetHistory.class.getResourceAsStream(OPS_HIST_PROPS_LOC)){
+			props.load(is);
+		} catch (Exception ex) {
+			logger.error("getCountFromDB threw: ", ex);
+		}
+		PolicyEngine.manager.setEnvironment(props);
     }
 	
 	public static void setVFCProps() {

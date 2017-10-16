@@ -38,6 +38,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,15 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
 
 	public static final String DEFAULT_DESCRIPTION  = "PIP for retrieving Operations History from DB";
-	public static final String OPS_HIST_PROPS_LOC   = "/operation_history.properties";
+	
+	public static final String ECLIPSE_LINK_KEY_URL  = "javax.persistence.jdbc.url";
+	public static final String ECLIPSE_LINK_KEY_USER = "javax.persistence.jdbc.user";
+	public static final String ECLIPSE_LINK_KEY_PASS = "javax.persistence.jdbc.password";
+	
+	public static final String ONAP_KEY_URL = "guard.jdbc.url";
+	public static final String ONAP_KEY_USER = "sql.db.username";
+	public static final String ONAP_KEY_PASS = "sql.db.password";
+	
 
 	//
 	// Base issuer string. The issuer in the policy will also contain time window information
@@ -320,12 +329,10 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 
 		// DB Properties
 		Properties props = new Properties();
-		try (InputStream is = org.onap.policy.guard.PIPEngineGetHistory.class.getResourceAsStream(OPS_HIST_PROPS_LOC)){
-			props.load(is);
-		} catch (IOException ex) {
-			logger.error("getCountFromDB threw: ", ex);
-			return -1;
-		}
+		props.put(ECLIPSE_LINK_KEY_URL, PolicyEngine.manager.getEnvironmentProperty(ONAP_KEY_URL));
+		props.put(ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(ONAP_KEY_USER));
+		props.put(ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(ONAP_KEY_PASS));
+		
 
 		EntityManager em = null;
 		String OpsHistPU = System.getProperty("OperationsHistoryPU");
