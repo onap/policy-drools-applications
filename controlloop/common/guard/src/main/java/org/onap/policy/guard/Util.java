@@ -48,6 +48,7 @@ public final class Util {
 	public static final String PROP_GUARD_CLIENT_USER = "pdpx.client.username";
 	public static final String PROP_GUARD_CLIENT_PASS = "pdpx.client.password";
 	public static final String PROP_GUARD_ENV         = "pdpx.environment";
+	public static final String PROP_GUARD_DISABLED	  = "guard.disabled";
 	
 	/*
 	 * Guard responses
