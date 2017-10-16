@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -33,6 +34,7 @@ import org.onap.policy.vnf.trafficgenerator.PGRequest;
 import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -85,8 +87,9 @@ public class APPCActorServiceProvider implements Actor {
 	 *         the policy the was specified from the yaml generated
      *         by CLAMP or through the Policy GUI/API
 	 * @return an APPC request conforming to the legacy API
+	 * @throws AAIException 
 	 */
-	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
+	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) throws AAIException {
 		/*
 		 * Construct an APPC request
 		 */
@@ -109,6 +112,10 @@ public class APPCActorServiceProvider implements Actor {
 		else {
 		    vnfId = AppcLcmActorServiceProvider.vnfNamedQuery(
                     policy.getTarget().getResourceID(), onset.AAI.get("generic-vnf.vnf-id"));
+		}
+		
+		if (vnfId == null) {
+			throw new AAIException("No vnf id found");
 		}
 		
 		/*

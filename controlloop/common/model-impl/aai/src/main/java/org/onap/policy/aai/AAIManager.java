@@ -56,7 +56,7 @@ public final class AAIManager {
 		logger.info(url);
 		logger.info(httpDetails.a.toString());
 		logger.info(httpDetails.b);
-		if (httpDetails.a == 200) {
+		if (httpDetails.b != null) {
 			try {
 				AAINQResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQResponse.class);
 				return response;
@@ -64,7 +64,6 @@ public final class AAIManager {
 				logger.error("postQuery threw: ", e);
 			}
 		}
-
 		return null;
 	}
 	

@@ -29,6 +29,7 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
@@ -115,7 +116,13 @@ public class AppcServiceProviderTest {
     @Test
     public void constructModifyConfigRequestTest() {
         
-        Request appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy);
+        Request appcRequest = null;
+		try {
+			appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy);
+		} catch (AAIException e) {
+			logger.warn(e.toString());
+			fail("no vnfid found");
+		}
         
         /* The service provider must return a non null APPC request */
         assertNotNull(appcRequest);
