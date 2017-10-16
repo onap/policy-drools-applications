@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "1a2f8d8d_5a203249",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-16T20:27:26Z",
+      "side": 1,
+      "message": "Do we need to make notifications if the intent is not to deliver them?",
+      "revId": "3b1e15752fa601001453bc3f92f3d49d58957894",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2f8d8d_1a03cab9",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 2
