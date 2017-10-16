@@ -587,9 +587,13 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
       //
       // What happens if its null?
       //
+	  
       logger.warn("{}: {}: unexpected null operation request", 
                   $params.getClosedLoopControlName(), 
                   drools.getRule().getName());
+	  retract($operation);
+	  modify($manager) {finishOperation($operation)};
+
     }
 end
 
