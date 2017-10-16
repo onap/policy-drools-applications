@@ -31,6 +31,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appclcm.LCMResponseWrapper;
@@ -145,7 +146,7 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 	}
 
-	public Object startOperation(/*VirtualControlLoopEvent*/ControlLoopEvent onset) {
+	public Object startOperation(/*VirtualControlLoopEvent*/ControlLoopEvent onset) throws AAIException {
 		//
 		// They shouldn't call us if we currently running something
 		//
@@ -206,6 +207,7 @@ public class ControlLoopOperationManager implements Serializable {
 		     * request is constructed. Otherwise an LCMRequest
 		     * is constructed.
 		     */
+			this.currentOperation = operation;
 		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
 
 	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
@@ -216,7 +218,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			// Save the operation
 			//
-			this.currentOperation = operation;
+			
 			return operationRequest;
 		case "SO":
 			SOActorServiceProvider SOAsp = new SOActorServiceProvider();
@@ -481,6 +483,10 @@ public class ControlLoopOperationManager implements Serializable {
 		//
 		//
 		this.completeOperation(this.attempts, "Operation denied by Guard", PolicyResult.FAILURE_GUARD);
+	}
+	
+	public void setOperationHasException(String message) {
+		this.completeOperation(this.attempts, message, PolicyResult.FAILURE_EXCEPTION);
 	}
 
 	public boolean	isOperationComplete() {

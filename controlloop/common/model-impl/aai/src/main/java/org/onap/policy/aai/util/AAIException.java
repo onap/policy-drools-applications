@@ -18,29 +18,31 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.aai;
+package org.onap.policy.aai.util;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+public class AAIException extends Exception {
 
-import com.google.gson.annotations.SerializedName;
-import org.onap.policy.aai.AAINQInventoryResponseItem;
+	private static final long serialVersionUID = 9220983727706207465L;
 
-public class AAINQResponse implements Serializable {
+	public AAIException() {
+		super();
+	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8411407444051746101L;
-	
-	@SerializedName("inventory-response-item")
-	public List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
-	
-	@SerializedName("requestError")
-	public AAINQRequestError requestError;
+	public AAIException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
 
-	public AAINQResponse() {
+	public AAIException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public AAIException(String message) {
+		super(message);
+	}
+
+	public AAIException(Throwable cause) {
+		super(cause);
 	}
 
 }
