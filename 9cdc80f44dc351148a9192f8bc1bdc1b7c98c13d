@@ -22,6 +22,30 @@
       "revId": "9cdc80f44dc351148a9192f8bc1bdc1b7c98c13d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_9a20da9c",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-10-16T17:27:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_3a10c64d",
+      "range": {
+        "startLine": 325,
+        "startChar": 6,
+        "endLine": 325,
+        "endChar": 33
+      },
+      "revId": "9cdc80f44dc351148a9192f8bc1bdc1b7c98c13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
