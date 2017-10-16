@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_5af952c7",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-16T20:20:42Z",
+      "side": 1,
+      "message": "surround these 2 statement with logger.isDebugEnabled() since the second debug statement is really expensive and may be executed frequently.",
+      "revId": "3b1e15752fa601001453bc3f92f3d49d58957894",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_1a03cab9",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-16T20:20:42Z",
+      "side": 1,
+      "message": "I think this may be prone to error or get outdated without catching problems at compile time.   Is there a reason why they cant be checked explicitly as in \"checkExtractedFields\" ?",
+      "revId": "3b1e15752fa601001453bc3f92f3d49d58957894",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
