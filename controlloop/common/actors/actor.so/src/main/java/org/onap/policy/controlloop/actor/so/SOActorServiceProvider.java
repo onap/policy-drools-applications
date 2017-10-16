@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +28,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
+import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQInstanceFilters;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
-import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQNamedQuery;
 import org.onap.policy.aai.AAINQQueryParameters;
 import org.onap.policy.aai.AAINQRequest;
@@ -202,12 +203,15 @@ public class SOActorServiceProvider implements Actor {
 			// insert aainqResponseWrapper to memory -- Is this needed?
 //			insert(aainqResponseWrapper);
 			
-			// 
+			logger.debug("AAI Named Query Response: ");
+			logger.debug(Serialization.gsonPretty.toJson(aainqResponseWrapper.aainqresponse));
+
 			extractSOFieldsFromNamedQuery(aainqResponseWrapper, onset);
 			return aainqResponseWrapper;
 		}
 	}
 
+		
 	/**
 	 * Extract the required fields from the named query response
 	 * @param namedQueryResponseWrapper
@@ -236,22 +240,19 @@ public class SOActorServiceProvider implements Actor {
 			
 			// Find the index for base vf module and non-base vf module
 			int baseIndex = -1;
-			int nonBaseIndex = -1;
 			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems;
 			for (AAINQInventoryResponseItem m : inventoryItems) {
 				if (m.vfModule != null && m.vfModule.isBaseVfModule) {
 					baseIndex = inventoryItems.indexOf(m);
-				} else if (m.vfModule != null && m.vfModule.orchestrationStatus == null) {
-					nonBaseIndex = inventoryItems.indexOf(m);
-				}
+				} 
 				//
-				if (baseIndex != -1 && nonBaseIndex != -1) {
+				if (baseIndex != -1) {
 					break;
 				}
 			}
 			
 			// Report the error if either base vf module or non-base vf module is not found
-			if (baseIndex == -1 || nonBaseIndex == -1) {
+			if (baseIndex == -1) {
 				logger.error("Either base or non-base vf module is not found from AAI response.");
 				return;
 			}
@@ -261,17 +262,17 @@ public class SOActorServiceProvider implements Actor {
 			setVfModuleItemVfModuleName(vfModuleItemVfModuleName.replace("Vfmodule", "vDNS"));
 
 			// vfModuleItem - NOT the base module
-			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelInvariantId);
-			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelVersionId);
-			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(0).propertyValue);
-			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(4).propertyValue);
+			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelInvariantId);
+			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelVersionId);
+			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(0).propertyValue);
+			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(4).propertyValue);
 			
 			// tenantItem
 			setTenantItemTenantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).tenant.tenantId);
 
 			// cloudRegionItem
 			setCloudRegionItemCloudRegionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).items.inventoryResponseItems.get(0).cloudRegion.cloudRegionId);
-		
+					
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			VirtualControlLoopNotification notification = new VirtualControlLoopNotification(onset);
@@ -300,34 +301,34 @@ public class SOActorServiceProvider implements Actor {
 			// Retract everything
 			return;
 		}
-
-		// Extracted fields should not be null
-		if (!checkExtractedFields()) {
-			System.err.println("some fields are missing from AAI response.");
-			return;
-		}
 	}
 	
 	/**
 	 * Checks whether extracted fields from AAI Named Query are null or not
-	 * @return false if some extracted fields are missing, true otherwise
+	 * Print those variables that are null
+	 * 
+	 * @return
 	 */
-	private boolean checkExtractedFields() {
-		
-		if ((getVnfItemVnfId() == null) || (getVnfItemVnfType() == null) ||
-			    (getVnfItemModelInvariantId() == null) || (getVnfItemModelName() == null) ||
-			    (getVnfItemModelVersion() == null) || (getVnfItemModelNameVersionId() == null) ||
-			    (getServiceItemServiceInstanceId() == null) || (getServiceItemModelName() == null) ||
-			    (getServiceItemModelType() == null) || (getServiceItemModelVersion() == null) ||
-			    (getServiceItemModelNameVersionId() == null) || (getVfModuleItemVfModuleName() == null) ||
-			    (getVfModuleItemModelInvariantId() == null) || (getVfModuleItemModelVersionId() == null) ||
-			    (getVfModuleItemModelName() == null) || (getVfModuleItemModelNameVersionId() == null) ||
-			    (getTenantItemTenantId() == null) || (getCloudRegionItemCloudRegionId() == null)) {
-				return false;
-			}
-		return true;
+	public boolean checkNull() {
+	    for (Field f : getClass().getDeclaredFields()) {
+	    	if ((f.toString().contains("logger"))
+	    			|| (f.toString().contains("recipes"))
+	    			|| (f.toString().contains("targets"))) {
+	    		// do nothing
+	    	} else {
+	    		try {
+					if (f.get(this) == null) {
+						logger.debug(f.toString() + " is null");
+						return false;
+					}
+				} catch (Exception e) {
+					logger.error(e);
+				}
+	    	}
+	    }
+	    return true;            
 	}
-	
+		
 	/**
 	 * Construct SO Request
 	 * 
@@ -335,6 +336,7 @@ public class SOActorServiceProvider implements Actor {
 	 * @param operation
 	 * @param policy
 	 * @return SORequest
+	 * @throws IllegalAccessException 
 	 */
 	public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
 
@@ -348,9 +350,9 @@ public class SOActorServiceProvider implements Actor {
           
 		// check if the fields extracted from named query response are 
 		// not null so we can proceed with SO request
-		if (!checkExtractedFields()) {
+		if (!checkNull()) {
 			
-			System.err.println("AAI response is missing some required fields. Cannot proceed with SO Request construction.");
+			logger.debug("AAI response is missing some required fields. Cannot proceed with SO Request construction.");
 			return null;
 			
 		} else {
