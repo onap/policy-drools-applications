@@ -3,6 +3,7 @@ controlLoop:
   controlLoopName: ${closedLoopControlName}
   trigger_policy: unique-policy-id-1-restart
   timeout: 3600
+  abatement: false
 
 policies:
   - id: unique-policy-id-1-restart
