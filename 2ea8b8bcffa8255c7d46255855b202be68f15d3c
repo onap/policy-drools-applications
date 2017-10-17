@@ -16,6 +16,24 @@
       "revId": "2ea8b8bcffa8255c7d46255855b202be68f15d3c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_52b9362d",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 5
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-10-17T19:50:23Z",
+      "side": 1,
+      "message": "When I tested this for vDNS it is the operationRequest that is null as a result of a failed named query. So what I can do is set the policyResult to \"FAILURE\" so that there are no null values when it gets to finishOperation. The result of finishOperation will then be: Finishing VF Module Create result is Failure. I think it\u0027s okay to keep this solution for vDNS only",
+      "parentUuid": "1a2f8d8d_f2526212",
+      "revId": "2ea8b8bcffa8255c7d46255855b202be68f15d3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
