@@ -22,6 +22,40 @@
       "revId": "5a3fe7213b8b72411c194075ca3db5abb16291e6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_8b0f6ee1",
+        "filename": "controlloop/common/guard/src/main/resources/operation_history.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T13:05:41Z",
+      "side": 1,
+      "message": "Sorry for picky comment, can you rename this file to be \"operation_history.properties\" to \"operation-history.properties\"?  We have adopted the convention of \"unix\" style name, with \"-\" as word separators instead of other word separators such as \"_\", camel case, etc ..   This is not goiong to be end up in a file under a pdp-d directory but will be good for consistency.   Note in a pdp-d installation the file naming is consistent with what I described above.",
+      "revId": "5a3fe7213b8b72411c194075ca3db5abb16291e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_4bf986c7",
+        "filename": "controlloop/common/guard/src/main/resources/operation_history.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T13:05:41Z",
+      "side": 1,
+      "message": "How are these properties are used at runtime in a real lab environment.  In a real lab environment they cannot go embedded in a jar and should be changeable, that is the whole purpose of the environment properties that are referred in other places.",
+      "revId": "5a3fe7213b8b72411c194075ca3db5abb16291e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
