@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_f2526212",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 5
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T18:51:54Z",
+      "side": 1,
+      "message": "I asked Daniel about the else case to make sure wouldn\u0027t break other use cases and have some concerns about hitting null pointer exceptions in the finishOperation.   \n\nCan you talk to Daniel to see if we can have an alternative solution, or we can leave like this, and tackle a more permanent solution in another review?\n\nWhat do you think?",
+      "revId": "2ea8b8bcffa8255c7d46255855b202be68f15d3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
