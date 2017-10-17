@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_4f93d1fa",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T18:22:46Z",
+      "side": 1,
+      "message": "I think line 15 should go away (see my comments that the file is not necessary)",
+      "revId": "a4f8edd734faf18e7a416e253cf3278eb31cd34b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_0f64a920",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetHistory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T18:22:46Z",
+      "side": 1,
+      "message": "I think these properties should be kept in \n\ncontrolloop/common/guard/src/main/java/org/onap/policy/guard/Util.java\n\nwhere you have all the other environment properties?",
+      "revId": "a4f8edd734faf18e7a416e253cf3278eb31cd34b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_8f89b9cc",
+        "filename": "controlloop/templates/template.demo/src/main/resources/operations-history.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T18:22:46Z",
+      "side": 1,
+      "message": "I think this file can be deleted, I think it is unnecessary to replicate these properties.   Besides in junits, there is no maria db listening in 3306 port.   The way it should work is junits point to an in-memory db if this is to be tested, and that can be donee in the junit itself without needing to be in a file.",
+      "revId": "a4f8edd734faf18e7a416e253cf3278eb31cd34b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_6f744dcf",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T18:22:46Z",
+      "side": 1,
+      "message": "I think it is unnecessary to have this file around",
+      "revId": "a4f8edd734faf18e7a416e253cf3278eb31cd34b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_0f96e9f0",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T18:22:46Z",
+      "side": 1,
+      "message": "I think 274 to 280 can be deleted and set appropriately environment properties for the jdbc url, username and password to point to h2 in-memory db manually, instead of indirectly pointing to a file, which points to official DB.",
+      "revId": "a4f8edd734faf18e7a416e253cf3278eb31cd34b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
