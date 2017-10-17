@@ -56,6 +56,24 @@
       "revId": "5a3fe7213b8b72411c194075ca3db5abb16291e6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_ab658a46",
+        "filename": "controlloop/common/guard/src/main/resources/operation_history.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1645
+      },
+      "writtenOn": "2017-10-17T13:59:14Z",
+      "side": 1,
+      "message": "We believe that the incorrect values for these properties is the cause of the operationHistory table not being written to. This file is embedded in the guard jar and does not appear in $POLICY_HOME/config.",
+      "parentUuid": "1a2f8d8d_4bf986c7",
+      "revId": "5a3fe7213b8b72411c194075ca3db5abb16291e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
