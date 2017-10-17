@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a2f8d8d_8faf79e3",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-10-17T15:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_abd58a44",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2f8d8d_ebe39231",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-17T12:29:55Z",
       "side": 1,
       "message": "Following up on Daniel\u0027s comment, what is the purpose of forming notification if it is not sent?   Should this code be deleted?",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_6fac4dee",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-10-17T15:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_ebe39231",
       "revId": "26823613763c52000dccdc67027aa7ba402cb245",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "1a2f8d8d_4fb9912d",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-10-17T15:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_ba7ef6e2",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2f8d8d_ebba7209",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 4
@@ -81,6 +135,24 @@
       "writtenOn": "2017-10-17T12:29:55Z",
       "side": 1,
       "message": "What happens when we return an error back to the drl, are we able to clean up resources, retract all objects in the transaction?",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_4f907195",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-10-17T15:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_ebba7209",
       "revId": "26823613763c52000dccdc67027aa7ba402cb245",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
