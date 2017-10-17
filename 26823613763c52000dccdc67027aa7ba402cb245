@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_abd58a44",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T12:29:55Z",
+      "side": 1,
+      "message": "Probably better a \"warn\" and leave \"error\" for general infrastructure problems that have more global effects, this is on a per message basis and we should be able to recover.   Can you also add a message to give a clue of the context such as \n\nlogger.warn(\"Problem extracting SO data from AAI query response because of {}\", e.getMessage(), e);",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_ebe39231",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T12:29:55Z",
+      "side": 1,
+      "message": "Following up on Daniel\u0027s comment, what is the purpose of forming notification if it is not sent?   Should this code be deleted?",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_cbd0d655",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T12:29:55Z",
+      "side": 1,
+      "message": "indent this to make sure that is not misinterpreted to be outside of the catch above",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_ba7ef6e2",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T12:29:55Z",
+      "side": 1,
+      "message": "use logger.warn to it goes to the error.log and is clear there was a problem.",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_ebba7209",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-17T12:29:55Z",
+      "side": 1,
+      "message": "What happens when we return an error back to the drl, are we able to clean up resources, retract all objects in the transaction?",
+      "revId": "26823613763c52000dccdc67027aa7ba402cb245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
