@@ -9,10 +9,9 @@
 		<!-- <jar-file>packedEntity.jar</jar-file> -->
 		<class>org.onap.policy.controlloop.eventmanager.OperationsHistoryDbEntry</class>
 		<properties>
-			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
 			<property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
 			<property name="eclipselink.logging.level" value="WARNING" />
-			<!-- Credential and URL properties located in /guard/src/main/resources/operation_history.properties -->
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -48,6 +48,18 @@ public final class Util {
 	public static final String PROP_GUARD_CLIENT_USER = "pdpx.client.username";
 	public static final String PROP_GUARD_CLIENT_PASS = "pdpx.client.password";
 	public static final String PROP_GUARD_ENV         = "pdpx.environment";
+	public static final String PROP_GUARD_DISABLED	  = "guard.disabled";
+	
+	/*
+	 * Keys for eclipse link and ONAP properties
+	 */
+	public static final String ECLIPSE_LINK_KEY_URL  = "javax.persistence.jdbc.url";
+	public static final String ECLIPSE_LINK_KEY_USER = "javax.persistence.jdbc.user";
+	public static final String ECLIPSE_LINK_KEY_PASS = "javax.persistence.jdbc.password";
+	
+	public static final String ONAP_KEY_URL  = "guard.jdbc.url";
+	public static final String ONAP_KEY_USER = "sql.db.username";
+	public static final String ONAP_KEY_PASS = "sql.db.password";
 	
 	/*
 	 * Guard responses
