@@ -20,8 +20,6 @@
 
 package org.onap.policy.guard;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Collection;

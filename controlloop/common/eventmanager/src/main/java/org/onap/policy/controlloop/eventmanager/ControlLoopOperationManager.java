@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -40,14 +39,14 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
+import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.guard.Util;
 import org.onap.policy.so.SOResponse;
 import org.onap.policy.vfc.VFCResponse;
-import org.onap.policy.guard.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
