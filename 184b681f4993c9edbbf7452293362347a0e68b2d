@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_23eade0f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-18T15:16:51Z",
+      "side": 1,
+      "message": "This needs to be moved to before request construction based on what Charles did for AAI exceptions. I know Ali made some changes that could possibly be conflicting. I\u0027ll follow up with Ali and Charles.",
+      "revId": "184b681f4993c9edbbf7452293362347a0e68b2d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_83dab276",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-18T15:16:51Z",
+      "side": 1,
+      "message": "Can we remove commented code?",
+      "revId": "184b681f4993c9edbbf7452293362347a0e68b2d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
