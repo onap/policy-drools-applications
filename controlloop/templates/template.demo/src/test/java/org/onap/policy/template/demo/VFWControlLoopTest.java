@@ -35,6 +35,7 @@ import java.util.UUID;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
@@ -170,6 +171,72 @@ public class VFWControlLoopTest implements TopicListener {
         kieSession.dispose();
     }
     
+    @Test
+    public void namedQueryFailTest() {
+        
+        /*
+         * Start the kie session
+         */
+        try {
+            kieSession = startSession("../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl", 
+                        "src/test/resources/yaml/policy_ControlLoop_vFW.yaml",
+                        "service=ServiceDemo;resource=Res1Demo;type=operational", 
+                        "CL_vFW", 
+                        "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.debug("Could not create kieSession");
+            fail("Could not create kieSession");
+        }
+        
+        /*
+         * Allows the PolicyEngine to callback to this object to
+         * notify that there is an event ready to be pulled 
+         * from the queue
+         */
+        for (TopicSink sink : noopTopics) {
+            assertTrue(sink.start());
+            sink.register(this);
+        }
+        
+        /*
+         * Create a unique requestId
+         */
+        requestID = UUID.randomUUID();
+        
+        /* 
+         * Simulate an onset event the policy engine will 
+         * receive from DCAE to kick off processing through
+         * the rules
+         */
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "error");
+        
+        try {
+        	kieSession.fireUntilHalt();
+        }
+        catch (Exception e) {
+        	e.printStackTrace();
+        	logger.warn(e.toString());
+        	fail(e.getMessage());
+        }
+        
+        
+        /*
+         * The only fact in memory should be Params
+         */
+        assertEquals(1, kieSession.getFactCount());
+        
+        /*
+         * Print what's left in memory
+         */
+        dumpFacts(kieSession);
+        
+        /*
+         * Gracefully shut down the kie session
+         */
+        kieSession.dispose();
+    }
+    
     /**
      * This method will start a kie session and instantiate 
      * the Policy Engine.
@@ -279,7 +346,13 @@ public class VFWControlLoopTest implements TopicListener {
             }
             else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                if ("error".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
+                	assertTrue(ControlLoopNotificationType.FINAL_FAILURE.equals(notification.notification));
+                	assertEquals("Exception in processing closed loop", notification.message);
+                }
+                else {
+                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                }
                 kieSession.halt();
             }
             else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
@@ -322,6 +395,27 @@ public class VFWControlLoopTest implements TopicListener {
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
         event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
+        event.closedLoopEventStatus = status;
+        kieSession.insert(event);
+    }
+    
+    /**
+     * This method is used to simulate event messages from DCAE
+     * that start the control loop (onset message) or end the
+     * control loop (abatement message).
+     * 
+     * @param policy the controlLoopName comes from the policy 
+     * @param requestID the requestId for this event
+     * @param status could be onset or abated
+     */
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vnfId) {
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
+        event.requestID = requestID;
+        event.target = "generic-vnf.vnf-id";
+        event.closedLoopAlarmStart = Instant.now();
+        event.AAI = new HashMap<>();
+        event.AAI.put("generic-vnf.vnf-id", vnfId);
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }

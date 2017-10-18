@@ -265,8 +265,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		}
 	
 		switch (result) {
-		case FINAL_FAILURE:
 		case FINAL_FAILURE_EXCEPTION:
+			notification.message = "Exception in processing closed loop";
+		case FINAL_FAILURE:
 		case FINAL_FAILURE_RETRIES:
 		case FINAL_FAILURE_TIMEOUT:
 		case FINAL_FAILURE_GUARD:
