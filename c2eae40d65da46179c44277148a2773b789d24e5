@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_785e4c47",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "Use same format as in pdp-d for consistency in the logs:\n\nnetLogger.info(\"[OUT|{}|{}]{}{}\", \"GUARD\", urlEntry.restURL, System.lineSeparator(), jsonReq.toString());",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_585b9054",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "Use same format as in pdp-d:\n\nnetLogger.info(\"[IN|{}|{}]{}{}\", \"GUARD\", urlEntry.restURL, System.lineSeparator(), response);",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_3858c455",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "Use same format as in pdp-d:\n\nnetLogger.info(\"[OUT|{}|{}]{}{}\", \"AAI\", url, System.lineSeparator(), json);",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_d8366003",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "Reuse in a variable for lines 49,50 - expensive operation\n\nSerialization.gsonPretty.toJson(request)",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_9840d857",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "same comment as before with format - global for this file",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_582270ba",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "same comments as in other file, use \"SO\" instead of SOManager.class and reuse Serialization.gsonPretty.toJson(request)",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_382fa4a3",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "same comments as before - global change",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_182ce8aa",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_f818fc85",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T21:00:44Z",
+      "side": 1,
+      "message": "same comments with regards to format, use \"VFC\n instead of VFCManager.class and reuse Serialization.gsonPretty.toJson(vfcRequest) across 72 and 74\n\nglobal comment",
+      "revId": "c2eae40d65da46179c44277148a2773b789d24e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
