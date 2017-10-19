@@ -34,6 +34,7 @@ import com.google.gson.JsonSyntaxException;
 
 public final class AAIManager {
 	private static final Logger logger = LoggerFactory.getLogger(AAIManager.class);
+	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
 	
 	public static AAINQResponse	postQuery(String url, String username, String password, AAINQRequest request, UUID requestID) {
 		
@@ -45,6 +46,7 @@ public final class AAIManager {
 		url = url + "/aai/search/named-query";
 
 		logger.debug("RESTManager.post before"); 
+		netLogger.info("[OUT|{}->{}|]{}{}", AAIManager.class,url, System.lineSeparator(), Serialization.gsonPretty.toJson(request));
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
 		logger.debug("RESTManager.post after"); 
 		
@@ -59,6 +61,7 @@ public final class AAIManager {
 		if (httpDetails.b != null) {
 			try {
 				AAINQResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQResponse.class);
+				netLogger.info("[IN|{}->{}|]{}{}", url, AAIManager.class, System.lineSeparator(), Serialization.gsonPretty.toJson(response));
 				return response;
 			} catch (JsonSyntaxException e) {
 				logger.error("postQuery threw: ", e);
@@ -80,7 +83,7 @@ public final class AAIManager {
 		AAIGETVserverResponse responseGet = null;
 		
 		while(attemptsLeft-- > 0){
-		
+			netLogger.info("[OUT|{}->{}|]{}{}", AAIManager.class, urlGet, System.lineSeparator(), Serialization.gsonPretty.toJson(urlGet));
 			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 			if (httpDetailsGet == null) {
 				logger.info("AAI GET Null Response to " + urlGet);
@@ -94,6 +97,7 @@ public final class AAIManager {
 			if (httpDetailsGet.a == 200) {
 				try {
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVserverResponse.class);
+					netLogger.info("[IN|{}->{}|]{}{}", urlGet, AAIManager.class, System.lineSeparator(), Serialization.gsonPretty.toJson(responseGet));
 					return responseGet;
 				} catch (JsonSyntaxException e) {
 					logger.error("postQuery threw: ", e);
@@ -120,7 +124,7 @@ public final class AAIManager {
 		AAIGETVnfResponse responseGet = null;
 		
 		while(attemptsLeft-- > 0){
-		
+			netLogger.info("[OUT|{}->{}|]{}{}", AAIManager.class, urlGet, System.lineSeparator(), Serialization.gsonPretty.toJson(urlGet));
 			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 			if (httpDetailsGet == null) {
 				logger.info("AAI GET Null Response to " + urlGet);
@@ -133,6 +137,7 @@ public final class AAIManager {
 			
 			if (httpDetailsGet.a == 200) {
 				try {
+					netLogger.info("[IN|{}->{}|]{}{}", urlGet, AAIManager.class, System.lineSeparator(), Serialization.gsonPretty.toJson(responseGet));
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
 					return responseGet;
 				} catch (JsonSyntaxException e) {
@@ -161,7 +166,7 @@ public final class AAIManager {
 		AAIGETVnfResponse responseGet = null;
 		
 		while(attemptsLeft-- > 0){
-		
+			netLogger.info("[OUT|{}->{}|]{}{}", AAIManager.class, urlGet, System.lineSeparator(), Serialization.gsonPretty.toJson(urlGet));
 			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 			if (httpDetailsGet == null) {
 				logger.info("AAI GET Null Response to " + urlGet);
@@ -174,6 +179,7 @@ public final class AAIManager {
 			
 			if (httpDetailsGet.a == 200) {
 				try {
+					netLogger.info("[IN|{}->{}|]{}{}", urlGet, AAIManager.class, System.lineSeparator(), Serialization.gsonPretty.toJson(responseGet));
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
 					return responseGet;
 				} catch (JsonSyntaxException e) {
