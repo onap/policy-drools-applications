@@ -29,8 +29,10 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
 import org.drools.core.WorkingMemory;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +43,7 @@ import com.google.gson.JsonSyntaxException;
 public final class SOManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(SOManager.class);
+	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
 	private static ExecutorService executors = Executors.newCachedThreadPool();
 		
 	public static SOResponse createModuleInstance(String url, String urlBase, String username, String password, SORequest request) {
@@ -56,8 +59,9 @@ public final class SOManager {
 		//
 		// 201 - CREATED - you are done just return 
 		//
-		
-		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", Serialization.gsonPretty.toJson(request));
+		String requestJson = Serialization.gsonPretty.toJson(request);
+		netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), requestJson);
+		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", requestJson);
 		
 		if (httpDetails == null) {
 			return null;
@@ -82,6 +86,8 @@ public final class SOManager {
 					
 					Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, SOResponse.class);
+					netLogger.info("[IN|{}|{}|]{}{}", "SO", urlGet, System.lineSeparator(), responseGet.toString());
+                    
 					body = Serialization.gsonPretty.toJson(responseGet);
 					logger.debug("***** Response to get:");
 					logger.debug(body);
@@ -159,7 +165,10 @@ public final class SOManager {
 				String msoJson = gsonPretty.toJson(request);
 				
 				SOResponse mso = new SOResponse();
+				netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), msoJson);
 				Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", msoJson);
+				netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
+				   
 				if (httpResponse != null) {
 					Gson gson = new Gson();
 					mso = gson.fromJson(httpResponse.b, SOResponse.class);

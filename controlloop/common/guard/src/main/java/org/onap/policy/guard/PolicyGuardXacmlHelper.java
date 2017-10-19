@@ -51,6 +51,8 @@ public class PolicyGuardXacmlHelper {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(PolicyGuardXacmlHelper.class);
+	
+	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
 
 	public PolicyGuardXacmlHelper() {
 		init(PolicyEngine.manager.getEnvironment());
@@ -108,10 +110,12 @@ public class PolicyGuardXacmlHelper {
 			//
 			// Call RESTful PDP
 			//
+			netLogger.info("[OUT|{}|{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), jsonReq.toString());
 			response = callRESTfulPDP(new ByteArrayInputStream(jsonReq
 					.toString().getBytes()), urlEntry.restURL,
 					urlEntry.authorization, urlEntry.clientAuth,
 					urlEntry.environment);
+			netLogger.info("[IN|{}{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), response);
 		} catch (Exception e) {
 			logger.error("Error in sending RESTful request: ", e);
 		}

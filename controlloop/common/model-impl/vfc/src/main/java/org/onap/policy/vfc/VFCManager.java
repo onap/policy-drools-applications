@@ -39,7 +39,8 @@ public final class VFCManager implements Runnable {
     private VFCRequest vfcRequest;
     WorkingMemory workingMem;
     private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
-    		
+    private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
+	    		
     public VFCManager(WorkingMemory wm, VFCRequest request) {
         workingMem = wm;
         vfcRequest = request;
@@ -68,8 +69,11 @@ public final class VFCManager implements Runnable {
         headers.put("Accept", "application/json");
 
         String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.nsInstanceId + "/heal";
+        String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
+    	netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), vfcRequestJson);
+    	        
         Pair<Integer, String> httpDetails = RESTManager.post(vfcUrl, username, password, headers,
-                "application/json", Serialization.gsonPretty.toJson(vfcRequest));
+                "application/json", vfcRequestJson);
 
         if (httpDetails == null) {
             return;
@@ -78,7 +82,8 @@ public final class VFCManager implements Runnable {
         if (httpDetails.a == 202) {
             try {
                 VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
-
+                netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), response.toString());
+                
                 String body = Serialization.gsonPretty.toJson(response);
                 logger.debug("Response to VFC Heal post:");
                 logger.debug(body);
@@ -91,9 +96,11 @@ public final class VFCManager implements Runnable {
 
                 while (attemptsLeft-- > 0) {
 
+                    netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
                     Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
                     responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
-		    responseGet.requestId = vfcRequest.requestId.toString();
+                    netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, System.lineSeparator(), responseGet.toString());
+                    responseGet.requestId = vfcRequest.requestId.toString();
                     body = Serialization.gsonPretty.toJson(responseGet);
                     logger.debug("Response to VFC Heal get:");
                     logger.debug(body);
