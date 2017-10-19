@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_040a488a",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VFWControlLoopTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-19T14:10:20Z",
+      "side": 1,
+      "message": "Charles, remove unused imports when you have a chance to avoid the warning.   I don\u0027t see any tests being ignored.",
+      "revId": "506267bf7e9d961f1a6b2a989ee8a23ca67b9d61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
