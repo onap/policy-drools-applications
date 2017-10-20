@@ -46,6 +46,30 @@
       "revId": "0f4579198b531a38cdef06bbeb4f51302730e4ba",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_2ebe3e00",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQServiceExcept.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-10-20T14:13:09Z",
+      "side": 0,
+      "message": "Some of the Sonar issues related to my pervious commit had to do with a class that was called exception not being an exception.  If I spell it out, those sonar issues would need to be changed to false positives",
+      "parentUuid": "1a2f8d8d_eed03655",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "0f4579198b531a38cdef06bbeb4f51302730e4ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
