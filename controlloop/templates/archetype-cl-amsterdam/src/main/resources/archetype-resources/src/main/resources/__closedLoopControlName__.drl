@@ -585,6 +585,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   $params.getClosedLoopControlName(), 
                   drools.getRule().getName());
 		if ("SO".equals($operation.policy.getActor())) {
+		    retract($opTimer);
 			retract($operation);
 			modify($manager) {finishOperation($operation)};
 		}

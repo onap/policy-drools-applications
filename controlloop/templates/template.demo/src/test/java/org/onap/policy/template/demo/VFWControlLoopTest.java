@@ -35,7 +35,6 @@ import java.util.UUID;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
@@ -172,7 +171,7 @@ public class VFWControlLoopTest implements TopicListener {
     }
     
     @Test
-    public void namedQueryFailTest() {
+    public void aaiFailTests() {
         
         /*
          * Start the kie session
@@ -220,6 +219,38 @@ public class VFWControlLoopTest implements TopicListener {
         	fail(e.getMessage());
         }
         
+        
+        /*
+         * The only fact in memory should be Params
+         */
+        assertEquals(1, kieSession.getFactCount());
+        
+        /*
+         * Print what's left in memory
+         */
+        dumpFacts(kieSession);
+        
+        /*
+         * Create a unique requestId
+         */
+        requestID = UUID.randomUUID();
+        
+        /* 
+         * Simulate an onset event the policy engine will 
+         * receive from DCAE to kick off processing through
+         * the rules
+         */
+        
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "getFail");
+        
+        try {
+        	kieSession.fireUntilHalt();
+        }
+        catch (Exception e) {
+        	e.printStackTrace();
+        	logger.warn(e.toString());
+        	fail(e.getMessage());
+        }
         
         /*
          * The only fact in memory should be Params
@@ -311,7 +342,13 @@ public class VFWControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
+                	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
+                	kieSession.halt();
+                }
+                else {
+                    assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+                }
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
                 logger.debug("Rule Fired: " + notification.policyName);

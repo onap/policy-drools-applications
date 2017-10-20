@@ -45,6 +45,9 @@ public class AAIGETResponse implements Serializable {
 	
 	@SerializedName("relationship-list")
 	public RelationshipList relationshipList;
+	
+	@SerializedName("requestError")
+	public AAINQRequestError requestError;
 
 	public AAIGETResponse() {
 	}
