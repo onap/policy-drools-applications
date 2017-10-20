@@ -29,5 +29,5 @@ public class AAINQRequestError implements Serializable {
 	private static final long serialVersionUID = -7742674155387022932L;
 	
 	@SerializedName("serviceException")
-	public AAINQServiceException serviceException;
+	public AAINQServiceExcept serviceExcept;
 }

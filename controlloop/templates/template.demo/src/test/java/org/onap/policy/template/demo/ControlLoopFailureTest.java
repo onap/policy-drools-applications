@@ -62,8 +62,8 @@ public class ControlLoopFailureTest implements TopicListener {
     
     private static List<? extends TopicSink> noopTopics;
     
-    private KieSession kieSession;
-    private Util.Pair<ControlLoopPolicy, String> pair;
+    private static KieSession kieSession;
+    private static Util.Pair<ControlLoopPolicy, String> pair;
     private UUID requestId;
     private UUID requestId2;
     private UUID requestId3;
@@ -96,12 +96,34 @@ public class ControlLoopFailureTest implements TopicListener {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+        
+        /*
+         * Start the kie session
+         */
+        try {
+            kieSession = startSession("../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl", 
+                        "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
+                        "service=ServiceDemo;resource=Res1Demo;type=operational", 
+                        "CL_vCPE", 
+                        "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.debug("Could not create kieSession");
+            fail("Could not create kieSession");
+        }
     }
 
     @AfterClass
     public static void tearDownSimulator() {
+    	/*
+         * Gracefully shut down the kie session
+         */
+        kieSession.dispose();
+        
         HttpServletServer.factory.destroy();
         PolicyEngine.manager.shutdown();
+        TopicEndpoint.manager.shutdown();
+        PolicyEngine.manager.stop();
     }
     
     /**
@@ -118,20 +140,6 @@ public class ControlLoopFailureTest implements TopicListener {
      */
     @Test
     public void targetLockedTest() {
-        /*
-         * Start the kie session
-         */
-        try {
-            kieSession = startSession("../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl", 
-                        "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
-                        "service=ServiceDemo;resource=Res1Demo;type=operational", 
-                        "CL_vCPE", 
-                        "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.debug("Could not create kieSession");
-            fail("Could not create kieSession");
-        }
         
         /*
          * Allows the PolicyEngine to callback to this object to
@@ -187,10 +195,6 @@ public class ControlLoopFailureTest implements TopicListener {
          */
         dumpFacts(kieSession);
         
-        /*
-         * Gracefully shut down the kie session
-         */
-        kieSession.dispose();
     }
 
     /**
@@ -210,7 +214,7 @@ public class ControlLoopFailureTest implements TopicListener {
      * @return the kieSession to be used to insert facts 
      * @throws IOException
      */
-    private KieSession startSession(String droolsTemplate, 
+    private static KieSession startSession(String droolsTemplate, 
             String yamlFile, 
             String policyScope, 
             String policyName, 

@@ -545,6 +545,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			       if (vnfResponse == null) {
 			    	   throw new ControlLoopException("AAI Response is null (query by vnf-id)");
 			       }
+			       if (vnfResponse.requestError != null) {
+				    	throw new ControlLoopException("AAI Responded with a request error (query by vnf-id)");
+				    }
 			       if (isClosedLoopDisabled(vnfResponse) == true) {
 					   throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 			       }
@@ -553,6 +556,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				    if (vnfResponse == null) {
 				    	throw new ControlLoopException("AAI Response is null (query by vnf-name)");
 				    }
+				    if (vnfResponse.requestError != null) {
+				    	throw new ControlLoopException("AAI Responded with a request error (query by vnf-name)");
+				    }
 				    if (isClosedLoopDisabled(vnfResponse) == true) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
 				    }
@@ -560,6 +566,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				    vserverResponse = getAAIVserverInfo(event); 
 				    if (vserverResponse == null) {
 				       throw new ControlLoopException("AAI Response is null (query by vserver-name)");
+				    }
+				    if (vserverResponse.requestError != null) {
+				    	throw new ControlLoopException("AAI responded with a request error (query by vserver-name)");
 				    }
 				    if (isClosedLoopDisabled(vserverResponse) == true) {
 						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
