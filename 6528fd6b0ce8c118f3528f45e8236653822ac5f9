@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_ced57a44",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/AaiSimulatorJaxRs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-20T14:10:31Z",
+      "side": 1,
+      "message": "Let\u0027s not use System.* anymore.",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "6528fd6b0ce8c118f3528f45e8236653822ac5f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
