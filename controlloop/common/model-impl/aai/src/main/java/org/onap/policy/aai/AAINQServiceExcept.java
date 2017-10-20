@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AAINQServiceException implements Serializable {
+public class AAINQServiceExcept implements Serializable {
 
 	private static final long serialVersionUID = 2858343404484338546L;
 
