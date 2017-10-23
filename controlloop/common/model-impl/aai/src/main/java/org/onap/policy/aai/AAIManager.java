@@ -49,7 +49,7 @@ public final class AAIManager {
 		String requestJson = Serialization.gsonPretty.toJson(request);
 		netLogger.info("[OUT|{}|{}|]{}{}", "AAI", url, System.lineSeparator(), requestJson);
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", requestJson);
-		logger.debug("RESTManager.post after"); 
+		logger.debug("RESTManager.post after");
 		
 		if (httpDetails == null) {
 			logger.info("AAI POST Null Response to " + url);

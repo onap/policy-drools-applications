@@ -62,8 +62,8 @@ public class VCPEControlLoopTest implements TopicListener {
     
     private static List<? extends TopicSink> noopTopics;
     
-    private KieSession kieSession;
-    private Util.Pair<ControlLoopPolicy, String> pair;
+    private static KieSession kieSession;
+    private static Util.Pair<ControlLoopPolicy, String> pair;
     private UUID requestID;
     
     static {
@@ -93,16 +93,6 @@ public class VCPEControlLoopTest implements TopicListener {
         } catch (Exception e) {
             fail(e.getMessage());
         }
-    }
-
-    @AfterClass
-    public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
-        PolicyEngine.manager.shutdown();
-    }
-    
-    @Test
-    public void successTest() {
         /*
          * Start the kie session
          */
@@ -117,6 +107,23 @@ public class VCPEControlLoopTest implements TopicListener {
             logger.debug("Could not create kieSession");
             fail("Could not create kieSession");
         }
+    }
+
+    @AfterClass
+    public static void tearDownSimulator() {
+        /*
+         * Gracefully shut down the kie session
+         */
+        kieSession.dispose();
+        
+        HttpServletServer.factory.destroy();
+        PolicyEngine.manager.shutdown();
+        TopicEndpoint.manager.shutdown();
+        PolicyEngine.manager.stop();
+    }
+    
+    @Test
+    public void successTest() {
         
         /*
          * Allows the PolicyEngine to callback to this object to
@@ -152,11 +159,46 @@ public class VCPEControlLoopTest implements TopicListener {
          * Print what's left in memory
          */
         dumpFacts(kieSession);
+    }
+    
+    @Test
+    public void aaiGetFailTest() {
         
         /*
-         * Gracefully shut down the kie session
+         * Allows the PolicyEngine to callback to this object to
+         * notify that there is an event ready to be pulled 
+         * from the queue
          */
-        kieSession.dispose();
+        for (TopicSink sink : noopTopics) {
+            assertTrue(sink.start());
+            sink.register(this);
+        }
+        
+        /*
+         * Create a unique requestId
+         */
+        requestID = UUID.randomUUID();
+        
+        /* 
+         * Simulate an onset event the policy engine will 
+         * receive from DCAE to kick off processing through
+         * the rules
+         */
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "getFail");
+
+        
+        kieSession.fireUntilHalt();
+        
+        /*
+         * The only fact in memory should be Params
+         */
+        assertEquals(1, kieSession.getFactCount());
+        
+        /*
+         * Print what's left in memory
+         */
+        dumpFacts(kieSession);
+        
     }
 
     /**
@@ -176,7 +218,7 @@ public class VCPEControlLoopTest implements TopicListener {
      * @return the kieSession to be used to insert facts 
      * @throws IOException
      */
-    private KieSession startSession(String droolsTemplate, 
+    private static KieSession startSession(String droolsTemplate, 
             String yamlFile, 
             String policyScope, 
             String policyName, 
@@ -234,7 +276,13 @@ public class VCPEControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
+                	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
+                	kieSession.halt();
+                }
+                else {
+                    assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+                }
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
                 logger.debug("Rule Fired: " + notification.policyName);
@@ -320,6 +368,18 @@ public class VCPEControlLoopTest implements TopicListener {
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
         event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
+        event.closedLoopEventStatus = status;
+        kieSession.insert(event);
+    }
+    
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vnfId) {
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
+        event.requestID = requestID;
+        event.target = "generic-vnf.vnf-id";
+        event.closedLoopAlarmStart = Instant.now();
+        event.AAI = new HashMap<>();
+        event.AAI.put("generic-vnf.vnf-id", vnfId);
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }

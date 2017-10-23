@@ -64,8 +64,8 @@ public class VFCControlLoopTest implements TopicListener {
 	
     private static List<? extends TopicSink> noopTopics;
     
-	private KieSession kieSession;
-	private Util.Pair<ControlLoopPolicy, String> pair;
+	private static KieSession kieSession;
+	private static Util.Pair<ControlLoopPolicy, String> pair;
 	private UUID requestID;
 
 	static {
@@ -95,18 +95,8 @@ public class VFCControlLoopTest implements TopicListener {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-	}
-
-	@AfterClass
-	public static void tearDownSimulator() {
-		HttpServletServer.factory.destroy();
-		PolicyEngine.manager.shutdown();
-	}
-
-	@Test
-	public void successTest() throws IOException {
-
         /*
+         * 
          * Start the kie session
          */
         try {
@@ -120,6 +110,24 @@ public class VFCControlLoopTest implements TopicListener {
             logger.debug("Could not create kieSession");
             fail("Could not create kieSession");
         }
+	}
+
+	@AfterClass
+	public static void tearDownSimulator() {
+        
+        /*
+         * Gracefully shut down the kie session
+         */
+        kieSession.dispose();
+        
+		HttpServletServer.factory.destroy();
+		PolicyEngine.manager.shutdown();
+		TopicEndpoint.manager.shutdown();
+	    PolicyEngine.manager.stop();
+	}
+
+	@Test
+	public void successTest() throws IOException {
         
         /*
          * Allows the PolicyEngine to callback to this object to
@@ -154,11 +162,6 @@ public class VFCControlLoopTest implements TopicListener {
          * Print what's left in memory
          */
         dumpFacts(kieSession);
-        
-        /*
-         * Gracefully shut down the kie session
-         */
-        kieSession.dispose();
 	}
 
 	/**
@@ -178,7 +181,7 @@ public class VFCControlLoopTest implements TopicListener {
 	 * @return the kieSession to be used to insert facts
 	 * @throws IOException
 	 */
-	private KieSession startSession(String droolsTemplate,
+	private static KieSession startSession(String droolsTemplate,
 					String yamlFile,
 					String policyScope,
 					String policyName,

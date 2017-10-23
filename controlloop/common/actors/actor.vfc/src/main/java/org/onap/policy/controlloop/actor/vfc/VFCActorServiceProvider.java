@@ -72,13 +72,14 @@ public class VFCActorServiceProvider implements Actor {
         String serviceInstance = onset.AAI.get("service-instance.service-instance-id");
         if (serviceInstance == null || "".equals(serviceInstance))
         {
-        	if(vnfResponse == null) //if the response is null, we haven't queried
+        	AAIGETVnfResponse tempVnfResp = vnfResponse;
+        	if(tempVnfResp == null) //if the response is null, we haven't queried
         	{
-        		vnfResponse = getAAIServiceInstance(onset); //This does the AAI query since we haven't already
-        		if (vnfResponse == null)
+        		tempVnfResp = getAAIServiceInstance(onset); //This does the AAI query since we haven't already
+        		if (tempVnfResp == null)
         		    return null;
         	}
-        	serviceInstance = vnfResponse.serviceId;
+        	serviceInstance = tempVnfResp.serviceId;
         }
         request.nsInstanceId = serviceInstance;
         request.requestId = onset.requestID;
