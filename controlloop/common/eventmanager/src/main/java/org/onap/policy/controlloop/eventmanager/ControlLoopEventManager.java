@@ -531,67 +531,68 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		if (event.requestID == null) {
 			throw new ControlLoopException("No request ID");
 		}
-		if (event.AAI == null) {
-			throw new ControlLoopException("AAI is null");
-		}
-		if (event.AAI.get("generic-vnf.vnf-id") == null && event.AAI.get("vserver.vserver-name") == null &&
-			event.AAI.get("generic-vnf.vnf-name") == null) {
-			throw new ControlLoopException("generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
-		}
-		if (event.AAI.get("vserver.is-closed-loop-disabled") == null) {
-			try {
-				if (event.AAI.get("generic-vnf.vnf-id") != null) {
-			       vnfResponse = getAAIVnfInfo(event); 
-			       if (vnfResponse == null) {
-			    	   throw new ControlLoopException("AAI Response is null (query by vnf-id)");
-			       }
-			       if (vnfResponse.requestError != null) {
-				    	throw new ControlLoopException("AAI Responded with a request error (query by vnf-id)");
-				    }
-			       if (isClosedLoopDisabled(vnfResponse) == true) {
-					   throw new ControlLoopException("is-closed-loop-disabled is set to true");	
-			       }
-				} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
-				    vnfResponse = getAAIVnfInfo(event); 
-				    if (vnfResponse == null) {
-				    	throw new ControlLoopException("AAI Response is null (query by vnf-name)");
-				    }
-				    if (vnfResponse.requestError != null) {
-				    	throw new ControlLoopException("AAI Responded with a request error (query by vnf-name)");
-				    }
-				    if (isClosedLoopDisabled(vnfResponse) == true) {
-						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
-				    }
-				} else if (event.AAI.get("vserver.vserver-name") != null) {
-				    vserverResponse = getAAIVserverInfo(event); 
-				    if (vserverResponse == null) {
-				       throw new ControlLoopException("AAI Response is null (query by vserver-name)");
-				    }
-				    if (vserverResponse.requestError != null) {
-				    	throw new ControlLoopException("AAI responded with a request error (query by vserver-name)");
-				    }
-				    if (isClosedLoopDisabled(vserverResponse) == true) {
-						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
-				    }
-				}
-			} catch (Exception e) {
-				logger.error("Exception from getAAIInfo: ", e);
-				throw new ControlLoopException("Exception from getAAIInfo: " + e.toString());
+		if (event.closedLoopEventStatus != ControlLoopEventStatus.ABATED) {
+			if (event.AAI == null) {
+				throw new ControlLoopException("AAI is null");
 			}
-		} else if (isClosedLoopDisabled(event)) {
-			throw new ControlLoopException("is-closed-loop-disabled is set to true");
-		}
-		if (event.target == null || event.target.length() < 1) {
-			throw new ControlLoopException("No target field");
-		} else {
-			if (! event.target.equalsIgnoreCase("VM_NAME") &&
-				! event.target.equalsIgnoreCase("VNF_NAME") &&
-				! event.target.equalsIgnoreCase("vserver.vserver-name") &&
-				! event.target.equalsIgnoreCase("generic-vnf.vnf-id") &&
-				! event.target.equalsIgnoreCase("generic-vnf.vnf-name") ) {
+			if (event.AAI.get("generic-vnf.vnf-id") == null && event.AAI.get("vserver.vserver-name") == null &&
+				event.AAI.get("generic-vnf.vnf-name") == null) {
+				throw new ControlLoopException("generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
+			}
+			if (event.AAI.get("vserver.is-closed-loop-disabled") == null) {
+				try {
+					if (event.AAI.get("generic-vnf.vnf-id") != null) {
+				       vnfResponse = getAAIVnfInfo(event); 
+				       if (vnfResponse == null) {
+				    	   throw new ControlLoopException("AAI Response is null (query by vnf-id)");
+				       }
+				       if (vnfResponse.requestError != null) {
+					    	throw new ControlLoopException("AAI Responded with a request error (query by vnf-id)");
+					    }
+				       if (isClosedLoopDisabled(vnfResponse) == true) {
+						   throw new ControlLoopException("is-closed-loop-disabled is set to true");	
+				       }
+					} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
+					    vnfResponse = getAAIVnfInfo(event); 
+					    if (vnfResponse == null) {
+					    	throw new ControlLoopException("AAI Response is null (query by vnf-name)");
+					    }
+					    if (vnfResponse.requestError != null) {
+					    	throw new ControlLoopException("AAI Responded with a request error (query by vnf-name)");
+					    }
+					    if (isClosedLoopDisabled(vnfResponse) == true) {
+							throw new ControlLoopException("is-closed-loop-disabled is set to true");	
+					    }
+					} else if (event.AAI.get("vserver.vserver-name") != null) {
+					    vserverResponse = getAAIVserverInfo(event); 
+					    if (vserverResponse == null) {
+					       throw new ControlLoopException("AAI Response is null (query by vserver-name)");
+					    }
+					    if (vserverResponse.requestError != null) {
+					    	throw new ControlLoopException("AAI responded with a request error (query by vserver-name)");
+					    }
+					    if (isClosedLoopDisabled(vserverResponse) == true) {
+							throw new ControlLoopException("is-closed-loop-disabled is set to true");	
+					    }
+					}
+				} catch (Exception e) {
+					logger.error("Exception from getAAIInfo: ", e);
+					throw new ControlLoopException("Exception from getAAIInfo: " + e.toString());
+				}
+			} else if (isClosedLoopDisabled(event)) {
+				throw new ControlLoopException("is-closed-loop-disabled is set to true");
+			}
+			if (event.target == null || event.target.length() < 1) {
+				throw new ControlLoopException("No target field");
+			} else if (! event.target.equalsIgnoreCase("VM_NAME") &&
+					! event.target.equalsIgnoreCase("VNF_NAME") &&
+					! event.target.equalsIgnoreCase("vserver.vserver-name") &&
+					! event.target.equalsIgnoreCase("generic-vnf.vnf-id") &&
+					! event.target.equalsIgnoreCase("generic-vnf.vnf-name") ) {
 				throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
 			}
 		}
+
 	}
 	
 	public static boolean isClosedLoopDisabled(AAIGETVnfResponse aaiResponse) {

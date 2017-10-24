@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.eventmanager;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.time.Instant;
@@ -39,6 +40,7 @@ import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipDataItem;
 import org.onap.policy.aai.RelationshipList;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.Util;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -71,6 +73,9 @@ public class ControlLoopEventManagerTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+		PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+		PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
 	}
 
 	@AfterClass
@@ -82,10 +87,9 @@ public class ControlLoopEventManagerTest {
 	public void testAAIVnfInfo() {
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
-		try {
-			setAAIProperties(); 			
+		try {			
 			AAIGETVnfResponse response = getQueryByVnfID2(PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/network/generic-vnfs/generic-vnf/", 
-					PolicyEngine.manager.getEnvironmentProperty("aai.user"), 
+					PolicyEngine.manager.getEnvironmentProperty("aai.username"), 
 					PolicyEngine.manager.getEnvironmentProperty("aai.password"), 
 					UUID.randomUUID(), "5e49ca06-2972-4532-9ed4-6d071588d792");
 			assertNotNull(response);
@@ -101,9 +105,8 @@ public class ControlLoopEventManagerTest {
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
-			setAAIProperties(); 
 			AAIGETVnfResponse response = getQueryByVnfName2(PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=", 
-					PolicyEngine.manager.getEnvironmentProperty("aai.user"), 
+					PolicyEngine.manager.getEnvironmentProperty("aai.username"), 
 					PolicyEngine.manager.getEnvironmentProperty("aai.password"), 
 					UUID.randomUUID(), "lll_vnf_010317");	
 			assertNotNull(response);
@@ -119,9 +122,8 @@ public class ControlLoopEventManagerTest {
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
 		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
 		try {
-			setAAIProperties(); 
 			AAIGETVserverResponse response = getQueryByVserverName2(PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/nodes/vservers?vserver-name=", 
-					PolicyEngine.manager.getEnvironmentProperty("aai.user"), 
+					PolicyEngine.manager.getEnvironmentProperty("aai.username"), 
 					PolicyEngine.manager.getEnvironmentProperty("aai.password"), 
 					UUID.randomUUID(), "USMSO1SX7NJ0103UJZZ01-vjunos0");
 			assertNotNull(response);
@@ -130,12 +132,6 @@ public class ControlLoopEventManagerTest {
 			logger.error("testAAIVserver Exception: ", e);
 			fail(e.getMessage());
 		}
-	}
-	
-	private void setAAIProperties() {
-		PolicyEngine.manager.setEnvironmentProperty("aai.user", "AAI");
-		PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");		
 	}
 
 	@Test
@@ -148,9 +144,8 @@ public class ControlLoopEventManagerTest {
 		
 		try {
 			logger.info("testIsClosedLoopDisabled --");
-			setAAIProperties(); 
 			AAIGETVnfResponse response = getQueryByVnfID2(PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/network/generic-vnfs/generic-vnf/", 
-					PolicyEngine.manager.getEnvironmentProperty("aai.user"), 
+					PolicyEngine.manager.getEnvironmentProperty("aai.username"), 
 					PolicyEngine.manager.getEnvironmentProperty("aai.password"), 
 					UUID.randomUUID(), "5e49ca06-2972-4532-9ed4-6d071588d792");
 			assertNotNull(response);
@@ -158,7 +153,7 @@ public class ControlLoopEventManagerTest {
 			logger.info("QueryByVnfID - isClosedLoopDisabled: " + disabled); 
 
 			response = getQueryByVnfName2(PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=", 
-					PolicyEngine.manager.getEnvironmentProperty("aai.user"), 
+					PolicyEngine.manager.getEnvironmentProperty("aai.username"), 
 					PolicyEngine.manager.getEnvironmentProperty("aai.password"), 
 					UUID.randomUUID(), "lll_vnf_010317");			
 			assertNotNull(response);
@@ -176,6 +171,41 @@ public class ControlLoopEventManagerTest {
 			fail(e.getMessage());
 		}
  	}
+	
+	@Test
+	public void abatemetCheckEventSyntaxTest() {
+		VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.closedLoopControlName = "abatementAAI";
+        event.requestID = UUID.randomUUID();
+        event.target = "generic-vnf.vnf-id";
+        event.closedLoopAlarmStart = Instant.now();
+        event.closedLoopEventStatus = ControlLoopEventStatus.ABATED;
+        ControlLoopEventManager manager = new ControlLoopEventManager(event.closedLoopControlName, event.requestID);
+        assertNull(manager.getVnfResponse());
+        assertNull(manager.getVserverResponse());
+        try {
+			manager.checkEventSyntax(event);
+		} catch (ControlLoopException e) {
+			logger.debug("ControlLoopException in abatemetCheckEventSyntaxTest: "+e.getMessage());
+			e.printStackTrace();
+			fail("Exception in check event syntax");
+		}
+        assertNull(manager.getVnfResponse());
+        assertNull(manager.getVserverResponse());
+        
+
+        event.AAI = new HashMap<>();
+        event.AAI.put("generic-vnf.vnf-name", "abatementTest");
+        try {
+			manager.checkEventSyntax(event);
+		} catch (ControlLoopException e) {
+			logger.debug("ControlLoopException in abatemetCheckEventSyntaxTest: "+e.getMessage());
+			e.printStackTrace();
+			fail("Exception in check event syntax");
+		}
+        assertNull(manager.getVnfResponse());
+        assertNull(manager.getVserverResponse());
+	}
 	
 	// Simulate a response 
 	public static AAIGETVnfResponse getQueryByVnfID2(String urlGet, String username, String password, UUID requestID, String key) {
