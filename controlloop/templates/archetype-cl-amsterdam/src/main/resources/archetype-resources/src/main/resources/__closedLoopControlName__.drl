@@ -522,13 +522,17 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
         request = $operation.startOperation($event);
     }
     catch (AAIException e) {
-    	//We got an exception, retract everything for this current operation
-        $operation.setOperationHasException(e.getMessage());
+        String msg = e.getMessage();
+        logger.warn("{}: {}: operation={}:  AAI failure: {}", 
+                    $params.getClosedLoopControlName(), drools.getRule().getName(),
+                    $operation, msg, e);
+        $operation.setOperationHasException(msg);
         retract($opTimer);
         retract($operation);
         caughtException = true;
     }
-    //Having the modify statement in the catch clause doesn't work for whatever reason
+    
+    // Having the modify statement in the catch clause doesn't work for whatever reason
     if (caughtException) {
         modify($manager) {finishOperation($operation)};
     }
