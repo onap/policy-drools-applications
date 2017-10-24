@@ -276,7 +276,7 @@ public class VCPEControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
+                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
                 	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
                 	kieSession.halt();
                 }
@@ -364,22 +364,22 @@ public class VCPEControlLoopTest implements TopicListener {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
-        event.target = "generic-vnf.vnf-id";
+        event.target = "generic-vnf.vnf-name";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
+        event.AAI.put("generic-vnf.vnf-name", "testGenericVnfName");
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }
     
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vnfId) {
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vnfName) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
-        event.target = "generic-vnf.vnf-id";
+        event.target = "generic-vnf.vnf-name";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("generic-vnf.vnf-id", vnfId);
+        event.AAI.put("generic-vnf.vnf-name", vnfName);
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }

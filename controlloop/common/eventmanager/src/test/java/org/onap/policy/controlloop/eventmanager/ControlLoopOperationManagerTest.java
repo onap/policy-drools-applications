@@ -29,6 +29,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appclcm.LCMRequest;
@@ -42,6 +44,8 @@ import org.onap.policy.controlloop.Util;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
+import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,16 +55,32 @@ public class ControlLoopOperationManagerTest {
 	static {
 		onset = new VirtualControlLoopEvent();
 		onset.requestID = UUID.randomUUID();
-		onset.target = "vserver.selflink";
+		onset.target = "generic-vnf.vnf-name";
 		onset.closedLoopAlarmStart = Instant.now();
 		onset.AAI = new HashMap<>();
-		onset.AAI.put("cloud-region.identity-url", "foo");
-		onset.AAI.put("vserver.selflink", "bar");
-		onset.AAI.put("vserver.is-closed-loop-disabled", "false");
 		onset.AAI.put("generic-vnf.vnf-name", "testTriggerSource");
 		onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+		
+		/* Set environment properties */
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 	}
 
+	@BeforeClass
+    public static void setUpSimulator() {
+        try {
+            org.onap.policy.simulators.Util.buildAaiSim();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
+	
 	@Test
 	public void testRetriesFail() {
 		//
@@ -77,7 +97,14 @@ public class ControlLoopOperationManagerTest {
 			// create the manager
 			//
 			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
-
+			try {
+                eventManager.checkEventSyntax(onset);
+            }
+            catch (ControlLoopException e) {
+                logger.warn(e.toString());
+                fail("The onset failed the syntax check");
+            }
+			
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
 			logger.debug("{}",manager);
 			//
@@ -192,6 +219,13 @@ public class ControlLoopOperationManagerTest {
 			// create the manager
 			//
 			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
+			try {
+			    eventManager.checkEventSyntax(onset);
+			}
+			catch (ControlLoopException e) {
+			    logger.warn(e.toString());
+			    fail("The onset failed the syntax check");
+			}
 
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
 			//
