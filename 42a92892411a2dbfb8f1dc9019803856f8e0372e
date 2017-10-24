@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_476968f8",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-24T14:53:10Z",
+      "side": 1,
+      "message": "I\u0027m wondering if we take one level of nested if/try/if/etc. out and just do a check here:\nif (event.closedLoopEventStatus \u003d\u003d ControlLoopEventStatus.ABATED) {\n  return;\n}\nThis reduced sonar flagging the cyclomatic complexity too high.",
+      "range": {
+        "startLine": 534,
+        "startChar": 2,
+        "endLine": 534,
+        "endChar": 69
+      },
+      "revId": "42a92892411a2dbfb8f1dc9019803856f8e0372e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
