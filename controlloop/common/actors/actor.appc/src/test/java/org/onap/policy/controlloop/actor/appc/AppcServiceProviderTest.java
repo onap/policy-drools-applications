@@ -29,6 +29,7 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -54,6 +55,7 @@ public class AppcServiceProviderTest {
     private static VirtualControlLoopEvent onsetEvent;
     private static ControlLoopOperation operation;
     private static Policy policy;
+    private static AAIGETVnfResponse aaiResponse;
 
     static {
         /* 
@@ -65,11 +67,11 @@ public class AppcServiceProviderTest {
         onsetEvent.requestID = UUID.randomUUID();
         onsetEvent.closedLoopEventClient = "tca.instance00001";
         onsetEvent.target_type = ControlLoopTargetType.VNF;
-        onsetEvent.target = "generic-vnf.vnf-id";
+        onsetEvent.target = "generic-vnf.vnf-name";
         onsetEvent.from = "DCAE";
         onsetEvent.closedLoopAlarmStart = Instant.now();
         onsetEvent.AAI = new HashMap<>();
-        onsetEvent.AAI.put("generic-vnf.vnf-id", "fw0001vm001fw001");
+        onsetEvent.AAI.put("generic-vnf.vnf-name", "fw0001vm001fw001");
         onsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
 
         /* Construct an operation with an APPC actor and ModifyConfig operation. */
@@ -91,6 +93,10 @@ public class AppcServiceProviderTest {
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
+        
+        /* Construct a mock A&AI response */
+        aaiResponse = new AAIGETVnfResponse();
+        aaiResponse.vnfID = "vnf01";
         
         /* Set environment properties */
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
@@ -118,7 +124,7 @@ public class AppcServiceProviderTest {
         
         Request appcRequest = null;
 		try {
-			appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy);
+			appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy, aaiResponse);
 		} catch (AAIException e) {
 			logger.warn(e.toString());
 			fail("no vnfid found");

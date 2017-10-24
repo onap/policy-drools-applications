@@ -33,11 +33,13 @@ import java.util.UUID;
 
 import org.onap.policy.aai.AAINQInstanceFilters;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
+import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQNamedQuery;
 import org.onap.policy.aai.AAINQQueryParameters;
 import org.onap.policy.aai.AAINQRequest;
 import org.onap.policy.aai.AAINQResponse;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.appclcm.LCMRequest;
 import org.onap.policy.appclcm.LCMRequestWrapper;
@@ -138,8 +140,9 @@ public class AppcLcmActorServiceProvider implements Actor {
      *            the vnf id of the source entity reporting the alert
      *            
      * @return the target entities vnf id to act upon
+     * @throws AAIException 
      */
-    public static String vnfNamedQuery(String resourceId, String sourceVnfId) {
+    public static String vnfNamedQuery(String resourceId, String sourceVnfId) throws AAIException {
         
         //TODO: This request id should not be hard coded in future releases
         UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
@@ -170,9 +173,15 @@ public class AppcLcmActorServiceProvider implements Actor {
                         aaiUrl,
                         aaiUsername, aaiPassword, 
                         aaiRequest, requestId);
+        
+        if (aaiResponse == null) {
+            throw new AAIException("The named query response was null");
+        }
 
-        //TODO: What if the resourceId never matches?
         String targetVnfId = parseAAIResponse(aaiResponse.inventoryResponseItems, resourceId);
+        if (targetVnfId == null) {
+            throw new AAIException("Target vnf-id could not be found"); 
+        }
         
         return targetVnfId;
     }
@@ -192,9 +201,10 @@ public class AppcLcmActorServiceProvider implements Actor {
      *            the policy the was specified from the yaml generated
      *            by CLAMP or through the Policy GUI/API                        
      * @return an APPC request conforming to the lcm API using the DMAAP wrapper
+     * @throws AAIException 
      */
-    public static LCMRequestWrapper constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-            Policy policy) {
+    public static LCMRequestWrapper constructRequest(VirtualControlLoopEvent onset, 
+                ControlLoopOperation operation, Policy policy, AAIGETVnfResponse vnfResponse) throws AAIException {
         
         /* Construct an APPC request using LCM Model */
         
@@ -225,7 +235,15 @@ public class AppcLcmActorServiceProvider implements Actor {
          * a vnf-id.
          */
         HashMap<String, String> requestActionIdentifiers = new HashMap<>();
-        requestActionIdentifiers.put("vnf-id", onset.AAI.get(DCAE_VNF_ID));
+        String vnfId = onset.AAI.get(DCAE_VNF_ID);
+        if (vnfId == null) {
+            vnfId = vnfResponse.vnfID;
+            if (vnfId == null) {
+                throw new AAIException("No vnf-id found");
+            }
+        }
+        requestActionIdentifiers.put("vnf-id", vnfId);
+        
         appcRequest.setActionIdentifiers(requestActionIdentifiers);
         
         /* 

@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
+import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
@@ -89,7 +90,8 @@ public class APPCActorServiceProvider implements Actor {
 	 * @return an APPC request conforming to the legacy API
 	 * @throws AAIException 
 	 */
-	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) throws AAIException {
+	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+	                Policy policy, AAIGETVnfResponse vnfResponse) throws AAIException {
 		/*
 		 * Construct an APPC request
 		 */
@@ -105,24 +107,24 @@ public class APPCActorServiceProvider implements Actor {
 		 * specified in the yaml, the target vnf-id is retrieved by
 		 * a named query to A&AI.
 		 */
-		String vnfId;
-		if (onset.AAI.get("generic-vnf.vnf-id").equalsIgnoreCase(policy.getTarget().getResourceID())) {
-		    vnfId = onset.AAI.get("generic-vnf.vnf-id");
+		String sourceVnf = onset.AAI.get("generic-vnf.vnf-id");
+		if (sourceVnf == null) {
+		    /*
+		     * Lets see if the vnf-name is provided
+		     */
+		    sourceVnf = vnfResponse.vnfID;
+		    if (sourceVnf == null) {
+		        throw new AAIException("No vnf-id found");
+		    }
 		}
-		else {
-		    vnfId = AppcLcmActorServiceProvider.vnfNamedQuery(
-                    policy.getTarget().getResourceID(), onset.AAI.get("generic-vnf.vnf-id"));
-		}
-		
-		if (vnfId == null) {
-			throw new AAIException("No vnf id found");
-		}
-		
+		String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(
+                    policy.getTarget().getResourceID(), sourceVnf);
+	
 		/*
 		 * For now Policy generates the PG Streams as a demo, in the
 		 * future the payload can be provided by CLAMP
 		 */
-		request.Payload.put("generic-vnf.vnf-id", vnfId);
+		request.Payload.put("generic-vnf.vnf-id", targetVnf);
 		
 		PGRequest pgRequest = new PGRequest();
 		pgRequest.pgStreams = new PGStreams();

@@ -322,7 +322,7 @@ public class VFWControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
+                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
                 	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
                 	kieSession.halt();
                 }
@@ -363,8 +363,8 @@ public class VFWControlLoopTest implements TopicListener {
             }
             else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                if ("error".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
-                	assertTrue(ControlLoopNotificationType.FINAL_FAILURE.equals(notification.notification));
+                if ("error".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
+                	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
                 	assertEquals("Exception in processing closed loop", notification.message);
                 }
                 else {
@@ -408,10 +408,10 @@ public class VFWControlLoopTest implements TopicListener {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
-        event.target = "generic-vnf.vnf-id";
+        event.target = "generic-vnf.vnf-name";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("generic-vnf.vnf-id", "testGenericVnfID");
+        event.AAI.put("generic-vnf.vnf-name", "testGenericVnfID");
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }
@@ -429,10 +429,10 @@ public class VFWControlLoopTest implements TopicListener {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
-        event.target = "generic-vnf.vnf-id";
+        event.target = "generic-vnf.vnf-name";
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
-        event.AAI.put("generic-vnf.vnf-id", vnfId);
+        event.AAI.put("generic-vnf.vnf-name", vnfId);
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }

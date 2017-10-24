@@ -209,10 +209,12 @@ public class ControlLoopOperationManager implements Serializable {
 			this.currentOperation = operation;
 		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
 
-	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
+	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
+	                                    operation.operation, this.policy, eventManager.getVnfResponse());
 		    }
 		    else {
-		        this.operationRequest = AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy);
+		        this.operationRequest = AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
+		                                operation.operation, this.policy, eventManager.getVnfResponse());
 		    }
 			//
 			// Save the operation
