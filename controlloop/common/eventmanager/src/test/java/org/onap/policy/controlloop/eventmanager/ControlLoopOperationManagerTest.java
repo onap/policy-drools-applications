@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -38,10 +39,12 @@ import org.onap.policy.appclcm.LCMRequestWrapper;
 import org.onap.policy.appclcm.LCMResponse;
 import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.Util;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
@@ -99,13 +102,10 @@ public class ControlLoopOperationManagerTest {
 			// create the manager
 			//
 			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
-			try {
-                eventManager.checkEventSyntax(onset);
-            }
-            catch (ControlLoopException e) {
-                logger.warn(e.toString());
-                fail("The onset failed the syntax check");
-            }
+            VirtualControlLoopNotification notification = eventManager.activate(onset);
+			
+			assertNotNull(notification);
+			assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
 			
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
 			logger.debug("{}",manager);
@@ -221,13 +221,10 @@ public class ControlLoopOperationManagerTest {
 			// create the manager
 			//
 			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
-			try {
-			    eventManager.checkEventSyntax(onset);
-			}
-			catch (ControlLoopException e) {
-			    logger.warn(e.toString());
-			    fail("The onset failed the syntax check");
-			}
+			VirtualControlLoopNotification notification = eventManager.activate(onset);
+			
+			assertNotNull(notification);
+			assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
 
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
 			//
