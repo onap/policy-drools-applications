@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_903424df",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-25T03:23:19Z",
+      "side": 1,
+      "message": "Something I noticed while porting this to the operation manager, should we really be checking the target type value of the policy? Should this be checking the target type of the onset?",
+      "revId": "83e8a0aab85e78e97a5ba3f2e8ef14ba4d38bf62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
