@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -41,8 +42,10 @@ import org.onap.policy.aai.RelationshipDataItem;
 import org.onap.policy.aai.RelationshipList;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.Util;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.system.PolicyEngine; 
@@ -204,6 +207,45 @@ public class ControlLoopEventManagerTest {
 			fail("Exception in check event syntax");
 		}
         assertNull(manager.getVnfResponse());
+        assertNull(manager.getVserverResponse());
+	}
+	
+	@Test
+	public void subsequentOnsetTest() {
+		UUID requestId = UUID.randomUUID();
+		VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+		event.closedLoopControlName = "TwoOnsetTest";
+		event.requestID = requestId;
+		event.target = "generic-vnf.vnf-id";
+        event.closedLoopAlarmStart = Instant.now();
+        event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+        event.AAI = new HashMap<>();
+        event.AAI.put("generic-vnf.vnf-name", "onsetOne");
+        
+        ControlLoopEventManager manager = new ControlLoopEventManager(event.closedLoopControlName, event.requestID);
+        VirtualControlLoopNotification notification = manager.activate(event);
+        
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
+        AAIGETVnfResponse response = manager.getVnfResponse();
+        assertNotNull(response);
+        assertNull(manager.getVserverResponse());
+        
+        VirtualControlLoopEvent event2 = new VirtualControlLoopEvent();
+		event2.closedLoopControlName = "TwoOnsetTest";
+		event2.requestID = requestId;
+		event2.target = "generic-vnf.vnf-id";
+        event2.closedLoopAlarmStart = Instant.now();
+        event2.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+        event2.AAI = new HashMap<>();
+        event2.AAI.put("generic-vnf.vnf-name", "onsetTwo");
+        
+        ControlLoopEventManager.NEW_EVENT_STATUS status = manager.onNewEvent(event2);
+        assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.SUBSEQUENT_ONSET, status);
+        AAIGETVnfResponse response2 = manager.getVnfResponse();
+        assertNotNull(response2);
+        // We should not have queried AAI, so the stored response should be the same
+        assertEquals(response, response2);
         assertNull(manager.getVserverResponse());
 	}
 	

@@ -149,6 +149,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// Syntax check the event
 			//
 			checkEventSyntax(event);
+			checkEventAAISyntax(event);
 			//
 			// At this point we are good to go with this event
 			//
@@ -183,6 +184,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// Syntax check the event
 			//
 			checkEventSyntax(event);
+			checkEventAAISyntax(event);
 	
 			//
 			// Check the YAML
@@ -535,6 +537,18 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		if (event.closedLoopEventStatus == ControlLoopEventStatus.ABATED) {
 			return;
 		}
+		if (event.target == null || event.target.length() < 1) {
+			throw new ControlLoopException("No target field");
+		} else if (! event.target.equalsIgnoreCase("VM_NAME") &&
+				! event.target.equalsIgnoreCase("VNF_NAME") &&
+				! event.target.equalsIgnoreCase("vserver.vserver-name") &&
+				! event.target.equalsIgnoreCase("generic-vnf.vnf-id") &&
+				! event.target.equalsIgnoreCase("generic-vnf.vnf-name") ) {
+			throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
+		}
+	}
+	
+	public void checkEventAAISyntax(VirtualControlLoopEvent event) throws ControlLoopException {
 		if (event.AAI == null) {
 			throw new ControlLoopException("AAI is null");
 		}
@@ -584,15 +598,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			}
 		} else if (isClosedLoopDisabled(event)) {
 			throw new ControlLoopException("is-closed-loop-disabled is set to true");
-		}
-		if (event.target == null || event.target.length() < 1) {
-			throw new ControlLoopException("No target field");
-		} else if (! event.target.equalsIgnoreCase("VM_NAME") &&
-				! event.target.equalsIgnoreCase("VNF_NAME") &&
-				! event.target.equalsIgnoreCase("vserver.vserver-name") &&
-				! event.target.equalsIgnoreCase("generic-vnf.vnf-id") &&
-				! event.target.equalsIgnoreCase("generic-vnf.vnf-name") ) {
-			throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
 		}
 	}
 	
