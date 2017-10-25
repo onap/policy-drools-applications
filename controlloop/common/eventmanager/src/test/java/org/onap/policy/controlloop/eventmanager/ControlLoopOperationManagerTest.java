@@ -40,6 +40,7 @@ import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.Util;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -56,6 +57,7 @@ public class ControlLoopOperationManagerTest {
 		onset = new VirtualControlLoopEvent();
 		onset.requestID = UUID.randomUUID();
 		onset.target = "generic-vnf.vnf-name";
+		onset.target_type = ControlLoopTargetType.VNF;
 		onset.closedLoopAlarmStart = Instant.now();
 		onset.AAI = new HashMap<>();
 		onset.AAI.put("generic-vnf.vnf-name", "testTriggerSource");

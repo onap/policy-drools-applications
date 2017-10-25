@@ -31,6 +31,7 @@ import java.util.UUID;
 import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.AAIGETVserverResponse;
 import org.onap.policy.aai.AAIManager;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -289,7 +290,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		return notification;
 	}
 		
-	public ControlLoopOperationManager	processControlLoop() throws ControlLoopException {
+	public ControlLoopOperationManager	processControlLoop() throws ControlLoopException, AAIException {
 		//
 		// Check if they activated us
 		//
@@ -397,7 +398,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			//
 			LockResult<GuardResult, TargetLock> lockResult = PolicyGuard.lockTarget(
 																		this.currentOperation.policy.getTarget().getType(), 
-																		this.getTargetInstance(this.currentOperation.policy),
+																		this.currentOperation.getTargetEntity(),
 																		this.onset.requestID,
 																		this);
 			//
@@ -692,32 +693,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	public boolean releaseLock() {
 		// TODO
 		return false;
-	}
-
-	public String getTargetInstance(Policy policy) {
-		if (policy.getTarget() != null) {
-			if (policy.getTarget().getType() != null) {
-				switch(policy.getTarget().getType()) {
-				case PNF:
-					break;
-				case VM:
-				case VNF:
-					if (this.onset.target.equalsIgnoreCase("vserver.vserver-name")) {
-						return this.onset.AAI.get("vserver.vserver-name");
-					}
-					else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-id")) {
-					    return this.onset.AAI.get("generic-vnf.vnf-id");
-					}
-					else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-name")) {
-					    return this.onset.AAI.get("generic-vnf.vnf-name");
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}
-		return null;
 	}
 
 	@Override

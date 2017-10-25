@@ -33,7 +33,6 @@ import java.util.UUID;
 
 import org.onap.policy.aai.AAINQInstanceFilters;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
-import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQNamedQuery;
 import org.onap.policy.aai.AAINQQueryParameters;
@@ -58,9 +57,6 @@ import org.slf4j.LoggerFactory;
 public class AppcLcmActorServiceProvider implements Actor {
     
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
-    
-    /* The source vnf-id provided from the DCAE onset */
-    private static final String DCAE_VNF_ID = "generic-vnf.vnf-id";
 
     /* To be used in future releases to restart a single vm */
     private static final String APPC_VM_ID = "vm-id";
@@ -204,7 +200,7 @@ public class AppcLcmActorServiceProvider implements Actor {
      * @throws AAIException 
      */
     public static LCMRequestWrapper constructRequest(VirtualControlLoopEvent onset, 
-                ControlLoopOperation operation, Policy policy, AAIGETVnfResponse vnfResponse) throws AAIException {
+                ControlLoopOperation operation, Policy policy, String targetVnf) throws AAIException {
         
         /* Construct an APPC request using LCM Model */
         
@@ -235,14 +231,7 @@ public class AppcLcmActorServiceProvider implements Actor {
          * a vnf-id.
          */
         HashMap<String, String> requestActionIdentifiers = new HashMap<>();
-        String vnfId = onset.AAI.get(DCAE_VNF_ID);
-        if (vnfId == null) {
-            vnfId = vnfResponse.vnfID;
-            if (vnfId == null) {
-                throw new AAIException("No vnf-id found");
-            }
-        }
-        requestActionIdentifiers.put("vnf-id", vnfId);
+        requestActionIdentifiers.put("vnf-id", targetVnf);
         
         appcRequest.setActionIdentifiers(requestActionIdentifiers);
         
