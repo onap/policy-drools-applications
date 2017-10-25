@@ -30,7 +30,6 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.AAIGETVnfResponse;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.appclcm.LCMRequest;
@@ -58,7 +57,6 @@ public class AppcLcmServiceProviderTest {
     private static VirtualControlLoopEvent onsetEvent;
     private static ControlLoopOperation operation;
     private static Policy policy;
-    private static AAIGETVnfResponse aaiResponse;
     private static LCMRequestWrapper dmaapRequest;
     private static LCMResponseWrapper dmaapResponse;
 
@@ -97,10 +95,6 @@ public class AppcLcmServiceProviderTest {
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
-        
-        /* Construct a mock A&AI response */
-        aaiResponse = new AAIGETVnfResponse();
-        aaiResponse.vnfID = "vnf01";
 
         /* A sample DMAAP request wrapper. */
         dmaapRequest = new LCMRequestWrapper();
@@ -171,7 +165,7 @@ public class AppcLcmServiceProviderTest {
         
         LCMRequestWrapper dmaapRequest = null;
         try {
-            dmaapRequest = AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, policy, aaiResponse);
+            dmaapRequest = AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
         } catch (AAIException e) {
             logger.warn(e.toString());
             fail("no vnfid found");
@@ -315,12 +309,12 @@ public class AppcLcmServiceProviderTest {
         String resourceId = "82194af1-3c2c-485a-8f44-420e22a9eaa4";
         String targetVnfId = null;
         try {
-            targetVnfId = AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, aaiResponse.vnfID);
+            targetVnfId = AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, "vnf01");
         } catch (AAIException e) {
             logger.warn(e.toString());
             fail("no vnf-id found");
         }
         assertNotNull(targetVnfId);
-        assertEquals(targetVnfId, aaiResponse.vnfID);
+        assertEquals(targetVnfId, "vnf01");
     }
 }

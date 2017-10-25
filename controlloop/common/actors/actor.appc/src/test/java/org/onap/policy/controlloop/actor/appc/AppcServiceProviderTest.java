@@ -29,8 +29,6 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
@@ -55,7 +53,6 @@ public class AppcServiceProviderTest {
     private static VirtualControlLoopEvent onsetEvent;
     private static ControlLoopOperation operation;
     private static Policy policy;
-    private static AAIGETVnfResponse aaiResponse;
 
     static {
         /* 
@@ -94,10 +91,6 @@ public class AppcServiceProviderTest {
         policy.setRetry(2);
         policy.setTimeout(300);
         
-        /* Construct a mock A&AI response */
-        aaiResponse = new AAIGETVnfResponse();
-        aaiResponse.vnfID = "vnf01";
-        
         /* Set environment properties */
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
@@ -123,12 +116,7 @@ public class AppcServiceProviderTest {
     public void constructModifyConfigRequestTest() {
         
         Request appcRequest = null;
-		try {
-			appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy, aaiResponse);
-		} catch (AAIException e) {
-			logger.warn(e.toString());
-			fail("no vnfid found");
-		}
+        appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
         
         /* The service provider must return a non null APPC request */
         assertNotNull(appcRequest);

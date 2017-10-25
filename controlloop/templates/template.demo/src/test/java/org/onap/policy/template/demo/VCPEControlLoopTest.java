@@ -335,6 +335,7 @@ public class VCPEControlLoopTest implements TopicListener {
             LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
             LCMRequest appcRequest = dmaapRequest.getBody();
             assertTrue(appcRequest.getCommonHeader().getSubRequestId().equals("1"));
+            assertNotNull(appcRequest.getActionIdentifiers().get("vnf-id"));
             
             logger.debug("\n============ APPC received the request!!! ===========\n");
             

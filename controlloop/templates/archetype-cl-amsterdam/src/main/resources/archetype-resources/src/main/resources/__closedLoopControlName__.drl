@@ -485,13 +485,23 @@ rule "${policyName}.EVENT.MANAGER"
             }
         }
     } catch (Exception e) {
-      logger.warn("{}: {}: unexpected", 
+      	logger.warn("{}: {}: unexpected", 
                   $params.getClosedLoopControlName(), 
                   drools.getRule().getName(), e);
 
-      //
-      // TODO should we abort if we get an exception?
-      //
+      	VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+	    notification.notification = ControlLoopNotificationType.FINAL_FAILURE;
+	    notification.message = e.getMessage();
+	    notification.from = "policy";
+	    notification.policyName = drools.getRule().getName();
+	    notification.policyScope = "${policyScope}";
+	    notification.policyVersion = "${policyVersion}";
+  
+  		PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);			  
+          	
+        retract($event);
+        retract($manager);
+        retract($clTimer);
     }
         
 end
@@ -651,8 +661,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
                                                         $event.closedLoopControlName,
                                                         $operation.policy.getActor().toString(),
                                                         $operation.policy.getRecipe(),
-                                                        $manager.getTargetInstance($operation.policy),
-                                                        //$event.target,
+                                                        $operation.getTargetEntity(),
                                                         $event.requestID.toString()
                                                         ));
         t.start();

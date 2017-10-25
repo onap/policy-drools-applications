@@ -23,7 +23,8 @@ policies:
     description:
     actor: APPC
     recipe: Restart
-    target: VM
+    target:
+      type: VNF
     retry: 1
     timeout: 20
     success: final_success

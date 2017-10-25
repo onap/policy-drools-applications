@@ -365,7 +365,7 @@ public class VFWControlLoopTest implements TopicListener {
                 logger.debug("Rule Fired: " + notification.policyName);
                 if ("error".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
                 	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
-                	assertEquals("Exception in processing closed loop", notification.message);
+                	assertEquals("Target vnf-id could not be found", notification.message);
                 }
                 else {
                     assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
@@ -381,6 +381,7 @@ public class VFWControlLoopTest implements TopicListener {
         }
         else if (obj instanceof Request) {
             assertTrue(((Request)obj).getCommonHeader().SubRequestID.equals("1"));
+            assertNotNull(((Request)obj).getPayload().get("generic-vnf.vnf-id"));
             
             logger.debug("\n============ APPC received the request!!! ===========\n");
             

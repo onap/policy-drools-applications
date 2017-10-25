@@ -24,9 +24,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -91,7 +88,7 @@ public class APPCActorServiceProvider implements Actor {
 	 * @throws AAIException 
 	 */
 	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-	                Policy policy, AAIGETVnfResponse vnfResponse) throws AAIException {
+	                Policy policy, String targetVnf) {
 		/*
 		 * Construct an APPC request
 		 */
@@ -101,24 +98,6 @@ public class APPCActorServiceProvider implements Actor {
 		request.CommonHeader.SubRequestID = operation.subRequestId;
 		request.Action = policy.getRecipe().substring(0, 1).toUpperCase() 
                         + policy.getRecipe().substring(1);
-		
-		/*
-		 * The target vnf-id may not be the same as the source vnf-id
-		 * specified in the yaml, the target vnf-id is retrieved by
-		 * a named query to A&AI.
-		 */
-		String sourceVnf = onset.AAI.get("generic-vnf.vnf-id");
-		if (sourceVnf == null) {
-		    /*
-		     * Lets see if the vnf-name is provided
-		     */
-		    sourceVnf = vnfResponse.vnfID;
-		    if (sourceVnf == null) {
-		        throw new AAIException("No vnf-id found");
-		    }
-		}
-		String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(
-                    policy.getTarget().getResourceID(), sourceVnf);
 	
 		/*
 		 * For now Policy generates the PG Streams as a demo, in the

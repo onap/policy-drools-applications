@@ -84,6 +84,7 @@ public class ControlLoopOperationManager implements Serializable {
 	private LinkedList<Operation> operationHistory = new LinkedList<Operation>();
 	private PolicyResult policyResult = null;
 	private ControlLoopEventManager eventManager = null;
+	private String targetEntity;
 
 	public ControlLoopEventManager getEventManager() {
 		return eventManager;
@@ -93,6 +94,9 @@ public class ControlLoopOperationManager implements Serializable {
 		this.eventManager = eventManager;
 	}
 
+	public String getTargetEntity() {
+	    return this.targetEntity;
+	}
 
 	//
 	// Internal class used for tracking
@@ -123,21 +127,72 @@ public class ControlLoopOperationManager implements Serializable {
 		this.guardApprovalStatus = guardApprovalStatus;
 	}
 
-
-	public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException {
+	public String getTarget(Policy policy) throws ControlLoopException, AAIException {
+        if (policy.getTarget() != null) {
+            if (policy.getTarget().getType() != null) {
+                switch(policy.getTarget().getType()) {
+                case PNF:
+                    break;
+                case VM:
+                case VNF:
+                    VirtualControlLoopEvent virtualOnset = (VirtualControlLoopEvent) this.onset;
+                    if (this.onset.target.equalsIgnoreCase("vserver.vserver-name")) {
+                        return virtualOnset.AAI.get("vserver.vserver-name");
+                    }
+                    else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-id")) {
+                        return virtualOnset.AAI.get("generic-vnf.vnf-id");
+                    }
+                    else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-name")) {
+                        /*
+                         * If the vnf-name was retrieved from the onset then the vnf-id
+                         * must be obtained from the event manager's A&AI GET query
+                         */
+                        String vnfId = this.eventManager.getVnfResponse().vnfID;
+                        if (vnfId == null) {
+                            throw new AAIException("No vnf-id found");
+                        }
+                        return vnfId;
+                    }
+                    break;
+                default:
+                    throw new ControlLoopException("The target type is not supported");
+                }
+            }
+            else {
+                throw new ControlLoopException("The target type is null");
+            }
+        }
+        else {
+            throw new ControlLoopException("The target is null");
+        }
+        return null;
+    }
+	
+	public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException, AAIException {
 		this.onset = onset;
 		this.policy = policy;
 		this.guardApprovalStatus = "NONE";
 		this.eventManager = em;
-
+		this.targetEntity = getTarget(policy);
+		
 		//
 		// Let's make a sanity check
 		//
 		switch (policy.getActor()) {
 		case "APPC":
+		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
+		        /*
+                 * The target vnf-id may not be the same as the source vnf-id
+                 * specified in the yaml, the target vnf-id is retrieved by
+                 * a named query to A&AI.
+                 */
+		        String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(
+		                    policy.getTarget().getResourceID(), this.targetEntity);
+		        this.targetEntity = targetVnf;
+		    }
 			break;
 		case "SO":
-			break;
+		    break;
 		case "VFC":
 			break;
 		default:
@@ -210,11 +265,11 @@ public class ControlLoopOperationManager implements Serializable {
 		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
 
 	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
-	                                    operation.operation, this.policy, eventManager.getVnfResponse());
+	                                    operation.operation, this.policy, this.targetEntity);
 		    }
 		    else {
 		        this.operationRequest = AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
-		                                operation.operation, this.policy, eventManager.getVnfResponse());
+		                                operation.operation, this.policy, this.targetEntity);
 		    }
 			//
 			// Save the operation
@@ -593,7 +648,7 @@ public class ControlLoopOperationManager implements Serializable {
 		newEntry.requestId = this.onset.requestID.toString();
 		newEntry.actor = this.currentOperation.operation.actor;
 		newEntry.operation = this.currentOperation.operation.operation;
-		newEntry.target = this.eventManager.getTargetInstance(this.policy);
+		newEntry.target = this.targetEntity;
 		newEntry.starttime = Timestamp.from(this.currentOperation.operation.start);
 		newEntry.subrequestId = this.currentOperation.operation.subRequestId;
 		newEntry.endtime = new Timestamp(this.currentOperation.operation.end.toEpochMilli());
