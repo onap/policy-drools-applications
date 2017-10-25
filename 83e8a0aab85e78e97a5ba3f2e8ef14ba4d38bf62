@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1a2f8d8d_fbed898c",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-25T14:43:07Z",
+      "side": 1,
+      "message": "At this point in processing these should not be bull, the event syntax checker would have failed and produced a reject/final failure earlier on. I only check for ModifyConfig because the target changes since the source is no longer the target entity.",
+      "parentUuid": "1a2f8d8d_7b4639c1",
+      "revId": "83e8a0aab85e78e97a5ba3f2e8ef14ba4d38bf62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2f8d8d_bbc70145",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "1a2f8d8d_3bf4315a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-25T14:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_bbc70145",
+      "range": {
+        "startLine": 649,
+        "startChar": 20,
+        "endLine": 649,
+        "endChar": 43
+      },
+      "revId": "83e8a0aab85e78e97a5ba3f2e8ef14ba4d38bf62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2f8d8d_1b361553",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -70,6 +112,30 @@
       "writtenOn": "2017-10-25T14:24:44Z",
       "side": 1,
       "message": "I know you didn\u0027t add this, but should we get rid of commented out code?",
+      "range": {
+        "startLine": 665,
+        "startChar": 56,
+        "endLine": 665,
+        "endChar": 72
+      },
+      "revId": "83e8a0aab85e78e97a5ba3f2e8ef14ba4d38bf62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_db02cd3d",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-25T14:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a2f8d8d_1b361553",
       "range": {
         "startLine": 665,
         "startChar": 56,
