@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Chenfei Gao <cgao@research.att.com>
+Code-Review+1: Charles Cole <cc847m@att.com>
+Code-Review+2: Jorge Hernandez <jh1730@att.com>
+Submitted-by: Jorge Hernandez <jh1730@att.com>
+Submitted-at: Wed, 25 Oct 2017 16:30:03 +0000
+Reviewed-on: http://gerrit.onap.org/r/20483
+Project: policy/drools-applications
+Branch: refs/heads/master
