@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_d6962494",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-25T17:00:32Z",
+      "side": 1,
+      "message": "Sonar will flag this. Just reverse the compare:\n\"VM_NAME\".equalsIgnoreCase(event.target)\nI realize you are just copying code but let\u0027s snag this simple change.",
+      "range": {
+        "startLine": 542,
+        "startChar": 45,
+        "endLine": 546,
+        "endChar": 58
+      },
+      "revId": "65ff0c5025bd9551976e3e882b1e4e58933308cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
