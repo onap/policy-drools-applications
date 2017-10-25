@@ -162,21 +162,24 @@ public final class SOManager {
 						.setPrettyPrinting()
 						.create();
 
-				String msoJson = gsonPretty.toJson(request);
+				String soJson = gsonPretty.toJson(request);
 				
-				SOResponse mso = new SOResponse();
-				netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), msoJson);
-				Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", msoJson);
-				netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
+				SOResponse so = new SOResponse();
+				netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), soJson);
+				Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", soJson);
 				   
 				if (httpResponse != null) {
+					netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
+
 					Gson gson = new Gson();
-					mso = gson.fromJson(httpResponse.b, SOResponse.class);
-					mso.httpResponseCode = httpResponse.a;
+					so = gson.fromJson(httpResponse.b, SOResponse.class);
+					so.httpResponseCode = httpResponse.a;
+				} else {
+					logger.error("SO Response returned null.");
 				}
 
-				wm.insert(mso);
-				logger.info("SOResponse inserted " + gsonPretty.toJson(mso));
+				wm.insert(so);
+				logger.info("SOResponse inserted " + gsonPretty.toJson(so));
 			  }
 		  	});
 	  }
