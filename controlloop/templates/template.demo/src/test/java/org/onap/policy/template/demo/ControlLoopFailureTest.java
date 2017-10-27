@@ -52,6 +52,7 @@ import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.properties.PolicyProperties;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
+import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,10 +121,10 @@ public class ControlLoopFailureTest implements TopicListener {
          */
         kieSession.dispose();
         
-        HttpServletServer.factory.destroy();
-        PolicyEngine.manager.shutdown();
-        TopicEndpoint.manager.shutdown();
         PolicyEngine.manager.stop();
+        HttpServletServer.factory.destroy();
+        PolicyController.factory.shutdown();
+        TopicEndpoint.manager.shutdown();
     }
     
     /**
