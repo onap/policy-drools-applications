@@ -165,7 +165,7 @@ public class ControlLoopOperationManager implements Serializable {
         else {
             throw new ControlLoopException("The target is null");
         }
-        return null;
+        throw new ControlLoopException("Target does not match target type");
     }
 	
 	public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException, AAIException {
@@ -289,9 +289,12 @@ public class ControlLoopOperationManager implements Serializable {
 
 			return operationRequest;
 		case "VFC":
-                        this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy, this.eventManager.getVnfResponse());
-                        this.currentOperation = operation;
-                        return operationRequest;
+            this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy, this.eventManager.getVnfResponse());
+            this.currentOperation = operation;
+            if (this.operationRequest == null) {
+                this.policyResult = PolicyResult.FAILURE;
+            }
+            return operationRequest;
 
 		}
 		return null;

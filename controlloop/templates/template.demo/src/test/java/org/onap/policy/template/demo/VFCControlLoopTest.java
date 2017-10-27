@@ -166,6 +166,56 @@ public class VFCControlLoopTest implements TopicListener {
          */
         dumpFacts(kieSession);
 	}
+	
+	@Test
+	public void nullRequestTest() throws IOException {
+        
+        /*
+         * Allows the PolicyEngine to callback to this object to
+         * notify that there is an event ready to be pulled 
+         * from the queue
+         */
+        for (TopicSink sink : noopTopics) {
+            assertTrue(sink.start());
+            sink.register(this);
+        }
+        
+        /*
+         * Create a unique requestId
+         */
+        requestID = UUID.randomUUID();
+        
+        /* 
+         * Simulate an onset event the policy engine will 
+         * receive from DCAE to kick off processing through
+         * the rules
+         */
+        
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+        event.requestID = UUID.randomUUID();
+        event.closedLoopEventClient = "tca.instance00009";
+        event.target_type = ControlLoopTargetType.VM;
+        event.target = "vserver.vserver-name";
+        event.from = "DCAE";
+        event.closedLoopAlarmStart = Instant.now();
+        event.AAI = new HashMap<String, String>();
+        event.AAI.put("vserver.vserver-name", "nullRequest");
+        event.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+        kieSession.insert(event);
+        
+        kieSession.fireUntilHalt();
+        
+        /*
+         * The only fact in memory should be Params
+         */
+        assertEquals(1, kieSession.getFactCount());
+        
+        /*
+         * Print what's left in memory
+         */
+        dumpFacts(kieSession);
+	}
 
 	/**
 	 * This method will start a kie session and instantiate
@@ -274,7 +324,12 @@ public class VFCControlLoopTest implements TopicListener {
             }
             else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                if ("nullRequest".equals(notification.AAI.get("vserver.vserver-name"))){
+                	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
+                }
+                else {
+                     assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, notification.notification);
+                }
                 kieSession.halt();
             }
             else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
@@ -304,7 +359,7 @@ public class VFCControlLoopTest implements TopicListener {
        event.requestID = UUID.randomUUID();
        event.closedLoopEventClient = "tca.instance00009";
        event.target_type = ControlLoopTargetType.VM;
-       event.target = "VM_NAME";
+       event.target = "vserver.vserver-name";
        event.from = "DCAE";
        event.closedLoopAlarmStart = Instant.now();
        event.AAI = new HashMap<String, String>();
