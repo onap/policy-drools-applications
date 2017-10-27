@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Charles Cole <cc847m@att.com>
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-by: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-at: Fri, 27 Oct 2017 21:12:23 +0000
+Reviewed-on: http://gerrit.onap.org/r/21075
+Project: policy/drools-applications
+Branch: refs/heads/master
