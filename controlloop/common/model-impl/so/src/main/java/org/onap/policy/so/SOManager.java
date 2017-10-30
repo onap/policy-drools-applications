@@ -149,7 +149,7 @@ public final class SOManager {
 			  	String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
 			  	String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
 			  	
-				String url = serverRoot + "/serviceInstances/v2/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModulesHTTPS/1.1";
+				String url = serverRoot + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModulesHTTPS/1.1";
 				
 				String auth = username + ":" + password;
 				

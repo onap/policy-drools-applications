@@ -138,7 +138,7 @@ public class SoSimulatorTest {
   public void testResponse() {
     final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
     final Pair<Integer, String> httpDetails = RESTManager.post(
-        "http://localhost:6667/serviceInstances/v2/12345/vnfs/12345/vfModulesHTTPS/1.1", "username",
+        "http://localhost:6667/serviceInstances/v5/12345/vnfs/12345/vfModulesHTTPS/1.1", "username",
         "password", new HashMap<>(), "application/json", request);
     assertNotNull(httpDetails);
     final SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
