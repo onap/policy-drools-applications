@@ -322,13 +322,7 @@ public class VDNSControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-id"))) {
-                	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
-                	kieSession.halt();
-                }
-                else {
-                    assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
-                }
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
                 logger.debug("Rule Fired: " + notification.policyName);
@@ -364,6 +358,9 @@ public class VDNSControlLoopTest implements TopicListener {
                 logger.debug("Rule Fired: " + notification.policyName);
                 if ("error".equals(notification.AAI.get("vserver.vserver-name"))) {
                 	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
+                }
+                else if ("getFail".equals(notification.AAI.get("vserver.vserver-name"))) {
+                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
                 }
                 else {
                 	assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));

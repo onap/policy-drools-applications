@@ -325,13 +325,7 @@ public class VFWControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
-                	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
-                	kieSession.halt();
-                }
-                else {
-                    assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
-                }
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
                 logger.debug("Rule Fired: " + notification.policyName);
@@ -369,6 +363,9 @@ public class VFWControlLoopTest implements TopicListener {
                 if ("error".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
                 	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
                 	assertEquals("Target vnf-id could not be found", notification.message);
+                }
+                else if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
+                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
                 }
                 else {
                     assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));

@@ -40,6 +40,7 @@ import org.onap.policy.aai.Relationship;
 import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipDataItem;
 import org.onap.policy.aai.RelationshipList;
+import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -227,6 +228,17 @@ public class ControlLoopEventManagerTest {
         
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
+        
+        ControlLoopEventManager.NEW_EVENT_STATUS status = null;
+        try {
+            status = manager.onNewEvent(event);
+        } catch (AAIException e) {
+            logger.warn(e.toString());
+            fail("A&AI Query Failed");
+        }
+        assertNotNull(status);
+        assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.FIRST_ONSET, status);
+        
         AAIGETVnfResponse response = manager.getVnfResponse();
         assertNotNull(response);
         assertNull(manager.getVserverResponse());
@@ -240,7 +252,13 @@ public class ControlLoopEventManagerTest {
         event2.AAI = new HashMap<>();
         event2.AAI.put("generic-vnf.vnf-name", "onsetTwo");
         
-        ControlLoopEventManager.NEW_EVENT_STATUS status = manager.onNewEvent(event2);
+        
+        try {
+            status = manager.onNewEvent(event2);
+        } catch (AAIException e) {
+            logger.warn(e.toString());
+            fail("A&AI Query Failed");
+        }
         assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.SUBSEQUENT_ONSET, status);
         AAIGETVnfResponse response2 = manager.getVnfResponse();
         assertNotNull(response2);
