@@ -149,7 +149,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// Syntax check the event
 			//
 			checkEventSyntax(event);
-			checkEventAAISyntax(event);
+			
 			//
 			// At this point we are good to go with this event
 			//
@@ -184,7 +184,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			// Syntax check the event
 			//
 			checkEventSyntax(event);
-			checkEventAAISyntax(event);
 	
 			//
 			// Check the YAML
@@ -437,7 +436,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		;
 	}
 		
-	public NEW_EVENT_STATUS	onNewEvent(VirtualControlLoopEvent event) {
+	public NEW_EVENT_STATUS	onNewEvent(VirtualControlLoopEvent event) throws AAIException {
 		try {
 			this.checkEventSyntax(event);
 			if (event.closedLoopEventStatus == ControlLoopEventStatus.ONSET) {
@@ -445,6 +444,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				// Check if this is our original ONSET
 				//
 				if (event.equals(this.onset)) {
+				    //
+				    // Query A&AI if needed
+				    //
+				    queryAai(event);
+				    
 					//
 					// DO NOT retract it
 					//
@@ -546,58 +550,58 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				! "generic-vnf.vnf-name".equalsIgnoreCase(event.target) ) {
 			throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
 		}
+		if (event.AAI == null) {
+            throw new ControlLoopException("AAI is null");
+        }
+        if (event.AAI.get("generic-vnf.vnf-id") == null && event.AAI.get("vserver.vserver-name") == null &&
+                event.AAI.get("generic-vnf.vnf-name") == null) {
+            throw new ControlLoopException("generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
+        }
 	}
 	
-	public void checkEventAAISyntax(VirtualControlLoopEvent event) throws ControlLoopException {
-		if (event.AAI == null) {
-			throw new ControlLoopException("AAI is null");
-		}
-		if (event.AAI.get("generic-vnf.vnf-id") == null && event.AAI.get("vserver.vserver-name") == null &&
-				event.AAI.get("generic-vnf.vnf-name") == null) {
-			throw new ControlLoopException("generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
-		}
+	public void queryAai(VirtualControlLoopEvent event) throws AAIException {
 		if (event.AAI.get("vserver.is-closed-loop-disabled") == null) {
 			try {
 				if (event.AAI.get("generic-vnf.vnf-id") != null) {
 					vnfResponse = getAAIVnfInfo(event); 
 					if (vnfResponse == null) {
-						throw new ControlLoopException("AAI Response is null (query by vnf-id)");
+						throw new AAIException("AAI Response is null (query by vnf-id)");
 					}
 					if (vnfResponse.requestError != null) {
-						throw new ControlLoopException("AAI Responded with a request error (query by vnf-id)");
+						throw new AAIException("AAI Responded with a request error (query by vnf-id)");
 					}
 					if (isClosedLoopDisabled(vnfResponse) == true) {
-						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
+						throw new AAIException("is-closed-loop-disabled is set to true");	
 					}
 				} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
 					vnfResponse = getAAIVnfInfo(event); 
 					if (vnfResponse == null) {
-						throw new ControlLoopException("AAI Response is null (query by vnf-name)");
+						throw new AAIException("AAI Response is null (query by vnf-name)");
 					}
 					if (vnfResponse.requestError != null) {
-						throw new ControlLoopException("AAI Responded with a request error (query by vnf-name)");
+						throw new AAIException("AAI Responded with a request error (query by vnf-name)");
 					}
 					if (isClosedLoopDisabled(vnfResponse) == true) {
-						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
+						throw new AAIException("is-closed-loop-disabled is set to true");	
 					}
 				} else if (event.AAI.get("vserver.vserver-name") != null) {
 					vserverResponse = getAAIVserverInfo(event); 
 					if (vserverResponse == null) {
-						throw new ControlLoopException("AAI Response is null (query by vserver-name)");
+						throw new AAIException("AAI Response is null (query by vserver-name)");
 					}
 					if (vserverResponse.requestError != null) {
-						throw new ControlLoopException("AAI responded with a request error (query by vserver-name)");
+						throw new AAIException("AAI responded with a request error (query by vserver-name)");
 					}
 					if (isClosedLoopDisabled(vserverResponse) == true) {
-						throw new ControlLoopException("is-closed-loop-disabled is set to true");	
+						throw new AAIException("is-closed-loop-disabled is set to true");	
 					}
 				}
 			} catch (Exception e) {
 				logger.error("Exception from getAAIInfo: ", e);
-				throw new ControlLoopException("Exception from getAAIInfo: " + e.toString());
+				throw new AAIException("Exception from getAAIInfo: " + e.toString());
 			}
 		} else if (isClosedLoopDisabled(event)) {
-			throw new ControlLoopException("is-closed-loop-disabled is set to true");
+			throw new AAIException("is-closed-loop-disabled is set to true");
 		}
 	}
 	

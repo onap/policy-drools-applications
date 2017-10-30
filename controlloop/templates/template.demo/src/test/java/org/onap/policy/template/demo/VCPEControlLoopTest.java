@@ -279,13 +279,7 @@ public class VCPEControlLoopTest implements TopicListener {
             String policyName = notification.policyName;
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
-                	assertEquals(ControlLoopNotificationType.REJECTED, notification.notification);
-                	kieSession.halt();
-                }
-                else {
-                    assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
-                }
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
                 logger.debug("Rule Fired: " + notification.policyName);
@@ -320,8 +314,14 @@ public class VCPEControlLoopTest implements TopicListener {
             }
             else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
-                kieSession.halt();
+                if ("getFail".equals(notification.AAI.get("generic-vnf.vnf-name"))) {
+                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
+                    kieSession.halt();
+                }
+                else {
+                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                    kieSession.halt();
+                }
             }
             else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
                 logger.debug("Rule Fired: " + notification.policyName);

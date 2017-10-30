@@ -107,6 +107,16 @@ public class ControlLoopOperationManagerTest {
 			assertNotNull(notification);
 			assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
 			
+			ControlLoopEventManager.NEW_EVENT_STATUS status = null;
+	        try {
+	            status = eventManager.onNewEvent(onset);
+	        } catch (AAIException e) {
+	            logger.warn(e.toString());
+	            fail("A&AI Query Failed");
+	        }
+	        assertNotNull(status);
+	        assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.FIRST_ONSET, status);
+			
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
 			logger.debug("{}",manager);
 			//
@@ -226,6 +236,16 @@ public class ControlLoopOperationManagerTest {
 			assertNotNull(notification);
 			assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
 
+			ControlLoopEventManager.NEW_EVENT_STATUS status = null;
+            try {
+                status = eventManager.onNewEvent(onset);
+            } catch (AAIException e) {
+                logger.warn(e.toString());
+                fail("A&AI Query Failed");
+            }
+            assertNotNull(status);
+            assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.FIRST_ONSET, status);
+			
 			ControlLoopOperationManager manager = new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
 			//
 			//

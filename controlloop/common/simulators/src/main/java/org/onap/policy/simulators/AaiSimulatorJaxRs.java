@@ -109,7 +109,7 @@ public class AaiSimulatorJaxRs {
 	@Path("/v11/nodes/vservers")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
-	public String getByVserverName (@QueryParam("vserverName") String vserverName)
+	public String getByVserverName (@QueryParam("vserver-name") String vserverName)
 	{
 		if ("getFail".equals(vserverName)) {
 			return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"GET\",\"nodes/vservers\",\"Node Not Found:No Node of type generic-vnf found at nodes/vservers\",\"ERR.5.4.6114\"]}}}";

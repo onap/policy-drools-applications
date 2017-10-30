@@ -294,49 +294,50 @@ rule "${policyName}.EVENT.MANAGER"
     logger.info("{}: {}: event={} manager={} clTimer={}", 
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
                 $event, $manager, $clTimer);
-    //
-    // Check which event this is.
-    //
-    ControlLoopEventManager.NEW_EVENT_STATUS eventStatus = $manager.onNewEvent($event);
-
-    //
-    // Check what kind of event this is
-    //
-    if (eventStatus == NEW_EVENT_STATUS.SUBSEQUENT_ONSET) {
-        //
-        // We don't care about subsequent onsets
-        //
-        logger.info("{}: {}: subsequent onset", 
-                    $params.getClosedLoopControlName(), drools.getRule().getName());
-        retract($event);
-        return;
-    }
-    if (eventStatus == NEW_EVENT_STATUS.SYNTAX_ERROR) {
-        //
-        // Ignore any bad syntax events
-        //
-        logger.warn("{}: {}: syntax error", 
-                    $params.getClosedLoopControlName(), drools.getRule().getName());
-        retract($event);
-        return;
-    }
-    //
-    // We only want the initial ONSET event in memory,
-    // all the other events need to be retracted to support
-    // cleanup and avoid the other rules being fired for this event.
-    //
-    if (eventStatus != NEW_EVENT_STATUS.FIRST_ONSET) {
-        logger.warn("{}: {}: no first onset", 
-                    $params.getClosedLoopControlName(), drools.getRule().getName());
-        retract($event);
-    }
     
-    logger.debug("{}: {}: target={}", $params.getClosedLoopControlName(), 
-                 drools.getRule().getName(), $event.target);
-    //
-    // Now start seeing if we need to process this event
-    //
     try {
+	    //
+	    // Check which event this is.
+	    //
+	    ControlLoopEventManager.NEW_EVENT_STATUS eventStatus = $manager.onNewEvent($event);
+	    //
+	    // Check what kind of event this is
+	    //
+	    if (eventStatus == NEW_EVENT_STATUS.SUBSEQUENT_ONSET) {
+	        //
+	        // We don't care about subsequent onsets
+	        //
+	        logger.info("{}: {}: subsequent onset", 
+	                    $params.getClosedLoopControlName(), drools.getRule().getName());
+	        retract($event);
+	        return;
+	    }
+	    if (eventStatus == NEW_EVENT_STATUS.SYNTAX_ERROR) {
+	        //
+	        // Ignore any bad syntax events
+	        //
+	        logger.warn("{}: {}: syntax error", 
+	                    $params.getClosedLoopControlName(), drools.getRule().getName());
+	        retract($event);
+	        return;
+	    }
+	    //
+	    // We only want the initial ONSET event in memory,
+	    // all the other events need to be retracted to support
+	    // cleanup and avoid the other rules being fired for this event.
+	    //
+	    if (eventStatus != NEW_EVENT_STATUS.FIRST_ONSET) {
+	        logger.warn("{}: {}: no first onset", 
+	                    $params.getClosedLoopControlName(), drools.getRule().getName());
+	        retract($event);
+	    }
+	    
+	    logger.debug("{}: {}: target={}", $params.getClosedLoopControlName(), 
+	                 drools.getRule().getName(), $event.target);
+	    //
+	    // Now start seeing if we need to process this event
+	    //
+
         //
         // Check if this is a Final Event
         //
