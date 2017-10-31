@@ -203,6 +203,8 @@ rule "${policyName}.EVENT"
             // Retract it from memory
             //
             retract($event);
+        } else if ($event.closedLoopEventStatus != ControlLoopEventStatus.ONSET) {
+        	throw new ControlLoopException($event.closedLoopEventStatus + " received with no prior onset");
         } else {
             //
             // Create an EventManager
@@ -261,7 +263,7 @@ rule "${policyName}.EVENT"
         
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
         notification.notification = ControlLoopNotificationType.REJECTED;
-        notification.message = "Exception occurred " + e.getMessage();
+        notification.message = "Exception occurred: " + e.getMessage();
         notification.policyName = drools.getRule().getName();
         notification.policyScope = "${policyScope}";
         notification.policyVersion = "${policyVersion}";
