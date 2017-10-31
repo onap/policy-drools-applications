@@ -30,6 +30,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
@@ -627,6 +628,7 @@ public class ControlLoopOperationManager implements Serializable {
 			props.put(Util.ECLIPSE_LINK_KEY_URL, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_URL));
 			props.put(Util.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER));
 			props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
+			props.put(PersistenceUnitProperties.CLASSLOADER, ControlLoopOperationManager.class.getClassLoader());
 		}
 		
 		
