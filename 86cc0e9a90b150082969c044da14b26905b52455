@@ -16,6 +16,24 @@
       "revId": "86cc0e9a90b150082969c044da14b26905b52455",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_4cb1768e",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-31T15:39:42Z",
+      "side": 1,
+      "message": "well maybe that should be a different check and a different reject message if it isn\u0027t abated. I thought we had that in another method but perhaps that got changed. Its good to track the spurious abatements so we can hopefully get that changed in the future.",
+      "parentUuid": "1a2f8d8d_cc9686f0",
+      "revId": "86cc0e9a90b150082969c044da14b26905b52455",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
