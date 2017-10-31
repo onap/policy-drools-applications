@@ -52,6 +52,24 @@
       "revId": "86cc0e9a90b150082969c044da14b26905b52455",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_8cb75e86",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-10-31T16:16:25Z",
+      "side": 1,
+      "message": "Do you think maybe that should be a filter check? Currently the filter for the topic is \"closedLoopEventStatus\u003d.*\" perhaps we should ensure that the filter checks that the eventStatus is either onset or abatement, that way it is binary (ONSET or ABATED). What do you think?",
+      "parentUuid": "1a2f8d8d_cc9686f0",
+      "revId": "86cc0e9a90b150082969c044da14b26905b52455",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
