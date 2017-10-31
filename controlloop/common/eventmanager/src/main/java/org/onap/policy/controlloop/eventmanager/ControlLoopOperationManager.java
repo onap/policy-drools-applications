@@ -627,6 +627,7 @@ public class ControlLoopOperationManager implements Serializable {
 			props.put(Util.ECLIPSE_LINK_KEY_URL, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_URL));
 			props.put(Util.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER));
 			props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
+			props.put("eclipselink.classloader", this.getClass().getClassLoader());
 		}
 		
 		
