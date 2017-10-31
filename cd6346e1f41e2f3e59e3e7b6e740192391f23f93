@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_af9facb3",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-31T16:49:13Z",
+      "side": 1,
+      "message": "If we go this way, since the Exception - e.getMessage() goes into the notification reject message, better to spell out the DCAE event received:\n\nthrow new ControlLoopException($event.closedLoopEventStatus + \" received with no prior onset\");",
+      "revId": "cd6346e1f41e2f3e59e3e7b6e740192391f23f93",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
