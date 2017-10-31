@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_cc9686f0",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-31T15:27:17Z",
+      "side": 1,
+      "message": "may be a tiny bit safer to do\n\n$event.closedLoopEventStatus !\u003d ControlLoopEventStatus.ONSET\n\njust in case there is some other values (which there should not be)",
+      "revId": "86cc0e9a90b150082969c044da14b26905b52455",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
