@@ -70,6 +70,24 @@
       "revId": "86cc0e9a90b150082969c044da14b26905b52455",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_2f64dce3",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-31T16:45:52Z",
+      "side": 1,
+      "message": "we could do that an OR regex in the filters.   I don\u0027t think is critical though, may be better to not do anything, and let downstream systems know via notification that there is something funky going on getting this messages.   If they are filtered out, they are silently discarded.",
+      "parentUuid": "1a2f8d8d_8cb75e86",
+      "revId": "86cc0e9a90b150082969c044da14b26905b52455",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
