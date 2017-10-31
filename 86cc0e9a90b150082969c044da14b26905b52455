@@ -34,6 +34,24 @@
       "revId": "86cc0e9a90b150082969c044da14b26905b52455",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_6c3f92d7",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-10-31T16:03:14Z",
+      "side": 1,
+      "message": "The code as is if we get any value other than abated in the closed loop event status it will fall into line 208 as is a plain catch-all else, under the perhaps wrong assumption that is an onset (unless the ControlLoopEventManager throws an exception in line 212).   I think it may be better as we only want lines 208-260 to be executed only for ONSET to ensure that\u0027s the case, and this is the earliest point.\n\nI think the REJECT notification can be changed to account for ABATED and unexpected others by putting it in the message (that goes into the notification message), something like\n\nthrow new ControlLoopException($event.closedLoopEventStatus + \" received with no prior onset\");\n\nIn any case, this version solves the problem, and we don\u0027t anticipate to get anything else in a trusted environment with dcae, so I\u0027m Ok with the work.",
+      "parentUuid": "1a2f8d8d_4cb1768e",
+      "revId": "86cc0e9a90b150082969c044da14b26905b52455",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
