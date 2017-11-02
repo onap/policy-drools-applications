@@ -5,9 +5,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,18 +40,18 @@ public final class VFCManager implements Runnable {
     WorkingMemory workingMem;
     private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
     private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
-	    		
+
     public VFCManager(WorkingMemory wm, VFCRequest request) {
         workingMem = wm;
         vfcRequest = request;
-        
+
         /*
          * TODO: What if these are null?
          */
         String url = PolicyEngine.manager.getEnvironmentProperty("vfc.url");
         String username = PolicyEngine.manager.getEnvironmentProperty("vfc.username");
         String password = PolicyEngine.manager.getEnvironmentProperty("vfc.password");
-        
+
         setVFCParams(url, username, password);
 
     }
@@ -66,16 +66,28 @@ public final class VFCManager implements Runnable {
     public void run() {
 
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Accept", "application/json");
+        Pair<Integer, String> httpDetails;
 
+        VFCResponse responseError = new VFCResponse();
+        responseError.responseDescriptor = new VFCResponseDescriptor();
+        responseError.responseDescriptor.status = "error";
+
+        headers.put("Accept", "application/json");
         String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.nsInstanceId + "/heal";
-        String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
-    	netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), vfcRequestJson);
-    	        
-        Pair<Integer, String> httpDetails = RESTManager.post(vfcUrl, username, password, headers,
-                "application/json", vfcRequestJson);
+        try {
+            String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
+            netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), vfcRequestJson);
+
+            httpDetails = RESTManager.post(vfcUrl, username, password, headers,
+                    "application/json", vfcRequestJson);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            workingMem.insert(responseError);
+            return;
+        }
 
         if (httpDetails == null) {
+            workingMem.insert(responseError);
             return;
         }
 
@@ -83,7 +95,7 @@ public final class VFCManager implements Runnable {
             try {
                 VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
                 netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), response.toString());
-                
+
                 String body = Serialization.gsonPretty.toJson(response);
                 logger.debug("Response to VFC Heal post:");
                 logger.debug(body);
@@ -115,16 +127,16 @@ public final class VFCManager implements Runnable {
                     }
                     Thread.sleep(20000);
                 }
-                if  ((attemptsLeft <= 0)
-                  && (responseGet != null)
-                  && (responseGet.responseDescriptor != null)
-                  && (responseGet.responseDescriptor.status != null) 
-                  && (!responseGet.responseDescriptor.status.isEmpty())) {	
-                        logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
-                        workingMem.insert(responseGet);
-                }       
+                if ((attemptsLeft <= 0)
+                        && (responseGet != null)
+                        && (responseGet.responseDescriptor != null)
+                        && (responseGet.responseDescriptor.status != null)
+                        && (!responseGet.responseDescriptor.status.isEmpty())) {
+                    logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
+                    workingMem.insert(responseGet);
+                }
             } catch (JsonSyntaxException e) {
-                logger.error("Failed to deserialize into VFCResponse {}",e.getLocalizedMessage(),e);
+                logger.error("Failed to deserialize into VFCResponse {}", e.getLocalizedMessage(), e);
             } catch (InterruptedException e) {
                 logger.error("Interrupted exception: {}", e.getLocalizedMessage(), e);
                 Thread.currentThread().interrupt();
