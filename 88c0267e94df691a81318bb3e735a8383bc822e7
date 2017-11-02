@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_b9b8672b",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-11-02T17:37:43Z",
+      "side": 1,
+      "message": "Let\u0027s avoid sonar flags so logger.error(e.getMessage(), e)",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 7
+      },
+      "revId": "88c0267e94df691a81318bb3e735a8383bc822e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
