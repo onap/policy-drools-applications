@@ -46,6 +46,54 @@
       "revId": "88c0267e94df691a81318bb3e735a8383bc822e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_f9c37f88",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-11-02T17:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_b9b8672b",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 7
+      },
+      "revId": "88c0267e94df691a81318bb3e735a8383bc822e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_d9c0c37e",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-11-02T17:55:33Z",
+      "side": 1,
+      "message": "I\u0027ve done this on line 176. The problem of adding that to this catch statement as well is what if an exception is caught before the \u0027so\u0027 object is created (line 164) then so.httpResponseCode \u003d 999 would result in another exception...",
+      "parentUuid": "5a4e6583_39f3570c",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 7
+      },
+      "revId": "88c0267e94df691a81318bb3e735a8383bc822e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
