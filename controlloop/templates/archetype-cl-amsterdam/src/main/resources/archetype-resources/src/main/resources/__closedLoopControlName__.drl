@@ -727,6 +727,8 @@ rule "${policyName}.GUARD.RESPONSE"
     else {
         //This is the Deny case
         $operation.setOperationHasGuardDeny();
+        $operation.startOperation($event);
+        $operation.onResponse($guardResponse);
         retract($opTimer);
         retract($operation);
         modify($manager) {finishOperation($operation)};

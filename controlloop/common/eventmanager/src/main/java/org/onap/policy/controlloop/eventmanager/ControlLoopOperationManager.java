@@ -46,6 +46,7 @@ import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.guard.PolicyGuardResponse;
 import org.onap.policy.guard.Util;
 import org.onap.policy.so.SOResponse;
 import org.onap.policy.vfc.VFCResponse;
@@ -454,6 +455,21 @@ public class ControlLoopOperationManager implements Serializable {
 				// Consider it as failure
 				//
 				this.completeOperation(this.attempts, " Failed", PolicyResult.FAILURE);
+				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+					return null;
+				}
+				// increment operation attempts for retries
+				this.attempts += 1;
+				return PolicyResult.FAILURE;
+			}
+		} else if (response instanceof PolicyGuardResponse) {
+			PolicyGuardResponse guardResponse = (PolicyGuardResponse) response;
+
+			if (!guardResponse.result.equalsIgnoreCase(org.onap.policy.guard.Util.PERMIT)) {
+				//
+				// Consider it as failure
+				//
+				this.completeOperation(this.attempts, "Failed: Guard Result is " + guardResponse.result, PolicyResult.FAILURE);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
