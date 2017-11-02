@@ -141,45 +141,49 @@ public final class SOManager {
 			  @Override
 			  	public void run()
 			  {
-
-			    /*
-			     * TODO: What if these are null?
-			     */
-			  	String serverRoot = PolicyEngine.manager.getEnvironmentProperty("so.url");
-			  	String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
-			  	String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
-			  	
-				String url = serverRoot + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModulesHTTPS/1.1";
-				
-				String auth = username + ":" + password;
-				
-				Map<String, String> headers = new HashMap<String, String>();
-				byte[] encodedBytes = Base64.getEncoder().encode(auth.getBytes());
-				headers.put("Accept", "application/json");
-				headers.put("Authorization", "Basic " + new String(encodedBytes));
-				
-				Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
-						.setPrettyPrinting()
-						.create();
-
-				String soJson = gsonPretty.toJson(request);
-				
-				SOResponse so = new SOResponse();
-				netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), soJson);
-				Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", soJson);
-				   
-				if (httpResponse != null) {
-					netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
-
-					Gson gson = new Gson();
-					so = gson.fromJson(httpResponse.b, SOResponse.class);
-					so.httpResponseCode = httpResponse.a;
-				} else {
-					logger.error("SO Response returned null.");
-				}
-
-				wm.insert(so);
-				logger.info("SOResponse inserted " + gsonPretty.toJson(so));
+				  try {
+					  String serverRoot = PolicyEngine.manager.getEnvironmentProperty("so.url");
+					  String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
+					  String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
+					  
+					  String url = serverRoot + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModulesHTTPS/1.1";
+					  
+					  String auth = username + ":" + password;
+					  
+					  Map<String, String> headers = new HashMap<String, String>();
+					  byte[] encodedBytes = Base64.getEncoder().encode(auth.getBytes());
+					  headers.put("Accept", "application/json");
+					  headers.put("Authorization", "Basic " + new String(encodedBytes));
+					  
+					  Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
+							  .setPrettyPrinting()
+							  .create();
+					  
+					  String soJson = gsonPretty.toJson(request);
+					  
+					  SOResponse so = new SOResponse();
+					  netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), soJson);
+					  Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", soJson);
+					  
+					  if (httpResponse != null) {
+						  netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
+						  
+						  Gson gson = new Gson();
+						  so = gson.fromJson(httpResponse.b, SOResponse.class);
+						  so.httpResponseCode = httpResponse.a;
+					  } else {
+						  logger.error("SO Response returned null.");
+						  so.httpResponseCode = 999;
+					  }
+					  
+					  wm.insert(so);
+					  logger.info("SOResponse inserted " + gsonPretty.toJson(so));
+				  } catch (NullPointerException e1) {
+					  logger.error(e1.getMessage());
+					  
+				  } catch (Exception e) {
+					  logger.error(e.getMessage());
+				  }
 			  }
 		  	});
 	  }
