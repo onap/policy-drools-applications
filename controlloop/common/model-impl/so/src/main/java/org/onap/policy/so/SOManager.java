@@ -86,7 +86,7 @@ public final class SOManager {
 					
 					Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, SOResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "SO", urlGet, System.lineSeparator(), responseGet.toString());
+					netLogger.info("[IN|{}|{}|]{}{}", "SO", urlGet, System.lineSeparator(), httpDetailsGet.b);
                     
 					body = Serialization.gsonPretty.toJson(responseGet);
 					logger.debug("***** Response to get:");

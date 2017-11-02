@@ -115,7 +115,7 @@ public class PolicyGuardXacmlHelper {
 					.toString().getBytes()), urlEntry.restURL,
 					urlEntry.authorization, urlEntry.clientAuth,
 					urlEntry.environment);
-			netLogger.info("[IN|{}{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), response);
+			netLogger.info("[IN|{}|{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), response);
 		} catch (Exception e) {
 			logger.error("Error in sending RESTful request: ", e);
 		}
