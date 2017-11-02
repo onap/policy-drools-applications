@@ -62,7 +62,7 @@ public final class AAIManager {
 		if (httpDetails.b != null) {
 			try {
 				AAINQResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQResponse.class);
-				netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, System.lineSeparator(), response.toString());
+				netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, System.lineSeparator(), httpDetails.b);
 				return response;
 			} catch (JsonSyntaxException e) {
 				logger.error("postQuery threw: ", e);
@@ -99,7 +99,7 @@ public final class AAIManager {
 			if (httpDetailsGet.a == 200) {
 				try {
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVserverResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), responseGet.toString());
+					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), httpDetailsGet.b);
 					return responseGet;
 				} catch (JsonSyntaxException e) {
 					logger.error("postQuery threw: ", e);
@@ -140,7 +140,7 @@ public final class AAIManager {
 			if (httpDetailsGet.a == 200) {
 				try {
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), responseGet.toString());
+					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), httpDetailsGet.b);
 					return responseGet;
 				} catch (JsonSyntaxException e) {
 					logger.error("postQuery threw: ", e);
@@ -182,7 +182,7 @@ public final class AAIManager {
 			if (httpDetailsGet.a == 200) {
 				try {
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), responseGet.toString());
+					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), httpDetailsGet.b);
 					return responseGet;
 				} catch (JsonSyntaxException e) {
 					logger.error("postQuery threw: ", e);
