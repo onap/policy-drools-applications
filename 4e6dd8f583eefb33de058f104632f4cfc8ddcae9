@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_39d117ce",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1759
+      },
+      "writtenOn": "2017-11-02T21:11:34Z",
+      "side": 1,
+      "message": "Yes this is called by setOperationHasGuardDeny but this.currentOperation is null and so it does nothing. Start operation is what initializes that. We have some redundant code here between setOperationHasGuardDeny and onResponse.\n\nSo now, Jorge do you have a preference on which to use? I can keep the changes to OnResponse and remove setOperationHasGuardDeny OR I can keep setOperationHasGuardDeny, move it to be called after startOperation, and remove the new onResonse code.",
+      "parentUuid": "5a4e6583_195f7b74",
+      "range": {
+        "startLine": 472,
+        "startChar": 4,
+        "endLine": 472,
+        "endChar": 115
+      },
+      "revId": "4e6dd8f583eefb33de058f104632f4cfc8ddcae9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_f9537f6a",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
