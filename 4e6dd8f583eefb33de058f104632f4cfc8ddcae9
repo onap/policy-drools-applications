@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_195f7b74",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-11-02T20:51:35Z",
+      "side": 1,
+      "message": "Isn\u0027t this already done in setOperationHasGuardDeny()?",
+      "range": {
+        "startLine": 472,
+        "startChar": 4,
+        "endLine": 472,
+        "endChar": 115
+      },
+      "revId": "4e6dd8f583eefb33de058f104632f4cfc8ddcae9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_f9537f6a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1713
+      },
+      "writtenOn": "2017-11-02T20:51:35Z",
+      "side": 1,
+      "message": "We keep track of retry information in startOperation, doing it here could lead to double counting.  I\u0027m also not sure we do retries for guard, but I could be wrong",
+      "range": {
+        "startLine": 477,
+        "startChar": 4,
+        "endLine": 477,
+        "endChar": 23
+      },
+      "revId": "4e6dd8f583eefb33de058f104632f4cfc8ddcae9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
