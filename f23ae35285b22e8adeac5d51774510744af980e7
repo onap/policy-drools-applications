@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_d9220301",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-11-02T20:23:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_1903fb74",
+      "revId": "f23ae35285b22e8adeac5d51774510744af980e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_59305356",
         "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-02T20:06:33Z",
       "side": 1,
       "message": "What will happen in the catch case in the .drl, it will not be inserting an object in line 180, so, what\u0027s the behavior if that happens, the query will timeout, and will be retried, just trying to understand how at some point we recover and retract objects associated with this transaction to make sure they don\u0027t leak ?   Do we need to insert a dummy so object to trigger cleanup somehow ?",
+      "revId": "f23ae35285b22e8adeac5d51774510744af980e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_b91f47b7",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-11-02T20:23:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_59305356",
       "revId": "f23ae35285b22e8adeac5d51774510744af980e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
