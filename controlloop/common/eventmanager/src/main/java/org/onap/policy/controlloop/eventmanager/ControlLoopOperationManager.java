@@ -145,6 +145,14 @@ public class ControlLoopOperationManager implements Serializable {
                     }
                     else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-name")) {
                         /*
+                         * If the onset is enriched with the vnf-id,
+                         * we don't need an A&AI response
+                         */
+                        if (virtualOnset.AAI.containsKey("generic-vnf.vnf-id")) {
+                            return virtualOnset.AAI.get("generic-vnf.vnf-id");
+                        }
+                        
+                        /*
                          * If the vnf-name was retrieved from the onset then the vnf-id
                          * must be obtained from the event manager's A&AI GET query
                          */

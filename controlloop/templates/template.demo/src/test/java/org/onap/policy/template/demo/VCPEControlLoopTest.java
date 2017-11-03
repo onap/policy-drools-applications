@@ -41,9 +41,11 @@ import org.onap.policy.appclcm.LCMResponse;
 import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.drools.event.comm.TopicEndpoint;
 import org.onap.policy.drools.event.comm.TopicListener;
@@ -148,8 +150,7 @@ public class VCPEControlLoopTest implements TopicListener {
          * receive from DCAE to kick off processing through
          * the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
-
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "vCPEInfraVNF13", true);
         
         kieSession.fireUntilHalt();
         
@@ -187,7 +188,7 @@ public class VCPEControlLoopTest implements TopicListener {
          * receive from DCAE to kick off processing through
          * the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "getFail");
+        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "getFail", false);
 
         
         kieSession.fireUntilHalt();
@@ -319,7 +320,7 @@ public class VCPEControlLoopTest implements TopicListener {
                     kieSession.halt();
                 }
                 else {
-                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                    assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, notification.notification);
                     kieSession.halt();
                 }
             }
@@ -376,14 +377,26 @@ public class VCPEControlLoopTest implements TopicListener {
         kieSession.insert(event);
     }
     
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vnfName) {
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, 
+            ControlLoopEventStatus status, String vnfName, boolean isEnriched) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
         event.requestID = requestID;
         event.target = "generic-vnf.vnf-name";
+        event.target_type = ControlLoopTargetType.VNF;
         event.closedLoopAlarmStart = Instant.now();
         event.AAI = new HashMap<>();
         event.AAI.put("generic-vnf.vnf-name", vnfName);
+        if (isEnriched) {
+            event.AAI.put("generic-vnf.in-maint", "false");
+            event.AAI.put("generic-vnf.is-closed-loop-disabled", "false");
+            event.AAI.put("generic-vnf.orchestration-status", "Created");
+            event.AAI.put("generic-vnf.prov-status", "PREPROV");
+            event.AAI.put("generic-vnf.resource-version", "1");
+            event.AAI.put("generic-vnf.service-id", "e8cb8968-5411-478b-906a-f28747de72cd");
+            event.AAI.put("generic-vnf.vnf-id", "63b31229-9a3a-444f-9159-04ce2dca3be9");
+            event.AAI.put("generic-vnf.vnf-type", "vCPEInfraService10/vCPEInfraService10 0");
+        }
         event.closedLoopEventStatus = status;
         kieSession.insert(event);
     }

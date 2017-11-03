@@ -560,7 +560,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public void queryAai(VirtualControlLoopEvent event) throws AAIException {
-		if (event.AAI.get("vserver.is-closed-loop-disabled") == null) {
+		if (event.AAI.get("vserver.is-closed-loop-disabled") == null && 
+		        event.AAI.get("generic-vnf.is-closed-loop-disabled") == null) {
 			try {
 				if (event.AAI.get("generic-vnf.vnf-id") != null) {
 					vnfResponse = getAAIVnfInfo(event); 
@@ -635,7 +636,13 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		    "yes".equalsIgnoreCase(event.AAI.get("vserver.is-closed-loop-disabled")) || 
 		    "Y".equalsIgnoreCase(event.AAI.get("vserver.is-closed-loop-disabled"))) { 
 			return true; 
-		}		
+		}
+		else if ("true".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled")) || 
+	            "T".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled")) || 
+	            "yes".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled")) || 
+	            "Y".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled"))) { 
+	            return true; 
+	    }
 		return false;
 	}
 	
