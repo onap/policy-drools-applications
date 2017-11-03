@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_bfe60743",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-11-03T12:33:21Z",
+      "side": 1,
+      "message": "Why is this here?",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 21
+      },
+      "revId": "980d18fc4fda274bb2fee75033f698df0f61b605",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
