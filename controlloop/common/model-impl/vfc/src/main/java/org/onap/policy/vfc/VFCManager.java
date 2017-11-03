@@ -94,8 +94,7 @@ public final class VFCManager implements Runnable {
         if (httpDetails.a == 202) {
             try {
                 VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
-                netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), response.toString());
-
+                netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), httpDetails.b);
                 String body = Serialization.gsonPretty.toJson(response);
                 logger.debug("Response to VFC Heal post:");
                 logger.debug(body);
@@ -111,7 +110,7 @@ public final class VFCManager implements Runnable {
                     netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
                     Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
                     responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
-                    netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, System.lineSeparator(), responseGet.toString());
+                    netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, System.lineSeparator(), httpDetailsGet.b);
                     responseGet.requestId = vfcRequest.requestId.toString();
                     body = Serialization.gsonPretty.toJson(responseGet);
                     logger.debug("Response to VFC Heal get:");
