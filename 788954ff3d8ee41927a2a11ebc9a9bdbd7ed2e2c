@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_f3915353",
+        "filename": "controlloop/common/actors/actor.appc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-11-07T15:26:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${project.version} too?",
+      "revId": "788954ff3d8ee41927a2a11ebc9a9bdbd7ed2e2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_13950f40",
+        "filename": "controlloop/common/actors/actor.appclcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-11-07T15:26:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${project.version} too?",
+      "revId": "788954ff3d8ee41927a2a11ebc9a9bdbd7ed2e2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_33b00bf4",
+        "filename": "controlloop/common/actors/actor.so/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-11-07T15:26:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${project.version} too?",
+      "revId": "788954ff3d8ee41927a2a11ebc9a9bdbd7ed2e2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_73a683c3",
+        "filename": "controlloop/common/actors/actor.vfc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-11-07T15:26:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${project.version} too?",
+      "revId": "788954ff3d8ee41927a2a11ebc9a9bdbd7ed2e2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_f3ca736d",
+        "filename": "controlloop/common/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-11-07T15:26:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${project.version} too?",
+      "revId": "788954ff3d8ee41927a2a11ebc9a9bdbd7ed2e2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_93a1ffab",
+        "filename": "controlloop/common/msb/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-11-07T15:26:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${project.version} too?",
+      "revId": "788954ff3d8ee41927a2a11ebc9a9bdbd7ed2e2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
