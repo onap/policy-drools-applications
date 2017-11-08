@@ -48,6 +48,7 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.Util;
 import org.onap.policy.so.SOResponse;
+import org.onap.policy.so.SOResponseWrapper;
 import org.onap.policy.vfc.VFCResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -420,16 +421,16 @@ public class ControlLoopOperationManager implements Serializable {
     		    return result.getKey();
 		    }
 		    return null;
-		} else if (response instanceof SOResponse) {
-			SOResponse msoResponse = (SOResponse) response;
+		} else if (response instanceof SOResponseWrapper) {
+			SOResponseWrapper msoResponse = (SOResponseWrapper) response;
 
-			switch (msoResponse.httpResponseCode) {
+			switch (msoResponse.SOResponse.httpResponseCode) {
 			case 200:
 			case 202:
 				//
 				// Consider it as success
 				//
-				this.completeOperation(this.attempts, msoResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
+				this.completeOperation(this.attempts, msoResponse.SOResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -438,7 +439,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as failure
 				//
-				this.completeOperation(this.attempts, msoResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
+				this.completeOperation(this.attempts, msoResponse.SOResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}

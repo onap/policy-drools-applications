@@ -86,7 +86,7 @@ public class SoSimulatorTest {
     //
     request.requestDetails.modelInfo.modelType = "vfModule";
     request.requestDetails.modelInfo.modelInvariantId = "f32568ec-2f1c-458a-864b-0593d53d141a";
-    request.requestDetails.modelInfo.modelNameVersionId = "69615025-879d-4f0d-afe3-b7d1a7eeed1f";
+    request.requestDetails.modelInfo.modelVersionId = "69615025-879d-4f0d-afe3-b7d1a7eeed1f";
     request.requestDetails.modelInfo.modelName = "C15ce9e1E9144c8fB8bb..dnsscaling..module-1";
     request.requestDetails.modelInfo.modelVersion = "1.0";
     //
@@ -111,7 +111,7 @@ public class SoSimulatorTest {
     relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
     relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId =
         "4fcbc1c0-7793-46d8-8aa1-fa1c2ed9ec7b";
-    relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId =
+    relatedInstanceListElement1.relatedInstance.modelInfo.modelVersionId =
         "5c996219-b2e2-4c76-9b43-7e8672a33c1d";
     relatedInstanceListElement1.relatedInstance.modelInfo.modelName = "8330e932-2a23-4943-8606";
     relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = "1.0";
@@ -121,7 +121,7 @@ public class SoSimulatorTest {
     relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
     relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId =
         "033a32ed-aa65-4764-a736-36f2942f1aa0";
-    relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId =
+    relatedInstanceListElement2.relatedInstance.modelInfo.modelVersionId =
         "d4d072dc-4e21-4a03-9524-628985819a8e";
     relatedInstanceListElement2.relatedInstance.modelInfo.modelName = "c15ce9e1-e914-4c8f-b8bb";
     relatedInstanceListElement2.relatedInstance.modelInfo.modelVersion = "1";

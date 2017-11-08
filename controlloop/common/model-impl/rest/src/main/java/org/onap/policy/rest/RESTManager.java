@@ -79,19 +79,21 @@ public final class RESTManager {
 			post.setEntity(input);
 			
 			HttpResponse response = client.execute(post);
-			
-			String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-			logger.debug("HTTP POST Response Status Code: {}", response.getStatusLine().getStatusCode());
-			logger.debug("HTTP POST Response Body:");
-			logger.debug(returnBody);
-
-			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
-		} catch (IOException e) {
+			if (response != null) {
+				String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+				logger.debug("HTTP POST Response Status Code: {}", response.getStatusLine().getStatusCode());
+				logger.debug("HTTP POST Response Body:");
+				logger.debug(returnBody);
+				
+				return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
+			} else {
+				logger.error("Response from {} is null", url);
+				return null;
+			}
+		} catch (Exception e) {
 			logger.error("Failed to POST to {}",url,e);
-
 			return null;
-		}
-		
+		} 
 	}
 
 	public static Pair<Integer, String> get(String url, String username, String password, Map<String, String> headers) {
