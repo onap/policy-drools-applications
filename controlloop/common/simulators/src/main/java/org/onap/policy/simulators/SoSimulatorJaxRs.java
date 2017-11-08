@@ -34,7 +34,7 @@ import org.onap.policy.so.util.Serialization;
 public class SoSimulatorJaxRs {
 	
 	@POST
-	@Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModulesHTTPS/1.1")
+	@Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String SoPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId, String req)
