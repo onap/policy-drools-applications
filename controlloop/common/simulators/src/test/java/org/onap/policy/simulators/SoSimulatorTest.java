@@ -96,6 +96,7 @@ public class SoSimulatorTest {
         "vDNS_Ete_Named90e1ab3-dcd5-4877-9edb-eadfc84e32c8";
     request.requestDetails.requestInfo.source = "POLICY";
     request.requestDetails.requestInfo.suppressRollback = false;
+    request.requestDetails.requestInfo.requestorId = "policy";
     //
     // relatedInstanceList
     //

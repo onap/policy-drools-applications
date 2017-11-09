@@ -353,6 +353,7 @@ public class SOActorServiceProvider implements Actor {
 			request.requestDetails.requestInfo.instanceName = getVfModuleItemVfModuleName();
 			request.requestDetails.requestInfo.source = "POLICY";
 			request.requestDetails.requestInfo.suppressRollback = false;
+			request.requestDetails.requestInfo.requestorId = "policy";
 			//
 			// relatedInstanceList
 			//

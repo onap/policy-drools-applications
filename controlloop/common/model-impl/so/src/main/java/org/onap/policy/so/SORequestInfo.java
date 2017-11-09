@@ -59,6 +59,8 @@ public class SORequestInfo implements Serializable {
 	@SerializedName("orderVersion")
 	public Integer orderVersion;
 	
+	@SerializedName("requestorId")
+	public String requestorId;
 
 	public SORequestInfo() {
 	}
