@@ -27,9 +27,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.util.Serialization;
-
 @Path("/serviceInstances")
 public class SoSimulatorJaxRs {
 	
@@ -37,10 +34,13 @@ public class SoSimulatorJaxRs {
 	@Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
-	public String SoPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId, String req)
+	public String SoPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
 	{
-		SORequest request = Serialization.gsonPretty.fromJson(req, SORequest.class);
-		return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": " + request.requestId + "}}";
+
+		// the requestID contained in the SO Response is a newly generated requestID 
+		// with no relation to the requestID in Policy controlLoopEvent
+		return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": \"rq1234d1-5a33-ffdf-23ab-12abad84e331\" }}";
+
 	}
 	
 }

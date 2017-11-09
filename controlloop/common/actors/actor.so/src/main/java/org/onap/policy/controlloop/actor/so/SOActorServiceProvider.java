@@ -327,7 +327,7 @@ public class SOActorServiceProvider implements Actor {
 
 			// Construct SO Request
 			SORequest request = new SORequest();
-			request.requestId = onset.requestID;
+//			request.requestId = onset.requestID;
 			request.requestDetails = new SORequestDetails();
 			request.requestDetails.modelInfo = new SOModelInfo();
 			request.requestDetails.cloudConfiguration = new SOCloudConfiguration();
@@ -344,7 +344,7 @@ public class SOActorServiceProvider implements Actor {
 			//
 			request.requestDetails.modelInfo.modelType = "vfModule";
 			request.requestDetails.modelInfo.modelInvariantId = getVfModuleItemModelInvariantId();
-			request.requestDetails.modelInfo.modelNameVersionId = getVfModuleItemModelNameVersionId();
+			request.requestDetails.modelInfo.modelVersionId = getVfModuleItemModelNameVersionId();
 			request.requestDetails.modelInfo.modelName = getVfModuleItemModelName();
 			request.requestDetails.modelInfo.modelVersion = getVfModuleItemModelVersionId();
 			//
@@ -365,7 +365,7 @@ public class SOActorServiceProvider implements Actor {
 			relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = getServiceItemModelInvariantId();
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId = getServiceItemModelNameVersionId();
+			relatedInstanceListElement1.relatedInstance.modelInfo.modelVersionId = getServiceItemModelNameVersionId();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelName = getServiceItemModelName();
 			relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = getServiceItemModelVersion();
 			//
@@ -373,7 +373,7 @@ public class SOActorServiceProvider implements Actor {
 			relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 			relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
 			relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = getVnfItemModelInvariantId();
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = getVnfItemModelNameVersionId();
+			relatedInstanceListElement2.relatedInstance.modelInfo.modelVersionId = getVnfItemModelNameVersionId();
 			relatedInstanceListElement2.relatedInstance.modelInfo.modelName = getVnfItemModelName();
 			relatedInstanceListElement2.relatedInstance.modelInfo.modelVersion = getVnfItemModelVersion();
 			relatedInstanceListElement2.relatedInstance.modelInfo.modelCustomizationName = getVnfItemVnfType();
@@ -397,9 +397,9 @@ public class SOActorServiceProvider implements Actor {
 	 * @param wm
 	 * @param request
 	 */
-	public static void sendRequest(WorkingMemory wm, Object request) {
+	public static void sendRequest(String requestID, WorkingMemory wm, Object request) {
 		SOManager Mm = new SOManager();
-		Mm.asyncSORestCall(wm, getServiceItemServiceInstanceId(), getVnfItemVnfId(), (SORequest)request);
+		Mm.asyncSORestCall(requestID, wm, getServiceItemServiceInstanceId(), getVnfItemVnfId(), (SORequest)request);
 	}
 		
 	/**

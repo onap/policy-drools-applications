@@ -50,7 +50,7 @@ public class TestDemo {
 		
 		request.requestDetails.modelInfo.modelType = "vfModule";
 		request.requestDetails.modelInfo.modelInvariantId = "ff5256d2-5a33-55df-13ab-12abad84e7ff";
-		request.requestDetails.modelInfo.modelNameVersionId = "fe6478e5-ea33-3346-ac12-ab121484a3fe";
+		request.requestDetails.modelInfo.modelVersionId = "fe6478e5-ea33-3346-ac12-ab121484a3fe";
 		request.requestDetails.modelInfo.modelName = "vSAMP12..base..module-0";
 		request.requestDetails.modelInfo.modelVersion = "1";
 		
@@ -77,7 +77,7 @@ public class TestDemo {
 		relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "service";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = "ff3514e3-5a33-55df-13ab-12abad84e7ff";
-		relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = "fe6985cd-ea33-3346-ac12-ab121484a3fe";
+		relatedInstanceListElement2.relatedInstance.modelInfo.modelVersionId = "fe6985cd-ea33-3346-ac12-ab121484a3fe";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelName = "parent service model name";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelVersion = "1.0";
 		
@@ -85,7 +85,7 @@ public class TestDemo {
 		relatedInstanceListElement3.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelType = "vnf";
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelInvariantId = "ff5256d1-5a33-55df-13ab-12abad84e7ff";
-		relatedInstanceListElement3.relatedInstance.modelInfo.modelNameVersionId = "fe6478e4-ea33-3346-ac12-ab121484a3fe";
+		relatedInstanceListElement3.relatedInstance.modelInfo.modelVersionId = "fe6478e4-ea33-3346-ac12-ab121484a3fe";
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelName = "vSAMP12";
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelVersion = "1.0";
 		relatedInstanceListElement3.relatedInstance.modelInfo.modelCustomizationName = "vSAMP12 1";
@@ -123,7 +123,7 @@ public class TestDemo {
 		
 		request.requestDetails.modelInfo.modelType = "vfModule";
 		request.requestDetails.modelInfo.modelInvariantId = "a9c4a35a-de48-451a-9e4e-343f2ac52928";
-		request.requestDetails.modelInfo.modelNameVersionId = "e0d98ad1-238d-4555-b439-023d3f9079f6";
+		request.requestDetails.modelInfo.modelVersionId = "e0d98ad1-238d-4555-b439-023d3f9079f6";
 		request.requestDetails.modelInfo.modelName = "0d9e0d9d352749f4B3cb..dnsscaling..module-0";
 		request.requestDetails.modelInfo.modelVersion = "2.0";
 		
@@ -144,7 +144,7 @@ public class TestDemo {
 		relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = "24329a0c-1d57-4210-b1af-a65df64e9d59";
-		relatedInstanceListElement1.relatedInstance.modelInfo.modelNameVersionId = "ac642881-8e7e-4217-bd64-16ad41c42e30";
+		relatedInstanceListElement1.relatedInstance.modelInfo.modelVersionId = "ac642881-8e7e-4217-bd64-16ad41c42e30";
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelName = "5116d67e-0b4f-46bf-a46f";
 		relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = "2.0";
 		
@@ -153,7 +153,7 @@ public class TestDemo {
 		relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = "09fd971e-db5f-475d-997c-cf6704b6b8fe";
-		relatedInstanceListElement2.relatedInstance.modelInfo.modelNameVersionId = "152ed917-6dcc-46ee-bf8a-a775c5aa5a74";
+		relatedInstanceListElement2.relatedInstance.modelInfo.modelVersionId = "152ed917-6dcc-46ee-bf8a-a775c5aa5a74";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelName = "9e4c31d2-4b25-4d9e-9fb4";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelVersion = "2.0";
 		relatedInstanceListElement2.relatedInstance.modelInfo.modelCustomizationName = "0d9e0d9d-3527-49f4-b3cb 2";

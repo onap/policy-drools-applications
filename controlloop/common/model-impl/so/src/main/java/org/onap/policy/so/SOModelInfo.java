@@ -38,8 +38,8 @@ public class SOModelInfo implements Serializable {
 	@SerializedName("modelInvariantId")
 	public String modelInvariantId;
 	
-	@SerializedName("modelNameVersionId")
-	public String modelNameVersionId;
+	@SerializedName("modelVersionId")
+	public String modelVersionId;
 	
 	@SerializedName("modelName")
 	public String modelName;

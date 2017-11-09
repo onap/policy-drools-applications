@@ -135,7 +135,7 @@ public final class SOManager {
 	 * 
 	 * This method makes an asynchronous Rest call to MSO and inserts the response into the Drools working memory
 	 */
-	  public void asyncSORestCall(WorkingMemory wm, String serviceInstanceId, String vnfInstanceId, SORequest request) {
+	  public void asyncSORestCall(String requestID, WorkingMemory wm, String serviceInstanceId, String vnfInstanceId, SORequest request) {
 		  executors.submit(new Runnable()
 		  	{
 			  @Override
@@ -165,19 +165,26 @@ public final class SOManager {
 					  netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), soJson);
 					  Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", soJson);
 					  
-					  if (httpResponse != null) {
-						  netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
+					  if (httpResponse != null ) {
+						  if (httpResponse.b != null && httpResponse.a != null) {
+							  netLogger.info("[IN|{}|{}|]{}{}", url, "SO", System.lineSeparator(), httpResponse.b);
+							  
+							  Gson gson = new Gson();
+							  so = gson.fromJson(httpResponse.b, SOResponse.class);
+							  so.httpResponseCode = httpResponse.a;
+						  } else {
+							  logger.error("SO Response status/code is null.");
+							  so.httpResponseCode = 999;
+						  }
 						  
-						  Gson gson = new Gson();
-						  so = gson.fromJson(httpResponse.b, SOResponse.class);
-						  so.httpResponseCode = httpResponse.a;
 					  } else {
 						  logger.error("SO Response returned null.");
 						  so.httpResponseCode = 999;
 					  }
 					  
-					  wm.insert(so);
-					  logger.info("SOResponse inserted " + gsonPretty.toJson(so));
+					  SOResponseWrapper SoWrapper = new SOResponseWrapper(so, requestID);
+					  wm.insert(SoWrapper);
+					  logger.info("SOResponse inserted " + gsonPretty.toJson(SoWrapper));
 				  } catch (Exception e) {
 					  logger.error("Error while performing asyncSORestCall: "+ e.getMessage(),e);
 					  

@@ -55,6 +55,7 @@ import org.onap.policy.so.SORequestParameters;
 import org.onap.policy.so.SORelatedInstanceListElement;
 import org.onap.policy.so.SORelatedInstance;
 import org.onap.policy.so.SOResponse;
+import org.onap.policy.so.SOResponseWrapper;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
@@ -583,7 +584,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
               
               if(request instanceof SORequest) {
                   // Call SO. The response will be inserted into memory once it's received 
-                  SOActorServiceProvider.sendRequest(drools.getWorkingMemory(), request);                        
+                  SOActorServiceProvider.sendRequest($event.requestID.toString(), drools.getWorkingMemory(), request);                        
               }
               break;
           case "VFC":
@@ -975,9 +976,9 @@ rule "${policyName}.SO.RESPONSE"
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
         $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
         $lock : TargetLock (requestID == $event.requestID)
-        $response : SOResponse( requestReferences.requestId.toString() == $event.requestID.toString() )  
+        $response : SOResponseWrapper(requestID.toString() == $event.requestID.toString() )
     then
-        
+        		
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
     logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
