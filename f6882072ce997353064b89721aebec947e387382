@@ -16,6 +16,24 @@
       "revId": "f6882072ce997353064b89721aebec947e387382",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_725f9373",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2017-11-10T18:04:49Z",
+      "side": 1,
+      "message": "Yeah, I agree.. this was the method that Chenfei used in his POC and I\u0027ve been trying to work on an enhancement solution to traverse the json instead. It\u0027s a work in progress",
+      "parentUuid": "5a4e6583_323c7b2f",
+      "revId": "f6882072ce997353064b89721aebec947e387382",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
