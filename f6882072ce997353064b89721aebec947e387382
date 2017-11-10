@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_323c7b2f",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-11-10T17:40:41Z",
+      "side": 1,
+      "message": "let\u0027s please note that we are taking a chance by expecting the values to be in a specific order. It would be better to iterate the structure and then place appropriate values when found. Then throw exception for any that are missing. Future.",
+      "revId": "f6882072ce997353064b89721aebec947e387382",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
