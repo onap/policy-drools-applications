@@ -225,18 +225,18 @@ public class SOActorServiceProvider implements Actor {
 			setVnfItemVnfType(vnfItemVnfType.substring(vnfItemVnfType.lastIndexOf("/")+1));
 			setVnfItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.modelInvariantId);
 			setVnfItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.modelVersionId);
-			setVnfItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(0).propertyValue);
-			setVnfItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(2).propertyValue);
-			setVnfItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);			
+			setVnfItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
+			setVnfItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(0).propertyValue);
+			setVnfItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);			
 
 			// serviceItem
 			setServiceItemServiceInstanceId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.serviceInstanceID);
 			setServiceItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelInvariantId);
-			setServiceItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(0).propertyValue);
+			setServiceItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
 			setServiceItemModelType(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
-			setServiceItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelVersionId);
-			setServiceItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);
-			
+			setServiceItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelVersionId);
+			setServiceItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);
+
 			// Find the index for base vf module and non-base vf module
 			int baseIndex = -1;
 			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems;
@@ -262,10 +262,10 @@ public class SOActorServiceProvider implements Actor {
 
 			// vfModuleItem - NOT the base module
 			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelInvariantId);
-			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelVersionId);
-			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(0).propertyValue);
-			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(4).propertyValue);
-			
+			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelVersionId);
+			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(1).propertyValue);
+			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(4).propertyValue);
+
 			// tenantItem
 			setTenantItemTenantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).tenant.tenantId);
 
