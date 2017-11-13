@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_e64501b4",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-11-13T18:57:09Z",
+      "side": 1,
+      "message": "That doesn\u0027t need to change right?",
+      "range": {
+        "startLine": 41,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "38bc6149318f851875b0db487521e1d707a5e317",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
