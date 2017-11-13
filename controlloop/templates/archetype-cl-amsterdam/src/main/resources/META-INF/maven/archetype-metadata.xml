@@ -38,19 +38,19 @@
      	<defaultValue>DCAE</defaultValue>
      </requiredProperty>     
      <requiredProperty key="policyVersion">
-     	<defaultValue>1.1.0</defaultValue>
+     	<defaultValue>1.1.1</defaultValue>
      </requiredProperty>
      <requiredProperty key="dmaapServers">
      	<defaultValue>vm1.mr.simpledemo.openecomp.org</defaultValue>
      </requiredProperty>    
      <requiredProperty key="dcaeTopic">
-     	<defaultValue>unauthenticated.TCA_EVENT_OUTPUT</defaultValue>
+     	<defaultValue>unauthenticated.DCAE_CL_OUTPUT</defaultValue>
      </requiredProperty>
      <requiredProperty key="dcaeServers">
-		<defaultValue>10.0.4.102</defaultValue>
+		<defaultValue>vm1.mr.simpledemo.openecomp.org</defaultValue>
      </requiredProperty>
      <requiredProperty key="dependenciesVersion">
-     	<defaultValue>1.1.0</defaultValue>
+     	<defaultValue>1.1.1</defaultValue>
      </requiredProperty>
   </requiredProperties>
       

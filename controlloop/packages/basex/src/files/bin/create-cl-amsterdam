@@ -23,7 +23,7 @@
 # Interactive script to generate and install in a pdp-d control loops demo rules
 # for a standalone PDP-D usage
 
-source ${POLICY_HOME}/etc/build.info
+source "${POLICY_HOME}"/etc/build.info
 
 echo "Control Loop CLI Generator for R1 Amsterdam Release"
 echo "---------------------------------------------------"
@@ -31,7 +31,7 @@ echo
 
 GROUP_ID="org.onap.policy.rules.amsterdam"
 ARTIFACT_ID="amsterdam"
-VERSION="1.1.0"
+VERSION="${version:-1.1.1}"
 PACKAGE="org.onap.policy.rules.amsterdam"
 CONTROL_LOOP_NAME="ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
 POLICY_SCOPE="amsterdam"
@@ -39,8 +39,8 @@ POLICY_NAME="vcpe"
 POLICY_VERSION="v0.0.1"
 CONTROL_LOOP_YAML="controlLoop%3A%0A++version%3A+2.0.0%0A++controlLoopName%3A+ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e%0A++trigger_policy%3A+unique-policy-id-1-restart%0A++timeout%3A+3600%0A+%0Apolicies%3A%0A+%0A++-+id%3A+unique-policy-id-1-restart%0A++++name%3A+Restart+the+VM%0A++++description%3A%0A++++actor%3A+APPC%0A++++recipe%3A+Restart%0A++++target%3A%0A++++++type%3A+VM%0A++++retry%3A+3%0A++++timeout%3A+1200%0A++++success%3A+final_success%0A++++failure%3A+final_failure%0A++++failure_timeout%3A+final_failure_timeout%0A++++failure_retries%3A+final_failure_retries%0A++++failure_exception%3A+final_failure_exception%0A++++failure_guard%3A"
 DMAAP_SERVERS="vm1.mr.simpledemo.openecomp.org"
-DCAE_TOPIC="unauthenticated.TCA_EVENT_OUTPUT"
-DCAE_SERVERS="10.0.4.102"
+DCAE_TOPIC="unauthenticated.DCAE_CL_OUTPUT"
+DCAE_SERVERS="vm1.mr.simpledemo.openecomp.org"
 
 read -e -i "${GROUP_ID}" -p "Target Rules Group Id> " GROUP_ID
 read -e -i "${ARTIFACT_ID}" -p "Target Rules Artifact Id> " ARTIFACT_ID
@@ -75,13 +75,9 @@ if [ -z "${DCAE_TOPIC}" ]; then echo "Aborting: Configuration DCAE DMaaP Topic n
 if [ -z "${DMAAP_SERVERS}" ]; then echo "Aborting: Configuration Open DMaaP Servers not provided"; exit 1; fi
 if [ -z "${DCAE_SERVERS}" ]; then echo "Aborting: Configuration DCAE DMaaP Servers not provided"; exit 1; fi
 
-if [[ "${version}" == *-SNAPSHOT ]]; then
-	DEPENDENCIES_VERSION="1.1.0-SNAPSHOT"
-else
-	DEPENDENCIES_VERSION="${version}"
-fi
+DEPENDENCIES_VERSION="${version}"
 
-read -e -i "${DEPENDENCIES_VERSION}" -p  "Control Loop Jar Dependencies Version (ie: 1.1.0-SNAPSHOT, or 1.1.0) > " DEPENDENCIES_VERSION
+read -e -i "${DEPENDENCIES_VERSION}" -p  "Control Loop Jar Dependencies Version (ie: 1.1.1-SNAPSHOT, or 1.1.1) > " DEPENDENCIES_VERSION
 if [ -z "${DEPENDENCIES_VERSION}" ]; then echo "Aborting: Control Loop Jar Dependencies Version not provided"; exit 1; fi
 
 echo "---------------------------------------------------------------------------------------"
@@ -230,6 +226,6 @@ echo
 echo "To deploy this Control Loop into the PDP-D, follow one of these methods: "
 echo "1. copy ${DIR_TMP}/${ARTIFACT_ID}/${ARTIFACT_ID}-controller.properties under '${POLICY_HOME}/config'"
 echo "   and restart the pdp-d (policy stop; policy start)"
-echo "2. rest-add-controller ${ARTIFACT_ID}"
+echo "2. cd ${DIR_TMP}/${ARTIFACT_ID}/; rest-add-controller ${ARTIFACT_ID}"
 echo
 )
