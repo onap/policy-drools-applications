@@ -239,19 +239,25 @@ public class SOActorServiceProvider implements Actor {
 
 			// Find the index for base vf module and non-base vf module
 			int baseIndex = -1;
+			int nonBaseIndex = -1;
 			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems;
 			for (AAINQInventoryResponseItem m : inventoryItems) {
-				if (m.vfModule != null && m.vfModule.isBaseVfModule) {
-					baseIndex = inventoryItems.indexOf(m);
-				} 
+				if (m.vfModule != null) {
+					if (m.vfModule.isBaseVfModule) {
+						baseIndex = inventoryItems.indexOf(m);
+					} else if (m.vfModule.isBaseVfModule == false) {
+						nonBaseIndex = inventoryItems.indexOf(m);
+					}
+				}
 				//
-				if (baseIndex != -1) {
+				if (baseIndex != -1 && nonBaseIndex != -1) {
+					System.out.println("HERHERHEHREHRH");
 					break;
 				}
 			}
 			
 			// Report the error if either base vf module or non-base vf module is not found
-			if (baseIndex == -1) {
+			if (baseIndex == -1 || nonBaseIndex == -1) {
 				logger.error("Either base or non-base vf module is not found from AAI response.");
 				return;
 			}
@@ -261,10 +267,10 @@ public class SOActorServiceProvider implements Actor {
 			setVfModuleItemVfModuleName(vfModuleItemVfModuleName.replace("Vfmodule", "vDNS"));
 
 			// vfModuleItem - NOT the base module
-			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelInvariantId);
-			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.modelVersionId);
-			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(1).propertyValue);
-			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).extraProperties.extraProperty.get(4).propertyValue);
+			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelInvariantId);
+			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelVersionId);
+			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(1).propertyValue);
+			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(4).propertyValue);
 
 			// tenantItem
 			setTenantItemTenantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).tenant.tenantId);
