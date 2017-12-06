@@ -35,9 +35,13 @@ public class AAINQInstanceFilters implements Serializable {
 	private static final long serialVersionUID = 8993824591338121185L;
 	
 	@SerializedName("instance-filter")
-	public List<Map<String, Map<String, String>>> instanceFilter = new LinkedList<>();
-	
-	public AAINQInstanceFilters() {
+	private List<Map<String, Map<String, String>>> instanceFilter = new LinkedList<>();
+
+	public List<Map<String, Map<String, String>>> getInstanceFilter() {
+		return instanceFilter;
 	}
 
+	public void setInstanceFilter(List<Map<String, Map<String, String>>> instanceFilter) {
+		this.instanceFilter = instanceFilter;
+	}
 }

@@ -35,8 +35,4 @@ public class RelatedToPropertyItem implements Serializable {
 	public String propertyKey;
 	@SerializedName("property-value")
 	public String propertyValue;
-	
-	public RelatedToPropertyItem() {
-	}
-
 }

@@ -52,12 +52,12 @@ public class AAINQInventoryResponseItemTest {
 		aaiNQCloudRegion.resourceVersion = "1485365988";
 		aaiNQInventoryResponseItem.cloudRegion = aaiNQCloudRegion;
 		AAINQExtraProperties aaiNQExtraProperties = new AAINQExtraProperties();
-		aaiNQExtraProperties.extraProperty = new LinkedList<>();
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "generic-vnf"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-type", "widget"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-version", "1.0"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-id", "acc6edd8-a8d4-4b93-afaa-0994068be14c"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name-version-id", "93a6166f-b3d5-4f06-b4ba-aed48d009ad9"));
+		aaiNQExtraProperties.setExtraProperty(new LinkedList<>());
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "generic-vnf"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-type", "widget"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-version", "1.0"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-id", "acc6edd8-a8d4-4b93-afaa-0994068be14c"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name-version-id", "93a6166f-b3d5-4f06-b4ba-aed48d009ad9"));
 		aaiNQInventoryResponseItem.extraProperties = aaiNQExtraProperties;
 		AAINQGenericVNF aaiNQGenericVNF = new AAINQGenericVNF();
 		aaiNQGenericVNF.vnfID = "dhv-test-gvnf";
@@ -87,11 +87,11 @@ public class AAINQInventoryResponseItemTest {
         serviceItem.serviceInstance.serviceInstanceLocationId = "dhv-test-service-instance-location-id1";
         serviceItem.serviceInstance.resourceVersion = "1485366092";
         serviceItem.extraProperties = new AAINQExtraProperties();
-        serviceItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "service-instance"));
-        serviceItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-type", "widget"));
-        serviceItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-version", "1.0"));
-        serviceItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-id", "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
-        serviceItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "46b92144-923a-4d20-b85a-3cbd847668a9"));
+        serviceItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "service-instance"));
+        serviceItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-type", "widget"));
+        serviceItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-version", "1.0"));
+        serviceItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-id", "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
+        serviceItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "46b92144-923a-4d20-b85a-3cbd847668a9"));
 
 	    AAINQInventoryResponseItem vfModuleItem = new AAINQInventoryResponseItem();
 	    vfModuleItem.modelName = "vf-module";
@@ -108,14 +108,14 @@ public class AAINQInventoryResponseItemTest {
 	    vfModuleItem.vfModule.widgetModelVersion = "example-widget-model-version-val-83317";
 	    vfModuleItem.vfModule.contrailServiceInstanceFqdn = "example-contrail-service-instance-fqdn-val-86796";
 	    vfModuleItem.extraProperties = new AAINQExtraProperties();
-	    vfModuleItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "vf-module"));
-	    vfModuleItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-type", "widget"));
-	    vfModuleItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-version", "1.0"));
-	    vfModuleItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-id", "ef86f9c5-2165-44f3-8fc3-96018b609ea5"));
-	    vfModuleItem.extraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "c00563ae-812b-4e62-8330-7c4d0f47088a"));
+	    vfModuleItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "vf-module"));
+	    vfModuleItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-type", "widget"));
+	    vfModuleItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-version", "1.0"));
+	    vfModuleItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-id", "ef86f9c5-2165-44f3-8fc3-96018b609ea5"));
+	    vfModuleItem.extraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "c00563ae-812b-4e62-8330-7c4d0f47088a"));
 		
-		aaiNQInventoryResponseItems.inventoryResponseItems.add(serviceItem);
-		aaiNQInventoryResponseItems.inventoryResponseItems.add(vfModuleItem);
+		aaiNQInventoryResponseItems.getInventoryResponseItems().add(serviceItem);
+		aaiNQInventoryResponseItems.getInventoryResponseItems().add(vfModuleItem);
 		aaiNQInventoryResponseItem.items = aaiNQInventoryResponseItems;
 		aaiNQInventoryResponseItem.modelName = "model-name";
 		AAINQServiceInstance serviceInstance = new AAINQServiceInstance();

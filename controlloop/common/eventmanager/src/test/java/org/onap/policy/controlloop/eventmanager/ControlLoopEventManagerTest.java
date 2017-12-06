@@ -288,28 +288,28 @@ public class ControlLoopEventManagerTest {
        	
        	relationshipDataItem.relationshipKey   = "customer.global-customer-id"; 
        	relationshipDataItem.relationshipValue = "MSO_1610_ST"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	relationshipDataItem.relationshipKey   = "service-subscription.service-type"; 
        	relationshipDataItem.relationshipValue = "MSO-dev-service-type"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	relationshipDataItem.relationshipKey   = "service-instance.service-instance-id"; 
        	relationshipDataItem.relationshipValue = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
        	RelatedToPropertyItem item = new RelatedToPropertyItem();  
        	item.propertyKey = "service-instance.service-instance-name"; 
        	item.propertyValue = "lll_svc_010317"; 
-       	relatedToProperty.relatedTo.add(item);
+       	relatedToProperty.getRelatedTo().add(item);
        	
         relationship.relatedTo = "service-instance";
         relationship.relatedLink = "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
         relationship.relationshipData = relationshipData;
         relationship.relatedToProperty = relatedToProperty;
        
-        relationshipList.relationshipList.add(relationship);
+        relationshipList.getRelationshipList().add(relationship);
         response.relationshipList = relationshipList; 
 
 		return response;
@@ -335,28 +335,28 @@ public class ControlLoopEventManagerTest {
        	
        	relationshipDataItem.relationshipKey   = "customer.global-customer-id"; 
        	relationshipDataItem.relationshipValue = "MSO_1610_ST"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	relationshipDataItem.relationshipKey   = "service-subscription.service-type"; 
        	relationshipDataItem.relationshipValue = "MSO-dev-service-type"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	relationshipDataItem.relationshipKey   = "service-instance.service-instance-id"; 
        	relationshipDataItem.relationshipValue = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
        	RelatedToPropertyItem item = new RelatedToPropertyItem();  
        	item.propertyKey = "service-instance.service-instance-name"; 
        	item.propertyValue = "lll_svc_010317"; 
-       	relatedToProperty.relatedTo.add(item);
+       	relatedToProperty.getRelatedTo().add(item);
        	
         relationship.relatedTo = "service-instance";
         relationship.relatedLink = "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
         relationship.relationshipData = relationshipData;
         relationship.relatedToProperty = relatedToProperty;
        
-        relationshipList.relationshipList.add(relationship);
+        relationshipList.getRelationshipList().add(relationship);
         response.relationshipList = relationshipList; 
 
 		return response;
@@ -380,28 +380,28 @@ public class ControlLoopEventManagerTest {
        	
        	relationshipDataItem.relationshipKey   = "customer.global-customer-id"; 
        	relationshipDataItem.relationshipValue = "MSO_1610_ST"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	relationshipDataItem.relationshipKey   = "service-subscription.service-type"; 
        	relationshipDataItem.relationshipValue = "MSO-dev-service-type"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	relationshipDataItem.relationshipKey   = "service-instance.service-instance-id"; 
        	relationshipDataItem.relationshipValue = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"; 
-       	relationshipData.relationshipData.add(relationshipDataItem);
+       	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
        	RelatedToPropertyItem item = new RelatedToPropertyItem();  
        	item.propertyKey = "service-instance.service-instance-name"; 
        	item.propertyValue = "lll_svc_010317"; 
-       	relatedToProperty.relatedTo.add(item);
+       	relatedToProperty.getRelatedTo().add(item);
        	
         relationship.relatedTo = "service-instance";
         relationship.relatedLink = "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
         relationship.relationshipData = relationshipData;
         relationship.relatedToProperty = relatedToProperty;
        
-        relationshipList.relationshipList.add(relationship);
+        relationshipList.getRelationshipList().add(relationship);
         response.relationshipList = relationshipList; 
 
 		return response;

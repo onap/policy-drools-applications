@@ -34,8 +34,4 @@ public class AAINQNamedQuery implements Serializable {
 
 	@SerializedName("named-query-uuid")
 	public UUID namedQueryUUID;
-	
-	public AAINQNamedQuery() {
-	}
-
 }

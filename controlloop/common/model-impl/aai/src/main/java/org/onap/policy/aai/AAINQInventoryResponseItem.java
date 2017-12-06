@@ -57,8 +57,4 @@ public class AAINQInventoryResponseItem implements Serializable {
 	
 	@SerializedName("inventory-response-items")
 	public AAINQInventoryResponseItems items;
-
-	public AAINQInventoryResponseItem() {
-	}
-
 }

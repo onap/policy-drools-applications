@@ -46,11 +46,11 @@ public class RelationshipDataTest {
 		relationshipDataItem.relationshipKey = "relationship-key";
 		relationshipDataItem.relationshipValue = "relationship-value"; 
 		assertNotNull(relationshipDataItem);
-		relationshipData.relationshipData.add(relationshipDataItem); 
+		relationshipData.getRelationshipData().add(relationshipDataItem); 
 		RelationshipDataItem relationshipDataItem2 = new RelationshipDataItem(); 
 		relationshipDataItem2.relationshipKey = "relationship-key2";
 		relationshipDataItem2.relationshipValue = "relationship-value2"; 
-		relationshipData.relationshipData.add(relationshipDataItem2); 
+		relationshipData.getRelationshipData().add(relationshipDataItem2); 
 	    assertNotNull(relationshipData); 
 	    logger.info(Serialization.gsonPretty.toJson(relationshipData));
 	}

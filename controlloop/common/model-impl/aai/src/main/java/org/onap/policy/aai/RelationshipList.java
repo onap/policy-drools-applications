@@ -32,8 +32,14 @@ public class RelationshipList implements Serializable {
 	 */
 	private static final long serialVersionUID = 6115655704973981989L;
 	@SerializedName("relationship-list")
-    public List<Relationship> relationshipList = new LinkedList<>();
+    private List<Relationship> relationships = new LinkedList<>();
 	
-	public RelationshipList() {
+	public List<Relationship> getRelationshipList() {
+		return relationships;
 	}
+	public void setRelationshipList(List<Relationship> relationshipList) {
+		this.relationships = relationshipList;
+	}
+	
+	
 }

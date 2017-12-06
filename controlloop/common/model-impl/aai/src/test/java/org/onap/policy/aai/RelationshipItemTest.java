@@ -45,7 +45,7 @@ public class RelationshipItemTest {
 		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
 		relatedToPropertyItem.propertyKey = "model.model-name"; 
 		relatedToPropertyItem.propertyValue = "service-instance"; 
-		relationshipItem.relatedToProperty.add(relatedToPropertyItem); 
+		relationshipItem.getRelatedToProperty().add(relatedToPropertyItem); 
 	    assertNotNull(relationshipItem); 
 	    logger.info(Serialization.gsonPretty.toJson(relationshipItem)); 
 	}

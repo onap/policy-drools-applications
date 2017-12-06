@@ -38,11 +38,11 @@ public class AAINQExtraPropertiesTest {
 	@Test
 	public void test() {
 		AAINQExtraProperties aaiNQExtraProperties = new AAINQExtraProperties(); 
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "service-instance"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-type", "widget"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-version", "1.0"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-id", "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
-		aaiNQExtraProperties.extraProperty.add(new AAINQExtraProperty("model.model-name", "46b92144-923a-4d20-b85a-3cbd847668a9"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "service-instance"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-type", "widget"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-version", "1.0"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-id", "82194af1-3c2c-485a-8f44-420e22a9eaa4"));
+		aaiNQExtraProperties.getExtraProperty().add(new AAINQExtraProperty("model.model-name", "46b92144-923a-4d20-b85a-3cbd847668a9"));
         assertNotNull(aaiNQExtraProperties);		
 	}
 

@@ -39,7 +39,4 @@ public class AAINQTenant implements Serializable {
 	
 	@SerializedName("resource-version")
 	public String resourceVersion;
-	
-	public AAINQTenant() {
-	}
 }

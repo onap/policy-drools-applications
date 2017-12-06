@@ -33,9 +33,13 @@ public class RelatedToProperty implements Serializable {
 	 */
 	private static final long serialVersionUID = 2088088164920423658L;
 	@SerializedName("related-to-property")
-	public List<RelatedToPropertyItem> relatedTo = new LinkedList<RelatedToPropertyItem>();
+	private List<RelatedToPropertyItem> relatedTo = new LinkedList<>();
 
-	public RelatedToProperty() {
+	public List<RelatedToPropertyItem> getRelatedTo() {
+		return relatedTo;
+	}
+	public void setRelatedTo(List<RelatedToPropertyItem> relatedTo) {
+		this.relatedTo = relatedTo;
 	}
 }
 

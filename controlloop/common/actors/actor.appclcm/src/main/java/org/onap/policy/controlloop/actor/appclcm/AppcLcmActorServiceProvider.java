@@ -117,8 +117,8 @@ public class AppcLcmActorServiceProvider implements Actor {
                 break;
             } 
             else {
-                if((item.items != null) && (item.items.inventoryResponseItems != null)) {
-                    vnfId = parseAAIResponse(item.items.inventoryResponseItems, resourceId);
+                if((item.items != null) && (item.items.getInventoryResponseItems() != null)) {
+                    vnfId = parseAAIResponse(item.items.getInventoryResponseItems(), resourceId);
                 }
             }
         }
@@ -155,7 +155,7 @@ public class AppcLcmActorServiceProvider implements Actor {
         filter.put("generic-vnf", filterItem);
         
         aaiRequest.instanceFilters = new AAINQInstanceFilters();
-        aaiRequest.instanceFilters.instanceFilter.add(filter);
+        aaiRequest.instanceFilters.getInstanceFilter().add(filter);
         
         /*
          * Obtain A&AI credentials from properties.environment file
@@ -174,7 +174,7 @@ public class AppcLcmActorServiceProvider implements Actor {
             throw new AAIException("The named query response was null");
         }
 
-        String targetVnfId = parseAAIResponse(aaiResponse.inventoryResponseItems, resourceId);
+        String targetVnfId = parseAAIResponse(aaiResponse.getInventoryResponseItems(), resourceId);
         if (targetVnfId == null) {
             throw new AAIException("Target vnf-id could not be found"); 
         }

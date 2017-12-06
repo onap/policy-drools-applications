@@ -48,8 +48,4 @@ public class AAIGETResponse implements Serializable {
 	
 	@SerializedName("requestError")
 	public AAINQRequestError requestError;
-
-	public AAIGETResponse() {
-	}
-
 }

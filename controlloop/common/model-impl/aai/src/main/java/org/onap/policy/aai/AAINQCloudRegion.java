@@ -45,7 +45,4 @@ public class AAINQCloudRegion implements Serializable {
 	
 	@SerializedName("resource-version")
 	public String resourceVersion;
-	
-	public AAINQCloudRegion() {
-	}
 }

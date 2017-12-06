@@ -41,7 +41,4 @@ public class Relationship implements Serializable {
 	
 	@SerializedName("related-to-property")
 	public RelatedToProperty relatedToProperty =  new RelatedToProperty();
-	
-	public Relationship() {
-	}
 }

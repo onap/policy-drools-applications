@@ -35,8 +35,4 @@ public class RelationshipDataItem implements Serializable {
 	public String relationshipKey;
 	@SerializedName("relationship-value")
 	public String relationshipValue;
-	
-	public RelationshipDataItem() {
-	}
-
 }

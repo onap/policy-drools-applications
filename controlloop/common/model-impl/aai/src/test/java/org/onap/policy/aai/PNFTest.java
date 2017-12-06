@@ -42,8 +42,8 @@ public class PNFTest {
 	@Test
 	public void test() {
 		PNF pnf = new PNF();
-		pnf.PNFName = "pnf-name-test";
-		pnf.PNFType = PNFType.ENODEB;
+		pnf.setPNFName("pnf-name-test");
+		pnf.setPNFType(PNFType.ENODEB);
 	    assertNotNull(pnf); 
 	    logger.info(Serialization.gsonPretty.toJson(pnf));
 	}
