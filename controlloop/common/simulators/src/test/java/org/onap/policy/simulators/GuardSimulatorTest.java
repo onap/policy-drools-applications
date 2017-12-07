@@ -24,12 +24,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.LoggerUtil;
-import org.onap.policy.guard.PolicyGuardXacmlHelper;
-import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
-import org.onap.policy.guard.Util;
+import org.onap.policy.rest.RESTManager;
+import org.onap.policy.rest.RESTManager.Pair;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -44,16 +43,6 @@ public class GuardSimulatorTest {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		//
-		// Set guard properties
-		//
-		org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", 
-			"python", 
-			"test", 
-			"python", 
-			"test", 
-			"TEST");
-
 	}
 	
 	@AfterClass
@@ -63,8 +52,24 @@ public class GuardSimulatorTest {
 	
 	@Test
 	public void testGuard() {
-		PolicyGuardXacmlRequestAttributes request = new PolicyGuardXacmlRequestAttributes("clname_id", "actor_id", "operation_id", "target_id", "request_id");
-		String xacmlResponse = new PolicyGuardXacmlHelper().callPDP(request);
-		assertNotNull(xacmlResponse);
+	    String request = makeRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
+	    String url = "http://localhost:" + Util.GUARDSIM_SERVER_PORT + "/pdp/api/getDecision";
+		Pair<Integer, String> response = RESTManager.post(url, "testUname", "testPass", null, "application/json", request);
+		assertNotNull(response);
+		assertNotNull(response.a);
+		assertNotNull(response.b);
+		assertEquals("{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}", response.b);
+		
+		request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
+		response = RESTManager.post(url, "testUname", "testPass", null, "application/json", request);
+		assertNotNull(response);
+        assertNotNull(response.a);
+        assertNotNull(response.b);
+        assertEquals("{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}", response.b);
+	}
+	
+	private static String makeRequest (String actor, String recipe, String target, String clName) {
+	    return "{\"decisionAttributes\": {\"actor\": \"" + actor + "\", \"recipe\": \"" + recipe + "\""
+                + ", \"target\": \"" + target + "\", \"clname\": \"" + clName + "\"}, \"onapName\": \"PDPD\"}";
 	}
 }
