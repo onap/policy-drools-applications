@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_9f0565c4",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-12-07T15:57:23Z",
+      "side": 0,
+      "message": "Most likely this was added due to Sonar flagging as missing constructor. So I *think* this just needs a comment indicating empty.",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "bd7ee8043627c74f6ea2145dde279313da58261d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bf0aa1d0",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAIGETVnfResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-12-07T15:57:23Z",
+      "side": 0,
+      "message": "same comment",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 2
+      },
+      "revId": "bd7ee8043627c74f6ea2145dde279313da58261d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
