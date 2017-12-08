@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_9abc936e",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/PNF.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-12-08T14:49:44Z",
+      "side": 1,
+      "message": "This may be beyond the scope of this pull request but just to make a note, we should rename the classes that have \"PNF\" to \"Pnf\" so sonar doesn\u0027t flag it.",
+      "revId": "c3619a82215b2277087f73741d57d3a3b75325f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7aa42757",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/PNFInstance.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-12-08T14:49:44Z",
+      "side": 1,
+      "message": "Maybe rename this so sonar won\u0027t flag it for not following the Java lower camel case convention for variables.",
+      "revId": "c3619a82215b2277087f73741d57d3a3b75325f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1a8963ca",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/PNFInstance.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-12-08T14:49:44Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "c3619a82215b2277087f73741d57d3a3b75325f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3a869fba",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/PNFInstance.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-12-08T14:49:44Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "c3619a82215b2277087f73741d57d3a3b75325f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5a9feb03",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/PNFInstance.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2017-12-08T14:49:44Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "c3619a82215b2277087f73741d57d3a3b75325f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
