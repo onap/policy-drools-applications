@@ -33,8 +33,4 @@ public class AAINQQueryParameters implements Serializable {
 	
 	@SerializedName("named-query")
 	public AAINQNamedQuery namedQuery;
-
-	public AAINQQueryParameters() {
-	}
-
 }

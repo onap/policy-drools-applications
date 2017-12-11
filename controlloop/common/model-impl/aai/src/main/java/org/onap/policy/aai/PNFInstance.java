@@ -29,10 +29,10 @@ public class PNFInstance implements Serializable {
 	 */
 	private static final long serialVersionUID = -3694152433472165034L;
 	
-	public String	PNFName;
-	public String	PNFInstanceName;
-	public PNFType	PNFType;
-	public String	PNFSerial;
+	private String	pnfName;
+	private String	pnfInstanceName;
+	private PNFType	pnfType;
+	private String	pnfSerial;
 	
 	public PNFInstance() {
 		
@@ -42,26 +42,58 @@ public class PNFInstance implements Serializable {
 		if (instance == null) {
 			return;
 		}
-		this.PNFName = instance.PNFName;
-		this.PNFInstanceName = instance.PNFInstanceName;
-		this.PNFType = instance.PNFType;
-		this.PNFSerial = instance.PNFSerial;
+		this.pnfName = instance.pnfName;
+		this.pnfInstanceName = instance.pnfInstanceName;
+		this.pnfType = instance.pnfType;
+		this.pnfSerial = instance.pnfSerial;
+	}
+
+	public String getPNFName() {
+		return pnfName;
+	}
+
+	public void setPNFName(String pNFName) {
+		pnfName = pNFName;
+	}
+
+	public String getPNFInstanceName() {
+		return pnfInstanceName;
+	}
+
+	public void setPNFInstanceName(String pNFInstanceName) {
+		pnfInstanceName = pNFInstanceName;
+	}
+
+	public PNFType getPNFType() {
+		return pnfType;
+	}
+
+	public void setPNFType(PNFType pNFType) {
+		pnfType = pNFType;
+	}
+
+	public String getPNFSerial() {
+		return pnfSerial;
+	}
+
+	public void setPNFSerial(String pNFSerial) {
+		pnfSerial = pNFSerial;
 	}
 
 	@Override
 	public String toString() {
-		return "PNFInstance [PNFName=" + PNFName + ", PNFInstanceName=" + PNFInstanceName + ", PNFType=" + PNFType
-				+ ", PNFSerial=" + PNFSerial + "]";
+		return "PNFInstance [PNFName=" + pnfName + ", PNFInstanceName=" + pnfInstanceName + ", PNFType=" + pnfType
+				+ ", PNFSerial=" + pnfSerial + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((PNFInstanceName == null) ? 0 : PNFInstanceName.hashCode());
-		result = prime * result + ((PNFName == null) ? 0 : PNFName.hashCode());
-		result = prime * result + ((PNFSerial == null) ? 0 : PNFSerial.hashCode());
-		result = prime * result + ((PNFType == null) ? 0 : PNFType.hashCode());
+		result = prime * result + ((pnfInstanceName == null) ? 0 : pnfInstanceName.hashCode());
+		result = prime * result + ((pnfName == null) ? 0 : pnfName.hashCode());
+		result = prime * result + ((pnfSerial == null) ? 0 : pnfSerial.hashCode());
+		result = prime * result + ((pnfType == null) ? 0 : pnfType.hashCode());
 		return result;
 	}
 
@@ -74,24 +106,21 @@ public class PNFInstance implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PNFInstance other = (PNFInstance) obj;
-		if (PNFInstanceName == null) {
-			if (other.PNFInstanceName != null)
+		if (pnfInstanceName == null) {
+			if (other.pnfInstanceName != null)
 				return false;
-		} else if (!PNFInstanceName.equals(other.PNFInstanceName))
+		} else if (!pnfInstanceName.equals(other.pnfInstanceName))
 			return false;
-		if (PNFName == null) {
-			if (other.PNFName != null)
+		if (pnfName == null) {
+			if (other.pnfName != null)
 				return false;
-		} else if (!PNFName.equals(other.PNFName))
+		} else if (!pnfName.equals(other.pnfName))
 			return false;
-		if (PNFSerial == null) {
-			if (other.PNFSerial != null)
+		if (pnfSerial == null) {
+			if (other.pnfSerial != null)
 				return false;
-		} else if (!PNFSerial.equals(other.PNFSerial))
+		} else if (!pnfSerial.equals(other.pnfSerial))
 			return false;
-		if (PNFType != other.PNFType)
-			return false;
-		return true;
+		return pnfType == other.pnfType;
 	}
-
 }

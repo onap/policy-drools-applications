@@ -35,12 +35,24 @@ public class AAINQResponse implements Serializable {
 	private static final long serialVersionUID = 8411407444051746101L;
 	
 	@SerializedName("inventory-response-item")
-	public List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
+	private List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
 	
 	@SerializedName("requestError")
-	public AAINQRequestError requestError;
+	private AAINQRequestError requestError;
 
-	public AAINQResponse() {
+	public List<AAINQInventoryResponseItem> getInventoryResponseItems() {
+		return inventoryResponseItems;
 	}
 
+	public void setInventoryResponseItems(List<AAINQInventoryResponseItem> inventoryResponseItems) {
+		this.inventoryResponseItems = inventoryResponseItems;
+	}
+
+	public AAINQRequestError getRequestError() {
+		return requestError;
+	}
+
+	public void setRequestError(AAINQRequestError requestError) {
+		this.requestError = requestError;
+	}
 }

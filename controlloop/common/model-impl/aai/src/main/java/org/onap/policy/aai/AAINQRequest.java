@@ -35,8 +35,4 @@ public class AAINQRequest implements Serializable {
 	public AAINQQueryParameters queryParameters;
 	@SerializedName("instance-filters")
 	public AAINQInstanceFilters instanceFilters;
-
-	public AAINQRequest() {
-	}
-
 }

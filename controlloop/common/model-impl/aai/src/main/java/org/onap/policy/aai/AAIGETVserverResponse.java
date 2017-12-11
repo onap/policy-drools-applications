@@ -42,8 +42,4 @@ public class AAIGETVserverResponse extends AAIGETResponse implements Serializabl
 	
 	@SerializedName("vserver-selflink")
 	public String vserverSelflink;
-	
-	public AAIGETVserverResponse() {
-	}
-
 }

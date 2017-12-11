@@ -26,15 +26,30 @@ import org.onap.policy.aai.AAINQResponse;
 
 public class AAINQResponseWrapper {
 
-	public UUID requestID;
-	public AAINQResponse aainqresponse;
+	private UUID requestID;
+	private AAINQResponse aainqresponse;
 	
 	public AAINQResponseWrapper() {
-		
 	}
 	
 	public AAINQResponseWrapper(UUID requestID, AAINQResponse aainqresponse){
 		this.requestID = requestID;
+		this.aainqresponse = aainqresponse;
+	}
+
+	public UUID getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(UUID requestID) {
+		this.requestID = requestID;
+	}
+
+	public AAINQResponse getAainqresponse() {
+		return aainqresponse;
+	}
+
+	public void setAainqresponse(AAINQResponse aainqresponse) {
 		this.aainqresponse = aainqresponse;
 	}
 }

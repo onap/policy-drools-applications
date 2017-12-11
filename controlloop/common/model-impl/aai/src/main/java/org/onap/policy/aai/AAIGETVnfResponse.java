@@ -45,8 +45,4 @@ public class AAIGETVnfResponse extends AAIGETResponse implements Serializable {
 	
 	@SerializedName("orchestration-status")
 	public String orchestrationStatus;
-	
-	public AAIGETVnfResponse() {
-	}
-
 }

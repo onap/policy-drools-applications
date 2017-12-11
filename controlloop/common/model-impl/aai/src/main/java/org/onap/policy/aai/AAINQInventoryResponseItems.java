@@ -34,9 +34,13 @@ public class AAINQInventoryResponseItems implements Serializable {
 	private static final long serialVersionUID = 7602807659381179004L;
 
 	@SerializedName("inventory-response-item")
-	public List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
-	
-	public AAINQInventoryResponseItems() {
+	private List<AAINQInventoryResponseItem> inventoryResponseItems = new LinkedList<>();
+
+	public List<AAINQInventoryResponseItem> getInventoryResponseItems() {
+		return inventoryResponseItems;
 	}
 
+	public void setInventoryResponseItems(List<AAINQInventoryResponseItem> inventoryResponseItems) {
+		this.inventoryResponseItems = inventoryResponseItems;
+	}
 }

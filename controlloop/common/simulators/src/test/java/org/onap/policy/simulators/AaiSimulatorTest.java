@@ -84,13 +84,13 @@ public class AaiSimulatorTest {
     List<Map<String, Map<String, String>>> tempInstanceFilter = new LinkedList<>();
     tempInstanceFilter.add(tempOuterMap);
     AAINQInstanceFilters tempInstanceFilters = new AAINQInstanceFilters();
-    tempInstanceFilters.instanceFilter = tempInstanceFilter;
+    tempInstanceFilters.setInstanceFilter(tempInstanceFilter);
     request.instanceFilters = tempInstanceFilters;
 
     AAINQResponse response = AAIManager.postQuery("http://localhost:6666", "testUser", "testPass",
         request, UUID.randomUUID());
     assertNotNull(response);
-    assertNotNull(response.inventoryResponseItems);
+    assertNotNull(response.getInventoryResponseItems());
 
     tempNamedQuery.namedQueryUUID = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
     tempQueryParameters.namedQuery = tempNamedQuery;
@@ -102,12 +102,12 @@ public class AaiSimulatorTest {
     tempInstanceFilter = new LinkedList<>();
     tempInstanceFilter.add(tempOuterMap);
     tempInstanceFilters = new AAINQInstanceFilters();
-    tempInstanceFilters.instanceFilter = tempInstanceFilter;
+    tempInstanceFilters.setInstanceFilter(tempInstanceFilter);
     request.instanceFilters = tempInstanceFilters;
 
     response = AAIManager.postQuery("http://localhost:6666", "testUser", "testPass", request,
         UUID.randomUUID());
     assertNotNull(response);
-    assertNotNull(response.inventoryResponseItems);
+    assertNotNull(response.getInventoryResponseItems());
   }
 }

@@ -29,28 +29,44 @@ public class PNF implements Serializable {
 	 */
 	private static final long serialVersionUID = -3535108358668248501L;
 
-	public String	PNFName;
-	public PNFType	PNFType;
+	private String	pnfName;
+	private PNFType	pnfType;
 	
 	public PNF() {
 		
 	}
 	
 	public PNF(PNF pnf) {
-		this.PNFName = pnf.PNFName;
-		this.PNFType = pnf.PNFType;
+		this.pnfName = pnf.pnfName;
+		this.pnfType = pnf.pnfType;
 	}
 	
+	public String getPNFName() {
+		return pnfName;
+	}
+
+	public void setPNFName(String pNFName) {
+		pnfName = pNFName;
+	}
+
+	public PNFType getPNFType() {
+		return pnfType;
+	}
+
+	public void setPNFType(PNFType pNFType) {
+		pnfType = pNFType;
+	}
+
 	@Override
 	public String toString() {
-		return "PNF [PNFName=" + PNFName + ", PNFType=" + PNFType + "]";
+		return "PNF [PNFName=" + pnfName + ", PNFType=" + pnfType + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((PNFName == null) ? 0 : PNFName.hashCode());
-		result = prime * result + ((PNFType == null) ? 0 : PNFType.hashCode());
+		result = prime * result + ((pnfName == null) ? 0 : pnfName.hashCode());
+		result = prime * result + ((pnfType == null) ? 0 : pnfType.hashCode());
 		return result;
 	}
 	@Override
@@ -62,14 +78,11 @@ public class PNF implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PNF other = (PNF) obj;
-		if (PNFName == null) {
-			if (other.PNFName != null)
+		if (pnfName == null) {
+			if (other.pnfName != null)
 				return false;
-		} else if (!PNFName.equals(other.PNFName))
+		} else if (!pnfName.equals(other.pnfName))
 			return false;
-		if (PNFType != other.PNFType)
-			return false;
-		return true;
+		return pnfType == other.pnfType;
 	}
-	
 }

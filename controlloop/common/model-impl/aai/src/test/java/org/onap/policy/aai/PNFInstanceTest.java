@@ -42,9 +42,9 @@ public class PNFInstanceTest {
 	@Test
 	public void test() {
 		PNFInstance pnfInstance = new PNFInstance(); 
-		pnfInstance.PNFInstanceName = "pnf-instance-name-test"; 
-		pnfInstance.PNFName = "pnf-name-test"; 
-		pnfInstance.PNFSerial = "pnf-serial-test"; 
+		pnfInstance.setPNFInstanceName("pnf-instance-name-test"); 
+		pnfInstance.setPNFName("pnf-name-test"); 
+		pnfInstance.setPNFSerial("pnf-serial-test"); 
 	    assertNotNull(pnfInstance); 
 	    logger.info(Serialization.gsonPretty.toJson(pnfInstance));
 	}

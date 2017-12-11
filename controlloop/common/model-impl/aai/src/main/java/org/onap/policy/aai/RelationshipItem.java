@@ -34,9 +34,13 @@ public class RelationshipItem implements Serializable {
 	private static final long serialVersionUID = 1543404460741069628L;
 	
 	@SerializedName("related-to-property")
-	public List<RelatedToPropertyItem> relatedToProperty = new LinkedList<RelatedToPropertyItem>();
-	
-	public RelationshipItem() {
+	private List<RelatedToPropertyItem> relatedToProperty = new LinkedList<>();
+
+	public List<RelatedToPropertyItem> getRelatedToProperty() {
+		return relatedToProperty;
 	}
 
+	public void setRelatedToProperty(List<RelatedToPropertyItem> relatedToProperty) {
+		this.relatedToProperty = relatedToProperty;
+	}
 }

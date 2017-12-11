@@ -33,8 +33,13 @@ public class RelationshipData implements Serializable {
 	 */
 	private static final long serialVersionUID = 6809180843309562121L;
 	@SerializedName("relationship-data")
-	public List<RelationshipDataItem> relationshipData = new LinkedList<>();
-	
-	public RelationshipData() {
+	private List<RelationshipDataItem> relationshipDataList = new LinkedList<>();
+
+	public List<RelationshipDataItem> getRelationshipData() {
+		return relationshipDataList;
+	}
+
+	public void setRelationshipData(List<RelationshipDataItem> relationshipData) {
+		this.relationshipDataList = relationshipData;
 	}
 }

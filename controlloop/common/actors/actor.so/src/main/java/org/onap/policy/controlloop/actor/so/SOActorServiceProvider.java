@@ -159,7 +159,7 @@ public class SOActorServiceProvider implements Actor {
 		Map<String, String> aainqinstancefiltermapitem = new HashMap<>();
 		aainqinstancefiltermapitem.put("vserver-name", onset.AAI.get("vserver.vserver-name")); // TO DO: get vserver.vname from dcae onset.AAI.get("vserver.vserver-name")
 		aainqinstancefiltermap.put("vserver", aainqinstancefiltermapitem);
-		aainqinstancefilter.instanceFilter.add(aainqinstancefiltermap);
+		aainqinstancefilter.getInstanceFilter().add(aainqinstancefiltermap);
 		aainqrequest.instanceFilters = aainqinstancefilter;
 		//
 		// print aainqrequest for debug
@@ -202,7 +202,7 @@ public class SOActorServiceProvider implements Actor {
 			
 			if (logger.isDebugEnabled()) {
 				logger.debug("AAI Named Query Response: ");
-				logger.debug(Serialization.gsonPretty.toJson(aainqResponseWrapper.aainqresponse));
+				logger.debug(Serialization.gsonPretty.toJson(aainqResponseWrapper.getAainqresponse()));
 			}
 
 			extractSOFieldsFromNamedQuery(aainqResponseWrapper, onset);
@@ -220,27 +220,27 @@ public class SOActorServiceProvider implements Actor {
 		
 		try {
 			// vnfItem
-			setVnfItemVnfId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.vnfID);
-			setVnfItemVnfType(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.vnfType);
+			setVnfItemVnfId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).genericVNF.vnfID);
+			setVnfItemVnfType(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).genericVNF.vnfType);
 			setVnfItemVnfType(vnfItemVnfType.substring(vnfItemVnfType.lastIndexOf("/")+1));
-			setVnfItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.modelInvariantId);
-			setVnfItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).genericVNF.modelVersionId);
-			setVnfItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
-			setVnfItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(0).propertyValue);
-			setVnfItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);			
+			setVnfItemModelInvariantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).genericVNF.modelInvariantId);
+			setVnfItemModelVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).genericVNF.modelVersionId);
+			setVnfItemModelName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).extraProperties.getExtraProperty().get(1).propertyValue);
+			setVnfItemModelNameVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).extraProperties.getExtraProperty().get(0).propertyValue);
+			setVnfItemModelVersion(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).extraProperties.getExtraProperty().get(4).propertyValue);			
 
 			// serviceItem
-			setServiceItemServiceInstanceId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.serviceInstanceID);
-			setServiceItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelInvariantId);
-			setServiceItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
-			setServiceItemModelType(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(1).propertyValue);
-			setServiceItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).serviceInstance.modelVersionId);
-			setServiceItemModelVersion(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).extraProperties.extraProperty.get(4).propertyValue);
+			setServiceItemServiceInstanceId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).serviceInstance.serviceInstanceID);
+			setServiceItemModelInvariantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).serviceInstance.modelInvariantId);
+			setServiceItemModelName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).extraProperties.getExtraProperty().get(1).propertyValue);
+			setServiceItemModelType(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).extraProperties.getExtraProperty().get(1).propertyValue);
+			setServiceItemModelNameVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).serviceInstance.modelVersionId);
+			setServiceItemModelVersion(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).extraProperties.getExtraProperty().get(4).propertyValue);
 
 			// Find the index for base vf module and non-base vf module
 			int baseIndex = -1;
 			int nonBaseIndex = -1;
-			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems;
+			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems();
 			for (AAINQInventoryResponseItem m : inventoryItems) {
 				if (m.vfModule != null) {
 					if (m.vfModule.isBaseVfModule) {
@@ -262,20 +262,20 @@ public class SOActorServiceProvider implements Actor {
 			}
 			
 			// This comes from the base module
-			setVfModuleItemVfModuleName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(baseIndex).vfModule.vfModuleName);
+			setVfModuleItemVfModuleName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(baseIndex).vfModule.vfModuleName);
 			setVfModuleItemVfModuleName(vfModuleItemVfModuleName.replace("Vfmodule", "vDNS"));
 
 			// vfModuleItem - NOT the base module
-			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelInvariantId);
-			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).vfModule.modelVersionId);
-			setVfModuleItemModelName(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(1).propertyValue);
-			setVfModuleItemModelVersionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(0).items.inventoryResponseItems.get(nonBaseIndex).extraProperties.extraProperty.get(4).propertyValue);
+			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(nonBaseIndex).vfModule.modelInvariantId);
+			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(nonBaseIndex).vfModule.modelVersionId);
+			setVfModuleItemModelName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(nonBaseIndex).extraProperties.getExtraProperty().get(1).propertyValue);
+			setVfModuleItemModelVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(nonBaseIndex).extraProperties.getExtraProperty().get(4).propertyValue);
 
 			// tenantItem
-			setTenantItemTenantId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).tenant.tenantId);
+			setTenantItemTenantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(1).tenant.tenantId);
 
 			// cloudRegionItem
-			setCloudRegionItemCloudRegionId(namedQueryResponseWrapper.aainqresponse.inventoryResponseItems.get(0).items.inventoryResponseItems.get(1).items.inventoryResponseItems.get(0).cloudRegion.cloudRegionId);
+			setCloudRegionItemCloudRegionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).items.getInventoryResponseItems().get(1).items.getInventoryResponseItems().get(0).cloudRegion.cloudRegionId);
 					
 		} catch (Exception e) {
 			logger.warn("Problem extracting SO data from AAI query response because of {}", e.getMessage(), e);

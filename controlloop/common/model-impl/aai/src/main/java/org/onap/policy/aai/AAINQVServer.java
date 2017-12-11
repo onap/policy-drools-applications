@@ -54,8 +54,4 @@ public class AAINQVServer implements Serializable {
 	
 	@SerializedName("resource-version")
 	public String resourceVersion;
-	
-	public AAINQVServer() {
-	}
-
 }

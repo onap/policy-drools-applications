@@ -33,117 +33,109 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.JsonSyntaxException;
 
 public final class AAIManager {
+	private static final String LINE_SEPARATOR = System.lineSeparator();
+
+	/**
+	 * Private constructor added to avoid instantiation of static class
+	 */
+	private AAIManager() {
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(AAIManager.class);
 	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
-	
+
 	public static AAINQResponse	postQuery(String url, String username, String password, AAINQRequest request, UUID requestID) {
-		
-		Map<String, String> headers = new HashMap<>();
-		headers.put("X-FromAppId", "POLICY");
-		headers.put("X-TransactionId", requestID.toString());
-		headers.put("Accept", "application/json");
-		
+
+		Map<String, String> headers = createHeaders(requestID);
+
 		url = url + "/aai/search/named-query";
 
 		logger.debug("RESTManager.post before");
 		String requestJson = Serialization.gsonPretty.toJson(request);
-		netLogger.info("[OUT|{}|{}|]{}{}", "AAI", url, System.lineSeparator(), requestJson);
+		netLogger.info("[OUT|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, requestJson);
 		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", requestJson);
 		logger.debug("RESTManager.post after");
-		
+
 		if (httpDetails == null) {
-			logger.info("AAI POST Null Response to " + url);
+			logger.info("AAI POST Null Response to {}", url);
 			return null;
 		}
+
+		int httpResponseCode = httpDetails.a;
 		
 		logger.info(url);
-		logger.info(httpDetails.a.toString());
+		logger.info("{}", httpResponseCode);
 		logger.info(httpDetails.b);
+		
 		if (httpDetails.b != null) {
-			try {
-				AAINQResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, AAINQResponse.class);
-				netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, System.lineSeparator(), httpDetails.b);
-				return response;
-			} catch (JsonSyntaxException e) {
-				logger.error("postQuery threw: ", e);
-			}
+			return composeResponse(httpDetails, url, AAINQResponse.class);
 		}
 		return null;
 	}
-	
+
 	public static AAIGETVserverResponse getQueryByVserverName(String urlGet, String username, String password, UUID requestID, String key) {
-		
-		Map<String, String> headers = new HashMap<>();
-		headers.put("X-FromAppId", "POLICY");
-		headers.put("X-TransactionId", requestID.toString());
-		headers.put("Accept", "application/json");
-		
+
+		Map<String, String> headers = createHeaders(requestID);
+
 		urlGet = urlGet + key; 
-		
+
 		int attemptsLeft = 3;
-		AAIGETVserverResponse responseGet = null;
-		
+
 		while(attemptsLeft-- > 0){
 
 			netLogger.info("[OUT|{}|{}|]", "AAI", urlGet);
 			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 			if (httpDetailsGet == null) {
-				logger.info("AAI GET Null Response to " + urlGet);
+				logger.info("AAI GET Null Response to {}", urlGet);
 				return null;
 			}
+
+			int httpResponseCode = httpDetailsGet.a;
 			
 			logger.info(urlGet);
-			logger.info(httpDetailsGet.a.toString());
+			logger.info("{}", httpResponseCode);
 			logger.info(httpDetailsGet.b);
-			
-			if (httpDetailsGet.a == 200) {
-				try {
-					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVserverResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), httpDetailsGet.b);
+
+			if (httpResponseCode == 200) {
+				AAIGETVserverResponse responseGet = composeResponse(httpDetailsGet, urlGet, AAIGETVserverResponse.class);
+				if (responseGet != null) {
 					return responseGet;
-				} catch (JsonSyntaxException e) {
-					logger.error("postQuery threw: ", e);
 				}
 			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) { Thread.currentThread().interrupt(); }
- 		}
-		
+		}
+
 		return null;
 	}
-	
+
 	public static AAIGETVnfResponse getQueryByVnfID(String urlGet, String username, String password, UUID requestID, String key) {
-		
-		Map<String, String> headers = new HashMap<>();
-		headers.put("X-FromAppId", "POLICY");
-		headers.put("X-TransactionId", requestID.toString());
-		headers.put("Accept", "application/json");
-		
+
+		Map<String, String> headers = createHeaders(requestID); 
+
 		urlGet = urlGet + key; 
-		
+
 		int attemptsLeft = 3;
-		AAIGETVnfResponse responseGet = null;
-		
+
 		while(attemptsLeft-- > 0){
 			netLogger.info("[OUT|{}|{}|]", "AAI", urlGet);
 			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
 			if (httpDetailsGet == null) {
-				logger.info("AAI GET Null Response to " + urlGet);
+				logger.info("AAI GET Null Response to {}", urlGet);
 				return null;
 			}
+
+			int httpResponseCode = httpDetailsGet.a;
 			
 			logger.info(urlGet);
-			logger.info(httpDetailsGet.a.toString());
+			logger.info("{}", httpResponseCode);
 			logger.info(httpDetailsGet.b);
-			
-			if (httpDetailsGet.a == 200) {
-				try {
-					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), httpDetailsGet.b);
+
+			if (httpResponseCode == 200) {
+				AAIGETVnfResponse responseGet = composeResponse(httpDetailsGet, urlGet, AAIGETVnfResponse.class);
+				if (responseGet != null) {
 					return responseGet;
-				} catch (JsonSyntaxException e) {
-					logger.error("postQuery threw: ", e);
 				}
 			}
 			try {
@@ -151,49 +143,45 @@ public final class AAIManager {
 			} catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 
 		}
-		
+
 		return null;
 	}
-	
+
 	public static AAIGETVnfResponse getQueryByVnfName(String urlGet, String username, String password, UUID requestID, String key) {
-		
+		return getQueryByVnfID(urlGet, username, password, requestID, key);
+	}
+
+	/**
+	 * Create the headers for the HTTP request
+	 * @param requestID the request ID to insert in the headers
+	 * @return the HTTP headers
+	 */
+	private static Map<String, String> createHeaders(final UUID requestID) {
 		Map<String, String> headers = new HashMap<>();
+
 		headers.put("X-FromAppId", "POLICY");
 		headers.put("X-TransactionId", requestID.toString());
 		headers.put("Accept", "application/json");
-		
-		urlGet = urlGet + key; 
-		
-		int attemptsLeft = 3;
-		AAIGETVnfResponse responseGet = null;
-		
-		while(attemptsLeft-- > 0){
-			netLogger.info("[OUT|{}|{}|]", "AAI", urlGet);
-			Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
-			if (httpDetailsGet == null) {
-				logger.info("AAI GET Null Response to " + urlGet);
-				return null;
-			}
-			
-			logger.info(urlGet);
-			logger.info(httpDetailsGet.a.toString());
-			logger.info(httpDetailsGet.b);
-			
-			if (httpDetailsGet.a == 200) {
-				try {
-					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, AAIGETVnfResponse.class);
-					netLogger.info("[IN|{}|{}|]{}{}", "AAI", urlGet, System.lineSeparator(), httpDetailsGet.b);
-					return responseGet;
-				} catch (JsonSyntaxException e) {
-					logger.error("postQuery threw: ", e);
-				}
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 
+		return headers;
+	}
+
+	/**
+	 * This method uses Google's GSON to create a response object from a JSON string
+	 * @param httpDetails the HTTP response
+	 * @param url the URL from which the response came
+	 * @param classOfT The response class
+	 * @return an instance of the response class
+	 * @throws JsonSyntaxException on GSON errors instantiating the response
+	 */
+	private static <T> T composeResponse(final Pair<Integer, String> httpDetails, final String url, final Class<T> classOfT) {
+		try {
+			T response = Serialization.gsonPretty.fromJson(httpDetails.b, classOfT);
+			netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, httpDetails.b);
+			return response;
+		} catch (JsonSyntaxException e) {
+			logger.error("postQuery threw: ", e);
+			return null;
 		}
-		
-		return null;
 	}
 }
