@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_00033210",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-12-11T04:24:56Z",
+      "side": 1,
+      "message": "Not in the throws statement in the method description - are there no warnings for this? If not, no problem.",
+      "range": {
+        "startLine": 86,
+        "startChar": 20,
+        "endLine": 86,
+        "endChar": 41
+      },
+      "revId": "8a5a9be28d74dec7445f469622fe8eb75b437a6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
