@@ -38,11 +38,16 @@ public class AAINQCloudRegionTest {
 	@Test
 	public void test() {
 		AAINQCloudRegion aaiNQCloudRegion = new AAINQCloudRegion();
-		aaiNQCloudRegion.cloudOwner = "Rackspace";
-		aaiNQCloudRegion.cloudRegionId = "DFW";
-		aaiNQCloudRegion.cloudRegionVersion = "v1";
-		aaiNQCloudRegion.complexName = "SharedNode"; 
-		aaiNQCloudRegion.resourceVersion = "1504789196021"; 
+		aaiNQCloudRegion.setCloudOwner("Rackspace");
+		aaiNQCloudRegion.setCloudRegionId("DFW");
+		aaiNQCloudRegion.setCloudRegionVersion("v1");
+		aaiNQCloudRegion.setComplexName("SharedNode"); 
+		aaiNQCloudRegion.setResourceVersion("1504789196021");
         assertNotNull(aaiNQCloudRegion);		
+		assertEquals(aaiNQCloudRegion.getCloudOwner(), "Rackspace");
+		assertEquals(aaiNQCloudRegion.getCloudRegionId(), "DFW");
+		assertEquals(aaiNQCloudRegion.getCloudRegionVersion(), "v1");
+		assertEquals(aaiNQCloudRegion.getComplexName(), "SharedNode"); 
+		assertEquals(aaiNQCloudRegion.getResourceVersion(), "1504789196021");
 	}
 }

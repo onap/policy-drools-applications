@@ -37,11 +37,11 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class RESTManager {
+public class RESTManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(RESTManager.class);
 	
-	public static class Pair<A, B> {
+	public class Pair<A, B> {
 		public final A a;
 		public final B b;
 		
@@ -51,7 +51,7 @@ public final class RESTManager {
 		}
 	}
 
-	public static Pair<Integer, String> post(String url, String username, String password, Map<String, String> headers, String contentType, String body) {
+	public Pair<Integer, String> post(String url, String username, String password, Map<String, String> headers, String contentType, String body) {
 		CredentialsProvider credentials = new BasicCredentialsProvider();
 		credentials.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
 		
@@ -96,7 +96,7 @@ public final class RESTManager {
 		} 
 	}
 
-	public static Pair<Integer, String> get(String url, String username, String password, Map<String, String> headers) {
+	public Pair<Integer, String> get(String url, String username, String password, Map<String, String> headers) {
 		
 		CredentialsProvider credentials = new BasicCredentialsProvider();
 		credentials.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));

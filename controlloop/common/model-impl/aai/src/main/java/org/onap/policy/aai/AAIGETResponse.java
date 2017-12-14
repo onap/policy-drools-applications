@@ -32,20 +32,69 @@ public class AAIGETResponse implements Serializable {
 	private static final long serialVersionUID = 7311418432051756161L;
 	
 	@SerializedName("in-maint")
-	public String inMaint;
+	private String inMaint;
  
 	@SerializedName("is-closed-loop-disabled")
-	public String isClosedLoopDisabled;
+	private String isClosedLoopDisabled;
 	
 	@SerializedName("model-invariant-id")
-	public String modelInvariantId;
+	private String modelInvariantId;
 	
 	@SerializedName("resource-version")
-	public String resourceVersion; 
+	private String resourceVersion; 
 	
 	@SerializedName("relationship-list")
-	public RelationshipList relationshipList;
+	private RelationshipList relationshipList;
 	
 	@SerializedName("requestError")
-	public AAINQRequestError requestError;
+	private AAINQRequestError requestError;
+
+	public String getInMaint() {
+		return inMaint;
+	}
+
+	public String getIsClosedLoopDisabled() {
+		return isClosedLoopDisabled;
+	}
+
+	public String getModelInvariantId() {
+		return modelInvariantId;
+	}
+
+	public String getResourceVersion() {
+		return resourceVersion;
+	}
+
+	public RelationshipList getRelationshipList() {
+		return relationshipList;
+	}
+
+	public AAINQRequestError getRequestError() {
+		return requestError;
+	}
+
+	public void setInMaint(String inMaint) {
+		this.inMaint = inMaint;
+	}
+
+	public void setIsClosedLoopDisabled(String isClosedLoopDisabled) {
+		this.isClosedLoopDisabled = isClosedLoopDisabled;
+	}
+
+	public void setModelInvariantId(String modelInvariantId) {
+		this.modelInvariantId = modelInvariantId;
+	}
+
+	public void setResourceVersion(String resourceVersion) {
+		this.resourceVersion = resourceVersion;
+	}
+
+	public void setRelationshipList(RelationshipList relationshipList) {
+		this.relationshipList = relationshipList;
+	}
+
+	public void setRequestError(AAINQRequestError requestError) {
+		this.requestError = requestError;
+	}
+	
 }

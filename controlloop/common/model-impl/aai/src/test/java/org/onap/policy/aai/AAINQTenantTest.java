@@ -42,11 +42,15 @@ public class AAINQTenantTest {
 	@Test
 	public void test() {
 		AAINQTenant aaiNQTenant = new AAINQTenant();
-		aaiNQTenant.tenantId = "dhv-test-tenant";
-		aaiNQTenant.tenantName = "dhv-test-tenant-name";
-		aaiNQTenant.resourceVersion = "1485366334";
+		aaiNQTenant.setTenantId("dhv-test-tenant");
+		aaiNQTenant.setTenantName("dhv-test-tenant-name");
+		aaiNQTenant.setResourceVersion("1485366334");
 	    assertNotNull(aaiNQTenant); 
-	    logger.info(Serialization.gsonPretty.toJson(aaiNQTenant));
+		assertEquals(aaiNQTenant.getTenantId(), "dhv-test-tenant");
+		assertEquals(aaiNQTenant.getTenantName(), "dhv-test-tenant-name");
+		assertEquals(aaiNQTenant.getResourceVersion(), "1485366334");
+
+		logger.info(Serialization.gsonPretty.toJson(aaiNQTenant));
 	}
 
 }

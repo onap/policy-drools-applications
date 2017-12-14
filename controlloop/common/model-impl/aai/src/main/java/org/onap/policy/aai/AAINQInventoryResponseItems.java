@@ -27,10 +27,6 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQInventoryResponseItems implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7602807659381179004L;
 
 	@SerializedName("inventory-response-item")

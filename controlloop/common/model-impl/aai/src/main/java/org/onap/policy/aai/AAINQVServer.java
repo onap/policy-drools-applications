@@ -25,33 +25,95 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQVServer implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6718526692734215643L;
 
 	@SerializedName("vserver-id")
-	public String vserverId;
+	private String vserverId;
 	
 	@SerializedName("vserver-name")
-	public String vserverName;
+	private String vserverName;
 	
 	@SerializedName("vserver-name2")
-	public String vserverName2;
+	private String vserverName2;
 	
 	@SerializedName("prov-status")
-	public String provStatus;
+	private String provStatus;
 	
 	@SerializedName("vserver-selflink")
-	public String vserverSelflink;
+	private String vserverSelflink;
 	
 	@SerializedName("in-maint")
-	public Boolean inMaint;
+	private Boolean inMaint;
 	
 	@SerializedName("is-closed-loop-disabled")
-	public Boolean isClosedLoopDisabled;
+	private Boolean isClosedLoopDisabled;
 	
 	@SerializedName("resource-version")
-	public String resourceVersion;
+	private String resourceVersion;
+
+	public String getVserverId() {
+		return vserverId;
+	}
+
+	public String getVserverName() {
+		return vserverName;
+	}
+
+	public String getVserverName2() {
+		return vserverName2;
+	}
+
+	public String getProvStatus() {
+		return provStatus;
+	}
+
+	public String getVserverSelflink() {
+		return vserverSelflink;
+	}
+
+	public Boolean getInMaint() {
+		return inMaint;
+	}
+
+	public Boolean getIsClosedLoopDisabled() {
+		return isClosedLoopDisabled;
+	}
+
+	public String getResourceVersion() {
+		return resourceVersion;
+	}
+
+	public void setVserverId(String vserverId) {
+		this.vserverId = vserverId;
+	}
+
+	public void setVserverName(String vserverName) {
+		this.vserverName = vserverName;
+	}
+
+	public void setVserverName2(String vserverName2) {
+		this.vserverName2 = vserverName2;
+	}
+
+	public void setProvStatus(String provStatus) {
+		this.provStatus = provStatus;
+	}
+
+	public void setVserverSelflink(String vserverSelflink) {
+		this.vserverSelflink = vserverSelflink;
+	}
+
+	public void setInMaint(Boolean inMaint) {
+		this.inMaint = inMaint;
+	}
+
+	public void setIsClosedLoopDisabled(Boolean isClosedLoopDisabled) {
+		this.isClosedLoopDisabled = isClosedLoopDisabled;
+	}
+
+	public void setResourceVersion(String resourceVersion) {
+		this.resourceVersion = resourceVersion;
+	}
+	
+	
 }

@@ -27,10 +27,6 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQExtraProperties implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4109625574744702319L;
 
 	@SerializedName("extra-property")

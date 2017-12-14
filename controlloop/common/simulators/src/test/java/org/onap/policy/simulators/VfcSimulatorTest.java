@@ -57,7 +57,7 @@ public class VfcSimulatorTest {
   @Test
   public void testPost() {
     final Pair<Integer, String> httpDetails =
-        RESTManager.post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username",
+    		new RESTManager().post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username",
             "password", new HashMap<String, String>(), "application/json", "Some Request Here");
     assertNotNull(httpDetails);
     assertTrue(httpDetails.a == 202);
@@ -69,7 +69,7 @@ public class VfcSimulatorTest {
   @Test
   public void testGet() {
     final Pair<Integer, String> httpDetails =
-        RESTManager.get("http://localhost:6668/api/nslcm/v1/jobs/1234", "username", "password",
+    		new RESTManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234", "username", "password",
             new HashMap<String, String>());
     assertNotNull(httpDetails);
     final VFCResponse response =

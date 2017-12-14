@@ -25,14 +25,27 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQRequest implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3283942659786236032L;
 	
 	@SerializedName("query-parameters")
-	public AAINQQueryParameters queryParameters;
+	private AAINQQueryParameters queryParameters;
+	
 	@SerializedName("instance-filters")
-	public AAINQInstanceFilters instanceFilters;
+	private AAINQInstanceFilters instanceFilters;
+
+	public AAINQQueryParameters getQueryParameters() {
+		return queryParameters;
+	}
+
+	public AAINQInstanceFilters getInstanceFilters() {
+		return instanceFilters;
+	}
+
+	public void setQueryParameters(AAINQQueryParameters queryParameters) {
+		this.queryParameters = queryParameters;
+	}
+
+	public void setInstanceFilters(AAINQInstanceFilters instanceFilters) {
+		this.instanceFilters = instanceFilters;
+	}
 }

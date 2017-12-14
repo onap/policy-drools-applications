@@ -25,14 +25,24 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class RelatedToPropertyItem implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5644372985092588637L;
 	
 	@SerializedName("property-key")
-	public String propertyKey;
+	private String propertyKey;
 	@SerializedName("property-value")
-	public String propertyValue;
+	private String propertyValue;
+
+	public String getPropertyKey() {
+		return propertyKey;
+	}
+	public String getPropertyValue() {
+		return propertyValue;
+	}
+
+	public void setPropertyKey(String propertyKey) {
+		this.propertyKey = propertyKey;
+	}
+	public void setPropertyValue(String propertyValue) {
+		this.propertyValue = propertyValue;
+	}
 }

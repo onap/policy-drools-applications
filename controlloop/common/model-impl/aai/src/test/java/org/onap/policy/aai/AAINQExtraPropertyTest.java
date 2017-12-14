@@ -38,9 +38,11 @@ public class AAINQExtraPropertyTest {
 	@Test
 	public void test() {
 		AAINQExtraProperty aaiNQExtraProperty = new AAINQExtraProperty();
-		aaiNQExtraProperty.propertyName = "model.model-name"; 
-		aaiNQExtraProperty.propertyValue= "service-instance";		
+		aaiNQExtraProperty.setPropertyName("model.model-name"); 
+		aaiNQExtraProperty.setPropertyValue("service-instance");		
 		assertNotNull(aaiNQExtraProperty); 
-	}
 
+		assertEquals(aaiNQExtraProperty.getPropertyName(), "model.model-name"); 
+		assertEquals(aaiNQExtraProperty.getPropertyValue(), "service-instance");		
+	}
 }

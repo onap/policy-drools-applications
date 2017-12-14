@@ -43,15 +43,22 @@ public class RelationshipDataTest {
 	public void test() {
 		RelationshipData relationshipData = new RelationshipData(); 
 		RelationshipDataItem relationshipDataItem = new RelationshipDataItem(); 
-		relationshipDataItem.relationshipKey = "relationship-key";
-		relationshipDataItem.relationshipValue = "relationship-value"; 
+		relationshipDataItem.setRelationshipKey("relationship-key");
+		relationshipDataItem.setRelationshipValue("relationship-value"); 
 		assertNotNull(relationshipDataItem);
+		assertEquals(relationshipDataItem.getRelationshipKey(), "relationship-key");
+		assertEquals(relationshipDataItem.getRelationshipValue(), "relationship-value"); 
+
 		relationshipData.getRelationshipData().add(relationshipDataItem); 
 		RelationshipDataItem relationshipDataItem2 = new RelationshipDataItem(); 
-		relationshipDataItem2.relationshipKey = "relationship-key2";
-		relationshipDataItem2.relationshipValue = "relationship-value2"; 
+		relationshipDataItem2.setRelationshipKey("relationship-key2");
+		relationshipDataItem2.setRelationshipValue("relationship-value2"); 
 		relationshipData.getRelationshipData().add(relationshipDataItem2); 
-	    assertNotNull(relationshipData); 
+	    assertNotNull(relationshipData);
+	    
+	    relationshipData.setRelationshipData(relationshipData.getRelationshipData());
+	    assertNotNull(relationshipData);
+	    
 	    logger.info(Serialization.gsonPretty.toJson(relationshipData));
 	}
 

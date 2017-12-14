@@ -25,20 +25,49 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class Relationship implements Serializable {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -68508443869003054L;
 	
 	@SerializedName("related-to")
-	public String relatedTo;
+	private String relatedTo;
+	
 	@SerializedName("related-link")
-	public String relatedLink; 
+	private String relatedLink; 
 	
 	@SerializedName("relationship-data")
-	public RelationshipData relationshipData = new RelationshipData();
+	private RelationshipData relationshipData = new RelationshipData();
 	
 	@SerializedName("related-to-property")
-	public RelatedToProperty relatedToProperty =  new RelatedToProperty();
+	private RelatedToProperty relatedToProperty =  new RelatedToProperty();
+
+	public String getRelatedTo() {
+		return relatedTo;
+	}
+
+	public String getRelatedLink() {
+		return relatedLink;
+	}
+
+	public RelationshipData getRelationshipData() {
+		return relationshipData;
+	}
+
+	public RelatedToProperty getRelatedToProperty() {
+		return relatedToProperty;
+	}
+
+	public void setRelatedTo(String relatedTo) {
+		this.relatedTo = relatedTo;
+	}
+
+	public void setRelatedLink(String relatedLink) {
+		this.relatedLink = relatedLink;
+	}
+
+	public void setRelationshipData(RelationshipData relationshipData) {
+		this.relationshipData = relationshipData;
+	}
+
+	public void setRelatedToProperty(RelatedToProperty relatedToProperty) {
+		this.relatedToProperty = relatedToProperty;
+	}
 }
