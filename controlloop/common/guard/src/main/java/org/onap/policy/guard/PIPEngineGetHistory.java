@@ -338,7 +338,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		}catch(Exception ex){
 			logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", OpsHistPU);
 			logger.error("getCountFromDB threw: ", ex);
-			return 0;
+			return -1;
 		}
 
 		DateUtil dateUtil = new DateUtil(){
@@ -406,9 +406,9 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 				+ " and endtime between '" + new Timestamp(diff) + "' and '" + new Timestamp(now) + "'";
 
 		Query nq = em.createNativeQuery(sql);
-		nq.setParameter(0, actor);
-		nq.setParameter(1, operation);
-		nq.setParameter(2, target);
+		nq.setParameter(1, actor);
+		nq.setParameter(2, operation);
+		nq.setParameter(3, target);
 
 		int ret = -1;
 		try{

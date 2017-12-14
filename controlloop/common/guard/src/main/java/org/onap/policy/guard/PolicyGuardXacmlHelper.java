@@ -104,12 +104,12 @@ public class PolicyGuardXacmlHelper {
 		jsonReq.put("decisionAttributes", attributes);
 		jsonReq.put("onapName", "PDPD");
 
-		URLEntry urlEntry = restUrls[restUrlIndex];
 
 		try {
 			//
 			// Call RESTful PDP
 			//
+			URLEntry urlEntry = restUrls[restUrlIndex];
 			netLogger.info("[OUT|{}|{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), jsonReq.toString());
 			response = callRESTfulPDP(new ByteArrayInputStream(jsonReq
 					.toString().getBytes()), urlEntry.restURL,

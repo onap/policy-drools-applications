@@ -244,7 +244,7 @@ public class PolicyGuardYamlToXacml {
 			xacmlFileContent = m.replaceAll("<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" 
 											+ target
 											+ "</AttributeValue>"
-											+ "\n\t\t\t\t\t\t\\$\\{blackListElement\\}");
+											+ "\n\t\t\t\t\t\t\\$\\{blackListElement\\}\n");
 		}
 		
 		p = Pattern.compile("\t\t\t\t\t\t\\$\\{blackListElement\\}\n");

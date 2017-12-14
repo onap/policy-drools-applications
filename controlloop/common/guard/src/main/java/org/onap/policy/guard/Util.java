@@ -68,6 +68,11 @@ public final class Util {
 	public static final String PERMIT = "Permit";
 	public static final String DENY = "Deny";
 	
+	/*
+	 * Junit props
+	 */
+	protected static final String PU_KEY = "OperationsHistoryPU";
+	protected static final String JUNITPU = "TestOperationsHistoryPU";
 
 	private static final Logger logger = LoggerFactory.getLogger(Util.class);
 	public static class Pair<A, B> {
