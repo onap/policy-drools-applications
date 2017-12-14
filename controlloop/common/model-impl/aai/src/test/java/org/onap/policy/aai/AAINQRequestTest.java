@@ -47,13 +47,20 @@ public class AAINQRequestTest {
 		AAINQInstanceFilters aaiNQInstanceFilters = new AAINQInstanceFilters();
 		AAINQQueryParameters aaiNQQueryParameters = new AAINQQueryParameters();
 		
-		aaiNQRequest.instanceFilters = aaiNQInstanceFilters;
-		AAINQNamedQuery aaiNQNamedQuery = new AAINQNamedQuery(); 
-		aaiNQNamedQuery.namedQueryUUID = UUID.randomUUID();
-		aaiNQQueryParameters.namedQuery = aaiNQNamedQuery;
-		aaiNQRequest.queryParameters = aaiNQQueryParameters;
+		aaiNQRequest.setInstanceFilters(aaiNQInstanceFilters);
+		assertNotNull(aaiNQRequest.getInstanceFilters());
+		AAINQNamedQuery aaiNQNamedQuery = new AAINQNamedQuery();
+		UUID uuid = UUID.randomUUID();
+		aaiNQNamedQuery.setNamedQueryUUID(uuid);
+		aaiNQQueryParameters.setNamedQuery(aaiNQNamedQuery);
+		aaiNQRequest.setQueryParameters(aaiNQQueryParameters);
 		
 		assertNotNull(aaiNQRequest);
+		
+		assertEquals(aaiNQNamedQuery.getNamedQueryUUID(), uuid);
+		assertEquals(aaiNQQueryParameters.getNamedQuery(), aaiNQNamedQuery);
+		assertEquals(aaiNQRequest.getQueryParameters(), aaiNQQueryParameters);
+		
 	    logger.info(Serialization.gsonPretty.toJson(aaiNQRequest));		
 	}
 

@@ -38,8 +38,8 @@ public class RelationshipDataItemTest {
 	@Test
 	public void test() {
 		RelationshipDataItem relationshipDataItem = new RelationshipDataItem(); 
-		relationshipDataItem.relationshipKey = "relationship-key";
-		relationshipDataItem.relationshipValue = "relationship-value";  
+		relationshipDataItem.setRelationshipKey("relationship-key");
+		relationshipDataItem.setRelationshipValue("relationship-value");  
 	    assertNotNull(relationshipDataItem);
 	}
 

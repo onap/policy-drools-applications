@@ -25,14 +25,24 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class RelationshipDataItem implements Serializable {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 550450041634939767L;
 	
 	@SerializedName("relationship-key")
-	public String relationshipKey;
+	private String relationshipKey;
 	@SerializedName("relationship-value")
-	public String relationshipValue;
+	private String relationshipValue;
+	
+	public String getRelationshipKey() {
+		return relationshipKey;
+	}
+	public String getRelationshipValue() {
+		return relationshipValue;
+	}
+	
+	public void setRelationshipKey(String relationshipKey) {
+		this.relationshipKey = relationshipKey;
+	}
+	public void setRelationshipValue(String relationshipValue) {
+		this.relationshipValue = relationshipValue;
+	}
 }

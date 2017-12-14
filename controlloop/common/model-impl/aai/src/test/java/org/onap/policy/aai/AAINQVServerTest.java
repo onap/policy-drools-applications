@@ -43,15 +43,23 @@ public class AAINQVServerTest {
 	@Test
 	public void test() {
 		AAINQVServer aaiNQVServer = new AAINQVServer();
-		aaiNQVServer.vserverId = "dhv-test-vserver";
-		aaiNQVServer.vserverName = "dhv-test-vserver-name";
-		aaiNQVServer.vserverName2 = "dhv-test-vserver-name2";
-		aaiNQVServer.provStatus = "PREPROV";
-		aaiNQVServer.vserverSelflink = "dhv-test-vserver-selflink";
-		aaiNQVServer.inMaint = false;
-		aaiNQVServer.isClosedLoopDisabled = false;
-		aaiNQVServer.resourceVersion = "1485366417";
+		aaiNQVServer.setVserverId("dhv-test-vserver");
+		aaiNQVServer.setVserverName("dhv-test-vserver-name");
+		aaiNQVServer.setVserverName2("dhv-test-vserver-name2");
+		aaiNQVServer.setProvStatus("PREPROV");
+		aaiNQVServer.setVserverSelflink("dhv-test-vserver-selflink");
+		aaiNQVServer.setInMaint(false);
+		aaiNQVServer.setIsClosedLoopDisabled(false);
+		aaiNQVServer.setResourceVersion("1485366417");
 	    assertNotNull(aaiNQVServer); 
+		assertEquals(aaiNQVServer.getVserverId(), "dhv-test-vserver");
+		assertEquals(aaiNQVServer.getVserverName(), "dhv-test-vserver-name");
+		assertEquals(aaiNQVServer.getVserverName2(), "dhv-test-vserver-name2");
+		assertEquals(aaiNQVServer.getProvStatus(), "PREPROV");
+		assertEquals(aaiNQVServer.getVserverSelflink(), "dhv-test-vserver-selflink");
+		assertEquals(aaiNQVServer.getInMaint(), false);
+		assertEquals(aaiNQVServer.getIsClosedLoopDisabled(), false);
+		assertEquals(aaiNQVServer.getResourceVersion(), "1485366417");
 	    logger.info(Serialization.gsonPretty.toJson(aaiNQVServer));
 	}
 

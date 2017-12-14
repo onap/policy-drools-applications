@@ -44,6 +44,7 @@ public class PNFTypeTest {
 	public void test() {
 		PNFType pnfType = PNFType.ENODEB;
 	    assertNotNull(pnfType); 
+	    assertNotNull(pnfType.toString()); 
 	    logger.info(Serialization.gsonPretty.toJson(pnfType));
 	}
 

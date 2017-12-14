@@ -26,35 +26,104 @@ import com.google.gson.annotations.SerializedName;
 
 public class AAINQInventoryResponseItem implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7142072567154675183L;
 	
 	@SerializedName("model-name")
-	public String modelName;
+	private String modelName;
 	
 	@SerializedName("vf-module")
-	public AAINQVfModule vfModule;
+	private AAINQVfModule vfModule;
 	
 	@SerializedName("service-instance")
-	public AAINQServiceInstance serviceInstance;
+	private AAINQServiceInstance serviceInstance;
 	
 	@SerializedName("vserver")
-	public AAINQVServer vserver;
+	private AAINQVServer vserver;
 	
 	@SerializedName("tenant")
-	public AAINQTenant tenant;
+	private AAINQTenant tenant;
 	
 	@SerializedName("cloud-region")
-	public AAINQCloudRegion cloudRegion;
+	private AAINQCloudRegion cloudRegion;
 	
 	@SerializedName("generic-vnf")
-	public AAINQGenericVNF genericVNF;
+	private AAINQGenericVNF genericVNF;
 	
 	@SerializedName("extra-properties")
-	public AAINQExtraProperties extraProperties;
+	private AAINQExtraProperties extraProperties;
 	
 	@SerializedName("inventory-response-items")
-	public AAINQInventoryResponseItems items;
+	private AAINQInventoryResponseItems items;
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public AAINQVfModule getVfModule() {
+		return vfModule;
+	}
+
+	public AAINQServiceInstance getServiceInstance() {
+		return serviceInstance;
+	}
+
+	public AAINQVServer getVserver() {
+		return vserver;
+	}
+
+	public AAINQTenant getTenant() {
+		return tenant;
+	}
+
+	public AAINQCloudRegion getCloudRegion() {
+		return cloudRegion;
+	}
+
+	public AAINQGenericVNF getGenericVNF() {
+		return genericVNF;
+	}
+
+	public AAINQExtraProperties getExtraProperties() {
+		return extraProperties;
+	}
+
+	public AAINQInventoryResponseItems getItems() {
+		return items;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public void setVfModule(AAINQVfModule vfModule) {
+		this.vfModule = vfModule;
+	}
+
+	public void setServiceInstance(AAINQServiceInstance serviceInstance) {
+		this.serviceInstance = serviceInstance;
+	}
+
+	public void setVserver(AAINQVServer vserver) {
+		this.vserver = vserver;
+	}
+
+	public void setTenant(AAINQTenant tenant) {
+		this.tenant = tenant;
+	}
+
+	public void setCloudRegion(AAINQCloudRegion cloudRegion) {
+		this.cloudRegion = cloudRegion;
+	}
+
+	public void setGenericVNF(AAINQGenericVNF genericVNF) {
+		this.genericVNF = genericVNF;
+	}
+
+	public void setExtraProperties(AAINQExtraProperties extraProperties) {
+		this.extraProperties = extraProperties;
+	}
+
+	public void setItems(AAINQInventoryResponseItems items) {
+		this.items = items;
+	}
 }

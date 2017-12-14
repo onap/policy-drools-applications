@@ -26,16 +26,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class AAINQExtraProperty implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3861240617222397736L;
 	
 	@SerializedName("property-name")
-	public String propertyName;
+	private String propertyName;
 	
 	@SerializedName("property-value")
-	public String propertyValue;
+	private String propertyValue;
 	
 	public AAINQExtraProperty() {
 	}
@@ -45,4 +42,19 @@ public class AAINQExtraProperty implements Serializable {
 		this.propertyValue = propertyValue;
 	}
 
+	public String getPropertyName() {
+		return propertyName;
+	}
+
+	public String getPropertyValue() {
+		return propertyValue;
+	}
+
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+
+	public void setPropertyValue(String propertyValue) {
+		this.propertyValue = propertyValue;
+	}
 }

@@ -61,7 +61,7 @@ public final class SOManager {
 		//
 		String requestJson = Serialization.gsonPretty.toJson(request);
 		netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), requestJson);
-		Pair<Integer, String> httpDetails = RESTManager.post(url, username, password, headers, "application/json", requestJson);
+		Pair<Integer, String> httpDetails = new RESTManager().post(url, username, password, headers, "application/json", requestJson);
 		
 		if (httpDetails == null) {
 			return null;
@@ -84,7 +84,7 @@ public final class SOManager {
 				
 				while(attemptsLeft-- > 0){
 					
-					Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+					Pair<Integer, String> httpDetailsGet = new RESTManager().get(urlGet, username, password, headers);
 					responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, SOResponse.class);
 					netLogger.info("[IN|{}|{}|]{}{}", "SO", urlGet, System.lineSeparator(), httpDetailsGet.b);
                     
@@ -163,7 +163,7 @@ public final class SOManager {
 					  
 					  SOResponse so = new SOResponse();
 					  netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, System.lineSeparator(), soJson);
-					  Pair<Integer, String> httpResponse = RESTManager.post(url, "policy", "policy", headers, "application/json", soJson);
+					  Pair<Integer, String> httpResponse = new RESTManager().post(url, "policy", "policy", headers, "application/json", soJson);
 					  
 					  if (httpResponse != null ) {
 						  if (httpResponse.b != null && httpResponse.a != null) {

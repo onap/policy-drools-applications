@@ -43,27 +43,34 @@ public class RelationshipListTest {
 	public void test() {
 		RelationshipList relationshipList = new RelationshipList();
 		Relationship relationship = new Relationship(); 
-		relationship.relatedLink = "related-link"; 
-		relationship.relatedTo   = "related-to"; 
+		relationship.setRelatedLink("related-link"); 
+		relationship.setRelatedTo("related-to"); 
+		assertEquals(relationship.getRelatedLink(), "related-link"); 
+		assertEquals(relationship.getRelatedTo(), "related-to"); 
+
 		RelatedToProperty relatedToProperty = new RelatedToProperty();
 		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.propertyKey = "model.model-name"; 
-		relatedToPropertyItem.propertyValue = "service-instance";
+		relatedToPropertyItem.setPropertyKey("model.model-name"); 
+		relatedToPropertyItem.setPropertyValue("service-instance");
 		relatedToProperty.getRelatedTo().add(relatedToPropertyItem); 
 		RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem(); 
-		relatedToPropertyItem2.propertyKey = "model.model-name2"; 
-		relatedToPropertyItem2.propertyValue = "service-instance2";
+		relatedToPropertyItem2.setPropertyKey("model.model-name2"); 
+		relatedToPropertyItem2.setPropertyValue("service-instance2");
 		relatedToProperty.getRelatedTo().add(relatedToPropertyItem2);		
-		relationship.relatedToProperty = relatedToProperty; 
+		relationship.setRelatedToProperty(relatedToProperty); 
 		RelationshipDataItem relationshipDataItem = new RelationshipDataItem(); 
-		relationshipDataItem.relationshipKey = "relationship-key";
-		relationshipDataItem.relationshipValue = "relationship-value";  
+		relationshipDataItem.setRelationshipKey("relationship-key");
+		relationshipDataItem.setRelationshipValue("relationship-value");  
 		RelationshipData relationshipData = new RelationshipData(); 
 		relationshipData.getRelationshipData().add(relationshipDataItem); 
-		relationship.relationshipData = relationshipData; 
+		relationship.setRelationshipData(relationshipData); 
 		relationshipList.getRelationshipList().add(relationship);
 		
-	    assertNotNull(relationshipList); 
+	    assertNotNull(relationshipList);
+	    
+	    relationshipList.setRelationshipList(relationshipList.getRelationshipList());
+	    assertNotNull(relationshipList);
+
 	    logger.info(Serialization.gsonPretty.toJson(relationshipList));		
 	}
 

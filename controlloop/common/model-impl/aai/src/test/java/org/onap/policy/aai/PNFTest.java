@@ -45,6 +45,29 @@ public class PNFTest {
 		pnf.setPNFName("pnf-name-test");
 		pnf.setPNFType(PNFType.ENODEB);
 	    assertNotNull(pnf); 
+	    
+	    PNF pnfClone = new PNF(pnf);
+	    assertNotNull(pnfClone);
+	    
+	    assertEquals("pnf-name-test", pnfClone.getPNFName());
+	    assertEquals(PNFType.ENODEB, pnfClone.getPNFType());
+	    
+	    assertEquals("PNF [PNFName=pnf-name-test, PNFType=eNodeB]", pnfClone.toString());
+	    assertNotEquals(0, pnfClone.hashCode());
+	    assertNotEquals(0, new PNF().hashCode());
+	    
+	    PNF pnfOther = new PNF();
+	    pnfOther.setPNFName("pnf-name-test");
+	    
+	    assertTrue(pnf.equals(pnf));
+	    assertFalse(pnf.equals(null));
+	    assertFalse(pnf.equals("hello"));
+	    assertTrue(pnf.equals(pnfClone));
+	    assertFalse(pnf.equals(new PNF()));
+	    assertFalse(new PNF().equals(pnf));
+	    assertFalse(new PNF().equals(pnfOther));
+	    assertFalse(pnfOther.equals(pnf));
+	    
 	    logger.info(Serialization.gsonPretty.toJson(pnf));
 	}
 

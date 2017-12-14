@@ -51,6 +51,7 @@ import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.rest.RESTManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,15 +111,15 @@ public class AppcLcmActorServiceProvider implements Actor {
     private static String parseAAIResponse(List<AAINQInventoryResponseItem> items, String resourceId) {
         String vnfId = null;
         for (AAINQInventoryResponseItem item: items) {
-            if ((item.genericVNF != null)
-                    && (item.genericVNF.modelInvariantId != null) 
-                    && (resourceId.equals(item.genericVNF.modelInvariantId))) {
-                vnfId = item.genericVNF.vnfID;
+            if ((item.getGenericVNF() != null)
+                    && (item.getGenericVNF().getModelInvariantId() != null) 
+                    && (resourceId.equals(item.getGenericVNF().getModelInvariantId()))) {
+                vnfId = item.getGenericVNF().getVnfID();
                 break;
             } 
             else {
-                if((item.items != null) && (item.items.getInventoryResponseItems() != null)) {
-                    vnfId = parseAAIResponse(item.items.getInventoryResponseItems(), resourceId);
+                if((item.getItems() != null) && (item.getItems().getInventoryResponseItems() != null)) {
+                    vnfId = parseAAIResponse(item.getItems().getInventoryResponseItems(), resourceId);
                 }
             }
         }
@@ -144,9 +145,9 @@ public class AppcLcmActorServiceProvider implements Actor {
         UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
         
         AAINQRequest aaiRequest = new AAINQRequest();
-        aaiRequest.queryParameters = new AAINQQueryParameters();
-        aaiRequest.queryParameters.namedQuery = new AAINQNamedQuery();
-        aaiRequest.queryParameters.namedQuery.namedQueryUUID = requestId;
+        aaiRequest.setQueryParameters(new AAINQQueryParameters());
+        aaiRequest.getQueryParameters().setNamedQuery(new AAINQNamedQuery());
+        aaiRequest.getQueryParameters().getNamedQuery().setNamedQueryUUID(requestId);
         
         Map<String, Map<String, String>> filter = new HashMap<>();        
         Map<String, String> filterItem = new HashMap<>();
@@ -154,8 +155,8 @@ public class AppcLcmActorServiceProvider implements Actor {
         filterItem.put("vnf-id", sourceVnfId);
         filter.put("generic-vnf", filterItem);
         
-        aaiRequest.instanceFilters = new AAINQInstanceFilters();
-        aaiRequest.instanceFilters.getInstanceFilter().add(filter);
+        aaiRequest.setInstanceFilters(new AAINQInstanceFilters());
+        aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
         
         /*
          * Obtain A&AI credentials from properties.environment file
@@ -165,7 +166,7 @@ public class AppcLcmActorServiceProvider implements Actor {
         String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
         String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
         
-        AAINQResponse aaiResponse = AAIManager.postQuery(
+        AAINQResponse aaiResponse = new AAIManager(new RESTManager()).postQuery(
                         aaiUrl,
                         aaiUsername, aaiPassword, 
                         aaiRequest, requestId);

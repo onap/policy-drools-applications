@@ -54,14 +54,14 @@ public class GuardSimulatorTest {
 	public void testGuard() {
 	    String request = makeRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
 	    String url = "http://localhost:" + Util.GUARDSIM_SERVER_PORT + "/pdp/api/getDecision";
-		Pair<Integer, String> response = RESTManager.post(url, "testUname", "testPass", null, "application/json", request);
+		Pair<Integer, String> response = new RESTManager().post(url, "testUname", "testPass", null, "application/json", request);
 		assertNotNull(response);
 		assertNotNull(response.a);
 		assertNotNull(response.b);
 		assertEquals("{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}", response.b);
 		
 		request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
-		response = RESTManager.post(url, "testUname", "testPass", null, "application/json", request);
+		response = new RESTManager().post(url, "testUname", "testPass", null, "application/json", request);
 		assertNotNull(response);
         assertNotNull(response.a);
         assertNotNull(response.b);

@@ -25,12 +25,16 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQQueryParameters implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4291227193197126982L;
 	
 	@SerializedName("named-query")
-	public AAINQNamedQuery namedQuery;
+	private AAINQNamedQuery namedQuery;
+
+	public AAINQNamedQuery getNamedQuery() {
+		return namedQuery;
+	}
+
+	public void setNamedQuery(AAINQNamedQuery namedQuery) {
+		this.namedQuery = namedQuery;
+	}
 }

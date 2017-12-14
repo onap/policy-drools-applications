@@ -52,9 +52,9 @@ public class AaiSimulatorJaxRs {
 	{
 		AAINQRequest request = Serialization.gsonPretty.fromJson(req, AAINQRequest.class);
 		
-		if (request.instanceFilters.getInstanceFilter().get(0).containsKey("vserver"))
+		if (request.getInstanceFilters().getInstanceFilter().get(0).containsKey("vserver"))
 		{
-			String vserverName = request.instanceFilters.getInstanceFilter().get(0).get("vserver").get("vserver-name");
+			String vserverName = request.getInstanceFilters().getInstanceFilter().get(0).get("vserver").get("vserver-name");
 			if ("error".equals(vserverName)) {
 				return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"POST Search\",\"getNamedQueryResponse\",\"Node Not Found:No Node of type vserver found for properties\",\"ERR.5.4.6114\"]}}}";
 			}
@@ -66,7 +66,7 @@ public class AaiSimulatorJaxRs {
 		}
 		else 
 		{
-			String vnfID = request.instanceFilters.getInstanceFilter().get(0).get("generic-vnf").get("vnf-id");
+			String vnfID = request.getInstanceFilters().getInstanceFilter().get(0).get("generic-vnf").get("vnf-id");
 			if ("error".equals(vnfID)) {
 				return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"POST Search\",\"getNamedQueryResponse\",\"Node Not Found:No Node of type generic-vnf found for properties\",\"ERR.5.4.6114\"]}}}";
 			}

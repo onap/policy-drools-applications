@@ -22,8 +22,7 @@ package org.onap.policy.aai;
 
 public enum PNFType {
 	ENODEB("eNodeB"),
-	PSERVER("pserver")
-	;
+	PSERVER("pserver");
 	
 	private String type;
 	
@@ -34,7 +33,5 @@ public enum PNFType {
 	@Override
 	public String toString() {
 		return this.type;
-		
 	}
-
 }

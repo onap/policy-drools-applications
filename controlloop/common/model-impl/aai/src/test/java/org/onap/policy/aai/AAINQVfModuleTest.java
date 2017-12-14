@@ -43,18 +43,33 @@ public class AAINQVfModuleTest {
 	@Test
 	public void test() {
 		AAINQVfModule aaiNQVfModule = new AAINQVfModule();
-		aaiNQVfModule.vfModuleId = "example-vf-module-id-val-49261";
-		aaiNQVfModule.vfModuleName = "example-vf-module-name-val-73074";
-		aaiNQVfModule.heatStackId = "example-heat-stack-id-val-86300";
-		aaiNQVfModule.orchestrationStatus = "example-orchestration-status-val-56523";
-		aaiNQVfModule.isBaseVfModule = true;
-		aaiNQVfModule.resourceVersion = "1485366450";
-		aaiNQVfModule.personaModelId = "ef86f9c5-2165-44f3-8fc3-96018b609ea5";
-		aaiNQVfModule.personaModelVersion = "1.0";
-		aaiNQVfModule.widgetModelId = "example-widget-model-id-val-92571";
-		aaiNQVfModule.widgetModelVersion = "example-widget-model-version-val-83317";
-		aaiNQVfModule.contrailServiceInstanceFqdn = "example-contrail-service-instance-fqdn-val-86796";		
+		aaiNQVfModule.setVfModuleId("example-vf-module-id-val-49261");
+		aaiNQVfModule.setVfModuleName("example-vf-module-name-val-73074");
+		aaiNQVfModule.setHeatStackId("example-heat-stack-id-val-86300");
+		aaiNQVfModule.setOrchestrationStatus("example-orchestration-status-val-56523");
+		aaiNQVfModule.setIsBaseVfModule(true);
+		aaiNQVfModule.setResourceVersion("1485366450");
+		aaiNQVfModule.setPersonaModelId("ef86f9c5-2165-44f3-8fc3-96018b609ea5");
+		aaiNQVfModule.setPersonaModelVersion("1.0");
+		aaiNQVfModule.setWidgetModelId("example-widget-model-id-val-92571");
+		aaiNQVfModule.setWidgetModelVersion("example-widget-model-version-val-83317");
+		aaiNQVfModule.setContrailServiceInstanceFqdn("example-contrail-service-instance-fqdn-val-86796");
+		aaiNQVfModule.setModelInvariantId("SomeId");
+		aaiNQVfModule.setModelVersionId("SomeVersion");
 	    assertNotNull(aaiNQVfModule); 
+		assertEquals(aaiNQVfModule.getVfModuleId(), "example-vf-module-id-val-49261");
+		assertEquals(aaiNQVfModule.getVfModuleName(), "example-vf-module-name-val-73074");
+		assertEquals(aaiNQVfModule.getHeatStackId(), "example-heat-stack-id-val-86300");
+		assertEquals(aaiNQVfModule.getOrchestrationStatus(), "example-orchestration-status-val-56523");
+		assertEquals(aaiNQVfModule.getIsBaseVfModule(), true);
+		assertEquals(aaiNQVfModule.getResourceVersion(), "1485366450");
+		assertEquals(aaiNQVfModule.getPersonaModelId(), "ef86f9c5-2165-44f3-8fc3-96018b609ea5");
+		assertEquals(aaiNQVfModule.getPersonaModelVersion(), "1.0");
+		assertEquals(aaiNQVfModule.getWidgetModelId(), "example-widget-model-id-val-92571");
+		assertEquals(aaiNQVfModule.getWidgetModelVersion(), "example-widget-model-version-val-83317");
+		assertEquals(aaiNQVfModule.getContrailServiceInstanceFqdn(), "example-contrail-service-instance-fqdn-val-86796");
+		assertEquals(aaiNQVfModule.getModelInvariantId(), "SomeId");
+		assertEquals(aaiNQVfModule.getModelVersionId(), "SomeVersion");
 	    logger.info(Serialization.gsonPretty.toJson(aaiNQVfModule));		
 	}
 

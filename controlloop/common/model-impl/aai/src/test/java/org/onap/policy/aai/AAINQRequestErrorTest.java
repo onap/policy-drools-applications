@@ -16,35 +16,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
-*/
+ */
 package org.onap.policy.aai;
 
 import static org.junit.Assert.*;
 
-import java.util.UUID;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class AAINQQueryParametersTest {
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+public class AAINQRequestErrorTest {
 
 	@Test
 	public void test() {
-		AAINQQueryParameters aaiNQQueryParameters = new AAINQQueryParameters();
-		AAINQNamedQuery aaiNQNamedQuery = new AAINQNamedQuery(); 
-		aaiNQNamedQuery.setNamedQueryUUID(UUID.randomUUID());
-		aaiNQQueryParameters.setNamedQuery(aaiNQNamedQuery);
-		assertNotNull(aaiNQNamedQuery);	
-		assertEquals(aaiNQQueryParameters.getNamedQuery(), aaiNQNamedQuery);
+		AAINQRequestError aainqRequestError = new AAINQRequestError();
+		AAINQServiceExcept serviceExcept = new AAINQServiceExcept();
+		aainqRequestError.setServiceExcept(serviceExcept);
+		assertEquals(aainqRequestError.getServiceExcept(), serviceExcept);
+		
+		assertNull(serviceExcept.getMessageId());
+		assertNull(serviceExcept.getText());
+		assertNull(serviceExcept.getVariables());
 	}
-
 }

@@ -27,10 +27,6 @@ import java.util.LinkedList;
 import com.google.gson.annotations.SerializedName;
 
 public class RelationshipData implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6809180843309562121L;
 	@SerializedName("relationship-data")
 	private List<RelationshipDataItem> relationshipDataList = new LinkedList<>();

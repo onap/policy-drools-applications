@@ -25,15 +25,26 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQServiceExcept implements Serializable {
-
 	private static final long serialVersionUID = 2858343404484338546L;
 
 	@SerializedName("messageId")
-	public String messageId;
+	private String messageId;
 	
 	@SerializedName("text")
-	public String text;
+	private String text;
 	
 	@SerializedName("variables")
-	public String[] variables;
+	private String[] variables;
+
+	public String getMessageId() {
+		return messageId;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public String[] getVariables() {
+		return variables;
+	}
 }

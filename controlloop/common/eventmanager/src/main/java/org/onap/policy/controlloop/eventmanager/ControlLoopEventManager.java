@@ -46,6 +46,7 @@ import org.onap.policy.guard.LockCallback;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
+import org.onap.policy.rest.RESTManager;
 import org.onap.policy.drools.system.PolicyEngine; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -568,7 +569,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					if (vnfResponse == null) {
 						throw new AAIException("AAI Response is null (query by vnf-id)");
 					}
-					if (vnfResponse.requestError != null) {
+					if (vnfResponse.getRequestError() != null) {
 						throw new AAIException("AAI Responded with a request error (query by vnf-id)");
 					}
 					if (isClosedLoopDisabled(vnfResponse) == true) {
@@ -579,7 +580,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					if (vnfResponse == null) {
 						throw new AAIException("AAI Response is null (query by vnf-name)");
 					}
-					if (vnfResponse.requestError != null) {
+					if (vnfResponse.getRequestError() != null) {
 						throw new AAIException("AAI Responded with a request error (query by vnf-name)");
 					}
 					if (isClosedLoopDisabled(vnfResponse) == true) {
@@ -590,7 +591,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					if (vserverResponse == null) {
 						throw new AAIException("AAI Response is null (query by vserver-name)");
 					}
-					if (vserverResponse.requestError != null) {
+					if (vserverResponse.getRequestError() != null) {
 						throw new AAIException("AAI responded with a request error (query by vserver-name)");
 					}
 					if (isClosedLoopDisabled(vserverResponse) == true) {
@@ -607,8 +608,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static boolean isClosedLoopDisabled(AAIGETVnfResponse aaiResponse) {
-       	if (aaiResponse != null && aaiResponse.isClosedLoopDisabled != null) {
-       		String value = aaiResponse.isClosedLoopDisabled; 
+       	if (aaiResponse != null && aaiResponse.getIsClosedLoopDisabled() != null) {
+       		String value = aaiResponse.getIsClosedLoopDisabled(); 
        		if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) ||
        			"yes".equalsIgnoreCase(value)  || "Y".equalsIgnoreCase(value)) {
        			return true; 
@@ -619,8 +620,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static boolean isClosedLoopDisabled(AAIGETVserverResponse aaiResponse) {
-       	if (aaiResponse != null && aaiResponse.isClosedLoopDisabled != null) {
-       		String value = aaiResponse.isClosedLoopDisabled; 
+       	if (aaiResponse != null && aaiResponse.getIsClosedLoopDisabled() != null) {
+       		String value = aaiResponse.getIsClosedLoopDisabled(); 
        		if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) ||
            		"yes".equalsIgnoreCase(value)  || "Y".equalsIgnoreCase(value)) {
        			return true; 
@@ -659,7 +660,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	           String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name="; 
  	   		   String url = aaiHostURL + aaiGetQueryByVserver; 
  	   		   logger.info("url: " + url);
-			   response = AAIManager.getQueryByVserverName(url, aaiUser, aaiPassword, requestID, vserverName);
+			   response = new AAIManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestID, vserverName);
 	        } 
 	    } catch (Exception e) {
 	    	logger.error("getAAIVserverInfo exception: ", e);
@@ -684,12 +685,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
  	           String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name="; 
   	   		   String url = aaiHostURL + aaiGetQueryByVnfName; 
   	   		   logger.info("url: " + url);
-			   response = AAIManager.getQueryByVnfName(url, aaiUser, aaiPassword, requestID, vnfName);	        	
+			   response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestID, vnfName);	        	
 	        } else if (vnfID != null) {
 	 	       String aaiGetQueryByVnfID = "/aai/v11/network/generic-vnfs/generic-vnf/"; 
 	  	   	   String url = aaiHostURL + aaiGetQueryByVnfID; 
 	  	   	   logger.info("url: " + url);
-			   response = AAIManager.getQueryByVnfID(url, aaiUser, aaiPassword, requestID, vnfID);	        	
+			   response = new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUser, aaiPassword, requestID, vnfID);	        	
 	        }
 	    } catch (Exception e) {
 	    	logger.error("getAAIVnfInfo exception: ", e);
