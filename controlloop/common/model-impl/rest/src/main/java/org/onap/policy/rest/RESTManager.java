@@ -29,6 +29,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -64,7 +65,9 @@ public final class RESTManager {
 		}
 		logger.debug(body);
 		
-		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+		try (CloseableHttpClient client = HttpClientBuilder.create().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+				.setDefaultCredentialsProvider(credentials)
+		.build()) {
 
 			HttpPost post = new HttpPost(url);
 			if (headers != null)  {
@@ -101,7 +104,8 @@ public final class RESTManager {
 		CredentialsProvider credentials = new BasicCredentialsProvider();
 		credentials.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
 		
-		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+		try (CloseableHttpClient client = HttpClientBuilder.create().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+				.setDefaultCredentialsProvider(credentials).build()) {
 
 			HttpGet get = new HttpGet(url);
 			if (headers != null) {
