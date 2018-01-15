@@ -26,12 +26,16 @@ import java.util.UUID;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQNamedQuery implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3277980060302645333L;
 
 	@SerializedName("named-query-uuid")
-	public UUID namedQueryUUID;
+	private UUID namedQueryUUID;
+
+	public UUID getNamedQueryUUID() {
+		return namedQueryUUID;
+	}
+
+	public void setNamedQueryUUID(UUID namedQueryUUID) {
+		this.namedQueryUUID = namedQueryUUID;
+	}
 }

@@ -271,46 +271,46 @@ public class ControlLoopEventManagerTest {
 	public static AAIGETVnfResponse getQueryByVnfID2(String urlGet, String username, String password, UUID requestID, String key) {
 		AAIGETVnfResponse response = new AAIGETVnfResponse();
 		
-		response.vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491"; 
-		response.vnfName = "lll_vnf_010317";
-		response.vnfType = "Basa-122216-Service/VidVsamp12BaseVolume 1";
-		response.serviceId = "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb";
-		response.orchestrationStatus = "Created";
-		response.inMaint = "false";
-		response.isClosedLoopDisabled = "false";
-		response.resourceVersion = "1494001988835";
-		response.modelInvariantId = "f18be3cd-d446-456e-9109-121d9b62feaa";
+		response.setVnfID("83f674e8-7555-44d7-9a39-bdc3770b0491"); 
+		response.setVnfName("lll_vnf_010317");
+		response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
+		response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
+		response.setOrchestrationStatus("Created");
+		response.setInMaint("false");
+		response.setIsClosedLoopDisabled("false");
+		response.setResourceVersion("1494001988835");
+		response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
 		  
        	RelationshipList relationshipList = new RelationshipList();
        	Relationship     relationship = new Relationship();
        	RelationshipData relationshipData = new RelationshipData();
        	RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
        	
-       	relationshipDataItem.relationshipKey   = "customer.global-customer-id"; 
-       	relationshipDataItem.relationshipValue = "MSO_1610_ST"; 
+       	relationshipDataItem.setRelationshipKey  ("customer.global-customer-id"); 
+       	relationshipDataItem.setRelationshipValue("MSO_1610_ST"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.relationshipKey   = "service-subscription.service-type"; 
-       	relationshipDataItem.relationshipValue = "MSO-dev-service-type"; 
+       	relationshipDataItem.setRelationshipKey  ("service-subscription.service-type"); 
+       	relationshipDataItem.setRelationshipValue("MSO-dev-service-type"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.relationshipKey   = "service-instance.service-instance-id"; 
-       	relationshipDataItem.relationshipValue = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"; 
+       	relationshipDataItem.setRelationshipKey  ("service-instance.service-instance-id"); 
+       	relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
        	RelatedToPropertyItem item = new RelatedToPropertyItem();  
-       	item.propertyKey = "service-instance.service-instance-name"; 
-       	item.propertyValue = "lll_svc_010317"; 
+       	item.setPropertyKey("service-instance.service-instance-name"); 
+       	item.setPropertyValue("lll_svc_010317"); 
        	relatedToProperty.getRelatedTo().add(item);
        	
-        relationship.relatedTo = "service-instance";
-        relationship.relatedLink = "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
-        relationship.relationshipData = relationshipData;
-        relationship.relatedToProperty = relatedToProperty;
+        relationship.setRelatedTo("service-instance");
+        relationship.setRelatedLink("/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
+        relationship.setRelationshipData(relationshipData);
+        relationship.setRelatedToProperty(relatedToProperty);
        
         relationshipList.getRelationshipList().add(relationship);
-        response.relationshipList = relationshipList; 
+        response.setRelationshipList(relationshipList); 
 
 		return response;
 	}
@@ -318,46 +318,46 @@ public class ControlLoopEventManagerTest {
 	public static AAIGETVnfResponse getQueryByVnfName2(String urlGet, String username, String password, UUID requestID, String key) {
 		AAIGETVnfResponse response = new AAIGETVnfResponse();
 		
-		response.vnfID = "83f674e8-7555-44d7-9a39-bdc3770b0491"; 
-		response.vnfName = "lll_vnf_010317";
-		response.vnfType = "Basa-122216-Service/VidVsamp12BaseVolume 1";
-		response.serviceId = "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb";
-		response.orchestrationStatus = "Created";
-		response.inMaint = "false";
-		response.isClosedLoopDisabled = "false";
-		response.resourceVersion = "1494001988835";
-		response.modelInvariantId = "f18be3cd-d446-456e-9109-121d9b62feaa";
+		response.setVnfID("83f674e8-7555-44d7-9a39-bdc3770b0491"); 
+		response.setVnfName("lll_vnf_010317");
+		response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
+		response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
+		response.setOrchestrationStatus("Created");
+		response.setInMaint("false");
+		response.setIsClosedLoopDisabled("false");
+		response.setResourceVersion("1494001988835");
+		response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
 		  
        	RelationshipList relationshipList = new RelationshipList();
        	Relationship     relationship = new Relationship();
        	RelationshipData relationshipData = new RelationshipData();
        	RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
        	
-       	relationshipDataItem.relationshipKey   = "customer.global-customer-id"; 
-       	relationshipDataItem.relationshipValue = "MSO_1610_ST"; 
+       	relationshipDataItem.setRelationshipKey("customer.global-customer-id"); 
+       	relationshipDataItem.setRelationshipValue("MSO_1610_ST"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.relationshipKey   = "service-subscription.service-type"; 
-       	relationshipDataItem.relationshipValue = "MSO-dev-service-type"; 
+       	relationshipDataItem.setRelationshipKey("service-subscription.service-type"); 
+       	relationshipDataItem.setRelationshipValue("MSO-dev-service-type"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.relationshipKey   = "service-instance.service-instance-id"; 
-       	relationshipDataItem.relationshipValue = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"; 
+       	relationshipDataItem.setRelationshipKey("service-instance.service-instance-id"); 
+       	relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
        	RelatedToPropertyItem item = new RelatedToPropertyItem();  
-       	item.propertyKey = "service-instance.service-instance-name"; 
-       	item.propertyValue = "lll_svc_010317"; 
+       	item.setPropertyKey("service-instance.service-instance-name"); 
+       	item.setPropertyValue("lll_svc_010317"); 
        	relatedToProperty.getRelatedTo().add(item);
        	
-        relationship.relatedTo = "service-instance";
-        relationship.relatedLink = "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
-        relationship.relationshipData = relationshipData;
-        relationship.relatedToProperty = relatedToProperty;
+        relationship.setRelatedTo("service-instance");
+        relationship.setRelatedLink("/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
+        relationship.setRelationshipData(relationshipData);
+        relationship.setRelatedToProperty(relatedToProperty);
        
         relationshipList.getRelationshipList().add(relationship);
-        response.relationshipList = relationshipList; 
+        response.setRelationshipList(relationshipList); 
 
 		return response;
 	}
@@ -365,44 +365,44 @@ public class ControlLoopEventManagerTest {
 	public static AAIGETVserverResponse getQueryByVserverName2(String urlGet, String username, String password, UUID requestID, String key) {
 		AAIGETVserverResponse response = new AAIGETVserverResponse();
 		
-		response.vserverID = "d0668d4f-c25e-4a1b-87c4-83845c01efd8"; 
-		response.vserverName = "USMSO1SX7NJ0103UJZZ01-vjunos0"; 
-		response.vserverName2 = "vjunos0"; 
-		response.vserverSelflink = "https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8"; 
-		response.inMaint = "false"; 
-		response.isClosedLoopDisabled = "false"; 
-		response.resourceVersion = "1494001931513"; 
+		response.setVserverID("d0668d4f-c25e-4a1b-87c4-83845c01efd8"); 
+		response.setVserverName("USMSO1SX7NJ0103UJZZ01-vjunos0"); 
+		response.setVserverName2("vjunos0"); 
+		response.setVserverSelflink("https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8"); 
+		response.setInMaint("false"); 
+		response.setIsClosedLoopDisabled("false"); 
+		response.setResourceVersion("1494001931513"); 
 		  
        	RelationshipList relationshipList = new RelationshipList();
        	Relationship     relationship = new Relationship();
        	RelationshipData relationshipData = new RelationshipData();
        	RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
        	
-       	relationshipDataItem.relationshipKey   = "customer.global-customer-id"; 
-       	relationshipDataItem.relationshipValue = "MSO_1610_ST"; 
+       	relationshipDataItem.setRelationshipKey("customer.global-customer-id"); 
+       	relationshipDataItem.setRelationshipValue("MSO_1610_ST"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.relationshipKey   = "service-subscription.service-type"; 
-       	relationshipDataItem.relationshipValue = "MSO-dev-service-type"; 
+       	relationshipDataItem.setRelationshipKey("service-subscription.service-type"); 
+       	relationshipDataItem.setRelationshipValue("MSO-dev-service-type"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.relationshipKey   = "service-instance.service-instance-id"; 
-       	relationshipDataItem.relationshipValue = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"; 
+       	relationshipDataItem.setRelationshipKey("service-instance.service-instance-id"); 
+       	relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"); 
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
        	RelatedToPropertyItem item = new RelatedToPropertyItem();  
-       	item.propertyKey = "service-instance.service-instance-name"; 
-       	item.propertyValue = "lll_svc_010317"; 
+       	item.setPropertyKey("service-instance.service-instance-name"); 
+       	item.setPropertyValue("lll_svc_010317"); 
        	relatedToProperty.getRelatedTo().add(item);
        	
-        relationship.relatedTo = "service-instance";
-        relationship.relatedLink = "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
-        relationship.relationshipData = relationshipData;
-        relationship.relatedToProperty = relatedToProperty;
+        relationship.setRelatedTo("service-instance");
+        relationship.setRelatedLink("/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
+        relationship.setRelationshipData(relationshipData);
+        relationship.setRelatedToProperty(relatedToProperty);
        
         relationshipList.getRelationshipList().add(relationship);
-        response.relationshipList = relationshipList; 
+        response.setRelationshipList(relationshipList); 
 
 		return response;
 	}

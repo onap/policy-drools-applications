@@ -39,6 +39,10 @@ public class AAINQInstanceFiltersTest {
 	public void test() {
 		AAINQInstanceFilters aaiNQInstanceFilters = new AAINQInstanceFilters();
         assertNotNull(aaiNQInstanceFilters); 
+        
+        aaiNQInstanceFilters.setInstanceFilter(aaiNQInstanceFilters.getInstanceFilter());;
+        assertNotNull(aaiNQInstanceFilters); 
+        assertNotNull(aaiNQInstanceFilters.getInstanceFilter()); 
 	}
 
 }

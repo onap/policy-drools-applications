@@ -25,48 +25,148 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQVfModule implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8019133081429638231L;
 
 	@SerializedName("vf-module-id")
-	public String vfModuleId;
+	private String vfModuleId;
 	
 	@SerializedName("vf-module-name")
-	public String vfModuleName;
+	private String vfModuleName;
 	
 	@SerializedName("heat-stack-id")
-	public String heatStackId;
+	private String heatStackId;
 	
 	@SerializedName("orchestration-status")
-	public String orchestrationStatus;
+	private String orchestrationStatus;
 	
 	@SerializedName("is-base-vf-module")
-	public Boolean isBaseVfModule;
+	private Boolean isBaseVfModule;
 	
 	@SerializedName("resource-version")
-	public String resourceVersion;
+	private String resourceVersion;
 	
 	@SerializedName("persona-model-id")
-	public String personaModelId;
+	private String personaModelId;
 	
 	@SerializedName("persona-model-version")
-	public String personaModelVersion;
+	private String personaModelVersion;
 	
 	@SerializedName("widget-model-id")
-	public String widgetModelId;
+	private String widgetModelId;
 	
 	@SerializedName("widget-model-version")
-	public String widgetModelVersion;
+	private String widgetModelVersion;
 	
 	@SerializedName("contrail-service-instance-fqdn")
-	public String contrailServiceInstanceFqdn;
+	private String contrailServiceInstanceFqdn;
 	
 	@SerializedName("model-invariant-id")
-	public String modelInvariantId;
+	private String modelInvariantId;
 	
 	@SerializedName("model-version-id")
-	public String modelVersionId;
+	private String modelVersionId;
+
+	public String getVfModuleId() {
+		return vfModuleId;
+	}
+
+	public String getVfModuleName() {
+		return vfModuleName;
+	}
+
+	public String getHeatStackId() {
+		return heatStackId;
+	}
+
+	public String getOrchestrationStatus() {
+		return orchestrationStatus;
+	}
+
+	public Boolean getIsBaseVfModule() {
+		return isBaseVfModule;
+	}
+
+	public String getResourceVersion() {
+		return resourceVersion;
+	}
+
+	public String getPersonaModelId() {
+		return personaModelId;
+	}
+
+	public String getPersonaModelVersion() {
+		return personaModelVersion;
+	}
+
+	public String getWidgetModelId() {
+		return widgetModelId;
+	}
+
+	public String getWidgetModelVersion() {
+		return widgetModelVersion;
+	}
+
+	public String getContrailServiceInstanceFqdn() {
+		return contrailServiceInstanceFqdn;
+	}
+
+	public String getModelInvariantId() {
+		return modelInvariantId;
+	}
+
+	public String getModelVersionId() {
+		return modelVersionId;
+	}
+
+	public void setVfModuleId(String vfModuleId) {
+		this.vfModuleId = vfModuleId;
+	}
+
+	public void setVfModuleName(String vfModuleName) {
+		this.vfModuleName = vfModuleName;
+	}
+
+	public void setHeatStackId(String heatStackId) {
+		this.heatStackId = heatStackId;
+	}
+
+	public void setOrchestrationStatus(String orchestrationStatus) {
+		this.orchestrationStatus = orchestrationStatus;
+	}
+
+	public void setIsBaseVfModule(Boolean isBaseVfModule) {
+		this.isBaseVfModule = isBaseVfModule;
+	}
+
+	public void setResourceVersion(String resourceVersion) {
+		this.resourceVersion = resourceVersion;
+	}
+
+	public void setPersonaModelId(String personaModelId) {
+		this.personaModelId = personaModelId;
+	}
+
+	public void setPersonaModelVersion(String personaModelVersion) {
+		this.personaModelVersion = personaModelVersion;
+	}
+
+	public void setWidgetModelId(String widgetModelId) {
+		this.widgetModelId = widgetModelId;
+	}
+
+	public void setWidgetModelVersion(String widgetModelVersion) {
+		this.widgetModelVersion = widgetModelVersion;
+	}
+
+	public void setContrailServiceInstanceFqdn(String contrailServiceInstanceFqdn) {
+		this.contrailServiceInstanceFqdn = contrailServiceInstanceFqdn;
+	}
+
+	public void setModelInvariantId(String modelInvariantId) {
+		this.modelInvariantId = modelInvariantId;
+	}
+
+	public void setModelVersionId(String modelVersionId) {
+		this.modelVersionId = modelVersionId;
+	}
 }

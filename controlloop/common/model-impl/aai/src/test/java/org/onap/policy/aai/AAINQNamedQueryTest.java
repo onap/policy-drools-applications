@@ -40,8 +40,9 @@ public class AAINQNamedQueryTest {
 	@Test
 	public void test() {
 		AAINQNamedQuery aaiNQNamedQuery = new AAINQNamedQuery();
-		aaiNQNamedQuery.namedQueryUUID = UUID.randomUUID(); 
+		UUID uuid = UUID.randomUUID();
+		aaiNQNamedQuery.setNamedQueryUUID(uuid); 
 		assertNotNull(aaiNQNamedQuery);
+		assertEquals(aaiNQNamedQuery.getNamedQueryUUID(), uuid); 
 	}
-
 }

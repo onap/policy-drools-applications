@@ -27,12 +27,9 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class RelatedToProperty implements Serializable {
-  
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2088088164920423658L;
-	@SerializedName("related-to-property")
+  	private static final long serialVersionUID = 2088088164920423658L;
+
+  	@SerializedName("related-to-property")
 	private List<RelatedToPropertyItem> relatedTo = new LinkedList<>();
 
 	public List<RelatedToPropertyItem> getRelatedTo() {

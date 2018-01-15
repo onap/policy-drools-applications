@@ -26,23 +26,60 @@ import com.google.gson.annotations.SerializedName;
 
 public class AAINQCloudRegion implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -897231529157222683L;
 
 	@SerializedName("cloud-owner")
-	public String cloudOwner;
+	private String cloudOwner;
 	
 	@SerializedName("cloud-region-id")
-	public String cloudRegionId;
+	private String cloudRegionId;
 	
 	@SerializedName("cloud-region-version")
-	public String cloudRegionVersion;
+	private String cloudRegionVersion;
 	
 	@SerializedName("complex-name")
-	public String complexName;
+	private String complexName;
 	
 	@SerializedName("resource-version")
-	public String resourceVersion;
+	private String resourceVersion;
+
+	public String getCloudOwner() {
+		return cloudOwner;
+	}
+
+	public String getCloudRegionId() {
+		return cloudRegionId;
+	}
+
+	public String getCloudRegionVersion() {
+		return cloudRegionVersion;
+	}
+
+	public String getComplexName() {
+		return complexName;
+	}
+
+	public String getResourceVersion() {
+		return resourceVersion;
+	}
+
+	public void setCloudOwner(String cloudOwner) {
+		this.cloudOwner = cloudOwner;
+	}
+
+	public void setCloudRegionId(String cloudRegionId) {
+		this.cloudRegionId = cloudRegionId;
+	}
+
+	public void setCloudRegionVersion(String cloudRegionVersion) {
+		this.cloudRegionVersion = cloudRegionVersion;
+	}
+
+	public void setComplexName(String complexName) {
+		this.complexName = complexName;
+	}
+
+	public void setResourceVersion(String resourceVersion) {
+		this.resourceVersion = resourceVersion;
+	}
 }

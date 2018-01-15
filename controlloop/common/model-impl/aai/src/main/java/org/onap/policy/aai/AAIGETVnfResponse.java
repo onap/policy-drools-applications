@@ -26,23 +26,60 @@ import com.google.gson.annotations.SerializedName;
 
 public class AAIGETVnfResponse extends AAIGETResponse implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6247505944905898870L;
 	
 	@SerializedName("vnf-id")
-	public String vnfID;
+	private String vnfID;
 	
 	@SerializedName("vnf-name")
-	public String vnfName;
+	private String vnfName;
 	
 	@SerializedName("vnf-type")
-	public String vnfType;
+	private String vnfType;
 	
 	@SerializedName("service-id")
-	public String serviceId;
+	private String serviceId;
 	
 	@SerializedName("orchestration-status")
-	public String orchestrationStatus;
+	private String orchestrationStatus;
+
+	public String getVnfID() {
+		return vnfID;
+	}
+
+	public String getVnfName() {
+		return vnfName;
+	}
+
+	public String getVnfType() {
+		return vnfType;
+	}
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public String getOrchestrationStatus() {
+		return orchestrationStatus;
+	}
+
+	public void setVnfID(String vnfID) {
+		this.vnfID = vnfID;
+	}
+
+	public void setVnfName(String vnfName) {
+		this.vnfName = vnfName;
+	}
+
+	public void setVnfType(String vnfType) {
+		this.vnfType = vnfType;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public void setOrchestrationStatus(String orchestrationStatus) {
+		this.orchestrationStatus = orchestrationStatus;
+	}
 }

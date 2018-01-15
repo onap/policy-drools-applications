@@ -78,7 +78,7 @@ public final class VFCManager implements Runnable {
             String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
             netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), vfcRequestJson);
 
-            httpDetails = RESTManager.post(vfcUrl, username, password, headers,
+            httpDetails = new RESTManager().post(vfcUrl, username, password, headers,
                     "application/json", vfcRequestJson);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -108,7 +108,7 @@ public final class VFCManager implements Runnable {
                 while (attemptsLeft-- > 0) {
 
                     netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
-                    Pair<Integer, String> httpDetailsGet = RESTManager.get(urlGet, username, password, headers);
+                    Pair<Integer, String> httpDetailsGet = new RESTManager().get(urlGet, username, password, headers);
                     responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
                     netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, System.lineSeparator(), httpDetailsGet.b);
                     responseGet.requestId = vfcRequest.requestId.toString();

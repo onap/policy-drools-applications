@@ -157,7 +157,7 @@ public class ControlLoopOperationManager implements Serializable {
                          * If the vnf-name was retrieved from the onset then the vnf-id
                          * must be obtained from the event manager's A&AI GET query
                          */
-                        String vnfId = this.eventManager.getVnfResponse().vnfID;
+                        String vnfId = this.eventManager.getVnfResponse().getVnfID();
                         if (vnfId == null) {
                             throw new AAIException("No vnf-id found");
                         }

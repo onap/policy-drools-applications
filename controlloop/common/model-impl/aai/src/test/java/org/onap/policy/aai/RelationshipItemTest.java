@@ -43,10 +43,14 @@ public class RelationshipItemTest {
 	public void test() {
 		RelationshipItem relationshipItem = new RelationshipItem();
 		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.propertyKey = "model.model-name"; 
-		relatedToPropertyItem.propertyValue = "service-instance"; 
+		relatedToPropertyItem.setPropertyKey("model.model-name"); 
+		relatedToPropertyItem.setPropertyValue("service-instance"); 
 		relationshipItem.getRelatedToProperty().add(relatedToPropertyItem); 
 	    assertNotNull(relationshipItem); 
+	    
+	    relationshipItem.setRelatedToProperty(relationshipItem.getRelatedToProperty());
+	    assertNotNull(relationshipItem); 
+	    
 	    logger.info(Serialization.gsonPretty.toJson(relationshipItem)); 
 	}
 

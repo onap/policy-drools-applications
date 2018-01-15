@@ -26,20 +26,49 @@ import com.google.gson.annotations.SerializedName;
 
 public class AAIGETVserverResponse extends AAIGETResponse implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6247505944905898870L;
  
 	@SerializedName("vserver-id")
-	public String vserverID;
+	private String vserverID;
 	
 	@SerializedName("vserver-name")
-	public String vserverName;
+	private String vserverName;
 	
 	@SerializedName("vserver-name2")
-	public String vserverName2;
+	private String vserverName2;
 	
 	@SerializedName("vserver-selflink")
-	public String vserverSelflink;
+	private String vserverSelflink;
+
+	public String getVserverID() {
+		return vserverID;
+	}
+
+	public String getVserverName() {
+		return vserverName;
+	}
+
+	public String getVserverName2() {
+		return vserverName2;
+	}
+
+	public String getVserverSelflink() {
+		return vserverSelflink;
+	}
+
+	public void setVserverID(String vserverID) {
+		this.vserverID = vserverID;
+	}
+
+	public void setVserverName(String vserverName) {
+		this.vserverName = vserverName;
+	}
+
+	public void setVserverName2(String vserverName2) {
+		this.vserverName2 = vserverName2;
+	}
+
+	public void setVserverSelflink(String vserverSelflink) {
+		this.vserverSelflink = vserverSelflink;
+	}
 }

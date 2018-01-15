@@ -28,10 +28,6 @@ import com.google.gson.annotations.SerializedName;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
 
 public class AAINQResponse implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8411407444051746101L;
 	
 	@SerializedName("inventory-response-item")
@@ -42,17 +38,5 @@ public class AAINQResponse implements Serializable {
 
 	public List<AAINQInventoryResponseItem> getInventoryResponseItems() {
 		return inventoryResponseItems;
-	}
-
-	public void setInventoryResponseItems(List<AAINQInventoryResponseItem> inventoryResponseItems) {
-		this.inventoryResponseItems = inventoryResponseItems;
-	}
-
-	public AAINQRequestError getRequestError() {
-		return requestError;
-	}
-
-	public void setRequestError(AAINQRequestError requestError) {
-		this.requestError = requestError;
 	}
 }

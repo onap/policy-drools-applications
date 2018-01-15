@@ -43,14 +43,18 @@ public class RelatedToPropertyTest {
 	public void test() {
 		RelatedToProperty relatedToProperty = new RelatedToProperty(); 
 		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.propertyKey = "model.model-name"; 
-		relatedToPropertyItem.propertyValue = "service-instance"; 
+		relatedToPropertyItem.setPropertyKey("model.model-name"); 
+		relatedToPropertyItem.setPropertyValue("service-instance"); 
 		relatedToProperty.getRelatedTo().add(relatedToPropertyItem); 
 		RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem(); 
-		relatedToPropertyItem2.propertyKey = "model.model-name2"; 
-		relatedToPropertyItem2.propertyValue = "service-instance2"; 
+		relatedToPropertyItem2.setPropertyKey("model.model-name2"); 
+		relatedToPropertyItem2.setPropertyValue("service-instance2"); 
 		relatedToProperty.getRelatedTo().add(relatedToPropertyItem2);		
-	    assertNotNull(relatedToProperty); 
+	    assertNotNull(relatedToProperty);
+	    
+	    relatedToProperty.setRelatedTo(relatedToProperty.getRelatedTo());
+	    assertNotNull(relatedToProperty);
+	    
 	    logger.info(Serialization.gsonPretty.toJson(relatedToProperty));
 	}
 

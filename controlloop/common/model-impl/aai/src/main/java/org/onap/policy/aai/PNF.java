@@ -23,10 +23,6 @@ package org.onap.policy.aai;
 import java.io.Serializable;
 
 public class PNF implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3535108358668248501L;
 
 	private String	pnfName;

@@ -26,59 +26,192 @@ import com.google.gson.annotations.SerializedName;
 
 public class AAINQGenericVNF implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 834322706248060559L;
 	
 	@SerializedName("vnf-id")
-	public String vnfID;
+	private String vnfID;
 	
 	@SerializedName("vnf-name")
-	public String vnfName;
+	private String vnfName;
 	
 	@SerializedName("vnf-name2")
-	public String vnfName2;
+	private String vnfName2;
 	
 	@SerializedName("vnf-type")
-	public String vnfType;
+	private String vnfType;
 	
 	@SerializedName("service-id")
-	public String serviceId;
+	private String serviceId;
 	
 	@SerializedName("prov-status")
-	public String provStatus;
+	private String provStatus;
 	
 	@SerializedName("operational-state")
-	public String operationalState;
+	private String operationalState;
 	
 	@SerializedName("ipv4-oam-address")
-	public String ipv4OamAddress;
+	private String ipv4OamAddress;
 	
 	@SerializedName("ipv4-loopback0-address")
-	public String ipv4Loopback0Address;
+	private String ipv4Loopback0Address;
 	
 	@SerializedName("in-maint")
-	public Boolean inMaint;
+	private Boolean inMaint;
 	
 	@SerializedName("is-closed-loop-disabled")
-	public Boolean isClosedLoopDisabled;
+	private Boolean isClosedLoopDisabled;
 	
 	@SerializedName("resource-version")
-	public String resourceVersion;
+	private String resourceVersion;
 	
 	@SerializedName("encrypted-access-flag")
-	public Boolean encrypedAccessFlag;
+	private Boolean encrypedAccessFlag;
 	
 	@SerializedName("persona-model-id")
-	public String personaModelId;
+	private String personaModelId;
 	
 	@SerializedName("persona-model-version")
-	public String personaModelVersion;
+	private String personaModelVersion;
 	
 	@SerializedName("model-invariant-id")
-	public String modelInvariantId;
+	private String modelInvariantId;
 	
 	@SerializedName("model-version-id")
-	public String modelVersionId;
+	private String modelVersionId;
+
+	public String getVnfID() {
+		return vnfID;
+	}
+
+	public String getVnfName() {
+		return vnfName;
+	}
+
+	public String getVnfName2() {
+		return vnfName2;
+	}
+
+	public String getVnfType() {
+		return vnfType;
+	}
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public String getProvStatus() {
+		return provStatus;
+	}
+
+	public String getOperationalState() {
+		return operationalState;
+	}
+
+	public String getIpv4OamAddress() {
+		return ipv4OamAddress;
+	}
+
+	public String getIpv4Loopback0Address() {
+		return ipv4Loopback0Address;
+	}
+
+	public Boolean getInMaint() {
+		return inMaint;
+	}
+
+	public Boolean getIsClosedLoopDisabled() {
+		return isClosedLoopDisabled;
+	}
+
+	public String getResourceVersion() {
+		return resourceVersion;
+	}
+
+	public Boolean getEncrypedAccessFlag() {
+		return encrypedAccessFlag;
+	}
+
+	public String getPersonaModelId() {
+		return personaModelId;
+	}
+
+	public String getPersonaModelVersion() {
+		return personaModelVersion;
+	}
+
+	public String getModelInvariantId() {
+		return modelInvariantId;
+	}
+
+	public String getModelVersionId() {
+		return modelVersionId;
+	}
+
+	public void setVnfID(String vnfID) {
+		this.vnfID = vnfID;
+	}
+
+	public void setVnfName(String vnfName) {
+		this.vnfName = vnfName;
+	}
+
+	public void setVnfName2(String vnfName2) {
+		this.vnfName2 = vnfName2;
+	}
+
+	public void setVnfType(String vnfType) {
+		this.vnfType = vnfType;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public void setProvStatus(String provStatus) {
+		this.provStatus = provStatus;
+	}
+
+	public void setOperationalState(String operationalState) {
+		this.operationalState = operationalState;
+	}
+
+	public void setIpv4OamAddress(String ipv4OamAddress) {
+		this.ipv4OamAddress = ipv4OamAddress;
+	}
+
+	public void setIpv4Loopback0Address(String ipv4Loopback0Address) {
+		this.ipv4Loopback0Address = ipv4Loopback0Address;
+	}
+
+	public void setInMaint(Boolean inMaint) {
+		this.inMaint = inMaint;
+	}
+
+	public void setIsClosedLoopDisabled(Boolean isClosedLoopDisabled) {
+		this.isClosedLoopDisabled = isClosedLoopDisabled;
+	}
+
+	public void setResourceVersion(String resourceVersion) {
+		this.resourceVersion = resourceVersion;
+	}
+
+	public void setEncrypedAccessFlag(Boolean encrypedAccessFlag) {
+		this.encrypedAccessFlag = encrypedAccessFlag;
+	}
+
+	public void setPersonaModelId(String personaModelId) {
+		this.personaModelId = personaModelId;
+	}
+
+	public void setPersonaModelVersion(String personaModelVersion) {
+		this.personaModelVersion = personaModelVersion;
+	}
+
+	public void setModelInvariantId(String modelInvariantId) {
+		this.modelInvariantId = modelInvariantId;
+	}
+
+	public void setModelVersionId(String modelVersionId) {
+		this.modelVersionId = modelVersionId;
+	}
 }

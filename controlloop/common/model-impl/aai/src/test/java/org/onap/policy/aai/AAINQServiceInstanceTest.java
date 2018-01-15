@@ -42,13 +42,23 @@ public class AAINQServiceInstanceTest {
 	@Test
 	public void test() {
 		AAINQServiceInstance aaiNQServiceInstance = new AAINQServiceInstance();
-		aaiNQServiceInstance.serviceInstanceID = "dhv-test-vhnfportal-service-instance-id";
-		aaiNQServiceInstance.serviceInstanceName = "dhv-test-service-instance-name1";
-		aaiNQServiceInstance.personaModelId = "82194af1-3c2c-485a-8f44-420e22a9eaa4";
-		aaiNQServiceInstance.personaModelVersion = "1.0";
-		aaiNQServiceInstance.serviceInstanceLocationId = "dhv-test-service-instance-location-id1";
-		aaiNQServiceInstance.resourceVersion = "1485366092";
+		aaiNQServiceInstance.setServiceInstanceID("dhv-test-vhnfportal-service-instance-id");
+		aaiNQServiceInstance.setServiceInstanceName("dhv-test-service-instance-name1");
+		aaiNQServiceInstance.setPersonaModelId("82194af1-3c2c-485a-8f44-420e22a9eaa4");
+		aaiNQServiceInstance.setPersonaModelVersion("1.0");
+		aaiNQServiceInstance.setServiceInstanceLocationId("dhv-test-service-instance-location-id1");
+		aaiNQServiceInstance.setResourceVersion("1485366092");
+		aaiNQServiceInstance.setModelInvariantId("SomeID");
+		aaiNQServiceInstance.setModelVersionId("SomeVersion");
 		assertNotNull(aaiNQServiceInstance);
+		assertEquals(aaiNQServiceInstance.getServiceInstanceID(), "dhv-test-vhnfportal-service-instance-id");
+		assertEquals(aaiNQServiceInstance.getServiceInstanceName(), "dhv-test-service-instance-name1");
+		assertEquals(aaiNQServiceInstance.getPersonaModelId(), "82194af1-3c2c-485a-8f44-420e22a9eaa4");
+		assertEquals(aaiNQServiceInstance.getPersonaModelVersion(), "1.0");
+		assertEquals(aaiNQServiceInstance.getServiceInstanceLocationId(), "dhv-test-service-instance-location-id1");
+		assertEquals(aaiNQServiceInstance.getResourceVersion(), "1485366092");
+		assertEquals(aaiNQServiceInstance.getModelInvariantId(), "SomeID");
+		assertEquals(aaiNQServiceInstance.getModelVersionId(), "SomeVersion");
 	    logger.info(Serialization.gsonPretty.toJson(aaiNQServiceInstance));		
 	}
 

@@ -42,8 +42,8 @@ public class RelatedToPropertyItemTest {
 	@Test
 	public void test() {
 		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.propertyKey = "model.model-name"; 
-		relatedToPropertyItem.propertyValue = "service-instance"; 
+		relatedToPropertyItem.setPropertyKey("model.model-name"); 
+		relatedToPropertyItem.setPropertyValue("service-instance"); 
 	    assertNotNull(relatedToPropertyItem); 
 	    logger.info(Serialization.gsonPretty.toJson(relatedToPropertyItem));
 	}

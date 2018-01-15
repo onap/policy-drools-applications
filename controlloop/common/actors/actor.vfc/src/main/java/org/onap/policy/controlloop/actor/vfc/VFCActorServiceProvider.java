@@ -29,6 +29,7 @@ import org.onap.policy.vfc.VFCHealActionVmInfo;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.rest.RESTManager;
 import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
 
 import com.google.common.collect.ImmutableList;
@@ -79,7 +80,7 @@ public class VFCActorServiceProvider implements Actor {
         		if (tempVnfResp == null)
         		    return null;
         	}
-        	serviceInstance = tempVnfResp.serviceId;
+        	serviceInstance = tempVnfResp.getServiceId();
         }
         request.nsInstanceId = serviceInstance;
         request.requestId = onset.requestID;
@@ -113,10 +114,10 @@ public class VFCActorServiceProvider implements Actor {
         try {
             if (vnfName != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                response = AAIManager.getQueryByVnfName(url, aaiUsername, aaiPassword, requestID, vnfName);
+                response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestID, vnfName);
             } else if (vnfID != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf/";
-                response = AAIManager.getQueryByVnfID(url, aaiUsername, aaiPassword, requestID, vnfID);
+                response = new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUsername, aaiPassword, requestID, vnfID);
             } else {
                 logger.error("getAAIServiceInstance failed");
             }

@@ -25,18 +25,40 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQTenant implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4702784101671984364L;
 
 	@SerializedName("tenant-id")
-	public String tenantId;
+	private String tenantId;
 	
 	@SerializedName("tenant-name")
-	public String tenantName;
+	private String tenantName;
 	
 	@SerializedName("resource-version")
-	public String resourceVersion;
+	private String resourceVersion;
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public String getTenantName() {
+		return tenantName;
+	}
+
+	public String getResourceVersion() {
+		return resourceVersion;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
+	public void setTenantName(String tenantName) {
+		this.tenantName = tenantName;
+	}
+
+	public void setResourceVersion(String resourceVersion) {
+		this.resourceVersion = resourceVersion;
+	}
+	
+	
 }

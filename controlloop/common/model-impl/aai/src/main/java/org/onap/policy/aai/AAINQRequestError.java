@@ -25,9 +25,16 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class AAINQRequestError implements Serializable {
-	
 	private static final long serialVersionUID = -7742674155387022932L;
 	
 	@SerializedName("serviceException")
-	public AAINQServiceExcept serviceExcept;
+	private AAINQServiceExcept serviceExcept;
+
+	public AAINQServiceExcept getServiceExcept() {
+		return serviceExcept;
+	}
+
+	public void setServiceExcept(AAINQServiceExcept serviceExcept) {
+		this.serviceExcept = serviceExcept;
+	}
 }
