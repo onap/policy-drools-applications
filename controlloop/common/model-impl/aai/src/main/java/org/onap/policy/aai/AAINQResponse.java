@@ -39,4 +39,16 @@ public class AAINQResponse implements Serializable {
 	public List<AAINQInventoryResponseItem> getInventoryResponseItems() {
 		return inventoryResponseItems;
 	}
+
+	public AAINQRequestError getRequestError() {
+		return requestError;
+	}
+
+	public void setRequestError(AAINQRequestError requestError) {
+		this.requestError = requestError;
+	}
+
+	public void setInventoryResponseItems(List<AAINQInventoryResponseItem> inventoryResponseItems) {
+		this.inventoryResponseItems = inventoryResponseItems;
+	}
 }
