@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fe2f989f",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AAINQResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-15T16:35:47Z",
+      "side": 0,
+      "message": "These were removed???",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "5cfd3b7066e6a6305e140fa59b1fccb8e3c5f81b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
