@@ -33,24 +33,21 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public final class Serialization {
-	
 	public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
 	private Serialization(){
 	}
 
-	public static class gsonUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-		private static final Logger logger = LoggerFactory.getLogger(gsonUTCAdapter.class);
+	public static class GSONUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
+		private static final Logger logger = LoggerFactory.getLogger(GSONUTCAdapter.class);
 		
 		@Override
-		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
-				throws JsonParseException {
+		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
 			try {
 				return ZonedDateTime.parse(element.getAsString(), format);
 			} catch (Exception e) {
@@ -63,11 +60,11 @@ public final class Serialization {
 			return new JsonPrimitive(datetime.format(format));
 		}	
 	}
-	public static class gsonInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+	
+	public static class GSONInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
 		@Override
-		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-				throws JsonParseException {
+		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
 			return Instant.ofEpochMilli(json.getAsLong());
 		}
 
@@ -81,8 +78,8 @@ public final class Serialization {
 	public static final Gson gsonPretty = new GsonBuilder()
 			.disableHtmlEscaping()
 			.setPrettyPrinting()
-			.registerTypeAdapter(ZonedDateTime.class, new gsonUTCAdapter())
-			.registerTypeAdapter(Instant.class, new gsonInstantAdapter())
+			.registerTypeAdapter(ZonedDateTime.class, new GSONUTCAdapter())
+			.registerTypeAdapter(Instant.class, new GSONInstantAdapter())
 //			.registerTypeAdapter(CommonHeader1607.class, new gsonCommonHeaderInstance())
 //			.registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
 			.create();

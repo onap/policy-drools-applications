@@ -40,6 +40,10 @@ public enum ResponseValue {
 	}
 
 	public static ResponseValue toResponseValue(String value) {
+		if (value == null) {
+			return null;
+		}
+		
 		if (value.equals(ACCEPT.toString())) {
 			return ACCEPT;
 		}

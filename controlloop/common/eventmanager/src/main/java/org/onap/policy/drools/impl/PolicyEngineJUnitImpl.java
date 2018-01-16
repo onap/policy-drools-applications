@@ -74,7 +74,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		}
 		if (obj instanceof Request) {
 			Request request = (Request) obj;
-			logger.debug("Request: {} subrequest {}", request.Action, request.CommonHeader.SubRequestID);
+			logger.debug("Request: {} subrequest {}", request.getAction(), request.getCommonHeader().getSubRequestID());
 		}
 		else if (obj instanceof LCMRequestWrapper) {
 		    LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;

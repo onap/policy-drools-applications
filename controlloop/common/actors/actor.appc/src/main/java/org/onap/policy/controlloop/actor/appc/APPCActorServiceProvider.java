@@ -41,15 +41,15 @@ public class APPCActorServiceProvider implements Actor {
 
 	private static final ImmutableList<String> recipes = ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig");
 	private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-										.put("Restart", ImmutableList.of("VM"))
-										.put("Rebuild", ImmutableList.of("VM"))
-										.put("Migrate", ImmutableList.of("VM"))
-										.put("ModifyConfig", ImmutableList.of("VNF"))
-										.build();
+			.put("Restart", ImmutableList.of("VM"))
+			.put("Rebuild", ImmutableList.of("VM"))
+			.put("Migrate", ImmutableList.of("VM"))
+			.put("ModifyConfig", ImmutableList.of("VNF"))
+			.build();
 	private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
-										.put("ModifyConfig", ImmutableList.of("generic-vnf.vnf-id"))
-										.build();
-	
+			.put("ModifyConfig", ImmutableList.of("generic-vnf.vnf-id"))
+			.build();
+
 	@Override
 	public String actor() {
 		return "APPC";
@@ -77,52 +77,52 @@ public class APPCActorServiceProvider implements Actor {
 	 * 
 	 * @param onset
 	 *         the event that is reporting the alert for policy
-     *            to perform an action
+	 *            to perform an action
 	 * @param operation
 	 *         the control loop operation specifying the actor,
-     *         operation, target, etc.
+	 *         operation, target, etc.
 	 * @param policy
 	 *         the policy the was specified from the yaml generated
-     *         by CLAMP or through the Policy GUI/API
+	 *         by CLAMP or through the Policy GUI/API
 	 * @return an APPC request conforming to the legacy API
 	 * @throws AAIException 
 	 */
 	public static Request constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-	                Policy policy, String targetVnf) {
+			Policy policy, String targetVnf) {
 		/*
 		 * Construct an APPC request
 		 */
 		Request request = new Request();
-		request.CommonHeader = new CommonHeader();
-		request.CommonHeader.RequestID = onset.requestID;
-		request.CommonHeader.SubRequestID = operation.subRequestId;
-		request.Action = policy.getRecipe().substring(0, 1).toUpperCase() 
-                        + policy.getRecipe().substring(1);
-	
+		request.setCommonHeader(new CommonHeader());
+		request.getCommonHeader().setRequestID(onset.requestID);
+		request.getCommonHeader().setSubRequestID(operation.subRequestId);
+		request.setAction(policy.getRecipe().substring(0, 1).toUpperCase() 
+				+ policy.getRecipe().substring(1));
+
 		/*
 		 * For now Policy generates the PG Streams as a demo, in the
 		 * future the payload can be provided by CLAMP
 		 */
-		request.Payload.put("generic-vnf.vnf-id", targetVnf);
-		
+		request.getPayload().put("generic-vnf.vnf-id", targetVnf);
+
 		PGRequest pgRequest = new PGRequest();
 		pgRequest.pgStreams = new PGStreams();
-		
+
 		PGStream pgStream;
 		for (int i = 0; i < 5; i++) {
-		    pgStream = new PGStream();
-		    pgStream.streamId = "fw_udp"+(i+1);
-            pgStream.isEnabled = "true";
-            pgRequest.pgStreams.pgStream.add(pgStream);
+			pgStream = new PGStream();
+			pgStream.streamId = "fw_udp"+(i+1);
+			pgStream.isEnabled = "true";
+			pgRequest.pgStreams.pgStream.add(pgStream);
 		}
-		request.Payload.put("pg-streams", pgRequest.pgStreams);
-		
+		request.getPayload().put("pg-streams", pgRequest.pgStreams);
+
 		/*
 		 * Return the request
 		 */
-		
+
 		return request;
 	}
-	
-	
+
+
 }

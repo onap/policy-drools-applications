@@ -27,9 +27,9 @@ public enum ResponseCode {
 	SUCCESS(400),
 	FAILURE(500)
 	;
-	
+
 	private Integer code;
-	
+
 	private ResponseCode(int code) {
 		this.code = code;
 	}
@@ -37,7 +37,8 @@ public enum ResponseCode {
 	public int	getValue() {
 		return this.code;
 	}
-		
+
+	@Override
 	public String toString() {
 		return Integer.toString(this.code);
 	}

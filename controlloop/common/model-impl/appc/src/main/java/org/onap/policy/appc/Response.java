@@ -25,59 +25,60 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Response implements Serializable {
-
 	private static final long serialVersionUID = 434953706339865151L;
 
-	public CommonHeader CommonHeader;
-	public ResponseStatus Status = new ResponseStatus();
-	public Map<String, Object> Payload = new HashMap<>();
+	private CommonHeader commonHeader;
+	private ResponseStatus status = new ResponseStatus();
+	private HashMap<String, Object> payload = new HashMap<>();
 	
 	public Response() {
 		
 	}
 	
 	public Response(Request request) {
-		this.CommonHeader = new CommonHeader(request.CommonHeader);
-		if (request.Payload != null) {
-			this.Payload.putAll(request.Payload);
+		if (request.getCommonHeader() != null) {
+			this.commonHeader = new CommonHeader(request.getCommonHeader());
+		}
+		if (request.getPayload() != null) {
+			this.payload.putAll(request.getPayload());
 		}
 	}
 
 	public CommonHeader getCommonHeader() {
-		return CommonHeader;
+		return commonHeader;
 	}
 
 	public void setCommonHeader(CommonHeader commonHeader) {
-		CommonHeader = commonHeader;
+		this.commonHeader = commonHeader;
 	}
 
 	public ResponseStatus getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(ResponseStatus status) {
-		Status = status;
+		this.status = status;
 	}
 
 	public Map<String, Object> getPayload() {
-		return Payload;
+		return payload;
 	}
 
 	public void setPayload(Map<String, Object> payload) {
-		Payload = payload;
+		this.payload = new HashMap<>(payload);
 	}
 
 	@Override
 	public String toString() {
-		return "Response [CommonHeader=" + CommonHeader + ", Status=" + Status + ", Payload=" + Payload + "]";
+		return "Response [CommonHeader=" + commonHeader + ", Status=" + status + ", Payload=" + payload + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((CommonHeader == null) ? 0 : CommonHeader.hashCode());
-		result = prime * result + ((Payload == null) ? 0 : Payload.hashCode());
-		result = prime * result + ((Status == null) ? 0 : Status.hashCode());
+		result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
+		result = prime * result + ((payload == null) ? 0 : payload.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 	@Override
@@ -89,20 +90,20 @@ public class Response implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Response other = (Response) obj;
-		if (CommonHeader == null) {
-			if (other.CommonHeader != null)
+		if (commonHeader == null) {
+			if (other.commonHeader != null)
 				return false;
-		} else if (!CommonHeader.equals(other.CommonHeader))
+		} else if (!commonHeader.equals(other.commonHeader))
 			return false;
-		if (Payload == null) {
-			if (other.Payload != null)
+		if (payload == null) {
+			if (other.payload != null)
 				return false;
-		} else if (!Payload.equals(other.Payload))
+		} else if (!payload.equals(other.payload))
 			return false;
-		if (Status == null) {
-			if (other.Status != null)
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!Status.equals(other.Status))
+		} else if (!status.equals(other.status))
 			return false;
 		return true;
 	}

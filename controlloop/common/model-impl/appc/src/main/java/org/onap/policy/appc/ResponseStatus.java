@@ -23,26 +23,51 @@ package org.onap.policy.appc;
 import java.io.Serializable;
 
 public class ResponseStatus implements Serializable {
-
 	private static final long serialVersionUID = 2421770469587860452L;
 
-	public int	Code;
-	public String Value;
-	public String Description;
+	private int	code;
+	private String value;
+	private String description;
 	
 	@Override
 	public String toString() {
-		return "ResponseStatus [Code=" + Code + ", Value=" + Value + ", Description=" + Description + "]";
+		return "ResponseStatus [Code=" + code + ", Value=" + value + ", Description=" + description + "]";
 	}
+	
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Code;
-		result = prime * result + ((Description == null) ? 0 : Description.hashCode());
-		result = prime * result + ((Value == null) ? 0 : Value.hashCode());
+		result = prime * result + code;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -52,17 +77,17 @@ public class ResponseStatus implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ResponseStatus other = (ResponseStatus) obj;
-		if (Code != other.Code)
+		if (code != other.code)
 			return false;
-		if (Description == null) {
-			if (other.Description != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!Description.equals(other.Description))
+		} else if (!description.equals(other.description))
 			return false;
-		if (Value == null) {
-			if (other.Value != null)
+		if (value == null) {
+			if (other.value != null)
 				return false;
-		} else if (!Value.equals(other.Value))
+		} else if (!value.equals(other.value))
 			return false;
 		return true;
 	}

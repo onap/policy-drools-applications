@@ -47,7 +47,6 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.Util;
-import org.onap.policy.so.SOResponse;
 import org.onap.policy.so.SOResponseWrapper;
 import org.onap.policy.vfc.VFCResponse;
 import org.slf4j.Logger;
@@ -324,7 +323,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			Integer operationAttempt = null;
 			try {
-				operationAttempt = Integer.parseInt(appcResponse.CommonHeader.SubRequestID);
+				operationAttempt = Integer.parseInt(appcResponse.getCommonHeader().getSubRequestID());
 			} catch (NumberFormatException e) {
 				//
 				// We cannot tell what happened if this doesn't exist
@@ -335,7 +334,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			// Sanity check the response message
 			//
-			if (appcResponse.Status == null) {
+			if (appcResponse.getStatus() == null) {
 				//
 				// We cannot tell what happened if this doesn't exist
 				//
@@ -345,7 +344,7 @@ public class ControlLoopOperationManager implements Serializable {
 			//
 			// Get the Response Code
 			//
-			ResponseCode code = ResponseCode.toResponseCode(appcResponse.Status.Code);
+			ResponseCode code = ResponseCode.toResponseCode(appcResponse.getStatus().getCode());
 			if (code == null) {
 				//
 				// We are unaware of this code
@@ -370,7 +369,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// We'll consider these two codes as exceptions
 				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.FAILURE_EXCEPTION);
+				this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.FAILURE_EXCEPTION);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -379,7 +378,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				//
 				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.SUCCESS);
+				this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.SUCCESS);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -388,7 +387,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				//
 				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().Description, PolicyResult.FAILURE);
+				this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.FAILURE);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}

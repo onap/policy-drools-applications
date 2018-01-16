@@ -380,7 +380,7 @@ public class VFWControlLoopTest implements TopicListener {
             }
         }
         else if (obj instanceof Request) {
-            assertTrue(((Request)obj).getCommonHeader().SubRequestID.equals("1"));
+            assertTrue(((Request)obj).getCommonHeader().getSubRequestID().equals("1"));
             assertNotNull(((Request)obj).getPayload().get("generic-vnf.vnf-id"));
             
             logger.debug("\n============ APPC received the request!!! ===========\n");
@@ -390,8 +390,8 @@ public class VFWControlLoopTest implements TopicListener {
              * the response into the working memory
              */
             Response appcResponse = new Response((Request)obj);
-            appcResponse.getStatus().Code = ResponseCode.SUCCESS.getValue();
-            appcResponse.getStatus().Value = "SUCCESS";
+            appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
+            appcResponse.getStatus().setValue("SUCCESS");
             kieSession.insert(appcResponse);
         }        
     }

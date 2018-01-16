@@ -25,36 +25,67 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Request implements Serializable{
-
 	private static final long serialVersionUID = -3912323643990646431L;
 
-	public CommonHeader		CommonHeader;
-	public String				Action;
-	public String				TargetID;
-	public String				ObjectID;
-	public Map<String, Object>	Payload = new HashMap<>();
+	private CommonHeader		        commonHeader;
+	private String			     	action;
+	private String				    targetID;
+	private String				    objectID;
+	private HashMap<String, Object>	payload = new HashMap<>();
 	
 	public Request() {
-		
+		// Initiate an empty Request instance
 	}
 	
 	public CommonHeader getCommonHeader() {
-		return CommonHeader;
+		return commonHeader;
 	}
 	
 	public Map<String, Object> getPayload() {
-		return Payload;
+		return payload;
 	}
 	
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public String getTargetID() {
+		return targetID;
+	}
+
+	public void setTargetID(String targetID) {
+		this.targetID = targetID;
+	}
+
+	public String getObjectID() {
+		return objectID;
+	}
+
+	public void setObjectID(String objectID) {
+		this.objectID = objectID;
+	}
+
+	public void setCommonHeader(CommonHeader commonHeader) {
+		this.commonHeader = commonHeader;
+	}
+
+	public void setPayload(Map<String, Object> payload) {
+		this.payload = new HashMap<>(payload);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Action == null) ? 0 : Action.hashCode());
-		result = prime * result + ((CommonHeader == null) ? 0 : CommonHeader.hashCode());
-		result = prime * result + ((ObjectID == null) ? 0 : ObjectID.hashCode());
-		result = prime * result + ((Payload == null) ? 0 : Payload.hashCode());
-		result = prime * result + ((TargetID == null) ? 0 : TargetID.hashCode());
+		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
+		result = prime * result + ((objectID == null) ? 0 : objectID.hashCode());
+		result = prime * result + ((payload == null) ? 0 : payload.hashCode());
+		result = prime * result + ((targetID == null) ? 0 : targetID.hashCode());
 		return result;
 	}
 
@@ -66,39 +97,45 @@ public class Request implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		
 		Request other = (Request) obj;
-		if (Action == null) {
-			if (other.Action != null)
+		if (action == null) {
+			if (other.action != null)
 				return false;
-		} else if (!Action.equals(other.Action))
+		} else if (!action.equals(other.action))
 			return false;
-		if (CommonHeader == null) {
-			if (other.CommonHeader != null)
+		
+		if (commonHeader == null) {
+			if (other.commonHeader != null)
 				return false;
-		} else if (!CommonHeader.equals(other.CommonHeader))
+		} else if (!commonHeader.equals(other.commonHeader))
 			return false;
-		if (ObjectID == null) {
-			if (other.ObjectID != null)
+		
+		if (objectID == null) {
+			if (other.objectID != null)
 				return false;
-		} else if (!ObjectID.equals(other.ObjectID))
+		} else if (!objectID.equals(other.objectID))
 			return false;
-		if (Payload == null) {
-			if (other.Payload != null)
+		
+		if (payload == null) {
+			if (other.payload != null)
 				return false;
-		} else if (!Payload.equals(other.Payload))
+		} else if (!payload.equals(other.payload))
 			return false;
-		if (TargetID == null) {
-			if (other.TargetID != null)
+		
+		if (targetID == null) {
+			if (other.targetID != null)
 				return false;
-		} else if (!TargetID.equals(other.TargetID))
+		} else if (!targetID.equals(other.targetID))
 			return false;
+		
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Request [CommonHeader=" + CommonHeader + ", Action=" + Action + ", TargetID=" + TargetID + ", ObjectID="
-				+ ObjectID + ", Payload=" + Payload + "]";
+		return "Request [CommonHeader=" + commonHeader + ", Action=" + action + ", TargetID=" + targetID + ", ObjectID="
+				+ objectID + ", Payload=" + payload + "]";
 	}
 
 }

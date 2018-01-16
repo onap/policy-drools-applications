@@ -28,52 +28,107 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CommonHeader implements Serializable {
-
 	private static final long serialVersionUID = -3581658269910980336L;
 	
-	public Instant	TimeStamp = Instant.now();
-	public String	APIver = "1.01";
-	public String	OriginatorID;
-	public UUID	RequestID;
-	public String	SubRequestID;
-	public Collection<String>	RequestTrack = new ArrayList<>();
-	public Collection<Map<String, String>> Flags = new ArrayList<>();
+	private Instant	timeStamp = Instant.now();
+	private String	apiVer = "1.01";
+	private String	originatorID;
+	private UUID	    requestID;
+	private String	subRequestID;
+	private Collection<String>	requestTrack = new ArrayList<>();
+	private Collection<Map<String, String>> flags = new ArrayList<>();
 	
 	public CommonHeader() {
-		
 	}
 	
 	public CommonHeader(CommonHeader commonHeader) {
-		this.OriginatorID = commonHeader.OriginatorID;
-		this.RequestID = commonHeader.RequestID;
-		this.SubRequestID = commonHeader.SubRequestID;
-		if (commonHeader.RequestTrack != null) {
-			this.RequestTrack.addAll(commonHeader.RequestTrack);
+		this.originatorID = commonHeader.originatorID;
+		this.requestID = commonHeader.requestID;
+		this.subRequestID = commonHeader.subRequestID;
+		if (commonHeader.requestTrack != null) {
+			this.requestTrack.addAll(commonHeader.requestTrack);
 		}
-		if (commonHeader.Flags != null) {
-			this.Flags.addAll(commonHeader.Flags);
+		if (commonHeader.flags != null) {
+			this.flags.addAll(commonHeader.flags);
 		}
+	}
+
+	public Instant getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Instant timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getApiVer() {
+		return apiVer;
+	}
+
+	public void setApiVer(String apiVer) {
+		this.apiVer = apiVer;
+	}
+
+	public String getOriginatorID() {
+		return originatorID;
+	}
+
+	public void setOriginatorID(String originatorID) {
+		this.originatorID = originatorID;
+	}
+
+	public UUID getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(UUID requestID) {
+		this.requestID = requestID;
+	}
+
+	public String getSubRequestID() {
+		return subRequestID;
+	}
+
+	public void setSubRequestID(String subRequestID) {
+		this.subRequestID = subRequestID;
+	}
+
+	public Collection<String> getRequestTrack() {
+		return requestTrack;
+	}
+
+	public void setRequestTrack(Collection<String> requestTrack) {
+		this.requestTrack = requestTrack;
+	}
+
+	public Collection<Map<String, String>> getFlags() {
+		return flags;
+	}
+
+	public void setFlags(Collection<Map<String, String>> flags) {
+		this.flags = flags;
 	}
 
 	@Override
 	public String toString() {
-		return "CommonHeader [TimeStamp=" + TimeStamp + ", APIver=" + APIver + ", OriginatorID=" + OriginatorID
-				+ ", RequestID=" + RequestID + ", SubrequestID=" + SubRequestID + ", RequestTrack=" + RequestTrack
-				+ ", Flags=" + Flags + "]";
+		return "CommonHeader [TimeStamp=" + timeStamp + ", APIver=" + apiVer + ", OriginatorID=" + originatorID
+				+ ", RequestID=" + requestID + ", SubrequestID=" + subRequestID + ", RequestTrack=" + requestTrack
+				+ ", Flags=" + flags + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((APIver == null) ? 0 : APIver.hashCode());
-		result = prime * result + ((Flags == null) ? 0 : Flags.hashCode());
-		result = prime * result + ((OriginatorID == null) ? 0 : OriginatorID.hashCode());
-		result = prime * result + ((RequestID == null) ? 0 : RequestID.hashCode());
-		result = prime * result + ((RequestTrack == null) ? 0 : RequestTrack.hashCode());
-		result = prime * result + ((SubRequestID == null) ? 0 : SubRequestID.hashCode());
-		result = prime * result + ((TimeStamp == null) ? 0 : TimeStamp.hashCode());
+		result = prime * result + ((apiVer == null) ? 0 : apiVer.hashCode());
+		result = prime * result + ((flags == null) ? 0 : flags.hashCode());
+		result = prime * result + ((originatorID == null) ? 0 : originatorID.hashCode());
+		result = prime * result + ((requestID == null) ? 0 : requestID.hashCode());
+		result = prime * result + ((requestTrack == null) ? 0 : requestTrack.hashCode());
+		result = prime * result + ((subRequestID == null) ? 0 : subRequestID.hashCode());
+		result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -83,40 +138,40 @@ public class CommonHeader implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CommonHeader other = (CommonHeader) obj;
-		if (APIver == null) {
-			if (other.APIver != null)
+		if (apiVer == null) {
+			if (other.apiVer != null)
 				return false;
-		} else if (!APIver.equals(other.APIver))
+		} else if (!apiVer.equals(other.apiVer))
 			return false;
-		if (Flags == null) {
-			if (other.Flags != null)
+		if (flags == null) {
+			if (other.flags != null)
 				return false;
-		} else if (!Flags.equals(other.Flags))
+		} else if (!flags.equals(other.flags))
 			return false;
-		if (OriginatorID == null) {
-			if (other.OriginatorID != null)
+		if (originatorID == null) {
+			if (other.originatorID != null)
 				return false;
-		} else if (!OriginatorID.equals(other.OriginatorID))
+		} else if (!originatorID.equals(other.originatorID))
 			return false;
-		if (RequestID == null) {
-			if (other.RequestID != null)
+		if (requestID == null) {
+			if (other.requestID != null)
 				return false;
-		} else if (!RequestID.equals(other.RequestID))
+		} else if (!requestID.equals(other.requestID))
 			return false;
-		if (RequestTrack == null) {
-			if (other.RequestTrack != null)
+		if (requestTrack == null) {
+			if (other.requestTrack != null)
 				return false;
-		} else if (!RequestTrack.equals(other.RequestTrack))
+		} else if (!requestTrack.equals(other.requestTrack))
 			return false;
-		if (SubRequestID == null) {
-			if (other.SubRequestID != null)
+		if (subRequestID == null) {
+			if (other.subRequestID != null)
 				return false;
-		} else if (!SubRequestID.equals(other.SubRequestID))
+		} else if (!subRequestID.equals(other.subRequestID))
 			return false;
-		if (TimeStamp == null) {
-			if (other.TimeStamp != null)
+		if (timeStamp == null) {
+			if (other.timeStamp != null)
 				return false;
-		} else if (!TimeStamp.equals(other.TimeStamp))
+		} else if (!timeStamp.equals(other.timeStamp))
 			return false;
 		return true;
 	}

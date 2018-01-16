@@ -123,11 +123,11 @@ public class AppcServiceProviderTest {
 
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
-        assertEquals(appcRequest.getCommonHeader().RequestID, onsetEvent.requestID);
+        assertEquals(appcRequest.getCommonHeader().getRequestID(), onsetEvent.requestID);
 
         /* An action is required and cannot be null */
-        assertNotNull(appcRequest.Action);
-        assertEquals(appcRequest.Action, "ModifyConfig");
+        assertNotNull(appcRequest.getAction());
+        assertEquals(appcRequest.getAction(), "ModifyConfig");
 
         /* A payload is required and cannot be null */
         assertNotNull(appcRequest.getPayload());
@@ -142,16 +142,16 @@ public class AppcServiceProviderTest {
         logger.debug("JSON Output: \n" + jsonRequest);
         
         /* The JSON string must contain the following fields */
-        assertTrue(jsonRequest.contains("CommonHeader"));
-        assertTrue(jsonRequest.contains("Action"));
+        assertTrue(jsonRequest.contains("commonHeader"));
+        assertTrue(jsonRequest.contains("action"));
         assertTrue(jsonRequest.contains("ModifyConfig"));
-        assertTrue(jsonRequest.contains("Payload"));
+        assertTrue(jsonRequest.contains("payload"));
         assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
         assertTrue(jsonRequest.contains("pg-streams"));
         
         Response appcResponse = new Response(appcRequest);
-        appcResponse.getStatus().Code = ResponseCode.SUCCESS.getValue();
-        appcResponse.getStatus().Description = "AppC success";
+        appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
+        appcResponse.getStatus().setDescription("AppC success");
         /* Print out request as json to make sure serialization works */
         String jsonResponse = Serialization.gsonPretty.toJson(appcResponse);
         logger.debug("JSON Output: \n" + jsonResponse);
