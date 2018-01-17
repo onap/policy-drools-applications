@@ -26,17 +26,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class PGStream implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5567635677419358210L;
-	
-	@SerializedName("id")
-	public String streamId;
-	@SerializedName("is-enabled")
-	public String isEnabled;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5567635677419358210L;
 
-	public PGStream() {
-	}
+    @SerializedName("id")
+    public String streamId;
+    @SerializedName("is-enabled")
+    public String isEnabled;
 
+    public PGStream() {
+        //required by author
+    }
 }

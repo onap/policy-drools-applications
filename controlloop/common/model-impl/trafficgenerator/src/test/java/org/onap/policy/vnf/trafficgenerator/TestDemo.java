@@ -30,24 +30,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TestDemo {
-	private static final Logger logger = LoggerFactory.getLogger(TestDemo.class);
-	@Test
-	public void test() {
-		PGRequest request = new PGRequest();
-		request.pgStreams = new PGStreams();
-		
-		PGStream pgStream;
-		for(int i = 0; i < 5; i++){
-			pgStream = new PGStream();
-			pgStream.streamId = "fw_udp"+(i+1);
-			pgStream.isEnabled = "true";
-			request.pgStreams.pgStream.add(pgStream);
-		}
-				
-		String body = Serialization.gsonPretty.toJson(request);
-		logger.debug(body);
-		
-		// fail("Not yet implemented");
-	}
+    private static final Logger logger = LoggerFactory.getLogger(TestDemo.class);
+
+    @Test
+    public void test() {
+        PGRequest request = new PGRequest();
+        request.pgStreams = new PGStreams();
+
+        PGStream pgStream;
+        for (int i = 0; i < 5; i++) {
+            pgStream = new PGStream();
+            pgStream.streamId = "fw_udp" + (i + 1);
+            pgStream.isEnabled = "true";
+            request.pgStreams.pgStream.add(pgStream);
+        }
+
+        String body = Serialization.gsonPretty.toJson(request);
+        logger.debug(body);
+
+        // fail("Not yet implemented");
+    }
 
 }
