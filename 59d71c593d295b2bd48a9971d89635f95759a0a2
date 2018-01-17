@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a8af8e93",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PGRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-17T19:14:19Z",
+      "side": 0,
+      "message": "I think we need the empty constructor - with a comment saying its empty. Sonar is painful that way.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "59d71c593d295b2bd48a9971d89635f95759a0a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_48960a4e",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PGStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-17T19:14:19Z",
+      "side": 0,
+      "message": "same",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 2
+      },
+      "revId": "59d71c593d295b2bd48a9971d89635f95759a0a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_68918651",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PGStreams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-17T19:14:19Z",
+      "side": 0,
+      "message": "same",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 2
+      },
+      "revId": "59d71c593d295b2bd48a9971d89635f95759a0a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_08a0029e",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/util/Serialization.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-17T19:14:19Z",
+      "side": 0,
+      "message": "same",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "59d71c593d295b2bd48a9971d89635f95759a0a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
