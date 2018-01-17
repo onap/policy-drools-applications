@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_0dc9f477",
+        "filename": "controlloop/common/actors/actor.appc/src/main/java/org/onap/policy/controlloop/actor/appc/APPCActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-17T13:40:37Z",
+      "side": 1,
+      "message": "oops???",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 1
+      },
+      "revId": "30ac5b3a87acace07123fd4ef2f0520ce8597e76",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
