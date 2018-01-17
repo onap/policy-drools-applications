@@ -140,7 +140,7 @@ public class AppcLcmTest {
         /*
          * The type of the DMAAP wrapper should be request
          */
-        assertEquals(dmaapRequest.getType(), "request");
+        assertEquals("request", dmaapRequest.getType());
         
         /*
          * The DMAAP wrapper must have a body as that is
@@ -160,7 +160,7 @@ public class AppcLcmTest {
          * set to restart
          */
         assertNotNull(appcRequest.getAction());
-        assertEquals(appcRequest.getAction(), "restart");
+        assertEquals("restart", appcRequest.getAction());
 
         /*
          * The action-identifiers should not be null
@@ -217,7 +217,7 @@ public class AppcLcmTest {
         /*
          * The type of the DMAAP wrapper should be response
          */
-        assertEquals(dmaapResponse.getType(), "response");
+        assertEquals("response", dmaapResponse.getType());
        
         /*
          * The DMAAP wrapper must have a body as that is
@@ -237,7 +237,7 @@ public class AppcLcmTest {
          * status code should be 400
          */
         assertNotNull(appcResponse.getStatus());
-        assertEquals(appcResponse.getStatus().getCode(), 400);
+        assertEquals(400, appcResponse.getStatus().getCode());
 
         logger.debug("Response as a Java Object: \n" + appcResponse.toString() + "\n\n");
     }
