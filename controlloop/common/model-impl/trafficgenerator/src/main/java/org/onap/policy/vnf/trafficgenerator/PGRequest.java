@@ -22,20 +22,16 @@ package org.onap.policy.vnf.trafficgenerator;
 
 import java.io.Serializable;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class PGRequest implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("pg-streams")
-	public PGStreams pgStreams;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	public PGRequest() {
-	}
+    @SerializedName("pg-streams")
+    public PGStreams pgStreams;
 
 }
