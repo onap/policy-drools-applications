@@ -22,6 +22,7 @@ package org.onap.policy.rest;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -39,89 +40,100 @@ import org.slf4j.LoggerFactory;
 
 public class RESTManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(RESTManager.class);
-	
-	public class Pair<A, B> {
-		public final A a;
-		public final B b;
-		
-		public Pair(A a, B b) {
-			this.a = a;
-			this.b = b;
-		}
-	}
+    private static final Logger logger = LoggerFactory.getLogger(RESTManager.class);
 
-	public Pair<Integer, String> post(String url, String username, String password, Map<String, String> headers, String contentType, String body) {
-		CredentialsProvider credentials = new BasicCredentialsProvider();
-		credentials.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
-		
-		logger.debug("HTTP REQUEST: {} -> {} {} -> {}", url, username, ((password!=null)?password.length():"-"), contentType);
-		if (headers != null) {
-			logger.debug("Headers: ");
-			headers.forEach((name, value) -> {
-			    logger.debug("{} -> {}", name, value);
-			});
-		}
-		logger.debug(body);
-		
-		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+    public class Pair<A, B> {
+        public final A a;
+        public final B b;
 
-			HttpPost post = new HttpPost(url);
-			if (headers != null)  {
-				for (String key : headers.keySet()) {
-					post.addHeader(key, headers.get(key));
-				}
-			}
-			post.addHeader("Content-Type", contentType);
-			
-			StringEntity input = new StringEntity(body);
-			input.setContentType(contentType);
-			post.setEntity(input);
-			
-			HttpResponse response = client.execute(post);
-			if (response != null) {
-				String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-				logger.debug("HTTP POST Response Status Code: {}", response.getStatusLine().getStatusCode());
-				logger.debug("HTTP POST Response Body:");
-				logger.debug(returnBody);
-				
-				return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
-			} else {
-				logger.error("Response from {} is null", url);
-				return null;
-			}
-		} catch (Exception e) {
-			logger.error("Failed to POST to {}",url,e);
-			return null;
-		} 
-	}
+        public Pair(A a, B b) {
+            this.a = a;
+            this.b = b;
+        }
+    }
 
-	public Pair<Integer, String> get(String url, String username, String password, Map<String, String> headers) {
-		
-		CredentialsProvider credentials = new BasicCredentialsProvider();
-		credentials.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
-		
-		try (CloseableHttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+    public Pair<Integer, String> post(String url, String username, String password,
+            Map<String, String> headers, String contentType, String body) {
+        CredentialsProvider credentials = new BasicCredentialsProvider();
+        credentials.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(username, password));
 
-			HttpGet get = new HttpGet(url);
-			if (headers != null) {
-				for (String key : headers.keySet()) {
-					get.addHeader(key, headers.get(key));
-				}
-			}
-			
-			HttpResponse response = client.execute(get);
-			
-			String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+        logger.debug("HTTP REQUEST: {} -> {} {} -> {}", url, username,
+                ((password != null) ? password.length() : "-"), contentType);
+        if (headers != null) {
+            logger.debug("Headers: ");
+            headers.forEach((name, value) -> logger.debug("{} -> {}", name, value));
+        }
+        logger.debug(body);
 
-			logger.debug("HTTP GET Response Status Code: {}", response.getStatusLine().getStatusCode());
-			logger.debug("HTTP GET Response Body:");
-			logger.debug(returnBody);
+        try (CloseableHttpClient client =
+                HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
 
-			return new Pair<Integer, String>(response.getStatusLine().getStatusCode(), returnBody);
-		} catch (IOException e) {
-			logger.error("Failed to GET to {}",url,e);
-			return null;
-		}
-	}
+            HttpPost post = new HttpPost(url);
+            if (headers != null) {
+                for (Entry<String, String> entry : headers.entrySet()) {
+                    post.addHeader(entry.getKey(), headers.get(entry.getKey()));
+                }
+            }
+            post.addHeader("Content-Type", contentType);
+
+            StringEntity input = new StringEntity(body);
+            input.setContentType(contentType);
+            post.setEntity(input);
+
+            HttpResponse response = client.execute(post);
+            if (response != null) {
+                String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+                logger.debug("HTTP POST Response Status Code: {}",
+                        response.getStatusLine().getStatusCode());
+                logger.debug("HTTP POST Response Body:");
+                logger.debug(returnBody);
+
+                return new Pair<>(response.getStatusLine().getStatusCode(),
+                        returnBody);
+            }
+            else {
+                logger.error("Response from {} is null", url);
+                return null;
+            }
+        }
+        catch (Exception e) {
+            logger.error("Failed to POST to {}", url, e);
+            return null;
+        }
+    }
+
+    public Pair<Integer, String> get(String url, String username, String password,
+            Map<String, String> headers) {
+
+        CredentialsProvider credentials = new BasicCredentialsProvider();
+        credentials.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(username, password));
+
+        try (CloseableHttpClient client =
+                HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+
+            HttpGet get = new HttpGet(url);
+            if (headers != null) {
+                for (Entry<String, String> entry : headers.entrySet()) {
+                    get.addHeader(entry.getKey(), headers.get(entry.getKey()));
+                }
+            }
+
+            HttpResponse response = client.execute(get);
+
+            String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+
+            logger.debug("HTTP GET Response Status Code: {}",
+                    response.getStatusLine().getStatusCode());
+            logger.debug("HTTP GET Response Body:");
+            logger.debug(returnBody);
+
+            return new Pair<>(response.getStatusLine().getStatusCode(), returnBody);
+        }
+        catch (IOException e) {
+            logger.error("Failed to GET to {}", url, e);
+            return null;
+        }
+    }
 }
