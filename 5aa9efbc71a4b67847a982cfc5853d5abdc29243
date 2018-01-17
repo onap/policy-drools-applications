@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_88e97282",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PGRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 3007
+      },
+      "writtenOn": "2018-01-17T21:03:38Z",
+      "side": 1,
+      "message": "added comment",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "5aa9efbc71a4b67847a982cfc5853d5abdc29243",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a8ec6e90",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PGStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3007
+      },
+      "writtenOn": "2018-01-17T21:03:38Z",
+      "side": 1,
+      "message": "added comment",
+      "revId": "5aa9efbc71a4b67847a982cfc5853d5abdc29243",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_48036a42",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/PGStreams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3007
+      },
+      "writtenOn": "2018-01-17T21:03:38Z",
+      "side": 1,
+      "message": "added comment",
+      "revId": "5aa9efbc71a4b67847a982cfc5853d5abdc29243",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_08fd623a",
+        "filename": "controlloop/common/model-impl/trafficgenerator/src/main/java/org/onap/policy/vnf/trafficgenerator/util/Serialization.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 3007
+      },
+      "writtenOn": "2018-01-17T21:03:38Z",
+      "side": 1,
+      "message": "removed commented code",
+      "revId": "5aa9efbc71a4b67847a982cfc5853d5abdc29243",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
