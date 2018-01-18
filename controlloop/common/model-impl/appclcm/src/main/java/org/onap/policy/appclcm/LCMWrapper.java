@@ -43,7 +43,7 @@ public class LCMWrapper implements Serializable {
     private String type;
 
     public LCMWrapper() {
-
+		// Create a default LCMWrapper instance
     }
     
     /**

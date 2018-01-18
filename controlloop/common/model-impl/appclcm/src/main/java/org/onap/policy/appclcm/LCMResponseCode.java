@@ -33,10 +33,10 @@ public class LCMResponseCode {
     
     private Integer code;
 
-    private LCMResponseCode(int code) {
-        this.code = code;
+    protected LCMResponseCode(final int code) {
+    		this.code = code;
     }
-
+    
     public int getCode() {
         return this.code;
     }

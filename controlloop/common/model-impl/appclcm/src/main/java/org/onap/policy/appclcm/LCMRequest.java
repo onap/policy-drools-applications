@@ -42,7 +42,7 @@ public class LCMRequest implements Serializable {
     private String payload;
 
     public LCMRequest() {
-
+    		// Create a default LCM request
     }
 
     public LCMCommonHeader getCommonHeader() {
