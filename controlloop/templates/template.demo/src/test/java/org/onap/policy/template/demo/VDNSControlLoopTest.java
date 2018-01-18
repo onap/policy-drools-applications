@@ -319,56 +319,56 @@ public class VDNSControlLoopTest implements TopicListener {
         assertNotNull(obj);
         if (obj instanceof VirtualControlLoopNotification) {
             VirtualControlLoopNotification notification = (VirtualControlLoopNotification) obj;
-            String policyName = notification.policyName;
+            String policyName = notification.getPolicyName();
             if (policyName.endsWith("EVENT")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.getNotification()));
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.startsWith("Sending guard query"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().startsWith("Sending guard query"));
             }
             else if (policyName.endsWith("GUARD.RESPONSE")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.toLowerCase().endsWith("permit"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
             }
             else if (policyName.endsWith("GUARD_PERMITTED")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.startsWith("actor=SO"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().startsWith("actor=SO"));
             }
             else if (policyName.endsWith("OPERATION.TIMEOUT")) {
-                logger.debug("Rule Fired: " + notification.policyName);
+                logger.debug("Rule Fired: " + notification.getPolicyName());
                 kieSession.halt();
                 logger.debug("The operation timed out");
                 fail("Operation Timed Out");
             }
             else if (policyName.endsWith("SO.RESPONSE")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.startsWith("actor=SO"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().startsWith("actor=SO"));
             }
             else if (policyName.endsWith("EVENT.MANAGER")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                if ("error".equals(notification.AAI.get("vserver.vserver-name"))) {
-                	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                if ("error".equals(notification.getAAI().get("vserver.vserver-name"))) {
+                	assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
                 }
-                else if ("getFail".equals(notification.AAI.get("vserver.vserver-name"))) {
-                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.notification);
+                else if ("getFail".equals(notification.getAAI().get("vserver.vserver-name"))) {
+                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
                 }
                 else {
-                	assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                	assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
                 }
                 kieSession.halt();
             }
             else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
-                logger.debug("Rule Fired: " + notification.policyName);
+                logger.debug("Rule Fired: " + notification.getPolicyName());
                 kieSession.halt();
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
@@ -390,26 +390,26 @@ public class VDNSControlLoopTest implements TopicListener {
      */
     protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
-        event.requestID = requestID;
-        event.target = "vserver.vserver-name";
-        event.closedLoopAlarmStart = Instant.now();
-        event.AAI = new HashMap<>();
-        event.AAI.put("vserver.vserver-name", "dfw1lb01lb01");
-        event.AAI.put("vserver.is-closed-loop-disabled", "false");
-        event.closedLoopEventStatus = status;
+        event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
+        event.setRequestID(requestID);
+        event.setTarget("vserver.vserver-name");
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setAAI(new HashMap<>());
+        event.getAAI().put("vserver.vserver-name", "dfw1lb01lb01");
+        event.getAAI().put("vserver.is-closed-loop-disabled", "false");
+        event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
     
     protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vserverName) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
-        event.requestID = requestID;
-        event.target = "vserver.vserver-name";
-        event.closedLoopAlarmStart = Instant.now();
-        event.AAI = new HashMap<>();
-        event.AAI.put("vserver.vserver-name", vserverName);
-        event.closedLoopEventStatus = status;
+        event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
+        event.setRequestID(requestID);
+        event.setTarget("vserver.vserver-name");
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setAAI(new HashMap<>());
+        event.getAAI().put("vserver.vserver-name", vserverName);
+        event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
     

@@ -24,8 +24,8 @@ import java.util.UUID;
 
 public class ControlLoopOperationWrapper {
 
-	public UUID requestID;
-	public ControlLoopOperation operation;
+	private UUID requestID;
+	private ControlLoopOperation operation;
 	
 	public ControlLoopOperationWrapper() {
 		
@@ -33,6 +33,22 @@ public class ControlLoopOperationWrapper {
 	
 	public ControlLoopOperationWrapper(UUID requestID, ControlLoopOperation operation) {
 		this.requestID = requestID;
+		this.operation = operation;
+	}
+
+	public UUID getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(UUID requestID) {
+		this.requestID = requestID;
+	}
+
+	public ControlLoopOperation getOperation() {
+		return operation;
+	}
+
+	public void setOperation(ControlLoopOperation operation) {
 		this.operation = operation;
 	}
 }

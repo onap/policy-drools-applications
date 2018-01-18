@@ -157,15 +157,15 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			this.onset = event;
 			this.numOnsets = 1;
 			//
-			notification.notification = ControlLoopNotificationType.ACTIVE;
+			notification.setNotification(ControlLoopNotificationType.ACTIVE);
 			//
 			// Set ourselves as active
 			//
 			this.isActivated = true;
 		} catch (ControlLoopException e) {
 			logger.error("{}: activate threw: ",this, e);
-			notification.notification = ControlLoopNotificationType.REJECTED;
-			notification.message = e.getMessage();
+			notification.setNotification(ControlLoopNotificationType.REJECTED);
+			notification.setMessage(e.getMessage());
 		}
 		return notification;
 	}
@@ -214,15 +214,15 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			//
 			//
 			//
-			notification.notification = ControlLoopNotificationType.ACTIVE;
+			notification.setNotification(ControlLoopNotificationType.ACTIVE);
 			//
 			// Set ourselves as active
 			//
 			this.isActivated = true;
 		} catch (ControlLoopException e) {
 			logger.error("{}: activate threw: ",this, e);
-			notification.notification = ControlLoopNotificationType.REJECTED;
-			notification.message = e.getMessage();
+			notification.setNotification(ControlLoopNotificationType.REJECTED);
+			notification.setMessage(e.getMessage());
 		}
 		return notification;
 	}
@@ -251,9 +251,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			//
 			// Yes we have timed out
 			//
-			notification.notification = ControlLoopNotificationType.FINAL_FAILURE;
-			notification.message = "Control Loop timed out";
-			notification.history.addAll(this.controlLoopHistory);
+			notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
+			notification.setMessage("Control Loop timed out");
+			notification.getHistory().addAll(this.controlLoopHistory);
 			return notification;			
 		}
 		//
@@ -269,18 +269,18 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	
 		switch (result) {
 		case FINAL_FAILURE_EXCEPTION:
-			notification.message = "Exception in processing closed loop";
+			notification.setMessage("Exception in processing closed loop");
 		case FINAL_FAILURE:
 		case FINAL_FAILURE_RETRIES:
 		case FINAL_FAILURE_TIMEOUT:
 		case FINAL_FAILURE_GUARD:
-			notification.notification = ControlLoopNotificationType.FINAL_FAILURE;
+			notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
 			break;
 		case FINAL_OPENLOOP:
-			notification.notification = ControlLoopNotificationType.FINAL_OPENLOOP;
+			notification.setNotification(ControlLoopNotificationType.FINAL_OPENLOOP);
 			break;
 		case FINAL_SUCCESS:
-			notification.notification = ControlLoopNotificationType.FINAL_SUCCESS;
+			notification.setNotification(ControlLoopNotificationType.FINAL_SUCCESS);
 			break;
 		default:
 			return null;
@@ -288,7 +288,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 		//
 		// Be sure to add all the history
 		//
-		notification.history.addAll(this.controlLoopHistory);
+		notification.getHistory().addAll(this.controlLoopHistory);
 		return notification;
 	}
 		
@@ -401,7 +401,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 			LockResult<GuardResult, TargetLock> lockResult = PolicyGuard.lockTarget(
 																		this.currentOperation.policy.getTarget().getType(), 
 																		this.currentOperation.getTargetEntity(),
-																		this.onset.requestID,
+																		this.onset.getRequestID(),
 																		this);
 			//
 			// Was it acquired?
@@ -440,7 +440,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	public NEW_EVENT_STATUS	onNewEvent(VirtualControlLoopEvent event) throws AAIException {
 		try {
 			this.checkEventSyntax(event);
-			if (event.closedLoopEventStatus == ControlLoopEventStatus.ONSET) {
+			if (event.getClosedLoopEventStatus() == ControlLoopEventStatus.ONSET) {
 				//
 				// Check if this is our original ONSET
 				//
@@ -460,7 +460,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 				//
 				this.numOnsets++;
 				return NEW_EVENT_STATUS.SUBSEQUENT_ONSET;
-			} else if (event.closedLoopEventStatus == ControlLoopEventStatus.ABATED) {
+			} else if (event.getClosedLoopEventStatus() == ControlLoopEventStatus.ABATED) {
 				//
 				// Have we already got an abatement?
 				//
@@ -499,9 +499,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	public VirtualControlLoopNotification setControlLoopTimedOut() {
 		this.controlLoopTimedOut = FinalResult.FINAL_FAILURE_TIMEOUT;
 		VirtualControlLoopNotification notification = new VirtualControlLoopNotification(this.onset);
-		notification.notification = ControlLoopNotificationType.FINAL_FAILURE;
-		notification.message = "Control Loop timed out";
-		notification.history.addAll(this.controlLoopHistory);
+		notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
+		notification.setMessage("Control Loop timed out");
+		notification.getHistory().addAll(this.controlLoopHistory);
 		return notification;			
 	}
 	
@@ -528,43 +528,43 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
-		if (event.closedLoopEventStatus == null || 
-				(event.closedLoopEventStatus != ControlLoopEventStatus.ONSET &&
-				event.closedLoopEventStatus != ControlLoopEventStatus.ABATED)) {
+		if (event.getClosedLoopEventStatus() == null || 
+				(event.getClosedLoopEventStatus() != ControlLoopEventStatus.ONSET &&
+				event.getClosedLoopEventStatus() != ControlLoopEventStatus.ABATED)) {
 			throw new ControlLoopException("Invalid value in closedLoopEventStatus");
 		}
-		if (event.closedLoopControlName == null || event.closedLoopControlName.length() < 1) {
+		if (event.getClosedLoopControlName() == null || event.getClosedLoopControlName().length() < 1) {
 			throw new ControlLoopException("No control loop name");
 		}
-		if (event.requestID == null) {
+		if (event.getRequestID() == null) {
 			throw new ControlLoopException("No request ID");
 		}
-		if (event.closedLoopEventStatus == ControlLoopEventStatus.ABATED) {
+		if (event.getClosedLoopEventStatus() == ControlLoopEventStatus.ABATED) {
 			return;
 		}
-		if (event.target == null || event.target.length() < 1) {
+		if (event.getTarget() == null || event.getTarget().length() < 1) {
 			throw new ControlLoopException("No target field");
-		} else if (! "VM_NAME".equalsIgnoreCase(event.target) &&
-				! "VNF_NAME".equalsIgnoreCase(event.target) &&
-				! "vserver.vserver-name".equalsIgnoreCase(event.target) &&
-				! "generic-vnf.vnf-id".equalsIgnoreCase(event.target) &&
-				! "generic-vnf.vnf-name".equalsIgnoreCase(event.target) ) {
+		} else if (! "VM_NAME".equalsIgnoreCase(event.getTarget()) &&
+				! "VNF_NAME".equalsIgnoreCase(event.getTarget()) &&
+				! "vserver.vserver-name".equalsIgnoreCase(event.getTarget()) &&
+				! "generic-vnf.vnf-id".equalsIgnoreCase(event.getTarget()) &&
+				! "generic-vnf.vnf-name".equalsIgnoreCase(event.getTarget()) ) {
 			throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
 		}
-		if (event.AAI == null) {
+		if (event.getAAI() == null) {
             throw new ControlLoopException("AAI is null");
         }
-        if (event.AAI.get("generic-vnf.vnf-id") == null && event.AAI.get("vserver.vserver-name") == null &&
-                event.AAI.get("generic-vnf.vnf-name") == null) {
+        if (event.getAAI().get("generic-vnf.vnf-id") == null && event.getAAI().get("vserver.vserver-name") == null &&
+                event.getAAI().get("generic-vnf.vnf-name") == null) {
             throw new ControlLoopException("generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
         }
 	}
 	
 	public void queryAai(VirtualControlLoopEvent event) throws AAIException {
-		if (event.AAI.get("vserver.is-closed-loop-disabled") == null && 
-		        event.AAI.get("generic-vnf.is-closed-loop-disabled") == null) {
+		if (event.getAAI().get("vserver.is-closed-loop-disabled") == null && 
+		        event.getAAI().get("generic-vnf.is-closed-loop-disabled") == null) {
 			try {
-				if (event.AAI.get("generic-vnf.vnf-id") != null) {
+				if (event.getAAI().get("generic-vnf.vnf-id") != null) {
 					vnfResponse = getAAIVnfInfo(event); 
 					if (vnfResponse == null) {
 						throw new AAIException("AAI Response is null (query by vnf-id)");
@@ -575,7 +575,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					if (isClosedLoopDisabled(vnfResponse) == true) {
 						throw new AAIException("is-closed-loop-disabled is set to true");	
 					}
-				} else if (event.AAI.get("generic-vnf.vnf-name") != null) {
+				} else if (event.getAAI().get("generic-vnf.vnf-name") != null) {
 					vnfResponse = getAAIVnfInfo(event); 
 					if (vnfResponse == null) {
 						throw new AAIException("AAI Response is null (query by vnf-name)");
@@ -586,7 +586,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 					if (isClosedLoopDisabled(vnfResponse) == true) {
 						throw new AAIException("is-closed-loop-disabled is set to true");	
 					}
-				} else if (event.AAI.get("vserver.vserver-name") != null) {
+				} else if (event.getAAI().get("vserver.vserver-name") != null) {
 					vserverResponse = getAAIVserverInfo(event); 
 					if (vserverResponse == null) {
 						throw new AAIException("AAI Response is null (query by vserver-name)");
@@ -632,25 +632,25 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
-		if ("true".equalsIgnoreCase(event.AAI.get("vserver.is-closed-loop-disabled")) || 
-		    "T".equalsIgnoreCase(event.AAI.get("vserver.is-closed-loop-disabled")) || 
-		    "yes".equalsIgnoreCase(event.AAI.get("vserver.is-closed-loop-disabled")) || 
-		    "Y".equalsIgnoreCase(event.AAI.get("vserver.is-closed-loop-disabled"))) { 
+		if ("true".equalsIgnoreCase(event.getAAI().get("vserver.is-closed-loop-disabled")) || 
+		    "T".equalsIgnoreCase(event.getAAI().get("vserver.is-closed-loop-disabled")) || 
+		    "yes".equalsIgnoreCase(event.getAAI().get("vserver.is-closed-loop-disabled")) || 
+		    "Y".equalsIgnoreCase(event.getAAI().get("vserver.is-closed-loop-disabled"))) { 
 			return true; 
 		}
-		else if ("true".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled")) || 
-	            "T".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled")) || 
-	            "yes".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled")) || 
-	            "Y".equalsIgnoreCase(event.AAI.get("generic-vnf.is-closed-loop-disabled"))) { 
+		else if ("true".equalsIgnoreCase(event.getAAI().get("generic-vnf.is-closed-loop-disabled")) || 
+	            "T".equalsIgnoreCase(event.getAAI().get("generic-vnf.is-closed-loop-disabled")) || 
+	            "yes".equalsIgnoreCase(event.getAAI().get("generic-vnf.is-closed-loop-disabled")) || 
+	            "Y".equalsIgnoreCase(event.getAAI().get("generic-vnf.is-closed-loop-disabled"))) { 
 	            return true; 
 	    }
 		return false;
 	}
 	
 	public static AAIGETVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-		UUID requestID = event.requestID;  
+		UUID requestID = event.getRequestID();  
 		AAIGETVserverResponse response = null; 
-		String vserverName = event.AAI.get("vserver.vserver-name"); 
+		String vserverName = event.getAAI().get("vserver.vserver-name"); 
 
 		try {
 	        if (vserverName != null) {
@@ -671,10 +671,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	}
 	
 	public static AAIGETVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-		UUID requestID = event.requestID;  
+		UUID requestID = event.getRequestID();  
 		AAIGETVnfResponse response = null; 
-		String vnfName = event.AAI.get("generic-vnf.vnf-name"); 
-		String vnfID   = event.AAI.get("generic-vnf.vnf-id"); 
+		String vnfName = event.getAAI().get("generic-vnf.vnf-name"); 
+		String vnfID   = event.getAAI().get("generic-vnf.vnf-id"); 
  
 		aaiHostURL  = PolicyEngine.manager.getEnvironmentProperty("aai.url"); 
         aaiUser     = PolicyEngine.manager.getEnvironmentProperty("aai.username"); 
@@ -715,7 +715,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 	@Override
 	public String toString() {
 		return "ControlLoopEventManager [closedLoopControlName=" + closedLoopControlName + ", requestID=" + requestID
-				+ ", processor=" + processor + ", onset=" + (onset != null ? onset.requestID : "null") + ", numOnsets=" + numOnsets + ", numAbatements="
+				+ ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestID() : "null") + ", numOnsets=" + numOnsets + ", numAbatements="
 				+ numAbatements + ", isActivated="
 				+ isActivated + ", currentOperation=" + currentOperation + ", targetLock=" + targetLock + "]";
 	}

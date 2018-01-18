@@ -30,20 +30,24 @@ public class ControlLoopOperation implements Serializable {
 	 */
 	private static final long serialVersionUID = 8662706581293017099L;
 	
-	public String	actor;
-	public String	operation;
-	public String	target;
-	public Instant	start = Instant.now();
-	public Instant	end;
-	public String	subRequestId;
-	public String	outcome;
-	public String	message;
+	private String	actor;
+	private String	operation;
+	private String	target;
+	private Instant	start = Instant.now();
+	private Instant	end;
+	private String	subRequestId;
+	private String	outcome;
+	private String	message;
 	
 	public ControlLoopOperation() {
 		
 	}
 	
 	public ControlLoopOperation(ControlLoopOperation op) {
+		if (op == null) {
+			return;
+		}
+		
 		this.actor = op.actor;
 		this.operation = op.operation;
 		this.target = op.target;
@@ -62,6 +66,70 @@ public class ControlLoopOperation implements Serializable {
 		return "actor="+actor+",operation="+operation+",target="+target+",start="+start+",end="+end+",subRequestId="+subRequestId+",outcome="+outcome+",message="+message;
 	}
 	
+	public String getActor() {
+		return actor;
+	}
+
+	public void setActor(String actor) {
+		this.actor = actor;
+	}
+
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public Instant getStart() {
+		return start;
+	}
+
+	public void setStart(Instant start) {
+		this.start = start;
+	}
+
+	public Instant getEnd() {
+		return end;
+	}
+
+	public void setEnd(Instant end) {
+		this.end = end;
+	}
+
+	public String getSubRequestId() {
+		return subRequestId;
+	}
+
+	public void setSubRequestId(String subRequestId) {
+		this.subRequestId = subRequestId;
+	}
+
+	public String getOutcome() {
+		return outcome;
+	}
+
+	public void setOutcome(String outcome) {
+		this.outcome = outcome;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Override
 	public String toString() {
 		return "ControlLoopOperation [actor=" + actor + ", operation=" + operation + ", target=" + target + ", start="

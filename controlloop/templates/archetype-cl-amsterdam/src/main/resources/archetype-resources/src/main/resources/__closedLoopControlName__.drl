@@ -147,7 +147,7 @@ rule "${policyName}.EVENT"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        not ( ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID ) )
+        not ( ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() ) )
     then
  
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -160,14 +160,14 @@ rule "${policyName}.EVENT"
         // we create the ControlLoopEventManager. The ControlLoopEventManager
         // will do extra syntax checking as well check if the closed loop is disabled.
         //
-        if ($event.requestID == null) {
+        if ($event.getRequestID() == null) {
             VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-            notification.notification = ControlLoopNotificationType.REJECTED;
-            notification.from = "policy";
-            notification.message = "Missing requestID";
-            notification.policyName = drools.getRule().getName();
-            notification.policyScope = "${policyScope}";
-            notification.policyVersion = "${policyVersion}";
+            notification.setNotification(ControlLoopNotificationType.REJECTED);
+            notification.setFrom("policy");
+            notification.setMessage("Missing requestID");
+            notification.setPolicyName(drools.getRule().getName());
+            notification.setPolicyScope("${policyScope}");
+            notification.setPolicyVersion("${policyVersion}");
             
             //
             // Let interested parties know
@@ -178,25 +178,25 @@ rule "${policyName}.EVENT"
             // Retract it from memory
             //
             retract($event);
-        } else if ($event.closedLoopEventStatus != ControlLoopEventStatus.ONSET) {
-        	throw new ControlLoopException($event.closedLoopEventStatus + " received with no prior onset");
+        } else if ($event.getClosedLoopEventStatus() != ControlLoopEventStatus.ONSET) {
+        	throw new ControlLoopException($event.getClosedLoopEventStatus() + " received with no prior onset");
         } else {
             //
             // Create an EventManager
             //
-            ControlLoopEventManager manager = new ControlLoopEventManager($params.getClosedLoopControlName(), $event.requestID);
+            ControlLoopEventManager manager = new ControlLoopEventManager($params.getClosedLoopControlName(), $event.getRequestID());
             //
             // Determine if EventManager can actively process the event (i.e. syntax, is_closed_loop_disabled checks etc.)
             //
             VirtualControlLoopNotification notification = manager.activate($params.getControlLoopYaml(), $event);
-            notification.from = "pdp-0001-controller=controlloop"; // Engine.getInstanceName()
-            notification.policyName = drools.getRule().getName();
-            notification.policyScope = "${policyScope}";
-            notification.policyVersion = "${policyVersion}";
+            notification.setFrom("pdp-0001-controller=controlloop"); // Engine.getInstanceName()
+            notification.setPolicyName(drools.getRule().getName());
+            notification.setPolicyScope("${policyScope}");
+            notification.setPolicyVersion("${policyVersion}");
             //
             // Are we actively pursuing this event?
             //
-            if (notification.notification == ControlLoopNotificationType.ACTIVE) {
+            if (notification.getNotification() == ControlLoopNotificationType.ACTIVE) {
                 //
                 // Insert Event Manager into memory, this will now kick off processing.
                 //
@@ -209,8 +209,8 @@ rule "${policyName}.EVENT"
                 // Setup the Overall Control Loop timer
                 //
                 ControlLoopTimer clTimer = new ControlLoopTimer();
-                clTimer.setClosedLoopControlName($event.closedLoopControlName);
-                clTimer.setRequestID($event.requestID.toString());
+                clTimer.setClosedLoopControlName($event.getClosedLoopControlName());
+                clTimer.setRequestID($event.getRequestID().toString());
                 clTimer.setDelay(manager.getControlLoopTimeout(1500) + "s");
                 //
                 // Insert it
@@ -237,11 +237,11 @@ rule "${policyName}.EVENT"
         logger.warn("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName(), e);
         
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-        notification.notification = ControlLoopNotificationType.REJECTED;
-        notification.message = "Exception occurred: " + e.getMessage();
-        notification.policyName = drools.getRule().getName();
-        notification.policyScope = "${policyScope}";
-        notification.policyVersion = "${policyVersion}";
+        notification.setNotification(ControlLoopNotificationType.REJECTED);
+        notification.setMessage("Exception occurred: " + e.getMessage());
+        notification.setPolicyName(drools.getRule().getName());
+        notification.setPolicyScope("${policyScope}");
+        notification.setPolicyVersion("${policyVersion}");
         //
         //
         //
@@ -263,8 +263,8 @@ rule "${policyName}.EVENT.MANAGER"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -310,7 +310,7 @@ rule "${policyName}.EVENT.MANAGER"
 	    }
 	    
 	    logger.debug("{}: {}: target={}", $params.getClosedLoopControlName(), 
-	                 drools.getRule().getName(), $event.target);
+	                 drools.getRule().getName(), $event.getTarget());
 	    //
 	    // Now start seeing if we need to process this event
 	    //
@@ -328,11 +328,11 @@ rule "${policyName}.EVENT.MANAGER"
             if ($manager.getNumAbatements() > 0) {
                 logger.info("{}: {}: abatement received for {}.  Closing the control loop", 
                             $params.getClosedLoopControlName(), drools.getRule().getName(), 
-                            $event.requestID);
-                notification.from = "policy";
-                notification.policyName = drools.getRule().getName();
-                notification.policyScope = "${policyScope}";
-                notification.policyVersion = "${policyVersion}";
+                            $event.getRequestID());
+                notification.setFrom("policy");
+                notification.setPolicyName(drools.getRule().getName());
+                notification.setPolicyScope("${policyScope}");
+                notification.setPolicyVersion("${policyVersion}");
                 //
                 // In this case, we are done
                 //
@@ -364,18 +364,18 @@ rule "${policyName}.EVENT.MANAGER"
                 //
                 // Check whether we need to wait for abatement
                 //
-                if ($manager.getProcessor().getControlLoop().getAbatement() == true && notification.notification == ControlLoopNotificationType.FINAL_SUCCESS) {
+                if ($manager.getProcessor().getControlLoop().getAbatement() == true && notification.getNotification() == ControlLoopNotificationType.FINAL_SUCCESS) {
                   logger.info("{}: {}: waiting for abatement ..", 
                               $params.getClosedLoopControlName(), drools.getRule().getName());
                 } else {
                   logger.info("{}: {}: no abatement expect for {}.  Closing the control loop", 
                               $params.getClosedLoopControlName(), drools.getRule().getName(), 
-                              $event.requestID);
+                              $event.getRequestID());
                   
-                  notification.from = "policy";
-                  notification.policyName = drools.getRule().getName();
-                  notification.policyScope = "${policyScope}";
-                  notification.policyVersion = "${policyVersion}";
+                  notification.setFrom("policy");
+                  notification.setPolicyName(drools.getRule().getName());
+                  notification.setPolicyScope("${policyScope}");
+                  notification.setPolicyVersion("${policyVersion}");
                   
                   //
                   // In this case, we are done
@@ -424,8 +424,8 @@ rule "${policyName}.EVENT.MANAGER"
               	// insert operation timeout object
               	//
               	OperationTimer opTimer = new OperationTimer();
-              	opTimer.setClosedLoopControlName($event.closedLoopControlName);
-              	opTimer.setRequestID($event.requestID.toString());
+              	opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
+              	opTimer.setRequestID($event.getRequestID().toString());
               	opTimer.setDelay(operation.getOperationTimeout().toString() + "s");
                 insert(opTimer);
               
@@ -436,14 +436,14 @@ rule "${policyName}.EVENT.MANAGER"
               }
               else {
               	logger.debug("The target resource {} is already processing",
-              				  $event.AAI.get($event.target));
+              				  $event.getAAI().get($event.getTarget()));
               	notification = new VirtualControlLoopNotification($event);
-		        notification.notification = ControlLoopNotificationType.REJECTED;
-		        notification.message = "The target " + $event.AAI.get($event.target) + " is already locked";
-		        notification.from = "policy";
-		        notification.policyName = drools.getRule().getName();
-		        notification.policyScope = "${policyScope}";
-		        notification.policyVersion = "${policyVersion}";
+		        notification.setNotification(ControlLoopNotificationType.REJECTED);
+		        notification.setMessage("The target " + $event.getAAI().get($event.getTarget()) + " is already locked");
+		        notification.setFrom("policy");
+		        notification.setPolicyName(drools.getRule().getName());
+		        notification.setPolicyScope("${policyScope}");
+		        notification.setPolicyVersion("${policyVersion}");
       
       			PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);			  
               	
@@ -468,12 +468,12 @@ rule "${policyName}.EVENT.MANAGER"
                   drools.getRule().getName(), e);
 
       	VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-	    notification.notification = ControlLoopNotificationType.FINAL_FAILURE;
-	    notification.message = e.getMessage();
-	    notification.from = "policy";
-	    notification.policyName = drools.getRule().getName();
-	    notification.policyScope = "${policyScope}";
-	    notification.policyVersion = "${policyVersion}";
+	    notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
+	    notification.setMessage(e.getMessage());
+	    notification.setFrom("policy");
+	    notification.setPolicyName(drools.getRule().getName());
+	    notification.setPolicyScope("${policyScope}");
+	    notification.setPolicyVersion("${policyVersion}");
   
   		PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);			  
           	
@@ -493,10 +493,10 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
-        $lock : TargetLock (requestID == $event.requestID)
-        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID(), "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
+        $lock : TargetLock (requestID == $event.getRequestID())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -531,13 +531,13 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
       // Tell interested parties we are performing this Operation
       //
       VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-      notification.notification = ControlLoopNotificationType.OPERATION;
-      notification.message = $operation.getOperationMessage();
-      notification.history = $operation.getHistory();
-      notification.from = "policy";
-      notification.policyName = drools.getRule().getName();
-      notification.policyScope = "${policyScope}";
-      notification.policyVersion = "${policyVersion}";
+      notification.setNotification(ControlLoopNotificationType.OPERATION);
+      notification.setMessage($operation.getOperationMessage());
+      notification.setHistory($operation.getHistory());
+      notification.setFrom("policy");
+      notification.setPolicyName(drools.getRule().getName());
+      notification.setPolicyScope("${policyScope}");
+      notification.setPolicyVersion("${policyVersion}");
       
       PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
       
@@ -558,7 +558,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
               
               if(request instanceof SORequest) {
                   // Call SO. The response will be inserted into memory once it's received 
-                  SOActorServiceProvider.sendRequest($event.requestID.toString(), drools.getWorkingMemory(), request);                        
+                  SOActorServiceProvider.sendRequest($event.getRequestID().toString(), drools.getWorkingMemory(), request);                        
               }
               break;
           case "VFC":
@@ -601,9 +601,9 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID, getGuardApprovalStatus() == "NONE" )
-        $lock : TargetLock (requestID == $event.requestID)
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID(), getGuardApprovalStatus() == "NONE" )
+        $lock : TargetLock (requestID == $event.getRequestID())
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -615,13 +615,13 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     // Sending notification that we are about to query Guard ("DB write - start operation")
     //
     VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-    notification.notification = ControlLoopNotificationType.OPERATION;
-    notification.message = "Sending guard query for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe();
-    notification.history = $operation.getHistory();
-    notification.from = "policy";
-    notification.policyName = drools.getRule().getName();
-    notification.policyScope = "${policyScope}";
-    notification.policyVersion = "${policyVersion}";
+    notification.setNotification(ControlLoopNotificationType.OPERATION);
+    notification.setMessage("Sending guard query for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe());
+    notification.setHistory($operation.getHistory());
+    notification.setFrom("policy");
+    notification.setPolicyName(drools.getRule().getName());
+    notification.setPolicyScope("${policyScope}");
+    notification.setPolicyVersion("${policyVersion}");
     
     PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
         
@@ -641,16 +641,16 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     
         Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
                                                         drools.getWorkingMemory(),
-                                                        $event.closedLoopControlName,
+                                                        $event.getClosedLoopControlName(),
                                                         $operation.policy.getActor().toString(),
                                                         $operation.policy.getRecipe(),
                                                         $operation.getTargetEntity(),
-                                                        $event.requestID.toString()
+                                                        $event.getRequestID().toString()
                                                         ));
         t.start();
     }
     else{
-        insert(new PolicyGuardResponse("Permit", $event.requestID, $operation.policy.getRecipe()));
+        insert(new PolicyGuardResponse("Permit", $event.getRequestID(), $operation.policy.getRecipe()));
     }
 
 end
@@ -663,11 +663,11 @@ rule "${policyName}.GUARD.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID ) 
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
-        $lock : TargetLock (requestID == $event.requestID)
-        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
-        $guardResponse : PolicyGuardResponse(requestID == $event.requestID, $operation.policy.recipe == operation)
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() ) 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() )
+        $lock : TargetLock (requestID == $event.getRequestID())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
+        $guardResponse : PolicyGuardResponse(requestID == $event.getRequestID(), $operation.policy.recipe == operation)
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -685,13 +685,13 @@ rule "${policyName}.GUARD.RESPONSE"
     // This notification has Guard result in "message". ("DB write - end operation in case of Guard Deny")
     //
     VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-    notification.notification = ControlLoopNotificationType.OPERATION;
-    notification.message = "Guard result for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe() + " is " + $guardResponse.result;
-    notification.history = $operation.getHistory();
-    notification.from = "policy";
-    notification.policyName = drools.getRule().getName();
-    notification.policyScope = "${policyScope}";
-    notification.policyVersion = "${policyVersion}";
+    notification.setNotification(ControlLoopNotificationType.OPERATION);
+    notification.setMessage("Guard result for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe() + " is " + $guardResponse.result);
+    notification.setHistory($operation.getHistory());
+    notification.setFrom("policy");
+    notification.setPolicyName(drools.getRule().getName());
+    notification.setPolicyScope("${policyScope}");
+    notification.setPolicyVersion("${policyVersion}");
     
     PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
     
@@ -717,7 +717,7 @@ end
 * This rule responds to APPC Response Events
 *
 * I would have like to be consistent and write the Response like this:
-* $response : Response( CommonHeader.RequestID == $onset.requestID )
+* $response : Response( CommonHeader.RequestID == $onset.getRequestID() )
 *
 * However, no compile error was given. But a runtime error was given. I think
 * because drools is confused between the classname CommonHeader vs the property CommonHeader.
@@ -727,11 +727,11 @@ rule "${policyName}.APPC.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
-        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
-        $lock : TargetLock (requestID == $event.requestID)
-        $response : Response( getCommonHeader().RequestID == $event.requestID )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() )
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
+        $lock : TargetLock (requestID == $event.getRequestID())
+        $response : Response( getCommonHeader().RequestID == $event.getRequestID() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -751,20 +751,20 @@ rule "${policyName}.APPC.RESPONSE"
         // This Operation has completed, construct a notification showing our results. (DB write - end operation)
         //
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-        notification.from = "policy";
-        notification.policyName = drools.getRule().getName();
-        notification.policyScope = "${policyScope}";
-        notification.policyVersion = "${policyVersion}";
-        notification.message = $operation.getOperationHistory();
-        notification.history = $operation.getHistory();
+        notification.setFrom("policy");
+        notification.setPolicyName(drools.getRule().getName());
+        notification.setPolicyScope("${policyScope}");
+        notification.setPolicyVersion("${policyVersion}");
+        notification.setMessage($operation.getOperationHistory());
+        notification.setHistory($operation.getHistory());
         if (policyResult.equals(PolicyResult.SUCCESS)) {
-            notification.notification = ControlLoopNotificationType.OPERATION_SUCCESS;
+            notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
             //
             // Let interested parties know
             //
             PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
         } else {
-            notification.notification = ControlLoopNotificationType.OPERATION_FAILURE;
+            notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
             //
             // Let interested parties know
             //
@@ -841,11 +841,11 @@ rule "${policyName}.APPC.LCM.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
-        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
-        $lock : TargetLock (requestID == $event.requestID)
-        $response : LCMResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.requestID )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() )
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
+        $lock : TargetLock (requestID == $event.getRequestID())
+        $response : LCMResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestID() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -867,16 +867,16 @@ rule "${policyName}.APPC.LCM.RESPONSE"
       // This Operation has completed, construct a notification showing our results. (DB write - end operation)
       //
       VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-      notification.from = "policy";
-      notification.policyName = drools.getRule().getName();
-      notification.policyScope = "${policyScope}";
-      notification.policyVersion = "${policyVersion}";
-      notification.message = $operation.getOperationHistory();
-      notification.history = $operation.getHistory();
+      notification.setFrom("policy");
+      notification.setPolicyName(drools.getRule().getName());
+      notification.setPolicyScope("${policyScope}");
+      notification.setPolicyVersion("${policyVersion}");
+      notification.setMessage($operation.getOperationHistory());
+      notification.setHistory($operation.getHistory());
       if (policyResult.equals(PolicyResult.SUCCESS)) {
-          notification.notification = ControlLoopNotificationType.OPERATION_SUCCESS;
+          notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
       } else {
-          notification.notification = ControlLoopNotificationType.OPERATION_FAILURE;
+          notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
       }
       PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
       //
@@ -946,11 +946,11 @@ rule "${policyName}.SO.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
-        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
-        $lock : TargetLock (requestID == $event.requestID)
-        $response : SOResponseWrapper(requestID.toString() == $event.requestID.toString() )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() )
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
+        $lock : TargetLock (requestID == $event.getRequestID())
+        $response : SOResponseWrapper(requestID.toString() == $event.getRequestID().toString() )
     then
         		
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -971,16 +971,16 @@ rule "${policyName}.SO.RESPONSE"
         // This Operation has completed, construct a notification showing our results
         //
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-        notification.from = "policy";
-        notification.policyName = drools.getRule().getName();
-        notification.policyScope = "${policyScope}";
-        notification.policyVersion = "${policyVersion}";
-        notification.message = $operation.getOperationHistory();
-        notification.history = $operation.getHistory();
+        notification.setFrom("policy");
+        notification.setPolicyName(drools.getRule().getName());
+        notification.setPolicyScope("${policyScope}");
+        notification.setPolicyVersion("${policyVersion}");
+        notification.setMessage($operation.getOperationHistory());
+        notification.setHistory($operation.getHistory());
         if (policyResult.equals(PolicyResult.SUCCESS)) {
-            notification.notification = ControlLoopNotificationType.OPERATION_SUCCESS;
+            notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
         } else {
-            notification.notification = ControlLoopNotificationType.OPERATION_FAILURE;
+            notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
 
         }
         PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
@@ -1030,11 +1030,11 @@ rule "${policyName}.VFC.RESPONSE"
 	when
 		$params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
 		$event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-		$manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName )
-		$operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
-		$opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() )
-        $lock : TargetLock (requestID == $event.requestID)
-		$response : VFCResponse( requestId.toString() == $event.requestID.toString() )	
+		$manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName() )
+		$operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() )
+		$opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() )
+        $lock : TargetLock (requestID == $event.getRequestID())
+		$response : VFCResponse( requestId.toString() == $event.getRequestID().toString() )	
 	then
 		Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     	logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
@@ -1050,12 +1050,12 @@ rule "${policyName}.VFC.RESPONSE"
 			// This Operation has completed, construct a notification showing our results
 			//
 			VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-			notification.from = "policy";
-			notification.policyName = drools.getRule().getName();
-			notification.policyScope = "${policyScope}";
-			notification.policyVersion = "${policyVersion}";
-			notification.message = $operation.getOperationHistory();
-			notification.history = $operation.getHistory();
+			notification.setFrom("policy");
+			notification.setPolicyName(drools.getRule().getName());
+			notification.setPolicyScope("${policyScope}");
+			notification.setPolicyVersion("${policyVersion}");
+			notification.setMessage($operation.getOperationHistory());
+			notification.setHistory($operation.getHistory());
 			//
 			// Ensure the operation is complete
 			//
@@ -1103,10 +1103,10 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID )
-        $opTimer : OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString(), $to : getDelay() )
-        $lock : TargetLock (requestID == $event.requestID)
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() )
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString(), $to : getDelay() )
+        $lock : TargetLock (requestID == $event.getRequestID())
     then
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1123,13 +1123,13 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
     // Create a notification for it ("DB Write - end operation")
     //
     VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-    notification.from = "policy";
-    notification.policyName = drools.getRule().getName();
-    notification.policyScope = "${policyScope}";
-    notification.policyVersion = "${policyVersion}";
-    notification.notification = ControlLoopNotificationType.OPERATION_FAILURE;
-    notification.message = $operation.getOperationHistory();
-    notification.history = $operation.getHistory();
+    notification.setFrom("policy");
+    notification.setPolicyName(drools.getRule().getName());
+    notification.setPolicyScope("${policyScope}");
+    notification.setPolicyVersion("${policyVersion}");
+    notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
+    notification.setMessage($operation.getOperationHistory());
+    notification.setHistory($operation.getHistory());
     //
     // Let interested parties know
     //
@@ -1168,14 +1168,14 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID )
-        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString(), $to : getDelay() )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID() )
+        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString(), $to : getDelay() )
         $operations : LinkedList()
-                        from collect( ControlLoopOperationManager( onset.closedLoopControlName == $event.closedLoopControlName, onset.requestID == $event.requestID ) )
+                        from collect( ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestID() == $event.getRequestID() ) )
         $opTimers : LinkedList()
-                        from collect( OperationTimer( closedLoopControlName == $event.closedLoopControlName, requestID == $event.requestID.toString() ) )
+                        from collect( OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestID().toString() ) )
         $locks : LinkedList()
-                        from collect( TargetLock (requestID == $event.requestID) )
+                        from collect( TargetLock (requestID == $event.getRequestID()) )
     then
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1195,10 +1195,10 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
     //
     VirtualControlLoopNotification notification = $manager.setControlLoopTimedOut();
     if (notification != null) {
-        notification.from = "policy";
-        notification.policyName = drools.getRule().getName();
-        notification.policyScope = "${policyScope}";
-        notification.policyVersion = "${policyVersion}";
+        notification.setFrom("policy");
+        notification.setPolicyName(drools.getRule().getName());
+        notification.setPolicyScope("${policyScope}");
+        notification.setPolicyVersion("${policyVersion}");
         //
         // Let interested parties know
         //

@@ -270,64 +270,64 @@ public class ControlLoopFailureTest implements TopicListener {
         assertNotNull(obj);
         if (obj instanceof VirtualControlLoopNotification) {
             VirtualControlLoopNotification notification = (VirtualControlLoopNotification) obj;
-            String policyName = notification.policyName;
+            String policyName = notification.getPolicyName();
             if (policyName.endsWith("EVENT")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.notification));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.getNotification()));
             }
             else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.startsWith("Sending guard query"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().startsWith("Sending guard query"));
             }
             else if (policyName.endsWith("GUARD.RESPONSE")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.toLowerCase().endsWith("permit"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
             }
             else if (policyName.endsWith("GUARD_PERMITTED")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.startsWith("actor=APPC"));
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().startsWith("actor=APPC"));
             }
             else if (policyName.endsWith("OPERATION.TIMEOUT")) {
-                logger.debug("Rule Fired: " + notification.policyName);
+                logger.debug("Rule Fired: " + notification.getPolicyName());
                 kieSession.halt();
                 logger.debug("The operation timed out");
                 fail("Operation Timed Out");
             }
             else if (policyName.endsWith("APPC.LCM.RESPONSE")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.notification));
-                assertNotNull(notification.message);
-                assertTrue(notification.message.startsWith("actor=APPC"));
-                if (requestId.equals(notification.requestID)) {
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().startsWith("actor=APPC"));
+                if (requestId.equals(notification.getRequestID())) {
                     sendEvent(pair.a, requestId, ControlLoopEventStatus.ABATED, "vnf01");
                 }
-                else if (requestId2.equals(notification.requestID)) {
+                else if (requestId2.equals(notification.getRequestID())) {
                     sendEvent(pair.a, requestId2, ControlLoopEventStatus.ABATED, "vnf02");
                 }
             }
             else if (policyName.endsWith("EVENT.MANAGER")) {
-                logger.debug("Rule Fired: " + notification.policyName);
-                if (requestId3.equals(notification.requestID)) {
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                if (requestId3.equals(notification.getRequestID())) {
                     /*
                      * The event with the duplicate target should be rejected
                      */
-                    assertTrue(ControlLoopNotificationType.REJECTED.equals(notification.notification));
+                    assertTrue(ControlLoopNotificationType.REJECTED.equals(notification.getNotification()));
                 }
                 else {
-                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.notification));
+                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
                 }
                 if (++eventCount == 3) {
                     kieSession.halt();
                 }
             }
             else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
-                logger.debug("Rule Fired: " + notification.policyName);
+                logger.debug("Rule Fired: " + notification.getPolicyName());
                 kieSession.halt();
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
@@ -378,13 +378,13 @@ public class ControlLoopFailureTest implements TopicListener {
     protected void sendEvent(ControlLoopPolicy policy, UUID requestID, 
                             ControlLoopEventStatus status, String target) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.closedLoopControlName = policy.getControlLoop().getControlLoopName();
-        event.requestID = requestID;
-        event.target = "generic-vnf.vnf-id";
-        event.closedLoopAlarmStart = Instant.now();
-        event.AAI = new HashMap<>();
-        event.AAI.put("generic-vnf.vnf-id", target);
-        event.closedLoopEventStatus = status;
+        event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
+        event.setRequestID(requestID);
+        event.setTarget("generic-vnf.vnf-id");
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setAAI(new HashMap<>());
+        event.getAAI().put("generic-vnf.vnf-id", target);
+        event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
     
