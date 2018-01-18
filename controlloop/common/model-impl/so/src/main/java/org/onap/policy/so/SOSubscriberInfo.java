@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -22,26 +22,47 @@ package org.onap.policy.so;
 
 import java.io.Serializable;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class SOSubscriberInfo implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("globalSubscriberId")
-	public String globalSubscriberId;
-	
-	@SerializedName("subscriberCommonSiteId")
-	public String subscriberCommonSiteId;
-	
-	@SerializedName("subscriberName")
-	public String subscriberName;
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	public SOSubscriberInfo() {
-	}
+    @SerializedName("globalSubscriberId")
+    private String globalSubscriberId;
+
+    @SerializedName("subscriberCommonSiteId")
+    private String subscriberCommonSiteId;
+
+    @SerializedName("subscriberName")
+    private String subscriberName;
+
+    public SOSubscriberInfo() {
+        //required by author
+    }
+
+    public String getGlobalSubscriberId() {
+        return globalSubscriberId;
+    }
+
+    public String getSubscriberCommonSiteId() {
+        return subscriberCommonSiteId;
+    }
+
+    public String getSubscriberName() {
+        return subscriberName;
+    }
+
+    public void setGlobalSubscriberId(String globalSubscriberId) {
+        this.globalSubscriberId = globalSubscriberId;
+    }
+
+    public void setSubscriberCommonSiteId(String subscriberCommonSiteId) {
+        this.subscriberCommonSiteId = subscriberCommonSiteId;
+    }
+
+    public void setSubscriberName(String subscriberName) {
+        this.subscriberName = subscriberName;
+    }
 
 }

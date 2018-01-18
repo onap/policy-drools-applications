@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * 
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,38 +20,29 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import com.google.gson.annotations.SerializedName;
+import org.junit.Test;
 
-public class SOPolicyException implements Serializable {
+public class TestSoCloudConfiguration {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    @Test
+    public void testConstructor() {
+        SOCloudConfiguration obj = new SOCloudConfiguration();
 
-    @SerializedName("messageId")
-    private String messageId;
-
-    @SerializedName("text")
-    private String text;
-
-    public SOPolicyException() {
-      //required by author
+        assertTrue(obj.getLcpCloudRegionId() == null);
+        assertTrue(obj.getTenantId() == null);
     }
 
-    public String getMessageId() {
-        return messageId;
-    }
+    @Test
+    public void testSetGet() {
+        SOCloudConfiguration obj = new SOCloudConfiguration();
 
-    public String getText() {
-        return text;
-    }
+        obj.setLcpCloudRegionId("lcpCloudRegionId");
+        assertEquals("lcpCloudRegionId", obj.getLcpCloudRegionId());
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+        obj.setTenantId("tenantId");
+        assertEquals("tenantId", obj.getTenantId());
     }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }

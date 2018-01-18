@@ -20,51 +20,34 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import com.google.gson.annotations.SerializedName;
+import org.junit.Test;
 
-public class SORelatedInstance implements Serializable {
+public class TestSoRelatedInstance {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    @Test
+    public void testConstructor() {
+        SORelatedInstance obj = new SORelatedInstance();
 
-    @SerializedName("instanceId")
-    private String instanceId;
-
-    @SerializedName("instanceName")
-    private String instanceName;
-
-    @SerializedName("modelInfo")
-    private SOModelInfo modelInfo;
-
-    public SORelatedInstance() {
-      //required by author
+        assertTrue(obj.getInstanceId() == null);
+        assertTrue(obj.getInstanceName() == null);
+        assertTrue(obj.getModelInfo() == null);
     }
 
-    public String getInstanceId() {
-        return instanceId;
+    @Test
+    public void testSetGet() {
+        SORelatedInstance obj = new SORelatedInstance();
+
+        obj.setInstanceId("instanceId");
+        assertEquals("instanceId", obj.getInstanceId());
+
+        obj.setInstanceName("instanceName");
+        assertEquals("instanceName", obj.getInstanceName());
+
+        SOModelInfo modelInfo = new SOModelInfo();
+        obj.setModelInfo(modelInfo);
+        assertEquals(modelInfo, obj.getModelInfo());
     }
-
-
-    public String getInstanceName() {
-        return instanceName;
-    }
-
-    public SOModelInfo getModelInfo() {
-        return modelInfo;
-    }
-
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
-
-    public void setInstanceName(String instanceName) {
-        this.instanceName = instanceName;
-    }
-
-
-    public void setModelInfo(SOModelInfo modelInfo) {
-        this.modelInfo = modelInfo;
-    }
-
 }
