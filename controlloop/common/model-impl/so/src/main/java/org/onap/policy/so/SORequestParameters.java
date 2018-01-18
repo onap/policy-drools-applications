@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -25,23 +25,36 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class SORequestParameters implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("subscriptionServiceType")
-	public String subscriptionServiceType;
-	
-	@SerializedName("userParams")
-	public List<Map<String, String>> userParams = new LinkedList<Map<String, String>>();
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	public SORequestParameters() {
-	}
+    @SerializedName("subscriptionServiceType")
+    private String subscriptionServiceType;
+
+    @SerializedName("userParams")
+    private List<Map<String, String>> userParams = new LinkedList<>();
+
+    public SORequestParameters() {
+        // required by author
+    }
+
+    public String getSubscriptionServiceType() {
+        return subscriptionServiceType;
+    }
+
+    public List<Map<String, String>> getUserParams() {
+        return userParams;
+    }
+
+    public void setSubscriptionServiceType(String subscriptionServiceType) {
+        this.subscriptionServiceType = subscriptionServiceType;
+    }
+
+    public void setUserParams(List<Map<String, String>> userParams) {
+        this.userParams = userParams;
+    }
 
 }

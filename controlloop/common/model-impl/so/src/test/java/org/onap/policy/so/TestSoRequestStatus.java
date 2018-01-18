@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * 
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,47 +20,38 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import com.google.gson.annotations.SerializedName;
+import org.junit.Test;
 
-public class SOServiceException implements Serializable {
+public class TestSoRequestStatus {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    @Test
+    public void testConstructor() {
+        SORequestStatus obj = new SORequestStatus();
 
-    @SerializedName("messageId")
-    private String messageId;
-
-    @SerializedName("text")
-    private String text;
-
-    @SerializedName("variables")
-    private List<String> variables = new LinkedList<>();
-
-    public SOServiceException() {
-        // required by author
+        assertEquals(0, obj.getPercentProgress());
+        assertTrue(obj.getRequestState() == null);
+        assertTrue(obj.getTimestamp() == null);
+        assertFalse(obj.isWasRolledBack());
     }
 
-    public String getMessageId() {
-        return messageId;
-    }
+    @Test
+    public void testSetGet() {
+        SORequestStatus obj = new SORequestStatus();
 
-    public String getText() {
-        return text;
-    }
+        obj.setPercentProgress(2008);
+        assertEquals(2008, obj.getPercentProgress());
 
-    public List<String> getVariables() {
-        return variables;
-    }
+        obj.setRequestState("requestState");
+        assertEquals("requestState", obj.getRequestState());
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
-    }
+        obj.setTimestamp("timestamp");
+        assertEquals("timestamp", obj.getTimestamp());
 
-    public void setText(String text) {
-        this.text = text;
+        obj.setWasRolledBack(true);
+        assertTrue(obj.isWasRolledBack());
     }
-
 }

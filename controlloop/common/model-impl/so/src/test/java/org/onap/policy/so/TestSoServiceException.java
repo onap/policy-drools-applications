@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * 
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,38 +20,31 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import com.google.gson.annotations.SerializedName;
+import org.junit.Test;
 
-public class SOPolicyException implements Serializable {
+public class TestSoServiceException {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    @Test
+    public void testConstructor() {
+        SOServiceException obj = new SOServiceException();
 
-    @SerializedName("messageId")
-    private String messageId;
-
-    @SerializedName("text")
-    private String text;
-
-    public SOPolicyException() {
-      //required by author
+        assertTrue(obj.getMessageId() == null);
+        assertTrue(obj.getText() == null);
+        assertTrue(obj.getVariables() != null);
+        assertEquals(0, obj.getVariables().size());
     }
 
-    public String getMessageId() {
-        return messageId;
-    }
+    @Test
+    public void testSetGet() {
+        SOServiceException obj = new SOServiceException();
 
-    public String getText() {
-        return text;
-    }
+        obj.setMessageId("messageId");
+        assertEquals("messageId", obj.getMessageId());
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+        obj.setText("text");
+        assertEquals("text", obj.getText());
     }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }

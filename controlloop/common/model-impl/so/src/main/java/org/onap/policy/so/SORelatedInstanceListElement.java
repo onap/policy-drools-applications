@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -22,21 +22,25 @@ package org.onap.policy.so;
 
 import java.io.Serializable;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class SORelatedInstanceListElement implements Serializable {
+ 
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("relatedInstance")
-	public SORelatedInstance relatedInstance;
-	
-	
-	public SORelatedInstanceListElement() {
-	}
+    @SerializedName("relatedInstance")
+    private SORelatedInstance relatedInstance;
+
+    public SORelatedInstanceListElement() {
+      //required by author
+    }
+
+    public SORelatedInstance getRelatedInstance() {
+        return relatedInstance;
+    }
+
+    public void setRelatedInstance(SORelatedInstance relatedInstance) {
+        this.relatedInstance = relatedInstance;
+    }
 
 }
