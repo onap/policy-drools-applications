@@ -35,17 +35,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-
 public final class Serialization {
+	private Serialization() {
+	}
 
-	public static class notificationTypeAdapter implements JsonSerializer<ControlLoopNotificationType>, JsonDeserializer<ControlLoopNotificationType> {
-
-
+	public static class NotificationTypeAdapter implements JsonSerializer<ControlLoopNotificationType>, JsonDeserializer<ControlLoopNotificationType> {
 		@Override
 		public JsonElement serialize(ControlLoopNotificationType src, Type typeOfSrc,
 				JsonSerializationContext context) {
@@ -54,14 +52,12 @@ public final class Serialization {
 
 		@Override
 		public ControlLoopNotificationType deserialize(JsonElement json, Type typeOfT,
-				JsonDeserializationContext context) throws JsonParseException {
+				JsonDeserializationContext context) {
 			return ControlLoopNotificationType.toType(json.getAsString());
 		}
-		
 	}
-	
-	public static class targetTypeAdapter implements JsonSerializer<ControlLoopTargetType>, JsonDeserializer<ControlLoopTargetType> {
 
+	public static class TargetTypeAdapter implements JsonSerializer<ControlLoopTargetType>, JsonDeserializer<ControlLoopTargetType> {
 		@Override
 		public JsonElement serialize(ControlLoopTargetType src, Type typeOfSrc,
 				JsonSerializationContext context) {
@@ -70,19 +66,17 @@ public final class Serialization {
 
 		@Override
 		public ControlLoopTargetType deserialize(JsonElement json, Type typeOfT,
-				JsonDeserializationContext context) throws JsonParseException {
+				JsonDeserializationContext context) {
 			return ControlLoopTargetType.toType(json.getAsString());
 		}
-		
 	}
-	
-	public static class gsonUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-		private static final Logger logger = LoggerFactory.getLogger(gsonUTCAdapter.class);
+
+	public static class GSONUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
+		private static final Logger logger = LoggerFactory.getLogger(GSONUTCAdapter.class);
 		public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
-                @Override
-		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context)
-				throws JsonParseException {
+		@Override
+		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
 			try {
 				return ZonedDateTime.parse(element.getAsString(), format);
 			} catch (Exception e) {
@@ -91,17 +85,16 @@ public final class Serialization {
 			return null;
 		}
 
-                @Override
+		@Override
 		public JsonElement serialize(ZonedDateTime datetime, Type type, JsonSerializationContext context) {
 			return new JsonPrimitive(datetime.format(format));
 		}	
 	}
-	
-	public static class gsonInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+
+	public static class GSONInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
 		@Override
-		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-				throws JsonParseException {
+		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
 			return Instant.ofEpochMilli(json.getAsLong());
 		}
 
@@ -109,30 +102,30 @@ public final class Serialization {
 		public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
 			return new JsonPrimitive(src.toEpochMilli());
 		}
-		
+
 	}
-	
-	final static public Gson gson = new GsonBuilder().disableHtmlEscaping()
-			.registerTypeAdapter(ZonedDateTime.class, new gsonUTCAdapter())
-			.registerTypeAdapter(Instant.class, new gsonInstantAdapter())
-			.registerTypeAdapter(ControlLoopNotificationType.class, new notificationTypeAdapter())
-			.registerTypeAdapter(ControlLoopTargetType.class, new targetTypeAdapter())
+
+	public static final Gson gson = new GsonBuilder().disableHtmlEscaping()
+			.registerTypeAdapter(ZonedDateTime.class, new GSONUTCAdapter())
+			.registerTypeAdapter(Instant.class, new GSONInstantAdapter())
+			.registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
+			.registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter())
 			.create();
 
-	
-	final static public Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
+
+	public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
 			.setPrettyPrinting()
-			.registerTypeAdapter(ZonedDateTime.class, new gsonUTCAdapter())
-			.registerTypeAdapter(Instant.class, new gsonInstantAdapter())
-			.registerTypeAdapter(ControlLoopNotificationType.class, new notificationTypeAdapter())
-			.registerTypeAdapter(ControlLoopTargetType.class, new targetTypeAdapter())
+			.registerTypeAdapter(ZonedDateTime.class, new GSONUTCAdapter())
+			.registerTypeAdapter(Instant.class, new GSONInstantAdapter())
+			.registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
+			.registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter())
 			.create();
-	
-	final static public Gson gsonJunit = new GsonBuilder().disableHtmlEscaping()
+
+	public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping()
 			.setPrettyPrinting()
-			.registerTypeAdapter(ZonedDateTime.class, new gsonUTCAdapter())
-			.registerTypeAdapter(Instant.class, new gsonInstantAdapter())
-			.registerTypeAdapter(ControlLoopTargetType.class, new targetTypeAdapter())
+			.registerTypeAdapter(ZonedDateTime.class, new GSONUTCAdapter())
+			.registerTypeAdapter(Instant.class, new GSONInstantAdapter())
+			.registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter())
 			.create();
 
 }

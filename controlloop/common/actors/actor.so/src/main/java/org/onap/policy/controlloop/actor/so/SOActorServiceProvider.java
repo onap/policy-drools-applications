@@ -158,7 +158,7 @@ public class SOActorServiceProvider implements Actor {
 		//
 		Map<String, Map<String, String>> aainqinstancefiltermap = new HashMap<>();
 		Map<String, String> aainqinstancefiltermapitem = new HashMap<>();
-		aainqinstancefiltermapitem.put("vserver-name", onset.AAI.get("vserver.vserver-name")); // TO DO: get vserver.vname from dcae onset.AAI.get("vserver.vserver-name")
+		aainqinstancefiltermapitem.put("vserver-name", onset.getAAI().get("vserver.vserver-name")); // TO DO: get vserver.vname from dcae onset.AAI.get("vserver.vserver-name")
 		aainqinstancefiltermap.put("vserver", aainqinstancefiltermapitem);
 		aainqinstancefilter.getInstanceFilter().add(aainqinstancefiltermap);
 		aainqrequest.setInstanceFilters(aainqinstancefilter);
@@ -186,7 +186,7 @@ public class SOActorServiceProvider implements Actor {
 		
 		//***** send the request *****\\
 		AAINQResponse aainqresponse = new AAIManager(new RESTManager()).postQuery(aaiUrl, aaiUsername, aaiPassword,
-				aainqrequest, onset.requestID);
+				aainqrequest, onset.getRequestID());
 
 		// Check AAI response
 		if (aainqresponse == null) {
@@ -196,7 +196,7 @@ public class SOActorServiceProvider implements Actor {
 			return null;
 		} else {
 			// Create AAINQResponseWrapper
-			AAINQResponseWrapper aainqResponseWrapper = new AAINQResponseWrapper(onset.requestID, aainqresponse);
+			AAINQResponseWrapper aainqResponseWrapper = new AAINQResponseWrapper(onset.getRequestID(), aainqresponse);
 
 			// insert aainqResponseWrapper to memory -- Is this needed?
 //			insert(aainqResponseWrapper);

@@ -31,32 +31,155 @@ public abstract class ControlLoopNotification implements Serializable {
 
 	private static final long serialVersionUID = 7538596984567127915L;
 
-	public String closedLoopControlName;
-	public String version = "1.0.2";
-	public UUID requestID;
-	public String closedLoopEventClient;
-	public ControlLoopTargetType target_type;
-	public String target;
-	public String from;
-	public String policyScope;
-	public String policyName;
-	public String policyVersion;
-	public ControlLoopNotificationType notification;
-	public String message;
-	public ZonedDateTime notificationTime = ZonedDateTime.now(ZoneOffset.UTC);;
-	public Integer OPS_CL_timer;
-	public List<ControlLoopOperation> history = new LinkedList<ControlLoopOperation>();
+	private String closedLoopControlName;
+	private String version = "1.0.2";
+	private UUID requestID;
+	private String closedLoopEventClient;
+	private ControlLoopTargetType targetType;
+	private String target;
+	private String from;
+	private String policyScope;
+	private String policyName;
+	private String policyVersion;
+	private ControlLoopNotificationType notification;
+	private String message;
+	private ZonedDateTime notificationTime = ZonedDateTime.now(ZoneOffset.UTC);
+	private Integer opsCLTimer;
+	private List<ControlLoopOperation> history = new LinkedList<>();
 	
 	public ControlLoopNotification() {
 		
 	}
 	
 	public ControlLoopNotification(ControlLoopEvent event) {
-		this.closedLoopControlName = event.closedLoopControlName;
-		this.requestID = event.requestID;
-		this.closedLoopEventClient = event.closedLoopEventClient;
-		this.target_type = event.target_type;
-		this.target = event.target;
+		if (event == null) {
+			return;
+		}
+		
+		this.setClosedLoopControlName(event.getClosedLoopControlName());
+		this.setRequestID(event.getRequestID());
+		this.setClosedLoopEventClient(event.getClosedLoopEventClient());
+		this.setTargetType(event.getTargetType());
+		this.setTarget(event.getTarget());
 	}
 
+	public String getClosedLoopControlName() {
+		return closedLoopControlName;
+	}
+
+	public void setClosedLoopControlName(String closedLoopControlName) {
+		this.closedLoopControlName = closedLoopControlName;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public UUID getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(UUID requestID) {
+		this.requestID = requestID;
+	}
+
+	public String getClosedLoopEventClient() {
+		return closedLoopEventClient;
+	}
+
+	public void setClosedLoopEventClient(String closedLoopEventClient) {
+		this.closedLoopEventClient = closedLoopEventClient;
+	}
+
+	public ControlLoopTargetType getTargetType() {
+		return targetType;
+	}
+
+	public void setTargetType(ControlLoopTargetType targetType) {
+		this.targetType = targetType;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public String getPolicyScope() {
+		return policyScope;
+	}
+
+	public void setPolicyScope(String policyScope) {
+		this.policyScope = policyScope;
+	}
+
+	public String getPolicyName() {
+		return policyName;
+	}
+
+	public void setPolicyName(String policyName) {
+		this.policyName = policyName;
+	}
+
+	public String getPolicyVersion() {
+		return policyVersion;
+	}
+
+	public void setPolicyVersion(String policyVersion) {
+		this.policyVersion = policyVersion;
+	}
+
+	public ControlLoopNotificationType getNotification() {
+		return notification;
+	}
+
+	public void setNotification(ControlLoopNotificationType notification) {
+		this.notification = notification;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public ZonedDateTime getNotificationTime() {
+		return notificationTime;
+	}
+
+	public void setNotificationTime(ZonedDateTime notificationTime) {
+		this.notificationTime = notificationTime;
+	}
+
+	public Integer getOpsCLTimer() {
+		return opsCLTimer;
+	}
+
+	public void setOpsCLTimer(Integer opsCLTimer) {
+		this.opsCLTimer = opsCLTimer;
+	}
+
+	public List<ControlLoopOperation> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<ControlLoopOperation> history) {
+		this.history = history;
+	}
 }

@@ -66,24 +66,24 @@ public class AppcLcmServiceProviderTest {
          * generic-vnf.vnf-id and a target type of VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
-        onsetEvent.closedLoopControlName = "closedLoopControlName-Test";
-        onsetEvent.requestID = UUID.randomUUID();
-        onsetEvent.closedLoopEventClient = "tca.instance00001";
-        onsetEvent.target_type = ControlLoopTargetType.VM;
-        onsetEvent.target = "generic-vnf.vnf-name";
-        onsetEvent.from = "DCAE";
-        onsetEvent.closedLoopAlarmStart = Instant.now();
-        onsetEvent.AAI = new HashMap<>();
-        onsetEvent.AAI.put("generic-vnf.vnf-name", "fw0001vm001fw001");
-        onsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+        onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
+        onsetEvent.setRequestID(UUID.randomUUID());
+        onsetEvent.setClosedLoopEventClient("tca.instance00001");
+        onsetEvent.setTargetType(ControlLoopTargetType.VM);
+        onsetEvent.setTarget("generic-vnf.vnf-name");
+        onsetEvent.setFrom("DCAE");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setAAI(new HashMap<>());
+        onsetEvent.getAAI().put("generic-vnf.vnf-name", "fw0001vm001fw001");
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
         /* Construct an operation with an APPC actor and restart operation. */
         operation = new ControlLoopOperation();
-        operation.actor = "APPC";
-        operation.operation = "Restart";
-        operation.target = "VM";
-        operation.end = Instant.now();
-        operation.subRequestId = "1";
+        operation.setActor("APPC");
+        operation.setOperation("Restart");
+        operation.setTarget("VM");
+        operation.setEnd(Instant.now());
+        operation.setSubRequestId("1");
         
         /* Construct a policy specifying to restart vm. */
         policy = new Policy();
@@ -98,13 +98,13 @@ public class AppcLcmServiceProviderTest {
 
         /* A sample DMAAP request wrapper. */
         dmaapRequest = new LCMRequestWrapper();
-        dmaapRequest.setCorrelationId(onsetEvent.requestID.toString() + "-" + "1");
+        dmaapRequest.setCorrelationId(onsetEvent.getRequestID().toString() + "-" + "1");
         dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
         dmaapRequest.setType("request");
 
         /* A sample DMAAP response wrapper */
         dmaapResponse = new LCMResponseWrapper();
-        dmaapResponse.setCorrelationId(onsetEvent.requestID.toString() + "-" + "1");
+        dmaapResponse.setCorrelationId(onsetEvent.getRequestID().toString() + "-" + "1");
         dmaapResponse.setRpcName(policy.getRecipe().toLowerCase());
         dmaapResponse.setType("response");
         
@@ -125,9 +125,9 @@ public class AppcLcmServiceProviderTest {
         appcRequest.setActionIdentifiers(actionIdentifiers);
         
         LCMCommonHeader commonHeader = new LCMCommonHeader();
-        commonHeader.setRequestId(onsetEvent.requestID);
+        commonHeader.setRequestId(onsetEvent.getRequestID());
         commonHeader.setSubRequestId("1");
-        commonHeader.setOriginatorId(onsetEvent.requestID.toString());
+        commonHeader.setOriginatorId(onsetEvent.getRequestID().toString());
         
         appcRequest.setCommonHeader(commonHeader);
         
@@ -184,7 +184,7 @@ public class AppcLcmServiceProviderTest {
         
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
-        assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.requestID);
+        assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.getRequestID());
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());

@@ -62,7 +62,7 @@ public class ControlLoopOperationManager implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.requestID : "null") + ", policy="
+		return "ControlLoopOperationManager [onset=" + (onset != null ? onset.getRequestID() : "null") + ", policy="
 				+ (policy != null ? policy.getId() : "null") + ", attempts=" + attempts
 				+ ", policyResult=" + policyResult
 				+ ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
@@ -137,19 +137,19 @@ public class ControlLoopOperationManager implements Serializable {
                 case VM:
                 case VNF:
                     VirtualControlLoopEvent virtualOnset = (VirtualControlLoopEvent) this.onset;
-                    if (this.onset.target.equalsIgnoreCase("vserver.vserver-name")) {
-                        return virtualOnset.AAI.get("vserver.vserver-name");
+                    if (this.onset.getTarget().equalsIgnoreCase("vserver.vserver-name")) {
+                        return virtualOnset.getAAI().get("vserver.vserver-name");
                     }
-                    else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-id")) {
-                        return virtualOnset.AAI.get("generic-vnf.vnf-id");
+                    else if (this.onset.getTarget().equalsIgnoreCase("generic-vnf.vnf-id")) {
+                        return virtualOnset.getAAI().get("generic-vnf.vnf-id");
                     }
-                    else if (this.onset.target.equalsIgnoreCase("generic-vnf.vnf-name")) {
+                    else if (this.onset.getTarget().equalsIgnoreCase("generic-vnf.vnf-name")) {
                         /*
                          * If the onset is enriched with the vnf-id,
                          * we don't need an A&AI response
                          */
-                        if (virtualOnset.AAI.containsKey("generic-vnf.vnf-id")) {
-                            return virtualOnset.AAI.get("generic-vnf.vnf-id");
+                        if (virtualOnset.getAAI().containsKey("generic-vnf.vnf-id")) {
+                            return virtualOnset.getAAI().get("generic-vnf.vnf-id");
                         }
                         
                         /*
@@ -256,10 +256,10 @@ public class ControlLoopOperationManager implements Serializable {
 		this.policyResult = null;
 		Operation operation = new Operation();
 		operation.attempt = ++this.attempts;
-		operation.operation.actor = this.policy.getActor();
-		operation.operation.operation = this.policy.getRecipe();
-		operation.operation.target = this.policy.getTarget().toString();
-		operation.operation.subRequestId = Integer.toString(operation.attempt);
+		operation.operation.setActor(this.policy.getActor());
+		operation.operation.setOperation(this.policy.getRecipe());
+		operation.operation.setTarget(this.policy.getTarget().toString());
+		operation.operation.setSubRequestId(Integer.toString(operation.attempt));
 		//
 		// Now determine which actor we need to construct a request for
 		//
@@ -657,16 +657,16 @@ public class ControlLoopOperationManager implements Serializable {
 
 		OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry();
 
-		newEntry.closedLoopName = this.onset.closedLoopControlName;
-		newEntry.requestId = this.onset.requestID.toString();
-		newEntry.actor = this.currentOperation.operation.actor;
-		newEntry.operation = this.currentOperation.operation.operation;
+		newEntry.closedLoopName = this.onset.getClosedLoopControlName();
+		newEntry.requestId = this.onset.getRequestID().toString();
+		newEntry.actor = this.currentOperation.operation.getActor();
+		newEntry.operation = this.currentOperation.operation.getOperation();
 		newEntry.target = this.targetEntity;
-		newEntry.starttime = Timestamp.from(this.currentOperation.operation.start);
-		newEntry.subrequestId = this.currentOperation.operation.subRequestId;
-		newEntry.endtime = new Timestamp(this.currentOperation.operation.end.toEpochMilli());
-		newEntry.message = this.currentOperation.operation.message;
-		newEntry.outcome = this.currentOperation.operation.outcome;
+		newEntry.starttime = Timestamp.from(this.currentOperation.operation.getStart());
+		newEntry.subrequestId = this.currentOperation.operation.getSubRequestId(); 
+		newEntry.endtime = new Timestamp(this.currentOperation.operation.getEnd().toEpochMilli());
+		newEntry.message = this.currentOperation.operation.getMessage();
+		newEntry.outcome = this.currentOperation.operation.getOutcome();
 
 		em.getTransaction().begin();
 		em.persist(newEntry);
@@ -685,9 +685,9 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		if (this.currentOperation != null) {
 			if (this.currentOperation.attempt == attempt.intValue()) {
-				this.currentOperation.operation.end = Instant.now();
-				this.currentOperation.operation.message = message;
-				this.currentOperation.operation.outcome = result.toString();
+				this.currentOperation.operation.setEnd(Instant.now());
+				this.currentOperation.operation.setMessage(message);
+				this.currentOperation.operation.setOutcome(result.toString());
 				this.currentOperation.policyResult = result;
 				//
 				// Save it in history
@@ -708,9 +708,9 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		for (Operation op : this.operationHistory) {
 			if (op.attempt == attempt.intValue()) {
-				op.operation.end = Instant.now();
-				op.operation.message = message;
-				op.operation.outcome = result.toString();
+				op.operation.setEnd(Instant.now());
+				op.operation.setMessage(message);
+				op.operation.setOutcome(result.toString());
 				op.policyResult = result;
 				return;
 			}

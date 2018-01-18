@@ -60,24 +60,24 @@ public class AppcServiceProviderTest {
          * generic-vnf.vnf-id and a target type of VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
-        onsetEvent.closedLoopControlName = "closedLoopControlName-Test";
-        onsetEvent.requestID = UUID.randomUUID();
-        onsetEvent.closedLoopEventClient = "tca.instance00001";
-        onsetEvent.target_type = ControlLoopTargetType.VNF;
-        onsetEvent.target = "generic-vnf.vnf-name";
-        onsetEvent.from = "DCAE";
-        onsetEvent.closedLoopAlarmStart = Instant.now();
-        onsetEvent.AAI = new HashMap<>();
-        onsetEvent.AAI.put("generic-vnf.vnf-name", "fw0001vm001fw001");
-        onsetEvent.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+        onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
+        onsetEvent.setRequestID(UUID.randomUUID());
+        onsetEvent.setClosedLoopEventClient("tca.instance00001");
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
+        onsetEvent.setTarget("generic-vnf.vnf-name");
+        onsetEvent.setFrom("DCAE");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setAAI(new HashMap<>());
+        onsetEvent.getAAI().put("generic-vnf.vnf-name", "fw0001vm001fw001");
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
         /* Construct an operation with an APPC actor and ModifyConfig operation. */
         operation = new ControlLoopOperation();
-        operation.actor = "APPC";
-        operation.operation = "ModifyConfig";
-        operation.target = "VNF";
-        operation.end = Instant.now();
-        operation.subRequestId = "1";
+        operation.setActor("APPC");
+        operation.setOperation("ModifyConfig");
+        operation.setTarget("VNF");
+        operation.setEnd(Instant.now());
+        operation.setSubRequestId("1");
 
         /* Construct a policy specifying to modify configuration. */
         policy = new Policy();
@@ -123,7 +123,7 @@ public class AppcServiceProviderTest {
 
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
-        assertEquals(appcRequest.getCommonHeader().getRequestID(), onsetEvent.requestID);
+        assertEquals(appcRequest.getCommonHeader().getRequestID(), onsetEvent.getRequestID());
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());

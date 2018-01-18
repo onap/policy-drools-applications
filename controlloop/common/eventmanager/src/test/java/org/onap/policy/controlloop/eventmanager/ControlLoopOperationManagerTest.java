@@ -58,13 +58,13 @@ public class ControlLoopOperationManagerTest {
 	private static VirtualControlLoopEvent onset;
 	static {
 		onset = new VirtualControlLoopEvent();
-		onset.requestID = UUID.randomUUID();
-		onset.target = "generic-vnf.vnf-name";
-		onset.target_type = ControlLoopTargetType.VNF;
-		onset.closedLoopAlarmStart = Instant.now();
-		onset.AAI = new HashMap<>();
-		onset.AAI.put("generic-vnf.vnf-name", "testTriggerSource");
-		onset.closedLoopEventStatus = ControlLoopEventStatus.ONSET;
+		onset.setRequestID(UUID.randomUUID());
+		onset.setTarget("generic-vnf.vnf-name");
+		onset.setTargetType(ControlLoopTargetType.VNF);
+		onset.setClosedLoopAlarmStart(Instant.now());
+		onset.setAAI(new HashMap<>());
+		onset.getAAI().put("generic-vnf.vnf-name", "testTriggerSource");
+		onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 		
 		/* Set environment properties */
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
@@ -92,7 +92,7 @@ public class ControlLoopOperationManagerTest {
 		// Load up the policy
 		//
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+		onset.setClosedLoopControlName(pair.a.getControlLoop().getControlLoopName());
 		try {
 			//
 			// Create a processor
@@ -101,11 +101,11 @@ public class ControlLoopOperationManagerTest {
 			//
 			// create the manager
 			//
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
+			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestID());
             VirtualControlLoopNotification notification = eventManager.activate(onset);
 			
 			assertNotNull(notification);
-			assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
+			assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 			
 			ControlLoopEventManager.NEW_EVENT_STATUS status = null;
 	        try {
@@ -221,7 +221,7 @@ public class ControlLoopOperationManagerTest {
 		// Load up the policy
 		//
 		final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-		onset.closedLoopControlName = pair.a.getControlLoop().getControlLoopName();
+		onset.setClosedLoopControlName(pair.a.getControlLoop().getControlLoopName());
 		try {
 			//
 			// Create a processor
@@ -230,11 +230,11 @@ public class ControlLoopOperationManagerTest {
 			//
 			// create the manager
 			//
-			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.closedLoopControlName, onset.requestID);
+			ControlLoopEventManager eventManager = new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestID());
 			VirtualControlLoopNotification notification = eventManager.activate(onset);
 			
 			assertNotNull(notification);
-			assertEquals(ControlLoopNotificationType.ACTIVE, notification.notification);
+			assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
 			ControlLoopEventManager.NEW_EVENT_STATUS status = null;
             try {

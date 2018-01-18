@@ -30,9 +30,9 @@ public class VirtualControlLoopEvent extends ControlLoopEvent {
 	 * 
 	 */
 	private static final long serialVersionUID = -5752405682246066226L;
-	public Instant closedLoopAlarmStart;
-	public Instant closedLoopAlarmEnd;
-	public Map<String, String> AAI = new HashMap<>();
+	private Instant closedLoopAlarmStart;
+	private Instant closedLoopAlarmEnd;
+	private Map<String, String> aai = new HashMap<>();
 
 	public VirtualControlLoopEvent() {
 	}
@@ -42,11 +42,34 @@ public class VirtualControlLoopEvent extends ControlLoopEvent {
 		if (event == null) {
 			return;
 		}
-		if (event.AAI != null) {
-			this.AAI = new HashMap<>(event.AAI);
+		if (event.aai != null) {
+			this.aai = new HashMap<>(event.aai);
 		}
 		this.closedLoopAlarmStart = event.closedLoopAlarmStart;
 		this.closedLoopAlarmEnd = event.closedLoopAlarmEnd;
 	}
 
+	public Instant getClosedLoopAlarmStart() {
+		return closedLoopAlarmStart;
+	}
+
+	public void setClosedLoopAlarmStart(Instant closedLoopAlarmStart) {
+		this.closedLoopAlarmStart = closedLoopAlarmStart;
+	}
+
+	public Instant getClosedLoopAlarmEnd() {
+		return closedLoopAlarmEnd;
+	}
+
+	public void setClosedLoopAlarmEnd(Instant closedLoopAlarmEnd) {
+		this.closedLoopAlarmEnd = closedLoopAlarmEnd;
+	}
+
+	public Map<String, String> getAAI() {
+		return aai;
+	}
+
+	public void setAAI(Map<String, String> aai) {
+		this.aai = aai;
+	}
 }

@@ -211,7 +211,7 @@ public class AppcLcmActorServiceProvider implements Actor {
          */
         LCMRequestWrapper dmaapRequest = new LCMRequestWrapper();
         dmaapRequest.setVersion("2.0");
-        dmaapRequest.setCorrelationId(onset.requestID + "-" + operation.subRequestId);
+        dmaapRequest.setCorrelationId(onset.getRequestID() + "-" + operation.getSubRequestId());
         dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
         dmaapRequest.setType("request");
         
@@ -220,9 +220,9 @@ public class AppcLcmActorServiceProvider implements Actor {
         
         /* The common header is a required field for all APPC requests. */
         LCMCommonHeader requestCommonHeader = new LCMCommonHeader();
-        requestCommonHeader.setOriginatorId(onset.requestID.toString());
-        requestCommonHeader.setRequestId(onset.requestID);
-        requestCommonHeader.setSubRequestId(operation.subRequestId);
+        requestCommonHeader.setOriginatorId(onset.getRequestID().toString());
+        requestCommonHeader.setRequestId(onset.getRequestID());
+        requestCommonHeader.setSubRequestId(operation.getSubRequestId());
         
         appcRequest.setCommonHeader(requestCommonHeader);
 
