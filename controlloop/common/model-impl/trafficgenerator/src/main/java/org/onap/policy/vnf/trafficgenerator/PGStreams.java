@@ -28,15 +28,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class PGStreams implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5567635677419358210L;
-	
-	@SerializedName("pg-stream")
-	public List<PGStream> pgStream= new LinkedList<PGStream>();
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5567635677419358210L;
 
-	public PGStreams() {
-	}
+    @SerializedName("pg-stream")
+    public List<PGStream> pgStream = new LinkedList<>();
 
+    public PGStreams() {
+        // required by author
+    }
 }
