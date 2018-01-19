@@ -27,12 +27,28 @@ public class VFCHealAdditionalParams implements Serializable {
 	private static final long serialVersionUID = 2656694137285096191L;
 
 	@SerializedName("action")
-	public String action;
+	private String action;
 
 	@SerializedName("actionvminfo")
-	public VFCHealActionVmInfo actionInfo;
+	private VFCHealActionVmInfo actionInfo;
 
 	public VFCHealAdditionalParams() {
+		// Default constructor for VFCHealAdditionalParams
 	}
 
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public VFCHealActionVmInfo getActionInfo() {
+		return actionInfo;
+	}
+
+	public void setActionInfo(VFCHealActionVmInfo actionInfo) {
+		this.actionInfo = actionInfo;
+	}
 }

@@ -27,13 +27,37 @@ public class VFCRequest implements Serializable {
 
     private static final long serialVersionUID = 3736300970326332512L;
     // These fields are not serialized and not part of JSON
-    public transient String nsInstanceId;
-    public transient UUID requestId;
+    private transient String nsInstanceId;
+    private transient UUID requestId;
 
     @SerializedName("healVnfData")
-    public VFCHealRequest healRequest;
+    private VFCHealRequest healRequest;
 
     public VFCRequest() {
+    		// Default constructor for VFCRequest
     }
 
+	public String getNSInstanceId() {
+		return nsInstanceId;
+	}
+
+	public void setNSInstanceId(String nsInstanceId) {
+		this.nsInstanceId = nsInstanceId;
+	}
+
+	public UUID getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(UUID requestId) {
+		this.requestId = requestId;
+	}
+
+	public VFCHealRequest getHealRequest() {
+		return healRequest;
+	}
+
+	public void setHealRequest(VFCHealRequest healRequest) {
+		this.healRequest = healRequest;
+	}
 }
