@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_098563ac",
+        "filename": "controlloop/common/model-impl/vfc/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-19T16:35:21Z",
+      "side": 1,
+      "message": "oops something happened to the license.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 104
+      },
+      "revId": "9a65a18bdb43e54451080de60eb4df037f5de3f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c98e9bd0",
+        "filename": "controlloop/common/model-impl/vfc/src/test/java/org/onap/policy/vfc/TestVFCManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-19T16:35:21Z",
+      "side": 1,
+      "message": "BTW - I think if this is a whole new file you could put Ericsson here. \nhttps://wiki.onap.org/display/DW/Copyrights+and+License+Declarations",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 70
+      },
+      "revId": "9a65a18bdb43e54451080de60eb4df037f5de3f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
