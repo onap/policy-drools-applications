@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_c9c3fb55",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/util/Serialization.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-19T13:57:59Z",
+      "side": 1,
+      "message": "We\u0027ll need the comment as to why its empty. :)",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "755b1457b99773432a5e1e64f2516c480deff55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_69a2e7af",
+        "filename": "controlloop/common/model-impl/vfc/src/test/java/org/onap/policy/vfc/TestVFCManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-19T13:57:59Z",
+      "side": 1,
+      "message": "just remove this so sonar doesn\u0027t complain about commented out code.",
+      "range": {
+        "startLine": 281,
+        "startChar": 1,
+        "endLine": 286,
+        "endChar": 0
+      },
+      "revId": "755b1457b99773432a5e1e64f2516c480deff55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
