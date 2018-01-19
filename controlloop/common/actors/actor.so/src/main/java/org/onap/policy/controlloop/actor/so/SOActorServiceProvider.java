@@ -334,59 +334,59 @@ public class SOActorServiceProvider implements Actor {
 			// Construct SO Request
 			SORequest request = new SORequest();
 //			request.requestId = onset.requestID;
-			request.requestDetails = new SORequestDetails();
-			request.requestDetails.modelInfo = new SOModelInfo();
-			request.requestDetails.cloudConfiguration = new SOCloudConfiguration();
-			request.requestDetails.requestInfo = new SORequestInfo();
-			request.requestDetails.requestParameters = new SORequestParameters();
-			request.requestDetails.requestParameters.userParams = null;
+			request.setRequestDetails(new SORequestDetails());
+			request.getRequestDetails().setModelInfo(new SOModelInfo());
+			request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
+			request.getRequestDetails().setRequestInfo(new SORequestInfo());
+			request.getRequestDetails().setRequestParameters(new SORequestParameters());
+			request.getRequestDetails().getRequestParameters().setUserParams(null);
 			//
 			// cloudConfiguration
 			//
-			request.requestDetails.cloudConfiguration.lcpCloudRegionId = getCloudRegionItemCloudRegionId();
-			request.requestDetails.cloudConfiguration.tenantId = getTenantItemTenantId();
+			request.getRequestDetails().getCloudConfiguration().setLcpCloudRegionId(getCloudRegionItemCloudRegionId());
+			request.getRequestDetails().getCloudConfiguration().setTenantId(getTenantItemTenantId());
 			//
 			// modelInfo
 			//
-			request.requestDetails.modelInfo.modelType = "vfModule";
-			request.requestDetails.modelInfo.modelInvariantId = getVfModuleItemModelInvariantId();
-			request.requestDetails.modelInfo.modelVersionId = getVfModuleItemModelNameVersionId();
-			request.requestDetails.modelInfo.modelName = getVfModuleItemModelName();
-			request.requestDetails.modelInfo.modelVersion = getVfModuleItemModelVersionId();
+			request.getRequestDetails().getModelInfo().setModelType("vfModule");
+			request.getRequestDetails().getModelInfo().setModelInvariantId(getVfModuleItemModelInvariantId());
+			request.getRequestDetails().getModelInfo().setModelVersionId(getVfModuleItemModelNameVersionId());
+			request.getRequestDetails().getModelInfo().setModelName(getVfModuleItemModelName());
+			request.getRequestDetails().getModelInfo().setModelVersion(getVfModuleItemModelVersionId());
 			//
 			// requestInfo
 			//
-			request.requestDetails.requestInfo.instanceName = getVfModuleItemVfModuleName();
-			request.requestDetails.requestInfo.source = "POLICY";
-			request.requestDetails.requestInfo.suppressRollback = false;
-			request.requestDetails.requestInfo.requestorId = "policy";
+			request.getRequestDetails().getRequestInfo().setInstanceName(getVfModuleItemVfModuleName());
+			request.getRequestDetails().getRequestInfo().setSource("POLICY");
+			request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
+			request.getRequestDetails().getRequestInfo().setRequestorId("policy");
 			//
 			// relatedInstanceList
 			//
 			SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
 			SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
-			relatedInstanceListElement1.relatedInstance = new SORelatedInstance();
-			relatedInstanceListElement2.relatedInstance = new SORelatedInstance();
+			relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
+			relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
 			//
-			relatedInstanceListElement1.relatedInstance.instanceId = getServiceItemServiceInstanceId();
-			relatedInstanceListElement1.relatedInstance.modelInfo = new SOModelInfo();
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelType = "service";
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelInvariantId = getServiceItemModelInvariantId();
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelVersionId = getServiceItemModelNameVersionId();
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelName = getServiceItemModelName();
-			relatedInstanceListElement1.relatedInstance.modelInfo.modelVersion = getServiceItemModelVersion();
+			relatedInstanceListElement1.getRelatedInstance().setInstanceId(getServiceItemServiceInstanceId());
+			relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
+			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
+			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(getServiceItemModelInvariantId());
+			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersionId(getServiceItemModelNameVersionId());
+			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(getServiceItemModelName());
+			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(getServiceItemModelVersion());
 			//
-			relatedInstanceListElement2.relatedInstance.instanceId = getVnfItemVnfId();
-			relatedInstanceListElement2.relatedInstance.modelInfo = new SOModelInfo();
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelType = "vnf";
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelInvariantId = getVnfItemModelInvariantId();
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelVersionId = getVnfItemModelNameVersionId();
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelName = getVnfItemModelName();
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelVersion = getVnfItemModelVersion();
-			relatedInstanceListElement2.relatedInstance.modelInfo.modelCustomizationName = getVnfItemVnfType();
+			relatedInstanceListElement2.getRelatedInstance().setInstanceId(getVnfItemVnfId());
+			relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
+			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(getVnfItemModelInvariantId());
+			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(getVnfItemModelNameVersionId());
+			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(getVnfItemModelName());
+			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(getVnfItemModelVersion());
+			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(getVnfItemVnfType());
 			//	
-			request.requestDetails.relatedInstanceList.add(relatedInstanceListElement1);
-			request.requestDetails.relatedInstanceList.add(relatedInstanceListElement2);
+			request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
+			request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
 			//
 			// print SO request for debug
 			//

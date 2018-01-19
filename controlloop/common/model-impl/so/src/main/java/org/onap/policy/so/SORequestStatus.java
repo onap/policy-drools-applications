@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -26,26 +26,57 @@ import com.google.gson.annotations.SerializedName;
 
 public class SORequestStatus implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("percentProgress")
-	public int percentProgress;
-	
-	@SerializedName("requestState")
-	public String requestState;
-	
-	@SerializedName("timestamp")
-	//public LocalDateTime timestamp;
-	public String timestamp;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	@SerializedName("wasRolledBack")
-	public boolean wasRolledBack;
-	
+    @SerializedName("percentProgress")
+    private int percentProgress;
 
-	public SORequestStatus() {
-	}
+    @SerializedName("requestState")
+    private String requestState;
+
+    @SerializedName("timestamp")
+    private String timestamp;
+
+    @SerializedName("wasRolledBack")
+    private boolean wasRolledBack;
+
+    public SORequestStatus() {
+      //required by author
+    }
+
+    public int getPercentProgress() {
+        return percentProgress;
+    }
+
+    public String getRequestState() {
+        return requestState;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public boolean isWasRolledBack() {
+        return wasRolledBack;
+    }
+
+    public void setPercentProgress(int percentProgress) {
+        this.percentProgress = percentProgress;
+    }
+
+    public void setRequestState(String requestState) {
+        this.requestState = requestState;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setWasRolledBack(boolean wasRolledBack) {
+        this.wasRolledBack = wasRolledBack;
+    }
 
 }

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -22,47 +22,124 @@ package org.onap.policy.so;
 
 import java.io.Serializable;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class SORequestInfo implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("instanceName")
-	public String instanceName;
-	
-	@SerializedName("source")
-	public String source;
-	
-	@SerializedName("productFamilyId")
-	public String productFamilyId;
-	
-	@SerializedName("suppressRollback")
-	public boolean suppressRollback;
-	
-	@SerializedName("billingAccountNumber")
-	public String billingAccountNumber;
-	
-	@SerializedName("callbackUrl")
-	public String callbackUrl;
-	
-	@SerializedName("correlator")
-	public String correlator;
-	
-	@SerializedName("orderNumber")
-	public String orderNumber;
-	
-	@SerializedName("orderVersion")
-	public Integer orderVersion;
-	
-	@SerializedName("requestorId")
-	public String requestorId;
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	public SORequestInfo() {
-	}
+    @SerializedName("instanceName")
+    private String instanceName;
+
+    @SerializedName("source")
+    private String source;
+
+    @SerializedName("productFamilyId")
+    private String productFamilyId;
+
+    @SerializedName("suppressRollback")
+    private boolean suppressRollback;
+
+    @SerializedName("billingAccountNumber")
+    private String billingAccountNumber;
+
+    @SerializedName("callbackUrl")
+    private String callbackUrl;
+
+    @SerializedName("correlator")
+    private String correlator;
+
+    @SerializedName("orderNumber")
+    private String orderNumber;
+
+    @SerializedName("orderVersion")
+    private Integer orderVersion;
+
+    @SerializedName("requestorId")
+    private String requestorId;
+
+    public SORequestInfo() {
+        // required by author
+    }
+
+    public String getBillingAccountNumber() {
+        return billingAccountNumber;
+    }
+
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    public String getCorrelator() {
+        return correlator;
+    }
+
+    public String getInstanceName() {
+        return instanceName;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public Integer getOrderVersion() {
+        return orderVersion;
+    }
+
+    public String getProductFamilyId() {
+        return productFamilyId;
+    }
+
+    public String getRequestorId() {
+        return requestorId;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public boolean isSuppressRollback() {
+        return suppressRollback;
+    }
+
+    public void setBillingAccountNumber(String billingAccountNumber) {
+        this.billingAccountNumber = billingAccountNumber;
+    }
+
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
+    }
+
+    public void setCorrelator(String correlator) {
+        this.correlator = correlator;
+    }
+
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public void setOrderVersion(Integer orderVersion) {
+        this.orderVersion = orderVersion;
+    }
+
+    public void setProductFamilyId(String productFamilyId) {
+        this.productFamilyId = productFamilyId;
+    }
+
+    public void setRequestorId(String requestorId) {
+        this.requestorId = requestorId;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setSuppressRollback(boolean suppressRollback) {
+        this.suppressRollback = suppressRollback;
+    }
 
 }

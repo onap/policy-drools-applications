@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * 
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,38 +20,32 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
+import static org.junit.Assert.assertEquals;
 
-import com.google.gson.annotations.SerializedName;
+import org.junit.Test;
 
-public class SOPolicyException implements Serializable {
+public class TestSoResponseWrapper {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    @Test
+    public void testConstructor() {
+        SOResponse response = new SOResponse();
+        SOResponseWrapper obj = new SOResponseWrapper(response, "reqID");
 
-    @SerializedName("messageId")
-    private String messageId;
-
-    @SerializedName("text")
-    private String text;
-
-    public SOPolicyException() {
-      //required by author
+        assertEquals(response, obj.getSoResponse());
+        assertEquals("reqID", obj.getRequestID());
     }
 
-    public String getMessageId() {
-        return messageId;
-    }
+    @Test
+    public void testSetGet() {
+        SOResponse response = new SOResponse();
+        SOResponseWrapper obj = new SOResponseWrapper(response, "reqID");
 
-    public String getText() {
-        return text;
-    }
+        SOResponse response2 = new SOResponse();
+        response2.setHttpResponseCode(2008);
+        obj.setSoResponse(response2);
+        assertEquals(response2, obj.getSoResponse());
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+        obj.setRequestID("id2");
+        assertEquals("id2", obj.getRequestID());
     }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }

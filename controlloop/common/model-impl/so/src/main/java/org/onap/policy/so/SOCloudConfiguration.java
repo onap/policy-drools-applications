@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -22,23 +22,36 @@ package org.onap.policy.so;
 
 import java.io.Serializable;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class SOCloudConfiguration implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("lcpCloudRegionId")
-	public String lcpCloudRegionId;
-	
-	@SerializedName("tenantId")
-	public String tenantId;
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	public SOCloudConfiguration() {
-	}
+    @SerializedName("lcpCloudRegionId")
+    private String lcpCloudRegionId;
+
+    @SerializedName("tenantId")
+    private String tenantId;
+
+    public SOCloudConfiguration() {
+        //required by author
+    }
+
+    public String getLcpCloudRegionId() {
+        return lcpCloudRegionId;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setLcpCloudRegionId(String lcpCloudRegionId) {
+        this.lcpCloudRegionId = lcpCloudRegionId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 
 }

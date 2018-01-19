@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -26,24 +26,53 @@ import com.google.gson.annotations.SerializedName;
 
 public class SOResponse implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("requestReferences")
-	public SORequestReferences requestReferences;
-	
-	@SerializedName("requestError")
-	public SORequestError requestError;
-	
-	@SerializedName("request")
-	public SORequest request;
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	public int httpResponseCode;
-	
+    @SerializedName("requestReferences")
+    private SORequestReferences requestReferences;
 
-	public SOResponse() {
-	}
+    @SerializedName("requestError")
+    private SORequestError requestError;
+
+    @SerializedName("request")
+    private SORequest request;
+
+    private int httpResponseCode;
+
+    public SOResponse() {
+        // required by author
+    }
+
+    public int getHttpResponseCode() {
+        return httpResponseCode;
+    }
+
+    public SORequest getRequest() {
+        return request;
+    }
+
+    public SORequestError getRequestError() {
+        return requestError;
+    }
+
+    public SORequestReferences getRequestReferences() {
+        return requestReferences;
+    }
+
+    public void setHttpResponseCode(int httpResponseCode) {
+        this.httpResponseCode = httpResponseCode;
+    }
+
+    public void setRequest(SORequest request) {
+        this.request = request;
+    }
+
+    public void setRequestError(SORequestError requestError) {
+        this.requestError = requestError;
+    }
+
+    public void setRequestReferences(SORequestReferences requestReferences) {
+        this.requestReferences = requestReferences;
+    }
 
 }

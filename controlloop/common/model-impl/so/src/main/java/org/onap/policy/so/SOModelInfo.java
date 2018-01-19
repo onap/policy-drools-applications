@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -22,38 +22,91 @@ package org.onap.policy.so;
 
 import java.io.Serializable;
 
-
 import com.google.gson.annotations.SerializedName;
 
 public class SOModelInfo implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	@SerializedName("modelType")
-	public String modelType;
-	
-	@SerializedName("modelInvariantId")
-	public String modelInvariantId;
-	
-	@SerializedName("modelVersionId")
-	public String modelVersionId;
-	
-	@SerializedName("modelName")
-	public String modelName;
-	
-	@SerializedName("modelVersion")
-	public String modelVersion;
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	@SerializedName("modelCustomizationName")
-	public String modelCustomizationName;
+    @SerializedName("modelType")
+    private String modelType;
 
-	@SerializedName("modelCustomizationId")
-	public String modelCustomizationId;
+    @SerializedName("modelInvariantId")
+    private String modelInvariantId;
 
-	public SOModelInfo() {
-	}
+    @SerializedName("modelVersionId")
+    private String modelVersionId;
+
+    @SerializedName("modelName")
+    private String modelName;
+
+    @SerializedName("modelVersion")
+    private String modelVersion;
+
+    @SerializedName("modelCustomizationName")
+    private String modelCustomizationName;
+
+    @SerializedName("modelCustomizationId")
+    private String modelCustomizationId;
+
+    public SOModelInfo() {
+      //required by author
+    }
+
+    public String getModelCustomizationId() {
+        return modelCustomizationId;
+    }
+
+    public String getModelCustomizationName() {
+        return modelCustomizationName;
+    }
+
+    public String getModelInvariantId() {
+        return modelInvariantId;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public String getModelType() {
+        return modelType;
+    }
+
+    public String getModelVersion() {
+        return modelVersion;
+    }
+
+    public String getModelVersionId() {
+        return modelVersionId;
+    }
+
+    public void setModelCustomizationId(String modelCustomizationId) {
+        this.modelCustomizationId = modelCustomizationId;
+    }
+
+    public void setModelCustomizationName(String modelCustomizationName) {
+        this.modelCustomizationName = modelCustomizationName;
+    }
+
+    public void setModelInvariantId(String modelInvariantId) {
+        this.modelInvariantId = modelInvariantId;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public void setModelType(String modelType) {
+        this.modelType = modelType;
+    }
+
+    public void setModelVersion(String modelVersion) {
+        this.modelVersion = modelVersion;
+    }
+
+    public void setModelVersionId(String modelVersionId) {
+        this.modelVersionId = modelVersionId;
+    }
 
 }

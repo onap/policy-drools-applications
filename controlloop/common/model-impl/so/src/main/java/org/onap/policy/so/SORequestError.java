@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * mso
+ * so
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -26,34 +26,32 @@ import com.google.gson.annotations.SerializedName;
 
 public class SORequestError implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3283942659786236032L;
-	
-	
-	@SerializedName("policyException")
-	public SOPolicyException policyException;
-	
-	
-	@SerializedName("serviceException")
-	public SOServiceException serviceException;
-	
-	/*
-	@SerializedName("messageId")
-	public String messageId;
-	
-	@SerializedName("text")
-	public String text;
-	
-	@SerializedName("url")
-	public String url;
+    private static final long serialVersionUID = -3283942659786236032L;
 
-	@SerializedName("variables")
-	public String variables;
-	*/
+    @SerializedName("policyException")
+    private SOPolicyException policyException;
 
-	public SORequestError() {
-	}
+    @SerializedName("serviceException")
+    private SOServiceException serviceException;
+
+    public SORequestError() {
+        // required by author
+    }
+
+    public SOPolicyException getPolicyException() {
+        return policyException;
+    }
+
+    public SOServiceException getServiceException() {
+        return serviceException;
+    }
+
+    public void setPolicyException(SOPolicyException policyException) {
+        this.policyException = policyException;
+    }
+
+    public void setServiceException(SOServiceException serviceException) {
+        this.serviceException = serviceException;
+    }
 
 }

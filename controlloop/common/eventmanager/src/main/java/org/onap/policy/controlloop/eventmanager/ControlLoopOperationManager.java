@@ -423,13 +423,13 @@ public class ControlLoopOperationManager implements Serializable {
 		} else if (response instanceof SOResponseWrapper) {
 			SOResponseWrapper msoResponse = (SOResponseWrapper) response;
 
-			switch (msoResponse.SOResponse.httpResponseCode) {
+			switch (msoResponse.getSoResponse().getHttpResponseCode()) {
 			case 200:
 			case 202:
 				//
 				// Consider it as success
 				//
-				this.completeOperation(this.attempts, msoResponse.SOResponse.httpResponseCode + " Success", PolicyResult.SUCCESS);
+				this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + " Success", PolicyResult.SUCCESS);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}
@@ -438,7 +438,7 @@ public class ControlLoopOperationManager implements Serializable {
 				//
 				// Consider it as failure
 				//
-				this.completeOperation(this.attempts, msoResponse.SOResponse.httpResponseCode + " Failed", PolicyResult.FAILURE);
+				this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + " Failed", PolicyResult.FAILURE);
 				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
 					return null;
 				}

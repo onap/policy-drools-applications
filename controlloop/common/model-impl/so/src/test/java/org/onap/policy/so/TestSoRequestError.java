@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * 
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,38 +20,31 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import com.google.gson.annotations.SerializedName;
+import org.junit.Test;
 
-public class SOPolicyException implements Serializable {
+public class TestSoRequestError {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    @Test
+    public void testConstructor() {
+        SORequestError obj = new SORequestError();
 
-    @SerializedName("messageId")
-    private String messageId;
-
-    @SerializedName("text")
-    private String text;
-
-    public SOPolicyException() {
-      //required by author
+        assertTrue(obj.getPolicyException() == null);
+        assertTrue(obj.getServiceException() == null);
     }
 
-    public String getMessageId() {
-        return messageId;
-    }
+    @Test
+    public void testSetGet() {
+        SORequestError obj = new SORequestError();
 
-    public String getText() {
-        return text;
-    }
+        SOPolicyException policyException = new SOPolicyException();
+        obj.setPolicyException(policyException);
+        assertEquals(policyException, obj.getPolicyException());
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+        SOServiceException serviceException = new SOServiceException();
+        obj.setServiceException(serviceException);
+        assertEquals(serviceException, obj.getServiceException());
     }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
 }
