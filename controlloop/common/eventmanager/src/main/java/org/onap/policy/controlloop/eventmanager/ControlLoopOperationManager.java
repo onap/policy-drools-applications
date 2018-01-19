@@ -448,7 +448,7 @@ public class ControlLoopOperationManager implements Serializable {
 		} else if (response instanceof VFCResponse) {
 			VFCResponse vfcResponse = (VFCResponse) response;
 
-			if (vfcResponse.responseDescriptor.getStatus().equalsIgnoreCase("finished")) {
+			if (vfcResponse.getResponseDescriptor().getStatus().equalsIgnoreCase("finished")) {
 				//
 				// Consider it as success
 				//

@@ -29,45 +29,45 @@ public class TestDemo {
     public void test() {
         VFCRequest request = new VFCRequest();
 
-        request.nsInstanceId = "100";
-        request.healRequest = new VFCHealRequest();
-        request.healRequest.vnfInstanceId = "1";
-        request.healRequest.cause = "vm is down";
+        request.setNSInstanceId("100");
+        request.setHealRequest(new VFCHealRequest());
+        request.getHealRequest().setVnfInstanceId("1");
+        request.getHealRequest().setCause("vm is down");
 
-        request.healRequest.additionalParams = new VFCHealAdditionalParams();
-        request.healRequest.additionalParams.action = "restartvm";
+        request.getHealRequest().setAdditionalParams(new VFCHealAdditionalParams());
+        request.getHealRequest().getAdditionalParams().setAction("restartvm");
 
-        request.healRequest.additionalParams.actionInfo = new VFCHealActionVmInfo();
-        request.healRequest.additionalParams.actionInfo.vmid = "33";
-        request.healRequest.additionalParams.actionInfo.vmname = "xgw-smp11";
+        request.getHealRequest().getAdditionalParams().setActionInfo(new VFCHealActionVmInfo());
+        request.getHealRequest().getAdditionalParams().getActionInfo().setVmid("33");
+        request.getHealRequest().getAdditionalParams().getActionInfo().setVmname("xgw-smp11");
 
         String body = Serialization.gsonPretty.toJson(request);
         System.out.println(body);
 
         VFCResponse response = new VFCResponse();
-        response.jobId = "1";
+        response.setJobId("1");
 
         body = Serialization.gsonPretty.toJson(response);
         System.out.println(body);
 
-        response.responseDescriptor = new VFCResponseDescriptor();
-        response.responseDescriptor.progress = "40";
-        response.responseDescriptor.status = "processing";
-        response.responseDescriptor.statusDescription = "OMC VMs are decommissioned in VIM";
-        response.responseDescriptor.errorCode = null;
-        response.responseDescriptor.responseId = "42";
+        response.setResponseDescriptor(new VFCResponseDescriptor());
+        response.getResponseDescriptor().setProgress("40");
+        response.getResponseDescriptor().setStatus("processing");
+        response.getResponseDescriptor().setStatusDescription("OMC VMs are decommissioned in VIM");
+        response.getResponseDescriptor().setErrorCode(null);
+        response.getResponseDescriptor().setResponseId("42");
         body = Serialization.gsonPretty.toJson(response);
         System.out.println(body);
 
         VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
-        responseDescriptor.progress = "20";
-        responseDescriptor.status = "processing";
-        responseDescriptor.statusDescription = "OMC VMs are decommissioned in VIM";
-        responseDescriptor.errorCode = null;
-        responseDescriptor.responseId = "11";
+        responseDescriptor.setProgress("20");
+        responseDescriptor.setStatus("processing");
+        responseDescriptor.setStatusDescription("OMC VMs are decommissioned in VIM");
+        responseDescriptor.setErrorCode(null);
+        responseDescriptor.setResponseId("11");
 
-	    response.responseDescriptor.responseHistoryList = new LinkedList<>();
-        response.responseDescriptor.responseHistoryList.add(responseDescriptor);
+	    response.getResponseDescriptor().responseHistoryList = new LinkedList<>();
+        response.getResponseDescriptor().responseHistoryList.add(responseDescriptor);
 
         body = Serialization.gsonPretty.toJson(response);
         System.out.println(body);
