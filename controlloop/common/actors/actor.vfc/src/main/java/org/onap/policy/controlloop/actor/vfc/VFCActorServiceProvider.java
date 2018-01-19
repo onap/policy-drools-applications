@@ -82,19 +82,19 @@ public class VFCActorServiceProvider implements Actor {
         	}
         	serviceInstance = tempVnfResp.getServiceId();
         }
-        request.nsInstanceId = serviceInstance;
-        request.requestId = onset.getRequestID();
-        request.healRequest = new VFCHealRequest();
-        request.healRequest.vnfInstanceId = onset.getAAI().get("generic-vnf.vnf-id");
-        request.healRequest.cause = operation.getMessage();
-        request.healRequest.additionalParams = new VFCHealAdditionalParams();
+        request.setNSInstanceId(serviceInstance);
+        request.setRequestId(onset.getRequestID());
+        request.setHealRequest(new VFCHealRequest());
+        request.getHealRequest().setVnfInstanceId(onset.getAAI().get("generic-vnf.vnf-id"));
+        request.getHealRequest().setCause(operation.getMessage());
+        request.getHealRequest().setAdditionalParams(new VFCHealAdditionalParams());
         
         switch (policy.getRecipe().toLowerCase()) {
             case "restart":
-                request.healRequest.additionalParams.action = "restartvm";
-                request.healRequest.additionalParams.actionInfo = new VFCHealActionVmInfo();
-                request.healRequest.additionalParams.actionInfo.vmid = onset.getAAI().get("vserver.vserver-id");
-                request.healRequest.additionalParams.actionInfo.vmname = onset.getAAI().get("vserver.vserver-name");
+                request.getHealRequest().getAdditionalParams().setAction("restartvm");
+                request.getHealRequest().getAdditionalParams().setActionInfo(new VFCHealActionVmInfo());
+                request.getHealRequest().getAdditionalParams().getActionInfo().setVmid(onset.getAAI().get("vserver.vserver-id"));
+                request.getHealRequest().getAdditionalParams().getActionInfo().setVmname(onset.getAAI().get("vserver.vserver-name"));
                 break;
             default:
                 return null;
