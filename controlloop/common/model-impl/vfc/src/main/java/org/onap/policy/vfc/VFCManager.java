@@ -32,116 +32,138 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.JsonSyntaxException;
 
 public final class VFCManager implements Runnable {
+	private static final String SYSTEM_LS = System.lineSeparator();
+	
+	private String vfcUrlBase;
+	private String username;
+	private String password;
+	private VFCRequest vfcRequest;
+	private WorkingMemory workingMem;
+	private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
+	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
 
-    private String vfcUrlBase;
-    private String username;
-    private String password;
-    private VFCRequest vfcRequest;
-    WorkingMemory workingMem;
-    private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
-    private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
+	// The REST manager used for processing REST calls for this VFC manager
+	private RESTManager restManager;
+	
+	public VFCManager(WorkingMemory wm, VFCRequest request) {
+		if (wm == null || request == null) {
+			throw new IllegalArgumentException("the parameters \"wm\" and \"request\" on the VFCManager constructor may not be null");
+		}
+		workingMem = wm;
+		vfcRequest = request;
 
-    public VFCManager(WorkingMemory wm, VFCRequest request) {
-        workingMem = wm;
-        vfcRequest = request;
+		restManager = new RESTManager();
 
-        /*
-         * TODO: What if these are null?
-         */
-        String url = PolicyEngine.manager.getEnvironmentProperty("vfc.url");
-        String username = PolicyEngine.manager.getEnvironmentProperty("vfc.username");
-        String password = PolicyEngine.manager.getEnvironmentProperty("vfc.password");
+		setVFCParams(getPEManagerEnvProperty("vfc.url"), getPEManagerEnvProperty("vfc.username"), getPEManagerEnvProperty("vfc.password"));
+	}
 
-        setVFCParams(url, username, password);
+	public void setVFCParams(String baseUrl, String name, String pwd) {
+		vfcUrlBase = baseUrl + "/api/nslcm/v1";
+		username = name;
+		password = pwd;
+	}
 
-    }
+	@Override
+	public void run() {
+		Map<String, String> headers = new HashMap<>();
+		Pair<Integer, String> httpDetails;
 
-    public void setVFCParams(String baseUrl, String name, String pwd) {
-        vfcUrlBase = baseUrl + "/api/nslcm/v1";
-        username = name;
-        password = pwd;
-    }
+		VFCResponse responseError = new VFCResponse();
+		responseError.setResponseDescriptor(new VFCResponseDescriptor());
+		responseError.getResponseDescriptor().setStatus("error");
 
-    @Override
-    public void run() {
+		headers.put("Accept", "application/json");
+		String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.getNSInstanceId() + "/heal";
+		try {
+			String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
+			netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, vfcRequestJson);
 
-        Map<String, String> headers = new HashMap<String, String>();
-        Pair<Integer, String> httpDetails;
+			httpDetails = restManager.post(vfcUrl, username, password, headers, "application/json", vfcRequestJson);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			workingMem.insert(responseError);
+			return;
+		}
 
-        VFCResponse responseError = new VFCResponse();
-        responseError.responseDescriptor = new VFCResponseDescriptor();
-        responseError.responseDescriptor.status = "error";
+		if (httpDetails == null) {
+			workingMem.insert(responseError);
+			return;
+		}
 
-        headers.put("Accept", "application/json");
-        String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.nsInstanceId + "/heal";
-        try {
-            String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
-            netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), vfcRequestJson);
+		if (httpDetails.a != 202) {
+			logger.warn("VFC Heal Restcall failed");
+			return;
+		}
 
-            httpDetails = new RESTManager().post(vfcUrl, username, password, headers,
-                    "application/json", vfcRequestJson);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            workingMem.insert(responseError);
-            return;
-        }
+		try {
+			VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
+			netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, httpDetails.b);
+			String body = Serialization.gsonPretty.toJson(response);
+			logger.debug("Response to VFC Heal post:");
+			logger.debug(body);
 
-        if (httpDetails == null) {
-            workingMem.insert(responseError);
-            return;
-        }
+			String jobId = response.getJobId();
+			int attemptsLeft = 20;
 
-        if (httpDetails.a == 202) {
-            try {
-                VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
-                netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, System.lineSeparator(), httpDetails.b);
-                String body = Serialization.gsonPretty.toJson(response);
-                logger.debug("Response to VFC Heal post:");
-                logger.debug(body);
+			String urlGet = vfcUrlBase + "/jobs/" + jobId;
+			VFCResponse responseGet = null;
 
-                String jobId = response.jobId;
-                int attemptsLeft = 20;
+			while (attemptsLeft-- > 0) {
+				netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
+				Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
+				responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
+				netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, SYSTEM_LS, httpDetailsGet.b);
+				responseGet.setRequestId(vfcRequest.getRequestId().toString());
+				body = Serialization.gsonPretty.toJson(responseGet);
+				logger.debug("Response to VFC Heal get:");
+				logger.debug(body);
 
-                String urlGet = vfcUrlBase + "/jobs/" + jobId;
-                VFCResponse responseGet = null;
+				String responseStatus = responseGet.getResponseDescriptor().getStatus();
+				if (httpDetailsGet.a == 200 && (responseStatus.equalsIgnoreCase("finished") || responseStatus.equalsIgnoreCase("error"))) {
+					logger.debug("VFC Heal Status {}", responseGet.getResponseDescriptor().getStatus());
+					workingMem.insert(responseGet);
+					break;
+				}
+				Thread.sleep(20000);
+			}
+			if ((attemptsLeft <= 0)
+					&& (responseGet != null)
+					&& (responseGet.getResponseDescriptor() != null)
+					&& (responseGet.getResponseDescriptor().getStatus() != null)
+					&& (!responseGet.getResponseDescriptor().getStatus().isEmpty())) {
+				logger.debug("VFC timeout. Status: ({})", responseGet.getResponseDescriptor().getStatus());
+				workingMem.insert(responseGet);
+			}
+		} catch (JsonSyntaxException e) {
+			logger.error("Failed to deserialize into VFCResponse {}", e.getLocalizedMessage(), e);
+		} catch (InterruptedException e) {
+			logger.error("Interrupted exception: {}", e.getLocalizedMessage(), e);
+			Thread.currentThread().interrupt();
+		} catch (Exception e) {
+			logger.error("Unknown error deserializing into VFCResponse {}", e.getLocalizedMessage(), e);
+		}
+	}
 
-                while (attemptsLeft-- > 0) {
+	/**
+	 * Protected setter for rest manager to allow mocked rest manager to be used for testing 
+	 * @param restManager the test REST manager
+	 */
+	protected void setRestManager(final RESTManager restManager) {
+		this.restManager = restManager;
+	}
+	
+	/**
+	 * This method reads and validates environmental properties coming from the policy engine. Null properties cause
+	 * an {@link IllegalArgumentException} runtime exception to be thrown 
+	 * @param string the name of the parameter to retrieve
+	 * @return the property value
+	 */
 
-                    netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
-                    Pair<Integer, String> httpDetailsGet = new RESTManager().get(urlGet, username, password, headers);
-                    responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
-                    netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, System.lineSeparator(), httpDetailsGet.b);
-                    responseGet.requestId = vfcRequest.requestId.toString();
-                    body = Serialization.gsonPretty.toJson(responseGet);
-                    logger.debug("Response to VFC Heal get:");
-                    logger.debug(body);
-
-                    if (httpDetailsGet.a == 200) {
-                        if (responseGet.responseDescriptor.status.equalsIgnoreCase("finished") ||
-                                responseGet.responseDescriptor.status.equalsIgnoreCase("error")) {
-                            logger.debug("VFC Heal Status {}", responseGet.responseDescriptor.status);
-                            workingMem.insert(responseGet);
-                            break;
-                        }
-                    }
-                    Thread.sleep(20000);
-                }
-                if ((attemptsLeft <= 0)
-                        && (responseGet != null)
-                        && (responseGet.responseDescriptor != null)
-                        && (responseGet.responseDescriptor.status != null)
-                        && (!responseGet.responseDescriptor.status.isEmpty())) {
-                    logger.debug("VFC timeout. Status: ({})", responseGet.responseDescriptor.status);
-                    workingMem.insert(responseGet);
-                }
-            } catch (JsonSyntaxException e) {
-                logger.error("Failed to deserialize into VFCResponse {}", e.getLocalizedMessage(), e);
-            } catch (InterruptedException e) {
-                logger.error("Interrupted exception: {}", e.getLocalizedMessage(), e);
-                Thread.currentThread().interrupt();
-            }
-        } else {
-            logger.warn("VFC Heal Restcall failed");
-        }
-    }
+	private String getPEManagerEnvProperty(String enginePropertyName) {
+		String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
+		if (enginePropertyValue == null) {
+			throw new IllegalArgumentException("The value of policy engine manager environment property \"" + enginePropertyName + "\" may not be null");
+		}
+		return enginePropertyValue;
+	}
 }

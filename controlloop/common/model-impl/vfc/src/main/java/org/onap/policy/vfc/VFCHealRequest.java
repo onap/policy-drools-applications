@@ -27,15 +27,39 @@ public class VFCHealRequest implements Serializable {
 	private static final long serialVersionUID = -7341931593089709247L;
 
 	@SerializedName("vnfInstanceId")
-	public String vnfInstanceId;
+	private String vnfInstanceId;
 
 	@SerializedName("cause")
-	public String cause;
+	private String cause;
 
 	@SerializedName("additionalParams")
-	public VFCHealAdditionalParams additionalParams;
+	private VFCHealAdditionalParams additionalParams;
 
 	public VFCHealRequest() {
+		// Default constructor for VFCHealRequest
 	}
 
+	public String getVnfInstanceId() {
+		return vnfInstanceId;
+	}
+
+	public void setVnfInstanceId(String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+	}
+
+	public String getCause() {
+		return cause;
+	}
+
+	public void setCause(String cause) {
+		this.cause = cause;
+	}
+
+	public VFCHealAdditionalParams getAdditionalParams() {
+		return additionalParams;
+	}
+
+	public void setAdditionalParams(VFCHealAdditionalParams additionalParams) {
+		this.additionalParams = additionalParams;
+	}
 }

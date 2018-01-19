@@ -1,6 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2017 Intel Corp. All rights reserved.
+ * appc
+ * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +18,28 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.vfc.util;
+package org.onap.policy.vfc;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import static org.junit.Assert.*;
 
-public final class Serialization {
-	private Serialization() {
+import org.junit.Test;
+
+public class TestVFCHealActionVmInfo {
+
+	@Test
+	public void testVFCHealActionVmInfo() {
+		VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
+		assertNotNull(actionInfo);
+		assertNotEquals(0, actionInfo.hashCode());
+		
+		String vmid = "ECity";
+		actionInfo.setVmid(vmid);
+		assertEquals(vmid, actionInfo.getVmid());
+		
+		String vmName = "Emerald City";
+		actionInfo.setVmname(vmName);
+		assertEquals(vmName, actionInfo.getVmname());
+		
+		assertNotEquals(0, actionInfo.hashCode());
 	}
-	
-	public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
-			.setPrettyPrinting()
-			.create();
-
 }
