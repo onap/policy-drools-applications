@@ -127,7 +127,7 @@ public class AppcServiceProviderTest {
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());
-        assertEquals(appcRequest.getAction(), "ModifyConfig");
+        assertEquals("ModifyConfig", appcRequest.getAction());
 
         /* A payload is required and cannot be null */
         assertNotNull(appcRequest.getPayload());
@@ -157,4 +157,13 @@ public class AppcServiceProviderTest {
         logger.debug("JSON Output: \n" + jsonResponse);
     }
 
+    @Test
+    public void testMethods() {
+    		APPCActorServiceProvider sp = new APPCActorServiceProvider();
+    	
+    		assertEquals("APPC", sp.actor());
+    		assertEquals(4, sp.recipes().size());
+    		assertEquals("VM", sp.recipeTargets("Restart").get(0));
+    		assertEquals(0, sp.recipePayloads("Restart").size());
+    }
 }

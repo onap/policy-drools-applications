@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.applcm.util;
+package org.onap.policy.appclcm.util;
 
 import static org.junit.Assert.*;
 
