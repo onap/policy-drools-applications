@@ -38,16 +38,25 @@ import com.google.common.collect.ImmutableMap;
 
 
 public class APPCActorServiceProvider implements Actor {
+	// Strings for targets
+	private static final String TARGET_VM  = "VM";
+	private static final String TARGET_VNF = "VNF";
 
-	private static final ImmutableList<String> recipes = ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig");
+	// Strings for recipes
+	private static final String RECIPE_RESTART = "Restart";
+	private static final String RECIPE_REBUILD = "Rebuild";
+	private static final String RECIPE_MIGRATE = "Migrate";
+	private static final String RECIPE_MODIFY  = "ModifyConfig";
+
+	private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
 	private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-			.put("Restart", ImmutableList.of("VM"))
-			.put("Rebuild", ImmutableList.of("VM"))
-			.put("Migrate", ImmutableList.of("VM"))
-			.put("ModifyConfig", ImmutableList.of("VNF"))
+			.put(RECIPE_RESTART, ImmutableList.of(TARGET_VM))
+			.put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
+			.put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM))
+			.put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF))
 			.build();
 	private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
-			.put("ModifyConfig", ImmutableList.of("generic-vnf.vnf-id"))
+			.put(RECIPE_MODIFY, ImmutableList.of("generic-vnf.vnf-id"))
 			.build();
 
 	@Override
