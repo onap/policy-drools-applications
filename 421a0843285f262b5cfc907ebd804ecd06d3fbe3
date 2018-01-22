@@ -22,6 +22,30 @@
       "revId": "421a0843285f262b5cfc907ebd804ecd06d3fbe3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_17133e67",
+        "filename": "controlloop/common/model-impl/vfc/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-01-22T14:27:16Z",
+      "side": 1,
+      "message": "This library is also used in the policy/engine - onap-pdp-rest project.",
+      "parentUuid": "5a93c517_972f4ea1",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "421a0843285f262b5cfc907ebd804ecd06d3fbe3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
