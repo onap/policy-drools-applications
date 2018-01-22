@@ -27,14 +27,38 @@ public class VFCResponse implements Serializable {
     private static final long serialVersionUID = 9151443891238218455L;
 
     @SerializedName("jobId")
-    public String jobId;
+    private String jobId;
 
     @SerializedName("responseDescriptor")
-    public VFCResponseDescriptor responseDescriptor;
+    private VFCResponseDescriptor responseDescriptor;
 
-    public transient String requestId;
+    private transient String requestId;
 
     public VFCResponse() {
+		// Default constructor for VFCResponse
     }
 
+	public String getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(String jobId) {
+		this.jobId = jobId;
+	}
+
+	public VFCResponseDescriptor getResponseDescriptor() {
+		return responseDescriptor;
+	}
+
+	public void setResponseDescriptor(VFCResponseDescriptor responseDescriptor) {
+		this.responseDescriptor = responseDescriptor;
+	}
+
+	public String getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
+	}
 }

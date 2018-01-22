@@ -1,6 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2017 Intel Corp. All rights reserved.
+ * vfc
+ * ================================================================================
+ * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +20,14 @@
 
 package org.onap.policy.vfc.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import static org.junit.Assert.*;
 
-public final class Serialization {
-	private Serialization() {
+import org.junit.Test;
+
+public class TestSerialization {
+
+	@Test
+	public void test() {
+		assertNotNull(Serialization.gsonPretty);
 	}
-	
-	public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping()
-			.setPrettyPrinting()
-			.create();
-
 }

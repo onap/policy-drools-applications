@@ -27,28 +27,72 @@ public class VFCResponseDescriptor implements Serializable {
     private static final long serialVersionUID = 6827782899144150158L;
 
     @SerializedName("progress")
-    String progress;
+    private String progress;
 
     @SerializedName("status")
-    String status;
+    private String status;
 
     @SerializedName("statusDescription")
-    String statusDescription;
+    private String statusDescription;
 
     @SerializedName("errorCode")
-    String errorCode;
+    private String errorCode;
 
     @SerializedName("responseId")
-    String responseId;
+    private String responseId;
 
     @SerializedName("responseHistoryList")
     public List<VFCResponseDescriptor> responseHistoryList;
 
     public VFCResponseDescriptor() {
+		// Default constructor for VFCResponseDescriptor
     }
 
     public String getStatus() {
 	return status;
     }
 
+	public String getProgress() {
+		return progress;
+	}
+
+	public void setProgress(String progress) {
+		this.progress = progress;
+	}
+
+	public String getStatusDescription() {
+		return statusDescription;
+	}
+
+	public void setStatusDescription(String statusDescription) {
+		this.statusDescription = statusDescription;
+	}
+
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public String getResponseId() {
+		return responseId;
+	}
+
+	public void setResponseId(String responseId) {
+		this.responseId = responseId;
+	}
+
+	public List<VFCResponseDescriptor> getResponseHistoryList() {
+		return responseHistoryList;
+	}
+
+	public void setResponseHistoryList(List<VFCResponseDescriptor> responseHistoryList) {
+		this.responseHistoryList = responseHistoryList;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }
