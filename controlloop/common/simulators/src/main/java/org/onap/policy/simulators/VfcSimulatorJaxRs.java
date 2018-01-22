@@ -35,26 +35,26 @@ import org.slf4j.LoggerFactory;
 
 @Path("/api/nslcm/v1")
 public class VfcSimulatorJaxRs {
-	
+
 	@POST
 	@Path("/ns/{nsInstanceId}/heal")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String vfcPostQuery(@PathParam("nsInstanceId") String nsInstanceId,
-                                   @Context final HttpServletResponse response)
+			@Context final HttpServletResponse response)
 	{
-                response.setStatus(HttpServletResponse.SC_ACCEPTED);
-                try {
-                        response.flushBuffer();
-                }catch(Exception e){
-                	final Logger logger = LoggerFactory.getLogger(VfcSimulatorJaxRs.class);
-                	logger.error("flushBuffer threw: ", e);
-        			return "";
-                }
+		response.setStatus(HttpServletResponse.SC_ACCEPTED);
+		try {
+			response.flushBuffer();
+		} catch(Exception e){
+			final Logger logger = LoggerFactory.getLogger(VfcSimulatorJaxRs.class);
+			logger.error("flushBuffer threw: ", e);
+			return "";
+		}
 
 		return "{\"jobId\":\"1\"}";
 	}
-	
+
 	@GET
 	@Path("/jobs/{jobId}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -62,6 +62,6 @@ public class VfcSimulatorJaxRs {
 	public String vfcGetQuery(@PathParam("jobId") String jobId) {
 		return "{\"jobId\" : "+jobId+",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"finished\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": 101 ,\"responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\"progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
 	}
-	
+
 }
 

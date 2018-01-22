@@ -40,90 +40,98 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class VFCActorServiceProvider implements Actor {
+	private static final Logger logger = LoggerFactory.getLogger(VFCActorServiceProvider.class);
 
-    private static final Logger logger = LoggerFactory.getLogger(VFCActorServiceProvider.class);
-    private static final ImmutableList<String> recipes = ImmutableList.of("Restart");
-    private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-            .put("Restart", ImmutableList.of("VM")).build();
+	// Strings for Actor
+	private static final String VFC_ACTOR  = "VFC";
 
-    @Override
-    public String actor() {
-        return "VFC";
-    }
+	// Strings for targets
+	private static final String TARGET_VM  = "VM";
 
-    @Override
-    public List<String> recipes() {
-        return ImmutableList.copyOf(recipes);
-    }
+	// Strings for recipes
+	private static final String RECIPE_RESTART = "Restart";
 
-    @Override
-    public List<String> recipeTargets(String recipe) {
-        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
-    }
+	private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_RESTART);
+	private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
+			.put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).build();
 
-    @Override
-    public List<String> recipePayloads(String recipe) {
-        return Collections.emptyList();
-    }
+	@Override
+	public String actor() {
+		return VFC_ACTOR;
+	}
 
-    public static VFCRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-                                              Policy policy, AAIGETVnfResponse vnfResponse) {
-        // Construct an VFC request
-        VFCRequest request = new VFCRequest();
-        String serviceInstance = onset.getAAI().get("service-instance.service-instance-id");
-        if (serviceInstance == null || "".equals(serviceInstance))
-        {
-        	AAIGETVnfResponse tempVnfResp = vnfResponse;
-        	if(tempVnfResp == null) //if the response is null, we haven't queried
-        	{
-        		tempVnfResp = getAAIServiceInstance(onset); //This does the AAI query since we haven't already
-        		if (tempVnfResp == null)
-        		    return null;
-        	}
-        	serviceInstance = tempVnfResp.getServiceId();
-        }
-        request.setNSInstanceId(serviceInstance);
-        request.setRequestId(onset.getRequestID());
-        request.setHealRequest(new VFCHealRequest());
-        request.getHealRequest().setVnfInstanceId(onset.getAAI().get("generic-vnf.vnf-id"));
-        request.getHealRequest().setCause(operation.getMessage());
-        request.getHealRequest().setAdditionalParams(new VFCHealAdditionalParams());
-        
-        switch (policy.getRecipe().toLowerCase()) {
-            case "restart":
-                request.getHealRequest().getAdditionalParams().setAction("restartvm");
-                request.getHealRequest().getAdditionalParams().setActionInfo(new VFCHealActionVmInfo());
-                request.getHealRequest().getAdditionalParams().getActionInfo().setVmid(onset.getAAI().get("vserver.vserver-id"));
-                request.getHealRequest().getAdditionalParams().getActionInfo().setVmname(onset.getAAI().get("vserver.vserver-name"));
-                break;
-            default:
-                return null;
-        }
-        return request;
-    }
+	@Override
+	public List<String> recipes() {
+		return ImmutableList.copyOf(recipes);
+	}
 
+	@Override
+	public List<String> recipeTargets(String recipe) {
+		return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+	}
 
-    private static AAIGETVnfResponse getAAIServiceInstance(VirtualControlLoopEvent event) {
-        AAIGETVnfResponse response = null;
-        UUID requestID = event.getRequestID();
-        String vnfName = event.getAAI().get("generic-vnf.vnf-name");
-        String vnfID = event.getAAI().get("generic-vnf.vnf-id");
-        String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-        String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
-        try {
-            if (vnfName != null) {
-                String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestID, vnfName);
-            } else if (vnfID != null) {
-                String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf/";
-                response = new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUsername, aaiPassword, requestID, vnfID);
-            } else {
-                logger.error("getAAIServiceInstance failed");
-            }
-        } catch (Exception e) {
-            logger.error("getAAIServiceInstance exception: ", e);
-        }
-        return response;
-    }
+	@Override
+	public List<String> recipePayloads(String recipe) {
+		return Collections.emptyList();
+	}
+
+	public static VFCRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+			Policy policy, AAIGETVnfResponse vnfResponse) {
+		
+		// Construct an VFC request
+		VFCRequest request = new VFCRequest();
+		String serviceInstance = onset.getAAI().get("service-instance.service-instance-id");
+		if (serviceInstance == null || "".equals(serviceInstance))
+		{
+			AAIGETVnfResponse tempVnfResp = vnfResponse;
+			if(tempVnfResp == null) //if the response is null, we haven't queried
+			{
+				tempVnfResp = getAAIServiceInstance(onset); //This does the AAI query since we haven't already
+				if (tempVnfResp == null)
+					return null;
+			}
+			serviceInstance = tempVnfResp.getServiceId();
+		}
+		request.setNSInstanceId(serviceInstance);
+		request.setRequestId(onset.getRequestID());
+		request.setHealRequest(new VFCHealRequest());
+		request.getHealRequest().setVnfInstanceId(onset.getAAI().get("generic-vnf.vnf-id"));
+		request.getHealRequest().setCause(operation.getMessage());
+		request.getHealRequest().setAdditionalParams(new VFCHealAdditionalParams());
+
+		if (policy.getRecipe().toLowerCase().equalsIgnoreCase(RECIPE_RESTART)) {
+			request.getHealRequest().getAdditionalParams().setAction("restartvm");
+			request.getHealRequest().getAdditionalParams().setActionInfo(new VFCHealActionVmInfo());
+			request.getHealRequest().getAdditionalParams().getActionInfo().setVmid(onset.getAAI().get("vserver.vserver-id"));
+			request.getHealRequest().getAdditionalParams().getActionInfo().setVmname(onset.getAAI().get("vserver.vserver-name"));
+		}
+		else {
+			return null;
+		}
+		return request;
+	}
+
+	private static AAIGETVnfResponse getAAIServiceInstance(VirtualControlLoopEvent event) {
+		AAIGETVnfResponse response = null;
+		UUID requestID = event.getRequestID();
+		String vnfName = event.getAAI().get("generic-vnf.vnf-name");
+		String vnfID = event.getAAI().get("generic-vnf.vnf-id");
+		String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+		String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
+		String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+		try {
+			if (vnfName != null) {
+				String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
+				response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestID, vnfName);
+			} else if (vnfID != null) {
+				String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf/";
+				response = new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUsername, aaiPassword, requestID, vnfID);
+			} else {
+				logger.error("getAAIServiceInstance failed");
+			}
+		} catch (Exception e) {
+			logger.error("getAAIServiceInstance exception: ", e);
+		}
+		return response;
+	}
 }
