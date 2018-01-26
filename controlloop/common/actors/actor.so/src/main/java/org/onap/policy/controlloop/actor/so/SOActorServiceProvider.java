@@ -58,58 +58,29 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 public class SOActorServiceProvider implements Actor {
-	
 	private static final Logger logger = LoggerFactory.getLogger(SOActorServiceProvider.class);
 
-	private static String vnfItemVnfId;
+	// Strings for SO Actor
+	private static final String SO_ACTOR  = "SO";
 
-	private String vnfItemVnfType;
+	// Strings for targets
+	private static final String TARGET_VFC = "VFC";
 
-	private String vnfItemModelInvariantId;
+	// Strings for recipes
+	private static final String RECIPE_VF_MODULE_CREATE = "VF Module Create";
 
-	private String vnfItemModelVersionId;
-
-	private String vnfItemModelName;
-
-	private String vnfItemModelVersion;
-
-	private String vnfItemModelNameVersionId;
-
-	private static String serviceItemServiceInstanceId;
-
-	private String serviceItemModelInvariantId;
-
-	private String serviceItemModelName;
-
-	private String serviceItemModelType;
-
-	private String serviceItemModelVersion;
-
-	private String serviceItemModelNameVersionId;
-
-	private String vfModuleItemVfModuleName;
-
-	private String vfModuleItemModelInvariantId;
-
-	private String vfModuleItemModelVersionId;
-
-	private String vfModuleItemModelName;
-
-	private String vfModuleItemModelNameVersionId;
-
-	private String tenantItemTenantId;
-
-	private String cloudRegionItemCloudRegionId;
-
-	private static final ImmutableList<String> recipes = ImmutableList.of(
-			"VF Module Create");
+	private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_VF_MODULE_CREATE);
 	private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-			.put("VF Module Create", ImmutableList.of("VFC"))
+			.put(RECIPE_VF_MODULE_CREATE, ImmutableList.of(TARGET_VFC))
 			.build();
-	
+
+	// Static variables required to hold the IDs of the last service item and VNF item. Note that in a multithreaded deployment this WILL break
+	private static String lastVNFItemVnfId;
+	private static String lastServiceItemServiceInstanceId;
+
 	@Override
 	public String actor() {
-		return "SO";
+		return SO_ACTOR;
 	}
 
 	@Override
@@ -126,23 +97,171 @@ public class SOActorServiceProvider implements Actor {
 	public List<String> recipePayloads(String recipe) {
 		return Collections.emptyList();
 	}
-	
+
 	/**
-	 * SOActorServiceProvider Constructor
+	 * Constructs a SO request conforming to the lcm API.
+	 * The actual request is constructed and then placed in a 
+	 * wrapper object used to send through DMAAP.
 	 * 
+	 * @param onset
+	 *            the event that is reporting the alert for policy
+	 *            to perform an action        
+	 * @param operation
+	 *            the control loop operation specifying the actor,
+	 *            operation, target, etc.  
+	 * @param policy
+	 *            the policy the was specified from the yaml generated
+	 *            by CLAMP or through the Policy GUI/API                        
+	 * @return a SO request conforming to the lcm API using the DMAAP wrapper
 	 */
-	public SOActorServiceProvider() {
-		
+	public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
+		if (!SO_ACTOR.equals(policy.getActor()) || !RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
+			// for future extension
+			return null;
+		}
+
+		// Perform named query request and handle response
+		AAINQResponseWrapper aaiResponseWrapper = performAaiNamedQueryRequest(onset);
+		if (aaiResponseWrapper == null) {
+			// Tracing and error handling handied in the "performAaiNamedQueryRequest()" method
+			return null;
+		}
+
+		AAINQInventoryResponseItem vnfItem = null;
+		AAINQInventoryResponseItem vnfServiceItem = null;
+		AAINQInventoryResponseItem tenantItem = null;
+
+		// Extract the items we're interested in from the response
+		try 	{
+			vnfItem = aaiResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0);
+		}
+		catch (Exception e) {
+			logger.error("VNF Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper));
+			return null;
+		}
+
+		try 	{
+			vnfServiceItem = vnfItem.getItems().getInventoryResponseItems().get(0);
+		}
+		catch (Exception e) {
+			logger.error("VNF Service Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper));
+			return null;
+		}
+
+		try 	{
+			tenantItem = aaiResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(1);
+		}
+		catch (Exception e) {
+			logger.error("Tenant Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper));
+			return null;
+		}
+
+		// Find the index for base vf module and non-base vf module
+		int baseIndex = findIndex(vnfItem.getItems().getInventoryResponseItems(), true);
+		int nonBaseIndex = findIndex(vnfItem.getItems().getInventoryResponseItems(), false);
+
+		// Report the error if either base vf module or non-base vf module is not found
+		if (baseIndex == -1 || nonBaseIndex == -1) {
+			logger.error("Either base or non-base vf module is not found from AAI response.");
+			return null;
+		}
+
+		// Construct SO Request
+		SORequest request = new SORequest();
+		request.setRequestId(onset.getRequestID());
+		request.setRequestDetails(new SORequestDetails());
+		request.getRequestDetails().setModelInfo(new SOModelInfo());
+		request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
+		request.getRequestDetails().setRequestInfo(new SORequestInfo());
+		request.getRequestDetails().setRequestParameters(new SORequestParameters());
+		request.getRequestDetails().getRequestParameters().setUserParams(null);
+
+		//
+		// cloudConfiguration
+		//
+		request.getRequestDetails().getCloudConfiguration().setTenantId(tenantItem.getTenant().getTenantId());
+		request.getRequestDetails().getCloudConfiguration().setLcpCloudRegionId(tenantItem.getItems().getInventoryResponseItems().get(0).getCloudRegion().getCloudRegionId());
+
+		//
+		// modelInfo
+		//
+		AAINQInventoryResponseItem vfModuleItem = vnfItem.getItems().getInventoryResponseItems().get(nonBaseIndex);
+
+		request.getRequestDetails().getModelInfo().setModelType("vfModule");
+		request.getRequestDetails().getModelInfo().setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
+		request.getRequestDetails().getModelInfo().setModelVersionId(vfModuleItem.getVfModule().getModelVersionId());
+		request.getRequestDetails().getModelInfo().setModelName(vfModuleItem.getExtraProperties().getExtraProperty().get(1).getPropertyValue());
+		request.getRequestDetails().getModelInfo().setModelVersion(vfModuleItem.getExtraProperties().getExtraProperty().get(4).getPropertyValue());
+
+		//
+		// requestInfo
+		//
+		request.getRequestDetails().getRequestInfo().setInstanceName(vnfItem.getItems().getInventoryResponseItems().get(baseIndex).getVfModule().getVfModuleName().replace("Vfmodule", "vDNS"));
+		request.getRequestDetails().getRequestInfo().setSource("POLICY");
+		request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
+		request.getRequestDetails().getRequestInfo().setRequestorId("policy");
+
+		//
+		// relatedInstanceList
+		//
+		SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
+		SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
+		relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
+		relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
+
+		// Service Item
+		relatedInstanceListElement1.getRelatedInstance().setInstanceId(vnfServiceItem.getServiceInstance().getServiceInstanceID());
+		relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
+		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
+		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(vnfServiceItem.getServiceInstance().getModelInvariantId());
+		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersionId(vnfServiceItem.getServiceInstance().getModelVersionId());
+		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(vnfServiceItem.getExtraProperties().getExtraProperty().get(1).getPropertyValue());
+		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(vnfServiceItem.getExtraProperties().getExtraProperty().get(4).getPropertyValue());
+
+		// VNF Item
+		relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getGenericVNF().getVnfID());
+		relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
+		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(vnfItem.getGenericVNF().getModelInvariantId());
+		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(vnfItem.getExtraProperties().getExtraProperty().get(0).getPropertyValue());
+		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(vnfItem.getExtraProperties().getExtraProperty().get(1).getPropertyValue());
+		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(vnfItem.getExtraProperties().getExtraProperty().get(4).getPropertyValue());
+		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(vnfItem.getGenericVNF().getVnfType().substring(vnfItem.getGenericVNF().getVnfType().lastIndexOf('/') + 1));
+
+		// Insert the Service Item and VNF Item	
+		request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
+		request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
+
+		// Save the instance IDs for the VNF and service to static fields
+		preserveInstanceIDs(vnfItem.getGenericVNF().getVnfID(), vnfServiceItem.getServiceInstance().getServiceInstanceID());
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("SO request sent: {}", Serialization.gsonPretty.toJson(request));
+		}
+
+		return request;
 	}
-	
-        /**
+
+	/**
+	 * This method is needed to get the serviceInstanceId and vnfInstanceId which is used
+	 * in the asyncSORestCall 
+	 * 
+	 * @param wm
+	 * @param request
+	 */
+	public static void sendRequest(String requestID, WorkingMemory wm, Object request) {
+		SOManager soManager = new SOManager();
+		soManager.asyncSORestCall(requestID, wm, lastServiceItemServiceInstanceId, lastVNFItemVnfId, (SORequest)request);
+	}
+
+	/**
 	 * Constructs and sends an AAI vserver Named Query
 	 * 
 	 * @param onset
 	 * @returns the response to the AAI Named Query
 	 */
-	private AAINQResponseWrapper AaiNamedQueryRequest(VirtualControlLoopEvent onset) {
-		
+	private AAINQResponseWrapper performAaiNamedQueryRequest(VirtualControlLoopEvent onset) {
+
 		// create AAI named-query request with UUID started with ""
 		AAINQRequest aainqrequest = new AAINQRequest();
 		AAINQQueryParameters aainqqueryparam = new AAINQQueryParameters();
@@ -162,536 +281,71 @@ public class SOActorServiceProvider implements Actor {
 		aainqinstancefiltermap.put("vserver", aainqinstancefiltermapitem);
 		aainqinstancefilter.getInstanceFilter().add(aainqinstancefiltermap);
 		aainqrequest.setInstanceFilters(aainqinstancefilter);
-		//
-		// print aainqrequest for debug
-		//
-  		logger.debug("AAI Request sent:");
-  		logger.debug(Serialization.gsonPretty.toJson(aainqrequest));
-		//
-		// Create AAINQRequestWrapper
-		//
-//		AAINQRequestWrapper aainqRequestWrapper = new AAINQRequestWrapper(onset.requestID, aainqrequest);
-		//
-		// insert aainqrequest into memory
-		//
-//		insert(aainqRequestWrapper);
-		
-  		/*
-         * Obtain A&AI credentials from properties.environment file
-         * TODO: What if these are null?
-         */
-        String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-        String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
-		
-		//***** send the request *****\\
-		AAINQResponse aainqresponse = new AAIManager(new RESTManager()).postQuery(aaiUrl, aaiUsername, aaiPassword,
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aainqrequest));
+		}
+
+		AAINQResponse aainqresponse = new AAIManager(new RESTManager()).postQuery(
+				getPEManagerEnvProperty("aai.url"),
+				getPEManagerEnvProperty("aai.username"),
+				getPEManagerEnvProperty("aai.password"),
 				aainqrequest, onset.getRequestID());
 
 		// Check AAI response
 		if (aainqresponse == null) {
-			System.err.println("Failed to get AAI response");
-			
-			// Fail and retract everything
+			logger.warn("No response received from AAI for request {}", aainqrequest);
 			return null;
-		} else {
-			// Create AAINQResponseWrapper
-			AAINQResponseWrapper aainqResponseWrapper = new AAINQResponseWrapper(onset.getRequestID(), aainqresponse);
-
-			// insert aainqResponseWrapper to memory -- Is this needed?
-//			insert(aainqResponseWrapper);
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("AAI Named Query Response: ");
-				logger.debug(Serialization.gsonPretty.toJson(aainqResponseWrapper.getAainqresponse()));
-			}
-
-			extractSOFieldsFromNamedQuery(aainqResponseWrapper, onset);
-			return aainqResponseWrapper;
 		}
-	}
 
-		
-	/**
-	 * Extract the required fields from the named query response
-	 * @param namedQueryResponseWrapper
-	 * @param onset
-	 */
-	private void extractSOFieldsFromNamedQuery(AAINQResponseWrapper namedQueryResponseWrapper, VirtualControlLoopEvent onset) {
-		
-		try {
-			// vnfItem
-			setVnfItemVnfId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getGenericVNF().getVnfID());
-			setVnfItemVnfType(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getGenericVNF().getVnfType());
-			setVnfItemVnfType(vnfItemVnfType.substring(vnfItemVnfType.lastIndexOf("/")+1));
-			setVnfItemModelInvariantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getGenericVNF().getModelInvariantId());
-			setVnfItemModelVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getGenericVNF().getModelVersionId());
-			setVnfItemModelName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-			setVnfItemModelNameVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getExtraProperties().getExtraProperty().get(0).getPropertyValue());
-			setVnfItemModelVersion(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getExtraProperties().getExtraProperty().get(4).getPropertyValue());			
+		// Create AAINQResponseWrapper
+		AAINQResponseWrapper aainqResponseWrapper = new AAINQResponseWrapper(onset.getRequestID(), aainqresponse);
 
-			// serviceItem
-			setServiceItemServiceInstanceId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getServiceInstance().getServiceInstanceID());
-			setServiceItemModelInvariantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getServiceInstance().getModelInvariantId());
-			setServiceItemModelName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-			setServiceItemModelType(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-			setServiceItemModelNameVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getServiceInstance().getModelVersionId());
-			setServiceItemModelVersion(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getExtraProperties().getExtraProperty().get(4).getPropertyValue());
-
-			// Find the index for base vf module and non-base vf module
-			int baseIndex = -1;
-			int nonBaseIndex = -1;
-			List<AAINQInventoryResponseItem> inventoryItems = namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems();
-			for (AAINQInventoryResponseItem m : inventoryItems) {
-				if (m.getVfModule() != null) {
-					if (m.getVfModule().getIsBaseVfModule()) {
-						baseIndex = inventoryItems.indexOf(m);
-					} else if (m.getVfModule().getIsBaseVfModule() == false) {
-						nonBaseIndex = inventoryItems.indexOf(m);
-					}
-				}
-				//
-				if (baseIndex != -1 && nonBaseIndex != -1) {
-					break;
-				}
-			}
-			
-			// Report the error if either base vf module or non-base vf module is not found
-			if (baseIndex == -1 || nonBaseIndex == -1) {
-				logger.error("Either base or non-base vf module is not found from AAI response.");
-				return;
-			}
-			
-			// This comes from the base module
-			setVfModuleItemVfModuleName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(baseIndex).getVfModule().getVfModuleName());
-			setVfModuleItemVfModuleName(vfModuleItemVfModuleName.replace("Vfmodule", "vDNS"));
-
-			// vfModuleItem - NOT the base module
-			setVfModuleItemModelInvariantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(nonBaseIndex).getVfModule().getModelInvariantId());
-			setVfModuleItemModelNameVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(nonBaseIndex).getVfModule().getModelVersionId());
-			setVfModuleItemModelName(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(nonBaseIndex).getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-			setVfModuleItemModelVersionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(nonBaseIndex).getExtraProperties().getExtraProperty().get(4).getPropertyValue());
-
-			// tenantItem
-			setTenantItemTenantId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(1).getTenant().getTenantId());
-
-			// cloudRegionItem
-			setCloudRegionItemCloudRegionId(namedQueryResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(1).getItems().getInventoryResponseItems().get(0).getCloudRegion().getCloudRegionId());
-					
-		} catch (Exception e) {
-			logger.warn("Problem extracting SO data from AAI query response because of {}", e.getMessage(), e);
-			return;
+		if (logger.isDebugEnabled()) {
+			logger.debug("AAI Named Query Response: ");
+			logger.debug(Serialization.gsonPretty.toJson(aainqResponseWrapper.getAainqresponse()));
 		}
+
+		return aainqResponseWrapper;
 	}
-	
+
 	/**
-	 * Checks whether extracted fields from AAI Named Query are null or not
-	 * @return false if some extracted fields are missing, true otherwise
+	 * Find the base index or non base index in a list of inventory response items
+	 * @param inventoryResponseItems
+	 * @param baseIndexFlag true if we are searching for the base index, false if we are searching for hte non base index
+	 * @return the base or non base index or -1 if the index was not found
 	 */
-	private boolean checkExtractedFields() {
-		
-		if ((getVnfItemVnfId() == null) || (getVnfItemVnfType() == null) ||
-			    (getVnfItemModelInvariantId() == null) || (getVnfItemModelName() == null) ||
-			    (getVnfItemModelVersion() == null) || (getVnfItemModelNameVersionId() == null) ||
-			    (getServiceItemServiceInstanceId() == null) || (getServiceItemModelName() == null) ||
-			    (getServiceItemModelType() == null) || (getServiceItemModelVersion() == null) ||
-			    (getServiceItemModelNameVersionId() == null) || (getVfModuleItemVfModuleName() == null) ||
-			    (getVfModuleItemModelInvariantId() == null) || (getVfModuleItemModelVersionId() == null) ||
-			    (getVfModuleItemModelName() == null) || (getVfModuleItemModelNameVersionId() == null) ||
-			    (getTenantItemTenantId() == null) || (getCloudRegionItemCloudRegionId() == null)) {
-				return false;
+	private int findIndex(List<AAINQInventoryResponseItem> inventoryResponseItems, boolean baseIndexFlag) {
+		for (AAINQInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
+			if (invenoryResponseItem.getVfModule() != null && baseIndexFlag == invenoryResponseItem.getVfModule().getIsBaseVfModule()) {
+				return inventoryResponseItems.indexOf(invenoryResponseItem);
 			}
-		return true;
-	}
-		
-	/**
-	 * Construct SO Request
-	 * 
-	 * @param onset
-	 * @param operation
-	 * @param policy
-	 * @return SORequest
-	 * @throws IllegalAccessException 
-	 */
-	public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
-
-		if ("SO".equals(policy.getActor()) && "VF Module Create".equals(policy.getRecipe())) {
-			// perform named query request and handle response
-			AaiNamedQueryRequest(onset);
-		} else {
-			// for future extension
-			return null;
-		};
-          
-		// check if the fields extracted from named query response are 
-		// not null so we can proceed with SO request
-		if (!checkExtractedFields()) {
-			logger.warn("AAI response is missing some required fields. Cannot proceed with SO Request construction.");
-			return null;
-			
-		} else {
-
-			// Construct SO Request
-			SORequest request = new SORequest();
-//			request.requestId = onset.requestID;
-			request.setRequestDetails(new SORequestDetails());
-			request.getRequestDetails().setModelInfo(new SOModelInfo());
-			request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
-			request.getRequestDetails().setRequestInfo(new SORequestInfo());
-			request.getRequestDetails().setRequestParameters(new SORequestParameters());
-			request.getRequestDetails().getRequestParameters().setUserParams(null);
-			//
-			// cloudConfiguration
-			//
-			request.getRequestDetails().getCloudConfiguration().setLcpCloudRegionId(getCloudRegionItemCloudRegionId());
-			request.getRequestDetails().getCloudConfiguration().setTenantId(getTenantItemTenantId());
-			//
-			// modelInfo
-			//
-			request.getRequestDetails().getModelInfo().setModelType("vfModule");
-			request.getRequestDetails().getModelInfo().setModelInvariantId(getVfModuleItemModelInvariantId());
-			request.getRequestDetails().getModelInfo().setModelVersionId(getVfModuleItemModelNameVersionId());
-			request.getRequestDetails().getModelInfo().setModelName(getVfModuleItemModelName());
-			request.getRequestDetails().getModelInfo().setModelVersion(getVfModuleItemModelVersionId());
-			//
-			// requestInfo
-			//
-			request.getRequestDetails().getRequestInfo().setInstanceName(getVfModuleItemVfModuleName());
-			request.getRequestDetails().getRequestInfo().setSource("POLICY");
-			request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
-			request.getRequestDetails().getRequestInfo().setRequestorId("policy");
-			//
-			// relatedInstanceList
-			//
-			SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
-			SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
-			relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
-			relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
-			//
-			relatedInstanceListElement1.getRelatedInstance().setInstanceId(getServiceItemServiceInstanceId());
-			relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
-			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
-			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(getServiceItemModelInvariantId());
-			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersionId(getServiceItemModelNameVersionId());
-			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(getServiceItemModelName());
-			relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(getServiceItemModelVersion());
-			//
-			relatedInstanceListElement2.getRelatedInstance().setInstanceId(getVnfItemVnfId());
-			relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
-			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
-			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(getVnfItemModelInvariantId());
-			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(getVnfItemModelNameVersionId());
-			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(getVnfItemModelName());
-			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(getVnfItemModelVersion());
-			relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(getVnfItemVnfType());
-			//	
-			request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
-			request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
-			//
-			// print SO request for debug
-			//
-			logger.debug("SO request sent:");
-			logger.debug(Serialization.gsonPretty.toJson(request));
-	
-			return request;
 		}
-	}
-	
-	/**
-	 * This method is needed to get the serviceInstanceId and vnfInstanceId which is used
-	 * in the asyncSORestCall 
-	 * 
-	 * @param wm
-	 * @param request
-	 */
-	public static void sendRequest(String requestID, WorkingMemory wm, Object request) {
-		SOManager Mm = new SOManager();
-		Mm.asyncSORestCall(requestID, wm, getServiceItemServiceInstanceId(), getVnfItemVnfId(), (SORequest)request);
-	}
-		
-	/**
-	 * @return the vnfItemVnfId
-	 */
-	public static String getVnfItemVnfId() {
-		return vnfItemVnfId;
+
+		return -1;
 	}
 
 	/**
-	 * @param vnfItemVnfId the vnfItemVnfId to set
+	 * This method is called to remember the last service instance ID and VNF Item VNF ID. Note these fields are static, beware for multithreaded deployments
+	 * @param vnfInstanceID update the last VNF instance ID to this value
+	 * @param serviceInstanceID update the last service instance ID to this value
 	 */
-	private static void setVnfItemVnfId(String vnfItemVnfId) {
-		SOActorServiceProvider.vnfItemVnfId = vnfItemVnfId;
+	private static void preserveInstanceIDs(final String vnfInstanceID, final String serviceInstanceID) {
+		lastVNFItemVnfId = vnfInstanceID;
+		lastServiceItemServiceInstanceId = serviceInstanceID;
 	}
 
 	/**
-	 * @return the vnfItemVnfType
+	 * This method reads and validates environmental properties coming from the policy engine. Null properties cause
+	 * an {@link IllegalArgumentException} runtime exception to be thrown 
+	 * @param string the name of the parameter to retrieve
+	 * @return the property value
 	 */
-	public String getVnfItemVnfType() {
-		return this.vnfItemVnfType;
+	private static String getPEManagerEnvProperty(String enginePropertyName) {
+		String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
+		if (enginePropertyValue == null) {
+			throw new IllegalArgumentException("The value of policy engine manager environment property \"" + enginePropertyName + "\" may not be null");
+		}
+		return enginePropertyValue;
 	}
-
-	/**
-	 * @param vnfItemVnfType the vnfItemVnfType to set
-	 */
-	private void setVnfItemVnfType(String vnfItemVnfType) {
-		this.vnfItemVnfType = vnfItemVnfType;
-	}
-
-	/**
-	 * @return the vnfItemModelInvariantId
-	 */
-	public String getVnfItemModelInvariantId() {
-		return this.vnfItemModelInvariantId;
-	}
-
-	/**
-	 * @param vnfItemModelInvariantId the vnfItemModelInvariantId to set
-	 */
-	private void setVnfItemModelInvariantId(String vnfItemModelInvariantId) {
-		this.vnfItemModelInvariantId = vnfItemModelInvariantId;
-	}
-
-	/**
-	 * @return the vnfItemModelVersionId
-	 */
-	public String getVnfItemModelVersionId() {
-		return this.vnfItemModelVersionId;
-	}
-
-	/**
-	 * @param vnfItemModelVersionId the vnfItemModelVersionId to set
-	 */
-	private void setVnfItemModelVersionId(String vnfItemModelVersionId) {
-		this.vnfItemModelVersionId = vnfItemModelVersionId;
-	}
-
-	/**
-	 * @return the vnfItemModelName
-	 */
-	public String getVnfItemModelName() {
-		return this.vnfItemModelName;
-	}
-
-	/**
-	 * @param vnfItemModelName the vnfItemModelName to set
-	 */
-	private void setVnfItemModelName(String vnfItemModelName) {
-		this.vnfItemModelName = vnfItemModelName;
-	}
-
-	/**
-	 * @return the vnfItemModelVersion
-	 */
-	public String getVnfItemModelVersion() {
-		return this.vnfItemModelVersion;
-	}
-
-	/**
-	 * @param vnfItemModelVersion the vnfItemModelVersion to set
-	 */
-	private void setVnfItemModelVersion(String vnfItemModelVersion) {
-		this.vnfItemModelVersion = vnfItemModelVersion;
-	}
-
-	/**
-	 * @return the vnfItemModelNameVersionId
-	 */
-	public String getVnfItemModelNameVersionId() {
-		return this.vnfItemModelNameVersionId;
-	}
-
-	/**
-	 * @param vnfItemModelNameVersionId the vnfItemModelNameVersionId to set
-	 */
-	private void setVnfItemModelNameVersionId(String vnfItemModelNameVersionId) {
-		this.vnfItemModelNameVersionId = vnfItemModelNameVersionId;
-	}
-
-	/**
-	 * @return the serviceItemServiceInstanceId
-	 */
-	public static String getServiceItemServiceInstanceId() {
-		return serviceItemServiceInstanceId;
-	}
-
-	/**
-	 * @param serviceItemServiceInstanceId the serviceItemServiceInstanceId to set
-	 */
-	private static void setServiceItemServiceInstanceId(
-			String serviceItemServiceInstanceId) {
-		SOActorServiceProvider.serviceItemServiceInstanceId = serviceItemServiceInstanceId;
-	}
-
-	/**
-	 * @return the serviceItemModelInvariantId
-	 */
-	public String getServiceItemModelInvariantId() {
-		return this.serviceItemModelInvariantId;
-	}
-
-	/**
-	 * @param serviceItemModelInvariantId the serviceItemModelInvariantId to set
-	 */
-	private void setServiceItemModelInvariantId(String serviceItemModelInvariantId) {
-		this.serviceItemModelInvariantId = serviceItemModelInvariantId;
-	}
-
-	/**
-	 * @return the serviceItemModelName
-	 */
-	public String getServiceItemModelName() {
-		return this.serviceItemModelName;
-	}
-
-	/**
-	 * @param serviceItemModelName the serviceItemModelName to set
-	 */
-	private void setServiceItemModelName(String serviceItemModelName) {
-		this.serviceItemModelName = serviceItemModelName;
-	}
-
-	/**
-	 * @return the serviceItemModelType
-	 */
-	public String getServiceItemModelType() {
-		return this.serviceItemModelType;
-	}
-
-	/**
-	 * @param serviceItemModelType the serviceItemModelType to set
-	 */
-	private void setServiceItemModelType(String serviceItemModelType) {
-		this.serviceItemModelType = serviceItemModelType;
-	}
-
-	/**
-	 * @return the serviceItemModelVersion
-	 */
-	public String getServiceItemModelVersion() {
-		return this.serviceItemModelVersion;
-	}
-
-	/**
-	 * @param serviceItemModelVersion the serviceItemModelVersion to set
-	 */
-	private void setServiceItemModelVersion(String serviceItemModelVersion) {
-		this.serviceItemModelVersion = serviceItemModelVersion;
-	}
-
-	/**
-	 * @return the serviceItemModelNameVersionId
-	 */
-	public String getServiceItemModelNameVersionId() {
-		return this.serviceItemModelNameVersionId;
-	}
-
-	/**
-	 * @param serviceItemModelNameVersionId the serviceItemModelNameVersionId to set
-	 */
-	private void setServiceItemModelNameVersionId(
-			String serviceItemModelNameVersionId) {
-		this.serviceItemModelNameVersionId = serviceItemModelNameVersionId;
-	}
-
-	/**
-	 * @return the vfModuleItemVfModuleName
-	 */
-	public String getVfModuleItemVfModuleName() {
-		return this.vfModuleItemVfModuleName;
-	}
-
-	/**
-	 * @param vfModuleItemVfModuleName the vfModuleItemVfModuleName to set
-	 */
-	private void setVfModuleItemVfModuleName(String vfModuleItemVfModuleName) {
-		this.vfModuleItemVfModuleName = vfModuleItemVfModuleName;
-	}
-
-	/**
-	 * @return the vfModuleItemModelInvariantId
-	 */
-	public String getVfModuleItemModelInvariantId() {
-		return this.vfModuleItemModelInvariantId;
-	}
-
-	/**
-	 * @param vfModuleItemModelInvariantId the vfModuleItemModelInvariantId to set
-	 */
-	private void setVfModuleItemModelInvariantId(String vfModuleItemModelInvariantId) {
-		this.vfModuleItemModelInvariantId = vfModuleItemModelInvariantId;
-	}
-
-	/**
-	 * @return the vfModuleItemModelVersionId
-	 */
-	public String getVfModuleItemModelVersionId() {
-		return this.vfModuleItemModelVersionId;
-	}
-
-	/**
-	 * @param vfModuleItemModelVersionId the vfModuleItemModelVersionId to set
-	 */
-	private void setVfModuleItemModelVersionId(
-			String vfModuleItemModelVersionId) {
-		this.vfModuleItemModelVersionId = vfModuleItemModelVersionId;
-	}
-
-	/**
-	 * @return the vfModuleItemModelName
-	 */
-	public String getVfModuleItemModelName() {
-		return this.vfModuleItemModelName;
-	}
-
-	/**
-	 * @param vfModuleItemModelName the vfModuleItemModelName to set
-	 */
-	private void setVfModuleItemModelName(String vfModuleItemModelName) {
-		this.vfModuleItemModelName = vfModuleItemModelName;
-	}
-
-	/**
-	 * @return the vfModuleItemModelNameVersionId
-	 */
-	public String getVfModuleItemModelNameVersionId() {
-		return this.vfModuleItemModelNameVersionId;
-	}
-
-	/**
-	 * @param vfModuleItemModelNameVersionId the vfModuleItemModelNameVersionId to set
-	 */
-	private void setVfModuleItemModelNameVersionId(
-			String vfModuleItemModelNameVersionId) {
-		this.vfModuleItemModelNameVersionId = vfModuleItemModelNameVersionId;
-	}
-
-	/**
-	 * @return the tenantItemTenantId
-	 */
-	public String getTenantItemTenantId() {
-		return this.tenantItemTenantId;
-	}
-
-	/**
-	 * @param tenantItemTenantId the tenantItemTenantId to set
-	 */
-	private void setTenantItemTenantId(String tenantItemTenantId) {
-		this.tenantItemTenantId = tenantItemTenantId;
-	}
-
-	/**
-	 * @return the cloudRegionItemCloudRegionId
-	 */
-	public String getCloudRegionItemCloudRegionId() {
-		return this.cloudRegionItemCloudRegionId;
-	}
-
-	/**
-	 * @param cloudRegionItemCloudRegionId the cloudRegionItemCloudRegionId to set
-	 */
-	private void setCloudRegionItemCloudRegionId(
-			String cloudRegionItemCloudRegionId) {
-		this.cloudRegionItemCloudRegionId = cloudRegionItemCloudRegionId;
-	}
-
 }
