@@ -31,7 +31,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.vnf.trafficgenerator.PGRequest;
 import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;
-import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

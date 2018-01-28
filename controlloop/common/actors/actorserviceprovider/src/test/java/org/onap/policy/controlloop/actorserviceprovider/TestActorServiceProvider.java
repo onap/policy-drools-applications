@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * ActorService
+ * TestActorServiceProvider
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,42 +20,35 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import org.junit.Test;
+import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.google.common.collect.ImmutableList;
 
-public class ActorService {
-
-	private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
-	private static ActorService service;
-
-	// USed to load actors	
-	private ServiceLoader<Actor> loader;
+public class TestActorServiceProvider {
 	
-	private ActorService() {
-		loader = ServiceLoader.load(Actor.class);
-	}
-	
-	public static synchronized ActorService getInstance() {
-		if (service == null) {
-			service = new ActorService();
-		}
-		return service;
-	}
-	
-	public ImmutableList<Actor> actors() {
-		Iterator<Actor> iter = loader.iterator();
-		logger.debug("returning actors");
-		while (iter.hasNext()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Got {}", iter.next().actor());
-			}
-		}
+	@Test
+	public void testActorServiceProvider() {
+		ActorService actorService = ActorService.getInstance();
+		assertNotNull(actorService);
 		
-		return ImmutableList.copyOf(loader.iterator());
+		assertEquals(1, actorService.actors().size());
+
+		actorService = ActorService.getInstance();
+		assertNotNull(actorService);
+		
+		Actor testActor = ActorService.getInstance().actors().get(0);
+		assertNotNull(testActor);
+		
+		assertEquals("TestActor", testActor.actor());
+		
+		assertEquals(2, testActor.recipes().size());
+		assertEquals("Dorothy", testActor.recipes().get(0));
+		assertEquals("Wizard", testActor.recipes().get(1));
+		
+		assertEquals(2, testActor.recipeTargets("Dorothy").size());
+		assertEquals(2, testActor.recipePayloads("Dorothy").size());
 	}
 }
