@@ -37,7 +37,7 @@ import org.onap.policy.aai.AAINQResponse;
 import org.onap.policy.aai.AAINQResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RESTManager;

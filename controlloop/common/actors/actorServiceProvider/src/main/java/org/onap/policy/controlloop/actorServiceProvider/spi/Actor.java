@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actorServiceProvider.spi;
+package org.onap.policy.controlloop.actorserviceprovider.spi;
 
 import java.util.List;
 
