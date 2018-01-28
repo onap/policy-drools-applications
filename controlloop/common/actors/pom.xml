@@ -12,7 +12,7 @@
     </parent>
     
 	<modules>
-		<module>actorServiceProvider</module>
+		<module>actorserviceprovider</module>
 		<module>actor.appc</module>
 		<module>actor.vfc</module>
 		<module>actor.appclcm</module>

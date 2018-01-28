@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * ActorService
+ * TestActorServiceProvider
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,41 +20,41 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.google.common.collect.ImmutableList;
 
-public class ActorService {
+public class TestActor implements Actor {
+	@Override
+	public String actor() {
+		return this.getClass().getSimpleName();
+	}
 
-	private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
-	private static ActorService service;
-	
-	private ServiceLoader<Actor> loader;
-	
-	private ActorService() {
-		loader = ServiceLoader.load(Actor.class);
-	}
-	
-	public static synchronized ActorService getInstance() {
-		if (service == null) {
-			service = new ActorService();
-		}
-		return service;
-	}
-	
-	public ImmutableList<Actor> actors() {
-		Iterator<Actor> iter = loader.iterator();
-		logger.debug("returning actors");
-		while (iter.hasNext()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Got {}", iter.next().actor());
-			}
-		}
+	@Override
+	public List<String> recipes() {
+		List<String> recipieList = new ArrayList<>();
+		recipieList.add("Dorothy");
+		recipieList.add("Wizard");
 		
-		return ImmutableList.copyOf(loader.iterator());
+		return recipieList;
+	}
+
+	@Override
+	public List<String> recipeTargets(String recipe) {
+		List<String> recipieTargetList = new ArrayList<>();
+		recipieTargetList.add("Wicked Witch");
+		recipieTargetList.add("Wizard of Oz");
+		
+		return recipieTargetList;
+	}
+
+	@Override
+	public List<String> recipePayloads(String recipe) {
+		List<String> recipiePayloadList = new ArrayList<>();
+		recipiePayloadList.add("Dorothy");
+		recipiePayloadList.add("Toto");
+		
+		return recipiePayloadList;
 	}
 }

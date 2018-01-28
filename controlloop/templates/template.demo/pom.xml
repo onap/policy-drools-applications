@@ -157,7 +157,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>actorServiceProvider</artifactId>
+			<artifactId>actorserviceprovider</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
