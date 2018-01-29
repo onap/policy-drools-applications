@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_0859cb35",
+        "filename": "controlloop/common/actors/actorServiceProvider/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-01-29T20:35:30Z",
+      "side": 1,
+      "message": "Liam, is there a reason to declare it provided instead of test scope in this case?  just curious ..",
+      "revId": "8b0964f3274a5f975af8c73da0d44216395b40fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
