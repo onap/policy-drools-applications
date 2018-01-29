@@ -22,6 +22,30 @@
       "revId": "d6427a753cc4962f92f8d07d8ed184c83dc7c029",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e8c01f7e",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-01-29T18:23:09Z",
+      "side": 1,
+      "message": "Hi Liam, I had a similar comment in the counterpart amsterdam review (see my comment at https://gerrit.onap.org/r/#/c/27535/).    \n\nIf my understanding is correct, this is needed in the short term for OOM operation, I suppose to talk to AAI in an OOM context.  I\u0027m not sure what is different in OOM for the hostname not matching the cert.   In this case, the problem will be on the AAI side which serves a certificate that triggers the invalid host check (and just in the OOM environment).\n\nIn general, I think cert management in ONAP and policy, needs to be revisited for all components I would say, and I understand there may be some work on the pipe for certificates.\n\nOne way to resolve this review is by opening a jira ticket to track disabling this functionality, and let this one go through, rather than requiring testers to do manual changes, or we could deny altogether ..  What is your view?",
+      "parentUuid": "5a93c517_c869a3bf",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 78
+      },
+      "revId": "d6427a753cc4962f92f8d07d8ed184c83dc7c029",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
