@@ -46,6 +46,30 @@
       "revId": "d6427a753cc4962f92f8d07d8ed184c83dc7c029",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_88f2bbd0",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-01-29T18:56:03Z",
+      "side": 1,
+      "message": "Would this also affect VF-C and SO REST calls?",
+      "parentUuid": "5a93c517_e8c01f7e",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 78
+      },
+      "revId": "d6427a753cc4962f92f8d07d8ed184c83dc7c029",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
