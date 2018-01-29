@@ -67,7 +67,11 @@ public class RESTManager {
         logger.debug(body);
 
         try (CloseableHttpClient client =
-                HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+                HttpClientBuilder
+                        .create()
+                        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                        .setDefaultCredentialsProvider(credentials)
+                        .build()) {
 
             HttpPost post = new HttpPost(url);
             if (headers != null) {
@@ -111,7 +115,11 @@ public class RESTManager {
                 new UsernamePasswordCredentials(username, password));
 
         try (CloseableHttpClient client =
-                HttpClientBuilder.create().setDefaultCredentialsProvider(credentials).build()) {
+                HttpClientBuilder
+                        .create()
+                        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                        .setDefaultCredentialsProvider(credentials)
+                        .build()) {
 
             HttpGet get = new HttpGet(url);
             if (headers != null) {
