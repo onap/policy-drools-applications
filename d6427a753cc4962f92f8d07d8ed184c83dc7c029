@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_c869a3bf",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-01-29T17:20:33Z",
+      "side": 1,
+      "message": "From a coding point of view, this change is fine and will work.\n\nHowever, it turns off certificate checking on the REST calls, with obvious security implications.\n\nI\u0027m not sure if and how much certificates are used in ONAP today. If this is an internal interface then maybe it\u0027s OK to turn off certificate checking. However, it its a public deployed REST interface, then it probably isn\u0027t a good idea. What are the security rules in ONAP regarding the use of certificates?\n\nFor test purposes it might be inconvenient but testers can check out their own local version and disable checking if they wish.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 78
+      },
+      "revId": "d6427a753cc4962f92f8d07d8ed184c83dc7c029",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
