@@ -29,28 +29,28 @@ public class SORequestError implements Serializable {
     private static final long serialVersionUID = -3283942659786236032L;
 
     @SerializedName("policyException")
-    private SOPolicyException policyException;
+    private SOPolicyExceptionHolder policyException;
 
     @SerializedName("serviceException")
-    private SOServiceException serviceException;
+    private SOServiceExceptionHolder serviceException;
 
     public SORequestError() {
         // required by author
     }
 
-    public SOPolicyException getPolicyException() {
+    public SOPolicyExceptionHolder getPolicyException() {
         return policyException;
     }
 
-    public SOServiceException getServiceException() {
+    public SOServiceExceptionHolder getServiceException() {
         return serviceException;
     }
 
-    public void setPolicyException(SOPolicyException policyException) {
+    public void setPolicyException(SOPolicyExceptionHolder policyException) {
         this.policyException = policyException;
     }
 
-    public void setServiceException(SOServiceException serviceException) {
+    public void setServiceException(SOServiceExceptionHolder serviceException) {
         this.serviceException = serviceException;
     }
 

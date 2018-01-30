@@ -21,7 +21,13 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -65,4 +71,104 @@ public class TestSoRequestDetails {
         obj.setSubscriberInfo(subscriberInfo);
         assertEquals(subscriberInfo, obj.getSubscriberInfo());
     }
+    
+	@Test
+	public void testSOMRequestDetailsMethods() {
+		SORequestDetails details = new SORequestDetails();
+		assertNotNull(details);
+		assertNotEquals(0, details.hashCode());
+		
+		SOCloudConfiguration cloudConfiguration = new SOCloudConfiguration();
+		details.setCloudConfiguration(cloudConfiguration);
+		assertEquals(cloudConfiguration, details.getCloudConfiguration());
+		assertNotEquals(0, details.hashCode());
+		
+		SOModelInfo modelInfo = new SOModelInfo();
+		details.setModelInfo(modelInfo);
+		assertEquals(modelInfo, details.getModelInfo());
+		assertNotEquals(0, details.hashCode());
+		
+		List<SORelatedInstanceListElement> relatedInstanceList = new ArrayList<>();
+		details.setRelatedInstanceList(relatedInstanceList);
+		assertEquals(relatedInstanceList, details.getRelatedInstanceList());
+		assertNotEquals(0, details.hashCode());
+		
+		SORequestInfo requestInfo = new SORequestInfo();
+		details.setRequestInfo(requestInfo);
+		assertEquals(requestInfo, details.getRequestInfo());
+		assertNotEquals(0, details.hashCode());
+		
+		SORequestParameters requestParameters = new SORequestParameters();
+		details.setRequestParameters(requestParameters);
+		assertEquals(requestParameters, details.getRequestParameters());
+		assertNotEquals(0, details.hashCode());
+		
+		SOSubscriberInfo subscriberInfo = new SOSubscriberInfo();
+		details.setSubscriberInfo(subscriberInfo);
+		assertEquals(subscriberInfo, details.getSubscriberInfo());
+		assertNotEquals(0, details.hashCode());
+		
+		assertEquals("SORequestDetails [modelInfo=org.onap.policy.so", details.toString().substring(0,  46));
+		
+		SORequestDetails copiedDetails = new SORequestDetails(details);
+
+        assertTrue(details.equals(details));
+        assertTrue(details.equals(copiedDetails));
+        assertFalse(details.equals(null));
+        assertFalse(details.equals("Hello"));
+        
+        details.setCloudConfiguration(null);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setCloudConfiguration(null);
+        assertTrue(details.equals(copiedDetails));
+        details.setCloudConfiguration(cloudConfiguration);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setCloudConfiguration(cloudConfiguration);
+        assertTrue(details.equals(copiedDetails));
+
+        details.setModelInfo(null);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setModelInfo(null);
+        assertTrue(details.equals(copiedDetails));
+        details.setModelInfo(modelInfo);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setModelInfo(modelInfo);
+        assertTrue(details.equals(copiedDetails));
+        
+        details.setRequestInfo(null);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setRequestInfo(null);
+        assertTrue(details.equals(copiedDetails));
+        details.setRequestInfo(requestInfo);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setRequestInfo(requestInfo);
+        assertTrue(details.equals(copiedDetails));
+		
+        details.setRequestParameters(null);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setRequestParameters(null);
+        assertTrue(details.equals(copiedDetails));
+        details.setRequestParameters(requestParameters);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setRequestParameters(requestParameters);
+        assertTrue(details.equals(copiedDetails));
+		
+        details.setSubscriberInfo(null);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setSubscriberInfo(null);
+        assertTrue(details.equals(copiedDetails));
+        details.setSubscriberInfo(subscriberInfo);
+        assertFalse(details.equals(copiedDetails));
+        copiedDetails.setSubscriberInfo(subscriberInfo);
+        assertTrue(details.equals(copiedDetails));
+		
+        details.setRelatedInstanceList(null);
+        assertFalse(details.equals(copiedDetails));
+		copiedDetails.setRelatedInstanceList(null);
+        assertTrue(details.equals(copiedDetails));
+        details.setRelatedInstanceList(relatedInstanceList);
+        assertFalse(details.equals(copiedDetails));
+		copiedDetails.setRelatedInstanceList(relatedInstanceList);
+        assertTrue(details.equals(copiedDetails));
+	}
 }

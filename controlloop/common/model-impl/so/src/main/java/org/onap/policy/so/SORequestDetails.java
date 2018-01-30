@@ -58,6 +58,7 @@ public class SORequestDetails implements Serializable {
         this.requestInfo = soRequestDetails.requestInfo;
         this.relatedInstanceList = soRequestDetails.relatedInstanceList;
         this.requestParameters = soRequestDetails.requestParameters;
+        this.subscriberInfo = soRequestDetails.subscriberInfo;
     }
 
     @Override
@@ -98,6 +99,12 @@ public class SORequestDetails implements Serializable {
                 return false;
         }
         else if (!requestParameters.equals(other.requestParameters))
+            return false;
+        if (subscriberInfo == null) {
+            if (other.subscriberInfo != null)
+                return false;
+        }
+        else if (!subscriberInfo.equals(other.subscriberInfo))
             return false;
         return true;
     }
@@ -160,11 +167,16 @@ public class SORequestDetails implements Serializable {
         this.subscriberInfo = subscriberInfo;
     }
 
+    public void setRelatedInstanceList(List<SORelatedInstanceListElement> relatedInstanceList) {
+        this.relatedInstanceList = relatedInstanceList;
+    }
+
     @Override
     public String toString() {
         return "SORequestDetails [modelInfo=" + modelInfo + ", cloudConfiguration="
                 + cloudConfiguration + ", requestInfo=" + requestInfo + ", relatedInstanceList="
-                + relatedInstanceList + ", requestParameters=" + requestParameters + "]";
+                + relatedInstanceList + ", requestParameters=" + requestParameters +
+                ", subscriberInfo=" + subscriberInfo + "]";
     }
 
 }

@@ -21,6 +21,11 @@
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -48,4 +53,54 @@ public class TestSoResponseWrapper {
         obj.setRequestID("id2");
         assertEquals("id2", obj.getRequestID());
     }
+    
+	@SuppressWarnings("unlikely-arg-type")
+	@Test
+	public void testSOResponseWrapperMethods() {
+		String requestID = UUID.randomUUID().toString();
+		SOResponse response = new SOResponse();
+
+		SOResponseWrapper responseWrapper = new SOResponseWrapper(response, requestID);
+		assertNotNull(responseWrapper);
+		assertNotEquals(0, responseWrapper.hashCode());
+		
+		assertEquals(response, responseWrapper.getSoResponse());
+		
+		assertNotEquals(0, responseWrapper.hashCode());
+		
+		assertEquals("SOResponseWrapper [SOResponse=org.onap.policy.", responseWrapper.toString().substring(0,  46));
+		
+		SOResponseWrapper identicalResponseWrapper = new SOResponseWrapper(response, requestID);
+
+        assertEquals(responseWrapper,  responseWrapper);
+        assertEquals(responseWrapper,  identicalResponseWrapper);
+        assertNotEquals(null, responseWrapper);
+        assertNotEquals("Hello", responseWrapper);
+        assertFalse(responseWrapper.equals(null));
+        assertFalse(responseWrapper.equals("AString"));
+        
+        assertEquals(new SOResponseWrapper(null, null), new SOResponseWrapper(null, null));
+        assertNotEquals(new SOResponseWrapper(null, null), identicalResponseWrapper);
+        
+		assertNotEquals(0, new SOResponseWrapper(null, null).hashCode());
+
+		identicalResponseWrapper.setSoResponse(new SOResponse());
+        assertNotEquals(responseWrapper,  identicalResponseWrapper);
+        identicalResponseWrapper.setSoResponse(response);
+        assertEquals(responseWrapper,  identicalResponseWrapper);
+        
+        identicalResponseWrapper.setRequestID(UUID.randomUUID().toString());
+        assertNotEquals(responseWrapper,  identicalResponseWrapper);
+        identicalResponseWrapper.setRequestID(requestID);
+        assertEquals(responseWrapper,  identicalResponseWrapper);
+        
+        responseWrapper.setRequestID(null);
+        assertNotEquals(responseWrapper,  identicalResponseWrapper);
+        identicalResponseWrapper.setRequestID(null);
+        assertEquals(responseWrapper,  identicalResponseWrapper);
+        responseWrapper.setRequestID(requestID);
+        assertNotEquals(responseWrapper,  identicalResponseWrapper);
+        identicalResponseWrapper.setRequestID(requestID);
+        assertEquals(responseWrapper,  identicalResponseWrapper);
+	}
 }
