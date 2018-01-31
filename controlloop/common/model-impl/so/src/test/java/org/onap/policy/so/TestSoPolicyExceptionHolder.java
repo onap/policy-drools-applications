@@ -25,11 +25,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class TestSoPolicyException {
+public class TestSoPolicyExceptionHolder {
 
     @Test
     public void testConstructor() {
-        SOPolicyException obj = new SOPolicyException();
+        SOPolicyExceptionHolder obj = new SOPolicyExceptionHolder();
 
         assertTrue(obj.getMessageId() == null);
         assertTrue(obj.getText() == null);
@@ -37,7 +37,7 @@ public class TestSoPolicyException {
 
     @Test
     public void testSetGet() {
-        SOPolicyException obj = new SOPolicyException();
+        SOPolicyExceptionHolder obj = new SOPolicyExceptionHolder();
 
         obj.setMessageId("messageId");
         assertEquals("messageId", obj.getMessageId());

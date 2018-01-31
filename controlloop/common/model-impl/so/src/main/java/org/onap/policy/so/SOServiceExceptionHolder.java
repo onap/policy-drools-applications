@@ -26,7 +26,7 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SOServiceException implements Serializable {
+public class SOServiceExceptionHolder implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
@@ -39,7 +39,7 @@ public class SOServiceException implements Serializable {
     @SerializedName("variables")
     private List<String> variables = new LinkedList<>();
 
-    public SOServiceException() {
+    public SOServiceExceptionHolder() {
         // required by author
     }
 

@@ -29,12 +29,12 @@ public class SOResponseWrapper implements Serializable {
     private static final long serialVersionUID = 7673023687132889069L;
 
     @SerializedName("SoResponse")
-    private SOResponse SoResponse;
+    private SOResponse soResponse;
 
     private transient String requestID;
 
     public SOResponseWrapper(SOResponse response, String reqID) {
-        this.SoResponse = response;
+        this.soResponse = response;
         this.requestID = reqID;
     }
 
@@ -50,12 +50,12 @@ public class SOResponseWrapper implements Serializable {
             return false;
         }
         SOResponseWrapper other = (SOResponseWrapper) obj;
-        if (SoResponse == null) {
-            if (other.SoResponse != null) {
+        if (soResponse == null) {
+            if (other.soResponse != null) {
                 return false;
             }
         }
-        else if (!SoResponse.equals(other.SoResponse)) {
+        else if (!soResponse.equals(other.soResponse)) {
             return false;
         }
         if (requestID == null) {
@@ -74,14 +74,14 @@ public class SOResponseWrapper implements Serializable {
     }
 
     public SOResponse getSoResponse() {
-        return SoResponse;
+        return soResponse;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((SoResponse == null) ? 0 : SoResponse.hashCode());
+        result = prime * result + ((soResponse == null) ? 0 : soResponse.hashCode());
         result = prime * result + ((requestID == null) ? 0 : requestID.hashCode());
         return result;
     }
@@ -91,12 +91,12 @@ public class SOResponseWrapper implements Serializable {
     }
 
     public void setSoResponse(SOResponse sOResponse) {
-        SoResponse = sOResponse;
+        soResponse = sOResponse;
     }
 
     @Override
     public String toString() {
-        return "SOResponseWrapper [SOResponse=" + SoResponse + ", RequestID=" + requestID + "]";
+        return "SOResponseWrapper [SOResponse=" + soResponse + ", RequestID=" + requestID + "]";
     }
 
 }

@@ -32,6 +32,7 @@ import org.drools.core.WorkingMemory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,176 +43,212 @@ import com.google.gson.JsonSyntaxException;
 
 public final class SOManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(SOManager.class);
-    private static final Logger netLogger =
-            LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
-    private static ExecutorService executors = Executors.newCachedThreadPool();
+	private static final Logger logger = LoggerFactory.getLogger(SOManager.class);
+	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
+	private static ExecutorService executors = Executors.newCachedThreadPool();
 
-    static final String MEDIA_TYPE = "application/json";
+	static final String MEDIA_TYPE = "application/json";
 
-    static final String LINE_SEPARATOR = System.lineSeparator();
+	static final String LINE_SEPARATOR = System.lineSeparator();
+	
+	// REST get timeout value in milliseconds
+	private static final long DEFAULT_GET_REQUEST_TIMEOUT = 20000;
 
-    public static SOResponse createModuleInstance(String url, String urlBase, String username,
-            String password, SORequest request) {
+	// The REST manager used for processing REST calls for this VFC manager
+	private RESTManager restManager;
+	
+	private long restGetTimeout = DEFAULT_GET_REQUEST_TIMEOUT;
+	
+	public SOManager() {
+		restManager = new RESTManager();
+	}
 
-        //
-        // Call REST
-        //
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Accept", MEDIA_TYPE);
+	public SOResponse createModuleInstance(String url, String urlBase, String username, String password, SORequest request) {
 
-        //
-        // 201 - CREATED - you are done just return
-        //
-        String requestJson = Serialization.gsonPretty.toJson(request);
-        netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, requestJson);
-        Pair<Integer, String> httpDetails =
-                new RESTManager().post(url, username, password, headers, MEDIA_TYPE, requestJson);
+		//
+		// Call REST
+		//
+		Map<String, String> headers = new HashMap<>();
+		headers.put("Accept", MEDIA_TYPE);
 
-        if (httpDetails == null) {
-            return null;
-        }
+		//
+		// 201 - CREATED - you are done just return
+		//
+		String requestJson = Serialization.gsonPretty.toJson(request);
+		netLogger.info("[OUT|{}|{}|{}|{}|{}|{}|]{}{}", "SO", url, username, password, headers, MEDIA_TYPE, LINE_SEPARATOR, requestJson);
+		Pair<Integer, String> httpDetails =	restManager.post(url, username, password, headers, MEDIA_TYPE, requestJson);
 
-        if (httpDetails.a == 202) {
-            try {
-                SOResponse response =
-                        Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
+		if (httpDetails == null) {
+			return null;
+		}
 
-                String body = Serialization.gsonPretty.toJson(response);
-                logger.debug("***** Response to post:");
-                logger.debug(body);
+		if (httpDetails.a != 202) {
+			return null;
+		}
 
-                String requestId = response.getRequestReferences().getRequestId();
-                int attemptsLeft = 20;
+		try {
+			SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
 
-                String urlGet = urlBase + "/orchestrationRequests/v2/" + requestId;
-                SOResponse responseGet = null;
+			String body = Serialization.gsonPretty.toJson(response);
+			logger.debug("***** Response to post:");
+			logger.debug(body);
 
-                while (attemptsLeft-- > 0) {
+			String requestId = response.getRequestReferences().getRequestId();
+			int attemptsLeft = 20;
 
-                    Pair<Integer, String> httpDetailsGet =
-                            new RESTManager().get(urlGet, username, password, headers);
-                    responseGet =
-                            Serialization.gsonPretty.fromJson(httpDetailsGet.b, SOResponse.class);
-                    netLogger.info("[IN|{}|{}|]{}{}", "SO", urlGet, LINE_SEPARATOR,
-                            httpDetailsGet.b);
+			String urlGet = urlBase + "/orchestrationRequests/v2/" + requestId;
+			SOResponse responseGet = null;
 
-                    body = Serialization.gsonPretty.toJson(responseGet);
-                    logger.debug("***** Response to get:");
-                    logger.debug(body);
+			while (attemptsLeft-- > 0) {
+				Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
+				if (httpDetailsGet == null) {
+					return null;
+				}
 
-                    if (httpDetailsGet.a == 200) {
-                        if (responseGet.getRequest().getRequestStatus().getRequestState()
-                                .equalsIgnoreCase("COMPLETE")
-                                || responseGet.getRequest().getRequestStatus().getRequestState()
-                                        .equalsIgnoreCase("FAILED")) {
-                            logger.debug("***** ########  VF Module Creation {}",
-                                    responseGet.getRequest().getRequestStatus().getRequestState());
-                            return responseGet;
-                        }
-                    }
-                    Thread.sleep(20000);
-                }
+				responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, SOResponse.class);
+				netLogger.info("[IN|{}|{}|]{}{}", "SO", urlGet, LINE_SEPARATOR, httpDetailsGet.b);
 
-                if (responseGet != null && responseGet.getRequest() != null
-                        && responseGet.getRequest().getRequestStatus() != null
-                        && responseGet.getRequest().getRequestStatus().getRequestState() != null) {
-                    logger.warn("***** ########  VF Module Creation timeout. Status: ( {})",
-                            responseGet.getRequest().getRequestStatus().getRequestState());
-                }
+				body = Serialization.gsonPretty.toJson(responseGet);
+				logger.debug("***** Response to get:");
+				logger.debug(body);
 
-                return responseGet;
-            }
-            catch (JsonSyntaxException e) {
-                logger.error("Failed to deserialize into SOResponse: ", e);
-            }
-            catch (InterruptedException e) {
-                logger.error("Interrupted exception: ", e);
-                Thread.currentThread().interrupt();
-            }
-        }
+				if (httpDetailsGet.a == 200  &&
+						(responseGet.getRequest().getRequestStatus().getRequestState().equalsIgnoreCase("COMPLETE")
+								|| responseGet.getRequest().getRequestStatus().getRequestState().equalsIgnoreCase("FAILED"))) {
+					logger.debug("***** ########  VF Module Creation {}",
+							responseGet.getRequest().getRequestStatus().getRequestState());
+					return responseGet;
+				}
+				Thread.sleep(restGetTimeout);
+			}
 
+			if (responseGet != null && responseGet.getRequest() != null
+					&& responseGet.getRequest().getRequestStatus() != null
+					&& responseGet.getRequest().getRequestStatus().getRequestState() != null) {
+				logger.warn("***** ########  VF Module Creation timeout. Status: ( {})",
+						responseGet.getRequest().getRequestStatus().getRequestState());
+			}
 
+			return responseGet;
+		}
+		catch (JsonSyntaxException e) {
+			logger.error("Failed to deserialize into SOResponse: ", e);
+		}
+		catch (InterruptedException e) {
+			logger.error("Interrupted exception: ", e);
+			Thread.currentThread().interrupt();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * 
-     * @param wm
-     * @param url
-     * @param urlBase
-     * @param username
-     * @param password
-     * @param request
-     * 
-     *        This method makes an asynchronous Rest call to MSO and inserts the response into the
-     *        Drools working memory
-     */
-    public void asyncSORestCall(String requestID, WorkingMemory wm, String serviceInstanceId,
-            String vnfInstanceId, SORequest request) {
-        executors.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String serverRoot = PolicyEngine.manager.getEnvironmentProperty("so.url");
-                    String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
-                    String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
+	/**
+	 * 
+	 * @param wm
+	 * @param url
+	 * @param urlBase
+	 * @param username
+	 * @param password
+	 * @param request
+	 * 
+	 *        This method makes an asynchronous Rest call to MSO and inserts the response into the
+	 *        Drools working memory
+	 * @return 
+	 */
+	public Future<?> asyncSORestCall(String requestID, WorkingMemory wm, String serviceInstanceId,	String vnfInstanceId, SORequest request) {
+		return executors.submit(new AsyncSORestCallThread(requestID, wm, serviceInstanceId, vnfInstanceId, request));
+	}
 
-                    String url = serverRoot + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/"
-                            + vnfInstanceId + "/vfModules";
+	private class AsyncSORestCallThread implements Runnable {
+		final String requestID;
+		final WorkingMemory wm;
+		final String serviceInstanceId;
+		final String vnfInstanceId;
+		final SORequest request;
 
-                    String auth = username + ":" + password;
+		private AsyncSORestCallThread(final String requestID, final WorkingMemory wm, final String serviceInstanceId,	final String vnfInstanceId, final SORequest request) {
+			this.requestID = requestID;
+			this.wm = wm;
+			this.serviceInstanceId = serviceInstanceId;
+			this.vnfInstanceId = vnfInstanceId;
+			this.request = request;
+		}
 
-                    Map<String, String> headers = new HashMap<>();
-                    byte[] encodedBytes = Base64.getEncoder().encode(auth.getBytes());
-                    headers.put("Accept", MEDIA_TYPE);
-                    headers.put("Authorization", "Basic " + new String(encodedBytes));
+		@Override
+		public void run() {
+			try {
+				String serverRoot = PolicyEngine.manager.getEnvironmentProperty("so.url");
+				String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
+				String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
 
-                    Gson gsonPretty =
-                            new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+				String url = serverRoot + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/"
+						+ vnfInstanceId + "/vfModules";
 
-                    String soJson = gsonPretty.toJson(request);
+				String auth = username + ":" + password;
 
-                    SOResponse so = new SOResponse();
-                    netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
-                    Pair<Integer, String> httpResponse = new RESTManager().post(url, "policy",
-                            "policy", headers, MEDIA_TYPE, soJson);
+				Map<String, String> headers = new HashMap<>();
+				byte[] encodedBytes = Base64.getEncoder().encode(auth.getBytes());
+				headers.put("Accept", MEDIA_TYPE);
+				headers.put("Authorization", "Basic " + new String(encodedBytes));
 
-                    if (httpResponse != null) {
-                        if (httpResponse.b != null && httpResponse.a != null) {
-                            netLogger.info("[IN|{}|{}|]{}{}", url, "SO", LINE_SEPARATOR,
-                                    httpResponse.b);
+				Gson gsonPretty =
+						new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
-                            Gson gson = new Gson();
-                            so = gson.fromJson(httpResponse.b, SOResponse.class);
-                            so.setHttpResponseCode(httpResponse.a);
-                        }
-                        else {
-                            logger.error("SO Response status/code is null.");
-                            so.setHttpResponseCode(999);
-                        }
+				String soJson = gsonPretty.toJson(request);
 
-                    }
-                    else {
-                        logger.error("SO Response returned null.");
-                        so.setHttpResponseCode(999);
-                    }
+				SOResponse so = new SOResponse();
+				netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
+				Pair<Integer, String> httpResponse = restManager.post(url, "policy",	"policy", headers, MEDIA_TYPE, soJson);
 
-                    SOResponseWrapper soWrapper = new SOResponseWrapper(so, requestID);
-                    wm.insert(soWrapper);
-                    logger.info("SOResponse inserted " + gsonPretty.toJson(soWrapper));
-                }
-                catch (Exception e) {
-                    logger.error("Error while performing asyncSORestCall: " + e.getMessage(), e);
+				if (httpResponse != null) {
+					if (httpResponse.b != null && httpResponse.a != null) {
+						netLogger.info("[IN|{}|{}|]{}{}", url, "SO", LINE_SEPARATOR,	httpResponse.b);
 
-                    // create dummy SO object to trigger cleanup
-                    SOResponse so = new SOResponse();
-                    so.setHttpResponseCode(999);
-                    wm.insert(so);
-                }
-            }
-        });
-    }
+						Gson gson = new Gson();
+						so = gson.fromJson(httpResponse.b, SOResponse.class);
+						so.setHttpResponseCode(httpResponse.a);
+					}
+					else {
+						logger.error("SO Response status/code is null.");
+						so.setHttpResponseCode(999);
+					}
 
+				}
+				else {
+					logger.error("SO Response returned null.");
+					so.setHttpResponseCode(999);
+				}
+
+				SOResponseWrapper soWrapper = new SOResponseWrapper(so, requestID);
+				wm.insert(soWrapper);
+				if (logger.isInfoEnabled()) {
+					logger.info("SOResponse inserted " + gsonPretty.toJson(soWrapper));
+				}
+			}
+			catch (Exception e) {
+				logger.error("Error while performing asyncSORestCall: " + e.getMessage(), e);
+
+				// create dummy SO object to trigger cleanup
+				SOResponse so = new SOResponse();
+				so.setHttpResponseCode(999);
+				wm.insert(so);
+			}
+		}
+	}
+
+	/**
+	 * method to allow tuning of REST get timeout 
+	 * @param restGetTimeout the timeout value
+	 */
+	protected void setRestGetTimeout(final long restGetTimeout) {
+		this.restGetTimeout = restGetTimeout;
+	}
+	
+	/**
+	 * Protected setter for rest manager to allow mocked rest manager to be used for testing 
+	 * @param restManager the test REST manager
+	 */
+	protected void setRestManager(final RESTManager restManager) {
+		this.restManager = restManager;
+	}
 }

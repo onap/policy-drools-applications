@@ -119,7 +119,7 @@ public final class VFCManager implements Runnable {
 				logger.debug(body);
 
 				String responseStatus = responseGet.getResponseDescriptor().getStatus();
-				if (httpDetailsGet.a == 200 && (responseStatus.equalsIgnoreCase("finished") || responseStatus.equalsIgnoreCase("error"))) {
+				if (httpDetailsGet.a == 200 && ("finished".equalsIgnoreCase(responseStatus) || "error".equalsIgnoreCase(responseStatus))) {
 					logger.debug("VFC Heal Status {}", responseGet.getResponseDescriptor().getStatus());
 					workingMem.insert(responseGet);
 					break;

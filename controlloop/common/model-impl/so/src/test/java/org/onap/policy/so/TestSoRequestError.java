@@ -39,11 +39,11 @@ public class TestSoRequestError {
     public void testSetGet() {
         SORequestError obj = new SORequestError();
 
-        SOPolicyException policyException = new SOPolicyException();
+        SOPolicyExceptionHolder policyException = new SOPolicyExceptionHolder();
         obj.setPolicyException(policyException);
         assertEquals(policyException, obj.getPolicyException());
 
-        SOServiceException serviceException = new SOServiceException();
+        SOServiceExceptionHolder serviceException = new SOServiceExceptionHolder();
         obj.setServiceException(serviceException);
         assertEquals(serviceException, obj.getServiceException());
     }

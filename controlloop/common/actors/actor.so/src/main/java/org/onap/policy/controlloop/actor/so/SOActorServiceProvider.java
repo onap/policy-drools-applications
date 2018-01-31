@@ -127,16 +127,16 @@ public class SOActorServiceProvider implements Actor {
 			return null;
 		}
 
-		AAINQInventoryResponseItem vnfItem = null;
-		AAINQInventoryResponseItem vnfServiceItem = null;
-		AAINQInventoryResponseItem tenantItem = null;
+		AAINQInventoryResponseItem vnfItem;
+		AAINQInventoryResponseItem vnfServiceItem;
+		AAINQInventoryResponseItem tenantItem;
 
 		// Extract the items we're interested in from the response
 		try 	{
 			vnfItem = aaiResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0);
 		}
 		catch (Exception e) {
-			logger.error("VNF Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper));
+			logger.error("VNF Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper), e);
 			return null;
 		}
 
@@ -144,7 +144,7 @@ public class SOActorServiceProvider implements Actor {
 			vnfServiceItem = vnfItem.getItems().getInventoryResponseItems().get(0);
 		}
 		catch (Exception e) {
-			logger.error("VNF Service Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper));
+			logger.error("VNF Service Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper), e);
 			return null;
 		}
 
@@ -152,7 +152,7 @@ public class SOActorServiceProvider implements Actor {
 			tenantItem = aaiResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(1);
 		}
 		catch (Exception e) {
-			logger.error("Tenant Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper));
+			logger.error("Tenant Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper), e);
 			return null;
 		}
 
