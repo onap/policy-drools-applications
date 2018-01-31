@@ -47,7 +47,7 @@ mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.on
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:trafficgenerator:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:eventmanager:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:guard:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actorServiceProvider:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actorserviceprovider:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.appc:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.appclcm:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.so:${version}:jar -Dtransitive=false

@@ -47,7 +47,7 @@ import org.onap.policy.appclcm.LCMResponseCode;
 import org.onap.policy.appclcm.LCMResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorServiceProvider.spi.Actor;
+import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
