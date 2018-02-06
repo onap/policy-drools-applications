@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_26a0659e",
+        "filename": "controlloop/common/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-02-06T20:20:21Z",
+      "side": 1,
+      "message": "use a \"for\" loop instead of an iterator",
+      "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_c6b8a1e7",
         "filename": "controlloop/common/msb/src/test/java/org/onap/policy/msb/client/MSBServiceExceptionTest.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2018-02-06T19:59:59Z",
       "side": 1,
       "message": "Jim, put together a generic exception junit utility, in policy-common repo.   Can it be used?",
+      "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2677053c",
+        "filename": "controlloop/common/msb/src/test/java/org/onap/policy/msb/client/MSBServiceExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-02-06T20:20:21Z",
+      "side": 1,
+      "message": "Subclass this from ExceptionsTester and then replace all of the tests with a single test:\n\npublic void test() {\n\ttest(MSBServiceException.class);\n}",
+      "parentUuid": "5a93c517_c6b8a1e7",
       "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
