@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_331e6964",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-02-06T15:15:09Z",
+      "side": 1,
+      "message": "Sonar will complain to make this a List vs ArrayList. Up to you if you want to fix it now.",
+      "range": {
+        "startLine": 287,
+        "startChar": 9,
+        "endLine": 287,
+        "endChar": 18
+      },
+      "revId": "8a1bd0d8ee600ffe06b9a832a876d8a9f58f2f8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
