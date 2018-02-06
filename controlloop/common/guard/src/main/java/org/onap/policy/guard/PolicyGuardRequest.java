@@ -22,8 +22,12 @@ package org.onap.policy.guard;
 
 import java.util.UUID;
 
-public class PolicyGuardRequest{
-
+public class PolicyGuardRequest {
+	private String actor;
+	private String target;
+	private UUID requestID;
+	private String operation;
+	
 	public PolicyGuardRequest(String actor, String target, UUID requestID, String operation) {
 		super();
 		this.actor = actor;
@@ -31,16 +35,42 @@ public class PolicyGuardRequest{
 		this.requestID = requestID;
 		this.operation = operation;
 	}
-	public String actor;
-	public String target;
-	public UUID requestID;
-	public String operation;
-	
 	
 	@Override
 	public String toString() {
 		return "PolicyGuardRequest [actor=" + actor + ", target=" + target + ", requestID=" + requestID + ", operation="
 				+ operation + "]";
 	}
-	
+
+	public String getActor() {
+		return actor;
+	}
+
+	public void setActor(String actor) {
+		this.actor = actor;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public UUID getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(UUID requestID) {
+		this.requestID = requestID;
+	}
+
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
 }

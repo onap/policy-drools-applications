@@ -25,22 +25,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.onap.policy.controlloop.policy.guard.Constraint;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
+import org.onap.policy.controlloop.policy.guard.MatchParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 public class PolicyGuardYamlToXacml {
-	
 	private static final Logger logger = LoggerFactory.getLogger(PolicyGuardYamlToXacml.class);
-	
-	public static void fromYamlToXacml(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput){
-		
+
+	private PolicyGuardYamlToXacml() {
+		// Construction of this static class is not allowed
+	}
+
+	public static void fromYamlToXacml(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput) {
 		ControlLoopGuard yamlGuardObject = Util.loadYamlGuard(yamlFile);
 		logger.debug("clname: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getControlLoopName());
 		logger.debug("actor: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor());
@@ -48,212 +49,160 @@ public class PolicyGuardYamlToXacml {
 		logger.debug("num: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target());
 		logger.debug("duration: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window());
 		logger.debug("time_in_range: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range());
-		
+
 		Path xacmlTemplatePath = Paths.get(xacmlTemplate);
-        String xacmlTemplateContent;
-		
-        try {
+		String xacmlTemplateContent;
+
+		try {
 			xacmlTemplateContent = new String(Files.readAllBytes(xacmlTemplatePath));
-			
-	        String xacmlPolicyContent = generateXacmlGuard(xacmlTemplateContent,
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getControlLoopName(),
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor(),
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe(),
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getTargets(),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target(),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window(),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range().get("start"),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range().get("end")
-	        		);
-	        
-	
-	        Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
-        
+
+			String xacmlPolicyContent = generateXACMLGuard(xacmlTemplateContent,
+					yamlGuardObject.getGuards().getFirst().getMatch_parameters(),
+					yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst()
+					);
+
+			Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
+
 		} catch (IOException e) {
 			logger.error("fromYamlToXacml threw: ", e);
 		}
-		
 	}
-	
-	
-	
-	public static String	generateXacmlGuard(String xacmlFileContent, 
-			String clname,
-			String actor, 
-			String recipe,
-			List<String> targets,
-			Integer limit,
-			Map<String,String> timeWindow,
-			String guardActiveStart, 
-			String guardActiveEnd) {
 
+	private static String generateXACMLGuard(String xacmlTemplateContent, MatchParameters matchParameters, Constraint constraint) {
 		Pattern p = Pattern.compile("\\$\\{clname\\}");
-		Matcher m = p.matcher(xacmlFileContent);
-		if(isNullOrEmpty(clname)) clname = ".*";
-		xacmlFileContent = m.replaceAll(clname);
-		
+		Matcher m = p.matcher(xacmlTemplateContent);
+		if (isNullOrEmpty(matchParameters.getControlLoopName())) matchParameters.setControlLoopName(".*");
+		xacmlTemplateContent = m.replaceAll(matchParameters.getControlLoopName());
+
 		p = Pattern.compile("\\$\\{actor\\}");
-		m = p.matcher(xacmlFileContent);
-		if(isNullOrEmpty(actor)) actor = ".*";
-		xacmlFileContent = m.replaceAll(actor);
+		m = p.matcher(xacmlTemplateContent);
+		if(isNullOrEmpty(matchParameters.getActor())) matchParameters.setActor(".*");
+		xacmlTemplateContent = m.replaceAll(matchParameters.getActor());
 
 		p = Pattern.compile("\\$\\{recipe\\}");
-		m = p.matcher(xacmlFileContent);
-		if(isNullOrEmpty(recipe)) recipe = ".*";
-		xacmlFileContent = m.replaceAll(recipe);
-		
+		m = p.matcher(xacmlTemplateContent);
+		if(isNullOrEmpty(matchParameters.getRecipe())) matchParameters.setRecipe(".*");
+		xacmlTemplateContent = m.replaceAll(matchParameters.getRecipe());
+
 		p = Pattern.compile("\\$\\{targets\\}");
-		m = p.matcher(xacmlFileContent);
+		m = p.matcher(xacmlTemplateContent);
 		String targetsRegex = "";
-		if(isNullOrEmptyList(targets)){ 
+		if(isNullOrEmptyList(matchParameters.getTargets())) { 
 			targetsRegex = ".*";
 		}
-		else{
-			for(String t : targets){
-				targetsRegex += (t + "|");
-				
+		else {
+			StringBuilder targetsRegexSB = new StringBuilder();
+			boolean addBarChar = false;
+			for (String t : matchParameters.getTargets()){
+				targetsRegexSB.append(t);
+				if (addBarChar) {
+					targetsRegexSB.append("|");
+				}
+				else {
+					addBarChar = true;
+				}
 			}
-			targetsRegex = targetsRegex.substring(0, targetsRegex.length()-1);
+			targetsRegex = targetsRegexSB.toString();
 		}
-		xacmlFileContent = m.replaceAll(targetsRegex);
+		xacmlTemplateContent = m.replaceAll(targetsRegex);
 
 		p = Pattern.compile("\\$\\{limit\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(limit.toString());
-		
-		
-		//p = Pattern.compile("\\$\\{timeWindow\\}");
-		//m = p.matcher(xacmlFileContent);
-		//xacmlFileContent = m.replaceAll("tw"+timeWindow);
-		
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getFreq_limit_per_target().toString());
+
 		p = Pattern.compile("\\$\\{twValue\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(timeWindow.get("value"));
-		
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getTime_window().get("value"));
+
 		p = Pattern.compile("\\$\\{twUnits\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(timeWindow.get("units"));
-		
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getTime_window().get("units"));
+
 
 		p = Pattern.compile("\\$\\{guardActiveStart\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(guardActiveStart);
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getActive_time_range().get("start"));
 
 		p = Pattern.compile("\\$\\{guardActiveEnd\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(guardActiveEnd);
-		logger.debug(xacmlFileContent);
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getActive_time_range().get("end"));
+		logger.debug(xacmlTemplateContent);
 
-		return xacmlFileContent;
+		return xacmlTemplateContent;
 	}
-	
-	public static boolean isNullOrEmpty(String s){
-		
-		if(s == null){
-			return true;
-		}
-		else if(s.equals("")){
-			return true;
-		}
-		return false;
-		
+
+	public static boolean isNullOrEmpty(String s) {
+		return s == null || s.trim().isEmpty();
 	}
-	
+
 	public static boolean isNullOrEmptyList(List<String> list){
-		
-		if(list == null){
-			return true;
-		}
-		else if(list.isEmpty()){
-			return true;
-		}
-		return false;
-		
+		return list == null || list.isEmpty();
 	}
 
-	
 	public static void fromYamlToXacmlBlacklist(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput){
-		
 		ControlLoopGuard yamlGuardObject = Util.loadYamlGuard(yamlFile);
 		logger.debug("actor: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor());
 		logger.debug("recipe: {}", yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe());
 		logger.debug("freq_limit_per_target: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getFreq_limit_per_target());
 		logger.debug("time_window: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getTime_window());
 		logger.debug("active_time_range: {}", yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range());
-		
+
 		Path xacmlTemplatePath = Paths.get(xacmlTemplate);
-        String xacmlTemplateContent;
-		
-        try {
+		String xacmlTemplateContent;
+
+		try {
 			xacmlTemplateContent = new String(Files.readAllBytes(xacmlTemplatePath));
-			
-	        String xacmlPolicyContent = generateXacmlGuardBlacklist(xacmlTemplateContent,
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getControlLoopName(),
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getActor(),
-	        		yamlGuardObject.getGuards().getFirst().getMatch_parameters().getRecipe(),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getBlacklist(),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range().get("start"),
-	        		yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst().getActive_time_range().get("end")
-	        		);
-	        
-	
-	        Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
-        
+			String xacmlPolicyContent = generateXacmlGuardBlacklist(xacmlTemplateContent,
+					yamlGuardObject.getGuards().getFirst().getMatch_parameters(),
+					yamlGuardObject.getGuards().getFirst().getLimit_constraints().getFirst()
+					);
+
+			Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
+
 		} catch (IOException e) {
 			logger.error("fromYamlToXacmlBlacklist threw: ", e);
 		}
-		
 	}
-	
-	public static String	generateXacmlGuardBlacklist(String xacmlFileContent, 
-			String clname,
-			String actor, 
-			String recipe, 
-			List<String> blacklist,
-			String guardActiveStart, 
-			String guardActiveEnd) {
 
-		
+	private static String generateXacmlGuardBlacklist(String xacmlTemplateContent, MatchParameters matchParameters, Constraint constraint) {
 		Pattern p = Pattern.compile("\\$\\{clname\\}");
-		Matcher m = p.matcher(xacmlFileContent);
-		if(isNullOrEmpty(clname)) clname = ".*";
-		xacmlFileContent = m.replaceAll(clname);
-		
+		Matcher m = p.matcher(xacmlTemplateContent);
+		if(isNullOrEmpty(matchParameters.getControlLoopName())) matchParameters.setControlLoopName(".*");
+		xacmlTemplateContent = m.replaceAll(matchParameters.getControlLoopName());
+
 		p = Pattern.compile("\\$\\{actor\\}");
-		m = p.matcher(xacmlFileContent);
-		if(isNullOrEmpty(actor)) actor = ".*";
-		xacmlFileContent = m.replaceAll(actor);
+		m = p.matcher(xacmlTemplateContent);
+		if(isNullOrEmpty(matchParameters.getActor())) matchParameters.setActor(".*");
+		xacmlTemplateContent = m.replaceAll(matchParameters.getActor());
 
 		p = Pattern.compile("\\$\\{recipe\\}");
-		m = p.matcher(xacmlFileContent);
-		if(isNullOrEmpty(recipe)) recipe = ".*";
-		xacmlFileContent = m.replaceAll(recipe);
-		
+		m = p.matcher(xacmlTemplateContent);
+		if(isNullOrEmpty(matchParameters.getRecipe())) matchParameters.setRecipe(".*");
+		xacmlTemplateContent = m.replaceAll(matchParameters.getRecipe());
+
 		p = Pattern.compile("\\$\\{guardActiveStart\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(guardActiveStart);
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getActive_time_range().get("start"));
 
 		p = Pattern.compile("\\$\\{guardActiveEnd\\}");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll(guardActiveEnd);
-		logger.debug(xacmlFileContent);
-		
-		for(String target : blacklist){
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll(constraint.getActive_time_range().get("end"));
+		logger.debug(xacmlTemplateContent);
+
+		for(String target : constraint.getBlacklist()){
 			p = Pattern.compile("\\$\\{blackListElement\\}");
-			m = p.matcher(xacmlFileContent);
-			xacmlFileContent = m.replaceAll("<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" 
-											+ target
-											+ "</AttributeValue>"
-											+ "\n\t\t\t\t\t\t\\$\\{blackListElement\\}\n");
+			m = p.matcher(xacmlTemplateContent);
+			xacmlTemplateContent = m.replaceAll("<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" 
+					+ target
+					+ "</AttributeValue>"
+					+ "\n\t\t\t\t\t\t\\$\\{blackListElement\\}\n");
 		}
-		
+
 		p = Pattern.compile("\t\t\t\t\t\t\\$\\{blackListElement\\}\n");
-		m = p.matcher(xacmlFileContent);
-		xacmlFileContent = m.replaceAll("");
-		
-		
-		return xacmlFileContent;
+		m = p.matcher(xacmlTemplateContent);
+		xacmlTemplateContent = m.replaceAll("");
+
+
+		return xacmlTemplateContent;
 	}
-	
-	
 }

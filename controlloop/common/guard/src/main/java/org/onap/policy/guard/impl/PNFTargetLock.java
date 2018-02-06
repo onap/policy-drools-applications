@@ -49,7 +49,7 @@ public class PNFTargetLock implements TargetLock, Serializable {
 	}
 
 	@Override
-	public UUID		getLockID() {
+	public UUID	getLockID() {
 		return this.lockID;
 	}
 	

@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,40 +20,21 @@
 
 package org.onap.policy.guard;
 
-import java.util.UUID;
+import static org.junit.Assert.*;
 
-public class PolicyGuardResponse{
-	private UUID requestID;
-	private String operation;
-	private String result;
+import org.junit.Test;
 
-	public PolicyGuardResponse(String result, UUID req, String op) {
-		this.result = result;
-		this.requestID = req;
-		this.operation = op;
-	}
-	
-	@Override
-	public String toString() {
-		return "PolicyGuardResponse [requestID=" + requestID + ", operation=" + operation + ", result=" + result + "]";
-	}
-	
-	public UUID getRequestID() {
-		return requestID;
-	}
-	public void setRequestID(UUID requestID) {
-		this.requestID = requestID;
-	}
-	public String getResult() {
-		return result;
-	}
-	public void setResult(String result) {
-		this.result = result;
-	}
-	public String getOperation() {
-		return operation;
-	}
-	public void setOperation(String operation) {
-		this.operation = operation;
+public class GuardResultTest {
+
+	@Test
+	public void guardResultTest() {
+		assertEquals(3, GuardResult.values().length);
+		assertNotNull(GuardResult.LOCK_ACQUIRED);
+		assertNotNull(GuardResult.LOCK_DENIED);
+		assertNotNull(GuardResult.LOCK_EXCEPTION);
+		
+		assertEquals(GuardResult.LOCK_ACQUIRED, GuardResult.valueOf("LOCK_ACQUIRED"));
+		assertEquals(GuardResult.LOCK_DENIED, GuardResult.valueOf("LOCK_DENIED"));
+		assertEquals(GuardResult.LOCK_EXCEPTION, GuardResult.valueOf("LOCK_EXCEPTION"));
 	}
 }

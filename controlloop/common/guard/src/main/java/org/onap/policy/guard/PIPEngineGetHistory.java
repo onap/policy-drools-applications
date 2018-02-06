@@ -55,89 +55,57 @@ import com.att.research.xacml.std.pip.StdPIPRequest;
 import com.att.research.xacml.std.pip.StdPIPResponse;
 import com.att.research.xacml.std.pip.engines.StdConfigurableEngine;
 
-
-
 public class PIPEngineGetHistory extends StdConfigurableEngine{
-	
-	private interface DateUtil{
-		public class DateUtilException extends Exception {
-			private static final long serialVersionUID = 2612662650481443076L;
-
-			public DateUtilException(String message) {
-				super(message);
-			}
-			
-		}
-		
-        public long getMs();
-        public DateUtil init(String sqlValUnit) throws DateUtilException;
-    }
-
 	private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
-
-	public static final String DEFAULT_DESCRIPTION  = "PIP for retrieving Operations History from DB";
-	
-	
 
 	//
 	// Base issuer string. The issuer in the policy will also contain time window information
 	// E.g., "com:att:research:xacml:guard:historydb:tw:10:min"
 	//
-	public static final String DEFAULT_ISSUER			= "com:att:research:xacml:guard:historydb";
+	public static final String DEFAULT_ISSUER      = "com:att:research:xacml:guard:historydb";
+	public static final String DEFAULT_DESCRIPTION = "PIP for retrieving Operations History from DB";
 
+	private static final String XML_SCHEMA_STRING = "http://www.w3.org/2001/XMLSchema#string";
+
+	private static final String XACML_SUBJECT_CATEGORY_ACCESS_SUBJECT    = "urn:oasis:names:tc:xacml:1.0:subject-category:access-subject";
+	private static final String XACML_ACTOR_ACTOR_ID                     = "urn:oasis:names:tc:xacml:1.0:actor:actor-id";
+	private static final String XACML_ATTRIBUTE_CATEGORY_ACTION          ="urn:oasis:names:tc:xacml:3.0:attribute-category:action";
+	private static final String XACML_OPERATION_OPERATION_ID             ="urn:oasis:names:tc:xacml:1.0:operation:operation-id";
+	private static final String XACML_ATTRIBUTE_CATEGORY_RESOURCE        ="urn:oasis:names:tc:xacml:3.0:attribute-category:resource";
+	private static final String XACML_TARGET_TARGET_ID                   ="urn:oasis:names:tc:xacml:1.0:target:target-id";
+	private static final String XACML_TEST_SQL_RESOURCE_OPERATIONS_COUNT = "com:att:research:xacml:test:sql:resource:operations:count";
 
 	private static final PIPRequest PIP_REQUEST_ACTOR	= new StdPIPRequest(
-					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"),
-					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:actor:actor-id"),
-					new IdentifierImpl("http://www.w3.org/2001/XMLSchema#string"));
+			new IdentifierImpl(XACML_SUBJECT_CATEGORY_ACCESS_SUBJECT),
+			new IdentifierImpl(XACML_ACTOR_ACTOR_ID),
+			new IdentifierImpl(XML_SCHEMA_STRING));
 
 	private static final PIPRequest PIP_REQUEST_RECIPE		= new StdPIPRequest(
-					new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:action"),
-					new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:operation:operation-id"),
-					new IdentifierImpl("http://www.w3.org/2001/XMLSchema#string"));
+			new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_ACTION),
+			new IdentifierImpl(XACML_OPERATION_OPERATION_ID),
+			new IdentifierImpl(XML_SCHEMA_STRING));
 
 	private static final PIPRequest PIP_REQUEST_TARGET		= new StdPIPRequest(
-			new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:resource"),
-			new IdentifierImpl("urn:oasis:names:tc:xacml:1.0:target:target-id"),
-			new IdentifierImpl("http://www.w3.org/2001/XMLSchema#string"));
-
-
-	private void addIntegerAttribute(StdMutablePIPResponse stdPIPResponse, Identifier category, Identifier attributeId, int value, PIPRequest pipRequest) {
-		AttributeValue<BigInteger> attributeValue	= null;
-		try {
-			attributeValue	= DataTypes.DT_INTEGER.createAttributeValue(value);
-		} catch (Exception ex) {
-			logger.error("Failed to convert {} to an AttributeValue<Boolean>",value, ex);
-		}
-		if (attributeValue != null) {
-			stdPIPResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue, pipRequest.getIssuer()/*this.getIssuer()*/, false));
-		}
-	}
-
-
+			new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_RESOURCE),
+			new IdentifierImpl(XACML_TARGET_TARGET_ID),
+			new IdentifierImpl(XML_SCHEMA_STRING));
 
 	public PIPEngineGetHistory() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@Override
 	public Collection<PIPRequest> attributesRequired() {
-		// TODO Auto-generated method stub
-	    return Collections.emptySet();
+		return Collections.emptySet();
 	}
 
 	@Override
 	public Collection<PIPRequest> attributesProvided() {
-		// TODO Auto-generated method stub
-	    return Collections.emptySet();
+		return Collections.emptySet();
 	}
 
 	@Override
 	public PIPResponse getAttributes(PIPRequest pipRequest, PIPFinder pipFinder) throws PIPException {
-		// TODO Auto-generated method stub
 		logger.debug("Entering FeqLimiter PIP");
 
 		/*
@@ -164,9 +132,17 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		String timeWindowVal = s2[0];// number [of minutes, hours, days...]
 		String timeWindowScale = s2[1];//e.g., minute, hour, day, week, month, year
 
-		String actor = getActor(pipFinder).iterator().next();
-		String operation = getRecipe(pipFinder).iterator().next();
-		String target = getTarget(pipFinder).iterator().next();
+		String actor = null;
+		String operation = null;
+		String target = null;
+		try {
+			actor = getActor(pipFinder).iterator().next();
+			operation = getRecipe(pipFinder).iterator().next();
+			target = getTarget(pipFinder).iterator().next();
+		} catch (Exception e) {
+			logger.debug("could not retrieve actor, operation, or target from PIP finder");
+			return StdPIPResponse.PIP_RESPONSE_EMPTY;
+		}
 
 		String timeWindow = timeWindowVal + " " + timeWindowScale;
 
@@ -176,14 +152,13 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		StdMutablePIPResponse stdPIPResponse	= new StdMutablePIPResponse();
 
 		this.addIntegerAttribute(stdPIPResponse,
-				new IdentifierImpl("urn:oasis:names:tc:xacml:3.0:attribute-category:resource"),
-				new IdentifierImpl("com:att:research:xacml:test:sql:resource:operations:count"),
+				new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_RESOURCE),
+				new IdentifierImpl(XACML_TEST_SQL_RESOURCE_OPERATIONS_COUNT),
 				countFromDB,
 				pipRequest);
 
 		return new StdPIPResponse(stdPIPResponse);
 	}
-
 
 	@Override
 	public void configure(String id, Properties properties) throws PIPException {
@@ -196,8 +171,6 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			this.setIssuer(DEFAULT_ISSUER);
 		}
 	}
-
-
 
 	private PIPResponse getAttribute(PIPRequest pipRequest, PIPFinder pipFinder) {
 		PIPResponse pipResponse	= null;
@@ -212,21 +185,19 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			return null;
 		}
 		if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
-			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+			if (logger.isWarnEnabled()) {
+				logger.warn("PIP response error {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+			}
 			return null;
 		}
 		if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
-			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
-			return null;
-		}
-		if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
-			logger.warn("Error retrieving {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus());
+			if (logger.isWarnEnabled()) {
+				logger.warn("No attributes in POP response {}: {}", pipRequest.getAttributeId().stringValue(), pipResponse.getStatus().toString());
+			}
 			return null;
 		}
 		return pipResponse;
 	}
-
 
 	private Set<String> getActor(PIPFinder pipFinder) {
 		/*
@@ -234,14 +205,14 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		 */
 		PIPResponse pipResponseATTUID	= this.getAttribute(PIP_REQUEST_ACTOR, pipFinder);
 		if (pipResponseATTUID == null) {
-			return null;
+			return new HashSet<>();
 		}
 
 		/*
 		 * Iterate over all of the returned results and do the LDAP requests
 		 */
 		Collection<Attribute> listATTUIDs	= pipResponseATTUID.getAttributes();
-		Set<String> setATTUIDs			= new HashSet<String>();
+		Set<String> setATTUIDs			= new HashSet<>();
 		for (Attribute attributeATTUID: listATTUIDs) {
 			Iterator<AttributeValue<String>> iterAttributeValues	= attributeATTUID.findValues(DataTypes.DT_STRING);
 			if (iterAttributeValues != null) {
@@ -261,16 +232,16 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		/*
 		 * Get the AT&T UID from either the subject id or the attuid property
 		 */
-		PIPResponse pipResponseATTUID	= this.getAttribute(PIP_REQUEST_RECIPE, pipFinder);
+		PIPResponse pipResponseATTUID = this.getAttribute(PIP_REQUEST_RECIPE, pipFinder);
 		if (pipResponseATTUID == null) {
-			return null;
+			return new HashSet<>();
 		}
 
 		/*
 		 * Iterate over all of the returned results and do the LDAP requests
 		 */
 		Collection<Attribute> listATTUIDs	= pipResponseATTUID.getAttributes();
-		Set<String> setATTUIDs			= new HashSet<String>();
+		Set<String> setATTUIDs			= new HashSet<>();
 		for (Attribute attributeATTUID: listATTUIDs) {
 			Iterator<AttributeValue<String>> iterAttributeValues	= attributeATTUID.findValues(DataTypes.DT_STRING);
 			if (iterAttributeValues != null) {
@@ -286,6 +257,17 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		return setATTUIDs;
 	}
 
+	private void addIntegerAttribute(StdMutablePIPResponse stdPIPResponse, Identifier category, Identifier attributeId, int value, PIPRequest pipRequest) {
+		AttributeValue<BigInteger> attributeValue	= null;
+		try {
+			attributeValue	= DataTypes.DT_INTEGER.createAttributeValue(value);
+		} catch (Exception ex) {
+			logger.error("Failed to convert {} to an AttributeValue<Boolean>",value, ex);
+		}
+		if (attributeValue != null) {
+			stdPIPResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue, pipRequest.getIssuer()/*this.getIssuer()*/, false));
+		}
+	}
 
 	private Set<String> getTarget(PIPFinder pipFinder) {
 		/*
@@ -293,14 +275,14 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		 */
 		PIPResponse pipResponseATTUID	= this.getAttribute(PIP_REQUEST_TARGET, pipFinder);
 		if (pipResponseATTUID == null) {
-			return null;
+			return new HashSet<>();
 		}
 
 		/*
 		 * Iterate over all of the returned results and do the LDAP requests
 		 */
 		Collection<Attribute> listATTUIDs	= pipResponseATTUID.getAttributes();
-		Set<String> setATTUIDs			= new HashSet<String>();
+		Set<String> setATTUIDs			= new HashSet<>();
 		for (Attribute attributeATTUID: listATTUIDs) {
 			Iterator<AttributeValue<String>> iterAttributeValues	= attributeATTUID.findValues(DataTypes.DT_STRING);
 			if (iterAttributeValues != null) {
@@ -317,101 +299,57 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 	}
 
 	private static int getCountFromDB(String actor, String operation, String target, String timeWindow){
-
 		// DB Properties
 		Properties props = new Properties();
 		props.put(Util.ECLIPSE_LINK_KEY_URL, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_URL));
 		props.put(Util.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER));
 		props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
-		
+
 
 		EntityManager em = null;
-		String OpsHistPU = System.getProperty("OperationsHistoryPU");
-		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
-			OpsHistPU = "OperationsHistoryPU";
+		String opsHistPU = System.getProperty("OperationsHistoryPU");
+		if (opsHistPU == null || !opsHistPU.equals("TestOperationsHistoryPU")){
+			opsHistPU = "OperationsHistoryPU";
 		}
-		else{
+		else {
 			props.clear();
 		}
-		try{
-			em = Persistence.createEntityManagerFactory(OpsHistPU, props).createEntityManager();
-		}catch(Exception ex){
-			logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", OpsHistPU);
+
+		try {
+			em = Persistence.createEntityManagerFactory(opsHistPU, props).createEntityManager();
+		} catch(Exception ex){
+			logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", opsHistPU);
 			logger.error("getCountFromDB threw: ", ex);
 			return -1;
 		}
 
-		DateUtil dateUtil = new DateUtil(){
-			private long ms = 0;
-			private double multiplier = 0;
-
-			@Override
-			public DateUtil init(String sqlValUnit) throws DateUtilException{
-				String[] split = sqlValUnit.split(" ");
-				if(split.length != 2){
-					throw new DateUtilException("Invalid Value Unit pair for SQL");
-				}
-
-				ms = Long.parseLong(split[0]);
-
-				if("SECOND".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 1000;
-				}
-				else if("MINUTE".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 60000;
-				}
-				else if("HOUR".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 3.6e+6;
-				}
-				else if("DAY".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 8.64e+7;
-				}
-				else if("WEEK".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 6.048e+8;
-				}
-				else if("MONTH".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 2.628e+9;
-				}
-				else if("QUARTER".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 2.628e+9 * 3;
-				}
-				else if("YEAR".compareToIgnoreCase(split[1]) == 0){
-					multiplier = 3.154e+10;
-				}
-				else{
-					logger.error("{} not supported", split[1]);
-				}
-
-				ms *= multiplier;
-				return this;
-			}
-			public long getMs(){
-				return ms;
-			}
-		};
-
 		long now = new Date().getTime();
 		long diff;
 		try {
-			diff = now - dateUtil.init(timeWindow).getMs();
+			diff = now - getMSFromTimeWindow(timeWindow);
 		} catch (Exception ex) {
 			logger.error("PIP thread got Exception " + ex);
 			return -1;
 		}
 
-		String sql = "select count(*) as count from operationshistory10 where outcome<>'Failure_Guard'"
-				+ " and actor= ?"
-				+ " and operation= ?"
-				+ " and target= ?"
-				+ " and endtime between '" + new Timestamp(diff) + "' and '" + new Timestamp(now) + "'";
+		StringBuilder sqlBuilder = new StringBuilder();
+		sqlBuilder.append("select count(*) as count from operationshistory10 where outcome<>'Failure_Guard'");
+		sqlBuilder.append(" and actor= ?");
+		sqlBuilder.append(" and operation= ?");
+		sqlBuilder.append(" and target= ?");
+		sqlBuilder.append(" and endtime between '");
+		sqlBuilder.append(new Timestamp(diff));
+		sqlBuilder.append("' and '");
+		sqlBuilder.append(new Timestamp(now));
+		sqlBuilder.append('\'');
 
-		Query nq = em.createNativeQuery(sql);
+		Query nq = em.createNativeQuery(sqlBuilder.toString());
 		nq.setParameter(1, actor);
 		nq.setParameter(2, operation);
 		nq.setParameter(3, target);
 
 		int ret = -1;
-		try{
+		try {
 			ret = ((Number)nq.getSingleResult()).intValue();
 		}
 		catch(NoResultException | NonUniqueResultException ex){
@@ -422,8 +360,54 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 		em.close();
 
 		return ret;
-
 	}
 
+	/**
+	 * Get the Millisecond time from a time window string
+	 * @param timeWindow the time window string to parse
+	 * @return the millisecond time from the time window string
+	 * @throws PIPException On invalid time window strings
+	 */
+	private static long getMSFromTimeWindow(String timeWindowString) throws PIPException {
+		long ms = 0;
+		double multiplier = 0;
 
+		String[] split = timeWindowString.split(" ");
+		if (split.length != 2) {
+			throw new PIPException("Invalid Value Unit pair for SQL");
+		}
+
+		ms = Long.parseLong(split[0]);
+
+		if("SECOND".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 1000;
+		}
+		else if("MINUTE".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 60000;
+		}
+		else if("HOUR".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 3.6e+6;
+		}
+		else if("DAY".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 8.64e+7;
+		}
+		else if("WEEK".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 6.048e+8;
+		}
+		else if("MONTH".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 2.628e+9;
+		}
+		else if("QUARTER".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 2.628e+9 * 3;
+		}
+		else if("YEAR".compareToIgnoreCase(split[1]) == 0){
+			multiplier = 3.154e+10;
+		}
+		else{
+			logger.error("{} not supported", split[1]);
+		}
+
+		ms *= multiplier;
+		return ms;
+	}
 }

@@ -31,15 +31,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PolicyGuard {
-
-	private static Map<String, TargetLock> activeLocks = new HashMap<String, TargetLock>();
+	private PolicyGuard() {
+		// Cannot instantiate this static class
+	}
+	
+	private static Map<String, TargetLock> activeLocks = new HashMap<>();
 	private static final Logger logger = LoggerFactory.getLogger(PolicyGuard.class);
+
 	public static class LockResult<A, B> {
 		private A a;
 		private B b;
 		
 		public static <A, B> LockResult<A, B> createLockResult(A a, B b) {
-			return new LockResult<A, B>(a, b);
+			return new LockResult<>(a, b);
 		}
 		
 		public LockResult(A a, B b) {
@@ -101,7 +105,7 @@ public class PolicyGuard {
 		}
 	}
 	
-	public static boolean	unlockTarget(TargetLock lock) {
+	public static boolean unlockTarget(TargetLock lock) {
 		synchronized(activeLocks) {
 			if (activeLocks.containsKey(lock.getTargetInstance())) {
 				logger.debug("Unlocking {}", lock);
@@ -111,7 +115,7 @@ public class PolicyGuard {
 		}
 	}
 	
-	public static boolean	isLocked(TargetType targetType, String targetInstance, UUID requestID) {
+	public static boolean isLocked(TargetType targetType, String targetInstance, UUID requestID) {
 		synchronized(activeLocks) {
 			if (activeLocks.containsKey(targetInstance)) {
 				TargetLock lock = activeLocks.get(targetInstance);
@@ -120,5 +124,4 @@ public class PolicyGuard {
 			return false;
 		}		
 	}
-	
 }

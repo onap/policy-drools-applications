@@ -28,6 +28,13 @@ import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -37,9 +44,24 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
 
+import com.att.research.xacml.api.Attribute;
+import com.att.research.xacml.api.AttributeValue;
+import com.att.research.xacml.api.Identifier;
+import com.att.research.xacml.api.Status;
+import com.att.research.xacml.api.pip.PIPEngine;
+import com.att.research.xacml.api.pip.PIPException;
+import com.att.research.xacml.api.pip.PIPFinder;
+import com.att.research.xacml.api.pip.PIPRequest;
+import com.att.research.xacml.api.pip.PIPResponse;
+import com.att.research.xacml.std.IdentifierImpl;
+import com.att.research.xacml.std.StdAttribute;
+import com.att.research.xacml.std.StdAttributeValue;
+import com.att.research.xacml.std.StdStatus;
+import com.att.research.xacml.std.StdStatusCode;
 import com.att.research.xacml.std.pip.StdPIPRequest;
 import com.att.research.xacml.std.pip.StdPIPResponse;
 import com.att.research.xacml.std.pip.finders.EngineFinder;
+import com.att.research.xacml.util.FactoryException;
 
 public class PIPEngineGetHistoryTest {
 	static PIPEngineGetHistory pegh;
@@ -73,8 +95,7 @@ public class PIPEngineGetHistoryTest {
 		// Test issuer null
 		when(mockPIPRequest.getIssuer()).thenReturn(null);
 		try {
-			assertEquals(pegh.getAttributes(mockPIPRequest, mockPIPFinder),
-					StdPIPResponse.PIP_RESPONSE_EMPTY);
+			assertEquals(StdPIPResponse.PIP_RESPONSE_EMPTY, pegh.getAttributes(mockPIPRequest, mockPIPFinder));
 		} catch (Exception e) {
 			fail("getAttributes failed");
 		}
@@ -83,8 +104,7 @@ public class PIPEngineGetHistoryTest {
 		pegh.setIssuer(ISSUER);
 		when(mockPIPRequest.getIssuer()).thenReturn("something else");
 		try {
-			assertEquals(pegh.getAttributes(mockPIPRequest, mockPIPFinder),
-					StdPIPResponse.PIP_RESPONSE_EMPTY);
+			assertEquals(StdPIPResponse.PIP_RESPONSE_EMPTY, pegh.getAttributes(mockPIPRequest, mockPIPFinder));
 		} catch (Exception e) {
 			fail("getAttributes failed");
 		}
@@ -165,4 +185,209 @@ public class PIPEngineGetHistoryTest {
 		assertEquals(1, count);
 	}
 
+	@Test
+	public void testConfigure() throws PIPException {
+		PIPEngineGetHistory pegh = new PIPEngineGetHistory();
+		pegh.configure("Dorothy", new Properties());
+		
+		pegh.setDescription(null);
+		pegh.setIssuer(null);
+		pegh.configure("Dorothy", new Properties());
+	}
+	
+	@Test
+	public void getAttributesTest() throws URISyntaxException, PIPException, FactoryException {
+		PIPEngineGetHistory pegh = new PIPEngineGetHistory();
+		pegh.setIssuer("Dorothy");
+
+		Identifier identifierCategory = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));;
+		Identifier identifierAttribute = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/atrtribute"));;
+		Identifier identifierDataType = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/datatype"));;
+		PIPRequest pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:1000:SECOND");
+
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderPipException()));
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseStatusNOK()));
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseEmptyAttrs()));
+	}
+
+	@Test
+	public void timeWindowTest() throws URISyntaxException, PIPException, FactoryException {
+		PIPEngineGetHistory pegh = new PIPEngineGetHistory();
+		pegh.setIssuer("Dorothy");
+
+		Identifier identifierCategory = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));;
+		Identifier identifierAttribute = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/atrtribute"));;
+		Identifier identifierDataType = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/datatype"));;
+
+		PIPRequest pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:SECOND");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:MINUTE");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:HOUR");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:DAY");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:WEEK");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:MONTH");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:QUARTER");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:YEAR");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:FORTNIGHT");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		pipRequest = new StdPIPRequest(identifierCategory , identifierAttribute, identifierDataType, "Dorothy,tw:100:FORT NIGHT");
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
+		
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderPipException()));
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseStatusNOK()));
+		assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseEmptyAttrs()));
+	}
+
+	private class DummyPipFinder implements PIPFinder {
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			try {
+				List<Attribute> attributeList = new ArrayList<>();
+				Identifier categoryIdIn = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));
+				Identifier dataTypeIdIn = new IdentifierImpl(new URI("http://www.w3.org/2001/XMLSchema#string"));
+
+				Identifier attributeIdIn0 = new IdentifierImpl(new URI(UUID.randomUUID().toString()));
+				AttributeValue<String> valueIn0 = new StdAttributeValue<String>(dataTypeIdIn, "ActorDorothy");
+				Attribute attribute0 = new StdAttribute(categoryIdIn, attributeIdIn0, valueIn0);
+				attributeList.add(attribute0);
+
+				Identifier attributeIdIn1 = new IdentifierImpl(new URI(UUID.randomUUID().toString()));
+				AttributeValue<String> valueIn1 = new StdAttributeValue<String>(dataTypeIdIn, "OperationHomeFromOZ");
+				Attribute attribute1 = new StdAttribute(categoryIdIn, attributeIdIn1, valueIn1);
+				attributeList.add(attribute1);
+
+				Identifier attributeIdIn2 = new IdentifierImpl(new URI(UUID.randomUUID().toString()));
+				AttributeValue<String> valueIn2 = new StdAttributeValue<String>(dataTypeIdIn, "TargetWickedWitch");
+				Attribute attribute2 = new StdAttribute(categoryIdIn, attributeIdIn2, valueIn2);
+				attributeList.add(attribute2);
+
+				return new StdPIPResponse(attributeList);
+			}
+			catch (Exception e) {
+				return null;
+			}
+		}
+
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public Collection<PIPEngine> getPIPEngines() {
+			return null;
+		}
+	}
+
+	private class DummyPipFinderPipException implements PIPFinder {
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			throw new PIPException();
+		}
+
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public Collection<PIPEngine> getPIPEngines() {
+			return null;
+		}
+	}
+
+	private class DummyPipFinderResponseStatusNOK implements PIPFinder {
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			Status status = new StdStatus(StdStatusCode.STATUS_CODE_PROCESSING_ERROR, "Processing Error");
+			return new StdPIPResponse(status);
+		}
+
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public Collection<PIPEngine> getPIPEngines() {
+			return null;
+		}
+	}
+
+	private class DummyPipFinderResponseEmptyAttrs implements PIPFinder {
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
+			List<Attribute> attributeList = new ArrayList<>();
+			return new StdPIPResponse(attributeList);
+		}
+
+		@Override
+		public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent) throws PIPException {
+			return null;
+		}
+
+		@Override
+		public Collection<PIPEngine> getPIPEngines() {
+			return null;
+		}
+	}
 }

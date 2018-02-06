@@ -23,16 +23,14 @@ package org.onap.policy.guard;
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.att.research.xacml.api.DataTypeException;
 import com.att.research.xacml.std.annotations.RequestParser;
 
-
 public class CallGuardTask implements Runnable {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CallGuardTask.class);
 	WorkingMemory workingMemory;
 	String restfulPdpUrl;
@@ -41,40 +39,39 @@ public class CallGuardTask implements Runnable {
 	String recipe;
 	String target;
 	String requestId;
-	
+
 	/*
 	 * Guard url is grabbed from PolicyEngine.manager properties
 	 */
-    public CallGuardTask(WorkingMemory wm, String cl, String act, String rec, String tar, String reqId) { 
-    	workingMemory = wm;
-    	clname = cl;
-    	actor = act;
-    	recipe = rec;
-    	requestId = reqId;
-    	target = tar;
-    }
+	public CallGuardTask(WorkingMemory wm, String cl, String act, String rec, String tar, String reqId) { 
+		workingMemory = wm;
+		clname = cl;
+		actor = act;
+		recipe = rec;
+		requestId = reqId;
+		target = tar;
+	}
 
-    @Override
-    public void run() {
-    	long startTime = System.nanoTime();
-    	com.att.research.xacml.api.Request request = null;
-    	
-    	PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(clname, actor,  recipe, target, requestId);
-    	
-    	try {
-    		request = RequestParser.parseRequest(xacmlReq);
+	@Override
+	public void run() {
+		long startTime = System.nanoTime();
+		com.att.research.xacml.api.Request request = null;
+
+		PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(clname, actor,  recipe, target, requestId);
+
+		try {
+			request = RequestParser.parseRequest(xacmlReq);
 		} catch (IllegalArgumentException | IllegalAccessException | DataTypeException e) {
 			logger.error("CallGuardTask.run threw: {}", e);
 		} 
-    	
-		
-  		logger.debug("\n********** XACML REQUEST START ********");
+
+
+		logger.debug("\n********** XACML REQUEST START ********");
 		logger.debug("{}", request);
 		logger.debug("********** XACML REQUEST END ********\n");
-		
-		String guardUrl = PolicyEngine.manager.getEnvironmentProperty(Util.PROP_GUARD_URL);
+
 		String guardDecision = null;
-		
+
 		//
 		// Make guard request
 		//
@@ -94,20 +91,20 @@ public class CallGuardTask implements Runnable {
 
 		PolicyGuardResponse guardResponse = new PolicyGuardResponse(guardDecision, UUID.fromString(this.requestId), this.recipe);
 
-		
+
 		//
 		//Create an artificial Guard response in case we didn't get a clear Permit or Deny
 		//
-		if(guardResponse.result.equals("Indeterminate")){
-			guardResponse.operation = recipe;
-			guardResponse.requestID = UUID.fromString(requestId);
+		if(guardResponse.getResult().equals("Indeterminate")){
+			guardResponse.setOperation(recipe);
+			guardResponse.setRequestID(UUID.fromString(requestId));
 		}
-		
+
 		long estimatedTime = System.nanoTime() - startTime;
 		logger.debug("\n\n============ Guard inserted with decision {} !!! =========== time took: {} mili sec \n\n",
-				guardResponse.result, (double)estimatedTime/1000/1000);
+				guardResponse.getResult(), (double)estimatedTime/1000/1000);
 		workingMemory.insert(guardResponse);
 
-    }
+	}
 
 }

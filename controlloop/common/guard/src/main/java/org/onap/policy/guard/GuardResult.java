@@ -24,5 +24,4 @@ public enum GuardResult {
 	LOCK_DENIED,
 	LOCK_EXCEPTION
 	;
-
 }

@@ -20,8 +20,6 @@
 
 package org.onap.policy.guard;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -38,6 +36,9 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public final class Util {
+	private Util() {
+		// This static class cannot be instantiated
+	}
 	
 	/*
 	 * Keys for guard properties
@@ -75,6 +76,7 @@ public final class Util {
 	protected static final String JUNITPU = "TestOperationsHistoryPU";
 
 	private static final Logger logger = LoggerFactory.getLogger(Util.class);
+	
 	public static class Pair<A, B> {
 		public final A a;
 		public final B b;
@@ -85,7 +87,7 @@ public final class Util {
 		}
 	}
 	
-	public static Pair<ControlLoopPolicy, String>	loadYaml(String testFile) {
+	public static Pair<ControlLoopPolicy, String> loadYaml(String testFile) {
 		try (InputStream is = new FileInputStream(new File(testFile))) {
 			String contents = IOUtils.toString(is, StandardCharsets.UTF_8);
 			//
@@ -96,15 +98,14 @@ public final class Util {
 			
 			logger.debug(contents);
 			
-			return new Pair<ControlLoopPolicy, String>((ControlLoopPolicy) obj, contents);
+			return new Pair<>((ControlLoopPolicy) obj, contents);
 		} catch (IOException e) {
 			logger.error(e.getLocalizedMessage(), e);
-			fail(e.getLocalizedMessage());
 		}
 		return null;
 	}
 	
-	public static ControlLoopGuard	loadYamlGuard(String testFile) {
+	public static ControlLoopGuard loadYamlGuard(String testFile) {
 		try (InputStream is = new FileInputStream(new File(testFile))) {
 			String contents = IOUtils.toString(is, StandardCharsets.UTF_8);
 			//
@@ -115,7 +116,6 @@ public final class Util {
 			return (ControlLoopGuard) obj;
 		} catch (IOException e) {
 			logger.error(e.getLocalizedMessage(), e);
-			fail(e.getLocalizedMessage());
 		}
 		return null;
 	}
@@ -126,7 +126,7 @@ public final class Util {
 	 *  @see /guard/src/test/java/org/onap/policy/guard/UtilTest.java 
 	 *  for setting test properties
 	 */
-	public static void setGuardEnvProps(String url, String username, String password, String clientName, String clientPassword, String environment){
+	public static void setGuardEnvProps(String url, String username, String password, String clientName, String clientPassword, String environment) {
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL,         url);
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        username);
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        password);
@@ -134,11 +134,12 @@ public final class Util {
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_PASS, clientPassword);
 		PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV,         environment);
 	}
+	
 	public static void setGuardEnvProp(String key, String value){
 		PolicyEngine.manager.setEnvironmentProperty(key, value);
 	}
+	
 	public static String getGuardProp(String propName){
 		return PolicyEngine.manager.getEnvironmentProperty(propName);
 	}
-
 }

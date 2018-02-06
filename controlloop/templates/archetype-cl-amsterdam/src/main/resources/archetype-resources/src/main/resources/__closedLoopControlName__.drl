@@ -677,8 +677,8 @@ rule "${policyName}.GUARD.RESPONSE"
         
         
     //we will permit the operation if there was no Guard for it
-    if("Indeterminate".equalsIgnoreCase($guardResponse.result)){
-        $guardResponse.result = "Permit";
+    if("Indeterminate".equalsIgnoreCase($guardResponse.getResult())){
+        $guardResponse.setResult("Permit");
     }
     
     //
@@ -686,7 +686,7 @@ rule "${policyName}.GUARD.RESPONSE"
     //
     VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
     notification.setNotification(ControlLoopNotificationType.OPERATION);
-    notification.setMessage("Guard result for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe() + " is " + $guardResponse.result);
+    notification.setMessage("Guard result for " + $operation.policy.getActor() + " " + $operation.policy.getRecipe() + " is " + $guardResponse.getResult());
     notification.setHistory($operation.getHistory());
     notification.setFrom("policy");
     notification.setPolicyName(drools.getRule().getName());
@@ -695,9 +695,9 @@ rule "${policyName}.GUARD.RESPONSE"
     
     PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
     
-    if("Permit".equalsIgnoreCase($guardResponse.result)){
+    if("Permit".equalsIgnoreCase($guardResponse.getResult())){
     
-        modify($operation){setGuardApprovalStatus($guardResponse.result)};
+        modify($operation){setGuardApprovalStatus($guardResponse.getResult())};
     }
     else {
         //This is the Deny case

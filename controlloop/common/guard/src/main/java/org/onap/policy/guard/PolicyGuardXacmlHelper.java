@@ -20,10 +20,9 @@
 
 package org.onap.policy.guard;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -48,11 +47,11 @@ import com.att.research.xacml.api.Result;
 
 
 public class PolicyGuardXacmlHelper {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(PolicyGuardXacmlHelper.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
 	private static final Logger netLogger = LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
+
+	// Constant for the systme line separator
+	private static final String SYSTEM_LS = System.lineSeparator();
 
 	public PolicyGuardXacmlHelper() {
 		init(PolicyEngine.manager.getEnvironment());
@@ -63,26 +62,20 @@ public class PolicyGuardXacmlHelper {
 	// 'Authorization' header entry. 'restUrlIndex' indicates the next
 	// entry to try -- after each failure, the index is advanced to the
 	// next entry (wrapping to the beginning, if needed).
-	static private class URLEntry implements Serializable {
+	private static class URLEntry implements Serializable {
+		private static final long serialVersionUID = -8859237552195400518L;
+
 		URL restURL;
 		String authorization = null;
 		String clientAuth = null;
 		String environment = null;
-	};
+	}
 
 	private URLEntry[] restUrls = null;
 	private int restUrlIndex = 0;
 
 	// REST timeout, initialized from 'pdpx.timeout' property
 	private int timeout = 20000;
-
-
-	// initialized from 'guard.disabled', but may also be set to 'true' if
-	// there is an initialization error
-	private boolean disabled = false;
-
-	// errors that forced 'disabled' to be set to 'true'
-	private String errorMessage = null;
 
 	public String callPDP(PolicyGuardXacmlRequestAttributes xacmlReq) {
 		//
@@ -94,11 +87,11 @@ public class PolicyGuardXacmlHelper {
 		// Build the json request
 		//
 		JSONObject attributes = new JSONObject();
-		attributes.put("actor", xacmlReq.getActor_id());
-		attributes.put("recipe", xacmlReq.getOperation_id());
-		attributes.put("target", xacmlReq.getTarget_id());
-		if (xacmlReq.getClname_id() != null) {
-			attributes.put("clname", xacmlReq.getClname_id());
+		attributes.put("actor", xacmlReq.getActorID());
+		attributes.put("recipe", xacmlReq.getOperationID());
+		attributes.put("target", xacmlReq.getTargetID());
+		if (xacmlReq.getClnameID() != null) {
+			attributes.put("clname", xacmlReq.getClnameID());
 		}
 		JSONObject jsonReq = new JSONObject();
 		jsonReq.put("decisionAttributes", attributes);
@@ -110,12 +103,13 @@ public class PolicyGuardXacmlHelper {
 			// Call RESTful PDP
 			//
 			URLEntry urlEntry = restUrls[restUrlIndex];
-			netLogger.info("[OUT|{}|{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), jsonReq.toString());
+			String jsonRequestString = jsonReq.toString();
+			netLogger.info("[OUT|{}|{}|]{}{}", "GUARD", urlEntry.restURL, SYSTEM_LS, jsonRequestString);
 			response = callRESTfulPDP(new ByteArrayInputStream(jsonReq
 					.toString().getBytes()), urlEntry.restURL,
 					urlEntry.authorization, urlEntry.clientAuth,
 					urlEntry.environment);
-			netLogger.info("[IN|{}|{}|]{}{}", "GUARD", urlEntry.restURL, System.lineSeparator(), response);
+			netLogger.info("[IN|{}|{}|]{}{}", "GUARD", urlEntry.restURL, SYSTEM_LS, response);
 		} catch (Exception e) {
 			logger.error("Error in sending RESTful request: ", e);
 		}
@@ -130,13 +124,10 @@ public class PolicyGuardXacmlHelper {
 	 * @param file
 	 * @return response from guard which contains "Permit" or "Deny"
 	 */
-	private String callRESTfulPDP(InputStream is, URL restURL,
-			String authorization, String clientauth, String environment) {
-		String response = null;
-		String rawDecision = null;
+	private String callRESTfulPDP(InputStream is, URL restURL, String authorization, String clientauth, String environment) {
 		HttpURLConnection connection = null;
-		try {
 
+		try {
 			//
 			// Open up the connection
 			//
@@ -175,85 +166,46 @@ public class PolicyGuardXacmlHelper {
 			try (OutputStream os = connection.getOutputStream()) {
 				IOUtils.copy(is, os);
 			}
+
 			//
 			// Do the connect
 			//
 			connection.connect();
-			if (connection.getResponseCode() == 200) {
-				//
-				// Read the response
-				//
-				ContentType contentType = null;
-				try {
-					contentType = ContentType
-							.parse(connection.getContentType());
 
-					if (contentType.getMimeType().equalsIgnoreCase(
-							ContentType.APPLICATION_JSON.getMimeType())) {
-						InputStream iStream = connection.getInputStream();
-						int contentLength = connection.getContentLength();
-
-						// if content length is -1, respose is chunked, and
-						// TCP connection will be dropped at the end
-						byte[] buf = new byte[contentLength < 0 ? 1024
-								: contentLength];
-						int offset = 0;
-						for (;;) {
-							if (offset == contentLength) {
-								// all expected bytes have been read
-								response = new String(buf);
-								break;
-							}
-							int size = iStream.read(buf, offset, buf.length
-									- offset);
-							if (size < 0) {
-								if (contentLength > 0) {
-									logger.error("partial input stream");
-								} else {
-									// chunked response --
-									// dropped connection is expected
-									response = new String(buf, 0, offset);
-								}
-								break;
-							}
-							offset += size;
-						}
-					} else {
-						logger.error("unknown content-type: " + contentType);
-					}
-
-				} catch (Exception e) {
-					String message = "Parsing Content-Type: "
-							+ connection.getContentType();
-					logger.error(message, e);
-				}
-
-			} else {
-				logger.error(connection.getResponseCode() + " "
-						+ connection.getResponseMessage());
+			if (connection.getResponseCode() != 200) {
+				logger.error(connection.getResponseCode() + " "	+ connection.getResponseMessage());
+				return Util.INDETERMINATE;
 			}
 		} catch (Exception e) {
-			logger.error(
-					"Exception in 'PolicyGuardXacmlHelper.callRESTfulPDP'", e);
-		}
-		
-		//
-		// Connection may have failed or not been 200 OK, return Indeterminate
-		//
-		if(response == null || response.isEmpty()){
+			logger.error("Exception in 'PolicyGuardXacmlHelper.callRESTfulPDP'", e);
 			return Util.INDETERMINATE;
 		}
-		
-		rawDecision = new JSONObject(response).getString("decision");
 
-		return rawDecision;
+		//
+		// Read the response
+		//
+		try {
+			ContentType contentType = ContentType.parse(connection.getContentType());
+
+			if (contentType.getMimeType().equalsIgnoreCase(ContentType.APPLICATION_JSON.getMimeType())) {
+				InputStream iStream = connection.getInputStream();
+				int contentLength = connection.getContentLength();
+
+				return readResponseFromStream(iStream, contentLength);
+			} else {
+				logger.error("unknown content-type: {}", contentType);
+				return Util.INDETERMINATE;
+			}
+
+		} catch (Exception e) {
+			String message = "Parsing Content-Type: " + connection.getContentType();
+			logger.error(message, e);
+			return Util.INDETERMINATE;
+		}
 	}
 
-	public static PolicyGuardResponse ParseXacmlPdpResponse(
-			com.att.research.xacml.api.Response xacmlResponse) {
-
+	public static PolicyGuardResponse parseXACMLPDPResponse(com.att.research.xacml.api.Response xacmlResponse) {
 		if (xacmlResponse == null) {
-
 			//
 			// In case the actual XACML response was null, create an empty
 			// response object with decision "Indeterminate"
@@ -261,40 +213,33 @@ public class PolicyGuardXacmlHelper {
 			return new PolicyGuardResponse("Indeterminate", null, "");
 		}
 
-		Iterator<Result> it_res = xacmlResponse.getResults().iterator();
+		Iterator<Result> itRes = xacmlResponse.getResults().iterator();
 
-		Result res = it_res.next();
-		String decision_from_xacml_response = res.getDecision().toString();
-		Iterator<AttributeCategory> it_attr_cat = res.getAttributes()
-				.iterator();
-		UUID req_id_from_xacml_response = null;
-		String operation_from_xacml_response = "";
+		Result res = itRes.next();
+		String decisionFromXACMLResponse = res.getDecision().toString();
+		Iterator<AttributeCategory> itAttrCat = res.getAttributes().iterator();
+		UUID reqIDFromXACMLResponse = null;
+		String operationFromXACMLResponse = "";
 
-		while (it_attr_cat.hasNext()) {
-			Iterator<Attribute> it_attr = it_attr_cat.next().getAttributes()
+		while (itAttrCat.hasNext()) {
+			Iterator<Attribute> itAttr = itAttrCat.next().getAttributes()
 					.iterator();
-			while (it_attr.hasNext()) {
-				Attribute current_attr = it_attr.next();
-				String s = current_attr.getAttributeId().stringValue();
+			while (itAttr.hasNext()) {
+				Attribute currentAttr = itAttr.next();
+				String s = currentAttr.getAttributeId().stringValue();
 				if ("urn:oasis:names:tc:xacml:1.0:request:request-id".equals(s)) {
-					Iterator<AttributeValue<?>> it_values = current_attr
-							.getValues().iterator();
-					req_id_from_xacml_response = UUID.fromString(it_values
-							.next().getValue().toString());
+					Iterator<AttributeValue<?>> itValues = currentAttr.getValues().iterator();
+					reqIDFromXACMLResponse = UUID.fromString(itValues	.next().getValue().toString());
 				}
-				if ("urn:oasis:names:tc:xacml:1.0:operation:operation-id"
-						.equals(s)) {
-					Iterator<AttributeValue<?>> it_values = current_attr
-							.getValues().iterator();
-					operation_from_xacml_response = it_values.next().getValue()
-							.toString();
+				if ("urn:oasis:names:tc:xacml:1.0:operation:operation-id"	.equals(s)) {
+					Iterator<AttributeValue<?>> itValues = currentAttr.getValues().iterator();
+					operationFromXACMLResponse = itValues.next().getValue().toString();
 				}
-
 			}
 		}
 
-		return new PolicyGuardResponse(decision_from_xacml_response,
-				req_id_from_xacml_response, operation_from_xacml_response);
+		return new PolicyGuardResponse(decisionFromXACMLResponse,
+				reqIDFromXACMLResponse, operationFromXACMLResponse);
 
 	}
 
@@ -306,124 +251,13 @@ public class PolicyGuardXacmlHelper {
 		String timeoutString = properties.getProperty("pdpx.timeout");
 		String disabledString = properties.getProperty("guard.disabled");
 
-		if (disabledString != null) {
-			// decode optional 'guard.disabled' parameter
-			disabled = new Boolean(disabledString);
-			if (disabled) {
-				// skip everything else
-				return;
-			}
+		if (disabledString != null && Boolean.parseBoolean(disabledString)) {
+			return;
 		}
 
-		/*
-		 * Decode 'pdpx.*' parameters
-		 */
+		ArrayList<URLEntry> entries = initEntries(properties, sb);
 
-		// first, the default parameters
-		String defaultUser = properties.getProperty("pdpx.username");
-		String defaultPassword = properties
-				.getProperty("pdpx.password");
-		String defaultClientUser = properties
-				.getProperty("pdpx.client.username");
-		String defaultClientPassword = properties
-				.getProperty("pdpx.client.password");
-		String defaultEnvironment = properties
-				.getProperty("pdpx.environment");
-
-		// now, see which numeric entries (1-9) exist
-		ArrayList<URLEntry> entries = new ArrayList<>();
-
-		for (int index = 0; index < 10; index += 1) {
-			String urlPrefix = "guard.";
-			String pdpxPrefix = "pdpx.";
-			if (index != 0) {
-				urlPrefix = urlPrefix + index + ".";
-			}
-
-			// see if the associated URL exists
-			String restURLlist = properties.getProperty(urlPrefix + "url");
-			if (nullOrEmpty(restURLlist)) {
-				// no entry for this index
-				continue;
-			}
-
-			// support a list of entries separated by semicolons. Each entry
-			// can be:
-			// URL
-			// URL,user
-			// URL,user,password
-			for (String restURL : restURLlist.split("\\s*;\\s*")) {
-				String[] segments = restURL.split("\\s*,\\s*");
-				String user = null;
-				String password = null;
-
-				if (segments.length >= 2) {
-					// user id is provided
-					restURL = segments[0];
-					user = segments[1];
-					if (segments.length >= 3) {
-						// password is also provided
-						password = segments[2];
-					}
-				}
-
-				// URL does exist -- create the entry
-				URLEntry urlEntry = new URLEntry();
-				try {
-					urlEntry.restURL = new URL(restURL);
-				} catch (java.net.MalformedURLException e) {
-					// if we don't have a URL,
-					// don't bother with the rest on this one
-					sb.append("'").append(urlPrefix).append("url' '")
-							.append(restURL).append("': ").append(e)
-							.append(",");
-					continue;
-				}
-
-				if (nullOrEmpty(user)) {
-					// user id was not provided on '*.url' line --
-					// extract it from a separate property
-					user = properties.getProperty(pdpxPrefix + "username", defaultUser);
-				}
-				if (nullOrEmpty(password)) {
-					// password was not provided on '*.url' line --
-					// extract it from a separate property
-					password = properties.getProperty(pdpxPrefix + "password",
-							defaultPassword);
-				}
-
-				// see if 'user' and 'password' entries both exist
-				if (!nullOrEmpty(user) && !nullOrEmpty(password)) {
-					urlEntry.authorization = "Basic "
-							+ Base64.getEncoder().encodeToString(
-									(user + ":" + password).getBytes());
-				}
-
-				// see if 'client.user' and 'client.password' entries both exist
-				String clientUser = properties.getProperty(pdpxPrefix
-						+ "client.username", defaultClientUser);
-				String clientPassword = properties.getProperty(pdpxPrefix
-						+ "client.password", defaultClientPassword);
-				if (!nullOrEmpty(clientUser) && !nullOrEmpty(clientPassword)) {
-					urlEntry.clientAuth = "Basic "
-							+ Base64.getEncoder().encodeToString(
-									(clientUser + ":" + clientPassword)
-											.getBytes());
-				}
-
-				// see if there is an 'environment' entry
-				String environment = properties.getProperty(pdpxPrefix
-						+ "environment", defaultEnvironment);
-				if (!nullOrEmpty(environment)) {
-					urlEntry.environment = environment;
-				}
-
-				// include this URLEntry in the list
-				entries.add(urlEntry);
-			}
-		}
-
-		if (entries.size() == 0) {
+		if (entries.isEmpty()) {
 			sb.append("'pdpx.*' -- no URLs specified, ");
 		} else {
 			restUrls = entries.toArray(new URLEntry[0]);
@@ -445,10 +279,111 @@ public class PolicyGuardXacmlHelper {
 		if (sb.length() != 0) {
 			// remove the terminating ", ", and extract resulting error message
 			sb.setLength(sb.length() - 2);
-			errorMessage = sb.toString();
-			disabled = true;
-			logger.error("Initialization failure: " + errorMessage);
+			String errorMessage = sb.toString();
+			logger.error("Initialization failure: {}", errorMessage);
 		}
+	}
+
+	private ArrayList<URLEntry> initEntries(Properties properties, StringBuilder sb) {
+		// now, see which numeric entries (1-9) exist
+		ArrayList<URLEntry> entries = new ArrayList<>();
+
+		for (int index = 0; index < 10; index += 1) {
+			String urlPrefix = "guard.";
+			if (index != 0) {
+				urlPrefix = urlPrefix + index + ".";
+			}
+
+			// see if the associated URL exists
+			String restURLlist = properties.getProperty(urlPrefix + "url");
+			if (nullOrEmpty(restURLlist)) {
+				// no entry for this index
+				continue;
+			}
+
+			// support a list of entries separated by semicolons. Each entry
+			// can be:
+			// URL
+			// URL,user
+			// URL,user,password
+			for (String restURL : restURLlist.split("\\s*;\\s*")) {
+				URLEntry entry = initRestURL(properties, sb, restURL);
+				// include this URLEntry in the list
+				if (entry != null) {
+					entries.add(entry);
+				}
+			}
+		}
+
+		return entries;
+	}
+
+	private URLEntry initRestURL(Properties properties, StringBuilder sb, String restURL) {
+		String urlPrefix = "guard.";
+		String pdpxPrefix = "pdpx.";
+
+		String[] segments = restURL.split("\\s*,\\s*");
+		String user = null;
+		String password = null;
+
+		if (segments.length >= 2) {
+			// user id is provided
+			restURL = segments[0];
+			user = segments[1];
+			if (segments.length >= 3) {
+				// password is also provided
+				password = segments[2];
+			}
+		}
+
+		// URL does exist -- create the entry
+		URLEntry urlEntry = new URLEntry();
+		try {
+			urlEntry.restURL = new URL(restURL);
+		} catch (java.net.MalformedURLException e) {
+			// if we don't have a URL,
+			// don't bother with the rest on this one
+			sb.append("'").append(urlPrefix).append("url' '")
+			.append(restURL).append("': ").append(e)
+			.append(",");
+			return null;
+		}
+
+		if (nullOrEmpty(user)) {
+			// user id was not provided on '*.url' line --
+			// extract it from a separate property
+			user = properties.getProperty(pdpxPrefix + "username", properties.getProperty("pdpx.username"));
+		}
+		if (nullOrEmpty(password)) {
+			// password was not provided on '*.url' line --
+			// extract it from a separate property
+			password = properties.getProperty(pdpxPrefix + "password", properties.getProperty("pdpx.password"));
+		}
+
+		// see if 'user' and 'password' entries both exist
+		if (!nullOrEmpty(user) && !nullOrEmpty(password)) {
+			urlEntry.authorization = "Basic "
+					+ Base64.getEncoder().encodeToString(
+							(user + ":" + password).getBytes());
+		}
+
+		// see if 'client.user' and 'client.password' entries both exist
+		String clientUser = properties.getProperty(pdpxPrefix     + "client.username", properties.getProperty("pdpx.client.username"));
+		String clientPassword = properties.getProperty(pdpxPrefix + "client.password", properties.getProperty("pdpx.client.password"));
+		if (!nullOrEmpty(clientUser) && !nullOrEmpty(clientPassword)) {
+			urlEntry.clientAuth = "Basic "
+					+ Base64.getEncoder().encodeToString(
+							(clientUser + ":" + clientPassword)
+							.getBytes());
+		}
+
+		// see if there is an 'environment' entry
+		String environment = properties.getProperty(pdpxPrefix + "environment", properties.getProperty("pdpx.environment"));
+		if (!nullOrEmpty(environment)) {
+			urlEntry.environment = environment;
+		}
+
+		return urlEntry;
 	}
 
 	/**
@@ -459,8 +394,37 @@ public class PolicyGuardXacmlHelper {
 	 * @return 'true' if the string is 'null' or has a length of 0, 'false'
 	 *         otherwise
 	 */
-	static private boolean nullOrEmpty(String value) {
+	private static boolean nullOrEmpty(String value) {
 		return (value == null || value.isEmpty());
 	}
 
+	private static String readResponseFromStream(InputStream iStream, int contentLength) throws IOException {
+		// if content length is -1, response is chunked, and
+		// TCP connection will be dropped at the end
+		byte[] buf = new byte[contentLength < 0 ? 1024: contentLength];
+		int offset = 0;
+		do {
+			int size = iStream.read(buf, offset, buf.length - offset);
+			if (size < 0) {
+				// In a chunked response a dropped connection is expected, but not if the response is not chunked
+				if (contentLength > 0) {
+					logger.error("partial input stream");
+				}
+				break;
+			}
+			offset += size;
+		} while (offset != contentLength);
+
+		String response = new String(buf, 0, offset);
+
+		//
+		// Connection may have failed or not been 200 OK, return Indeterminate
+		//
+		if (response.isEmpty()) {
+			return Util.INDETERMINATE;
+		}
+
+		return new JSONObject(response).getString("decision");
+
+	}
 }
