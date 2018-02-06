@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.Properties;
 
 import org.onap.msb.sdk.discovery.common.RouteException;
@@ -34,7 +33,7 @@ import org.slf4j.LoggerFactory;
 public class MSBServiceFactory implements Serializable {
 	private static final long serialVersionUID = 4638414146278012425L;
 	private static final Logger logger = LoggerFactory.getLogger(MSBServiceFactory.class);
-    private static final String msbPropertyFile = "msb.policy.properties";
+    private static final String MSB_PROPERTY_FILE = "msb.policy.properties";
     private static final String MSB_IP = "msb.ip";
     private static final String MSB_PORT = "msb.port";
     private transient MSBServiceClient msbClient;
@@ -50,15 +49,16 @@ public class MSBServiceFactory implements Serializable {
 
     private void init() throws MSBServiceException,IOException  {
         properties = new Properties();
-        Path file = Paths.get(System.getProperty(msbPropertyFile));
-        if (file == null) {
+        String propertyFilePath = System.getProperty(MSB_PROPERTY_FILE);
+        if (propertyFilePath == null) {
             throw new MSBServiceException("No msb.policy.properties specified.");
         }
-        if (Files.notExists(file)) {
+        Path file = Paths.get(propertyFilePath);
+        if (!file.toFile().exists()) {
             throw new MSBServiceException("No msb.policy.properties specified.");
         }
 
-        if (Files.isReadable(file) == false) {
+        if (!Files.isReadable(file)) {
             throw new MSBServiceException ("Repository is NOT readable: " + file.toAbsolutePath());
         }
         try(InputStream is = new FileInputStream(file.toFile())){
@@ -94,9 +94,7 @@ public class MSBServiceFactory implements Serializable {
         node.setName(serviceName);
         try {
             MicroServiceFullInfo serviceInfo = msbClient.queryMicroServiceInfo(serviceName,version);
-            Iterator iterator = serviceInfo.getNodes().iterator();
-            while(iterator.hasNext()) {
-                NodeInfo nodeInfo = (NodeInfo)iterator.next();
+            for (NodeInfo nodeInfo: serviceInfo.getNodes()){
                 node.setIp(nodeInfo.getIp());
                 node.setPort(nodeInfo.getPort());
             }

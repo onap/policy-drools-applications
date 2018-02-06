@@ -14,14 +14,11 @@
 package org.onap.policy.msb.client;
 
 import org.onap.msb.sdk.httpclient.msb.MSBServiceClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 public class MSBServiceManager implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(MSBServiceManager.class);
     private static final long serialVersionUID = -2517971308551895215L;
     private MSBServiceFactory factory;
 
