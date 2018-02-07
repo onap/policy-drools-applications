@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_dfde2411",
+        "filename": "controlloop/common/msb/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-02-07T15:23:22Z",
+      "side": 1,
+      "message": "Last comment Michael, can you change the version to ${project.version}?   It\u0027s easier for maintenance.   The 2 repos are synced in the version numbering and there\u0027s no plans to change it.   Thank you!",
+      "revId": "b3bcc6ad2d640d510b37c8e3e8dadfa75bdbbba1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
