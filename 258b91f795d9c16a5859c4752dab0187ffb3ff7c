@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_a958c632",
+        "filename": "controlloop/common/msb/src/main/java/org/onap/policy/msb/client/MSBServiceFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1581
+      },
+      "writtenOn": "2018-02-07T10:35:11Z",
+      "side": 1,
+      "message": "Done.\nI notice the iterations all set the Ip/Port of the same instance of Node, i.e. each iteration overwrites the Ip \u0026 port values from the previous iteration. Is the assumption here that there will be no more than one NodeInfo instance per serviceName \u0026 version?",
+      "parentUuid": "5a93c517_26a0659e",
+      "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_c6b8a1e7",
         "filename": "controlloop/common/msb/src/test/java/org/onap/policy/msb/client/MSBServiceExceptionTest.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_293596d9",
+        "filename": "controlloop/common/msb/src/test/java/org/onap/policy/msb/client/MSBServiceExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1581
+      },
+      "writtenOn": "2018-02-07T10:35:11Z",
+      "side": 1,
+      "message": "Nice test utility. Changed code to use it as suggested, and added dependency to pom. Had to use snapshot version in dependency as I dont think there is full version containing the ExceptionsTester class. Is it allowable to use snapshot version of a dependency?",
+      "parentUuid": "5a93c517_2677053c",
+      "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a6b555ef",
         "filename": "controlloop/common/msb/src/test/resources/msbPropertyFile.txt",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2018-02-06T19:59:59Z",
       "side": 1,
       "message": "can this file have a .properties extension instead?\nis it possible to delete the spaces in \" \u003d \", that\u0027s the informal convention that we are following :)",
+      "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_493022e8",
+        "filename": "controlloop/common/msb/src/test/resources/msbPropertyFile.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1581
+      },
+      "writtenOn": "2018-02-07T10:35:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_a6b555ef",
       "revId": "258b91f795d9c16a5859c4752dab0187ffb3ff7c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
