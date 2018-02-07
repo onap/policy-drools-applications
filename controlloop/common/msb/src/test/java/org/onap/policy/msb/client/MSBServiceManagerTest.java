@@ -14,6 +14,7 @@
 package org.onap.policy.msb.client;
 
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.msb.sdk.discovery.common.RouteException;
@@ -23,11 +24,14 @@ import org.onap.msb.sdk.httpclient.msb.MSBServiceClient;
 import org.onap.policy.msb.client.MSBServiceManager;
 import org.onap.policy.msb.client.Node;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -36,6 +40,9 @@ import static org.mockito.Mockito.when;
 public class MSBServiceManagerTest {
     @Mock
     private MSBServiceClient msbClient;
+    
+    @Rule
+	public ExpectedException expectedException = ExpectedException.none();
 
     private MSBServiceManager msbManager;
 
@@ -100,6 +107,39 @@ public class MSBServiceManagerTest {
         assertTrue(node.getName() == "aai-search");
         assertTrue(node.getIp() == null);
         assertTrue(node.getPort() == null);
+    }
+    
+    @Test
+    public void testReadMsbPolicyProperites_noPropertyFileSpecifed_throwsException() throws MSBServiceException, IOException {
+  	  expectedException.expect(MSBServiceException.class);
+  	  expectedException.expectMessage("No msb.policy.properties specified.");
+  	  System.clearProperty("msb.policy.properties");
+        msbManager = new MSBServiceManager();
+    }
+    
+    @Test 
+    public void testReadMsbPolicyProperites_propertyFileDoesNotExist_throwsException() throws MSBServiceException, IOException {
+  	  expectedException.expect(MSBServiceException.class);
+  	  expectedException.expectMessage("No msb.policy.properties specified.");
+  	  System.setProperty("msb.policy.properties", "nonExistingPropertyFile.txt");
+        msbManager = new MSBServiceManager();
+        System.clearProperty("msb.policy.properties");
+    }
+    
+    @Test 
+    public void testReadMsbPolicyProperites_propertyFileExists() throws MSBServiceException, IOException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+  	  System.setProperty("msb.policy.properties", "src/test/resources/msbPropertyFile.properties");
+      msbManager = new MSBServiceManager();
+      System.clearProperty("msb.policy.properties");
+      
+      Field factoryField = msbManager.getClass().getDeclaredField("factory");
+      factoryField.setAccessible(true);
+      MSBServiceFactory msbServiceFactory = (MSBServiceFactory) factoryField.get(msbManager);
+      
+      Field msbClientField = msbServiceFactory.getClass().getDeclaredField("msbClient");
+      msbClientField.setAccessible(true);
+      MSBServiceClient msbClient = (MSBServiceClient) msbClientField.get(msbServiceFactory);
+      assertEquals("127.0.0.1:20", msbClient.getMsbSvrAddress());
     }
 
     public static MicroServiceFullInfo build(String ip,String port){
