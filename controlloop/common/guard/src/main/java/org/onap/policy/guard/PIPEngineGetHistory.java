@@ -140,7 +140,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine{
 			operation = getRecipe(pipFinder).iterator().next();
 			target = getTarget(pipFinder).iterator().next();
 		} catch (Exception e) {
-			logger.debug("could not retrieve actor, operation, or target from PIP finder");
+			logger.debug("could not retrieve actor, operation, or target from PIP finder", e);
 			return StdPIPResponse.PIP_RESPONSE_EMPTY;
 		}
 
