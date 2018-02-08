@@ -21,7 +21,6 @@
 package org.onap.policy.drools;
 
 public interface PolicyEngineListener {
-    
     /**
      * Any class that implements this interface will
      * be notified of a new event on the queue in the
@@ -31,5 +30,4 @@ public interface PolicyEngineListener {
      *        the event
      */
     public void newEventNotification(String topic);
-
 }

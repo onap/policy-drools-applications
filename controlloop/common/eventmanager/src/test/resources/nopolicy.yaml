@@ -1,0 +1,18 @@
+controlLoop:
+  version: 1.0.0
+  controlLoopName: ControlLoop-vService-cbed919f-2212-4ef7-8051-fe6308da1bda
+  services: 
+    - serviceName: service1
+  resources: 
+    - resourceName: resource1
+      resourceType: VF
+    - resourceName: resource2
+      resourceType: VF
+    - resourceName: resource3
+      resourceType: VF
+    - resourceName: resource4
+      resourceType: VF
+    - resourceName: resource5
+      resourceType: VF
+  trigger_policy: a-policy-that-does-not-exist
+  timeout: 60

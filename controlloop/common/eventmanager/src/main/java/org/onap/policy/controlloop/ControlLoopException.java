@@ -21,10 +21,6 @@
 package org.onap.policy.controlloop;
 
 public class ControlLoopException extends Exception {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6400725747325923701L;
 
 	public ControlLoopException() {
@@ -47,5 +43,4 @@ public class ControlLoopException extends Exception {
 	public ControlLoopException(Throwable cause) {
 		super(cause);
 	}
-
 }

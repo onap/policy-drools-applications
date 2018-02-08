@@ -40,50 +40,51 @@ import org.onap.policy.drools.PolicyEngineListener;
 public class PolicyEngineJUnitImpl implements PolicyEngine {
 
 	private static final Logger logger = LoggerFactory.getLogger(PolicyEngineJUnitImpl.class);
-	private Map<String, Map<String, Queue<Object>>> busMap = new HashMap<String, Map<String, Queue<Object>>>();
+	private Map<String, Map<String, Queue<Object>>> busMap = new HashMap<>();
 	private List<PolicyEngineListener> listeners = new ArrayList<>();
-	
+
 	/**
 	 * Adds all objects that implement PolicyEngineListener
-     * to the notification list when an event occurs
-     * 
+	 * to the notification list when an event occurs
+	 * 
 	 * @param listener an object that is interest in knowing
 	 * about events published to the PolicyEngine
 	 */
 	public void addListener(PolicyEngineListener listener) {
-	    listeners.add(listener);
+		listeners.add(listener);
 	}
-	
+
 	/**
 	 * Notifies all listeners about a new event
 	 * @param topic the topic in which the notification
 	 * was sent to
 	 */
 	public void notifyListeners(String topic) {
-	    for (PolicyEngineListener listener: listeners) {
-	        listener.newEventNotification(topic);
-	    }
+		for (PolicyEngineListener listener: listeners) {
+			listener.newEventNotification(topic);
+		}
 	}
-	
+
 	@Override
 	public boolean deliver(String busType, String topic, Object obj) {
 		if (obj instanceof ControlLoopNotification) {
 			ControlLoopNotification notification = (ControlLoopNotification) obj;
-			//logger.debug("Notification: " + notification.notification + " " + (notification.message == null ? "" : notification.message) + " " + notification.history);
-			logger.debug(Serialization.gsonPretty.toJson(notification));
+			if (logger.isDebugEnabled()) {
+				logger.debug(Serialization.gsonPretty.toJson(notification));
+			}
 		}
 		if (obj instanceof Request) {
 			Request request = (Request) obj;
 			logger.debug("Request: {} subrequest {}", request.getAction(), request.getCommonHeader().getSubRequestID());
 		}
 		else if (obj instanceof LCMRequestWrapper) {
-		    LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
-		    logger.debug("Request: {} subrequest {}", dmaapRequest.getBody().getAction(), dmaapRequest.getBody().getCommonHeader().getSubRequestId());
+			LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) obj;
+			logger.debug("Request: {} subrequest {}", dmaapRequest.getBody().getAction(), dmaapRequest.getBody().getCommonHeader().getSubRequestId());
 		}
 		//
 		// Does the bus exist?
 		//
-		if (busMap.containsKey(busType) == false) {
+		if (!busMap.containsKey(busType)) {
 			logger.debug("creating new bus type {}", busType);
 			//
 			// Create the bus
@@ -97,7 +98,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		//
 		// Does the topic exist?
 		//
-		if (topicMap.containsKey(topic) == false) {
+		if (!topicMap.containsKey(topic)) {
 			logger.debug("creating new topic {}", topic);
 			//
 			// Create the topic
@@ -112,8 +113,8 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 		notifyListeners(topic);
 		return res;
 	}
-	
-	public Object	subscribe(String busType, String topic) {
+
+	public Object subscribe(String busType, String topic) {
 		//
 		// Does the bus exist?
 		//

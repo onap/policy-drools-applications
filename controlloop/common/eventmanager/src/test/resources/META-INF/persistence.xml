@@ -1,0 +1,17 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="TestOperationsHistoryPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <class>org.onap.policy.whatever.WhatEver</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:apex_test" />
+            <property name="javax.persistence.target-database" value="Derby" />
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+            <property name="eclipselink.logging.level"  value="INFO" />
+        </properties>
+    </persistence-unit>
+</persistence>

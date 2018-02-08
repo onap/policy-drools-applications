@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.AbstractMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
@@ -53,12 +54,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ControlLoopOperationManager implements Serializable {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -3773199283624595410L;
 	private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationManager.class);
+
+	private static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
+	private static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
+	private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
 
 	@Override
 	public String toString() {
@@ -73,7 +74,6 @@ public class ControlLoopOperationManager implements Serializable {
 	// These properties are not changeable, but accessible
 	// for Drools Rule statements.
 	//
-	//public final ATTControlLoopEvent onset;
 	public final ControlLoopEvent onset;
 	public final transient Policy policy;
 
@@ -82,7 +82,7 @@ public class ControlLoopOperationManager implements Serializable {
 	//
 	private int attempts = 0;
 	private transient Operation currentOperation = null;
-	private LinkedList<Operation> operationHistory = new LinkedList<Operation>();
+	private LinkedList<Operation> operationHistory = new LinkedList<>();
 	private PolicyResult policyResult = null;
 	private ControlLoopEventManager eventManager = null;
 	private String targetEntity;
@@ -96,20 +96,20 @@ public class ControlLoopOperationManager implements Serializable {
 	}
 
 	public String getTargetEntity() {
-	    return this.targetEntity;
+		return this.targetEntity;
 	}
 
 	//
 	// Internal class used for tracking
 	//
 	private class Operation {
-		public ControlLoopOperation operation = new ControlLoopOperation();
-		public PolicyResult policyResult = null;
-		public int attempt = 0;
+		private ControlLoopOperation clOperation = new ControlLoopOperation();
+		private PolicyResult policyResult = null;
+		private int attempt = 0;
 
 		@Override
 		public String toString() {
-			return "Operation [attempt=" + attempt + ", policyResult=" + policyResult + ", operation=" + operation
+			return "Operation [attempt=" + attempt + ", policyResult=" + policyResult + ", operation=" + clOperation
 					+ "]";
 		}
 	}
@@ -129,79 +129,75 @@ public class ControlLoopOperationManager implements Serializable {
 	}
 
 	public String getTarget(Policy policy) throws ControlLoopException, AAIException {
-        if (policy.getTarget() != null) {
-            if (policy.getTarget().getType() != null) {
-                switch(policy.getTarget().getType()) {
-                case PNF:
-                    break;
-                case VM:
-                case VNF:
-                    VirtualControlLoopEvent virtualOnset = (VirtualControlLoopEvent) this.onset;
-                    if (this.onset.getTarget().equalsIgnoreCase("vserver.vserver-name")) {
-                        return virtualOnset.getAAI().get("vserver.vserver-name");
-                    }
-                    else if (this.onset.getTarget().equalsIgnoreCase("generic-vnf.vnf-id")) {
-                        return virtualOnset.getAAI().get("generic-vnf.vnf-id");
-                    }
-                    else if (this.onset.getTarget().equalsIgnoreCase("generic-vnf.vnf-name")) {
-                        /*
-                         * If the onset is enriched with the vnf-id,
-                         * we don't need an A&AI response
-                         */
-                        if (virtualOnset.getAAI().containsKey("generic-vnf.vnf-id")) {
-                            return virtualOnset.getAAI().get("generic-vnf.vnf-id");
-                        }
-                        
-                        /*
-                         * If the vnf-name was retrieved from the onset then the vnf-id
-                         * must be obtained from the event manager's A&AI GET query
-                         */
-                        String vnfId = this.eventManager.getVnfResponse().getVnfID();
-                        if (vnfId == null) {
-                            throw new AAIException("No vnf-id found");
-                        }
-                        return vnfId;
-                    }
-                    break;
-                default:
-                    throw new ControlLoopException("The target type is not supported");
-                }
-            }
-            else {
-                throw new ControlLoopException("The target type is null");
-            }
-        }
-        else {
-            throw new ControlLoopException("The target is null");
-        }
-        throw new ControlLoopException("Target does not match target type");
-    }
-	
+		if (policy.getTarget() == null) {
+			throw new ControlLoopException("The target is null");
+		}
+
+		if (policy.getTarget().getType() == null) {
+			throw new ControlLoopException("The target type is null");
+		}
+
+		switch(policy.getTarget().getType()) {
+		case PNF:
+			throw new ControlLoopException("PNF target is not supported");
+		case VM:
+		case VNF:
+			VirtualControlLoopEvent virtualOnset = (VirtualControlLoopEvent) this.onset;
+			if (this.onset.getTarget().equalsIgnoreCase(VSERVER_VSERVER_NAME)) {
+				return virtualOnset.getAAI().get(VSERVER_VSERVER_NAME);
+			}
+			else if (this.onset.getTarget().equalsIgnoreCase(GENERIC_VNF_VNF_ID)) {
+				return virtualOnset.getAAI().get(GENERIC_VNF_VNF_ID);
+			}
+			else if (this.onset.getTarget().equalsIgnoreCase(GENERIC_VNF_VNF_NAME)) {
+				/*
+				 * If the onset is enriched with the vnf-id,
+				 * we don't need an A&AI response
+				 */
+				if (virtualOnset.getAAI().containsKey(GENERIC_VNF_VNF_ID)) {
+					return virtualOnset.getAAI().get(GENERIC_VNF_VNF_ID);
+				}
+
+				/*
+				 * If the vnf-name was retrieved from the onset then the vnf-id
+				 * must be obtained from the event manager's A&AI GET query
+				 */
+				String vnfId = this.eventManager.getVnfResponse().getVnfID();
+				if (vnfId == null) {
+					throw new AAIException("No vnf-id found");
+				}
+				return vnfId;
+			}
+			throw new ControlLoopException("Target does not match target type");
+		default:
+			throw new ControlLoopException("The target type is not supported");
+		}
+	}
+
 	public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em) throws ControlLoopException, AAIException {
 		this.onset = onset;
 		this.policy = policy;
 		this.guardApprovalStatus = "NONE";
 		this.eventManager = em;
 		this.targetEntity = getTarget(policy);
-		
+
 		//
 		// Let's make a sanity check
 		//
 		switch (policy.getActor()) {
 		case "APPC":
-		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
-		        /*
-                 * The target vnf-id may not be the same as the source vnf-id
-                 * specified in the yaml, the target vnf-id is retrieved by
-                 * a named query to A&AI.
-                 */
-		        String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(
-		                    policy.getTarget().getResourceID(), this.targetEntity);
-		        this.targetEntity = targetVnf;
-		    }
+			if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
+				/*
+				 * The target vnf-id may not be the same as the source vnf-id
+				 * specified in the yaml, the target vnf-id is retrieved by
+				 * a named query to A&AI.
+				 */
+				String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(	policy.getTarget().getResourceID(), this.targetEntity);
+				this.targetEntity = targetVnf;
+			}
 			break;
 		case "SO":
-		    break;
+			break;
 		case "VFC":
 			break;
 		default:
@@ -209,85 +205,46 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 	}
 
-	public Object startOperation(/*VirtualControlLoopEvent*/ControlLoopEvent onset) throws AAIException {
-		//
-		// They shouldn't call us if we currently running something
-		//
-		if (this.currentOperation != null) {
-			//
-			// what do we do if we are already running an operation?
-			//
-			return null;
-		}
-		//
-		// Check if we have maxed out on retries
-		//
-		if (this.policy.getRetry() == null || this.policy.getRetry() < 1) {
-			//
-			// No retries are allowed, so check have we even made
-			// one attempt to execute the operation?
-			//
-			if (this.attempts >= 1) {
-				//
-				// We have, let's ensure our PolicyResult is set
-				//
-				if (this.policyResult == null) {
-					this.policyResult = PolicyResult.FAILURE_RETRIES;
-				}
-				//
-				//
-				//
-				return null;
-			}
-		} else {
-			//
-			// Have we maxed out on retries?
-			//
-			if (this.attempts > this.policy.getRetry()) {
-				if (this.policyResult == null) {
-					this.policyResult = PolicyResult.FAILURE_RETRIES;
-				}
-				return null;
-			}
-		}
+	public Object startOperation(/*VirtualControlLoopEvent*/ControlLoopEvent onset) throws ControlLoopException{
+		verifyOperatonCanRun();
+
 		//
 		// Setup
 		//
 		this.policyResult = null;
 		Operation operation = new Operation();
 		operation.attempt = ++this.attempts;
-		operation.operation.setActor(this.policy.getActor());
-		operation.operation.setOperation(this.policy.getRecipe());
-		operation.operation.setTarget(this.policy.getTarget().toString());
-		operation.operation.setSubRequestId(Integer.toString(operation.attempt));
+		operation.clOperation.setActor(this.policy.getActor());
+		operation.clOperation.setOperation(this.policy.getRecipe());
+		operation.clOperation.setTarget(this.policy.getTarget().toString());
+		operation.clOperation.setSubRequestId(Integer.toString(operation.attempt));
 		//
 		// Now determine which actor we need to construct a request for
 		//
 		switch (policy.getActor()) {
 		case "APPC":
-		    /*
-		     * If the recipe is ModifyConfig, a legacy APPC
-		     * request is constructed. Otherwise an LCMRequest
-		     * is constructed.
-		     */
+			/*
+			 * If the recipe is ModifyConfig, a legacy APPC
+			 * request is constructed. Otherwise an LCMRequest
+			 * is constructed.
+			 */
 			this.currentOperation = operation;
-		    if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
-
-	            this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
-	                                    operation.operation, this.policy, this.targetEntity);
-		    }
-		    else {
-		        this.operationRequest = AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
-		                                operation.operation, this.policy, this.targetEntity);
-		    }
+			if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
+				this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
+						operation.clOperation, this.policy, this.targetEntity);
+			}
+			else {
+				this.operationRequest = AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, 
+						operation.clOperation, this.policy, this.targetEntity);
+			}
 			//
 			// Save the operation
 			//
-			
+
 			return operationRequest;
 		case "SO":
-			SOActorServiceProvider SOAsp = new SOActorServiceProvider();
-			this.operationRequest = SOAsp.constructRequest((VirtualControlLoopEvent)onset, operation.operation, this.policy);
+			SOActorServiceProvider soActorSP = new SOActorServiceProvider();
+			this.operationRequest = soActorSP.constructRequest((VirtualControlLoopEvent)onset, operation.clOperation, this.policy);
 
 			// Save the operation
 			this.currentOperation = operation;
@@ -298,182 +255,224 @@ public class ControlLoopOperationManager implements Serializable {
 
 			return operationRequest;
 		case "VFC":
-            this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.operation, this.policy, this.eventManager.getVnfResponse());
-            this.currentOperation = operation;
-            if (this.operationRequest == null) {
-                this.policyResult = PolicyResult.FAILURE;
-            }
-            return operationRequest;
-
+			this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset, operation.clOperation, this.policy, this.eventManager.getVnfResponse());
+			this.currentOperation = operation;
+			if (this.operationRequest == null) {
+				this.policyResult = PolicyResult.FAILURE;
+			}
+			return operationRequest;
+		default:
+			throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
 		}
-		return null;
 	}
 
-	public PolicyResult	onResponse(Object response) {
+	public PolicyResult onResponse(Object response) {
 		//
 		// Which response is it?
 		//
 		if (response instanceof Response) {
 			//
-			// Cast it
+			// Cast APPC response and handle it
 			//
-			Response appcResponse = (Response) response;
-			//
-			// Determine which subrequestID (ie. attempt)
-			//
-			Integer operationAttempt = null;
-			try {
-				operationAttempt = Integer.parseInt(appcResponse.getCommonHeader().getSubRequestID());
-			} catch (NumberFormatException e) {
-				//
-				// We cannot tell what happened if this doesn't exist
-				//
-				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
-				return PolicyResult.FAILURE_EXCEPTION;
-			}
-			//
-			// Sanity check the response message
-			//
-			if (appcResponse.getStatus() == null) {
-				//
-				// We cannot tell what happened if this doesn't exist
-				//
-				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status field (it was null).", PolicyResult.FAILURE_EXCEPTION);
-				return PolicyResult.FAILURE_EXCEPTION;
-			}
-			//
-			// Get the Response Code
-			//
-			ResponseCode code = ResponseCode.toResponseCode(appcResponse.getStatus().getCode());
-			if (code == null) {
-				//
-				// We are unaware of this code
-				//
-				this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status code field.", PolicyResult.FAILURE_EXCEPTION);
-				return PolicyResult.FAILURE_EXCEPTION;
-			}
-			//
-			// Ok, let's figure out what APP-C's response is
-			//
-			switch (code) {
-			case ACCEPT:
-				//
-				// This is good, they got our original message and
-				// acknowledged it.
-				//
-				// Is there any need to track this?
-				//
-				return null;
-			case ERROR:
-			case REJECT:
-				//
-				// We'll consider these two codes as exceptions
-				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.FAILURE_EXCEPTION);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				return PolicyResult.FAILURE_EXCEPTION;
-			case SUCCESS:
-				//
-				//
-				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.SUCCESS);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				return PolicyResult.SUCCESS;
-			case FAILURE:
-				//
-				//
-				//
-				this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.FAILURE);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				return PolicyResult.FAILURE;
-			}
+			return onResponse((Response) response);
 		}
 		else if (response instanceof LCMResponseWrapper) {
+			//
+			// Cast LCM response and handle it
+			//
+			return onResponse((LCMResponseWrapper) response);
+		}
+		else if (response instanceof SOResponseWrapper) {
+			//
+			// Cast SO response and handle it
+			//
+			return onResponse((SOResponseWrapper) response);
+		}
+		else if (response instanceof VFCResponse) {
+			//
+			// Cast VFC response and handle it
+			//
+			return onResponse((VFCResponse) response);
+		}
+		else {
+			return null;
+		}
+	}
 
-		    LCMResponseWrapper dmaapResponse = (LCMResponseWrapper) response;
-
-		    /*
-		     * Parse out the operation attempt using the subrequestid
-		     */
-		    Integer operationAttempt = AppcLcmActorServiceProvider.parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
-		    if (operationAttempt == null) {
-		        this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
-		    }
-
-		    /*
-		     * Process the APPCLCM response to see what PolicyResult
-		     * should be returned
-		     */
-		    AbstractMap.SimpleEntry<PolicyResult, String> result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
-
-		    if (result.getKey() != null) {
-    		    this.completeOperation(operationAttempt, result.getValue(), result.getKey());
-    		    if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
-                    return null;
-                }
-    		    return result.getKey();
-		    }
-		    return null;
-		} else if (response instanceof SOResponseWrapper) {
-			SOResponseWrapper msoResponse = (SOResponseWrapper) response;
-
-			switch (msoResponse.getSoResponse().getHttpResponseCode()) {
-			case 200:
-			case 202:
-				//
-				// Consider it as success
-				//
-				this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + " Success", PolicyResult.SUCCESS);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				return PolicyResult.SUCCESS;
-			default:
-				//
-				// Consider it as failure
-				//
-				this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + " Failed", PolicyResult.FAILURE);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				return PolicyResult.FAILURE;
+	/**
+	 * This method handles operation responses from APPC 
+	 * @param appcResponse the APPC response
+	 * @return The result of the response handling
+	 */
+	private PolicyResult onResponse(Response appcResponse) {
+		//
+		// Determine which subrequestID (ie. attempt)
+		//
+		Integer operationAttempt = null;
+		try {
+			operationAttempt = Integer.parseInt(appcResponse.getCommonHeader().getSubRequestID());
+		} catch (NumberFormatException e) {
+			//
+			// We cannot tell what happened if this doesn't exist
+			//
+			this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
+			return PolicyResult.FAILURE_EXCEPTION;
+		}
+		//
+		// Sanity check the response message
+		//
+		if (appcResponse.getStatus() == null) {
+			//
+			// We cannot tell what happened if this doesn't exist
+			//
+			this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status field (it was null).", PolicyResult.FAILURE_EXCEPTION);
+			return PolicyResult.FAILURE_EXCEPTION;
+		}
+		//
+		// Get the Response Code
+		//
+		ResponseCode code = ResponseCode.toResponseCode(appcResponse.getStatus().getCode());
+		if (code == null) {
+			//
+			// We are unaware of this code
+			//
+			this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status code field.", PolicyResult.FAILURE_EXCEPTION);
+			return PolicyResult.FAILURE_EXCEPTION;
+		}
+		//
+		// Ok, let's figure out what APP-C's response is
+		//
+		switch (code) {
+		case ACCEPT:
+			//
+			// This is good, they got our original message and
+			// acknowledged it.
+			//
+			// Is there any need to track this?
+			//
+			return null;
+		case ERROR:
+		case REJECT:
+			//
+			// We'll consider these two codes as exceptions
+			//
+			this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.FAILURE_EXCEPTION);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
 			}
-
-		} else if (response instanceof VFCResponse) {
-			VFCResponse vfcResponse = (VFCResponse) response;
-
-			if (vfcResponse.getResponseDescriptor().getStatus().equalsIgnoreCase("finished")) {
-				//
-				// Consider it as success
-				//
-				this.completeOperation(this.attempts, " Success", PolicyResult.SUCCESS);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				return PolicyResult.SUCCESS;
-			} else {
-				//
-				// Consider it as failure
-				//
-				this.completeOperation(this.attempts, " Failed", PolicyResult.FAILURE);
-				if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
-					return null;
-				}
-				// increment operation attempts for retries
-				this.attempts += 1;
-				return PolicyResult.FAILURE;
+			return PolicyResult.FAILURE_EXCEPTION;
+		case SUCCESS:
+			//
+			//
+			//
+			this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.SUCCESS);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
 			}
+			return PolicyResult.SUCCESS;
+		case FAILURE:
+			//
+			//
+			//
+			this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(), PolicyResult.FAILURE);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
+			}
+			return PolicyResult.FAILURE;
+		default:
+			return null;
+		}
+	}
+	
+	/**
+	 * This method handles operation responses from LCM 
+	 * @param dmaapResponse the LCM response
+	 * @return The result of the response handling
+	 */
+	private PolicyResult onResponse(LCMResponseWrapper dmaapResponse) {
+		/*
+		 * Parse out the operation attempt using the subrequestid
+		 */
+		Integer operationAttempt = AppcLcmActorServiceProvider.parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
+		if (operationAttempt == null) {
+			this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).", PolicyResult.FAILURE_EXCEPTION);
+		}
+
+		/*
+		 * Process the APPCLCM response to see what PolicyResult
+		 * should be returned
+		 */
+		AbstractMap.SimpleEntry<PolicyResult, String> result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
+
+		if (result.getKey() != null) {
+			this.completeOperation(operationAttempt, result.getValue(), result.getKey());
+			if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
+				return null;
+			}
+			return result.getKey();
 		}
 		return null;
 	}
+	
+	/**
+	 * This method handles operation responses from SO 
+	 * @param msoResponse the SO response
+	 * @return The result of the response handling
+	 */
+	private PolicyResult onResponse(SOResponseWrapper msoResponse) {
+		switch (msoResponse.getSoResponse().getHttpResponseCode()) {
+		case 200:
+		case 202:
+			//
+			// Consider it as success
+			//
+			this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + " Success", PolicyResult.SUCCESS);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
+			}
+			return PolicyResult.SUCCESS;
+		default:
+			//
+			// Consider it as failure
+			//
+			this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + " Failed", PolicyResult.FAILURE);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
+			}
+			return PolicyResult.FAILURE;
+		}
+	}
+	
+	/**
+	 * This method handles operation responses from VFC 
+	 * @param vfcResponse the VFC response
+	 * @return The result of the response handling
+	 */
+	private PolicyResult onResponse(VFCResponse vfcResponse) {
+		if (vfcResponse.getResponseDescriptor().getStatus().equalsIgnoreCase("finished")) {
+			//
+			// Consider it as success
+			//
+			this.completeOperation(this.attempts, " Success", PolicyResult.SUCCESS);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
+			}
+			return PolicyResult.SUCCESS;
+		} else {
+			//
+			// Consider it as failure
+			//
+			this.completeOperation(this.attempts, " Failed", PolicyResult.FAILURE);
+			if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+				return null;
+			}
+			// increment operation attempts for retries
+			this.attempts += 1;
+			return PolicyResult.FAILURE;
+		}
+	}
 
-	public Integer	getOperationTimeout() {
+	public Integer getOperationTimeout() {
 		//
 		// Sanity check
 		//
@@ -485,7 +484,7 @@ public class ControlLoopOperationManager implements Serializable {
 		return this.policy.getTimeout();
 	}
 
-	public String	getOperationTimeoutString(int defaultTimeout) {
+	public String getOperationTimeoutString(int defaultTimeout) {
 		Integer to = this.getOperationTimeout();
 		if (to == null || to == 0) {
 			return Integer.toString(defaultTimeout) + "s";
@@ -497,67 +496,67 @@ public class ControlLoopOperationManager implements Serializable {
 		return this.policyResult;
 	}
 
-	public String	getOperationMessage() {
-		if (this.currentOperation != null && this.currentOperation.operation != null) {
-			return this.currentOperation.operation.toMessage();
+	public String getOperationMessage() {
+		if (this.currentOperation != null && this.currentOperation.clOperation != null) {
+			return this.currentOperation.clOperation.toMessage();
 		}
 
 		if (!this.operationHistory.isEmpty()) {
-			return this.operationHistory.getLast().operation.toMessage();
+			return this.operationHistory.getLast().clOperation.toMessage();
 		}
 		return null;
 	}
 
-	public String	getOperationMessage(String guardResult) {
-		if (this.currentOperation != null && this.currentOperation.operation != null) {
-			return this.currentOperation.operation.toMessage()+ ", Guard result: " + guardResult;
+	public String getOperationMessage(String guardResult) {
+		if (this.currentOperation != null && this.currentOperation.clOperation != null) {
+			return this.currentOperation.clOperation.toMessage()+ ", Guard result: " + guardResult;
 		}
-          
+
 		if (!this.operationHistory.isEmpty()) {
-			return this.operationHistory.getLast().operation.toMessage() + ", Guard result: " + guardResult;
+			return this.operationHistory.getLast().clOperation.toMessage() + ", Guard result: " + guardResult;
 		}
 		return null;
 	}
 
-	public String	getOperationHistory() {
-		if (this.currentOperation != null && this.currentOperation.operation != null) {
-			return this.currentOperation.operation.toHistory();
+	public String getOperationHistory() {
+		if (this.currentOperation != null && this.currentOperation.clOperation != null) {
+			return this.currentOperation.clOperation.toHistory();
 		}
-          
+
 		if (!this.operationHistory.isEmpty()) {
-			return this.operationHistory.getLast().operation.toHistory();
+			return this.operationHistory.getLast().clOperation.toHistory();
 		}
 		return null;
 	}
 
-	public LinkedList<ControlLoopOperation>	getHistory() {
-		LinkedList<ControlLoopOperation> history = new LinkedList<ControlLoopOperation>();
+	public List<ControlLoopOperation> getHistory() {
+		LinkedList<ControlLoopOperation> history = new LinkedList<>();
 		for (Operation op : this.operationHistory) {
-			history.add(new ControlLoopOperation(op.operation));
+			history.add(new ControlLoopOperation(op.clOperation));
 
 		}
 		return history;
 	}
 
-	public void		setOperationHasTimedOut() {
+	public void setOperationHasTimedOut() {
 		//
 		//
 		//
 		this.completeOperation(this.attempts, "Operation timed out", PolicyResult.FAILURE_TIMEOUT);
 	}
 
-	public void		setOperationHasGuardDeny() {
+	public void setOperationHasGuardDeny() {
 		//
 		//
 		//
 		this.completeOperation(this.attempts, "Operation denied by Guard", PolicyResult.FAILURE_GUARD);
 	}
-	
+
 	public void setOperationHasException(String message) {
 		this.completeOperation(this.attempts, message, PolicyResult.FAILURE_EXCEPTION);
 	}
 
-	public boolean	isOperationComplete() {
+	public boolean isOperationComplete() {
 		//
 		// Is there currently a result?
 		//
@@ -609,6 +608,56 @@ public class ControlLoopOperationManager implements Serializable {
 		return (this.currentOperation != null);
 	}
 
+	/**
+	 * This method verifies that the operation manager may run an operation.
+	 * @return True if the operation can run, false otherwise
+	 * @throws ControlLoopException if the operation cannot run
+	 */
+	private void verifyOperatonCanRun() throws ControlLoopException {
+		//
+		// They shouldn't call us if we currently running something
+		//
+		if (this.currentOperation != null) {
+			//
+			// what do we do if we are already running an operation?
+			//
+			throw new ControlLoopException("current operation is not null (an operation is already running)");
+		}
+		//
+		// Check if we have maxed out on retries
+		//
+		if (this.policy.getRetry() == null || this.policy.getRetry() < 1) {
+			//
+			// No retries are allowed, so check have we even made
+			// one attempt to execute the operation?
+			//
+			if (this.attempts >= 1) {
+				//
+				// We have, let's ensure our PolicyResult is set
+				//
+				if (this.policyResult == null) {
+					this.policyResult = PolicyResult.FAILURE_RETRIES;
+				}
+				//
+				//
+				//
+				throw new ControlLoopException("current operation failed and retries are not allowed");
+			}
+		} else {
+			//
+			// Have we maxed out on retries?
+			//
+			if (this.attempts > this.policy.getRetry()) {
+				if (this.policyResult == null) {
+					this.policyResult = PolicyResult.FAILURE_RETRIES;
+				}
+				throw new ControlLoopException("current oepration has failed after " + this.attempts + " retries");
+			}
+		}
+
+		return;
+	}
+
 	private boolean	isRetriesMaxedOut() {
 		if (policy.getRetry() == null || policy.getRetry() == 0) {
 			//
@@ -620,7 +669,7 @@ public class ControlLoopOperationManager implements Serializable {
 		return (this.attempts > policy.getRetry());
 	}
 
-	private void	storeOperationInDataBase(){
+	private void storeOperationInDataBase(){
 		// Only store in DB if enabled
 		boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngine.manager.getEnvironmentProperty("guard.disabled"));
 		if( !guardEnabled ){
@@ -638,18 +687,18 @@ public class ControlLoopOperationManager implements Serializable {
 			props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
 			props.put(PersistenceUnitProperties.CLASSLOADER, ControlLoopOperationManager.class.getClassLoader());
 		}
-		
-		
-		String OpsHistPU = System.getProperty("OperationsHistoryPU");
-		if(OpsHistPU == null || !OpsHistPU.equals("TestOperationsHistoryPU")){
-			OpsHistPU = "OperationsHistoryPU";
+
+
+		String opsHistPU = System.getProperty("OperationsHistoryPU");
+		if(opsHistPU == null || !opsHistPU.equals("TestOperationsHistoryPU")){
+			opsHistPU = "OperationsHistoryPU";
 		}
 		else{
 			props.clear();
 		}
 		EntityManager em;
 		try{
-			em = Persistence.createEntityManagerFactory(OpsHistPU, props).createEntityManager();
+			em = Persistence.createEntityManagerFactory(opsHistPU, props).createEntityManager();
 		}catch(Exception e){
 			logger.error("storeOperationInDataBase threw: ", e);
 			return;
@@ -657,26 +706,23 @@ public class ControlLoopOperationManager implements Serializable {
 
 		OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry();
 
-		newEntry.closedLoopName = this.onset.getClosedLoopControlName();
-		newEntry.requestId = this.onset.getRequestID().toString();
-		newEntry.actor = this.currentOperation.operation.getActor();
-		newEntry.operation = this.currentOperation.operation.getOperation();
-		newEntry.target = this.targetEntity;
-		newEntry.starttime = Timestamp.from(this.currentOperation.operation.getStart());
-		newEntry.subrequestId = this.currentOperation.operation.getSubRequestId(); 
-		newEntry.endtime = new Timestamp(this.currentOperation.operation.getEnd().toEpochMilli());
-		newEntry.message = this.currentOperation.operation.getMessage();
-		newEntry.outcome = this.currentOperation.operation.getOutcome();
+		newEntry.setClosedLoopName(this.onset.getClosedLoopControlName());
+		newEntry.setRequestId(this.onset.getRequestID().toString());
+		newEntry.setActor(this.currentOperation.clOperation.getActor());
+		newEntry.setOperation(this.currentOperation.clOperation.getOperation());
+		newEntry.setTarget(this.targetEntity);
+		newEntry.setStarttime(Timestamp.from(this.currentOperation.clOperation.getStart()));
+		newEntry.setSubrequestId(this.currentOperation.clOperation.getSubRequestId()); 
+		newEntry.setEndtime(new Timestamp(this.currentOperation.clOperation.getEnd().toEpochMilli()));
+		newEntry.setMessage(this.currentOperation.clOperation.getMessage());
+		newEntry.setOutcome(this.currentOperation.clOperation.getOutcome());
 
 		em.getTransaction().begin();
 		em.persist(newEntry);
 		em.getTransaction().commit();
 
 		em.close();
-
 	}
-
-
 
 	private void	completeOperation(Integer attempt, String message, PolicyResult result) {
 		if (attempt == null) {
@@ -685,9 +731,9 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		if (this.currentOperation != null) {
 			if (this.currentOperation.attempt == attempt.intValue()) {
-				this.currentOperation.operation.setEnd(Instant.now());
-				this.currentOperation.operation.setMessage(message);
-				this.currentOperation.operation.setOutcome(result.toString());
+				this.currentOperation.clOperation.setEnd(Instant.now());
+				this.currentOperation.clOperation.setMessage(message);
+				this.currentOperation.clOperation.setOutcome(result.toString());
 				this.currentOperation.policyResult = result;
 				//
 				// Save it in history
@@ -708,9 +754,9 @@ public class ControlLoopOperationManager implements Serializable {
 		}
 		for (Operation op : this.operationHistory) {
 			if (op.attempt == attempt.intValue()) {
-				op.operation.setEnd(Instant.now());
-				op.operation.setMessage(message);
-				op.operation.setOutcome(result.toString());
+				op.clOperation.setEnd(Instant.now());
+				op.clOperation.setMessage(message);
+				op.clOperation.setOutcome(result.toString());
 				op.policyResult = result;
 				return;
 			}

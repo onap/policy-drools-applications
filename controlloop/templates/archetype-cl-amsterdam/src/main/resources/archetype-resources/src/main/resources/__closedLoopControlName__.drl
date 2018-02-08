@@ -509,7 +509,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
     try {
         request = $operation.startOperation($event);
     }
-    catch (AAIException e) {
+    catch (ControlLoopException e) {
         String msg = e.getMessage();
         logger.warn("{}: {}: operation={}:  AAI failure: {}", 
                     $params.getClosedLoopControlName(), drools.getRule().getName(),

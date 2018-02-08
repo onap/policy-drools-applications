@@ -25,7 +25,6 @@ import java.lang.reflect.Constructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public interface ControlLoopLogger {
 	
 	public void info(String... parameters);
@@ -35,21 +34,16 @@ public interface ControlLoopLogger {
 	public void metrics(Object obj);
 	
 	public static class Factory {
-		
 		private static final Logger logger = LoggerFactory.getLogger(Factory.class);
-		
 				
 		public ControlLoopLogger buildLogger(String className) throws ControlLoopException {
-			
 			try {
 				Constructor<?> constr = Class.forName(className).getConstructor();
 				return (ControlLoopLogger) constr.newInstance();
 			} catch (Exception e) {
 				logger.error("buildLogger threw: ", e);
-				throw new ControlLoopException("Cannot load class " + className);
+				throw new ControlLoopException("Cannot load class " + className + " as a control loop logger");
 			}
 		}
-		
 	}
-
 }

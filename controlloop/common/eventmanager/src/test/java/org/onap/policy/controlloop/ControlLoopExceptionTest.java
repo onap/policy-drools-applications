@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * controlloop
+ * eventmanager
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,29 +18,22 @@
  * ============LICENSE_END=========================================================
  */
 
+package org.onap.policy.controlloop;
 
-package org.onap.policy.controlloop.impl;
+import static org.junit.Assert.*;
 
-import org.onap.policy.controlloop.ControlLoopLogger;
+import java.io.IOException;
 
-public class ControlLoopLoggerStdOutImpl implements ControlLoopLogger {
-	@Override
-	public void info(String... parameters) {
-		StringBuilder builder = new StringBuilder();
-		for (String param : parameters) {
-			builder.append(param);
-			builder.append(" " );
-		}
-		System.out.println(builder.toString().trim());
-	}
+import org.junit.Test;
 
-	@Override
-	public void metrics(String... msgs) {
-		this.info(msgs);
-	}
+public class ControlLoopExceptionTest {
 
-	@Override
-	public void metrics(Object obj) {
-		this.info(obj.toString());
+	@Test
+	public void testControlLoopException() {
+		assertNotNull(new ControlLoopException());
+		assertNotNull(new ControlLoopException("In Oz"));
+		assertNotNull(new ControlLoopException(new IOException()));
+		assertNotNull(new ControlLoopException("In Oz", new IOException()));
+		assertNotNull(new ControlLoopException("In Oz", new IOException(), false, false));
 	}
 }
