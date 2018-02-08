@@ -24,7 +24,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -41,25 +40,92 @@ import org.slf4j.LoggerFactory;
 
 public class ControlLoopProcessorTest {
 	private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessorTest.class);
-	
+
 	@Test
-	public void test() {
-		try (InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"))) {
-			String result = IOUtils.toString(is, StandardCharsets.UTF_8);
-			this.testSuccess(result);
-			this.testFailure(result);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (ControlLoopException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
+	public void testControlLoopProcessor() throws IOException, ControlLoopException {
+		InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
+		String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+		this.testSuccess(yamlString);
+		this.testFailure(yamlString);
+	}
+
+	@Test
+	public void testControlLoopProcessorBadYaml() throws IOException {
+		InputStream is = new FileInputStream(new File("src/test/resources/string.yaml"));
+		String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+		
+		try {
+			new ControlLoopProcessor(yamlString);
+			fail("test should thrown an exception");
+		}
+		catch (Exception e) {
+			assertEquals("Cannot create property=string for JavaBean=ControlLoopPolicy", e.getMessage().substring(0, 60));
 		}
 	}
-	
+
+	@Test
+	public void testControlLoopProcessorBadTriggerYaml() throws IOException, ControlLoopException {
+		InputStream is = new FileInputStream(new File("src/test/resources/badtriggerpolicy.yaml"));
+		String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+		
+		ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
+		assertNull(clProcessor.getCurrentPolicy());
+		
+		try {
+			clProcessor.nextPolicyForResult(PolicyResult.SUCCESS);
+			fail("test shold throw an exception here");
+		}
+		catch (ControlLoopException e) {
+			assertEquals("There is no current policy to determine where to go to.", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testControlLoopProcessorNoPolicyYaml() throws IOException, ControlLoopException {
+		InputStream is = new FileInputStream(new File("src/test/resources/nopolicy.yaml"));
+		String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+		
+		ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
+
+		try {
+			clProcessor.getCurrentPolicy();
+			fail("test shold throw an exception here");
+		}
+		catch (ControlLoopException e) {
+			assertEquals("There are no policies defined.", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testControlLoopProcessorNextPolicyForResult() throws IOException, ControlLoopException {
+		InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
+		String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+		
+		ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
+		clProcessor.getCurrentPolicy();
+		clProcessor.nextPolicyForResult(PolicyResult.SUCCESS);
+
+		clProcessor = new ControlLoopProcessor(yamlString);
+		clProcessor.getCurrentPolicy();
+		clProcessor.nextPolicyForResult(PolicyResult.FAILURE);
+		
+		clProcessor = new ControlLoopProcessor(yamlString);
+		clProcessor.getCurrentPolicy();
+		clProcessor.nextPolicyForResult(PolicyResult.FAILURE_EXCEPTION);
+
+		clProcessor = new ControlLoopProcessor(yamlString);
+		clProcessor.getCurrentPolicy();
+		clProcessor.nextPolicyForResult(PolicyResult.FAILURE_GUARD);
+
+		clProcessor = new ControlLoopProcessor(yamlString);
+		clProcessor.getCurrentPolicy();
+		clProcessor.nextPolicyForResult(PolicyResult.FAILURE_RETRIES);
+
+		clProcessor = new ControlLoopProcessor(yamlString);
+		clProcessor.getCurrentPolicy();
+		clProcessor.nextPolicyForResult(PolicyResult.FAILURE_TIMEOUT);
+	}
+
 	public void testSuccess(String yaml) throws ControlLoopException {
 		ControlLoopProcessor processor = new ControlLoopProcessor(yaml);
 		logger.debug("testSuccess: {}", processor.getControlLoop());
@@ -91,5 +157,4 @@ public class ControlLoopProcessorTest {
 			processor.nextPolicyForResult(PolicyResult.FAILURE);
 		}		
 	}
-
 }

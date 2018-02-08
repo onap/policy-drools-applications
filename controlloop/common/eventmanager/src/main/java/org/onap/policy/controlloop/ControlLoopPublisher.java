@@ -39,11 +39,8 @@ public interface ControlLoopPublisher {
 				return (ControlLoopPublisher) constr.newInstance();
 			} catch (Exception e) {
 				logger.error("ControlLoopPublisher.buildLogger threw: ", e);
-				throw new ControlLoopException("Cannot load class " + className);
+				throw new ControlLoopException("Cannot load class " + className + " as a control loop publisher");
 			}
 		}
-		
 	}
-
-
 }

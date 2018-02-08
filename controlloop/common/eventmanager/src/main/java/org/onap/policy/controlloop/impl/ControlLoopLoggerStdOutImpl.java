@@ -24,10 +24,6 @@ package org.onap.policy.controlloop.impl;
 import org.onap.policy.controlloop.ControlLoopLogger;
 
 public class ControlLoopLoggerStdOutImpl implements ControlLoopLogger {
-
-	public ControlLoopLoggerStdOutImpl() {
-	}
-
 	@Override
 	public void info(String... parameters) {
 		StringBuilder builder = new StringBuilder();
@@ -47,5 +43,4 @@ public class ControlLoopLoggerStdOutImpl implements ControlLoopLogger {
 	public void metrics(Object obj) {
 		this.info(obj.toString());
 	}
-
 }

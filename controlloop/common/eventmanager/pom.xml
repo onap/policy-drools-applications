@@ -39,7 +39,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
-	  	</dependency>
+		</dependency>
 		<dependency>
 			<groupId>com.att.research.xacml</groupId>
 			<artifactId>xacml</artifactId>
@@ -64,12 +64,12 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-                <dependency>
-                        <groupId>org.onap.policy.drools-applications</groupId>
-                        <artifactId>actor.vfc</artifactId>
-                        <version>${project.version}</version>
-                        <scope>provided</scope>
-                </dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>actor.vfc</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>actor.appclcm</artifactId>
@@ -94,12 +94,12 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-                <dependency>
-                        <groupId>org.onap.policy.drools-applications</groupId>
-                        <artifactId>vfc</artifactId>
-                        <version>${project.version}</version>
-                        <scope>provided</scope>
-                </dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>vfc</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>appclcm</artifactId>
@@ -142,25 +142,25 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-                <dependency>
-                        <groupId>org.onap.policy.drools-applications</groupId>
-                        <artifactId>vfc</artifactId>
-                        <version>${project.version}</version>
-                        <scope>provided</scope>
-                </dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications</groupId>
+			<artifactId>vfc</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-	    <dependency>
-	    <groupId>org.apache.httpcomponents</groupId>
-	    <artifactId>httpclient</artifactId>
-	    <version>4.5.5</version>
-	    <scope>provided</scope>
-	    </dependency>
-	    <dependency>
-	    <groupId>org.onap.policy.drools-pdp</groupId>
-	    <artifactId>policy-management</artifactId>
-	    <version>${project.version}</version>
-	    <scope>provided</scope>
-	    </dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-pdp</groupId>
+			<artifactId>policy-management</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>simulators</artifactId>

@@ -23,14 +23,8 @@ package org.onap.policy.controlloop.impl;
 import org.onap.policy.controlloop.ControlLoopPublisher;
 
 public class ControlLoopPublisherJUnitImpl implements ControlLoopPublisher {
-	
-	public ControlLoopPublisherJUnitImpl() {
-		
-	}
-
 	@Override
 	public void publish(Object object) {
-		
+		throw new UnsupportedOperationException("publish() method is not implemented on " + this.getClass().getCanonicalName());
 	}
-
 }

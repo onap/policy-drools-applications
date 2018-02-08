@@ -20,7 +20,5 @@
 package org.onap.policy.drools;
 
 public interface PolicyEngine {
-	
 	public boolean deliver(String busType, String topic, Object obj);
-
 }

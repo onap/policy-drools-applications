@@ -31,80 +31,76 @@ import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
 public class ControlLoopProcessor {
 
-  private final String yaml;
-  private final ControlLoopPolicy policy;
-  private String currentPolicy = null;
+	private final String yaml;
+	private final ControlLoopPolicy policy;
+	private String currentNestedPolicyID = null;
 
-  public ControlLoopProcessor(String yaml) throws ControlLoopException {
-    this.yaml = yaml;
-    try {
-      final Yaml y = new Yaml(new CustomClassLoaderConstructor(ControlLoopPolicy.class,
-          ControlLoopPolicy.class.getClassLoader()));
-      final Object obj = y.load(this.yaml);
-      if (obj instanceof ControlLoopPolicy) {
-        this.policy = (ControlLoopPolicy) obj;
-        this.currentPolicy = this.policy.getControlLoop().getTrigger_policy();
-      } else {
-        this.policy = null;
-        throw new ControlLoopException("Unable to parse yaml into ControlLoopPolicy object");
-      }
-    } catch (final Exception e) {
-      //
-      // Most likely this is a YAML Exception
-      //
-      throw new ControlLoopException(e);
-    }
-  }
+	public ControlLoopProcessor(String yaml) throws ControlLoopException {
+		this.yaml = yaml;
+		try {
+			final Yaml y = new Yaml(new CustomClassLoaderConstructor(ControlLoopPolicy.class,	ControlLoopPolicy.class.getClassLoader()));
+			final Object obj = y.load(this.yaml);
 
-  public ControlLoop getControlLoop() {
-    return this.policy.getControlLoop();
-  }
+			this.policy = (ControlLoopPolicy) obj;
+			this.currentNestedPolicyID = this.policy.getControlLoop().getTrigger_policy();
+		} catch (final Exception e) {
+			//
+			// Most likely this is a YAML Exception
+			//
+			throw new ControlLoopException(e);
+		}
+	}
 
-  public FinalResult checkIsCurrentPolicyFinal() {
-    return FinalResult.toResult(this.currentPolicy);
-  }
+	public ControlLoop getControlLoop() {
+		return this.policy.getControlLoop();
+	}
 
-  public Policy getCurrentPolicy() {
-    for (final Policy policy : this.policy.getPolicies()) {
-      if (policy.getId().equals(this.currentPolicy)) {
-        return policy;
-      }
-    }
-    return null;
-  }
+	public FinalResult checkIsCurrentPolicyFinal() {
+		return FinalResult.toResult(this.currentNestedPolicyID);
+	}
 
-  public void nextPolicyForResult(PolicyResult result) throws ControlLoopException {
-    final Policy policy = this.getCurrentPolicy();
-    try {
-      if (this.policy == null) {
-        throw new ControlLoopException("There is no current policy to determine where to go to.");
-      }
-      switch (result) {
-        case SUCCESS:
-          this.currentPolicy = policy.getSuccess();
-          break;
-        case FAILURE:
-          this.currentPolicy = policy.getFailure();
-          break;
-        case FAILURE_TIMEOUT:
-          this.currentPolicy = policy.getFailure_timeout();
-          break;
-        case FAILURE_RETRIES:
-          this.currentPolicy = policy.getFailure_retries();
-          break;
-        case FAILURE_EXCEPTION:
-          this.currentPolicy = policy.getFailure_exception();
-          break;
-        case FAILURE_GUARD:
-          this.currentPolicy = policy.getFailure_guard();
-          break;
-        default:
-          throw new ControlLoopException("Bad policy result given: " + result);
-      }
-    } catch (final ControlLoopException e) {
-      this.currentPolicy = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
-      throw e;
-    }
-  }
+	public Policy getCurrentPolicy() throws ControlLoopException {
+		if (this.policy == null || this.policy.getPolicies() == null) {
+			throw new ControlLoopException("There are no policies defined.");
+		}
 
+		for (final Policy nestedPolicy : this.policy.getPolicies()) {
+			if (nestedPolicy.getId().equals(this.currentNestedPolicyID)) {
+				return nestedPolicy;
+			}
+		}
+		return null;
+	}
+
+	public void nextPolicyForResult(PolicyResult result) throws ControlLoopException {
+		final Policy currentPolicy = this.getCurrentPolicy();
+		try {
+			if (currentPolicy == null) {
+				throw new ControlLoopException("There is no current policy to determine where to go to.");
+			}
+			switch (result) {
+			case SUCCESS:
+				this.currentNestedPolicyID = currentPolicy.getSuccess();
+				break;
+			case FAILURE:
+				this.currentNestedPolicyID = currentPolicy.getFailure();
+				break;
+			case FAILURE_TIMEOUT:
+				this.currentNestedPolicyID = currentPolicy.getFailure_timeout();
+				break;
+			case FAILURE_RETRIES:
+				this.currentNestedPolicyID = currentPolicy.getFailure_retries();
+				break;
+			case FAILURE_EXCEPTION:
+				this.currentNestedPolicyID = currentPolicy.getFailure_exception();
+				break;
+			case FAILURE_GUARD:
+				this.currentNestedPolicyID = currentPolicy.getFailure_guard();
+				break;
+			}
+		} catch (final ControlLoopException e) {
+			this.currentNestedPolicyID = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
+			throw e;
+		}
+	}
 }

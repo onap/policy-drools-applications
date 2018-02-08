@@ -57,7 +57,7 @@ public enum FinalResult {
         this.result = result;
     }
     
-    public static FinalResult   toResult(String result) {
+    public static FinalResult toResult(String result) {
         if (result.equalsIgnoreCase(FINAL_SUCCESS.toString())) {
             return FINAL_SUCCESS;
         }
