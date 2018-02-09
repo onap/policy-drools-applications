@@ -15,6 +15,7 @@
 package org.onap.policy.msb.client;
 
 public class MSBServiceException extends Exception {
+	private static final long serialVersionUID = 5227416822833497317L;
 
 	public MSBServiceException() {
 		super();
