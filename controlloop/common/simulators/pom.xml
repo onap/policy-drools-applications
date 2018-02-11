@@ -52,12 +52,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>so</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.policy.drools-applications</groupId>
 			<artifactId>vfc</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
