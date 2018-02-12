@@ -120,9 +120,8 @@ public interface ControlLoopGuardBuilder {
         /**
          * @param guard
          * @return ControlLoopGuardBuilder object
-         * @throws BuilderException
          */
-        public static ControlLoopGuardBuilder   buildControlLoopGuard (Guard guard) throws BuilderException {
+        public static ControlLoopGuardBuilder   buildControlLoopGuard (Guard guard) {
             
             return  new ControlLoopGuardBuilderImpl(guard);
             

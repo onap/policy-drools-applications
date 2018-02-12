@@ -42,7 +42,9 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
-    private static Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderImpl.class.getName());
+    private static final String NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID = "No existing guard policy matching the id: ";
+	private static final String THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL = "The id of target guard policy must not be null";
+	private static Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderImpl.class.getName());
     private ControlLoopGuard cLGuard;
     
     public ControlLoopGuardBuilderImpl(Guard guard) {
@@ -96,13 +98,13 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
     @Override
     public ControlLoopGuardBuilder addLimitConstraint(String id, Constraint... constraints) throws BuilderException {
         if (id == null) {
-            throw new BuilderException("The id of target guard policy must not be null");
+            throw new BuilderException(THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL);
         }
         if (constraints == null) {
             throw new BuilderException("Constraint much not be null");
         }
         if (!addLimitConstraints(id,constraints)) {
-            throw new BuilderException("No existing guard policy matching the id: " + id);
+            throw new BuilderException(NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID + id);
         }
         return this;
     }
@@ -133,13 +135,13 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
     @Override
     public ControlLoopGuardBuilder removeLimitConstraint(String id, Constraint... constraints) throws BuilderException {
         if (id == null) {
-            throw new BuilderException("The id of target guard policy must not be null");
+            throw new BuilderException(THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL);
         }
         if (constraints == null) {
             throw new BuilderException("Constraint much not be null");
         }
         if (!removeConstraints(id, constraints)) {
-            throw new BuilderException("No existing guard policy matching the id: " + id);
+            throw new BuilderException(NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID + id);
         }
         return this;
     }
@@ -173,7 +175,7 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
             throw new BuilderException("No guard policies exist");
         } 
         if (id == null) {
-            throw new BuilderException("The id of target guard policy must not be null");
+            throw new BuilderException(THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL);
         }
         boolean exist = false;
         for (GuardPolicy policy: cLGuard.getGuards()) {
@@ -183,7 +185,7 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
             }
         }
         if (!exist) {
-            throw new BuilderException("No existing guard policy matching the id: " + id);
+            throw new BuilderException(NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID + id);
         }
         return this;
     }

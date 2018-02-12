@@ -47,16 +47,19 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
-public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
-	private static Logger logger = LoggerFactory.getLogger(ControlLoopPolicyBuilderImpl.class.getName());
-	private ControlLoopPolicy policy;
+import com.google.common.base.Strings;
 
-	public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout) throws BuilderException {
-		policy = new ControlLoopPolicy();
+public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
+	private static final String UNKNOWN_POLICY = "Unknown policy ";
+	private static Logger logger = LoggerFactory.getLogger(ControlLoopPolicyBuilderImpl.class.getName());
+	private ControlLoopPolicy controlLoopPolicy;
+
+	public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout) {
+		controlLoopPolicy = new ControlLoopPolicy();
 		ControlLoop controlLoop = new ControlLoop();
 		controlLoop.setControlLoopName(controlLoopName);
 		controlLoop.setTimeout(timeout);
-		policy.setControlLoop(controlLoop);
+		controlLoopPolicy.setControlLoop(controlLoop);
 	}
 
 	public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Resource resource, Service... services) throws BuilderException {
@@ -78,44 +81,40 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
 	@Override
 	public ControlLoopPolicyBuilder removePNF() throws BuilderException {
-		policy.getControlLoop().setPnf(null);
+		controlLoopPolicy.getControlLoop().setPnf(null);
 		return this;
 	}
 
 	@Override
 	public ControlLoopPolicyBuilder addService(Service... services) throws BuilderException {
-		if (services == null) {
-			throw new BuilderException("Service must not be null");
-		}
 		for (Service service : services) {
-			if (service.getServiceUUID() == null) {
-				if (service.getServiceName() == null || service.getServiceName().length() < 1) {
-					throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
-				}
-				if(policy.getControlLoop().getServices()==null){
-					policy.getControlLoop().setServices(new LinkedList<>());
-				}
-				policy.getControlLoop().getServices().add(service);
+			if (service == null) {
+				throw new BuilderException("Service must not be null");
 			}
-		}
+			if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+				throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
+			}
+			if(controlLoopPolicy.getControlLoop().getServices()==null){
+				controlLoopPolicy.getControlLoop().setServices(new LinkedList<>());
+			}
+			controlLoopPolicy.getControlLoop().getServices().add(service);
+			}
 		return this;
 	}
 
 	@Override
 	public ControlLoopPolicyBuilder removeService(Service... services) throws BuilderException {
-		if (services == null) {
-			throw new BuilderException("Service must not be null");
-		}
-		if (policy.getControlLoop().getServices() == null) {
+		if (controlLoopPolicy.getControlLoop().getServices() == null) {
 			throw new BuilderException("No existing services to remove");
 		}
 		for (Service service : services) {
-			if (service.getServiceUUID() == null) {
-				if (service.getServiceName() == null || service.getServiceName().length() < 1) {
-					throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
-				}
+			if (service == null) {
+				throw new BuilderException("Service must not be null");
 			}
-			boolean removed = policy.getControlLoop().getServices().remove(service);
+			if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+				throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
+			}
+			boolean removed = controlLoopPolicy.getControlLoop().getServices().remove(service);
 			if (!removed) {
 				throw new BuilderException("Unknown service " + service.getServiceName());
 			}
@@ -125,26 +124,24 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
 	@Override
 	public ControlLoopPolicyBuilder removeAllServices() throws BuilderException {
-		policy.getControlLoop().getServices().clear();
+		controlLoopPolicy.getControlLoop().getServices().clear();
 		return this;
 	}
 
 
 	@Override
 	public ControlLoopPolicyBuilder addResource(Resource... resources) throws BuilderException {
-		if (resources == null) {
-			throw new BuilderException("resources must not be null");
-		}
 		for (Resource resource : resources) {
-			if (resource.getResourceUUID() == null) {
-				if (resource.getResourceName() == null || resource.getResourceName().length() <= 0) {
-					throw new BuilderException("Invalid resource - need either resourceUUID or resourceName");
-				}
+			if (resource == null) {
+				throw new BuilderException("Resource must not be null");
 			}
-			if(policy.getControlLoop().getResources()==null){
-				policy.getControlLoop().setResources(new LinkedList<>());
+			if (resource.getResourceUUID() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
+				throw new BuilderException("Invalid resource - need either resourceUUID or resourceName");
 			}
-			policy.getControlLoop().getResources().add(resource);
+			if(controlLoopPolicy.getControlLoop().getResources()==null){
+				controlLoopPolicy.getControlLoop().setResources(new LinkedList<>());
+			}
+			controlLoopPolicy.getControlLoop().getResources().add(resource);
 		}
 		return this;
 	}
@@ -157,7 +154,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		if (pnf.getPNFName() == null && pnf.getPNFType() == null) {
 			throw new BuilderException("Invalid PNF - need either pnfName or pnfType");
 		}
-		policy.getControlLoop().setPnf(pnf);
+		controlLoopPolicy.getControlLoop().setPnf(pnf);
 		return this;
 	}
 
@@ -166,13 +163,13 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		if (abatement == null) {
 			throw new BuilderException("abatement must not be null");
 		}
-		policy.getControlLoop().setAbatement(abatement);
+		controlLoopPolicy.getControlLoop().setAbatement(abatement);
 		return this;
 	}
 
 	@Override
 	public ControlLoopPolicyBuilder setTimeout(Integer timeout) {
-		policy.getControlLoop().setTimeout(timeout);
+		controlLoopPolicy.getControlLoop().setTimeout(timeout);
 		return this;
 	}
 
@@ -182,7 +179,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
 		Policy trigger = new Policy(UUID.randomUUID().toString(), name, description, actor, payload, target, recipe, retries, timeout);
 
-		policy.getControlLoop().setTrigger_policy(trigger.getId());
+		controlLoopPolicy.getControlLoop().setTrigger_policy(trigger.getId());
 
 		this.addNewPolicy(trigger);
 		//
@@ -199,7 +196,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		//
 		Policy existingPolicy = this.findPolicy(policyID);
 		if (existingPolicy == null) {
-			throw new BuilderException("Unknown policy " + policyID);
+			throw new BuilderException(UNKNOWN_POLICY + policyID);
 		}
 		//
 		// Create the new Policy
@@ -235,7 +232,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		//
 		// Add it to our list
 		//
-		this.policy.getPolicies().add(newPolicy);
+		this.controlLoopPolicy.getPolicies().add(newPolicy);
 		//
 		// Return a policy to them
 		//
@@ -268,7 +265,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		options.setDefaultFlowStyle(FlowStyle.BLOCK);
 		options.setPrettyFlow(true);
 		Yaml yaml = new Yaml(options);
-		String dumpedYaml = yaml.dump(policy);
+		String dumpedYaml = yaml.dump(controlLoopPolicy);
 		//
 		// This is our callback class for our compiler
 		//
@@ -277,7 +274,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		// Compile it
 		//
 		try {
-			ControlLoopCompiler.compile(policy, callback);
+			ControlLoopCompiler.compile(controlLoopPolicy, callback);
 		} catch (CompilerException e) {
 			logger.error(e.getMessage() + e);
 			callback.results.addMessage(new MessageImpl(e.getMessage(), MessageLevel.EXCEPTION));
@@ -290,16 +287,18 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 	}
 
 	private void addNewPolicy(Policy policy) {
-		if (this.policy.getPolicies() == null) {
-			this.policy.setPolicies(new LinkedList<>());
+		if (this.controlLoopPolicy.getPolicies() == null) {
+			this.controlLoopPolicy.setPolicies(new LinkedList<>());
 		}
-		this.policy.getPolicies().add(policy);
+		this.controlLoopPolicy.getPolicies().add(policy);
 	}
 
 	private Policy findPolicy(String id) {
-		for (Policy policy : this.policy.getPolicies()) {
-			if (policy.getId().equals(id)) {
-				return policy;
+		if (this.controlLoopPolicy.getPolicies() != null){
+			for (Policy policy : this.controlLoopPolicy.getPolicies()) {
+				if (policy.getId().equals(id)) {
+					return policy;
+				}
 			}
 		}
 		return null;
@@ -307,19 +306,17 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
 	@Override
 	public ControlLoopPolicyBuilder removeResource(Resource... resources) throws BuilderException {
-		if (resources == null) {
-			throw new BuilderException("Resource must not be null");
-		}
-		if (policy.getControlLoop().getResources() == null) {
+		if (controlLoopPolicy.getControlLoop().getResources() == null) {
 			throw new BuilderException("No existing resources to remove");
 		}
 		for (Resource resource : resources) {
-			if (resource.getResourceUUID() == null) {
-				if (resource.getResourceName() == null || resource.getResourceName().length() < 1) {
-					throw new BuilderException("Invalid resource - need either a resourceUUID or resourceName");
-				}
+			if (resource == null) {
+				throw new BuilderException("Resource must not be null");
 			}
-			boolean removed = policy.getControlLoop().getResources().remove(resource); 
+			if (resource.getResourceUUID() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
+				throw new BuilderException("Invalid resource - need either a resourceUUID or resourceName");
+			}
+			boolean removed = controlLoopPolicy.getControlLoop().getResources().remove(resource); 
 			if (!removed) {
 				throw new BuilderException("Unknown resource " + resource.getResourceName());
 			}
@@ -329,17 +326,17 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
 	@Override
 	public ControlLoopPolicyBuilder removeAllResources() throws BuilderException {
-		policy.getControlLoop().getResources().clear();
+		controlLoopPolicy.getControlLoop().getResources().clear();
 		return this;
 	}
 
 	@Override
 	public Integer calculateTimeout() {
 		int sum = 0;
-		for (Policy policy : this.policy.getPolicies()) {
+		for (Policy policy : this.controlLoopPolicy.getPolicies()) {
 			sum += policy.getTimeout().intValue();
 		}
-		return new Integer(sum);
+		return Integer.valueOf(sum);
 	}
 
 	@Override
@@ -349,37 +346,32 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		}
 		Policy trigger = this.findPolicy(id);
 		if (trigger == null) {
-			throw new BuilderException("Unknown policy " + id);
+			throw new BuilderException(UNKNOWN_POLICY + id);
 		}
 		else {
-			this.policy.getControlLoop().setTrigger_policy(id);
+			this.controlLoopPolicy.getControlLoop().setTrigger_policy(id);
 		}
-		return new ControlLoop(this.policy.getControlLoop());
+		return new ControlLoop(this.controlLoopPolicy.getControlLoop());
 	}
 
 	@Override
 	public boolean isOpenLoop() {
-		if (this.policy.getControlLoop().getTrigger_policy().equals(FinalResult.FINAL_OPENLOOP.toString())) {
-			return true;
-		}   
-		else {
-			return false;
-		}
+		return this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(FinalResult.FINAL_OPENLOOP.toString());
 	}
 
 	@Override
 	public Policy getTriggerPolicy() throws BuilderException {
-		if (this.policy.getControlLoop().getTrigger_policy().equals(FinalResult.FINAL_OPENLOOP.toString())) {
+		if (this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(FinalResult.FINAL_OPENLOOP.toString())) {
 			return null;
 		}
 		else {
-			return new Policy(this.findPolicy(this.policy.getControlLoop().getTrigger_policy()));
+			return new Policy(this.findPolicy(this.controlLoopPolicy.getControlLoop().getTrigger_policy()));
 		}
 	}
 
 	@Override
 	public ControlLoop getControlLoop() {
-		return new ControlLoop(this.policy.getControlLoop());
+		return new ControlLoop(this.controlLoopPolicy.getControlLoop());
 	}
 
 	@Override
@@ -429,53 +421,53 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 	public boolean removePolicy(String policyID) throws BuilderException {
 		Policy existingPolicy = this.findPolicy(policyID);
 		if (existingPolicy == null) {
-			throw new BuilderException("Unknown policy " + policyID);
+			throw new BuilderException(UNKNOWN_POLICY + policyID);
 		}
 		//
 		// Check if the policy to remove is trigger_policy
 		//
-		if (this.policy.getControlLoop().getTrigger_policy().equals(policyID)) {
-			this.policy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
+		if (this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(policyID)) {
+			this.controlLoopPolicy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
 		}
 		else {
-			//
-			// Update policies
-			//
-			for (Policy policy : this.policy.getPolicies()) {
-				int index = this.policy.getPolicies().indexOf(policy);
-				if (policy.getSuccess().equals(policyID)) {
-					policy.setSuccess(FinalResult.FINAL_SUCCESS.toString());
-				}
-				if (policy.getFailure().equals(policyID)) {
-					policy.setFailure(FinalResult.FINAL_FAILURE.toString());
-				}
-				if (policy.getFailure_retries().equals(policyID)) {
-					policy.setFailure_retries(FinalResult.FINAL_FAILURE_RETRIES.toString());
-				}
-				if (policy.getFailure_timeout().equals(policyID)) {
-					policy.setFailure_timeout(FinalResult.FINAL_FAILURE_TIMEOUT.toString());
-				}
-				if (policy.getFailure_exception().equals(policyID)) {
-					policy.setFailure_exception(FinalResult.FINAL_FAILURE_EXCEPTION.toString());
-				}
-				if (policy.getFailure_guard().equals(policyID)) {
-					policy.setFailure_guard(FinalResult.FINAL_FAILURE_GUARD.toString());
-				}
-				this.policy.getPolicies().set(index, policy);
-			}
+			updateChainedPoliciesForPolicyRemoval(policyID);
 		}
 		//
 		// remove the policy
 		//
-		boolean removed = this.policy.getPolicies().remove(existingPolicy);
-		return removed;
+		return this.controlLoopPolicy.getPolicies().remove(existingPolicy);
+	}
+	
+	private void updateChainedPoliciesForPolicyRemoval(String idOfPolicyBeingRemoved){
+		for (Policy policy : this.controlLoopPolicy.getPolicies()) {
+			int index = this.controlLoopPolicy.getPolicies().indexOf(policy);
+			if (policy.getSuccess().equals(idOfPolicyBeingRemoved)) {
+				policy.setSuccess(FinalResult.FINAL_SUCCESS.toString());
+			}
+			if (policy.getFailure().equals(idOfPolicyBeingRemoved)) {
+				policy.setFailure(FinalResult.FINAL_FAILURE.toString());
+			}
+			if (policy.getFailure_retries().equals(idOfPolicyBeingRemoved)) {
+				policy.setFailure_retries(FinalResult.FINAL_FAILURE_RETRIES.toString());
+			}
+			if (policy.getFailure_timeout().equals(idOfPolicyBeingRemoved)) {
+				policy.setFailure_timeout(FinalResult.FINAL_FAILURE_TIMEOUT.toString());
+			}
+			if (policy.getFailure_exception().equals(idOfPolicyBeingRemoved)) {
+				policy.setFailure_exception(FinalResult.FINAL_FAILURE_EXCEPTION.toString());
+			}
+			if (policy.getFailure_guard().equals(idOfPolicyBeingRemoved)) {
+				policy.setFailure_guard(FinalResult.FINAL_FAILURE_GUARD.toString());
+			}
+			this.controlLoopPolicy.getPolicies().set(index, policy);
+		}
 	}
 
 	@Override
 	public Policy resetPolicyResults(String policyID) throws BuilderException {
 		Policy existingPolicy = this.findPolicy(policyID);
 		if (existingPolicy == null) {
-			throw new BuilderException("Unknown policy " + policyID);
+			throw new BuilderException(UNKNOWN_POLICY + policyID);
 		}
 		//
 		// reset policy results
@@ -494,11 +486,11 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		//
 		// Remove all existing operational policies
 		//
-		this.policy.getPolicies().clear();
+		this.controlLoopPolicy.getPolicies().clear();
 		//
 		// Revert controlLoop back to an open loop
 		//
-		this.policy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
+		this.controlLoopPolicy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
 		return this;
 	}
 
@@ -506,7 +498,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 	public Policy addOperationsAccumulateParams(String policyID, OperationsAccumulateParams operationsAccumulateParams) throws BuilderException {
 		Policy existingPolicy = this.findPolicy(policyID);
 		if (existingPolicy == null) {
-			throw new BuilderException("Unknown policy " + policyID);
+			throw new BuilderException(UNKNOWN_POLICY + policyID);
 		}
 		//
 		// Add operationsAccumulateParams to existingPolicy

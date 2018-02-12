@@ -29,14 +29,14 @@ import org.onap.policy.sdc.Service;
 
 public class ControlLoop {
     
-    private static String VERSION = "2.0.0";
+    private static final String COMPILER_VERSION = "2.0.0";
 
     private String controlLoopName;
-    private String version = VERSION;
+    private String version = COMPILER_VERSION;
     private List<Service> services;
     private List<Resource> resources;
     private PNF pnf;
-    private String trigger_policy = FinalResult.FINAL_OPENLOOP.toString();
+    private String triggerPolicy = FinalResult.FINAL_OPENLOOP.toString();
     private Integer timeout;
     private Boolean abatement = false;
     
@@ -45,7 +45,7 @@ public class ControlLoop {
     }
     
     public static String getVERSION(){
-        return ControlLoop.VERSION;
+        return ControlLoop.COMPILER_VERSION;
     }
     
     public String getControlLoopName() {
@@ -73,11 +73,11 @@ public class ControlLoop {
     }
 
     public String getTrigger_policy() {
-        return trigger_policy;
+        return triggerPolicy;
     }
 
-    public void setTrigger_policy(String trigger_policy) {
-        this.trigger_policy = trigger_policy;
+    public void setTrigger_policy(String triggerPolicy) {
+        this.triggerPolicy = triggerPolicy;
     }
 
     public Integer getTimeout() {
@@ -126,14 +126,14 @@ public class ControlLoop {
                 this.resources.add(resource);
             }
         }
-        this.trigger_policy = controlLoop.trigger_policy;
+        this.triggerPolicy = controlLoop.triggerPolicy;
         this.timeout = controlLoop.timeout;
         this.abatement = controlLoop.abatement;
     }
     @Override
     public String toString() {
         return "ControlLoop [controlLoopName=" + controlLoopName + ", version=" + version + ", services=" + services
-                + ", resources=" + resources + ", trigger_policy=" + trigger_policy + ", timeout="
+                + ", resources=" + resources + ", trigger_policy=" + triggerPolicy + ", timeout="
                 + timeout + ", abatement=" + abatement + "]";
     }
     @Override
@@ -144,7 +144,7 @@ public class ControlLoop {
         result = prime * result + ((resources == null) ? 0 : resources.hashCode());
         result = prime * result + ((services == null) ? 0 : services.hashCode());
         result = prime * result + ((timeout == null) ? 0 : timeout.hashCode());
-        result = prime * result + ((trigger_policy == null) ? 0 : trigger_policy.hashCode());
+        result = prime * result + ((triggerPolicy == null) ? 0 : triggerPolicy.hashCode());
         result = prime * result + ((version == null) ? 0 : version.hashCode());
         result = prime * result + ((abatement == null) ? 0 : abatement.hashCode());
         return result;
@@ -158,42 +158,20 @@ public class ControlLoop {
         if (getClass() != obj.getClass())
             return false;
         ControlLoop other = (ControlLoop) obj;
-        if (controlLoopName == null) {
-            if (other.controlLoopName != null)
-                return false;
-        } else if (!controlLoopName.equals(other.controlLoopName))
-            return false;
-        if (resources == null) {
-            if (other.resources != null)
-                return false;
-        } else if (!resources.equals(other.resources))
-            return false;
-        if (services == null) {
-            if (other.services != null)
-                return false;
-        } else if (!services.equals(other.services))
-            return false;
-        if (timeout == null) {
-            if (other.timeout != null)
-                return false;
-        } else if (!timeout.equals(other.timeout))
-            return false;
-        if (trigger_policy == null) {
-            if (other.trigger_policy != null)
-                return false;
-        } else if (!trigger_policy.equals(other.trigger_policy))
-            return false;
-        if (version == null) {
-            if (other.version != null)
-                return false;
-        } else if (!version.equals(other.version))
-            return false;
-        if (abatement == null) {
-            if (other.abatement != null)
-                return false;
-        } else if (!abatement.equals(other.abatement))
-            return false;
-        return true;
+        return equalsMayBeNull(controlLoopName, other.controlLoopName)
+        		&& equalsMayBeNull(resources, other.resources)
+        		&& equalsMayBeNull(services, other.services)
+        		&& equalsMayBeNull(timeout, other.timeout)
+        		&& equalsMayBeNull(triggerPolicy, other.triggerPolicy)
+        		&& equalsMayBeNull(version, other.version)
+        		&& equalsMayBeNull(abatement, other.abatement);
+    }
+    
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
+    	if ( obj1 == null ) {
+            return obj2 == null;
+        }
+    	return obj1.equals(obj2);
     }
     
 }

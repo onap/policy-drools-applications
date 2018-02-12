@@ -38,10 +38,10 @@ public class Policy {
     private Integer timeout = 300;
     private String success = FinalResult.FINAL_SUCCESS.toString();
     private String failure = FinalResult.FINAL_FAILURE.toString();
-    private String failure_retries = FinalResult.FINAL_FAILURE_RETRIES.toString();
-    private String failure_timeout = FinalResult.FINAL_FAILURE_TIMEOUT.toString();
-    private String failure_exception = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
-    private String failure_guard = FinalResult.FINAL_FAILURE_GUARD.toString();
+    private String failureRetries = FinalResult.FINAL_FAILURE_RETRIES.toString();
+    private String failureTimeout = FinalResult.FINAL_FAILURE_TIMEOUT.toString();
+    private String failureException = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
+    private String failureGuard = FinalResult.FINAL_FAILURE_GUARD.toString();
     
     
     public Policy() {
@@ -145,35 +145,35 @@ public class Policy {
     }
 
     public String getFailure_retries() {
-        return failure_retries;
+        return failureRetries;
     }
 
-    public void setFailure_retries(String failure_retries) {
-        this.failure_retries = failure_retries;
+    public void setFailure_retries(String failureRetries) {
+        this.failureRetries = failureRetries;
     }
 
     public String getFailure_timeout() {
-        return failure_timeout;
+        return failureTimeout;
     }
 
-    public void setFailure_timeout(String failure_timeout) {
-        this.failure_timeout = failure_timeout;
+    public void setFailure_timeout(String failureTimeout) {
+        this.failureTimeout = failureTimeout;
     }
 
     public String getFailure_exception() {
-        return failure_exception;
+        return failureException;
     }
 
-    public void setFailure_exception(String failure_exception) {
-        this.failure_exception = failure_exception;
+    public void setFailure_exception(String failureException) {
+        this.failureException = failureException;
     }
 
     public String getFailure_guard() {
-        return failure_guard;
+        return failureGuard;
     }
 
-    public void setFailure_guard(String failure_guard) {
-        this.failure_guard = failure_guard;
+    public void setFailure_guard(String failureGuard) {
+        this.failureGuard = failureGuard;
     }
 
     public Policy(String id) {
@@ -217,48 +217,49 @@ public class Policy {
         this.timeout = policy.timeout;
         this.success = policy.success;
         this.failure = policy.failure;
-        this.failure_exception = policy.failure_exception;
-        this.failure_guard = policy.failure_guard;
-        this.failure_retries = policy.failure_retries;
-        this.failure_timeout = policy.failure_timeout;
+        this.failureException = policy.failureException;
+        this.failureGuard = policy.failureGuard;
+        this.failureRetries = policy.failureRetries;
+        this.failureTimeout = policy.failureTimeout;
     }
 
     public boolean isValid() {
-        if(id==null || name==null || actor==null|| recipe==null || target==null){
-            return false;
-        }
-        return true;
+        return id==null || name==null || actor==null|| recipe==null || target==null;
     }
 
     @Override
     public String toString() {
         return "Policy [id=" + id + ", name=" + name + ", description=" + description + ", actor=" + actor + ", recipe="
                 + recipe + ", payload=" + payload + ", target=" + target + ", operationsAccumulateParams=" + operationsAccumulateParams + ", retry=" + retry + ", timeout=" + timeout
-                + ", success=" + success + ", failure=" + failure + ", failure_retries=" + failure_retries
-                + ", failure_timeout=" + failure_timeout + ", failure_exception=" + failure_exception + ", failure_guard=" + failure_guard + "]";
+                + ", success=" + success + ", failure=" + failure + ", failure_retries=" + failureRetries
+                + ", failure_timeout=" + failureTimeout + ", failure_exception=" + failureException + ", failure_guard=" + failureGuard + "]";
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((actor == null) ? 0 : actor.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((failure == null) ? 0 : failure.hashCode());
-        result = prime * result + ((failure_exception == null) ? 0 : failure_exception.hashCode());
-        result = prime * result + ((failure_guard == null) ? 0 : failure_guard.hashCode());
-        result = prime * result + ((failure_retries == null) ? 0 : failure_retries.hashCode());
-        result = prime * result + ((failure_timeout == null) ? 0 : failure_timeout.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((payload == null) ? 0 : payload.hashCode());
-        result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
-        result = prime * result + ((retry == null) ? 0 : retry.hashCode());
-        result = prime * result + ((success == null) ? 0 : success.hashCode());
-        result = prime * result + ((target == null) ? 0 : target.hashCode());
-        result = prime * result + ((operationsAccumulateParams == null) ? 0 : operationsAccumulateParams.hashCode());
-        result = prime * result + ((timeout == null) ? 0 : timeout.hashCode());
+        result = addHashCodeForField(result, actor);
+        result = addHashCodeForField(result, description);
+        result = addHashCodeForField(result, failure);
+        result = addHashCodeForField(result, failureException);
+        result = addHashCodeForField(result, failureGuard);
+        result = addHashCodeForField(result, failureRetries);
+        result = addHashCodeForField(result, failureTimeout);
+        result = addHashCodeForField(result, id);
+        result = addHashCodeForField(result, name);
+        result = addHashCodeForField(result, payload);
+        result = addHashCodeForField(result, recipe);
+        result = addHashCodeForField(result, retry);
+        result = addHashCodeForField(result, success);
+        result = addHashCodeForField(result, target);
+        result = addHashCodeForField(result, operationsAccumulateParams);
+        result = addHashCodeForField(result, timeout);
         return result;
+    }
+    
+    private int addHashCodeForField(int hashCode, Object field){
+        final int prime = 31;
+    	return prime * hashCode + ((field == null) ? 0 : field.hashCode());
     }
 
     @Override
@@ -270,84 +271,28 @@ public class Policy {
         if (getClass() != obj.getClass())
             return false;
         Policy other = (Policy) obj;
-        if (actor != other.actor)
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (failure == null) {
-            if (other.failure != null)
-                return false;
-        } else if (!failure.equals(other.failure))
-            return false;
-        if (failure_exception == null) {
-            if (other.failure_exception != null)
-                return false;
-        } else if (!failure_exception.equals(other.failure_exception))
-            return false;
-        if (failure_guard == null) {
-            if (other.failure_guard != null)
-                return false;
-        } else if (!failure_guard.equals(other.failure_guard))
-            return false;
-        if (failure_retries == null) {
-            if (other.failure_retries != null)
-                return false;
-        } else if (!failure_retries.equals(other.failure_retries))
-            return false;
-        if (failure_timeout == null) {
-            if (other.failure_timeout != null)
-                return false;
-        } else if (!failure_timeout.equals(other.failure_timeout))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (payload == null) {
-            if (other.payload != null)
-                return false;
-        } else if (!payload.equals(other.payload))
-            return false;
-        if (recipe == null) {
-            if (other.recipe != null)
-                return false;
-        } else if (!recipe.equals(other.recipe))
-            return false;
-        if (retry == null) {
-            if (other.retry != null)
-                return false;
-        } else if (!retry.equals(other.retry))
-            return false;
-        if (success == null) {
-            if (other.success != null)
-                return false;
-        } else if (!success.equals(other.success))
-            return false;
-        if (operationsAccumulateParams == null) {
-            if (other.operationsAccumulateParams != null)
-                return false;
-        } else if (!operationsAccumulateParams.equals(other.operationsAccumulateParams))
-            return false;
-        if (target == null) {
-            if (other.target != null)
-                return false;
-        } else if (!target.equals(other.target))
-            return false;   
-        if (timeout == null) {
-            if (other.timeout != null)
-                return false;
-        } else if (!timeout.equals(other.timeout))
-            return false;
-        return true;
+        return equalsMayBeNull(actor, other.actor)
+        		&& equalsMayBeNull(description, other.description)
+        		&& equalsMayBeNull(failure, other.failure)
+        		&& equalsMayBeNull(failureException, other.failureException)
+        		&& equalsMayBeNull(failureGuard, other.failureGuard)
+        		&& equalsMayBeNull(failureRetries, other.failureRetries)
+        		&& equalsMayBeNull(id, other.id)
+        		&& equalsMayBeNull(name, other.name)
+        		&& equalsMayBeNull(payload, other.payload)
+        		&& equalsMayBeNull(recipe, other.recipe)
+        		&& equalsMayBeNull(retry, other.retry)
+        		&& equalsMayBeNull(success, other.success)
+        		&& equalsMayBeNull(operationsAccumulateParams, other.operationsAccumulateParams)
+        		&& equalsMayBeNull(target, other.target)
+        		&& equalsMayBeNull(timeout, other.timeout);
+    }
+    
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
+    	if ( obj1 == null ) {
+            return obj2 == null;
+        }
+    	return obj1.equals(obj2);
     }
     
 }

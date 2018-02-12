@@ -119,26 +119,17 @@ public class MatchParameters {
         if (getClass() != obj.getClass())
             return false;
         MatchParameters other = (MatchParameters) obj;
-        if (actor == null) {
-            if (other.actor != null)
-                return false;
-        } else if (!actor.equals(other.actor))
-            return false;
-        if (controlLoopName == null) {
-            if (other.controlLoopName != null)
-                return false;
-        } else if (!controlLoopName.equals(other.controlLoopName))
-            return false;
-        if (recipe == null) {
-            if (other.recipe != null)
-                return false;
-        } else if (!recipe.equals(other.recipe))
-            return false;
-        if (targets == null) {
-            if (other.targets != null)
-                return false;
-        } else if (!targets.equals(other.targets))
-            return false;
-        return true;
+        
+        return equalsMayBeNull(actor, other.actor)
+        		&& equalsMayBeNull(controlLoopName, other.controlLoopName)
+        		&& equalsMayBeNull(recipe, other.recipe)
+        		&& equalsMayBeNull(targets, other.targets);
+    }
+    
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
+    	if ( obj1 == null ) {
+            return obj2 == null;
+        }
+    	return obj1.equals(obj2);
     }
 }

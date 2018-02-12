@@ -36,7 +36,10 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class ControlLoopGuardCompiler {
     
-    private ControlLoopGuardCompiler(){
+    private static final String GUARD_POLICIES_SHOULD_NOT_BE_NULL = "Guard policies should not be null";
+	private static final String GUARD_POLICY = "Guard policy ";
+
+	private ControlLoopGuardCompiler(){
         // Private Constructor 
     }
     
@@ -91,9 +94,9 @@ public class ControlLoopGuardCompiler {
     private static void validateGuardPolicies(List<GuardPolicy> policies, ControlLoopCompilerCallback callback) throws CompilerException {
         if (policies == null) {
             if (callback != null) {
-                callback.onError("Guard policies should not be null");
+                callback.onError(GUARD_POLICIES_SHOULD_NOT_BE_NULL);
             }
-            throw new CompilerException("Guard policies should not be null");
+            throw new CompilerException(GUARD_POLICIES_SHOULD_NOT_BE_NULL);
         }
         //
         // Ensure all guard policies are unique
@@ -108,9 +111,9 @@ public class ControlLoopGuardCompiler {
         for (GuardPolicy policy : policies) {
             if (policy.getLimit_constraints() == null || policy.getLimit_constraints().isEmpty()) {
                 if (callback != null) {
-                    callback.onError("Guard policy " + policy.getName() + " does not have any limit constraint");
+                    callback.onError(GUARD_POLICY + policy.getName() + " does not have any limit constraint");
                 }
-                throw new CompilerException("Guard policy " + policy.getName() + " does not have any limit constraint");
+                throw new CompilerException(GUARD_POLICY + policy.getName() + " does not have any limit constraint");
             }
         }
     }
@@ -118,14 +121,14 @@ public class ControlLoopGuardCompiler {
     private static void validateConstraints(List<GuardPolicy> policies, ControlLoopCompilerCallback callback) throws CompilerException {
         if (policies == null) {
             if (callback != null) {
-                callback.onError("Guard policies should not be null");
+                callback.onError(GUARD_POLICIES_SHOULD_NOT_BE_NULL);
             }
-            throw new CompilerException("Guard policies should not be null");
+            throw new CompilerException(GUARD_POLICIES_SHOULD_NOT_BE_NULL);
         }
         for (GuardPolicy policy : policies) {
             Set<Constraint> newSet = new HashSet<>(policy.getLimit_constraints());
             if (newSet.size() != policy.getLimit_constraints().size() && callback != null) {
-                callback.onWarning("Guard policy " + policy.getName() + " has duplicate limit constraints");
+                callback.onWarning(GUARD_POLICY + policy.getName() + " has duplicate limit constraints");
             }
         }
     }

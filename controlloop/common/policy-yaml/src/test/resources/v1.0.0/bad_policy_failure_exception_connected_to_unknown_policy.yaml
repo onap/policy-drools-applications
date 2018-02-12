@@ -15,11 +15,9 @@ policies:
     description:
     actor: APPC
     recipe: Restart
-    target: VM
+    target:
+      type: VM
+      resourceID: vm1
     retry: 2
     timeout: 300
-    success: FINAL_FAILURE
-    failure: unique-policy-id-3-rebuild
-    failure_timeout: unique-policy-id-3-rebuild
-    failure_retries: unique-policy-id-3-rebuild
-    failure_exception: final_failure_exception
+    failure_exception: unknown-policy

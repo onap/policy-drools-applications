@@ -259,9 +259,8 @@ public interface ControlLoopPolicyBuilder {
          * @param controlLoopName - Per Closed Loop AID v1.0, unique string for the closed loop.
          * @param timeout - Overall timeout for the Closed Loop to execute.
          * @return ControlLoopPolicyBuilder object
-         * @throws BuilderException
          */
-        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout) throws BuilderException {
+        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout) {
             return new ControlLoopPolicyBuilderImpl(controlLoopName, timeout);
         }
         

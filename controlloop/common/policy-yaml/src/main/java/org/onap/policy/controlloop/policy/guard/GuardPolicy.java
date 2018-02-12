@@ -20,7 +20,6 @@
 
 package org.onap.policy.controlloop.policy.guard;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -30,8 +29,8 @@ public class GuardPolicy {
     private String id = UUID.randomUUID().toString();
     private String name;
     private String description;
-    private MatchParameters match_parameters;
-    private LinkedList<Constraint> limit_constraints;
+    private MatchParameters matchParameters;
+    private LinkedList<Constraint> limitConstraints;
     
     public GuardPolicy() {
         //Do Nothing Empty Constructor. 
@@ -62,19 +61,19 @@ public class GuardPolicy {
     }
 
     public MatchParameters getMatch_parameters() {
-        return match_parameters;
+        return matchParameters;
     }
 
-    public void setMatch_parameters(MatchParameters match_parameters) {
-        this.match_parameters = match_parameters;
+    public void setMatch_parameters(MatchParameters matchParameters) {
+        this.matchParameters = matchParameters;
     }
 
     public LinkedList<Constraint> getLimit_constraints() {
-        return  limit_constraints;
+        return  limitConstraints;
     }
 
-    public void setLimit_constraints(LinkedList<Constraint> limit_constraints) {
-        this.limit_constraints = limit_constraints;
+    public void setLimit_constraints(LinkedList<Constraint> limitConstraints) {
+        this.limitConstraints = limitConstraints;
     }
 
     public GuardPolicy(String id) {
@@ -83,7 +82,7 @@ public class GuardPolicy {
     
     public GuardPolicy(String name, MatchParameters matchParameters) {
         this.name = name;
-        this.match_parameters = matchParameters;
+        this.matchParameters = matchParameters;
     }
     
     public GuardPolicy(String id, String name, String description, MatchParameters matchParameters) {
@@ -94,8 +93,8 @@ public class GuardPolicy {
     
     public GuardPolicy(String name, MatchParameters matchParameters, List<Constraint> limitConstraints) {
         this(name, matchParameters);
-        if (limit_constraints != null) {
-            this.limit_constraints = (LinkedList<Constraint>) Collections.unmodifiableList(limitConstraints);
+        if (limitConstraints != null) {
+            this.limitConstraints = (LinkedList<Constraint>) limitConstraints;
         }
     }
     
@@ -113,9 +112,9 @@ public class GuardPolicy {
         this.id = policy.id;
         this.name = policy.name;
         this.description = policy.description;
-        this.match_parameters = new MatchParameters(policy.match_parameters);
-        if (policy.limit_constraints != null) {
-            this.limit_constraints = (LinkedList<Constraint>) Collections.unmodifiableList(policy.limit_constraints);
+        this.matchParameters = new MatchParameters(policy.matchParameters);
+        if (policy.limitConstraints != null) {
+            this.limitConstraints = policy.limitConstraints;
         }
     }
     
@@ -126,7 +125,7 @@ public class GuardPolicy {
     @Override
     public String toString() {
         return "Policy [id=" + id + ", name=" + name + ", description=" + description + ", match_parameters=" 
-                +match_parameters + ", limitConstraints=" + limit_constraints + "]";
+                +matchParameters + ", limitConstraints=" + limitConstraints + "]";
     }
 
     @Override
@@ -136,8 +135,8 @@ public class GuardPolicy {
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((limit_constraints == null) ? 0 : limit_constraints.hashCode());
-        result = prime * result + ((match_parameters == null) ? 0 : match_parameters.hashCode());
+        result = prime * result + ((limitConstraints == null) ? 0 : limitConstraints.hashCode());
+        result = prime * result + ((matchParameters == null) ? 0 : matchParameters.hashCode());
         return result;
     }
 
@@ -150,33 +149,17 @@ public class GuardPolicy {
         if (getClass() != obj.getClass())
             return false;
         GuardPolicy other = (GuardPolicy) obj;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (limit_constraints == null) {
-            if (other.limit_constraints != null)
-                return false;
-        } else if (!limit_constraints.equals(other.limit_constraints))
-            return false;
-        if (match_parameters==null){
-            if(other.match_parameters !=null)
-                return false;
-        } else if(!match_parameters.equals(other.match_parameters))
-            return false;
-        return true;
+        return equalsMayBeNull(description, other.description)
+        		&& equalsMayBeNull(id, other.id)
+        		&& equalsMayBeNull(name, other.name)
+        		&& equalsMayBeNull(limitConstraints, other.limitConstraints)
+        		&& equalsMayBeNull(matchParameters, other.matchParameters);
     }
     
-    
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
+    	if ( obj1 == null ) {
+            return obj2 == null;
+        }
+    	return obj1.equals(obj2);
+    }        
 }
