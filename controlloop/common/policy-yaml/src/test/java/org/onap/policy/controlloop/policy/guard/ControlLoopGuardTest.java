@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -49,6 +50,69 @@ public class ControlLoopGuardTest {
 		this.test("src/test/resources/v2.0.0-guard/policy_guard_appc_restart.yaml");
 	}
 
+	@Test
+	public void testConstructorControlLoopGuard(){
+		Guard guard1 = new Guard();
+		GuardPolicy guardPolicy1 = new GuardPolicy();
+		GuardPolicy guardPolicy2 = new GuardPolicy();
+		LinkedList<GuardPolicy> guardPolicies = new LinkedList<>();
+		guardPolicies.add(guardPolicy1);
+		guardPolicies.add(guardPolicy2);
+
+		ControlLoopGuard controlLoopGuard1 = new ControlLoopGuard();
+		controlLoopGuard1.setGuard(guard1);
+		controlLoopGuard1.setGuards(guardPolicies);
+		ControlLoopGuard controlLoopGuard2 = new ControlLoopGuard(controlLoopGuard1);
+		
+		assertEquals(guard1, controlLoopGuard2.getGuard());
+		assertEquals(guardPolicies, controlLoopGuard2.getGuards());
+	}
+	
+	@Test
+	public void testEqualsAndHashCode(){
+		Guard guard1 = new Guard();
+		GuardPolicy guardPolicy1 = new GuardPolicy();
+		GuardPolicy guardPolicy2 = new GuardPolicy();
+		LinkedList<GuardPolicy> guardPolicies = new LinkedList<>();
+		guardPolicies.add(guardPolicy1);
+		guardPolicies.add(guardPolicy2);
+
+		ControlLoopGuard controlLoopGuard1 = new ControlLoopGuard();
+		ControlLoopGuard controlLoopGuard2 = new ControlLoopGuard();
+		
+		assertTrue(controlLoopGuard1.equals(controlLoopGuard2));
+		assertEquals(controlLoopGuard1.hashCode(), controlLoopGuard2.hashCode());
+
+		controlLoopGuard1.setGuard(guard1);
+		assertFalse(controlLoopGuard1.equals(controlLoopGuard2));
+		controlLoopGuard2.setGuard(guard1);
+		assertTrue(controlLoopGuard1.equals(controlLoopGuard2));
+		assertEquals(controlLoopGuard1.hashCode(), controlLoopGuard2.hashCode());
+		
+		controlLoopGuard1.setGuards(guardPolicies);
+		assertFalse(controlLoopGuard1.equals(controlLoopGuard2));
+		controlLoopGuard2.setGuards(guardPolicies);
+		assertTrue(controlLoopGuard1.equals(controlLoopGuard2));
+		assertEquals(controlLoopGuard1.hashCode(), controlLoopGuard2.hashCode());
+	}	
+	
+	@Test
+	public void testEqualsSameObject(){
+		ControlLoopGuard controlLoopGuard = new ControlLoopGuard();
+		assertTrue(controlLoopGuard.equals(controlLoopGuard));
+	}
+	
+	@Test
+	public void testEqualsNull(){
+		ControlLoopGuard controlLoopGuard = new ControlLoopGuard();
+		assertFalse(controlLoopGuard.equals(null));
+	}
+	
+	@Test
+	public void testEqualsInstanceOfDiffClass(){
+		ControlLoopGuard controlLoopGuard = new ControlLoopGuard();
+		assertFalse(controlLoopGuard.equals(""));
+	}
 	
 	public void test(String testFile) {
 		try (InputStream is = new FileInputStream(new File(testFile))) {

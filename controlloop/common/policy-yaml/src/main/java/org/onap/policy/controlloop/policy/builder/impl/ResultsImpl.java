@@ -29,7 +29,7 @@ import org.onap.policy.controlloop.policy.builder.Results;
 public class ResultsImpl implements Results {
 	
 	private String specification;
-	private List<Message>	messages = new LinkedList<Message>();
+	private List<Message> messages = new LinkedList<>();
 
 	@Override
 	public List<Message> getMessages() {

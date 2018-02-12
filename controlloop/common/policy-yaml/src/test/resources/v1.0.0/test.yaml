@@ -15,81 +15,290 @@ policies:
     description:
     actor: APPC
     recipe: Restart
-    target: VM
+    target:
+      type: VM
+      resourceID: vm1
     retry: 2
     timeout: 300
-    success: unique-policy-id-2-healthcheck-restart
+    success: unique-policy-id-2-modifyconfig
     failure: unique-policy-id-3-rebuild
     failure_timeout: unique-policy-id-3-rebuild
     failure_retries: unique-policy-id-3-rebuild
-    failure_exception: final_failure_exception
+    failure_exception: unique-policy-id-7-modifyconfig-for-failure
+    failure_guard: unique-policy-id-7-modifyconfig-for-failure
   
-  - id: unique-policy-id-2-healthcheck-restart
-    name: HealthCheck Policy
+  - id: unique-policy-id-2-modifyconfig
+    name: ModifyConfig Policy
     description:
     actor: APPC
-    recipe: HealthCheck
-    target: VM
+    recipe: ModifyConfig
+    target:
+      type: VM
+      resourceID: vm1
     retry: 2
     timeout: 300
-    success: final_success
+    success: FINAL_SUCCESS
     failure: unique-policy-id-3-rebuild
     failure_timeout: unique-policy-id-3-rebuild
     failure_retries: unique-policy-id-3-rebuild
-    failure_exception: final_failure_exception
+    failure_exception: FINAL_FAILURE_EXCEPTION
   
   - id: unique-policy-id-3-rebuild
     name: Rebuild Policy
     description:
     actor: APPC
     recipe: Rebuild
-    target: VM
+    target:
+      type: VM
+      resourceID: vm1
     retry: 0
     timeout: 600
-    success: unique-policy-id-4-healthcheck-rebuild
+    success: unique-policy-id-4-modifyconfig
     failure: unique-policy-id-5-migrate
     failure_timeout: unique-policy-id-5-migrate
     failure_retries: unique-policy-id-5-migrate
-    failure_exception: final_failure_exception
+    failure_exception: FINAL_FAILURE_EXCEPTION
   
-  - id: unique-policy-id-4-healthcheck-rebuild
+  - id: unique-policy-id-4-modifyconfig
     name: HealthCheck the Rebuild Policy
     description:
     actor: APPC
-    recipe: HealthCheck
-    target: VM
+    recipe: ModifyConfig
+    target:
+      type: VM
+      resourceID: vm1
     retry: 2
     timeout: 300
-    success: final_success
+    success: FINAL_SUCCESS
     failure: unique-policy-id-5-migrate
     failure_timeout: unique-policy-id-5-migrate
     failure_retries: unique-policy-id-5-migrate
-    failure_exception: final_failure_exception
+    failure_exception: FINAL_FAILURE_EXCEPTION
   
   - id: unique-policy-id-5-migrate
     name: Migrate Policy
     description:
     actor: APPC
     recipe: Migrate
-    target: VM
+    target:
+      type: VM
+      resourceID: vm1
     retry: 0
     timeout: 600
-    success: unique-policy-id-6-healthcheck-migrate
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
+    success: unique-policy-id-6-modifyconfig
+    failure: FINAL_FAILURE
+    failure_timeout: FINAL_FAILURE_TIMEOUT
+    failure_retries: FINAL_FAILURE_RETRIES
+    failure_exception: FINAL_FAILURE_EXCEPTION
 
-  - id: unique-policy-id-6-healthcheck-migrate
-    name: Healthcheck the Migrate Policy
+  - id: unique-policy-id-6-modifyconfig
+    name: ModifyConfig after Migrate Policy
     description:
     actor: APPC
-    recipe: HealthCheck
-    target: VM
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
     retry: 2
     timeout: 300
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
+    success: FINAL_SUCCESS
+    failure: FINAL_FAILURE
+    failure_timeout: FINAL_FAILURE_TIMEOUT
+    failure_retries: FINAL_FAILURE_RETRIES
+    failure_exception: FINAL_FAILURE_EXCEPTION
+    
+  - id: unique-policy-id-7-modifyconfig-for-failure
+    name: ModifyConfig for Failure
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    failure: FINAL_FAILURE
+    failure_timeout: FINAL_FAILURE_TIMEOUT
+    failure_retries: FINAL_FAILURE_RETRIES
+    failure_exception: FINAL_FAILURE_EXCEPTION
+    
+  - id: 
+    name: invalid policy - id is null
+    description: 
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: SUCCESS
+    name: invalid policy - id is a PolicyResult
+    description: 
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: FINAL_SUCCESS
+    name: invalid policy - id is a FinalResult
+    description: 
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-null-actor
+    name: invalid policy - actor is null
+    description: 
+    actor: 
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-unknown-actor
+    name: invalid policy - actor is unknown
+    description: 
+    actor: UnknownActor
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+
+  - id: invalid-policy-null-receipe
+    name: invalid policy - receipe is null
+    description:
+    actor: APPC
+    recipe: 
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-unknown-receipe
+    name: invalid policy - unknown receipe
+    description:
+    actor: APPC
+    recipe: UnknownReceipe
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-null-target
+    name: invalid policy - target is null
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-null-target-type
+    name: invalid policy - target type is null
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: 
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_SUCCESS
+    
+  - id: invalid-policy-invalid-success-policy
+    name: invalid policy - success policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    success: FINAL_FAILURE
+    
+  - id: invalid-policy-invalid-failure-policy
+    name: invalid policy - failure policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure: FINAL_FAILURE_TIMEOUT
+    
+  - id: invalid-policy-invalid-failure-timeout-policy
+    name: invalid policy - failure timeout policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_timeout: FINAL_FAILURE_RETRIES
+    
+  - id: invalid-policy-invalid-failure-retries-policy
+    name: invalid policy - failure retries policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_retries: FINAL_FAILURE_EXCEPTION
+    
+  - id: invalid-policy-invalid-failure-exception-policy
+    name: invalid policy - failure exception policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_exception: FINAL_FAILURE_GUARD
+    
+  - id: invalid-policy-invalid-failure-guard-policy
+    name: invalid policy - failure guard policy is invalid
+    description:
+    actor: APPC
+    recipe: ModifyConfig
+    target: 
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+    failure_guard: FINAL_SUCCESS
+
+    

@@ -1,0 +1,23 @@
+controlLoop:
+  controlLoopName: 
+  version: 1.0.0
+  services: 
+    - serviceName: Foo Service
+  resources: 
+    - resourceName: Bar VNF
+      resourceType: VF
+  trigger_policy: unique-policy-id-1-restart
+  timeout: 1200
+
+policies:
+  - id: unique-policy-id-1-restart
+    name: Restart Policy for Trigger Event
+    description:
+    actor: APPC
+    recipe: Restart
+    target:
+      type: VM
+      resourceID: vm1
+    retry: 2
+    timeout: 300
+
