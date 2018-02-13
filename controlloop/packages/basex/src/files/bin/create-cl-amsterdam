@@ -124,7 +124,7 @@ if [ ! -w "${DIR_TMP}" ]; then
 	exit 1
 fi
 
-ARCHETYPE_GROUP_ID="org.onap.policy.drools-applications"
+ARCHETYPE_GROUP_ID="org.onap.policy.drools-applications.controlloop.templates"
 ARCHETYPE_ARTIFACT_ID="archetype-cl-amsterdam"
 ARCHETYPE_VERSION="${VERSION}"
 
