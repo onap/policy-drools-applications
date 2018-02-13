@@ -25,14 +25,14 @@
 
 	<parent>
 		<groupId>org.onap.policy.drools-applications</groupId>
-		<artifactId>templates</artifactId>
+		<artifactId>controlloop-templates</artifactId>
 		<version>1.2.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>archetype-cl-amsterdam</artifactId>
+	<artifactId>controlloop-templates-archetype_cl_amsterdam</artifactId>
 	<packaging>maven-archetype</packaging>
 
-	<name>archetype-cl-amsterdam</name>
+	<name>${artifactId}</name>
 	<description>Archetype to generate a yaml based control loop for ONAP Amsterdam release</description>
 
 	<build>
