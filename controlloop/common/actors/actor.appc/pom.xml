@@ -5,32 +5,32 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 	    <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>actors</artifactId>
+        <artifactId>controlloop.common.actors</artifactId>
 		<version>1.2.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>actor.appc</artifactId>
+	<artifactId>controlloop.common.actors.actor.appc</artifactId>
 	<dependencies>
 		<dependency>
 	        <groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>actorServiceProvider</artifactId>
+			<artifactId>controlloop.common.actors.actorServiceProvider</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>appc</artifactId>
+			<artifactId>controlloop.common.model-impl.appc</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>trafficgenerator</artifactId>
+			<artifactId>controlloop.common.model-impl.trafficgenerator</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>events</artifactId>
+			<artifactId>controlloop.common.model-impl.events</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -48,7 +48,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>simulators</artifactId>
+			<artifactId>controlloop.common.simulators</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
