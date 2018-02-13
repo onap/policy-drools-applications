@@ -23,7 +23,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
     
-	<artifactId>common</artifactId>
+	<artifactId>controlloop-common</artifactId>
     <packaging>pom</packaging>
 
     <parent>
@@ -36,11 +36,11 @@
     	<module>actors</module>
         <module>guard</module>
     	<module>eventmanager</module>
-        <module>model-impl</module>
-    	<module>policy-yaml</module>
+        <module>model_impl</module>
+    	<module>policy_yaml</module>
     	<module>simulators</module>
-    	<module>feature-controlloop-utils</module>
-		<module>msb</module>
+    	<module>feature_controlloop_utils</module>
+	<module>msb</module>
     </modules>
 
 
