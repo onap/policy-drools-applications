@@ -38,21 +38,20 @@ source ${POLICY_HOME}/etc/build.info
 
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=com.att.research.xacml:xacml-pdp:1.0.0:jar
 
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:archetype-cl-amsterdam:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:events:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:appc:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:appclcm:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:aai:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:so:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:trafficgenerator:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:eventmanager:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:guard:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actorserviceprovider:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.appc:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.appclcm:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.so:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:actor.vfc:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:policy-yaml:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:demo:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:template.demo:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:guard:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.templates.archetype-cl-amsterdam:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.model-impl.events:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.model-impl.appc:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.model-impl.appclcm:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.model-impl.aai:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.model-impl.so:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.model-impl.trafficgenerator:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.eventmanager:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.guard:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.actors.actorserviceprovider:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.actors.actor.appc:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.actors.actor.appclcm:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.actors.actor.so:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.actors.actor.vfc:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.policy-yaml:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.templates.template.demo:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common.guard:${version}:jar -Dtransitive=false

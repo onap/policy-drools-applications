@@ -19,11 +19,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>vfc</artifactId>
+	<artifactId>controlloop.common.model-impl.vfc</artifactId>
 
 	<parent>
 		<groupId>org.onap.policy.drools-applications</groupId>
-		<artifactId>model-impl</artifactId>
+		<artifactId>controlloop.common.model-impl</artifactId>
 		<version>1.2.0-SNAPSHOT</version>
 	</parent>
 
@@ -48,7 +48,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.onap.policy.drools-applications</groupId>
-			<artifactId>rest</artifactId>
+			<artifactId>controlloop.common.model-impl.rest</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

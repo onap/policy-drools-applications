@@ -125,7 +125,7 @@ if [ ! -w "${DIR_TMP}" ]; then
 fi
 
 ARCHETYPE_GROUP_ID="org.onap.policy.drools-applications"
-ARCHETYPE_ARTIFACT_ID="archetype-cl-amsterdam"
+ARCHETYPE_ARTIFACT_ID="controlloop.templates.archetype-cl-amsterdam"
 ARCHETYPE_VERSION="${VERSION}"
 
 if [ -d "${DIR_TMP}/${ARTIFACT_ID}/" ]; then
