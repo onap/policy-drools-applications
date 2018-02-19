@@ -196,7 +196,22 @@ public class SOActorServiceProvider implements Actor {
 		//
 		// requestInfo
 		//
-		request.getRequestDetails().getRequestInfo().setInstanceName(vnfItem.getItems().getInventoryResponseItems().get(baseIndex).getVfModule().getVfModuleName().replace("Vfmodule", "vDNS"));
+		String instanceName = vnfItem.getItems().getInventoryResponseItems().get(baseIndex).getVfModule()
+				.getVfModuleName().replace("Vfmodule", "vDNS");
+		int numberOfNonBaseModules = findNonBaseModules(vnfItem.getItems().getInventoryResponseItems());
+		// Code to create unique VF Module names across the invocations.
+		if (numberOfNonBaseModules == 1) {
+			int instanceNumber = 1;
+			instanceName = instanceName.concat("_").concat(String.valueOf(instanceNumber));
+			request.getRequestDetails().getRequestInfo().setInstanceName(instanceName);
+		} else if (numberOfNonBaseModules > 1) {
+			int instanceNumber = numberOfNonBaseModules + 1;
+			instanceName = instanceName.concat("_").concat(String.valueOf(instanceNumber));
+			request.getRequestDetails().getRequestInfo().setInstanceName(instanceName);
+		} else {
+			request.getRequestDetails().getRequestInfo().setInstanceName(vnfItem.getItems().getInventoryResponseItems()
+					.get(baseIndex).getVfModule().getVfModuleName().replace("Vfmodule", "vDNS"));
+		}
 		request.getRequestDetails().getRequestInfo().setSource("POLICY");
 		request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
 		request.getRequestDetails().getRequestInfo().setRequestorId("policy");
@@ -323,6 +338,24 @@ public class SOActorServiceProvider implements Actor {
 		}
 
 		return -1;
+	}
+
+/**
+	 * Find the number of non base modules present in API response object.
+	 * 
+	 * @param inventoryResponseItems
+	 * @return number of non base index modules
+	 */
+
+	private int findNonBaseModules(List<AAINQInventoryResponseItem> inventoryResponseItems) {
+		int nonBaseModuleCount = 0;
+		for (AAINQInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
+			if (invenoryResponseItem.getVfModule() != null
+					&& (!invenoryResponseItem.getVfModule().getIsBaseVfModule())) {
+				nonBaseModuleCount++;
+			}
+		}
+		return nonBaseModuleCount;
 	}
 
 	/**
