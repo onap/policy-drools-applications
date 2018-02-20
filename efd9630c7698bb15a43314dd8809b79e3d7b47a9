@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_940b7e8d",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2018-02-20T21:06:55Z",
+      "side": 1,
+      "message": "Hi, should this be a \"-\" instead of an underscore? According to the user story on jira as well as the sample SO request on the wiki it looks like the instance name should end up something like \"vDNS_vLB1113-1\" .. ?",
+      "range": {
+        "startLine": 205,
+        "startChar": 39,
+        "endLine": 205,
+        "endChar": 40
+      },
+      "revId": "efd9630c7698bb15a43314dd8809b79e3d7b47a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_14f76e8c",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2018-02-20T21:06:55Z",
+      "side": 1,
+      "message": "Same as the above comment",
+      "range": {
+        "startLine": 209,
+        "startChar": 39,
+        "endLine": 209,
+        "endChar": 40
+      },
+      "revId": "efd9630c7698bb15a43314dd8809b79e3d7b47a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
