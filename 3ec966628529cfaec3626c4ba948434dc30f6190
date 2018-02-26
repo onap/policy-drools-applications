@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_1fe69ab0",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCResponseDescriptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-02-26T14:19:54Z",
+      "side": 1,
+      "message": "I think this field needs to be serializable to support drools persistence.",
+      "revId": "3ec966628529cfaec3626c4ba948434dc30f6190",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
