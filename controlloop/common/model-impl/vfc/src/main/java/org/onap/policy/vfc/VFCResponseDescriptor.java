@@ -42,7 +42,7 @@ public class VFCResponseDescriptor implements Serializable {
     private String responseId;
 
     @SerializedName("responseHistoryList")
-    public List<VFCResponseDescriptor> responseHistoryList;
+    public transient List<VFCResponseDescriptor> responseHistoryList;
 
     public VFCResponseDescriptor() {
 		// Default constructor for VFCResponseDescriptor
