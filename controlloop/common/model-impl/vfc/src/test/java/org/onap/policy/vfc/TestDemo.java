@@ -17,8 +17,8 @@
  */
 
 package org.onap.policy.vfc;
-
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Test;
 import org.onap.policy.vfc.util.Serialization;
@@ -65,10 +65,10 @@ public class TestDemo {
         responseDescriptor.setStatusDescription("OMC VMs are decommissioned in VIM");
         responseDescriptor.setErrorCode(null);
         responseDescriptor.setResponseId("11");
-
-	    response.getResponseDescriptor().responseHistoryList = new LinkedList<>();
-        response.getResponseDescriptor().responseHistoryList.add(responseDescriptor);
-
+        
+        List<VFCResponseDescriptor> responseHistoryList = response.getResponseDescriptor().getResponseHistoryList();
+		responseHistoryList = new LinkedList<>();
+		responseHistoryList.add(responseDescriptor);
         body = Serialization.gsonPretty.toJson(response);
         System.out.println(body);
 

@@ -41,8 +41,8 @@ public class VFCResponseDescriptor implements Serializable {
     @SerializedName("responseId")
     private String responseId;
 
-    @SerializedName("responseHistoryList")
-    public List<VFCResponseDescriptor> responseHistoryList;
+    @SerializedName("responseHistoryList") 
+    private List<VFCResponseDescriptor> responseHistoryList;
 
     public VFCResponseDescriptor() {
 		// Default constructor for VFCResponseDescriptor
