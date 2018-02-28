@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_abbe3e63",
+        "filename": "controlloop/common/model-impl/vfc/src/test/java/org/onap/policy/vfc/TestDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-02-28T12:45:39Z",
+      "side": 1,
+      "message": "I think the better way to do this is to use the setter:\n\nList\u003cVFCResponseDescriptor\u003e responseHistoryList \u003d new LinkedList\u003c\u003e();\nresponseHistoryList.add(responseDescriptor)\nresponse.getResponseDescriptor().setResponseHistoryList(responseHistoryList)\n\nThis ensures if someone changes the getResponseHistoryList() as immutable (more preferrable), this won\u0027t break.",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 46
+      },
+      "revId": "3001e1d4a16f92d383f2701f2e0abcaab242ed0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
