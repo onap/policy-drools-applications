@@ -42,7 +42,7 @@ public class AAINQExtraPropertyTest {
 		aaiNQExtraProperty.setPropertyValue("service-instance");		
 		assertNotNull(aaiNQExtraProperty); 
 
-		assertEquals(aaiNQExtraProperty.getPropertyName(), "model.model-name"); 
-		assertEquals(aaiNQExtraProperty.getPropertyValue(), "service-instance");		
+		assertEquals("model.model-name", aaiNQExtraProperty.getPropertyName()); 
+		assertEquals("service-instance", aaiNQExtraProperty.getPropertyValue());		
 	}
 }

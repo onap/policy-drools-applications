@@ -34,7 +34,7 @@ public class SoSimulatorJaxRs {
 	@Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
-	public String SoPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
+	public String soPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
 	{
 
 		// the requestID contained in the SO Response is a newly generated requestID 

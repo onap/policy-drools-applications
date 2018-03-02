@@ -46,9 +46,9 @@ public class AAINQTenantTest {
 		aaiNQTenant.setTenantName("dhv-test-tenant-name");
 		aaiNQTenant.setResourceVersion("1485366334");
 	    assertNotNull(aaiNQTenant); 
-		assertEquals(aaiNQTenant.getTenantId(), "dhv-test-tenant");
-		assertEquals(aaiNQTenant.getTenantName(), "dhv-test-tenant-name");
-		assertEquals(aaiNQTenant.getResourceVersion(), "1485366334");
+	    assertEquals("dhv-test-tenant", aaiNQTenant.getTenantId());
+	    assertEquals("dhv-test-tenant-name", aaiNQTenant.getTenantName());
+	    assertEquals("1485366334", aaiNQTenant.getResourceVersion());
 
 		logger.info(Serialization.gsonPretty.toJson(aaiNQTenant));
 	}

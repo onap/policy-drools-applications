@@ -46,7 +46,7 @@ public class AAINQInventoryResponseItemsTest {
 		AAINQInventoryResponseItems aaiNQInventoryResponseItems = new AAINQInventoryResponseItems();
         AAINQInventoryResponseItem serviceItem = new AAINQInventoryResponseItem();
         serviceItem.setModelName("service-instance");
-        assertEquals(serviceItem.getModelName(), "service-instance");
+        assertEquals("service-instance", serviceItem.getModelName());
 
         serviceItem.setServiceInstance(new AAINQServiceInstance());
         serviceItem.getServiceInstance().setServiceInstanceID("dhv-test-vhnfportal-service-instance-id");

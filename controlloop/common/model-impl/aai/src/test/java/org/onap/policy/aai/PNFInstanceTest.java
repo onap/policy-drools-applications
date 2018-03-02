@@ -47,7 +47,7 @@ public class PNFInstanceTest {
 		pnfInstance.setPNFType(PNFType.ENODEB); 
 		pnfInstance.setPNFSerial("pnf-serial-test"); 
 	    assertNotNull(pnfInstance); 
-	    assertEquals(pnfInstance.getPNFInstanceName(), "pnf-instance-name-test"); 
+	    assertEquals("pnf-instance-name-test", pnfInstance.getPNFInstanceName()); 
 
 	    PNFInstance pnfInstanceNull = new PNFInstance(null);
 	    assertNotNull(pnfInstanceNull);
