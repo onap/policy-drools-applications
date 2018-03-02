@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
-*/
+ */
 package org.onap.policy.aai;
 
 import static org.junit.Assert.*;
@@ -56,21 +56,21 @@ public class AAINQVfModuleTest {
 		aaiNQVfModule.setContrailServiceInstanceFqdn("example-contrail-service-instance-fqdn-val-86796");
 		aaiNQVfModule.setModelInvariantId("SomeId");
 		aaiNQVfModule.setModelVersionId("SomeVersion");
-	    assertNotNull(aaiNQVfModule); 
-		assertEquals(aaiNQVfModule.getVfModuleId(), "example-vf-module-id-val-49261");
-		assertEquals(aaiNQVfModule.getVfModuleName(), "example-vf-module-name-val-73074");
-		assertEquals(aaiNQVfModule.getHeatStackId(), "example-heat-stack-id-val-86300");
-		assertEquals(aaiNQVfModule.getOrchestrationStatus(), "example-orchestration-status-val-56523");
-		assertEquals(aaiNQVfModule.getIsBaseVfModule(), true);
-		assertEquals(aaiNQVfModule.getResourceVersion(), "1485366450");
-		assertEquals(aaiNQVfModule.getPersonaModelId(), "ef86f9c5-2165-44f3-8fc3-96018b609ea5");
-		assertEquals(aaiNQVfModule.getPersonaModelVersion(), "1.0");
-		assertEquals(aaiNQVfModule.getWidgetModelId(), "example-widget-model-id-val-92571");
-		assertEquals(aaiNQVfModule.getWidgetModelVersion(), "example-widget-model-version-val-83317");
-		assertEquals(aaiNQVfModule.getContrailServiceInstanceFqdn(), "example-contrail-service-instance-fqdn-val-86796");
-		assertEquals(aaiNQVfModule.getModelInvariantId(), "SomeId");
-		assertEquals(aaiNQVfModule.getModelVersionId(), "SomeVersion");
-	    logger.info(Serialization.gsonPretty.toJson(aaiNQVfModule));		
+		assertNotNull(aaiNQVfModule);
+		assertEquals("example-vf-module-id-val-49261", aaiNQVfModule.getVfModuleId());
+		assertEquals("example-vf-module-name-val-73074", aaiNQVfModule.getVfModuleName());
+		assertEquals("example-heat-stack-id-val-86300", aaiNQVfModule.getHeatStackId());
+		assertEquals("example-orchestration-status-val-56523", aaiNQVfModule.getOrchestrationStatus());
+		assertEquals(true, aaiNQVfModule.getIsBaseVfModule());
+		assertEquals("1485366450", aaiNQVfModule.getResourceVersion());
+		assertEquals("ef86f9c5-2165-44f3-8fc3-96018b609ea5", aaiNQVfModule.getPersonaModelId());
+		assertEquals("1.0", aaiNQVfModule.getPersonaModelVersion());
+		assertEquals("example-widget-model-id-val-92571", aaiNQVfModule.getWidgetModelId());
+		assertEquals("example-widget-model-version-val-83317", aaiNQVfModule.getWidgetModelVersion());
+		assertEquals("example-contrail-service-instance-fqdn-val-86796", aaiNQVfModule.getContrailServiceInstanceFqdn());
+		assertEquals("SomeId", aaiNQVfModule.getModelInvariantId());
+		assertEquals("SomeVersion", aaiNQVfModule.getModelVersionId());
+		logger.info(Serialization.gsonPretty.toJson(aaiNQVfModule));		
 	}
 
 }

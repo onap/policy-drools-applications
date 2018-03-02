@@ -44,15 +44,15 @@ public class AAIGETVnfResponseTest {
         response.setIsClosedLoopDisabled("false");
 		response.setResourceVersion("1494001988835");
 		response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
-		assertEquals(response.getVnfID(), "83f674e8-7555-44d7-9a39-bdc3770b0491"); 
-        assertEquals(response.getVnfName(), "lll_vnf_010317");
-        assertEquals(response.getVnfType(), "Basa-122216-Service/VidVsamp12BaseVolume 1");
-        assertEquals(response.getServiceId(), "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
-        assertEquals(response.getOrchestrationStatus(), "Created");
-        assertEquals(response.getInMaint(), "false");
-        assertEquals(response.getIsClosedLoopDisabled(), "false");
-        assertEquals(response.getResourceVersion(), "1494001988835");
-		assertEquals(response.getModelInvariantId(), "f18be3cd-d446-456e-9109-121d9b62feaa");
+		assertEquals("83f674e8-7555-44d7-9a39-bdc3770b0491", response.getVnfID()); 
+        assertEquals("lll_vnf_010317", response.getVnfName());
+        assertEquals("Basa-122216-Service/VidVsamp12BaseVolume 1", response.getVnfType());
+        assertEquals("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb", response.getServiceId());
+        assertEquals("Created", response.getOrchestrationStatus());
+        assertEquals("false", response.getInMaint());
+        assertEquals("false", response.getIsClosedLoopDisabled());
+        assertEquals("1494001988835", response.getResourceVersion());
+		assertEquals("f18be3cd-d446-456e-9109-121d9b62feaa", response.getModelInvariantId());
 		  
        	RelationshipList relationshipList = new RelationshipList();
        	Relationship     relationship = new Relationship();
@@ -76,8 +76,8 @@ public class AAIGETVnfResponseTest {
        	item.setPropertyKey("service-instance.service-instance-name"); 
        	item.setPropertyValue("lll_svc_010317"); 
        	relatedToProperty.getRelatedTo().add(item);
-       	assertEquals(item.getPropertyKey(), "service-instance.service-instance-name"); 
-       	assertEquals(item.getPropertyValue(), "lll_svc_010317"); 
+       	assertEquals("service-instance.service-instance-name", item.getPropertyKey()); 
+       	assertEquals("lll_svc_010317", item.getPropertyValue()); 
        	
         relationship.setRelatedTo("service-instance");
         relationship.setRelatedLink("/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/MSO-dev-service-type/service-instances/service-instance/e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");

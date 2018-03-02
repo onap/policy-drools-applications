@@ -46,8 +46,8 @@ public class RelationshipDataTest {
 		relationshipDataItem.setRelationshipKey("relationship-key");
 		relationshipDataItem.setRelationshipValue("relationship-value"); 
 		assertNotNull(relationshipDataItem);
-		assertEquals(relationshipDataItem.getRelationshipKey(), "relationship-key");
-		assertEquals(relationshipDataItem.getRelationshipValue(), "relationship-value"); 
+		assertEquals("relationship-key", relationshipDataItem.getRelationshipKey());
+		assertEquals("relationship-value", relationshipDataItem.getRelationshipValue());
 
 		relationshipData.getRelationshipData().add(relationshipDataItem); 
 		RelationshipDataItem relationshipDataItem2 = new RelationshipDataItem(); 

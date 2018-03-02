@@ -42,28 +42,28 @@ public class RelationshipListTest {
 	@Test
 	public void test() {
 		RelationshipList relationshipList = new RelationshipList();
-		Relationship relationship = new Relationship(); 
-		relationship.setRelatedLink("related-link"); 
-		relationship.setRelatedTo("related-to"); 
-		assertEquals(relationship.getRelatedLink(), "related-link"); 
-		assertEquals(relationship.getRelatedTo(), "related-to"); 
+		Relationship relationship = new Relationship();
+		relationship.setRelatedLink("related-link");
+		relationship.setRelatedTo("related-to");
+		assertEquals("related-link", relationship.getRelatedLink());
+		assertEquals("related-to", relationship.getRelatedTo());
 
 		RelatedToProperty relatedToProperty = new RelatedToProperty();
-		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.setPropertyKey("model.model-name"); 
+		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem();
+		relatedToPropertyItem.setPropertyKey("model.model-name");
 		relatedToPropertyItem.setPropertyValue("service-instance");
-		relatedToProperty.getRelatedTo().add(relatedToPropertyItem); 
-		RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem(); 
-		relatedToPropertyItem2.setPropertyKey("model.model-name2"); 
+		relatedToProperty.getRelatedTo().add(relatedToPropertyItem);
+		RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem();
+		relatedToPropertyItem2.setPropertyKey("model.model-name2");
 		relatedToPropertyItem2.setPropertyValue("service-instance2");
 		relatedToProperty.getRelatedTo().add(relatedToPropertyItem2);		
-		relationship.setRelatedToProperty(relatedToProperty); 
-		RelationshipDataItem relationshipDataItem = new RelationshipDataItem(); 
+		relationship.setRelatedToProperty(relatedToProperty);
+		RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
 		relationshipDataItem.setRelationshipKey("relationship-key");
-		relationshipDataItem.setRelationshipValue("relationship-value");  
-		RelationshipData relationshipData = new RelationshipData(); 
-		relationshipData.getRelationshipData().add(relationshipDataItem); 
-		relationship.setRelationshipData(relationshipData); 
+		relationshipDataItem.setRelationshipValue("relationship-value"); 
+		RelationshipData relationshipData = new RelationshipData();
+		relationshipData.getRelationshipData().add(relationshipDataItem);
+		relationship.setRelationshipData(relationshipData);
 		relationshipList.getRelationshipList().add(relationship);
 		
 	    assertNotNull(relationshipList);

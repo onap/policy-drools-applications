@@ -33,45 +33,47 @@ public class AAIGETVserverResponseTest {
 
 	@Test
 	public void test() {
-		AAIGETVserverResponse response = new AAIGETVserverResponse(); 
+		AAIGETVserverResponse response = new AAIGETVserverResponse();
 		
-		response.setVserverID("d0668d4f-c25e-4a1b-87c4-83845c01efd8"); 
-		response.setVserverName("USMSO1SX7NJ0103UJZZ01-vjunos0"); 
-		response.setVserverName2("vjunos0"); 
-		response.setVserverSelflink("https://aai-ext1.test.aaa.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/aaa-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8"); 
-		response.setInMaint("false"); 
-		response.setIsClosedLoopDisabled("false"); 
-		response.setResourceVersion("1494001931513"); 
+		response.setVserverID("d0668d4f-c25e-4a1b-87c4-83845c01efd8");
+		response.setVserverName("USMSO1SX7NJ0103UJZZ01-vjunos0");
+		response.setVserverName2("vjunos0");
+		response.setVserverSelflink("https://aai-ext1.test.aaa.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/aaa-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8");
+		response.setInMaint("false");
+		response.setIsClosedLoopDisabled("false");
+		response.setResourceVersion("1494001931513");
 		  
-		assertEquals(response.getVserverID(), "d0668d4f-c25e-4a1b-87c4-83845c01efd8"); 
-		assertEquals(response.getVserverName(), "USMSO1SX7NJ0103UJZZ01-vjunos0"); 
-		assertEquals(response.getVserverName2(), "vjunos0"); 
-		assertEquals(response.getVserverSelflink(), "https://aai-ext1.test.aaa.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/aaa-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8"); 
-		assertEquals(response.getInMaint(), "false"); 
-		assertEquals(response.getIsClosedLoopDisabled(), "false"); 
-		assertEquals(response.getResourceVersion(), "1494001931513"); 
+		assertEquals("d0668d4f-c25e-4a1b-87c4-83845c01efd8", response.getVserverID());
+		assertEquals("USMSO1SX7NJ0103UJZZ01-vjunos0", response.getVserverName());
+		assertEquals("vjunos0", response.getVserverName2());
+		assertEquals("https://aai-ext1.test.aaa.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/"
+				+ "aaa-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8",
+				response.getVserverSelflink());
+		assertEquals("false", response.getInMaint());
+		assertEquals("false", response.getIsClosedLoopDisabled());
+		assertEquals("1494001931513", response.getResourceVersion());
 
 		RelationshipList relationshipList = new RelationshipList();
        	Relationship     relationship = new Relationship();
        	RelationshipData relationshipData = new RelationshipData();
        	RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
        	
-       	relationshipDataItem.setRelationshipKey("customer.global-customer-id"); 
-       	relationshipDataItem.setRelationshipValue("MSO_1610_ST"); 
+       	relationshipDataItem.setRelationshipKey("customer.global-customer-id");
+       	relationshipDataItem.setRelationshipValue("MSO_1610_ST");
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.setRelationshipKey("service-subscription.service-type"); 
-       	relationshipDataItem.setRelationshipValue("MSO-dev-service-type"); 
+       	relationshipDataItem.setRelationshipKey("service-subscription.service-type");
+       	relationshipDataItem.setRelationshipValue("MSO-dev-service-type");
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
-       	relationshipDataItem.setRelationshipKey("service-instance.service-instance-id"); 
-       	relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970"); 
+       	relationshipDataItem.setRelationshipKey("service-instance.service-instance-id");
+       	relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
        	relationshipData.getRelationshipData().add(relationshipDataItem);
        	
        	RelatedToProperty relatedToProperty = new RelatedToProperty();
-       	RelatedToPropertyItem item = new RelatedToPropertyItem();  
-       	item.setPropertyKey("service-instance.service-instance-name"); 
-       	item.setPropertyValue("lll_svc_010317"); 
+       	RelatedToPropertyItem item = new RelatedToPropertyItem();
+       	item.setPropertyKey("service-instance.service-instance-name");
+       	item.setPropertyValue("lll_svc_010317");
        	relatedToProperty.getRelatedTo().add(item);
        	
         relationship.setRelatedTo("service-instance");
@@ -80,8 +82,8 @@ public class AAIGETVserverResponseTest {
         relationship.setRelatedToProperty(relatedToProperty);
        
         relationshipList.getRelationshipList().add(relationship);
-        response.setRelationshipList(relationshipList); 
-        assertEquals(response.getRelationshipList(), relationshipList); 
+        response.setRelationshipList(relationshipList);
+        assertEquals(response.getRelationshipList(), relationshipList);
         response.setRequestError(null);
         assertNull(response.getRequestError());
         
