@@ -32,7 +32,7 @@
 
   <artifactId>archetype-cl-amsterdam</artifactId>
 
-  <name>${artifactId}</name>
+  <name>${project.artifactId}</name>
   <description>Archetype to generate a yaml based control loop for ONAP Amsterdam release</description>
 
   <build>
