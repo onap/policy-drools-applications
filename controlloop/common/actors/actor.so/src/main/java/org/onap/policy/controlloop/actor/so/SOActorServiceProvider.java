@@ -28,6 +28,8 @@ import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
 import org.onap.policy.aai.AAIManager;
+import org.onap.policy.aai.AAINQExtraProperties;
+import org.onap.policy.aai.AAINQExtraProperty;
 import org.onap.policy.aai.AAINQInstanceFilters;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
 import org.onap.policy.aai.AAINQNamedQuery;
@@ -115,6 +117,11 @@ public class SOActorServiceProvider implements Actor {
 	 * @return a SO request conforming to the lcm API using the DMAAP wrapper
 	 */
 	public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy) {
+		String modelNamePropertyKey = "model-ver.model-name";
+		String modelVersionPropertyKey = "model-ver.model-version";
+		String modelVersionIdPropertyKey = "model-ver.model-version-id";
+		
+		
 		if (!SO_ACTOR.equals(policy.getActor()) || !RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
 			// for future extension
 			return null;
@@ -165,6 +172,7 @@ public class SOActorServiceProvider implements Actor {
 			logger.error("Either base or non-base vf module is not found from AAI response.");
 			return null;
 		}
+		
 
 		// Construct SO Request
 		SORequest request = new SORequest();
@@ -190,9 +198,19 @@ public class SOActorServiceProvider implements Actor {
 		request.getRequestDetails().getModelInfo().setModelType("vfModule");
 		request.getRequestDetails().getModelInfo().setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
 		request.getRequestDetails().getModelInfo().setModelVersionId(vfModuleItem.getVfModule().getModelVersionId());
-		request.getRequestDetails().getModelInfo().setModelName(vfModuleItem.getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-		request.getRequestDetails().getModelInfo().setModelVersion(vfModuleItem.getExtraProperties().getExtraProperty().get(4).getPropertyValue());
 
+		for (AAINQExtraProperty prop : vfModuleItem.getExtraProperties().getExtraProperty()) {
+			if (prop.getPropertyName().equals(modelNamePropertyKey)) {
+				request.getRequestDetails().getModelInfo().setModelName(prop.getPropertyValue());
+			}
+			else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
+				request.getRequestDetails().getModelInfo().setModelVersion(prop.getPropertyValue());
+			}
+			else {
+				continue;
+			}
+		}
+		
 		//
 		// requestInfo
 		//
@@ -230,17 +248,37 @@ public class SOActorServiceProvider implements Actor {
 		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
 		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(vnfServiceItem.getServiceInstance().getModelInvariantId());
 		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersionId(vnfServiceItem.getServiceInstance().getModelVersionId());
-		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(vnfServiceItem.getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-		relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(vnfServiceItem.getExtraProperties().getExtraProperty().get(4).getPropertyValue());
+		for (AAINQExtraProperty prop : vnfServiceItem.getExtraProperties().getExtraProperty()) {
+			if (prop.getPropertyName().equals(modelNamePropertyKey)) {
+				relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(prop.getPropertyValue());
+			}
+			else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
+				relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion(prop.getPropertyValue());
+			}
+			else {
+				continue;
+			}
+		}
 
 		// VNF Item
 		relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getGenericVNF().getVnfID());
 		relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
 		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
 		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(vnfItem.getGenericVNF().getModelInvariantId());
-		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(vnfItem.getExtraProperties().getExtraProperty().get(0).getPropertyValue());
-		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(vnfItem.getExtraProperties().getExtraProperty().get(1).getPropertyValue());
-		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(vnfItem.getExtraProperties().getExtraProperty().get(4).getPropertyValue());
+		for (AAINQExtraProperty prop : vnfItem.getExtraProperties().getExtraProperty()) {
+			if (prop.getPropertyName().equals(modelNamePropertyKey)) {
+				relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(prop.getPropertyValue());
+			}
+			else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
+				relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion(prop.getPropertyValue());
+			}
+			else if (prop.getPropertyName().equals(modelVersionIdPropertyKey)) {
+				relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(prop.getPropertyValue());
+			}			
+			else {
+				continue;
+			}
+		}		
 		relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(vnfItem.getGenericVNF().getVnfType().substring(vnfItem.getGenericVNF().getVnfType().lastIndexOf('/') + 1));
 
 		// Insert the Service Item and VNF Item	
