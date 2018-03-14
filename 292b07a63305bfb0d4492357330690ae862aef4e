@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d72d3a90",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-14T15:28:13Z",
+      "side": 1,
+      "message": "You don\u0027t need this else statement",
+      "range": {
+        "startLine": 258,
+        "startChar": 3,
+        "endLine": 260,
+        "endChar": 4
+      },
+      "revId": "292b07a63305bfb0d4492357330690ae862aef4e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7750e60a",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-14T15:28:13Z",
+      "side": 1,
+      "message": "You don\u0027t need this else statement",
+      "range": {
+        "startLine": 278,
+        "startChar": 3,
+        "endLine": 280,
+        "endChar": 4
+      },
+      "revId": "292b07a63305bfb0d4492357330690ae862aef4e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
