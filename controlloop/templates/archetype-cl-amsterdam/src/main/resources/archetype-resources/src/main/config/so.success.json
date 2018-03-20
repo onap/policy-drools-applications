@@ -3,5 +3,13 @@
     "instanceId": "ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff",
     "requestId": "e4f95e0c-a013-4530-8e59-c5c5f9e539b6"
   },
+  "request": {
+    "requestId": "e4f95e0c-a013-4530-8e59-c5c5f9e539b6",
+    "requestStatus": {
+      "percentProgress": 100,
+      "requestState": "COMPLETE",
+      "wasRolledBack": false
+    }
+  },
   "httpResponseCode": 200
 }
