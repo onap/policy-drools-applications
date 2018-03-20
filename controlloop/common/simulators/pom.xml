@@ -51,7 +51,6 @@
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
       <artifactId>so</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
