@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_55fd876d",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-20T17:47:55Z",
+      "side": 1,
+      "message": "Not sure with regards to SO - I think this is adjusted because it is slow but I will let Daniel confirm.\n\nIt can take up to 6 minutes for a Scale Out to happen in SO.",
+      "parentUuid": "5a93c517_daf0e493",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "3c89fca947d4ebf954f09873a416abbc69bd7b8b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3a222802",
         "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
         "patchSetId": 1
