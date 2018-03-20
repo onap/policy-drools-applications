@@ -19,234 +19,249 @@
  */
 package org.onap.policy.so;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyMap;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.startsWith;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.drools.core.WorkingMemory;
-import org.junit.Before;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
-import org.onap.policy.so.util.Serialization;
 
 public class TestSOManager {
-	private static WorkingMemory mockedWorkingMemory;
+    private static final String BASE_URI    = "http://localhost:46553/TestSOManager";
+    private static final String BASE_SO_URI = BASE_URI + "/SO";
+    private static HttpServer server;
 
-	private RESTManager   mockedRESTManager;
+    @BeforeClass
+    public static void setUp() {
+        final ResourceConfig rc = new ResourceConfig(TestSoDummyServer.class);
+        server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);  
+    }
 
-	private Pair<Integer, String> httpResponsePutOK;
-	private Pair<Integer, String> httpResponseGetOK;
-	private Pair<Integer, String> httpResponsePostOK;
-	private Pair<Integer, String> httpResponseErr;
+    @AfterClass
+    public static void tearDown() throws Exception {
+        server.shutdown();
+    }
 
-	private SORequest  request;
-	private SOResponse response;
+    @Test
+    public void testGrizzlyServer() throws ClientProtocolException, IOException {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet("http://localhost:46553/TestSOManager/SO/Stats");
+        CloseableHttpResponse response = httpclient.execute(httpGet);
 
-	@BeforeClass
-	public static void beforeTestSOManager() {
-		mockedWorkingMemory = mock(WorkingMemory.class);
-	}
+        String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+        assertTrue(returnBody.matches("^\\{\"GET\": [0-9]*,\"STAT\": [0-9]*,\"POST\": [0-9]*,\"PUT\": [0-9]*\\}$"));
+    }
 
-	@Before
-	public void setupMockedRest() {
-		mockedRESTManager   = mock(RESTManager.class);
+    @Test
+    public void testServiceInstantiation() throws IOException {
+        SOManager manager = new SOManager();
+        assertNotNull(manager);
+        manager.setRestGetTimeout(100);
 
-		httpResponsePutOK       = mockedRESTManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
-		httpResponseGetOK       = mockedRESTManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));
-		httpResponsePostOK      = mockedRESTManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
-		httpResponseErr         = mockedRESTManager.new Pair<>(200, "{");
-	}
+        SOResponse response = manager.createModuleInstance("http:/localhost:99999999", BASE_SO_URI, "sean", "citizen", null);
+        assertNull(response);
 
-	@Before
-	public void createRequestAndResponse() {
-		request = new SORequest();
-		SORequestStatus requestStatus = new SORequestStatus();
-		requestStatus.setRequestState("COMPLETE");
-		request.setRequestStatus(requestStatus);
-		request.setRequestId(UUID.randomUUID());
-		
-		response = new SOResponse();
-		
-		SORequestReferences requestReferences = new SORequestReferences();
-		String requestId = UUID.randomUUID().toString();
-		requestReferences.setRequestId(requestId);
-		response.setRequestReferences(requestReferences);
-		
-		response.setRequest(request);
-	}
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", null);
+        assertNull(response);
 
-	@Test
-	public void testSOInitiation() {
-		assertNotNull(new SOManager());
-	}
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", new SORequest());
+        assertNull(response);
 
-	@Test
-	public void testCreateModuleInstance() throws InterruptedException {
-		SOManager manager = new SOManager();
-		manager.setRestManager(mockedRESTManager);
-		
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "OK", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Null"), anyMap(), anyString(), anyString()))
-		.thenReturn(null);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "Null", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Not202"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponseErr);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "Not202", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetNull"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetNull"), anyMap()))
-		.thenReturn(null);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetNull", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetOK"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetOK"), anyMap()))
-		.thenReturn(httpResponseGetOK);
-		request.getRequestStatus().setRequestState("COMPLETE");
-		SOResponse response = manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetOK", request);
-		assertNotNull(response);
-		assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        SORequest request = new SORequest();
+        request.setRequestId(UUID.randomUUID());
+        request.setRequestScope("Test");
+        request.setRequestType("ReturnBadJson");
+        request.setStartTime("2018-03-23 16:31");
+        request.setRequestStatus(new SORequestStatus());
+        request.getRequestStatus().setRequestState("ONGOING");
 
-		response.getRequest().getRequestStatus().setRequestState("FAILED");
-		Pair<Integer, String> httpResponseGetOKRequestFailed = mockedRESTManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetOKReqFailed"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetOKReqFailed"), anyMap()))
-		.thenReturn(httpResponseGetOKRequestFailed);
-		response = manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetOKReqFailed", request);
-		assertNotNull(response);
-		assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNull(response);
 
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetBadJSON"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetBadJSON"), anyMap()))
-		.thenReturn(httpResponseErr);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetBadJSON", request));
+        request.setRequestType("ReturnCompleted");
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNotNull(response);
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
-		response.getRequest().getRequestStatus().setRequestState("IN-PROGRESS");
-		Pair<Integer, String> httpResponseGetOKRequestTimeout = mockedRESTManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetOKReqTimeout"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetOKReqTimeout"), anyMap()))
-		.thenReturn(httpResponseGetOKRequestTimeout);
-		
-		manager.setRestGetTimeout(10);
-		response = manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetOKReqTimeout", request);
-		assertNotNull(response);
-		assertEquals("IN-PROGRESS", response.getRequest().getRequestStatus().getRequestState());
-	}
+        request.setRequestType("ReturnFailed");
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNotNull(response);
+        assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
 
-	@Test
-	public void testAsyncSORestCall() throws InterruptedException {
-		PolicyEngine.manager.getEnvironment().put("so.url", "http://somewhere.over.the.rainbow.null");
-		PolicyEngine.manager.getEnvironment().put("so.username", "Dorothy");
-		PolicyEngine.manager.getEnvironment().put("so.password", "OK");
+        // Use scope to set the number of iterations we'll wait for
 
-		SOManager manager = new SOManager();
-		manager.setRestManager(mockedRESTManager);
-		
-		String serviceInstanceId = UUID.randomUUID().toString();
-		String vnfInstanceId = UUID.randomUUID().toString();
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow.null"), eq("policy"), eq("policy"), anyMap(), anyString(), anyString()))
-		.thenReturn(null);
+        request.setRequestType("ReturnOnging200");
+        request.setRequestScope(new Integer(10).toString());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNotNull(response);
+        assertNotNull(response.getRequest());
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
-		Future<?> asyncRestCallFuture = manager.asyncSORestCall(request.getRequestId().toString(), mockedWorkingMemory, serviceInstanceId, vnfInstanceId, request);
-		try {
-			assertNull(asyncRestCallFuture.get());
-		}
-		catch (Exception e) {
-			fail("test should not throw an exception");
-		}
+        request.setRequestType("ReturnOnging202");
+        request.setRequestScope(new Integer(20).toString());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNotNull(response);
+        assertNotNull(response.getRequest());
+        assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
-		PolicyEngine.manager.getEnvironment().put("so.url", "http://somewhere.over.the.rainbow.err");
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow.err"), eq("policy"), eq("policy"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponseErr);
+        // Test timeout after 20 attempts for a response
+        request.setRequestType("ReturnOnging202");
+        request.setRequestScope(new Integer(21).toString());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNull(response);
 
-		asyncRestCallFuture = manager.asyncSORestCall(request.getRequestId().toString(), mockedWorkingMemory, serviceInstanceId, vnfInstanceId, request);
-		try {
-			assertNull(asyncRestCallFuture.get());
-		}
-		catch (Exception e) {
-			System.err.println(e);
-			fail("test should not throw an exception");
-		}
-		
-		PolicyEngine.manager.getEnvironment().put("so.url", "http://somewhere.over.the.rainbow.ok");
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow.ok"), eq("policy"), eq("policy"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePostOK);
+        // Test bad response after 3 attempts for a response
+        request.setRequestType("ReturnBadAfterWait");
+        request.setRequestScope(new Integer(3).toString());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        assertNull(response);
+    }
 
-		asyncRestCallFuture = manager.asyncSORestCall(request.getRequestId().toString(), mockedWorkingMemory, serviceInstanceId, vnfInstanceId, request);
-		try {
-			assertNull(asyncRestCallFuture.get());
-		}
-		catch (Exception e) {
-			System.err.println(e);
-			fail("test should not throw an exception");
-		}
-/*		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Null"), anyMap(), anyString(), anyString()))
-		.thenReturn(null);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "Null", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("Not202"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponseErr);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "Not202", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetNull"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetNull"), anyMap()))
-		.thenReturn(null);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetNull", request));
-		
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetOK"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetOK"), anyMap()))
-		.thenReturn(httpResponseGetOK);
-		request.getRequestStatus().setRequestState("COMPLETE");
-		SOResponse response = manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetOK", request);
-		assertNotNull(response);
-		assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+    @Test
+    public void testVfModuleCreation() throws IOException {
+        SOManager manager = new SOManager();
+        assertNotNull(manager);
+        manager.setRestGetTimeout(100);
 
-		response.getRequest().getRequestStatus().setRequestState("FAILED");
-		Pair<Integer, String> httpResponseGetOKRequestFailed = mockedRESTManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetOKReqFailed"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetOKReqFailed"), anyMap()))
-		.thenReturn(httpResponseGetOKRequestFailed);
-		response = manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetOKReqFailed", request);
-		assertNotNull(response);
-		assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
+        PolicyEngine.manager.setEnvironmentProperty("so.username", "sean");
+        PolicyEngine.manager.setEnvironmentProperty("so.password", "citizen");
 
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetBadJSON"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetBadJSON"), anyMap()))
-		.thenReturn(httpResponseErr);
-		assertNull(manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetBadJSON", request));
+        WorkingMemory wm = new DummyWorkingMemory();
 
-		response.getRequest().getRequestStatus().setRequestState("IN-PROGRESS");
-		Pair<Integer, String> httpResponseGetOKRequestTimeout = mockedRESTManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));
-		when(mockedRESTManager.post(startsWith("http://somewhere.over.the.rainbow"), eq("Dorothy"), eq("PutOKGetOKReqTimeout"), anyMap(), anyString(), anyString()))
-		.thenReturn(httpResponsePutOK);
-		when(mockedRESTManager.get(startsWith("http://somewhere.over.the.rainbow/InOz"), eq("Dorothy"), eq("PutOKGetOKReqTimeout"), anyMap()))
-		.thenReturn(httpResponseGetOKRequestTimeout);
-		
-		manager.setRestGetTimeout(10);
-		response = manager.createModuleInstance("http://somewhere.over.the.rainbow", "http://somewhere.over.the.rainbow/InOz", "Dorothy", "PutOKGetOKReqTimeout", request);
-		assertNotNull(response);
-		assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
-		*/
-	}
+        PolicyEngine.manager.setEnvironmentProperty("so.url", "http:/localhost:99999999");
+        Future<SOResponse> asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), null);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+        
+        PolicyEngine.manager.setEnvironmentProperty("so.url", BASE_SO_URI);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), null);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), new SORequest());
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        SORequest request = new SORequest();
+        request.setRequestId(UUID.randomUUID());
+        request.setRequestScope("Test");
+        request.setRequestType("ReturnBadJson");
+        request.setStartTime("2018-03-23 16:31");
+        request.setRequestStatus(new SORequestStatus());
+        request.getRequestStatus().setRequestState("ONGOING");
+
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        request.setRequestType("ReturnCompleted");
+
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        request.setRequestType("ReturnFailed");
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        // Use scope to set the number of iterations we'll wait for
+
+        request.setRequestType("ReturnOnging200");
+        request.setRequestScope(new Integer(10).toString());
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertNotNull(response.getRequest());
+            assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        request.setRequestType("ReturnOnging202");
+        request.setRequestScope(new Integer(20).toString());
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertNotNull(response.getRequest());
+            assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        // Test timeout after 20 attempts for a response
+        request.setRequestType("ReturnOnging202");
+        request.setRequestScope(new Integer(21).toString());
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+
+        // Test bad response after 3 attempts for a response
+        request.setRequestType("ReturnBadAfterWait");
+        request.setRequestScope(new Integer(3).toString());
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        }
+        catch (Exception e) {
+            fail("test should not throw an exception");
+        }
+    }
 }

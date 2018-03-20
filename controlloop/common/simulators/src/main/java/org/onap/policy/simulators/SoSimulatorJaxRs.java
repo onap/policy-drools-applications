@@ -20,6 +20,8 @@
 
 package org.onap.policy.simulators;
 
+import java.util.UUID;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,28 +29,37 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.onap.policy.so.SORequest;
+import org.onap.policy.so.SORequestReferences;
+import org.onap.policy.so.SORequestStatus;
+import org.onap.policy.so.SOResponse;
+
+import com.att.aft.dme2.internal.gson.Gson;
+
 @Path("/serviceInstances")
 public class SoSimulatorJaxRs {
-
-    /**
-     * SO post query.
-     * 
-     * @param serviceInstanceId the service instance Id
-     * @param vnfInstanceId the VNF Id
-     * @return the response
-     */
+    
     @POST
     @Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String soPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId,
-            @PathParam("vnfInstanceId") String vnfInstanceId) {
+    public String soPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
+    {
+        SORequest request = new SORequest();
+        SORequestStatus requestStatus = new SORequestStatus();
+        requestStatus.setRequestState("COMPLETE");
+        request.setRequestStatus(requestStatus);
+        request.setRequestId(UUID.randomUUID());
+        
+        SOResponse response = new SOResponse();
+        
+        SORequestReferences requestReferences = new SORequestReferences();
+        String requestId = UUID.randomUUID().toString();
+        requestReferences.setRequestId(requestId);
+        response.setRequestReferences(requestReferences);
+        
+        response.setRequest(request);
 
-        // the requestID contained in the SO Response is a newly generated requestID
-        // with no relation to the requestID in Policy controlLoopEvent
-        return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": \""
-                + "rq1234d1-5a33-ffdf-23ab-12abad84e331\" }}";
-
+        return new Gson().toJson(response);
     }
-
 }
