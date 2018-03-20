@@ -24,6 +24,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.annotations.SerializedName;
+
 public class VirtualControlLoopEvent extends ControlLoopEvent {
 
 	/**
@@ -32,6 +34,7 @@ public class VirtualControlLoopEvent extends ControlLoopEvent {
 	private static final long serialVersionUID = -5752405682246066226L;
 	private Instant closedLoopAlarmStart;
 	private Instant closedLoopAlarmEnd;
+	@SerializedName("AAI")
 	private Map<String, String> aai = new HashMap<>();
 
 	public VirtualControlLoopEvent() {
