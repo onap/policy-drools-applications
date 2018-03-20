@@ -50,15 +50,15 @@ public final class SOManager {
 	static final String MEDIA_TYPE = "application/json";
 
 	static final String LINE_SEPARATOR = System.lineSeparator();
-	
+
 	// REST get timeout value in milliseconds
 	private static final long DEFAULT_GET_REQUEST_TIMEOUT = 20000;
 
 	// The REST manager used for processing REST calls for this VFC manager
 	private RESTManager restManager;
-	
+
 	private long restGetTimeout = DEFAULT_GET_REQUEST_TIMEOUT;
-	
+
 	public SOManager() {
 		restManager = new RESTManager();
 	}
@@ -94,14 +94,13 @@ public final class SOManager {
 			logger.debug(body);
 
 			String requestId = response.getRequestReferences().getRequestId();
-			int attemptsLeft = 20;
 
 			String urlGet = urlBase + "/orchestrationRequests/v2/" + requestId;
 			SOResponse responseGet = null;
 
-			while (attemptsLeft-- > 0) {
+			for (int attemptsLeft = 20; attemptsLeft > 0; attemptsLeft--) {
 				Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
-				if (httpDetailsGet == null) {
+				if (!httpResultIsNullFree(httpDetailsGet)) {
 					return null;
 				}
 
@@ -191,32 +190,35 @@ public final class SOManager {
 				headers.put("Accept", MEDIA_TYPE);
 				headers.put("Authorization", "Basic " + new String(encodedBytes));
 
-				Gson gsonPretty =
-						new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+				Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
 				String soJson = gsonPretty.toJson(request);
-
 				SOResponse so = new SOResponse();
-				netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
-				Pair<Integer, String> httpResponse = restManager.post(url, "policy",	"policy", headers, MEDIA_TYPE, soJson);
+				
+				int attemptsLeft = 20;
+				while (attemptsLeft > 0) {
+					netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
+					Pair<Integer, String> httpResponse = restManager.post(url, "policy",	"policy", headers, MEDIA_TYPE, soJson);
 
-				if (httpResponse != null) {
-					if (httpResponse.b != null && httpResponse.a != null) {
-						netLogger.info("[IN|{}|{}|]{}{}", url, "SO", LINE_SEPARATOR,	httpResponse.b);
+					if (!httpResultIsNullFree(httpResponse)) {
+						logger.error("SO Response or Response status/code is null.");
+						so.setHttpResponseCode(999);
+						break;
+					}	
+					
+					netLogger.info("[IN|{}|{}|]{}{}", url, "SO", LINE_SEPARATOR,	httpResponse.b);
+					so = new Gson().fromJson(httpResponse.b, SOResponse.class);
 
-						Gson gson = new Gson();
-						so = gson.fromJson(httpResponse.b, SOResponse.class);
+					if (httpResponse.a == 200  &&
+							(so.getRequest().getRequestStatus().getRequestState().equalsIgnoreCase("COMPLETE")
+									|| so.getRequest().getRequestStatus().getRequestState().equalsIgnoreCase("FAILED"))) {
 						so.setHttpResponseCode(httpResponse.a);
+						attemptsLeft = 0;
 					}
 					else {
-						logger.error("SO Response status/code is null.");
-						so.setHttpResponseCode(999);
+						Thread.sleep(restGetTimeout);
+						attemptsLeft--;
 					}
-
-				}
-				else {
-					logger.error("SO Response returned null.");
-					so.setHttpResponseCode(999);
 				}
 
 				SOResponseWrapper soWrapper = new SOResponseWrapper(so, requestID);
@@ -243,12 +245,21 @@ public final class SOManager {
 	protected void setRestGetTimeout(final long restGetTimeout) {
 		this.restGetTimeout = restGetTimeout;
 	}
-	
+
 	/**
 	 * Protected setter for rest manager to allow mocked rest manager to be used for testing 
 	 * @param restManager the test REST manager
 	 */
 	protected void setRestManager(final RESTManager restManager) {
 		this.restManager = restManager;
+	}
+
+	/**
+	 * Check that a HTTP operation result has no nulls
+	 * @param httpOperationResult the result to check
+	 * @return true if no nulls are found
+	 */
+	private boolean httpResultIsNullFree(Pair<Integer, String> httpOperationResult) {
+		return httpOperationResult != null && httpOperationResult.a != null && httpOperationResult.b != null;
 	}
 }
