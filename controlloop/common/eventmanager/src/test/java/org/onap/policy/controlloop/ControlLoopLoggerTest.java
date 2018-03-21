@@ -25,25 +25,23 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.ControlLoopLogger;
 import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
 
 public class ControlLoopLoggerTest {
-	@Test
-	public void testControlLoopLogger() throws ControlLoopException {
-		ControlLoopLogger logger = new ControlLoopLogger.Factory().buildLogger(ControlLoopLoggerStdOutImpl.class.getCanonicalName());
-		assertNotNull(logger);
-		logger.info("a log message", "and another", " and another");
-		logger.metrics("a metric", "and another", " and another");
-		logger.metrics(Double.valueOf(3));
+    @Test
+    public void testControlLoopLogger() throws ControlLoopException {
+        ControlLoopLogger logger =
+                new ControlLoopLogger.Factory().buildLogger(ControlLoopLoggerStdOutImpl.class.getCanonicalName());
+        assertNotNull(logger);
+        logger.info("a log message", "and another", " and another");
+        logger.metrics("a metric", "and another", " and another");
+        logger.metrics(Double.valueOf(3));
 
-		try {
-			new ControlLoopLogger.Factory().buildLogger("java.lang.String");
-			fail("test should throw an exception here");
-		}
-		catch (Exception e) {
-			assertEquals("Cannot load class java.lang.String as a control loop logger", e.getMessage());
-		}
-	}
+        try {
+            new ControlLoopLogger.Factory().buildLogger("java.lang.String");
+            fail("test should throw an exception here");
+        } catch (Exception e) {
+            assertEquals("Cannot load class java.lang.String as a control loop logger", e.getMessage());
+        }
+    }
 }

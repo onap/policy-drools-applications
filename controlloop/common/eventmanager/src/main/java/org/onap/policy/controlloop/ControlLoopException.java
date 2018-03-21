@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,26 +21,26 @@
 package org.onap.policy.controlloop;
 
 public class ControlLoopException extends Exception {
-	private static final long serialVersionUID = 6400725747325923701L;
+    private static final long serialVersionUID = 6400725747325923701L;
 
-	public ControlLoopException() {
-		super();
-	}
+    public ControlLoopException() {
+        super();
+    }
 
-	public ControlLoopException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+    public ControlLoopException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 
-	public ControlLoopException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public ControlLoopException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public ControlLoopException(String message) {
-		super(message);
-	}
+    public ControlLoopException(String message) {
+        super(message);
+    }
 
-	public ControlLoopException(Throwable cause) {
-		super(cause);
-	}
+    public ControlLoopException(Throwable cause) {
+        super(cause);
+    }
 }

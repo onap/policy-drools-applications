@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * AppcLcmActorServiceProvider
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQInstanceFilters;
 import org.onap.policy.aai.AAINQInventoryResponseItem;
-import org.onap.policy.aai.AAIManager;
 import org.onap.policy.aai.AAINQNamedQuery;
 import org.onap.policy.aai.AAINQQueryParameters;
 import org.onap.policy.aai.AAINQRequest;
@@ -57,302 +57,284 @@ import org.slf4j.LoggerFactory;
 
 public class AppcLcmActorServiceProvider implements Actor {
 
-	private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProvider.class);
 
-	/* To be used in future releases to restart a single vm */
-	private static final String APPC_VM_ID = "vm-id";
-	
-	// Strings for targets
-	private static final String TARGET_VM  = "VM";
-	private static final String TARGET_VNF = "VNF";
+    /* To be used in future releases to restart a single vm */
+    private static final String APPC_VM_ID = "vm-id";
 
-	// Strings for recipes
-	private static final String RECIPE_RESTART = "Restart";
-	private static final String RECIPE_REBUILD = "Rebuild";
-	private static final String RECIPE_MIGRATE = "Migrate";
-	private static final String RECIPE_MODIFY  = "ConfigModify";
-	
-	/* To be used in future releases when LCM ConfigModify is used */
-	private static final String APPC_REQUEST_PARAMS = "request-parameters";
-	private static final String APPC_CONFIG_PARAMS = "configuration-parameters";
+    // Strings for targets
+    private static final String TARGET_VM = "VM";
+    private static final String TARGET_VNF = "VNF";
 
-	private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
-	private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-			.put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
-			.put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
-	private static final ImmutableMap<String, List<String>> payloads = new ImmutableMap.Builder<String, List<String>>()
-			.put(RECIPE_RESTART, ImmutableList.of(APPC_VM_ID))
-			.put(RECIPE_MODIFY, ImmutableList.of(APPC_REQUEST_PARAMS, APPC_CONFIG_PARAMS)).build();
+    // Strings for recipes
+    private static final String RECIPE_RESTART = "Restart";
+    private static final String RECIPE_REBUILD = "Rebuild";
+    private static final String RECIPE_MIGRATE = "Migrate";
+    private static final String RECIPE_MODIFY = "ConfigModify";
 
-	@Override
-	public String actor() {
-		return "APPC";
-	}
+    /* To be used in future releases when LCM ConfigModify is used */
+    private static final String APPC_REQUEST_PARAMS = "request-parameters";
+    private static final String APPC_CONFIG_PARAMS = "configuration-parameters";
 
-	@Override
-	public List<String> recipes() {
-		return ImmutableList.copyOf(recipes);
-	}
+    private static final ImmutableList<String> recipes =
+            ImmutableList.of(RECIPE_RESTART, RECIPE_REBUILD, RECIPE_MIGRATE, RECIPE_MODIFY);
+    private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
+            .put(RECIPE_RESTART, ImmutableList.of(TARGET_VM)).put(RECIPE_REBUILD, ImmutableList.of(TARGET_VM))
+            .put(RECIPE_MIGRATE, ImmutableList.of(TARGET_VM)).put(RECIPE_MODIFY, ImmutableList.of(TARGET_VNF)).build();
+    private static final ImmutableMap<String, List<String>> payloads =
+            new ImmutableMap.Builder<String, List<String>>().put(RECIPE_RESTART, ImmutableList.of(APPC_VM_ID))
+                    .put(RECIPE_MODIFY, ImmutableList.of(APPC_REQUEST_PARAMS, APPC_CONFIG_PARAMS)).build();
 
-	@Override
-	public List<String> recipeTargets(String recipe) {
-		return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
-	}
+    @Override
+    public String actor() {
+        return "APPC";
+    }
 
-	@Override
-	public List<String> recipePayloads(String recipe) {
-		return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
-	}
+    @Override
+    public List<String> recipes() {
+        return ImmutableList.copyOf(recipes);
+    }
 
-	/**
-	 * This method recursively traverses the A&AI named query response
-	 * to find the generic-vnf object that contains a model-invariant-id
-	 * that matches the resourceId of the policy. Once this match is found
-	 * the generic-vnf object's vnf-id is returned.
-	 * 
-	 * @param items
-	 *          the list of items related to the vnf returned by A&AI
-	 * @param resourceId
-	 *          the id of the target from the sdc catalog
-	 *          
-	 * @return the vnf-id of the target vnf to act upon or null if not found
-	 */
-	private static String parseAAIResponse(List<AAINQInventoryResponseItem> items, String resourceId) {
-		String vnfId = null;
-		for (AAINQInventoryResponseItem item: items) {
-			if ((item.getGenericVNF() != null)
-					&& (item.getGenericVNF().getModelInvariantId() != null) 
-					&& (resourceId.equals(item.getGenericVNF().getModelInvariantId()))) {
-				vnfId = item.getGenericVNF().getVnfID();
-				break;
-			} 
-			else {
-				if((item.getItems() != null) && (item.getItems().getInventoryResponseItems() != null)) {
-					vnfId = parseAAIResponse(item.getItems().getInventoryResponseItems(), resourceId);
-				}
-			}
-		}
-		return vnfId;
-	}
+    @Override
+    public List<String> recipeTargets(String recipe) {
+        return ImmutableList.copyOf(targets.getOrDefault(recipe, Collections.emptyList()));
+    }
 
-	/**
-	 * Constructs an A&AI Named Query using a source vnf-id to determine 
-	 * the vnf-id of the target entity specified in the policy to act upon.
-	 * 
-	 * @param resourceId
-	 *            the id of the target from the sdc catalog
-	 *            
-	 * @param sourceVnfId
-	 *            the vnf id of the source entity reporting the alert
-	 *            
-	 * @return the target entities vnf id to act upon
-	 * @throws AAIException 
-	 */
-	public static String vnfNamedQuery(String resourceId, String sourceVnfId) throws AAIException {
+    @Override
+    public List<String> recipePayloads(String recipe) {
+        return ImmutableList.copyOf(payloads.getOrDefault(recipe, Collections.emptyList()));
+    }
 
-		//TODO: This request id should not be hard coded in future releases
-		UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
+    /**
+     * This method recursively traverses the A&AI named query response to find the generic-vnf
+     * object that contains a model-invariant-id that matches the resourceId of the policy. Once
+     * this match is found the generic-vnf object's vnf-id is returned.
+     * 
+     * @param items the list of items related to the vnf returned by A&AI
+     * @param resourceId the id of the target from the sdc catalog
+     * 
+     * @return the vnf-id of the target vnf to act upon or null if not found
+     */
+    private static String parseAaiResponse(List<AAINQInventoryResponseItem> items, String resourceId) {
+        String vnfId = null;
+        for (AAINQInventoryResponseItem item : items) {
+            if ((item.getGenericVNF() != null) && (item.getGenericVNF().getModelInvariantId() != null)
+                    && (resourceId.equals(item.getGenericVNF().getModelInvariantId()))) {
+                vnfId = item.getGenericVNF().getVnfID();
+                break;
+            } else {
+                if ((item.getItems() != null) && (item.getItems().getInventoryResponseItems() != null)) {
+                    vnfId = parseAaiResponse(item.getItems().getInventoryResponseItems(), resourceId);
+                }
+            }
+        }
+        return vnfId;
+    }
 
-		AAINQRequest aaiRequest = new AAINQRequest();
-		aaiRequest.setQueryParameters(new AAINQQueryParameters());
-		aaiRequest.getQueryParameters().setNamedQuery(new AAINQNamedQuery());
-		aaiRequest.getQueryParameters().getNamedQuery().setNamedQueryUUID(requestId);
+    /**
+     * Constructs an A&AI Named Query using a source vnf-id to determine the vnf-id of the target
+     * entity specified in the policy to act upon.
+     * 
+     * @param resourceId the id of the target from the sdc catalog
+     * 
+     * @param sourceVnfId the vnf id of the source entity reporting the alert
+     * 
+     * @return the target entities vnf id to act upon
+     * @throws AAIException it an error occurs
+     */
+    public static String vnfNamedQuery(String resourceId, String sourceVnfId) throws AAIException {
 
-		Map<String, Map<String, String>> filter = new HashMap<>();        
-		Map<String, String> filterItem = new HashMap<>();
+        // TODO: This request id should not be hard coded in future releases
+        UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
 
-		filterItem.put("vnf-id", sourceVnfId);
-		filter.put("generic-vnf", filterItem);
+        AAINQRequest aaiRequest = new AAINQRequest();
+        aaiRequest.setQueryParameters(new AAINQQueryParameters());
+        aaiRequest.getQueryParameters().setNamedQuery(new AAINQNamedQuery());
+        aaiRequest.getQueryParameters().getNamedQuery().setNamedQueryUUID(requestId);
 
-		aaiRequest.setInstanceFilters(new AAINQInstanceFilters());
-		aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
+        Map<String, Map<String, String>> filter = new HashMap<>();
+        Map<String, String> filterItem = new HashMap<>();
 
-		AAINQResponse aaiResponse = new AAIManager(new RESTManager()).postQuery(
-				getPEManagerEnvProperty("aai.url"), getPEManagerEnvProperty("aai.username"), getPEManagerEnvProperty("aai.password"), 
-				aaiRequest, requestId);
+        filterItem.put("vnf-id", sourceVnfId);
+        filter.put("generic-vnf", filterItem);
 
-		if (aaiResponse == null) {
-			throw new AAIException("The named query response was null");
-		}
+        aaiRequest.setInstanceFilters(new AAINQInstanceFilters());
+        aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
 
-		String targetVnfId = parseAAIResponse(aaiResponse.getInventoryResponseItems(), resourceId);
-		if (targetVnfId == null) {
-			throw new AAIException("Target vnf-id could not be found"); 
-		}
+        AAINQResponse aaiResponse = new AAIManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
+                getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiRequest,
+                requestId);
 
-		return targetVnfId;
-	}
+        if (aaiResponse == null) {
+            throw new AAIException("The named query response was null");
+        }
 
-	/**
-	 * Constructs an APPC request conforming to the lcm API.
-	 * The actual request is constructed and then placed in a 
-	 * wrapper object used to send through DMAAP.
-	 * 
-	 * @param onset
-	 *            the event that is reporting the alert for policy
-	 *            to perform an action        
-	 * @param operation
-	 *            the control loop operation specifying the actor,
-	 *            operation, target, etc.  
-	 * @param policy
-	 *            the policy the was specified from the yaml generated
-	 *            by CLAMP or through the Policy GUI/API                        
-	 * @return an APPC request conforming to the lcm API using the DMAAP wrapper
-	 */
-	public static LCMRequestWrapper constructRequest(VirtualControlLoopEvent onset, 
-			ControlLoopOperation operation, Policy policy, String targetVnf) {
+        String targetVnfId = parseAaiResponse(aaiResponse.getInventoryResponseItems(), resourceId);
+        if (targetVnfId == null) {
+            throw new AAIException("Target vnf-id could not be found");
+        }
 
-		/* Construct an APPC request using LCM Model */
+        return targetVnfId;
+    }
 
-		/*
-		 * The actual LCM request is placed in a wrapper used to send
-		 * through dmaap. The current version is 2.0 as of R1.
-		 */
-		LCMRequestWrapper dmaapRequest = new LCMRequestWrapper();
-		dmaapRequest.setVersion("2.0");
-		dmaapRequest.setCorrelationId(onset.getRequestID() + "-" + operation.getSubRequestId());
-		dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
-		dmaapRequest.setType("request");
+    /**
+     * Constructs an APPC request conforming to the lcm API. The actual request is constructed and
+     * then placed in a wrapper object used to send through DMAAP.
+     * 
+     * @param onset the event that is reporting the alert for policy to perform an action
+     * @param operation the control loop operation specifying the actor, operation, target, etc.
+     * @param policy the policy the was specified from the yaml generated by CLAMP or through the
+     *        Policy GUI/API
+     * @return an APPC request conforming to the lcm API using the DMAAP wrapper
+     */
+    public static LCMRequestWrapper constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+            Policy policy, String targetVnf) {
 
-		/* This is the actual request that is placed in the dmaap wrapper. */
-		LCMRequest appcRequest = new LCMRequest();
+        /* Construct an APPC request using LCM Model */
 
-		/* The common header is a required field for all APPC requests. */
-		LCMCommonHeader requestCommonHeader = new LCMCommonHeader();
-		requestCommonHeader.setOriginatorId(onset.getRequestID().toString());
-		requestCommonHeader.setRequestId(onset.getRequestID());
-		requestCommonHeader.setSubRequestId(operation.getSubRequestId());
+        /*
+         * The actual LCM request is placed in a wrapper used to send through dmaap. The current
+         * version is 2.0 as of R1.
+         */
+        LCMRequestWrapper dmaapRequest = new LCMRequestWrapper();
+        dmaapRequest.setVersion("2.0");
+        dmaapRequest.setCorrelationId(onset.getRequestID() + "-" + operation.getSubRequestId());
+        dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
+        dmaapRequest.setType("request");
 
-		appcRequest.setCommonHeader(requestCommonHeader);
+        /* This is the actual request that is placed in the dmaap wrapper. */
+        final LCMRequest appcRequest = new LCMRequest();
 
-		/* 
-		 * Action Identifiers are required for APPC LCM requests.
-		 * For R1, the recipes supported by Policy only require
-		 * a vnf-id.
-		 */
-		HashMap<String, String> requestActionIdentifiers = new HashMap<>();
-		requestActionIdentifiers.put("vnf-id", targetVnf);
+        /* The common header is a required field for all APPC requests. */
+        LCMCommonHeader requestCommonHeader = new LCMCommonHeader();
+        requestCommonHeader.setOriginatorId(onset.getRequestID().toString());
+        requestCommonHeader.setRequestId(onset.getRequestID());
+        requestCommonHeader.setSubRequestId(operation.getSubRequestId());
 
-		appcRequest.setActionIdentifiers(requestActionIdentifiers);
+        appcRequest.setCommonHeader(requestCommonHeader);
 
-		/* 
-		 * An action is required for all APPC requests, this will 
-		 * be the recipe specified in the policy.
-		 */
-		appcRequest.setAction(policy.getRecipe().substring(0, 1).toUpperCase() 
-				+ policy.getRecipe().substring(1).toLowerCase());
+        /*
+         * Action Identifiers are required for APPC LCM requests. For R1, the recipes supported by
+         * Policy only require a vnf-id.
+         */
+        HashMap<String, String> requestActionIdentifiers = new HashMap<>();
+        requestActionIdentifiers.put("vnf-id", targetVnf);
 
-		/*
-		 * For R1, the payloads will not be required for the Restart, 
-		 * Rebuild, or Migrate recipes. APPC will populate the payload
-		 * based on A&AI look up of the vnd-id provided in the action
-		 * identifiers.
-		 */
-		if (RECIPE_RESTART.equalsIgnoreCase(policy.getRecipe()) || RECIPE_REBUILD.equalsIgnoreCase(policy.getRecipe())
-				|| RECIPE_MIGRATE.equalsIgnoreCase(policy.getRecipe())) {
-			appcRequest.setPayload(null);
-		}
+        appcRequest.setActionIdentifiers(requestActionIdentifiers);
 
-		/* 
-		 * Once the LCM request is constructed, add it into the 
-		 * body of the dmaap wrapper.
-		 */
-		dmaapRequest.setBody(appcRequest);
+        /*
+         * An action is required for all APPC requests, this will be the recipe specified in the
+         * policy.
+         */
+        appcRequest.setAction(
+                policy.getRecipe().substring(0, 1).toUpperCase() + policy.getRecipe().substring(1).toLowerCase());
 
-		/* Return the request to be sent through dmaap. */
-		return dmaapRequest;
-	}
+        /*
+         * For R1, the payloads will not be required for the Restart, Rebuild, or Migrate recipes.
+         * APPC will populate the payload based on A&AI look up of the vnd-id provided in the action
+         * identifiers.
+         */
+        if (RECIPE_RESTART.equalsIgnoreCase(policy.getRecipe()) || RECIPE_REBUILD.equalsIgnoreCase(policy.getRecipe())
+                || RECIPE_MIGRATE.equalsIgnoreCase(policy.getRecipe())) {
+            appcRequest.setPayload(null);
+        }
 
-	/**
-	 * Parses the operation attempt using the subRequestId
-	 * of APPC response.
-	 * 
-	 * @param subRequestId
-	 *            the sub id used to send to APPC, Policy sets
-	 *            this using the operation attempt
-	 *            
-	 * @return the current operation attempt
-	 */
-	public static Integer parseOperationAttempt(String subRequestId) {
-		Integer operationAttempt;
-		try {
-			operationAttempt = Integer.parseInt(subRequestId);
-		} catch (NumberFormatException e) {
-			logger.debug("A NumberFormatException was thrown due to error in parsing the operation attempt");
-			return null;
-		}
-		return operationAttempt;
-	}
+        /*
+         * Once the LCM request is constructed, add it into the body of the dmaap wrapper.
+         */
+        dmaapRequest.setBody(appcRequest);
 
-	/**
-	 * Processes the APPC LCM response sent from APPC. Determines
-	 * if the APPC operation was successful/unsuccessful and maps
-	 * this to the corresponding Policy result.
-	 * 
-	 * @param dmaapResponse
-	 *            the dmaap wrapper message that contains the
-	 *            actual APPC reponse inside the body field
-	 *                       
-	 * @return an key-value pair that contains the Policy result
-	 * and APPC response message
-	 */
-	public static SimpleEntry<PolicyResult, String> processResponse(LCMResponseWrapper dmaapResponse) {
-		/* The actual APPC response is inside the wrapper's body field. */
-		LCMResponse appcResponse = dmaapResponse.getBody();
+        /* Return the request to be sent through dmaap. */
+        return dmaapRequest;
+    }
 
-		/* The message returned in the APPC response. */
-		String message;
+    /**
+     * Parses the operation attempt using the subRequestId of APPC response.
+     * 
+     * @param subRequestId the sub id used to send to APPC, Policy sets this using the operation
+     *        attempt
+     * 
+     * @return the current operation attempt
+     */
+    public static Integer parseOperationAttempt(String subRequestId) {
+        Integer operationAttempt;
+        try {
+            operationAttempt = Integer.parseInt(subRequestId);
+        } catch (NumberFormatException e) {
+            logger.debug("A NumberFormatException was thrown due to error in parsing the operation attempt");
+            return null;
+        }
+        return operationAttempt;
+    }
 
-		/* The Policy result determined from the APPC Response. */
-		PolicyResult result;
+    /**
+     * Processes the APPC LCM response sent from APPC. Determines if the APPC operation was
+     * successful/unsuccessful and maps this to the corresponding Policy result.
+     * 
+     * @param dmaapResponse the dmaap wrapper message that contains the actual APPC reponse inside
+     *        the body field
+     * 
+     * @return an key-value pair that contains the Policy result and APPC response message
+     */
+    public static SimpleEntry<PolicyResult, String> processResponse(LCMResponseWrapper dmaapResponse) {
+        /* The actual APPC response is inside the wrapper's body field. */
+        LCMResponse appcResponse = dmaapResponse.getBody();
 
-		/* If there is no status, Policy cannot determine if the request was successful. */
-		if (appcResponse.getStatus() == null) {
-			message = "Policy was unable to parse APP-C response status field (it was null).";
-			return new AbstractMap.SimpleEntry<>(PolicyResult.FAILURE_EXCEPTION, message);
-		}
+        /* The message returned in the APPC response. */
+        String message;
 
-		/* If there is no code, Policy cannot determine if the request was successful. */
-		String responseValue = LCMResponseCode.toResponseValue(appcResponse.getStatus().getCode());
-		if (responseValue == null) {
-			message = "Policy was unable to parse APP-C response status code field.";
-			return new AbstractMap.SimpleEntry<>(PolicyResult.FAILURE_EXCEPTION, message);
-		}
+        /* The Policy result determined from the APPC Response. */
+        PolicyResult result;
 
-		/* Save the APPC response's message for Policy noticiation message. */
-		message = appcResponse.getStatus().getMessage();
+        /* If there is no status, Policy cannot determine if the request was successful. */
+        if (appcResponse.getStatus() == null) {
+            message = "Policy was unable to parse APP-C response status field (it was null).";
+            return new AbstractMap.SimpleEntry<>(PolicyResult.FAILURE_EXCEPTION, message);
+        }
 
-		/* Maps the APPC response result to a Policy result. */
-		switch (responseValue) {
-		case LCMResponseCode.ACCEPTED:
-			/* Nothing to do if code is accept, continue processing */
-			result = null;
-			break;
-		case LCMResponseCode.SUCCESS:
-			result = PolicyResult.SUCCESS;
-			break;
-		case LCMResponseCode.FAILURE:
-			result = PolicyResult.FAILURE;
-			break;
-		case LCMResponseCode.REJECT:
-		case LCMResponseCode.ERROR:
-		default:
-			result = PolicyResult.FAILURE_EXCEPTION;
-		}
-		return new AbstractMap.SimpleEntry<>(result, message);
-	}
+        /* If there is no code, Policy cannot determine if the request was successful. */
+        String responseValue = LCMResponseCode.toResponseValue(appcResponse.getStatus().getCode());
+        if (responseValue == null) {
+            message = "Policy was unable to parse APP-C response status code field.";
+            return new AbstractMap.SimpleEntry<>(PolicyResult.FAILURE_EXCEPTION, message);
+        }
 
-	/**
-	 * This method reads and validates environmental properties coming from the policy engine. Null properties cause
-	 * an {@link IllegalArgumentException} runtime exception to be thrown 
-	 * @param string the name of the parameter to retrieve
-	 * @return the property value
-	 */
-	private static String getPEManagerEnvProperty(String enginePropertyName) {
-		String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
-		if (enginePropertyValue == null) {
-			throw new IllegalArgumentException("The value of policy engine manager environment property \"" + enginePropertyName + "\" may not be null");
-		}
-		return enginePropertyValue;
-	}
+        /* Save the APPC response's message for Policy noticiation message. */
+        message = appcResponse.getStatus().getMessage();
+
+        /* Maps the APPC response result to a Policy result. */
+        switch (responseValue) {
+            case LCMResponseCode.ACCEPTED:
+                /* Nothing to do if code is accept, continue processing */
+                result = null;
+                break;
+            case LCMResponseCode.SUCCESS:
+                result = PolicyResult.SUCCESS;
+                break;
+            case LCMResponseCode.FAILURE:
+                result = PolicyResult.FAILURE;
+                break;
+            case LCMResponseCode.REJECT:
+            case LCMResponseCode.ERROR:
+            default:
+                result = PolicyResult.FAILURE_EXCEPTION;
+        }
+        return new AbstractMap.SimpleEntry<>(result, message);
+    }
+
+    /**
+     * This method reads and validates environmental properties coming from the policy engine. Null
+     * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
+     * 
+     * @param string the name of the parameter to retrieve
+     * @return the property value
+     */
+    private static String getPeManagerEnvProperty(String enginePropertyName) {
+        String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
+        if (enginePropertyValue == null) {
+            throw new IllegalArgumentException("The value of policy engine manager environment property \""
+                    + enginePropertyName + "\" may not be null");
+        }
+        return enginePropertyValue;
+    }
 }
