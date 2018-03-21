@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_bfd4e147",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2018-03-21T17:06:05Z",
+      "side": 1,
+      "message": "Pam is correct, Scale Out takes several minutes to complete. I don\u0027t remember the times we were seeing but it was something around like 5 or 6 minutes as Pam said.",
+      "parentUuid": "5a93c517_55fd876d",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "3c89fca947d4ebf954f09873a416abbc69bd7b8b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3a222802",
         "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2018-03-20T17:39:42Z",
       "side": 1,
       "message": "I used the same check as this below on the async call.\n\nIn this logic, any HTTP status code sent in response will result in the timeout kicking in. Do we really want to wait on HTTP 4xx/5xx (or even 3xx) codes? I would have thought they should go straight to errors. All the other timeouts (AAI/VFC etc) seem to handle this the same.",
+      "range": {
+        "startLine": 212,
+        "startChar": 5,
+        "endLine": 214,
+        "endChar": 95
+      },
+      "revId": "3c89fca947d4ebf954f09873a416abbc69bd7b8b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_df9d2d68",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2018-03-21T17:06:05Z",
+      "side": 1,
+      "message": "Yes that seems like a reasonable approach here",
+      "parentUuid": "5a93c517_3a222802",
       "range": {
         "startLine": 212,
         "startChar": 5,
