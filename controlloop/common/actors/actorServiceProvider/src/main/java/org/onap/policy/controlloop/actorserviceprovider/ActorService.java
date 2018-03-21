@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ActorService
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,42 +20,53 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.ImmutableList;
 
 public class ActorService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
-	private static ActorService service;
+    private static final Logger logger = LoggerFactory.getLogger(ActorService.class);
+    private static ActorService service;
 
-	// USed to load actors	
-	private ServiceLoader<Actor> loader;
-	
-	private ActorService() {
-		loader = ServiceLoader.load(Actor.class);
-	}
-	
-	public static synchronized ActorService getInstance() {
-		if (service == null) {
-			service = new ActorService();
-		}
-		return service;
-	}
-	
-	public ImmutableList<Actor> actors() {
-		Iterator<Actor> iter = loader.iterator();
-		logger.debug("returning actors");
-		while (iter.hasNext()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Got {}", iter.next().actor());
-			}
-		}
-		
-		return ImmutableList.copyOf(loader.iterator());
-	}
+    // USed to load actors
+    private ServiceLoader<Actor> loader;
+
+    private ActorService() {
+        loader = ServiceLoader.load(Actor.class);
+    }
+
+    /**
+     * Get the single instance.
+     * 
+     * @return the instance
+     */
+    public static synchronized ActorService getInstance() {
+        if (service == null) {
+            service = new ActorService();
+        }
+        return service;
+    }
+
+    /**
+     * Get the actors.
+     * 
+     * @return the actors
+     */
+    public ImmutableList<Actor> actors() {
+        Iterator<Actor> iter = loader.iterator();
+        logger.debug("returning actors");
+        while (iter.hasNext()) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Got {}", iter.next().actor());
+            }
+        }
+
+        return ImmutableList.copyOf(loader.iterator());
+    }
 }

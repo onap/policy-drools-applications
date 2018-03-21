@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,23 +24,23 @@ package org.onap.policy.controlloop.impl;
 import org.onap.policy.controlloop.ControlLoopLogger;
 
 public class ControlLoopLoggerStdOutImpl implements ControlLoopLogger {
-	@Override
-	public void info(String... parameters) {
-		StringBuilder builder = new StringBuilder();
-		for (String param : parameters) {
-			builder.append(param);
-			builder.append(" " );
-		}
-		System.out.println(builder.toString().trim());
-	}
+    @Override
+    public void info(String... parameters) {
+        StringBuilder builder = new StringBuilder();
+        for (String param : parameters) {
+            builder.append(param);
+            builder.append(" ");
+        }
+        System.out.println(builder.toString().trim());
+    }
 
-	@Override
-	public void metrics(String... msgs) {
-		this.info(msgs);
-	}
+    @Override
+    public void metrics(String... msgs) {
+        this.info(msgs);
+    }
 
-	@Override
-	public void metrics(Object obj) {
-		this.info(obj.toString());
-	}
+    @Override
+    public void metrics(Object obj) {
+        this.info(obj.toString());
+    }
 }

@@ -25,29 +25,28 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.impl.ControlLoopPublisherJUnitImpl;
 
 public class ControlLoopPublisherTest {
-	@Test
-	public void testControlLoopPublisher() throws ControlLoopException {
-		ControlLoopPublisher publisher = new ControlLoopPublisher.Factory().buildLogger(ControlLoopPublisherJUnitImpl.class.getCanonicalName());
-		assertNotNull(publisher);
+    @Test
+    public void testControlLoopPublisher() throws ControlLoopException {
+        ControlLoopPublisher publisher =
+                new ControlLoopPublisher.Factory().buildLogger(ControlLoopPublisherJUnitImpl.class.getCanonicalName());
+        assertNotNull(publisher);
 
-		try {
-			publisher.publish(Double.valueOf(3));
-			fail("test should throw an exception here");
-		}
-		catch (Exception e) {
-			assertEquals("publish() method is not implemented on org.onap.policy.controlloop.impl.ControlLoopPublisherJUnitImpl", e.getMessage());
-		}
+        try {
+            publisher.publish(Double.valueOf(3));
+            fail("test should throw an exception here");
+        } catch (Exception e) {
+            assertEquals("publish() method is not implemented on "
+                    + "org.onap.policy.controlloop.impl.ControlLoopPublisherJUnitImpl", e.getMessage());
+        }
 
-		try {
-			new ControlLoopPublisher.Factory().buildLogger("java.lang.String");
-			fail("test should throw an exception here");
-		}
-		catch (Exception e) {
-			assertEquals("Cannot load class java.lang.String as a control loop publisher", e.getMessage());
-		}
-	}
+        try {
+            new ControlLoopPublisher.Factory().buildLogger("java.lang.String");
+            fail("test should throw an exception here");
+        } catch (Exception e) {
+            assertEquals("Cannot load class java.lang.String as a control loop publisher", e.getMessage());
+        }
+    }
 }

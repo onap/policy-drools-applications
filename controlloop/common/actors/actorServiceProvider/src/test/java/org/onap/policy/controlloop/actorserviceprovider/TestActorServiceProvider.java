@@ -24,31 +24,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
 public class TestActorServiceProvider {
-	
-	@Test
-	public void testActorServiceProvider() {
-		ActorService actorService = ActorService.getInstance();
-		assertNotNull(actorService);
-		
-		assertEquals(1, actorService.actors().size());
 
-		actorService = ActorService.getInstance();
-		assertNotNull(actorService);
-		
-		Actor testActor = ActorService.getInstance().actors().get(0);
-		assertNotNull(testActor);
-		
-		assertEquals("TestActor", testActor.actor());
-		
-		assertEquals(2, testActor.recipes().size());
-		assertEquals("Dorothy", testActor.recipes().get(0));
-		assertEquals("Wizard", testActor.recipes().get(1));
-		
-		assertEquals(2, testActor.recipeTargets("Dorothy").size());
-		assertEquals(2, testActor.recipePayloads("Dorothy").size());
-	}
+    @Test
+    public void testActorServiceProvider() {
+        ActorService actorService = ActorService.getInstance();
+        assertNotNull(actorService);
+
+        assertEquals(1, actorService.actors().size());
+
+        actorService = ActorService.getInstance();
+        assertNotNull(actorService);
+
+        Actor testActor = ActorService.getInstance().actors().get(0);
+        assertNotNull(testActor);
+
+        assertEquals("TestActor", testActor.actor());
+
+        assertEquals(2, testActor.recipes().size());
+        assertEquals("Dorothy", testActor.recipes().get(0));
+        assertEquals("Wizard", testActor.recipes().get(1));
+
+        assertEquals(2, testActor.recipeTargets("Dorothy").size());
+        assertEquals(2, testActor.recipePayloads("Dorothy").size());
+    }
 }

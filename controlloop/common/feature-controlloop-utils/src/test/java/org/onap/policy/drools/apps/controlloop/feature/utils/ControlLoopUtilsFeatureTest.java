@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.drools.apps.controlloop.feature.utils;
 
 import static org.junit.Assert.assertNotNull;
@@ -28,20 +29,20 @@ import org.onap.policy.drools.utils.LoggerUtil;
 import org.onap.policy.simulators.Util;
 
 /**
- * ControlLoopUtilsFeature JUnit Tests
+ * ControlLoopUtilsFeature JUnit Tests.
  */
 public class ControlLoopUtilsFeatureTest {
 
-  @Test
-  public void simulate() {
-    LoggerUtil.setLevel("ROOT", "INFO");
-    LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
-    final ControlLoopUtilsFeature feature = new ControlLoopUtilsFeature();
-    feature.afterStart(PolicyEngine.manager);
-    assertNotNull(HttpServletServer.factory.get(Util.AAISIM_SERVER_PORT));
-    assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
-    assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
-    assertNotNull(HttpServletServer.factory.get(Util.GUARDSIM_SERVER_PORT));
-  }
+    @Test
+    public void simulate() {
+        LoggerUtil.setLevel("ROOT", "INFO");
+        LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
+        final ControlLoopUtilsFeature feature = new ControlLoopUtilsFeature();
+        feature.afterStart(PolicyEngine.manager);
+        assertNotNull(HttpServletServer.factory.get(Util.AAISIM_SERVER_PORT));
+        assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
+        assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
+        assertNotNull(HttpServletServer.factory.get(Util.GUARDSIM_SERVER_PORT));
+    }
 
 }

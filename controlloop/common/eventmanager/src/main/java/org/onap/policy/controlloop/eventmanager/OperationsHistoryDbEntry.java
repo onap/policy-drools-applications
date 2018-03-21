@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,92 +30,115 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="operationshistory10")
+@Table(name = "operationshistory10")
 public class OperationsHistoryDbEntry implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id@GeneratedValue
-	@Column(name="ROWID")
-	public long rowid;
-	
-	@Column(name="CLNAME")
-	private String closedLoopName;
-	
-	private String requestId;
-	private String actor;
-	private String operation;
-	private String target;
-	private Timestamp starttime;
-	private Timestamp endtime;
-	private String subrequestId;
-	private String outcome;
-	private String message;
-	public long getRowid() {
-		return rowid;
-	}
-	public void setRowid(long rowid) {
-		this.rowid = rowid;
-	}
-	public String getClosedLoopName() {
-		return closedLoopName;
-	}
-	public void setClosedLoopName(String closedLoopName) {
-		this.closedLoopName = closedLoopName;
-	}
-	public String getRequestId() {
-		return requestId;
-	}
-	public void setRequestId(String requestId) {
-		this.requestId = requestId;
-	}
-	public String getActor() {
-		return actor;
-	}
-	public void setActor(String actor) {
-		this.actor = actor;
-	}
-	public String getOperation() {
-		return operation;
-	}
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
-	public String getTarget() {
-		return target;
-	}
-	public void setTarget(String target) {
-		this.target = target;
-	}
-	public Timestamp getStarttime() {
-		return starttime;
-	}
-	public void setStarttime(Timestamp starttime) {
-		this.starttime = starttime;
-	}
-	public Timestamp getEndtime() {
-		return endtime;
-	}
-	public void setEndtime(Timestamp endtime) {
-		this.endtime = endtime;
-	}
-	public String getSubrequestId() {
-		return subrequestId;
-	}
-	public void setSubrequestId(String subrequestId) {
-		this.subrequestId = subrequestId;
-	}
-	public String getOutcome() {
-		return outcome;
-	}
-	public void setOutcome(String outcome) {
-		this.outcome = outcome;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    @Id
+    @GeneratedValue
+    @Column(name = "ROWID")
+    public long rowid;
+
+    @Column(name = "CLNAME")
+    private String closedLoopName;
+
+    private String requestId;
+    private String actor;
+    private String operation;
+    private String target;
+    private Timestamp starttime;
+    private Timestamp endtime;
+    private String subrequestId;
+    private String outcome;
+    private String message;
+
+    public long getRowid() {
+        return rowid;
+    }
+
+    public void setRowid(long rowid) {
+        this.rowid = rowid;
+    }
+
+    public String getClosedLoopName() {
+        return closedLoopName;
+    }
+
+    public void setClosedLoopName(String closedLoopName) {
+        this.closedLoopName = closedLoopName;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public Timestamp getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Timestamp starttime) {
+        this.starttime = starttime;
+    }
+
+    public Timestamp getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Timestamp endtime) {
+        this.endtime = endtime;
+    }
+
+    public String getSubrequestId() {
+        return subrequestId;
+    }
+
+    public void setSubrequestId(String subrequestId) {
+        this.subrequestId = subrequestId;
+    }
+
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
 
 
