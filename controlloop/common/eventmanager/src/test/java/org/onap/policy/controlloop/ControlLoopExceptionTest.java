@@ -20,7 +20,7 @@
 
 package org.onap.policy.controlloop;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
@@ -28,12 +28,12 @@ import org.junit.Test;
 
 public class ControlLoopExceptionTest {
 
-	@Test
-	public void testControlLoopException() {
-		assertNotNull(new ControlLoopException());
-		assertNotNull(new ControlLoopException("In Oz"));
-		assertNotNull(new ControlLoopException(new IOException()));
-		assertNotNull(new ControlLoopException("In Oz", new IOException()));
-		assertNotNull(new ControlLoopException("In Oz", new IOException(), false, false));
-	}
+    @Test
+    public void testControlLoopException() {
+        assertNotNull(new ControlLoopException());
+        assertNotNull(new ControlLoopException("In Oz"));
+        assertNotNull(new ControlLoopException(new IOException()));
+        assertNotNull(new ControlLoopException("In Oz", new IOException()));
+        assertNotNull(new ControlLoopException("In Oz", new IOException(), false, false));
+    }
 }

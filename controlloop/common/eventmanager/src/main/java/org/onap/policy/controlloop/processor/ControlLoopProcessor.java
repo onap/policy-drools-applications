@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop processor
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,76 +31,96 @@ import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
 public class ControlLoopProcessor {
 
-	private final String yaml;
-	private final ControlLoopPolicy policy;
-	private String currentNestedPolicyID = null;
+    private final String yaml;
+    private final ControlLoopPolicy policy;
+    private String currentNestedPolicyId = null;
 
-	public ControlLoopProcessor(String yaml) throws ControlLoopException {
-		this.yaml = yaml;
-		try {
-			final Yaml y = new Yaml(new CustomClassLoaderConstructor(ControlLoopPolicy.class,	ControlLoopPolicy.class.getClassLoader()));
-			final Object obj = y.load(this.yaml);
+    /**
+     * Construct an instance from yaml.
+     * 
+     * @param yaml the yaml
+     * @throws ControlLoopException if an error occurs
+     */
+    public ControlLoopProcessor(String yaml) throws ControlLoopException {
+        this.yaml = yaml;
+        try {
+            final Yaml y = new Yaml(new CustomClassLoaderConstructor(ControlLoopPolicy.class,
+                    ControlLoopPolicy.class.getClassLoader()));
+            final Object obj = y.load(this.yaml);
 
-			this.policy = (ControlLoopPolicy) obj;
-			this.currentNestedPolicyID = this.policy.getControlLoop().getTrigger_policy();
-		} catch (final Exception e) {
-			//
-			// Most likely this is a YAML Exception
-			//
-			throw new ControlLoopException(e);
-		}
-	}
+            this.policy = (ControlLoopPolicy) obj;
+            this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
+        } catch (final Exception e) {
+            //
+            // Most likely this is a YAML Exception
+            //
+            throw new ControlLoopException(e);
+        }
+    }
 
-	public ControlLoop getControlLoop() {
-		return this.policy.getControlLoop();
-	}
+    public ControlLoop getControlLoop() {
+        return this.policy.getControlLoop();
+    }
 
-	public FinalResult checkIsCurrentPolicyFinal() {
-		return FinalResult.toResult(this.currentNestedPolicyID);
-	}
+    public FinalResult checkIsCurrentPolicyFinal() {
+        return FinalResult.toResult(this.currentNestedPolicyId);
+    }
 
-	public Policy getCurrentPolicy() throws ControlLoopException {
-		if (this.policy == null || this.policy.getPolicies() == null) {
-			throw new ControlLoopException("There are no policies defined.");
-		}
+    /**
+     * Get the current policy.
+     * 
+     * @return the current policy
+     * @throws ControlLoopException if an error occurs
+     */
+    public Policy getCurrentPolicy() throws ControlLoopException {
+        if (this.policy == null || this.policy.getPolicies() == null) {
+            throw new ControlLoopException("There are no policies defined.");
+        }
 
-		for (final Policy nestedPolicy : this.policy.getPolicies()) {
-			if (nestedPolicy.getId().equals(this.currentNestedPolicyID)) {
-				return nestedPolicy;
-			}
-		}
-		return null;
-	}
+        for (final Policy nestedPolicy : this.policy.getPolicies()) {
+            if (nestedPolicy.getId().equals(this.currentNestedPolicyId)) {
+                return nestedPolicy;
+            }
+        }
+        return null;
+    }
 
-	public void nextPolicyForResult(PolicyResult result) throws ControlLoopException {
-		final Policy currentPolicy = this.getCurrentPolicy();
-		try {
-			if (currentPolicy == null) {
-				throw new ControlLoopException("There is no current policy to determine where to go to.");
-			}
-			switch (result) {
-			case SUCCESS:
-				this.currentNestedPolicyID = currentPolicy.getSuccess();
-				break;
-			case FAILURE:
-				this.currentNestedPolicyID = currentPolicy.getFailure();
-				break;
-			case FAILURE_TIMEOUT:
-				this.currentNestedPolicyID = currentPolicy.getFailure_timeout();
-				break;
-			case FAILURE_RETRIES:
-				this.currentNestedPolicyID = currentPolicy.getFailure_retries();
-				break;
-			case FAILURE_EXCEPTION:
-				this.currentNestedPolicyID = currentPolicy.getFailure_exception();
-				break;
-			case FAILURE_GUARD:
-				this.currentNestedPolicyID = currentPolicy.getFailure_guard();
-				break;
-			}
-		} catch (final ControlLoopException e) {
-			this.currentNestedPolicyID = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
-			throw e;
-		}
-	}
+    /**
+     * Get the next policy given a result of the current policy.
+     * 
+     * @param result the result of the current policy
+     * @throws ControlLoopException if an error occurs
+     */
+    public void nextPolicyForResult(PolicyResult result) throws ControlLoopException {
+        final Policy currentPolicy = this.getCurrentPolicy();
+        try {
+            if (currentPolicy == null) {
+                throw new ControlLoopException("There is no current policy to determine where to go to.");
+            }
+            switch (result) {
+                case SUCCESS:
+                    this.currentNestedPolicyId = currentPolicy.getSuccess();
+                    break;
+                case FAILURE:
+                    this.currentNestedPolicyId = currentPolicy.getFailure();
+                    break;
+                case FAILURE_TIMEOUT:
+                    this.currentNestedPolicyId = currentPolicy.getFailure_timeout();
+                    break;
+                case FAILURE_RETRIES:
+                    this.currentNestedPolicyId = currentPolicy.getFailure_retries();
+                    break;
+                case FAILURE_EXCEPTION:
+                    this.currentNestedPolicyId = currentPolicy.getFailure_exception();
+                    break;
+                case FAILURE_GUARD:
+                default:
+                    this.currentNestedPolicyId = currentPolicy.getFailure_guard();
+                    break;
+            }
+        } catch (final ControlLoopException e) {
+            this.currentNestedPolicyId = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
+            throw e;
+        }
+    }
 }

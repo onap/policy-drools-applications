@@ -20,7 +20,10 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.UUID;
 
@@ -37,72 +40,77 @@ import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VFCRequest;
 
 public class TestVFCActorServiceProvider {
-	@BeforeClass
-	public static void setUpSimulator() {
-		try {
-			Util.buildAaiSim();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
 
-	@AfterClass
-	public static void tearDownSimulator() {
-		HttpServletServer.factory.destroy();
-	}
-
-	@Test
-	public void testConstructRequest() {
-		VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
-		ControlLoopOperation operation = new ControlLoopOperation();
-
-		Policy policy = new Policy();
-		policy.setRecipe("GoToOz");
-		
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-		
-		onset.getAAI().put("generic-vnf.vnf-id", "dorothy.gale.1939");
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-		
-		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-		
-		UUID requestID = UUID.randomUUID();
-		onset.setRequestID(requestID);
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-		
-		onset.getAAI().put("generic-vnf.vnf-name", "Dorothy");
-        PolicyEngine.manager.getEnvironment().remove("aai.password");
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-		
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-		
-		onset.getAAI().put("service-instance.service-instance-id", "");
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
-
-		assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse()));
-		
-		policy.setRecipe("Restart");
-		assertNotNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse()));
-
-		VFCRequest request = VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse());
-		
-		assertEquals(requestID, request.getRequestId());
-		assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
-		assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
+    /**
+     * Set up for test class.
+     */
+    @BeforeClass
+    public static void setUpSimulator() {
+        try {
+            Util.buildAaiSim();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
-	@Test
-	public void testMethods() {
-		VFCActorServiceProvider sp = new VFCActorServiceProvider();
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
 
-		assertEquals("VFC", sp.actor());
-		assertEquals(1, sp.recipes().size());
-		assertEquals("Restart", sp.recipes().get(0));
-		assertEquals("VM", sp.recipeTargets("Restart").get(0));
-		assertEquals(0, sp.recipePayloads("Restart").size());
-	}
+    @Test
+    public void testConstructRequest() {
+        VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
+        ControlLoopOperation operation = new ControlLoopOperation();
+
+        Policy policy = new Policy();
+        policy.setRecipe("GoToOz");
+
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        onset.getAAI().put("generic-vnf.vnf-id", "dorothy.gale.1939");
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        UUID requestId = UUID.randomUUID();
+        onset.setRequestID(requestId);
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        onset.getAAI().put("generic-vnf.vnf-name", "Dorothy");
+        PolicyEngine.manager.getEnvironment().remove("aai.password");
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        onset.getAAI().put("service-instance.service-instance-id", "");
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse()));
+
+        policy.setRecipe("Restart");
+        assertNotNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse()));
+
+        VFCRequest request =
+                VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse());
+
+        assertEquals(requestId, request.getRequestId());
+        assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
+        assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
+    }
+
+    @Test
+    public void testMethods() {
+        VFCActorServiceProvider sp = new VFCActorServiceProvider();
+
+        assertEquals("VFC", sp.actor());
+        assertEquals(1, sp.recipes().size());
+        assertEquals("Restart", sp.recipes().get(0));
+        assertEquals("VM", sp.recipeTargets("Restart").get(0));
+        assertEquals(0, sp.recipePayloads("Restart").size());
+    }
 }
