@@ -29,7 +29,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.onap.policy.aai.AAINQRequest;
+import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.util.Serialization;
 
 @Path("/aai")
@@ -62,7 +62,7 @@ public class AaiSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String aaiPostQuery(String req) {
-        AAINQRequest request = Serialization.gsonPretty.fromJson(req, AAINQRequest.class);
+        AaiNqRequest request = Serialization.gsonPretty.fromJson(req, AaiNqRequest.class);
 
         if (request.getInstanceFilters().getInstanceFilter().get(0).containsKey("vserver")) {
             String vserverName =

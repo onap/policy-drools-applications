@@ -32,13 +32,13 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.AAINQInstanceFilters;
-import org.onap.policy.aai.AAINQNamedQuery;
-import org.onap.policy.aai.AAINQQueryParameters;
-import org.onap.policy.aai.AAINQRequest;
-import org.onap.policy.aai.AAINQResponse;
+import org.onap.policy.aai.AaiGetVnfResponse;
+import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.AaiNqInstanceFilters;
+import org.onap.policy.aai.AaiNqNamedQuery;
+import org.onap.policy.aai.AaiNqQueryParameters;
+import org.onap.policy.aai.AaiNqRequest;
+import org.onap.policy.aai.AaiNqResponse;
 import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.LoggerUtil;
 import org.onap.policy.rest.RESTManager;
@@ -66,7 +66,7 @@ public class AaiSimulatorTest {
 
     @Test
     public void testGet() {
-        final AAIGETVnfResponse response = new AAIManager(new RESTManager()).getQueryByVnfID(
+        final AaiGetVnfResponse response = new AaiManager(new RESTManager()).getQueryByVnfId(
                 "http://localhost:6666/aai/v11/network/generic-vnfs/generic-vnf/", "testUser", "testPass",
                 UUID.randomUUID(), "5e49ca06-2972-4532-9ed4-6d071588d792");
         assertNotNull(response);
@@ -75,10 +75,10 @@ public class AaiSimulatorTest {
 
     @Test
     public void testPost() {
-        final AAINQRequest request = new AAINQRequest();
-        final AAINQQueryParameters tempQueryParameters = new AAINQQueryParameters();
-        final AAINQNamedQuery tempNamedQuery = new AAINQNamedQuery();
-        tempNamedQuery.setNamedQueryUUID(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
+        final AaiNqRequest request = new AaiNqRequest();
+        final AaiNqQueryParameters tempQueryParameters = new AaiNqQueryParameters();
+        final AaiNqNamedQuery tempNamedQuery = new AaiNqNamedQuery();
+        tempNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
         tempQueryParameters.setNamedQuery(tempNamedQuery);
         request.setQueryParameters(tempQueryParameters);
         Map<String, String> tempInnerMap = new HashMap<>();
@@ -87,16 +87,16 @@ public class AaiSimulatorTest {
         tempOuterMap.put("vserver", tempInnerMap);
         List<Map<String, Map<String, String>>> tempInstanceFilter = new LinkedList<>();
         tempInstanceFilter.add(tempOuterMap);
-        AAINQInstanceFilters tempInstanceFilters = new AAINQInstanceFilters();
+        AaiNqInstanceFilters tempInstanceFilters = new AaiNqInstanceFilters();
         tempInstanceFilters.setInstanceFilter(tempInstanceFilter);
         request.setInstanceFilters(tempInstanceFilters);
 
-        AAINQResponse response = new AAIManager(new RESTManager()).postQuery("http://localhost:6666", "testUser",
+        AaiNqResponse response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser",
                 "testPass", request, UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
 
-        tempNamedQuery.setNamedQueryUUID(UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087"));
+        tempNamedQuery.setNamedQueryUuid(UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087"));
         tempQueryParameters.setNamedQuery(tempNamedQuery);
         request.setQueryParameters(tempQueryParameters);
         tempInnerMap = new HashMap<>();
@@ -105,11 +105,11 @@ public class AaiSimulatorTest {
         tempOuterMap.put("generic-vnf", tempInnerMap);
         tempInstanceFilter = new LinkedList<>();
         tempInstanceFilter.add(tempOuterMap);
-        tempInstanceFilters = new AAINQInstanceFilters();
+        tempInstanceFilters = new AaiNqInstanceFilters();
         tempInstanceFilters.setInstanceFilter(tempInstanceFilter);
         request.setInstanceFilters(tempInstanceFilters);
 
-        response = new AAIManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
+        response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
                 UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());

@@ -21,22 +21,24 @@
 package org.onap.policy.aai;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
-import java.util.List; 
-import java.util.LinkedList; 
+import java.util.LinkedList;
+import java.util.List;
 
 public class RelationshipList implements Serializable {
-	private static final long serialVersionUID = 6115655704973981989L;
+    private static final long serialVersionUID = 6115655704973981989L;
 
-	@SerializedName("relationship-list")
+    @SerializedName("relationship-list")
     private List<Relationship> relationships = new LinkedList<>();
-	
-	public List<Relationship> getRelationshipList() {
-		return relationships;
-	}
-	public void setRelationshipList(List<Relationship> relationshipList) {
-		this.relationships = relationshipList;
-	}
-	
-	
+
+    public List<Relationship> getRelationshipList() {
+        return relationships;
+    }
+
+    public void setRelationshipList(List<Relationship> relationshipList) {
+        this.relationships = relationshipList;
+    }
+
+
 }
