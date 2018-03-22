@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_0a9eec63",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-03-22T12:55:46Z",
+      "side": 1,
+      "message": "variables should be camel case",
+      "revId": "d5539932437c6c0c5278fb0c7c9e026fde81a13e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8a98bc6b",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/drools/PolicyEngineListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-03-22T12:55:46Z",
+      "side": 1,
+      "message": "Add @FunctionalInterface?",
+      "revId": "d5539932437c6c0c5278fb0c7c9e026fde81a13e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6a9f7051",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-03-22T12:55:46Z",
+      "side": 1,
+      "message": "Use multi-catch.",
+      "revId": "d5539932437c6c0c5278fb0c7c9e026fde81a13e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
