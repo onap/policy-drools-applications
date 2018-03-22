@@ -142,10 +142,10 @@ public class AppcServiceProviderTest {
         logger.debug("JSON Output: \n" + jsonRequest);
         
         /* The JSON string must contain the following fields */
-        assertTrue(jsonRequest.contains("commonHeader"));
-        assertTrue(jsonRequest.contains("action"));
+        assertTrue(jsonRequest.contains("CommonHeader"));
+        assertTrue(jsonRequest.contains("Action"));
         assertTrue(jsonRequest.contains("ModifyConfig"));
-        assertTrue(jsonRequest.contains("payload"));
+        assertTrue(jsonRequest.contains("Payload"));
         assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
         assertTrue(jsonRequest.contains("pg-streams"));
         
