@@ -24,13 +24,24 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Request implements Serializable{
 	private static final long serialVersionUID = -3912323643990646431L;
 
+	@SerializedName("CommonHeader")
 	private CommonHeader		        commonHeader;
+	
+	@SerializedName("Action")
 	private String			     	action;
+	
+	@SerializedName("TargetID")
 	private String				    targetID;
+	
+	@SerializedName("ObjectID")
 	private String				    objectID;
+	
+	@SerializedName("Payload")
 	private HashMap<String, Object>	payload = new HashMap<>();
 	
 	public Request() {

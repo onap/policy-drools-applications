@@ -22,11 +22,18 @@ package org.onap.policy.appc;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ResponseStatus implements Serializable {
 	private static final long serialVersionUID = 2421770469587860452L;
 
+	@SerializedName("Code")
 	private int	code;
+	
+	@SerializedName("Value")
 	private String value;
+	
+	@SerializedName("Description")
 	private String description;
 	
 	@Override

@@ -27,15 +27,30 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CommonHeader implements Serializable {
 	private static final long serialVersionUID = -3581658269910980336L;
 	
+	@SerializedName("TimeStamp")
 	private Instant	timeStamp = Instant.now();
+	
+	@SerializedName("APIver")
 	private String	apiVer = "1.01";
+	
+	@SerializedName("OriginatorID")
 	private String	originatorID;
+	
+	@SerializedName("RequestID")
 	private UUID	    requestID;
+	
+	@SerializedName("SubRequestID")
 	private String	subRequestID;
+	
+	@SerializedName("RequestTrack")
 	private Collection<String>	requestTrack = new ArrayList<>();
+	
+	@SerializedName("Flags")
 	private Collection<Map<String, String>> flags = new ArrayList<>();
 	
 	public CommonHeader() {
