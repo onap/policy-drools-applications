@@ -28,9 +28,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
 
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.AAIGETVserverResponse;
-import org.onap.policy.aai.AAIManager;
+import org.onap.policy.aai.AaiGetVnfResponse;
+import org.onap.policy.aai.AaiGetVserverResponse;
+import org.onap.policy.aai.AaiManager;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -78,8 +78,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
     private transient TargetLock targetLock = null;
-    private AAIGETVnfResponse vnfResponse = null;
-    private AAIGETVserverResponse vserverResponse = null;
+    private AaiGetVnfResponse vnfResponse = null;
+    private AaiGetVserverResponse vserverResponse = null;
     private static String aaiHostURL;
     private static String aaiUser;
     private static String aaiPassword;
@@ -590,11 +590,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         return 0;
     }
 
-    public AAIGETVnfResponse getVnfResponse() {
+    public AaiGetVnfResponse getVnfResponse() {
         return vnfResponse;
     }
 
-    public AAIGETVserverResponse getVserverResponse() {
+    public AaiGetVserverResponse getVserverResponse() {
         return vserverResponse;
     }
 
@@ -671,7 +671,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      *        the query was based on vnf-name
      * @throws AAIException if an error occurs processing the response
      */
-    private static void processVNFResponse(AAIGETVnfResponse aaiResponse, boolean queryByVNFID) throws AAIException {
+    private static void processVNFResponse(AaiGetVnfResponse aaiResponse, boolean queryByVNFID) throws AAIException {
         String queryTypeString = (queryByVNFID ? "vnf-id" : "vnf-name");
 
         if (aaiResponse == null) {
@@ -690,7 +690,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         }
     }
 
-    private static void processVServerResponse(AAIGETVserverResponse aaiResponse) throws AAIException {
+    private static void processVServerResponse(AaiGetVserverResponse aaiResponse) throws AAIException {
         if (aaiResponse == null) {
             throw new AAIException("AAI Response is null (query by vserver-name)");
         }
@@ -733,9 +733,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @return a AAIGETVserverResponse
      * @throws ControlLoopException if an error occurs
      */
-    public static AAIGETVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
+    public static AaiGetVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
         UUID requestId = event.getRequestID();
-        AAIGETVserverResponse response = null;
+        AaiGetVserverResponse response = null;
         String vserverName = event.getAAI().get(VSERVER_VSERVER_NAME);
 
         try {
@@ -746,7 +746,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostURL + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
-                response = new AAIManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
+                response = new AaiManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
                         vserverName);
             }
         } catch (Exception e) {
@@ -764,9 +764,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @return a AAIGETVnfResponse
      * @throws ControlLoopException if an error occurs
      */
-    public static AAIGETVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
+    public static AaiGetVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
         UUID requestId = event.getRequestID();
-        AAIGETVnfResponse response = null;
+        AaiGetVnfResponse response = null;
         String vnfName = event.getAAI().get(GENERIC_VNF_VNF_NAME);
         String vnfId = event.getAAI().get(GENERIC_VNF_VNF_ID);
 
@@ -779,14 +779,14 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
                 String url = aaiHostURL + aaiGetQueryByVnfName;
                 logger.info("AAI Host URL by VNF name: {}", url);
-                response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
+                response = new AaiManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
                         vnfName);
             } else if (vnfId != null) {
                 String aaiGetQueryByVnfId = "/aai/v11/network/generic-vnfs/generic-vnf/";
                 String url = aaiHostURL + aaiGetQueryByVnfId;
                 logger.info("AAI Host URL by VNF ID: {}", url);
                 response =
-                        new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUser, aaiPassword, requestId, vnfId);
+                        new AaiManager(new RESTManager()).getQueryByVnfId(url, aaiUser, aaiPassword, requestId, vnfId);
             }
         } catch (Exception e) {
             logger.error("getAAIVnfInfo exception: ", e);

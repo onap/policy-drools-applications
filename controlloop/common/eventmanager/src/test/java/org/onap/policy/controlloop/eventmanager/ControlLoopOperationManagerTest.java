@@ -434,7 +434,7 @@ public class ControlLoopOperationManagerTest {
 
         onsetEvent.getAAI().remove("generic-vnf.vnf-id");
         manager.getVnfResponse();
-        clom.getEventManager().getVnfResponse().setVnfID("generic-vnf.vnf-id");
+        clom.getEventManager().getVnfResponse().setVnfId("generic-vnf.vnf-id");
         assertEquals("generic-vnf.vnf-id", clom.getTarget(policy));
 
         policy.getTarget().setType(TargetType.VFC);

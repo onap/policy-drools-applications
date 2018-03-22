@@ -30,15 +30,15 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.AAINQExtraProperty;
-import org.onap.policy.aai.AAINQInstanceFilters;
-import org.onap.policy.aai.AAINQInventoryResponseItem;
-import org.onap.policy.aai.AAINQNamedQuery;
-import org.onap.policy.aai.AAINQQueryParameters;
-import org.onap.policy.aai.AAINQRequest;
-import org.onap.policy.aai.AAINQResponse;
-import org.onap.policy.aai.AAINQResponseWrapper;
+import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.AaiNqExtraProperty;
+import org.onap.policy.aai.AaiNqInstanceFilters;
+import org.onap.policy.aai.AaiNqInventoryResponseItem;
+import org.onap.policy.aai.AaiNqNamedQuery;
+import org.onap.policy.aai.AaiNqQueryParameters;
+import org.onap.policy.aai.AaiNqRequest;
+import org.onap.policy.aai.AaiNqResponse;
+import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -121,19 +121,19 @@ public class SOActorServiceProvider implements Actor {
         }
 
         // Perform named query request and handle response
-        AAINQResponseWrapper aaiResponseWrapper = performAaiNamedQueryRequest(onset);
+        AaiNqResponseWrapper aaiResponseWrapper = performAaiNamedQueryRequest(onset);
         if (aaiResponseWrapper == null) {
             // Tracing and error handling handied in the "performAaiNamedQueryRequest()" method
             return null;
         }
 
-        AAINQInventoryResponseItem vnfItem;
-        AAINQInventoryResponseItem vnfServiceItem;
-        AAINQInventoryResponseItem tenantItem;
+        AaiNqInventoryResponseItem vnfItem;
+        AaiNqInventoryResponseItem vnfServiceItem;
+        AaiNqInventoryResponseItem tenantItem;
 
         // Extract the items we're interested in from the response
         try {
-            vnfItem = aaiResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems()
+            vnfItem = aaiResponseWrapper.getAaiNqResponse().getInventoryResponseItems().get(0).getItems()
                     .getInventoryResponseItems().get(0);
         } catch (Exception e) {
             logger.error("VNF Item not found in AAI response {}", Serialization.gsonPretty.toJson(aaiResponseWrapper),
@@ -150,7 +150,7 @@ public class SOActorServiceProvider implements Actor {
         }
 
         try {
-            tenantItem = aaiResponseWrapper.getAainqresponse().getInventoryResponseItems().get(0).getItems()
+            tenantItem = aaiResponseWrapper.getAaiNqResponse().getInventoryResponseItems().get(0).getItems()
                     .getInventoryResponseItems().get(1);
         } catch (Exception e) {
             logger.error("Tenant Item not found in AAI response {}",
@@ -189,14 +189,14 @@ public class SOActorServiceProvider implements Actor {
         //
         // modelInfo
         //
-        AAINQInventoryResponseItem vfModuleItem = vnfItem.getItems().getInventoryResponseItems().get(nonBaseIndex);
+        AaiNqInventoryResponseItem vfModuleItem = vnfItem.getItems().getInventoryResponseItems().get(nonBaseIndex);
 
         request.getRequestDetails().getModelInfo().setModelType("vfModule");
         request.getRequestDetails().getModelInfo()
                 .setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
         request.getRequestDetails().getModelInfo().setModelVersionId(vfModuleItem.getVfModule().getModelVersionId());
 
-        for (AAINQExtraProperty prop : vfModuleItem.getExtraProperties().getExtraProperty()) {
+        for (AaiNqExtraProperty prop : vfModuleItem.getExtraProperties().getExtraProperty()) {
             if (prop.getPropertyName().equals(modelNamePropertyKey)) {
                 request.getRequestDetails().getModelInfo().setModelName(prop.getPropertyValue());
             } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
@@ -237,12 +237,12 @@ public class SOActorServiceProvider implements Actor {
 
         // Service Item
         relatedInstanceListElement1.getRelatedInstance()
-                .setInstanceId(vnfServiceItem.getServiceInstance().getServiceInstanceID());
+                .setInstanceId(vnfServiceItem.getServiceInstance().getServiceInstanceId());
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
                 .setModelInvariantId(vnfServiceItem.getServiceInstance().getModelInvariantId());
-        for (AAINQExtraProperty prop : vnfServiceItem.getExtraProperties().getExtraProperty()) {
+        for (AaiNqExtraProperty prop : vnfServiceItem.getExtraProperties().getExtraProperty()) {
             if (prop.getPropertyName().equals(modelNamePropertyKey)) {
                 relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(prop.getPropertyValue());
             } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
@@ -252,12 +252,12 @@ public class SOActorServiceProvider implements Actor {
         }
 
         // VNF Item
-        relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getGenericVNF().getVnfID());
+        relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getGenericVnf().getVnfId());
         relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                .setModelInvariantId(vnfItem.getGenericVNF().getModelInvariantId());
-        for (AAINQExtraProperty prop : vnfItem.getExtraProperties().getExtraProperty()) {
+                .setModelInvariantId(vnfItem.getGenericVnf().getModelInvariantId());
+        for (AaiNqExtraProperty prop : vnfItem.getExtraProperties().getExtraProperty()) {
             if (prop.getPropertyName().equals(modelNamePropertyKey)) {
                 relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(prop.getPropertyValue());
             } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
@@ -269,15 +269,15 @@ public class SOActorServiceProvider implements Actor {
             }
         }
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName(vnfItem
-                .getGenericVNF().getVnfType().substring(vnfItem.getGenericVNF().getVnfType().lastIndexOf('/') + 1));
+                .getGenericVnf().getVnfType().substring(vnfItem.getGenericVnf().getVnfType().lastIndexOf('/') + 1));
 
         // Insert the Service Item and VNF Item
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
 
         // Save the instance IDs for the VNF and service to static fields
-        preserveInstanceIds(vnfItem.getGenericVNF().getVnfID(),
-                vnfServiceItem.getServiceInstance().getServiceInstanceID());
+        preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(),
+                vnfServiceItem.getServiceInstance().getServiceInstanceId());
 
         if (logger.isDebugEnabled()) {
             logger.debug("SO request sent: {}", Serialization.gsonPretty.toJson(request));
@@ -306,17 +306,17 @@ public class SOActorServiceProvider implements Actor {
      * @param onset the virtial control loop event
      * @returns the response to the AAI Named Query
      */
-    private AAINQResponseWrapper performAaiNamedQueryRequest(VirtualControlLoopEvent onset) {
+    private AaiNqResponseWrapper performAaiNamedQueryRequest(VirtualControlLoopEvent onset) {
 
         // create AAI named-query request with UUID started with ""
-        AAINQRequest aaiNqRequest = new AAINQRequest();
-        AAINQQueryParameters aaiNqQueryParam = new AAINQQueryParameters();
-        AAINQNamedQuery aaiNqNamedQuery = new AAINQNamedQuery();
-        final AAINQInstanceFilters aaiNqInstanceFilter = new AAINQInstanceFilters();
+        AaiNqRequest aaiNqRequest = new AaiNqRequest();
+        AaiNqQueryParameters aaiNqQueryParam = new AaiNqQueryParameters();
+        AaiNqNamedQuery aaiNqNamedQuery = new AaiNqNamedQuery();
+        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
 
         // queryParameters
         // UUID.fromString($params.getAaiNamedQueryUUID()) TO DO: AaiNamedQueryUUID
-        aaiNqNamedQuery.setNamedQueryUUID(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
+        aaiNqNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
         aaiNqQueryParam.setNamedQuery(aaiNqNamedQuery);
         aaiNqRequest.setQueryParameters(aaiNqQueryParam);
         //
@@ -334,7 +334,7 @@ public class SOActorServiceProvider implements Actor {
             logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aaiNqRequest));
         }
 
-        AAINQResponse aaiNqResponse = new AAIManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
+        AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
                 getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiNqRequest,
                 onset.getRequestID());
 
@@ -345,11 +345,11 @@ public class SOActorServiceProvider implements Actor {
         }
 
         // Create AAINQResponseWrapper
-        AAINQResponseWrapper aaiNqResponseWrapper = new AAINQResponseWrapper(onset.getRequestID(), aaiNqResponse);
+        AaiNqResponseWrapper aaiNqResponseWrapper = new AaiNqResponseWrapper(onset.getRequestID(), aaiNqResponse);
 
         if (logger.isDebugEnabled()) {
             logger.debug("AAI Named Query Response: ");
-            logger.debug(Serialization.gsonPretty.toJson(aaiNqResponseWrapper.getAainqresponse()));
+            logger.debug(Serialization.gsonPretty.toJson(aaiNqResponseWrapper.getAaiNqResponse()));
         }
 
         return aaiNqResponseWrapper;
@@ -363,8 +363,8 @@ public class SOActorServiceProvider implements Actor {
      *        for the non base index
      * @return the base or non base index or -1 if the index was not found
      */
-    private int findIndex(List<AAINQInventoryResponseItem> inventoryResponseItems, boolean baseIndexFlag) {
-        for (AAINQInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
+    private int findIndex(List<AaiNqInventoryResponseItem> inventoryResponseItems, boolean baseIndexFlag) {
+        for (AaiNqInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
             if (invenoryResponseItem.getVfModule() != null
                     && baseIndexFlag == invenoryResponseItem.getVfModule().getIsBaseVfModule()) {
                 return inventoryResponseItems.indexOf(invenoryResponseItem);
@@ -381,9 +381,9 @@ public class SOActorServiceProvider implements Actor {
      * @return number of non base index modules
      */
 
-    private int findNonBaseModules(List<AAINQInventoryResponseItem> inventoryResponseItems) {
+    private int findNonBaseModules(List<AaiNqInventoryResponseItem> inventoryResponseItems) {
         int nonBaseModuleCount = 0;
-        for (AAINQInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
+        for (AaiNqInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
             if (invenoryResponseItem.getVfModule() != null
                     && (!invenoryResponseItem.getVfModule().getIsBaseVfModule())) {
                 nonBaseModuleCount++;

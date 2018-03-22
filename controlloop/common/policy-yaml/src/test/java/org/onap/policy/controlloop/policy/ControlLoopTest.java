@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.onap.policy.aai.PNF;
+import org.onap.policy.aai.Pnf;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.ResourceType;
 import org.onap.policy.sdc.Service;
@@ -57,8 +57,8 @@ public class ControlLoopTest {
 	
 	@Test
 	public void testEqualsNoServicesAndResourcesOrTimeout() {
-	    final PNF pnf = new PNF();
-	    pnf.setPNFName("pnf 1");
+	    final Pnf pnf = new Pnf();
+	    pnf.setPnfName("pnf 1");
 	    
 		ControlLoop controlLoop1 = new ControlLoop();
 		controlLoop1.setControlLoopName(controlLoopName);
@@ -79,8 +79,8 @@ public class ControlLoopTest {
 	
 	@Test
 	public void testEquals() {
-	    final PNF pnf = new PNF();
-	    pnf.setPNFName("pnf 1");
+	    final Pnf pnf = new Pnf();
+	    pnf.setPnfName("pnf 1");
 	    
 		ControlLoop controlLoop1 = new ControlLoop();
 		controlLoop1.setControlLoopName(controlLoopName);
@@ -133,8 +133,8 @@ public class ControlLoopTest {
     // does not copy the value of pnf and version into the newly created object
     // PLEASE ADVISE IF THE EXISTING BEHAVIOUR IS CORRECT
 	public void testControlLoop() {
-	    final PNF pnf = new PNF();
-	    pnf.setPNFName("pnf 1");
+	    final Pnf pnf = new Pnf();
+	    pnf.setPnfName("pnf 1");
 	    
 		ControlLoop controlLoop1 = new ControlLoop();
 		controlLoop1.setControlLoopName(controlLoopName);

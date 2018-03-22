@@ -37,8 +37,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.onap.policy.aai.PNF;
-import org.onap.policy.aai.PNFType;
+import org.onap.policy.aai.Pnf;
+import org.onap.policy.aai.PnfType;
 import org.onap.policy.controlloop.policy.builder.BuilderException;
 import org.onap.policy.controlloop.policy.builder.ControlLoopPolicyBuilder;
 import org.onap.policy.controlloop.policy.builder.Message;
@@ -230,8 +230,8 @@ public class ControlLoopPolicyBuilderTest {
     // PLEASE ADVISE IF THE BEHAVIOUR IS INCORRECT OR THE TEST CASE IS INVALID
     public void testControlLoopForPnf() {
         try {
-        	PNF pnf = new PNF();
-        	pnf.setPNFType(PNFType.ENODEB);
+        	Pnf pnf = new Pnf();
+        	pnf.setPnfType(PnfType.ENODEB);
             ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400, pnf);
             assertEquals(pnf, builder.getControlLoop().getPnf());
             
@@ -249,8 +249,8 @@ public class ControlLoopPolicyBuilderTest {
         ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         assertNull(builder.getControlLoop().getPnf());
         
-    	PNF pnf = new PNF();
-    	pnf.setPNFType(PNFType.ENODEB);
+    	Pnf pnf = new Pnf();
+    	pnf.setPnfType(PnfType.ENODEB);
         builder.setPNF(pnf);
         assertEquals(pnf, builder.getControlLoop().getPnf());
         
@@ -271,7 +271,7 @@ public class ControlLoopPolicyBuilderTest {
         ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("Invalid PNF - need either pnfName or pnfType");
-        builder.setPNF(new PNF());
+        builder.setPNF(new Pnf());
     }
     
     @Test

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
 */
+
 package org.onap.policy.aai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -29,33 +30,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RelatedToPropertyTest {
-	private static final Logger logger = LoggerFactory.getLogger(RelatedToPropertyTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(RelatedToPropertyTest.class);
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {}
 
-	@Test
-	public void test() {
-		RelatedToProperty relatedToProperty = new RelatedToProperty(); 
-		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.setPropertyKey("model.model-name"); 
-		relatedToPropertyItem.setPropertyValue("service-instance"); 
-		relatedToProperty.getRelatedTo().add(relatedToPropertyItem); 
-		RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem(); 
-		relatedToPropertyItem2.setPropertyKey("model.model-name2"); 
-		relatedToPropertyItem2.setPropertyValue("service-instance2"); 
-		relatedToProperty.getRelatedTo().add(relatedToPropertyItem2);		
-	    assertNotNull(relatedToProperty);
-	    
-	    relatedToProperty.setRelatedTo(relatedToProperty.getRelatedTo());
-	    assertNotNull(relatedToProperty);
-	    
-	    logger.info(Serialization.gsonPretty.toJson(relatedToProperty));
-	}
+    @Test
+    public void test() {
+        RelatedToProperty relatedToProperty = new RelatedToProperty();
+        RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem();
+        relatedToPropertyItem.setPropertyKey("model.model-name");
+        relatedToPropertyItem.setPropertyValue("service-instance");
+        relatedToProperty.getRelatedTo().add(relatedToPropertyItem);
+        RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem();
+        relatedToPropertyItem2.setPropertyKey("model.model-name2");
+        relatedToPropertyItem2.setPropertyValue("service-instance2");
+        relatedToProperty.getRelatedTo().add(relatedToPropertyItem2);
+        assertNotNull(relatedToProperty);
+
+        relatedToProperty.setRelatedTo(relatedToProperty.getRelatedTo());
+        assertNotNull(relatedToProperty);
+
+        logger.info(Serialization.gsonPretty.toJson(relatedToProperty));
+    }
 
 }

@@ -23,7 +23,7 @@ package org.onap.policy.controlloop.policy;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.onap.policy.aai.PNF;
+import org.onap.policy.aai.Pnf;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.Service;
 
@@ -35,7 +35,7 @@ public class ControlLoop {
     private String version = COMPILER_VERSION;
     private List<Service> services;
     private List<Resource> resources;
-    private PNF pnf;
+    private Pnf pnf;
     private String triggerPolicy = FinalResult.FINAL_OPENLOOP.toString();
     private Integer timeout;
     private Boolean abatement = false;
@@ -104,11 +104,11 @@ public class ControlLoop {
         this.version = version;
     }
 
-    public PNF getPnf() {
+    public Pnf getPnf() {
         return pnf;
     }
 
-    public void setPnf(PNF pnf) {
+    public void setPnf(Pnf pnf) {
         this.pnf = pnf;
     }
 

@@ -22,27 +22,26 @@ package org.onap.policy.aai.util;
 
 public class AAIException extends Exception {
 
-	private static final long serialVersionUID = 9220983727706207465L;
+    private static final long serialVersionUID = 9220983727706207465L;
 
-	public AAIException() {
-		super();
-	}
+    public AAIException() {
+        super();
+    }
 
-	public AAIException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+    public AAIException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 
-	public AAIException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public AAIException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public AAIException(String message) {
-		super(message);
-	}
+    public AAIException(String message) {
+        super(message);
+    }
 
-	public AAIException(Throwable cause) {
-		super(cause);
-	}
+    public AAIException(Throwable cause) {
+        super(cause);
+    }
 
 }

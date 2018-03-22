@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 
-import org.onap.policy.aai.PNF;
+import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompiler;
 import org.onap.policy.controlloop.compiler.ControlLoopCompilerCallback;
@@ -68,7 +68,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 		this.addService(services);
 	}
 
-	public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, PNF pnf) throws BuilderException {
+	public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Pnf pnf) throws BuilderException {
 		this(controlLoopName, timeout);
 		this.setPNF(pnf);
 	}
@@ -147,11 +147,11 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 	}
 
 	@Override
-	public ControlLoopPolicyBuilder setPNF(PNF pnf) throws BuilderException {
+	public ControlLoopPolicyBuilder setPNF(Pnf pnf) throws BuilderException {
 		if (pnf == null) {
 			throw new BuilderException("PNF must not be null");
 		}
-		if (pnf.getPNFName() == null && pnf.getPNFType() == null) {
+		if (pnf.getPnfName() == null && pnf.getPnfType() == null) {
 			throw new BuilderException("Invalid PNF - need either pnfName or pnfType");
 		}
 		controlLoopPolicy.getControlLoop().setPnf(pnf);

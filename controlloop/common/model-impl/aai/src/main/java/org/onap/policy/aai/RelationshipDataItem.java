@@ -20,29 +20,31 @@
 
 package org.onap.policy.aai;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 public class RelationshipDataItem implements Serializable {
-	private static final long serialVersionUID = 550450041634939767L;
-	
-	@SerializedName("relationship-key")
-	private String relationshipKey;
-	@SerializedName("relationship-value")
-	private String relationshipValue;
-	
-	public String getRelationshipKey() {
-		return relationshipKey;
-	}
-	public String getRelationshipValue() {
-		return relationshipValue;
-	}
-	
-	public void setRelationshipKey(String relationshipKey) {
-		this.relationshipKey = relationshipKey;
-	}
-	public void setRelationshipValue(String relationshipValue) {
-		this.relationshipValue = relationshipValue;
-	}
+    private static final long serialVersionUID = 550450041634939767L;
+
+    @SerializedName("relationship-key")
+    private String relationshipKey;
+    @SerializedName("relationship-value")
+    private String relationshipValue;
+
+    public String getRelationshipKey() {
+        return relationshipKey;
+    }
+
+    public String getRelationshipValue() {
+        return relationshipValue;
+    }
+
+    public void setRelationshipKey(String relationshipKey) {
+        this.relationshipKey = relationshipKey;
+    }
+
+    public void setRelationshipValue(String relationshipValue) {
+        this.relationshipValue = relationshipValue;
+    }
 }

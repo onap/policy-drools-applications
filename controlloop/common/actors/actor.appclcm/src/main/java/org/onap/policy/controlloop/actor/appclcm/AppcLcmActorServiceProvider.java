@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.AAINQInstanceFilters;
-import org.onap.policy.aai.AAINQInventoryResponseItem;
-import org.onap.policy.aai.AAINQNamedQuery;
-import org.onap.policy.aai.AAINQQueryParameters;
-import org.onap.policy.aai.AAINQRequest;
-import org.onap.policy.aai.AAINQResponse;
+import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.AaiNqInstanceFilters;
+import org.onap.policy.aai.AaiNqInventoryResponseItem;
+import org.onap.policy.aai.AaiNqNamedQuery;
+import org.onap.policy.aai.AaiNqQueryParameters;
+import org.onap.policy.aai.AaiNqRequest;
+import org.onap.policy.aai.AaiNqResponse;
 import org.onap.policy.aai.util.AAIException;
 import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.appclcm.LCMRequest;
@@ -115,12 +115,12 @@ public class AppcLcmActorServiceProvider implements Actor {
      * 
      * @return the vnf-id of the target vnf to act upon or null if not found
      */
-    private static String parseAaiResponse(List<AAINQInventoryResponseItem> items, String resourceId) {
+    private static String parseAaiResponse(List<AaiNqInventoryResponseItem> items, String resourceId) {
         String vnfId = null;
-        for (AAINQInventoryResponseItem item : items) {
-            if ((item.getGenericVNF() != null) && (item.getGenericVNF().getModelInvariantId() != null)
-                    && (resourceId.equals(item.getGenericVNF().getModelInvariantId()))) {
-                vnfId = item.getGenericVNF().getVnfID();
+        for (AaiNqInventoryResponseItem item : items) {
+            if ((item.getGenericVnf() != null) && (item.getGenericVnf().getModelInvariantId() != null)
+                    && (resourceId.equals(item.getGenericVnf().getModelInvariantId()))) {
+                vnfId = item.getGenericVnf().getVnfId();
                 break;
             } else {
                 if ((item.getItems() != null) && (item.getItems().getInventoryResponseItems() != null)) {
@@ -147,10 +147,10 @@ public class AppcLcmActorServiceProvider implements Actor {
         // TODO: This request id should not be hard coded in future releases
         UUID requestId = UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087");
 
-        AAINQRequest aaiRequest = new AAINQRequest();
-        aaiRequest.setQueryParameters(new AAINQQueryParameters());
-        aaiRequest.getQueryParameters().setNamedQuery(new AAINQNamedQuery());
-        aaiRequest.getQueryParameters().getNamedQuery().setNamedQueryUUID(requestId);
+        AaiNqRequest aaiRequest = new AaiNqRequest();
+        aaiRequest.setQueryParameters(new AaiNqQueryParameters());
+        aaiRequest.getQueryParameters().setNamedQuery(new AaiNqNamedQuery());
+        aaiRequest.getQueryParameters().getNamedQuery().setNamedQueryUuid(requestId);
 
         Map<String, Map<String, String>> filter = new HashMap<>();
         Map<String, String> filterItem = new HashMap<>();
@@ -158,10 +158,10 @@ public class AppcLcmActorServiceProvider implements Actor {
         filterItem.put("vnf-id", sourceVnfId);
         filter.put("generic-vnf", filterItem);
 
-        aaiRequest.setInstanceFilters(new AAINQInstanceFilters());
+        aaiRequest.setInstanceFilters(new AaiNqInstanceFilters());
         aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
 
-        AAINQResponse aaiResponse = new AAIManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
+        AaiNqResponse aaiResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
                 getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiRequest,
                 requestId);
 

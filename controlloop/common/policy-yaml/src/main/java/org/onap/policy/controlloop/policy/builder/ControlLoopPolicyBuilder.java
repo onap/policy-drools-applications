@@ -22,7 +22,7 @@ package org.onap.policy.controlloop.policy.builder;
 
 import java.util.Map;
 
-import org.onap.policy.aai.PNF;
+import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;
@@ -85,7 +85,7 @@ public interface ControlLoopPolicyBuilder {
      * @return
      * @throws BuilderException
      */
-    public ControlLoopPolicyBuilder setPNF(PNF pnf) throws BuilderException;
+    public ControlLoopPolicyBuilder setPNF(Pnf pnf) throws BuilderException;
     
     /**
      * @return
@@ -297,7 +297,7 @@ public interface ControlLoopPolicyBuilder {
          * @return ControlLoopPolicyBuilder object
          * @throws BuilderException
          */
-        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout, PNF pnf) throws BuilderException {
+        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout, Pnf pnf) throws BuilderException {
             return new ControlLoopPolicyBuilderImpl(controlLoopName, timeout, pnf);
         }
     }
