@@ -25,13 +25,13 @@ import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
 
 public interface TargetLock {
-	
-	public UUID		getLockID();
-	
-	public TargetType	getTargetType();
-	
-	public String	getTargetInstance();
-	
-	public UUID		getRequestID();
+
+    public UUID getLockID();
+
+    public TargetType getTargetType();
+
+    public String getTargetInstance();
+
+    public UUID getRequestID();
 
 }

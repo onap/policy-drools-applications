@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,19 +30,24 @@ import org.json.JSONObject;
 
 @Path("/pdp/api")
 public class GuardSimulatorJaxRs {
-	public static final String DENY_CLNAME = "denyGuard";
+    public static final String DENY_CLNAME = "denyGuard";
 
-	@POST
-	@Path("/getDecision")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("application/json")
-	public String getGuardDecision(String req){
-		String clName = new JSONObject(req).getJSONObject("decisionAttributes").getString("clname");
-		if (DENY_CLNAME.equals(clName))
-		{
-			return "{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}";
-		}
-		else
-			return "{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}";
-	}
+    /**
+     * Get a guard decision.
+     * 
+     * @param req the request
+     * @return the response
+     */
+    @POST
+    @Path("/getDecision")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String getGuardDecision(String req) {
+        String clName = new JSONObject(req).getJSONObject("decisionAttributes").getString("clname");
+        if (DENY_CLNAME.equals(clName)) {
+            return "{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}";
+        } else {
+            return "{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}";
+        }
+    }
 }

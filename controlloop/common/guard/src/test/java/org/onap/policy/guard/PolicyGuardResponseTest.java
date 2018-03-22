@@ -20,7 +20,8 @@
 
 package org.onap.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.UUID;
 
@@ -28,23 +29,23 @@ import org.junit.Test;
 
 public class PolicyGuardResponseTest {
 
-	@Test
-	public void policyGuardResponseTest() {
-		UUID requestId = UUID.randomUUID();
-		
-		assertNotNull(new PolicyGuardResponse(null, null, null));
-		
-		PolicyGuardResponse response = new PolicyGuardResponse("BackHome", requestId, "GetBackHome");
-		
-		response.setRequestID(requestId);
-		assertEquals(requestId, response.getRequestID());
-		
-		response.setResult("BackHome");
-		assertEquals("BackHome", response.getResult());
-		
-		response.setOperation("GetBackHome");
-		assertEquals("GetBackHome", response.getOperation());
-		
-		assertEquals("PolicyGuardResponse [requestID=", response.toString().substring(0, 31));
-	}
+    @Test
+    public void policyGuardResponseTest() {
+        UUID requestId = UUID.randomUUID();
+
+        assertNotNull(new PolicyGuardResponse(null, null, null));
+
+        PolicyGuardResponse response = new PolicyGuardResponse("BackHome", requestId, "GetBackHome");
+
+        response.setRequestID(requestId);
+        assertEquals(requestId, response.getRequestID());
+
+        response.setResult("BackHome");
+        assertEquals("BackHome", response.getResult());
+
+        response.setOperation("GetBackHome");
+        assertEquals("GetBackHome", response.getOperation());
+
+        assertEquals("PolicyGuardResponse [requestID=", response.toString().substring(0, 31));
+    }
 }

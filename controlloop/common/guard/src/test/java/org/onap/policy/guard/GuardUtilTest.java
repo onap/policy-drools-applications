@@ -20,7 +20,10 @@
 
 package org.onap.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import com.att.aft.dme2.internal.google.common.io.Files;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,78 +35,76 @@ import org.onap.policy.guard.Util.Pair;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import com.att.aft.dme2.internal.google.common.io.Files;
-
 public class GuardUtilTest {
-	@Test
-	public void testLoadYamlOK() throws IOException {
-		File tempYAMLFile = File.createTempFile("ONAPPF", "yaml");
+    @Test
+    public void testLoadYamlOk() throws IOException {
+        File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
 
-		ControlLoopPolicy clPolicy = new ControlLoopPolicy();
-		
-		Yaml clYaml = new Yaml(new Constructor(ControlLoopPolicy.class));
-		String clYamlString = clYaml.dump(clPolicy);
-		
-		TextFileUtils.putStringAsFile(clYamlString, tempYAMLFile);
-		
-		Pair<ControlLoopPolicy, String> result = Util.loadYaml(tempYAMLFile.getCanonicalPath());
-		
-		assertEquals(clPolicy, result.a);
-		assertEquals(clYamlString, result.b);
-		
-		tempYAMLFile.delete();
-	}
-	
-	@Test
-	public void testLoadYamlError() throws IOException {
-		File tempDir = Files.createTempDir();
-		
-		// Read from a directory forces an IO exception
-		assertNull(Util.loadYaml(tempDir.getCanonicalPath()));
-		
-		tempDir.delete();
-	}
-	
-	@Test
-	public void testLoadGuardYamlOK() throws IOException {
-		File tempYAMLFile = File.createTempFile("ONAPPF", "yaml");
+        ControlLoopPolicy clPolicy = new ControlLoopPolicy();
 
-		ControlLoopGuard clGuardPolicy = new ControlLoopGuard();
-		
-		Yaml clYaml = new Yaml(new Constructor(ControlLoopPolicy.class));
-		String clYamlString = clYaml.dump(clGuardPolicy);
-		
-		TextFileUtils.putStringAsFile(clYamlString, tempYAMLFile);
-		
-		ControlLoopGuard result = Util.loadYamlGuard(tempYAMLFile.getCanonicalPath());
-		
-		assertEquals(clGuardPolicy, result);
-		
-		tempYAMLFile.delete();
-	}
-	
-	@Test
-	public void testLoadGuardYamlError() throws IOException {
-		File tempDir = Files.createTempDir();
-		
-		// Read from a directory forces an IO exception
-		assertNull(Util.loadYamlGuard(tempDir.getCanonicalPath()));
-		
-		tempDir.delete();
-	}
-	
-	@Test
-	public void testMisc() {
-		Util.setGuardEnvProp("Actor", "Judy Garland");
-		assertEquals("Judy Garland", Util.getGuardProp("Actor"));
-		
-		Util.setGuardEnvProps("http://somewhere.over.the.rainbow", "Dorothy", "Toto", "Wizard", "Emerald", "Oz");
+        Yaml clYaml = new Yaml(new Constructor(ControlLoopPolicy.class));
+        String clYamlString = clYaml.dump(clPolicy);
 
-		assertEquals("http://somewhere.over.the.rainbow", Util.getGuardProp(Util.PROP_GUARD_URL));
-		assertEquals("Dorothy", Util.getGuardProp(Util.PROP_GUARD_USER));
-		assertEquals("Toto", Util.getGuardProp(Util.PROP_GUARD_PASS));
-		assertEquals("Wizard", Util.getGuardProp(Util.PROP_GUARD_CLIENT_USER));
-		assertEquals("Emerald", Util.getGuardProp(Util.PROP_GUARD_CLIENT_PASS));
-		assertEquals("Oz", Util.getGuardProp(Util.PROP_GUARD_ENV));
-	}
+        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+
+        Pair<ControlLoopPolicy, String> result = Util.loadYaml(tempYamlFile.getCanonicalPath());
+
+        assertEquals(clPolicy, result.parameterA);
+        assertEquals(clYamlString, result.parameterB);
+
+        tempYamlFile.delete();
+    }
+
+    @Test
+    public void testLoadYamlError() throws IOException {
+        File tempDir = Files.createTempDir();
+
+        // Read from a directory forces an IO exception
+        assertNull(Util.loadYaml(tempDir.getCanonicalPath()));
+
+        tempDir.delete();
+    }
+
+    @Test
+    public void testLoadGuardYamlOk() throws IOException {
+        File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+
+        ControlLoopGuard clGuardPolicy = new ControlLoopGuard();
+
+        Yaml clYaml = new Yaml(new Constructor(ControlLoopPolicy.class));
+        String clYamlString = clYaml.dump(clGuardPolicy);
+
+        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+
+        ControlLoopGuard result = Util.loadYamlGuard(tempYamlFile.getCanonicalPath());
+
+        assertEquals(clGuardPolicy, result);
+
+        tempYamlFile.delete();
+    }
+
+    @Test
+    public void testLoadGuardYamlError() throws IOException {
+        File tempDir = Files.createTempDir();
+
+        // Read from a directory forces an IO exception
+        assertNull(Util.loadYamlGuard(tempDir.getCanonicalPath()));
+
+        tempDir.delete();
+    }
+
+    @Test
+    public void testMisc() {
+        Util.setGuardEnvProp("Actor", "Judy Garland");
+        assertEquals("Judy Garland", Util.getGuardProp("Actor"));
+
+        Util.setGuardEnvProps("http://somewhere.over.the.rainbow", "Dorothy", "Toto", "Wizard", "Emerald", "Oz");
+
+        assertEquals("http://somewhere.over.the.rainbow", Util.getGuardProp(Util.PROP_GUARD_URL));
+        assertEquals("Dorothy", Util.getGuardProp(Util.PROP_GUARD_USER));
+        assertEquals("Toto", Util.getGuardProp(Util.PROP_GUARD_PASS));
+        assertEquals("Wizard", Util.getGuardProp(Util.PROP_GUARD_CLIENT_USER));
+        assertEquals("Emerald", Util.getGuardProp(Util.PROP_GUARD_CLIENT_PASS));
+        assertEquals("Oz", Util.getGuardProp(Util.PROP_GUARD_ENV));
+    }
 }

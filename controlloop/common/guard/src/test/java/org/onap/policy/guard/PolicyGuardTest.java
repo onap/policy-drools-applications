@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.guard;
 
 import static org.junit.Assert.assertEquals;
@@ -35,201 +36,205 @@ import org.onap.policy.guard.impl.VMTargetLock;
 import org.onap.policy.guard.impl.VNFTargetLock;
 
 public class PolicyGuardTest {
-	private static final String INSTANCENAME = "targetInstance";
+    private static final String INSTANCENAME = "targetInstance";
 
-	private class DummyLockCallback implements LockCallback {
-		@Override
-		public boolean isActive() {
-			return false;
-		}
-		@Override
-		public boolean releaseLock() {
-			return false;
-		}
-	}
-	
-	private class DummyTargetLock implements TargetLock {
-		@Override
-		public UUID getLockID() {
-			return null;
-		}
-		@Override
-		public TargetType getTargetType() {
-			return null;
-		}
-		@Override
-		public String getTargetInstance() {
-			return INSTANCENAME;
-		}
-		@Override
-		public UUID getRequestID() {
-			return null;
-		}
-	}
+    private class DummyLockCallback implements LockCallback {
+        @Override
+        public boolean isActive() {
+            return false;
+        }
 
-	@Test
-	public void testLockVM() {
-		UUID uuid = UUID.randomUUID();
-		TargetType type = TargetType.VM;
+        @Override
+        public boolean releaseLock() {
+            return false;
+        }
+    }
 
-		// Test isLocked before and after lock added
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		DummyLockCallback dlcb = new DummyLockCallback();
-		LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-		assertEquals(VMTargetLock.class, result.getB().getClass());
-		
-		VMTargetLock vtl = (VMTargetLock) result.getB();
-		assertNotNull(vtl.getLockID());
-		assertEquals(INSTANCENAME, vtl.getTargetInstance());
-		assertEquals(TargetType.VM, vtl.getTargetType());
-		assertNotNull(vtl.getRequestID());
-		assertEquals(dlcb, vtl.getCallback());
-		
-		// Test isLocked after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-	}
-	
-	@Test
-	public void testLockPNF() {
-		UUID uuid = UUID.randomUUID();
-		TargetType type = TargetType.PNF;
+    private class DummyTargetLock implements TargetLock {
+        @Override
+        public UUID getLockID() {
+            return null;
+        }
 
-		// Test isLocked before and after lock added
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		DummyLockCallback dlcb = new DummyLockCallback();
-		LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-		assertEquals(PNFTargetLock.class, result.getB().getClass());
-		
-		PNFTargetLock ptl = (PNFTargetLock) result.getB();
-		assertNotNull(ptl.getLockID());
-		assertEquals(INSTANCENAME, ptl.getTargetInstance());
-		assertEquals(TargetType.PNF, ptl.getTargetType());
-		assertNotNull(ptl.getRequestID());
-		assertEquals(dlcb, ptl.getCallback());
+        @Override
+        public TargetType getTargetType() {
+            return null;
+        }
 
-		// Test isLocked after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-	}
+        @Override
+        public String getTargetInstance() {
+            return INSTANCENAME;
+        }
 
-	
-	@Test
-	public void testLockVNF() {
-		UUID uuid = UUID.randomUUID();
-		TargetType type = TargetType.VNF;
+        @Override
+        public UUID getRequestID() {
+            return null;
+        }
+    }
 
-		// Test isLocked before and after lock added
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		DummyLockCallback dlcb = new DummyLockCallback();
-		LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-		assertEquals(VNFTargetLock.class, result.getB().getClass());
+    @Test
+    public void testLockVm() {
+        UUID uuid = UUID.randomUUID();
+        TargetType type = TargetType.VM;
 
-		VNFTargetLock vtl = (VNFTargetLock) result.getB();
-		assertNotNull(vtl.getLockID());
-		assertEquals(INSTANCENAME, vtl.getTargetInstance());
-		assertEquals(TargetType.VNF, vtl.getTargetType());
-		assertNotNull(vtl.getRequestID());
-		assertEquals(dlcb, vtl.getCallback());
-		
-		// Test isLocked after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-	}
+        // Test isLocked before and after lock added
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        DummyLockCallback dlcb = new DummyLockCallback();
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
-	@Test
-	public void testLockVFC() {
-		UUID uuid = UUID.randomUUID();
-		TargetType type = TargetType.VFC;
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(VMTargetLock.class, result.getB().getClass());
 
-		// Test isLocked before and after lock added
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		DummyLockCallback dlcb = new DummyLockCallback();
-		LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
-		assertNull(result.getB());
+        VMTargetLock vtl = (VMTargetLock) result.getB();
+        assertNotNull(vtl.getLockID());
+        assertEquals(INSTANCENAME, vtl.getTargetInstance());
+        assertEquals(TargetType.VM, vtl.getTargetType());
+        assertNotNull(vtl.getRequestID());
+        assertEquals(dlcb, vtl.getCallback());
 
-		// Test isLocked after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-	}
-	
-	@Test
-	public void testUnLockNotLocked() {
-		UUID uuid = UUID.randomUUID();
-		TargetType type = TargetType.VM;
+        // Test isLocked after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+    }
 
-		// Test isLocked before and after lock added
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		DummyLockCallback dlcb = new DummyLockCallback();
-		LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-		assertEquals(VMTargetLock.class, result.getB().getClass());
+    @Test
+    public void testLockPnf() {
+        UUID uuid = UUID.randomUUID();
+        TargetType type = TargetType.PNF;
 
-		result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_DENIED, result.getA());
-		assertNull(result.getB());
+        // Test isLocked before and after lock added
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        DummyLockCallback dlcb = new DummyLockCallback();
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
-		// Test isLocked after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(PNFTargetLock.class, result.getB().getClass());
 
-		// Test unlock after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-	}
-	
-	@Test
-	public void testLockAlreadyLocked() {
-		UUID uuid = UUID.randomUUID();
-		TargetType type = TargetType.VM;
+        PNFTargetLock ptl = (PNFTargetLock) result.getB();
+        assertNotNull(ptl.getLockID());
+        assertEquals(INSTANCENAME, ptl.getTargetInstance());
+        assertEquals(TargetType.PNF, ptl.getTargetType());
+        assertNotNull(ptl.getRequestID());
+        assertEquals(dlcb, ptl.getCallback());
 
-		// Test isLocked before and after lock added
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		DummyLockCallback dlcb = new DummyLockCallback();
-		LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-		assertEquals(VMTargetLock.class, result.getB().getClass());
+        // Test isLocked after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+    }
 
-		result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid , dlcb);
-		assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-		
-		assertEquals(GuardResult.LOCK_DENIED, result.getA());
-		assertNull(result.getB());
 
-		// Test isLocked after lock removed
-		PolicyGuard.unlockTarget(new DummyTargetLock());
-		assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-	}
-	
-	@Test
-	public void testInnards() {
-		
-		DummyLockCallback dlcb = new DummyLockCallback();
-		assertFalse(dlcb.isActive());
-		assertFalse(dlcb.releaseLock());
-	
-		DummyTargetLock dtl = new DummyTargetLock();
-		assertNull(dtl.getLockID());
-		assertNull(dtl.getRequestID());
-		assertEquals(INSTANCENAME, dtl.getTargetInstance());
-		assertNull(dtl.getTargetType());
-	}
+    @Test
+    public void testLockVnf() {
+        UUID uuid = UUID.randomUUID();
+        TargetType type = TargetType.VNF;
+
+        // Test isLocked before and after lock added
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        DummyLockCallback dlcb = new DummyLockCallback();
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(VNFTargetLock.class, result.getB().getClass());
+
+        VNFTargetLock vtl = (VNFTargetLock) result.getB();
+        assertNotNull(vtl.getLockID());
+        assertEquals(INSTANCENAME, vtl.getTargetInstance());
+        assertEquals(TargetType.VNF, vtl.getTargetType());
+        assertNotNull(vtl.getRequestID());
+        assertEquals(dlcb, vtl.getCallback());
+
+        // Test isLocked after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+    }
+
+    @Test
+    public void testLockVfc() {
+        UUID uuid = UUID.randomUUID();
+        TargetType type = TargetType.VFC;
+
+        // Test isLocked before and after lock added
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        DummyLockCallback dlcb = new DummyLockCallback();
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
+        assertNull(result.getB());
+
+        // Test isLocked after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+    }
+
+    @Test
+    public void testUnLockNotLocked() {
+        UUID uuid = UUID.randomUUID();
+        TargetType type = TargetType.VM;
+
+        // Test isLocked before and after lock added
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        DummyLockCallback dlcb = new DummyLockCallback();
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(VMTargetLock.class, result.getB().getClass());
+
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        assertEquals(GuardResult.LOCK_DENIED, result.getA());
+        assertNull(result.getB());
+
+        // Test isLocked after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        // Test unlock after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+    }
+
+    @Test
+    public void testLockAlreadyLocked() {
+        UUID uuid = UUID.randomUUID();
+        TargetType type = TargetType.VM;
+
+        // Test isLocked before and after lock added
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+        DummyLockCallback dlcb = new DummyLockCallback();
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(VMTargetLock.class, result.getB().getClass());
+
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+
+        assertEquals(GuardResult.LOCK_DENIED, result.getA());
+        assertNull(result.getB());
+
+        // Test isLocked after lock removed
+        PolicyGuard.unlockTarget(new DummyTargetLock());
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
+    }
+
+    @Test
+    public void testInnards() {
+
+        DummyLockCallback dlcb = new DummyLockCallback();
+        assertFalse(dlcb.isActive());
+        assertFalse(dlcb.releaseLock());
+
+        DummyTargetLock dtl = new DummyTargetLock();
+        assertNull(dtl.getLockID());
+        assertNull(dtl.getRequestID());
+        assertEquals(INSTANCENAME, dtl.getTargetInstance());
+        assertNull(dtl.getTargetType());
+    }
 }

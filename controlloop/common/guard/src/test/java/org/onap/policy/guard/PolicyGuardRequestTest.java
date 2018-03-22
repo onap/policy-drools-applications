@@ -20,7 +20,8 @@
 
 package org.onap.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.UUID;
 
@@ -28,26 +29,26 @@ import org.junit.Test;
 
 public class PolicyGuardRequestTest {
 
-	@Test
-	public void policyGuardRequestTest() {
-		UUID requestId = UUID.randomUUID();
-		
-		assertNotNull(new PolicyGuardRequest(null, null, null, null));
-		
-		PolicyGuardRequest request = new PolicyGuardRequest("Dorothy", "Kansas", requestId, "GetBackHome");
-		
-		request.setRequestID(requestId);
-		assertEquals(requestId, request.getRequestID());
-		
-		request.setActor("Dorothy");
-		assertEquals("Dorothy", request.getActor());
-		
-		request.setTarget("Kansas");
-		assertEquals("Kansas", request.getTarget());
-		
-		request.setOperation("GetBackHome");
-		assertEquals("GetBackHome", request.getOperation());
-		
-		assertEquals("PolicyGuardRequest [actor=Dorothy", request.toString().substring(0, 33));
-	}
+    @Test
+    public void policyGuardRequestTest() {
+        UUID requestId = UUID.randomUUID();
+
+        assertNotNull(new PolicyGuardRequest(null, null, null, null));
+
+        PolicyGuardRequest request = new PolicyGuardRequest("Dorothy", "Kansas", requestId, "GetBackHome");
+
+        request.setRequestID(requestId);
+        assertEquals(requestId, request.getRequestID());
+
+        request.setActor("Dorothy");
+        assertEquals("Dorothy", request.getActor());
+
+        request.setTarget("Kansas");
+        assertEquals("Kansas", request.getTarget());
+
+        request.setOperation("GetBackHome");
+        assertEquals("GetBackHome", request.getOperation());
+
+        assertEquals("PolicyGuardRequest [actor=Dorothy", request.toString().substring(0, 33));
+    }
 }

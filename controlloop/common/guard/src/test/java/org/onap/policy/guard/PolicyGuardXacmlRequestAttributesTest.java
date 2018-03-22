@@ -20,7 +20,8 @@
 
 package org.onap.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.UUID;
 
@@ -28,37 +29,37 @@ import org.junit.Test;
 
 public class PolicyGuardXacmlRequestAttributesTest {
 
-	@Test
-	public void policyGuardXacmlRequestAttributesTest() {
-		assertNotNull(new PolicyGuardXacmlRequestAttributes(null, null, null, null, null));
-		
-		UUID controlLoopID = UUID.randomUUID();
-		UUID operationID = UUID.randomUUID();
-		UUID requestID = UUID.randomUUID();
-		UUID actorID = UUID.randomUUID();
-		UUID targetID = UUID.randomUUID();
-		
-		PolicyGuardXacmlRequestAttributes attributes = new PolicyGuardXacmlRequestAttributes(
-				controlLoopID.toString(), actorID.toString(), operationID.toString(), targetID.toString(), requestID.toString());
-		
-		attributes.setRequestID(requestID.toString());
-		assertEquals(requestID.toString(), attributes.getRequestID());
-		
-		attributes.setOperationID(operationID.toString());
-		assertEquals(operationID.toString(), attributes.getOperationID());
-		
-		attributes.setActorID(actorID.toString());
-		assertEquals(actorID.toString(), attributes.getActorID());
-		
-		attributes.setTargetID(targetID.toString());
-		assertEquals(targetID.toString(), attributes.getTargetID());
-		
-		attributes.setTargetID(targetID.toString());
-		assertEquals(targetID.toString(), attributes.getTargetID());
-		
-		attributes.setClnameID(controlLoopID.toString());
-		assertEquals(controlLoopID.toString(), attributes.getClnameID());
-		
-		assertEquals("PolicyGuardXacmlRequestAttributes [actorID=", attributes.toString().substring(0, 43));
-	}
+    @Test
+    public void policyGuardXacmlRequestAttributesTest() {
+        assertNotNull(new PolicyGuardXacmlRequestAttributes(null, null, null, null, null));
+
+        UUID controlLoopId = UUID.randomUUID();
+        UUID operationId = UUID.randomUUID();
+        UUID requestId = UUID.randomUUID();
+        UUID actorId = UUID.randomUUID();
+        UUID targetId = UUID.randomUUID();
+
+        PolicyGuardXacmlRequestAttributes attributes = new PolicyGuardXacmlRequestAttributes(controlLoopId.toString(),
+                actorId.toString(), operationId.toString(), targetId.toString(), requestId.toString());
+
+        attributes.setRequestID(requestId.toString());
+        assertEquals(requestId.toString(), attributes.getRequestID());
+
+        attributes.setOperationID(operationId.toString());
+        assertEquals(operationId.toString(), attributes.getOperationID());
+
+        attributes.setActorID(actorId.toString());
+        assertEquals(actorId.toString(), attributes.getActorID());
+
+        attributes.setTargetID(targetId.toString());
+        assertEquals(targetId.toString(), attributes.getTargetID());
+
+        attributes.setTargetID(targetId.toString());
+        assertEquals(targetId.toString(), attributes.getTargetID());
+
+        attributes.setClnameID(controlLoopId.toString());
+        assertEquals(controlLoopId.toString(), attributes.getClnameID());
+
+        assertEquals("PolicyGuardXacmlRequestAttributes [actorID=", attributes.toString().substring(0, 43));
+    }
 }

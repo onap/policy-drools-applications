@@ -20,21 +20,22 @@
 
 package org.onap.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class GuardResultTest {
 
-	@Test
-	public void guardResultTest() {
-		assertEquals(3, GuardResult.values().length);
-		assertNotNull(GuardResult.LOCK_ACQUIRED);
-		assertNotNull(GuardResult.LOCK_DENIED);
-		assertNotNull(GuardResult.LOCK_EXCEPTION);
-		
-		assertEquals(GuardResult.LOCK_ACQUIRED, GuardResult.valueOf("LOCK_ACQUIRED"));
-		assertEquals(GuardResult.LOCK_DENIED, GuardResult.valueOf("LOCK_DENIED"));
-		assertEquals(GuardResult.LOCK_EXCEPTION, GuardResult.valueOf("LOCK_EXCEPTION"));
-	}
+    @Test
+    public void guardResultTest() {
+        assertEquals(3, GuardResult.values().length);
+        assertNotNull(GuardResult.LOCK_ACQUIRED);
+        assertNotNull(GuardResult.LOCK_DENIED);
+        assertNotNull(GuardResult.LOCK_EXCEPTION);
+
+        assertEquals(GuardResult.LOCK_ACQUIRED, GuardResult.valueOf("LOCK_ACQUIRED"));
+        assertEquals(GuardResult.LOCK_DENIED, GuardResult.valueOf("LOCK_DENIED"));
+        assertEquals(GuardResult.LOCK_EXCEPTION, GuardResult.valueOf("LOCK_EXCEPTION"));
+    }
 }

@@ -15,48 +15,49 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.msb.client;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 public class NodeTest {
 
-	@Test
-	public void testSetAndGetName() {
-		Node node = new Node();
-		final String name = "myName";
-		node.setName(name);
-		assertEquals(name, node.getName());
-	}
+    @Test
+    public void testSetAndGetName() {
+        Node node = new Node();
+        final String name = "myName";
+        node.setName(name);
+        assertEquals(name, node.getName());
+    }
 
-	@Test
-	public void testSetAndGetIp() {
-		Node node = new Node();
-		final String ip = "127.0.0.1";
-		node.setIp(ip);
-		assertEquals(ip, node.getIp());
-	}
+    @Test
+    public void testSetAndGetIp() {
+        Node node = new Node();
+        final String ip = "127.0.0.1";
+        node.setIp(ip);
+        assertEquals(ip, node.getIp());
+    }
 
-	@Test
-	public void testSetAndGetPort() {
-		Node node = new Node();
-		final String port = "1001";
-		node.setPort(port);
-		assertEquals(port, node.getPort());
-	}
+    @Test
+    public void testSetAndGetPort() {
+        Node node = new Node();
+        final String port = "1001";
+        node.setPort(port);
+        assertEquals(port, node.getPort());
+    }
 
-	@Test
-	public void testToString() {
-		Node node = new Node();
-		final String name = "myName";
-		final String ip = "127.0.0.1";
-		final String port = "1001";
-		node.setName(name);
-		node.setIp(ip);
-		node.setPort(port);
-		assertEquals("Node{name='myName', ip='127.0.0.1', port='1001'}", node.toString());
-	}
+    @Test
+    public void testToString() {
+        Node node = new Node();
+        final String name = "myName";
+        final String ip = "127.0.0.1";
+        final String port = "1001";
+        node.setName(name);
+        node.setIp(ip);
+        node.setPort(port);
+        assertEquals("Node{name='myName', ip='127.0.0.1', port='1001'}", node.toString());
+    }
 
 }

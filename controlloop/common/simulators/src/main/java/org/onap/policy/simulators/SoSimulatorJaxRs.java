@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,18 +29,26 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/serviceInstances")
 public class SoSimulatorJaxRs {
-	
-	@POST
-	@Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("application/json")
-	public String soPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
-	{
 
-		// the requestID contained in the SO Response is a newly generated requestID 
-		// with no relation to the requestID in Policy controlLoopEvent
-		return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": \"rq1234d1-5a33-ffdf-23ab-12abad84e331\" }}";
+    /**
+     * SO post query.
+     * 
+     * @param serviceInstanceId the service instance Id
+     * @param vnfInstanceId the VNF Id
+     * @return the response
+     */
+    @POST
+    @Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String soPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId,
+            @PathParam("vnfInstanceId") String vnfInstanceId) {
 
-	}
-	
+        // the requestID contained in the SO Response is a newly generated requestID
+        // with no relation to the requestID in Policy controlLoopEvent
+        return "{\"requestReferences\": {\"instanceId\": \"ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff\", \"requestId\": \""
+                + "rq1234d1-5a33-ffdf-23ab-12abad84e331\" }}";
+
+    }
+
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,9 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.guard;
 
 public enum GuardResult {
-	LOCK_ACQUIRED,
-	LOCK_DENIED,
-	LOCK_EXCEPTION
-	;
+    LOCK_ACQUIRED, LOCK_DENIED, LOCK_EXCEPTION;
 }

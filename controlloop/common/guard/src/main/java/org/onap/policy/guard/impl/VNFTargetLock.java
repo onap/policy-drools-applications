@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,56 +29,61 @@ import org.onap.policy.guard.TargetLock;
 
 public class VNFTargetLock implements TargetLock, Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2335897394577202732L;
-	
-	private final UUID		lockID;
-	private final TargetType 	targetType;
-	private final String 	target;
-	private final UUID 		requestID;
-	private final transient LockCallback callback;
+    private static final long serialVersionUID = 2335897394577202732L;
 
-	public VNFTargetLock (TargetType type, String target, UUID requestID, LockCallback callback) {
-		this.lockID = UUID.randomUUID();
-		this.targetType = type;
-		this.target = target;
-		this.requestID = requestID;
-		this.callback = callback;
-	}
+    private final UUID lockId;
+    private final TargetType targetType;
+    private final String target;
+    private final UUID requestId;
+    private final transient LockCallback callback;
 
-	@Override
-	public UUID		getLockID() {
-		return this.lockID;
-	}
-	
-	
-	@Override
-	public TargetType getTargetType() {
-		return targetType;
-	}
+    /**
+     * Create an instance.
+     * 
+     * @param type the type
+     * @param target the target
+     * @param requestID the request Id
+     * @param callback the callback
+     */
+    public VNFTargetLock(TargetType type, String target, UUID requestID, LockCallback callback) {
+        this.lockId = UUID.randomUUID();
+        this.targetType = type;
+        this.target = target;
+        this.requestId = requestID;
+        this.callback = callback;
+    }
 
-	@Override
-	public String getTargetInstance() {
-		return target;
-	}
+    @Override
+    public UUID getLockID() {
+        return this.lockId;
+    }
 
-	@Override
-	public UUID getRequestID() {
-		return this.requestID;
-	}
 
-	public LockCallback getCallback() {
-		return this.callback;
-	}
+    @Override
+    public TargetType getTargetType() {
+        return targetType;
+    }
 
-	@Override
-	public String toString() {
-		return "VNFTargetLock [lockID=" + lockID + ", targetType=" + targetType + ", target=" + target + ", requestID="
-				+ requestID + "]";
-	}
+    @Override
+    public String getTargetInstance() {
+        return target;
+    }
 
-	
+    @Override
+    public UUID getRequestID() {
+        return this.requestId;
+    }
+
+    public LockCallback getCallback() {
+        return this.callback;
+    }
+
+    @Override
+    public String toString() {
+        return "VNFTargetLock [lockID=" + lockId + ", targetType=" + targetType + ", target=" + target + ", requestID="
+                + requestId + "]";
+    }
+
+
 
 }

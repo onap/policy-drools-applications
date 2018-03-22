@@ -26,8 +26,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * The Class TextFileUtils is class that provides useful functions for handling text files. Functions to read and wrtie text files to strings and strings are
- * provided.
+ * The Class TextFileUtils is class that provides useful functions for handling text files.
+ * Functions to read and wrtie text files to strings and strings are provided.
  *
  * @author Liam Fallon (liam.fallon@ericsson.com)
  */

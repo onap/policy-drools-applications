@@ -22,38 +22,50 @@ package org.onap.policy.guard;
 
 import java.util.UUID;
 
-public class PolicyGuardResponse{
-	private UUID requestID;
-	private String operation;
-	private String result;
+public class PolicyGuardResponse {
+    private UUID requestId;
+    private String operation;
+    private String result;
 
-	public PolicyGuardResponse(String result, UUID req, String op) {
-		this.result = result;
-		this.requestID = req;
-		this.operation = op;
-	}
-	
-	@Override
-	public String toString() {
-		return "PolicyGuardResponse [requestID=" + requestID + ", operation=" + operation + ", result=" + result + "]";
-	}
-	
-	public UUID getRequestID() {
-		return requestID;
-	}
-	public void setRequestID(UUID requestID) {
-		this.requestID = requestID;
-	}
-	public String getResult() {
-		return result;
-	}
-	public void setResult(String result) {
-		this.result = result;
-	}
-	public String getOperation() {
-		return operation;
-	}
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    /**
+     * Create an instance.
+     * 
+     * @param result the result
+     * @param req the request Id
+     * @param op the operation
+     */
+    public PolicyGuardResponse(String result, UUID req, String op) {
+        this.result = result;
+        this.requestId = req;
+        this.operation = op;
+    }
+
+    @Override
+    public String toString() {
+        return "PolicyGuardResponse [requestID=" + requestId + ", operation=" + operation + ", result=" + result + "]";
+    }
+
+    public UUID getRequestID() {
+        return requestId;
+    }
+
+    public void setRequestID(UUID requestID) {
+        this.requestId = requestID;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 }

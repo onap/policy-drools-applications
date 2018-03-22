@@ -15,16 +15,17 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.msb.client;
 
 import org.junit.Test;
 import org.onap.policy.common.utils.test.ExceptionsTester;
 
-public class MSBServiceExceptionTest extends ExceptionsTester{
-	
-	@Test
-	public void test() throws Exception {
-		test(MSBServiceException.class);
-	}
+public class MsbServiceExceptionTest extends ExceptionsTester {
+
+    @Test
+    public void test() throws Exception {
+        test(MsbServiceException.class);
+    }
 
 }

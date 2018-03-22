@@ -23,54 +23,62 @@ package org.onap.policy.guard;
 import java.util.UUID;
 
 public class PolicyGuardRequest {
-	private String actor;
-	private String target;
-	private UUID requestID;
-	private String operation;
-	
-	public PolicyGuardRequest(String actor, String target, UUID requestID, String operation) {
-		super();
-		this.actor = actor;
-		this.target = target;
-		this.requestID = requestID;
-		this.operation = operation;
-	}
-	
-	@Override
-	public String toString() {
-		return "PolicyGuardRequest [actor=" + actor + ", target=" + target + ", requestID=" + requestID + ", operation="
-				+ operation + "]";
-	}
+    private String actor;
+    private String target;
+    private UUID requestId;
+    private String operation;
 
-	public String getActor() {
-		return actor;
-	}
+    /**
+     * Construct an instance.
+     * 
+     * @param actor the actor
+     * @param target the target
+     * @param requestID the request Id
+     * @param operation the operation
+     */
+    public PolicyGuardRequest(String actor, String target, UUID requestID, String operation) {
+        super();
+        this.actor = actor;
+        this.target = target;
+        this.requestId = requestID;
+        this.operation = operation;
+    }
 
-	public void setActor(String actor) {
-		this.actor = actor;
-	}
+    @Override
+    public String toString() {
+        return "PolicyGuardRequest [actor=" + actor + ", target=" + target + ", requestID=" + requestId + ", operation="
+                + operation + "]";
+    }
 
-	public String getTarget() {
-		return target;
-	}
+    public String getActor() {
+        return actor;
+    }
 
-	public void setTarget(String target) {
-		this.target = target;
-	}
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
 
-	public UUID getRequestID() {
-		return requestID;
-	}
+    public String getTarget() {
+        return target;
+    }
 
-	public void setRequestID(UUID requestID) {
-		this.requestID = requestID;
-	}
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-	public String getOperation() {
-		return operation;
-	}
+    public UUID getRequestID() {
+        return requestId;
+    }
 
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    public void setRequestID(UUID requestID) {
+        this.requestId = requestID;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 }
