@@ -40,7 +40,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.util.AAIException;
+import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
@@ -136,7 +136,7 @@ public class ControlLoopOperationManagerTest {
             ControlLoopEventManager.NEW_EVENT_STATUS status = null;
             try {
                 status = eventManager.onNewEvent(onset);
-            } catch (AAIException e) {
+            } catch (AaiException e) {
                 logger.warn(e.toString());
                 fail("A&AI Query Failed");
             }
@@ -237,7 +237,7 @@ public class ControlLoopOperationManagerTest {
             assertNotNull(manager.getOperationResult());
             assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_RETRIES));
             assertTrue(manager.getHistory().size() == 2);
-        } catch (ControlLoopException | AAIException e) {
+        } catch (ControlLoopException | AaiException e) {
             fail(e.getMessage());
         }
     }
@@ -267,7 +267,7 @@ public class ControlLoopOperationManagerTest {
             ControlLoopEventManager.NEW_EVENT_STATUS status = null;
             try {
                 status = eventManager.onNewEvent(onset);
-            } catch (AAIException e) {
+            } catch (AaiException e) {
                 logger.warn(e.toString());
                 fail("A&AI Query Failed");
             }
@@ -335,13 +335,13 @@ public class ControlLoopOperationManagerTest {
             assertFalse(manager.isOperationRunning());
             assertTrue(manager.getHistory().size() == 1);
             assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_TIMEOUT));
-        } catch (ControlLoopException | AAIException e) {
+        } catch (ControlLoopException | AaiException e) {
             fail(e.getMessage());
         }
     }
 
     @Test
-    public void testMethods() throws IOException, ControlLoopException, AAIException {
+    public void testMethods() throws IOException, ControlLoopException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/testSOactor.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -434,7 +434,7 @@ public class ControlLoopOperationManagerTest {
 
         onsetEvent.getAAI().remove("generic-vnf.vnf-id");
         manager.getVnfResponse();
-        clom.getEventManager().getVnfResponse().setVnfID("generic-vnf.vnf-id");
+        clom.getEventManager().getVnfResponse().setVnfId("generic-vnf.vnf-id");
         assertEquals("generic-vnf.vnf-id", clom.getTarget(policy));
 
         policy.getTarget().setType(TargetType.VFC);
@@ -468,7 +468,7 @@ public class ControlLoopOperationManagerTest {
     }
 
     @Test
-    public void testConstructor() throws IOException, ControlLoopException, AAIException {
+    public void testConstructor() throws IOException, ControlLoopException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -523,7 +523,7 @@ public class ControlLoopOperationManagerTest {
     }
 
     @Test
-    public void testStartOperation() throws IOException, ControlLoopException, AAIException {
+    public void testStartOperation() throws IOException, ControlLoopException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -627,7 +627,7 @@ public class ControlLoopOperationManagerTest {
     }
 
     @Test
-    public void testOnResponse() throws IOException, ControlLoopException, AAIException {
+    public void testOnResponse() throws IOException, ControlLoopException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -720,7 +720,7 @@ public class ControlLoopOperationManagerTest {
     }
 
     @Test
-    public void testCompleteOperation() throws ControlLoopException, AAIException, IOException {
+    public void testCompleteOperation() throws ControlLoopException, AaiException, IOException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 

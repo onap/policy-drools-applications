@@ -39,15 +39,15 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.AAIGETVserverResponse;
+import org.onap.policy.aai.AaiGetVnfResponse;
+import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.RelatedToProperty;
 import org.onap.policy.aai.RelatedToPropertyItem;
 import org.onap.policy.aai.Relationship;
 import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipDataItem;
 import org.onap.policy.aai.RelationshipList;
-import org.onap.policy.aai.util.AAIException;
+import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -109,7 +109,7 @@ public class ControlLoopEventManagerTest {
         final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
-            AAIGETVnfResponse response = getQueryByVnfId2(
+            AaiGetVnfResponse response = getQueryByVnfId2(
                     PolicyEngine.manager.getEnvironmentProperty("aai.url")
                             + "/aai/v11/network/generic-vnfs/generic-vnf/",
                     PolicyEngine.manager.getEnvironmentProperty("aai.username"),
@@ -128,7 +128,7 @@ public class ControlLoopEventManagerTest {
         final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
-            AAIGETVnfResponse response = getQueryByVnfName2(
+            AaiGetVnfResponse response = getQueryByVnfName2(
                     PolicyEngine.manager.getEnvironmentProperty("aai.url")
                             + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=",
                     PolicyEngine.manager.getEnvironmentProperty("aai.username"),
@@ -146,7 +146,7 @@ public class ControlLoopEventManagerTest {
         final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
-            AAIGETVserverResponse response = getQueryByVserverName2(
+            AaiGetVserverResponse response = getQueryByVserverName2(
                     PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/nodes/vservers?vserver-name=",
                     PolicyEngine.manager.getEnvironmentProperty("aai.username"),
                     PolicyEngine.manager.getEnvironmentProperty("aai.password"), UUID.randomUUID(),
@@ -169,7 +169,7 @@ public class ControlLoopEventManagerTest {
 
         try {
             logger.info("testIsClosedLoopDisabled --");
-            AAIGETVnfResponse response = getQueryByVnfId2(
+            AaiGetVnfResponse response = getQueryByVnfId2(
                     PolicyEngine.manager.getEnvironmentProperty("aai.url")
                             + "/aai/v11/network/generic-vnfs/generic-vnf/",
                     PolicyEngine.manager.getEnvironmentProperty("aai.username"),
@@ -191,7 +191,7 @@ public class ControlLoopEventManagerTest {
             // disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
             // logger.info("QueryByVnfName - isClosedLoopDisabled: " + disabled);
 
-            AAIGETVserverResponse response2 = getQueryByVserverName2(
+            AaiGetVserverResponse response2 = getQueryByVserverName2(
                     PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/nodes/vservers?vserver-name=",
                     PolicyEngine.manager.getEnvironmentProperty("aai.user"),
                     PolicyEngine.manager.getEnvironmentProperty("aai.password"), UUID.randomUUID(),
@@ -263,14 +263,14 @@ public class ControlLoopEventManagerTest {
         ControlLoopEventManager.NEW_EVENT_STATUS status = null;
         try {
             status = manager.onNewEvent(event);
-        } catch (AAIException e) {
+        } catch (AaiException e) {
             logger.warn(e.toString());
             fail("A&AI Query Failed");
         }
         assertNotNull(status);
         assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.FIRST_ONSET, status);
 
-        AAIGETVnfResponse response = manager.getVnfResponse();
+        AaiGetVnfResponse response = manager.getVnfResponse();
         assertNotNull(response);
         assertNull(manager.getVserverResponse());
 
@@ -286,12 +286,12 @@ public class ControlLoopEventManagerTest {
 
         try {
             status = manager.onNewEvent(event2);
-        } catch (AAIException e) {
+        } catch (AaiException e) {
             logger.warn(e.toString());
             fail("A&AI Query Failed");
         }
         assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.SUBSEQUENT_ONSET, status);
-        AAIGETVnfResponse response2 = manager.getVnfResponse();
+        AaiGetVnfResponse response2 = manager.getVnfResponse();
         assertNotNull(response2);
         // We should not have queried AAI, so the stored response should be the same
         assertEquals(response, response2);
@@ -301,11 +301,11 @@ public class ControlLoopEventManagerTest {
     /**
      * Simulate a response.
      */
-    public static AAIGETVnfResponse getQueryByVnfId2(String urlGet, String username, String password, UUID requestId,
+    public static AaiGetVnfResponse getQueryByVnfId2(String urlGet, String username, String password, UUID requestId,
             String key) {
-        AAIGETVnfResponse response = new AAIGETVnfResponse();
+        AaiGetVnfResponse response = new AaiGetVnfResponse();
 
-        response.setVnfID("83f674e8-7555-44d7-9a39-bdc3770b0491");
+        response.setVnfId("83f674e8-7555-44d7-9a39-bdc3770b0491");
         response.setVnfName("lll_vnf_010317");
         response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
         response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
@@ -355,11 +355,11 @@ public class ControlLoopEventManagerTest {
     /**
      * Simulate a response.
      */
-    public static AAIGETVnfResponse getQueryByVnfName2(String urlGet, String username, String password, UUID requestId,
+    public static AaiGetVnfResponse getQueryByVnfName2(String urlGet, String username, String password, UUID requestId,
             String key) {
-        AAIGETVnfResponse response = new AAIGETVnfResponse();
+        AaiGetVnfResponse response = new AaiGetVnfResponse();
 
-        response.setVnfID("83f674e8-7555-44d7-9a39-bdc3770b0491");
+        response.setVnfId("83f674e8-7555-44d7-9a39-bdc3770b0491");
         response.setVnfName("lll_vnf_010317");
         response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
         response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
@@ -409,11 +409,11 @@ public class ControlLoopEventManagerTest {
     /**
      * Simulate a response.
      */
-    public static AAIGETVserverResponse getQueryByVserverName2(String urlGet, String username, String password,
+    public static AaiGetVserverResponse getQueryByVserverName2(String urlGet, String username, String password,
             UUID requestId, String key) {
-        AAIGETVserverResponse response = new AAIGETVserverResponse();
+        AaiGetVserverResponse response = new AaiGetVserverResponse();
 
-        response.setVserverID("d0668d4f-c25e-4a1b-87c4-83845c01efd8");
+        response.setVserverId("d0668d4f-c25e-4a1b-87c4-83845c01efd8");
         response.setVserverName("USMSO1SX7NJ0103UJZZ01-vjunos0");
         response.setVserverName2("vjunos0");
         response.setVserverSelflink(
@@ -626,7 +626,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testProcessControlLoop() throws ControlLoopException, IOException, AAIException {
+    public void testProcessControlLoop() throws ControlLoopException, IOException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -708,7 +708,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testFinishOperation() throws IOException, ControlLoopException, AAIException {
+    public void testFinishOperation() throws IOException, ControlLoopException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/testSOactor.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -794,7 +794,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testOnNewEvent() throws IOException, AAIException {
+    public void testOnNewEvent() throws IOException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -940,7 +940,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testQueryAai() throws IOException, AAIException {
+    public void testQueryAai() throws IOException, AaiException {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
@@ -1020,7 +1020,7 @@ public class ControlLoopEventManagerTest {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
         } catch (Exception e) {
-            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AAIException: AAI Response is null "
+            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AaiException: AAI Response is null "
                     + "(query by vnf-id)", e.getMessage());
         }
 
@@ -1030,7 +1030,7 @@ public class ControlLoopEventManagerTest {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
         } catch (Exception e) {
-            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AAIException: AAI Response is null "
+            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AaiException: AAI Response is null "
                     + "(query by vnf-name)", e.getMessage());
         }
 
@@ -1040,7 +1040,7 @@ public class ControlLoopEventManagerTest {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
         } catch (Exception e) {
-            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AAIException: AAI Response is null "
+            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AaiException: AAI Response is null "
                     + "(query by vserver-name)", e.getMessage());
         }
 

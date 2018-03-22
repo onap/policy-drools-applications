@@ -28,10 +28,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
 
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.AAIGETVserverResponse;
-import org.onap.policy.aai.AAIManager;
-import org.onap.policy.aai.util.AAIException;
+import org.onap.policy.aai.AaiGetVnfResponse;
+import org.onap.policy.aai.AaiGetVserverResponse;
+import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -78,8 +78,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
     private transient TargetLock targetLock = null;
-    private AAIGETVnfResponse vnfResponse = null;
-    private AAIGETVserverResponse vserverResponse = null;
+    private AaiGetVnfResponse vnfResponse = null;
+    private AaiGetVserverResponse vserverResponse = null;
     private static String aaiHostURL;
     private static String aaiUser;
     private static String aaiPassword;
@@ -334,9 +334,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * 
      * @return a ControlLoopOperationManager
      * @throws ControlLoopException if an error occurs
-     * @throws AAIException if an error occurs retrieving information from A&AI
+     * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public ControlLoopOperationManager processControlLoop() throws ControlLoopException, AAIException {
+    public ControlLoopOperationManager processControlLoop() throws ControlLoopException, AaiException {
         //
         // Check if they activated us
         //
@@ -497,9 +497,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * 
      * @param event the event
      * @return the status
-     * @throws AAIException if an error occurs retrieving information from A&AI
+     * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public NEW_EVENT_STATUS onNewEvent(VirtualControlLoopEvent event) throws AAIException {
+    public NEW_EVENT_STATUS onNewEvent(VirtualControlLoopEvent event) throws AaiException {
         try {
             this.checkEventSyntax(event);
             if (event.getClosedLoopEventStatus() == ControlLoopEventStatus.ONSET) {
@@ -590,11 +590,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         return 0;
     }
 
-    public AAIGETVnfResponse getVnfResponse() {
+    public AaiGetVnfResponse getVnfResponse() {
         return vnfResponse;
     }
 
-    public AAIGETVserverResponse getVserverResponse() {
+    public AaiGetVserverResponse getVserverResponse() {
         return vserverResponse;
     }
 
@@ -641,12 +641,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Query A&AI for an event.
      * 
      * @param event the event
-     * @throws AAIException if an error occurs retrieving information from A&AI
+     * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public void queryAai(VirtualControlLoopEvent event) throws AAIException {
+    public void queryAai(VirtualControlLoopEvent event) throws AaiException {
         if ((event.getAAI().get(VSERVER_IS_CLOSED_LOOP_DISABLED) != null
                 || event.getAAI().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED) != null) && isClosedLoopDisabled(event)) {
-            throw new AAIException("is-closed-loop-disabled is set to true on VServer or VNF");
+            throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
         }
 
         try {
@@ -659,7 +659,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             }
         } catch (Exception e) {
             logger.error("Exception from queryAai: ", e);
-            throw new AAIException("Exception from queryAai: " + e.toString());
+            throw new AaiException("Exception from queryAai: " + e.toString());
         }
     }
 
@@ -669,40 +669,40 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @param aaiResponse the response from A&AI
      * @param queryByVnfId <code>true</code> if the query was based on vnf-id, <code>false</code> if
      *        the query was based on vnf-name
-     * @throws AAIException if an error occurs processing the response
+     * @throws AaiException if an error occurs processing the response
      */
-    private static void processVNFResponse(AAIGETVnfResponse aaiResponse, boolean queryByVNFID) throws AAIException {
+    private static void processVNFResponse(AaiGetVnfResponse aaiResponse, boolean queryByVNFID) throws AaiException {
         String queryTypeString = (queryByVNFID ? "vnf-id" : "vnf-name");
 
         if (aaiResponse == null) {
-            throw new AAIException("AAI Response is null (query by " + queryTypeString + ")");
+            throw new AaiException("AAI Response is null (query by " + queryTypeString + ")");
         }
         if (aaiResponse.getRequestError() != null) {
-            throw new AAIException("AAI Responded with a request error (query by " + queryTypeString + ")");
+            throw new AaiException("AAI Responded with a request error (query by " + queryTypeString + ")");
         }
 
         if (aaiResponse.getIsClosedLoopDisabled() != null) {
             String value = aaiResponse.getIsClosedLoopDisabled();
             if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value)
                     || "Y".equalsIgnoreCase(value)) {
-                throw new AAIException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
+                throw new AaiException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
             }
         }
     }
 
-    private static void processVServerResponse(AAIGETVserverResponse aaiResponse) throws AAIException {
+    private static void processVServerResponse(AaiGetVserverResponse aaiResponse) throws AaiException {
         if (aaiResponse == null) {
-            throw new AAIException("AAI Response is null (query by vserver-name)");
+            throw new AaiException("AAI Response is null (query by vserver-name)");
         }
         if (aaiResponse.getRequestError() != null) {
-            throw new AAIException("AAI responded with a request error (query by vserver-name)");
+            throw new AaiException("AAI responded with a request error (query by vserver-name)");
         }
 
         if (aaiResponse.getIsClosedLoopDisabled() != null) {
             String value = aaiResponse.getIsClosedLoopDisabled();
             if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value)
                     || "Y".equalsIgnoreCase(value)) {
-                throw new AAIException("is-closed-loop-disabled is set to true (query by vserver-name)");
+                throw new AaiException("is-closed-loop-disabled is set to true (query by vserver-name)");
             }
         }
     }
@@ -730,12 +730,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Get the A&AI VService information for an event.
      * 
      * @param event the event
-     * @return a AAIGETVserverResponse
+     * @return a AaiGetVserverResponse
      * @throws ControlLoopException if an error occurs
      */
-    public static AAIGETVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
+    public static AaiGetVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
         UUID requestId = event.getRequestID();
-        AAIGETVserverResponse response = null;
+        AaiGetVserverResponse response = null;
         String vserverName = event.getAAI().get(VSERVER_VSERVER_NAME);
 
         try {
@@ -746,7 +746,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostURL + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
-                response = new AAIManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
+                response = new AaiManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
                         vserverName);
             }
         } catch (Exception e) {
@@ -761,12 +761,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Get A&AI VNF information for an event.
      * 
      * @param event the event
-     * @return a AAIGETVnfResponse
+     * @return a AaiGetVnfResponse
      * @throws ControlLoopException if an error occurs
      */
-    public static AAIGETVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
+    public static AaiGetVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
         UUID requestId = event.getRequestID();
-        AAIGETVnfResponse response = null;
+        AaiGetVnfResponse response = null;
         String vnfName = event.getAAI().get(GENERIC_VNF_VNF_NAME);
         String vnfId = event.getAAI().get(GENERIC_VNF_VNF_ID);
 
@@ -779,14 +779,14 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
                 String url = aaiHostURL + aaiGetQueryByVnfName;
                 logger.info("AAI Host URL by VNF name: {}", url);
-                response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
+                response = new AaiManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
                         vnfName);
             } else if (vnfId != null) {
                 String aaiGetQueryByVnfId = "/aai/v11/network/generic-vnfs/generic-vnf/";
                 String url = aaiHostURL + aaiGetQueryByVnfId;
                 logger.info("AAI Host URL by VNF ID: {}", url);
                 response =
-                        new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUser, aaiPassword, requestId, vnfId);
+                        new AaiManager(new RESTManager()).getQueryByVnfId(url, aaiUser, aaiPassword, requestId, vnfId);
             }
         } catch (Exception e) {
             logger.error("getAAIVnfInfo exception: ", e);

@@ -32,7 +32,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.onap.policy.aai.util.AAIException;
+import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appclcm.LCMResponseWrapper;
@@ -134,9 +134,9 @@ public class ControlLoopOperationManager implements Serializable {
      * @param policy the policy
      * @return the target
      * @throws ControlLoopException if an error occurs
-     * @throws AAIException if an error occurs retrieving information from A&AI
+     * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public String getTarget(Policy policy) throws ControlLoopException, AAIException {
+    public String getTarget(Policy policy) throws ControlLoopException, AaiException {
         if (policy.getTarget() == null) {
             throw new ControlLoopException("The target is null");
         }
@@ -167,9 +167,9 @@ public class ControlLoopOperationManager implements Serializable {
                      * If the vnf-name was retrieved from the onset then the vnf-id must be obtained
                      * from the event manager's A&AI GET query
                      */
-                    String vnfId = this.eventManager.getVnfResponse().getVnfID();
+                    String vnfId = this.eventManager.getVnfResponse().getVnfId();
                     if (vnfId == null) {
-                        throw new AAIException("No vnf-id found");
+                        throw new AaiException("No vnf-id found");
                     }
                     return vnfId;
                 }
@@ -186,10 +186,10 @@ public class ControlLoopOperationManager implements Serializable {
      * @param policy the policy
      * @param em the event manager
      * @throws ControlLoopException if an error occurs
-     * @throws AAIException if an error occurs retrieving information from A&AI
+     * @throws AaiException if an error occurs retrieving information from A&AI
      */
     public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em)
-            throws ControlLoopException, AAIException {
+            throws ControlLoopException, AaiException {
         this.onset = onset;
         this.policy = policy;
         this.guardApprovalStatus = "NONE";

@@ -30,7 +30,7 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.AAIGETVnfResponse;
+import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
@@ -90,13 +90,13 @@ public class TestVFCActorServiceProvider {
         onset.getAAI().put("service-instance.service-instance-id", "");
         assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
 
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse()));
+        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
 
         policy.setRecipe("Restart");
-        assertNotNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse()));
+        assertNotNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
 
         VFCRequest request =
-                VFCActorServiceProvider.constructRequest(onset, operation, policy, new AAIGETVnfResponse());
+                VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse());
 
         assertEquals(requestId, request.getRequestId());
         assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());

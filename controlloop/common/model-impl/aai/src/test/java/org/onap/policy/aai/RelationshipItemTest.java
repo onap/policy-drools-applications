@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
 */
+
 package org.onap.policy.aai;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -29,29 +30,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RelationshipItemTest {
-	private static final Logger logger = LoggerFactory.getLogger(RelationshipItemTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(RelationshipItemTest.class);
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {}
 
-	@Test
-	public void test() {
-		RelationshipItem relationshipItem = new RelationshipItem();
-		RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem(); 
-		relatedToPropertyItem.setPropertyKey("model.model-name"); 
-		relatedToPropertyItem.setPropertyValue("service-instance"); 
-		relationshipItem.getRelatedToProperty().add(relatedToPropertyItem); 
-	    assertNotNull(relationshipItem); 
-	    
-	    relationshipItem.setRelatedToProperty(relationshipItem.getRelatedToProperty());
-	    assertNotNull(relationshipItem); 
-	    
-	    logger.info(Serialization.gsonPretty.toJson(relationshipItem)); 
-	}
+    @Test
+    public void test() {
+        RelationshipItem relationshipItem = new RelationshipItem();
+        RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem();
+        relatedToPropertyItem.setPropertyKey("model.model-name");
+        relatedToPropertyItem.setPropertyValue("service-instance");
+        relationshipItem.getRelatedToProperty().add(relatedToPropertyItem);
+        assertNotNull(relationshipItem);
+
+        relationshipItem.setRelatedToProperty(relationshipItem.getRelatedToProperty());
+        assertNotNull(relationshipItem);
+
+        logger.info(Serialization.gsonPretty.toJson(relationshipItem));
+    }
 
 }

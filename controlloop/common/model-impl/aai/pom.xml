@@ -1,50 +1,91 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-    <artifactId>model-impl</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
-  </parent>
+	<parent>
+		<groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+		<artifactId>model-impl</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+	</parent>
 
-  <artifactId>aai</artifactId>
+	<artifactId>aai</artifactId>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.5</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-      <artifactId>rest</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>2.13.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-core</artifactId>
-      <version>1.7.3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.onap.policy.drools-pdp</groupId>
-      <artifactId>policy-endpoints</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+			<artifactId>rest</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.13.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-core</artifactId>
+			<version>1.7.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onap.policy.drools-pdp</groupId>
+			<artifactId>policy-endpoints</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>onap-java-style</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<phase>process-sources</phase>
+						<configuration>
+							<!-- Use Google Java Style Guide: https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml 
+								with minor changes -->
+							<configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
+							<!-- <sourceDirectory> is needed so that checkstyle ignores the generated 
+								sources directory -->
+							<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+							<includeResources>true</includeResources>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+							<includeTestResources>true</includeTestResources>
+							<excludes>
+							</excludes>
+							<consoleOutput>true</consoleOutput>
+							<failOnViolation>true</failOnViolation>
+							<violationSeverity>warning</violationSeverity>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.onap.oparent</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>0.1.1</version>
+						<scope>compile</scope>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 </project>
