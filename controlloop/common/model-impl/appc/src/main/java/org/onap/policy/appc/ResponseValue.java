@@ -20,6 +20,8 @@
 
 package org.onap.policy.appc;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum ResponseValue {
 	ACCEPT("ACCEPT"),
 	ERROR("ERROR"),
@@ -28,6 +30,7 @@ public enum ResponseValue {
 	FAILURE("FAILURE")
 	;
 	
+	@SerializedName("Value")
 	private String value;
 	
 	private ResponseValue(String value) {

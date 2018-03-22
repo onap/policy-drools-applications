@@ -20,6 +20,8 @@
 
 package org.onap.policy.appc;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum ResponseCode {
 	ACCEPT(100),
 	ERROR(200),
@@ -28,6 +30,7 @@ public enum ResponseCode {
 	FAILURE(500)
 	;
 
+	@SerializedName("Code")
 	private Integer code;
 
 	private ResponseCode(int code) {
