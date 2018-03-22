@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * AppcServiceProviderTest
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@
 
 package org.onap.policy.controlloop.actor.appc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -49,15 +52,15 @@ import org.slf4j.LoggerFactory;
 public class AppcServiceProviderTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AppcServiceProviderTest.class);
-    
+
     private static VirtualControlLoopEvent onsetEvent;
     private static ControlLoopOperation operation;
     private static Policy policy;
 
     static {
-        /* 
-         * Construct an onset with an AAI subtag containing
-         * generic-vnf.vnf-id and a target type of VM.
+        /*
+         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of
+         * VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
@@ -90,14 +93,17 @@ public class AppcServiceProviderTest {
         policy.setPayload(null);
         policy.setRetry(2);
         policy.setTimeout(300);
-        
+
         /* Set environment properties */
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        
+
     }
 
+    /**
+     * Set up before test class.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         try {
@@ -107,17 +113,20 @@ public class AppcServiceProviderTest {
         }
     }
 
+    /**
+     * Tear down after test class.
+     */
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServer.factory.destroy();
     }
-    
+
     @Test
     public void constructModifyConfigRequestTest() {
-        
+
         Request appcRequest = null;
         appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
-        
+
         /* The service provider must return a non null APPC request */
         assertNotNull(appcRequest);
 
@@ -136,11 +145,11 @@ public class AppcServiceProviderTest {
         assertTrue(appcRequest.getPayload().containsKey("pg-streams"));
 
         logger.debug("APPC Request: \n" + appcRequest.toString());
-        
+
         /* Print out request as json to make sure serialization works */
         String jsonRequest = Serialization.gsonPretty.toJson(appcRequest);
         logger.debug("JSON Output: \n" + jsonRequest);
-        
+
         /* The JSON string must contain the following fields */
         assertTrue(jsonRequest.contains("CommonHeader"));
         assertTrue(jsonRequest.contains("Action"));
@@ -148,7 +157,7 @@ public class AppcServiceProviderTest {
         assertTrue(jsonRequest.contains("Payload"));
         assertTrue(jsonRequest.contains("generic-vnf.vnf-id"));
         assertTrue(jsonRequest.contains("pg-streams"));
-        
+
         Response appcResponse = new Response(appcRequest);
         appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
         appcResponse.getStatus().setDescription("AppC success");
@@ -159,11 +168,11 @@ public class AppcServiceProviderTest {
 
     @Test
     public void testMethods() {
-    		APPCActorServiceProvider sp = new APPCActorServiceProvider();
-    	
-    		assertEquals("APPC", sp.actor());
-    		assertEquals(4, sp.recipes().size());
-    		assertEquals("VM", sp.recipeTargets("Restart").get(0));
-    		assertEquals(0, sp.recipePayloads("Restart").size());
+        APPCActorServiceProvider sp = new APPCActorServiceProvider();
+
+        assertEquals("APPC", sp.actor());
+        assertEquals(4, sp.recipes().size());
+        assertEquals("VM", sp.recipeTargets("Restart").get(0));
+        assertEquals(0, sp.recipePayloads("Restart").size());
     }
 }

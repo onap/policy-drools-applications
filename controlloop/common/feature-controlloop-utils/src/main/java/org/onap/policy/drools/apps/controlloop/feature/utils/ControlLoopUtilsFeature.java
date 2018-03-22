@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,36 +30,33 @@ import org.slf4j.LoggerFactory;
 
 /**
  * PDP-D feature for lab environments that provides Server simulation capabilities for AAI, SO, and
- * VFC
+ * VFC.
  *
  */
 public class ControlLoopUtilsFeature implements PolicyEngineFeatureAPI {
 
-  /**
-   * Logger
-   */
-  private static Logger logger = LoggerFactory.getLogger(ControlLoopUtilsFeature.class);
+    private static Logger logger = LoggerFactory.getLogger(ControlLoopUtilsFeature.class);
 
-  @Override
-  public boolean afterStart(PolicyEngine engine) {
-    try {
-      Util.buildAaiSim();
-      Util.buildSoSim();
-      Util.buildVfcSim();
-      Util.buildGuardSim();
-    } catch (final InterruptedException e) {
-      logger.error("{}: initialization aborted", ControlLoopUtilsFeature.class.getName(), e);
-      Thread.currentThread().interrupt();
-    } catch (final IOException e) {
-      logger.error("{}: a simulator cannot be built because of {}",
-          ControlLoopUtilsFeature.class.getName(), e.getMessage(), e);
+    @Override
+    public boolean afterStart(PolicyEngine engine) {
+        try {
+            Util.buildAaiSim();
+            Util.buildSoSim();
+            Util.buildVfcSim();
+            Util.buildGuardSim();
+        } catch (final InterruptedException e) {
+            logger.error("{}: initialization aborted", ControlLoopUtilsFeature.class.getName(), e);
+            Thread.currentThread().interrupt();
+        } catch (final IOException e) {
+            logger.error("{}: a simulator cannot be built because of {}", ControlLoopUtilsFeature.class.getName(),
+                    e.getMessage(), e);
+        }
+        return false;
     }
-    return false;
-  }
 
-  @Override
-  public int getSequenceNumber() {
-    return 100000;
-  }
+    @Override
+    public int getSequenceNumber() {
+        return 100000;
+    }
 
 }

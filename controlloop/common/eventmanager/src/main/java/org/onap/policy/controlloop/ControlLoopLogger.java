@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,24 +26,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public interface ControlLoopLogger {
-	
-	public void info(String... parameters);
-	
-	public void metrics(String... msgs);
-	
-	public void metrics(Object obj);
-	
-	public static class Factory {
-		private static final Logger logger = LoggerFactory.getLogger(Factory.class);
-				
-		public ControlLoopLogger buildLogger(String className) throws ControlLoopException {
-			try {
-				Constructor<?> constr = Class.forName(className).getConstructor();
-				return (ControlLoopLogger) constr.newInstance();
-			} catch (Exception e) {
-				logger.error("buildLogger threw: ", e);
-				throw new ControlLoopException("Cannot load class " + className + " as a control loop logger");
-			}
-		}
-	}
+
+    public void info(String... parameters);
+
+    public void metrics(String... msgs);
+
+    public void metrics(Object obj);
+
+    public static class Factory {
+        private static final Logger logger = LoggerFactory.getLogger(Factory.class);
+
+        /**
+         * Construct an instance.
+         * 
+         * @param className name of the class
+         * @return the instance
+         * @throws ControlLoopException if an error occurs
+         */
+        public ControlLoopLogger buildLogger(String className) throws ControlLoopException {
+            try {
+                Constructor<?> constr = Class.forName(className).getConstructor();
+                return (ControlLoopLogger) constr.newInstance();
+            } catch (Exception e) {
+                logger.error("buildLogger threw: ", e);
+                throw new ControlLoopException("Cannot load class " + className + " as a control loop logger");
+            }
+        }
+    }
 }

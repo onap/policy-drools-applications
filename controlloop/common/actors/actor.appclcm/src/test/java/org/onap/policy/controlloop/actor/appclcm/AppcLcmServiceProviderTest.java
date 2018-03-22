@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * AppcServiceProviderTest
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.util.AbstractMap;
@@ -51,9 +53,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AppcLcmServiceProviderTest {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmServiceProviderTest.class);
-    
+
     private static VirtualControlLoopEvent onsetEvent;
     private static ControlLoopOperation operation;
     private static Policy policy;
@@ -61,9 +63,9 @@ public class AppcLcmServiceProviderTest {
     private static LCMResponseWrapper dmaapResponse;
 
     static {
-        /* 
-         * Construct an onset with an AAI subtag containing
-         * generic-vnf.vnf-id and a target type of VM.
+        /*
+         * Construct an onset with an AAI subtag containing generic-vnf.vnf-id and a target type of
+         * VM.
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
@@ -84,7 +86,7 @@ public class AppcLcmServiceProviderTest {
         operation.setTarget("VM");
         operation.setEnd(Instant.now());
         operation.setSubRequestId("1");
-        
+
         /* Construct a policy specifying to restart vm. */
         policy = new Policy();
         policy.setName("Restart the VM");
@@ -107,30 +109,30 @@ public class AppcLcmServiceProviderTest {
         dmaapResponse.setCorrelationId(onsetEvent.getRequestID().toString() + "-" + "1");
         dmaapResponse.setRpcName(policy.getRecipe().toLowerCase());
         dmaapResponse.setType("response");
-        
+
         /* Set environment properties */
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        
+
         /* A sample APPC LCM request. */
         LCMRequest appcRequest = new LCMRequest();
-        
+
         /* The following code constructs a sample APPC LCM Request */
         appcRequest.setAction("restart");
-        
+
         HashMap<String, String> actionIdentifiers = new HashMap<>();
         actionIdentifiers.put("vnf-id", "trial-vnf-003");
-        
+
         appcRequest.setActionIdentifiers(actionIdentifiers);
-        
+
         LCMCommonHeader commonHeader = new LCMCommonHeader();
         commonHeader.setRequestId(onsetEvent.getRequestID());
         commonHeader.setSubRequestId("1");
         commonHeader.setOriginatorId(onsetEvent.getRequestID().toString());
-        
+
         appcRequest.setCommonHeader(commonHeader);
-        
+
         appcRequest.setPayload(null);
 
         dmaapRequest.setBody(appcRequest);
@@ -142,7 +144,10 @@ public class AppcLcmServiceProviderTest {
 
         dmaapResponse.setBody(appcResponse);
     }
-    
+
+    /**
+     * Set up before test class.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         try {
@@ -152,30 +157,34 @@ public class AppcLcmServiceProviderTest {
         }
     }
 
+    /**
+     * Tear down after test class.
+     */
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServer.factory.destroy();
     }
-    
+
     /**
      * A test to construct an APPC LCM restart request.
      */
     @Test
     public void constructRestartRequestTest() {
-        
-        LCMRequestWrapper dmaapRequest =  AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
+
+        LCMRequestWrapper dmaapRequest =
+                AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
 
         /* The service provider must return a non null DMAAP request wrapper */
         assertNotNull(dmaapRequest);
 
         /* The DMAAP wrapper's type field must be request */
         assertEquals("request", dmaapRequest.getType());
-        
+
         /* The DMAAP wrapper's body field cannot be null */
         assertNotNull(dmaapRequest.getBody());
 
         LCMRequest appcRequest = dmaapRequest.getBody();
-        
+
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
         assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.getRequestID());
@@ -188,7 +197,7 @@ public class AppcLcmServiceProviderTest {
         assertNotNull(appcRequest.getActionIdentifiers());
         assertNotNull(appcRequest.getActionIdentifiers().get("vnf-id"));
         assertEquals("vnf01", appcRequest.getActionIdentifiers().get("vnf-id"));
-        
+
         logger.debug("APPC Request: \n" + appcRequest.toString());
     }
 
@@ -197,106 +206,105 @@ public class AppcLcmServiceProviderTest {
      */
     @Test
     public void processRestartResponseSuccessTest() {
-        AbstractMap.SimpleEntry<PolicyResult, String> result = AppcLcmActorServiceProvider
-                .processResponse(dmaapResponse);
+        AbstractMap.SimpleEntry<PolicyResult, String> result =
+                AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.SUCCESS, result.getKey());
         assertEquals("Restart Successful", result.getValue());
     }
-    
+
     /**
-     * A test to map APPC response results to corresponding Policy results
+     * A test to map APPC response results to corresponding Policy results.
      */
     @Test
     public void appcToPolicyResultTest() {
-        
+
         AbstractMap.SimpleEntry<PolicyResult, String> result;
-        
+
         /* If APPC accepts, PolicyResult is null */
         dmaapResponse.getBody().getStatus().setCode(100);
         dmaapResponse.getBody().getStatus().setMessage("ACCEPTED");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(null, result.getKey());
-        
+
         /* If APPC is successful, PolicyResult is success */
         dmaapResponse.getBody().getStatus().setCode(400);
         dmaapResponse.getBody().getStatus().setMessage("SUCCESS");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.SUCCESS, result.getKey());
-        
+
         /* If APPC returns an error, PolicyResult is failure exception */
         dmaapResponse.getBody().getStatus().setCode(200);
         dmaapResponse.getBody().getStatus().setMessage("ERROR");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         /* If APPC rejects, PolicyResult is failure exception */
         dmaapResponse.getBody().getStatus().setCode(300);
         dmaapResponse.getBody().getStatus().setMessage("REJECT");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         /* Test multiple reject codes */
         dmaapResponse.getBody().getStatus().setCode(306);
         dmaapResponse.getBody().getStatus().setMessage("REJECT");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         dmaapResponse.getBody().getStatus().setCode(313);
         dmaapResponse.getBody().getStatus().setMessage("REJECT");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         /* If APPC returns failure, PolicyResult is failure */
         dmaapResponse.getBody().getStatus().setCode(401);
         dmaapResponse.getBody().getStatus().setMessage("FAILURE");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE, result.getKey());
-        
+
         /* Test multiple failure codes */
         dmaapResponse.getBody().getStatus().setCode(406);
         dmaapResponse.getBody().getStatus().setMessage("FAILURE");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE, result.getKey());
-        
+
         dmaapResponse.getBody().getStatus().setCode(450);
         dmaapResponse.getBody().getStatus().setMessage("FAILURE");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE, result.getKey());
-        
+
         /* If APPC returns partial success, PolicyResult is failure exception */
         dmaapResponse.getBody().getStatus().setCode(500);
         dmaapResponse.getBody().getStatus().setMessage("PARTIAL SUCCESS");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         /* If APPC returns partial failure, PolicyResult is failure exception */
         dmaapResponse.getBody().getStatus().setCode(501);
         dmaapResponse.getBody().getStatus().setMessage("PARTIAL FAILURE");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         /* Test multiple partial failure codes */
         dmaapResponse.getBody().getStatus().setCode(599);
         dmaapResponse.getBody().getStatus().setMessage("PARTIAL FAILURE");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         dmaapResponse.getBody().getStatus().setCode(550);
         dmaapResponse.getBody().getStatus().setMessage("PARTIAL FAILURE");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
-        
+
         /* If APPC code is unknown to Policy, PolicyResult is failure exception */
         dmaapResponse.getBody().getStatus().setCode(700);
         dmaapResponse.getBody().getStatus().setMessage("UNKNOWN");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, result.getKey());
     }
-    
+
     /**
-     * This test ensures that that if the the source entity
-     * is also the target entity, the source will be used for
-     * the APPC request
+     * This test ensures that that if the the source entity is also the target entity, the source
+     * will be used for the APPC request.
      */
     @Test
     public void sourceIsTargetTest() {
@@ -311,17 +319,17 @@ public class AppcLcmServiceProviderTest {
         assertNotNull(targetVnfId);
         assertEquals("vnf01", targetVnfId);
     }
-    
+
     /**
-     * THis test exercises getters not exercised in other tests
+     * THis test exercises getters not exercised in other tests.
      */
     @Test
     public void testMethods() {
-    		AppcLcmActorServiceProvider sp = new AppcLcmActorServiceProvider();
-    	
-    		assertEquals("APPC", sp.actor());
-    		assertEquals(4, sp.recipes().size());
-    		assertEquals("VM", sp.recipeTargets("Restart").get(0));
-    		assertEquals("vm-id", sp.recipePayloads("Restart").get(0));
+        AppcLcmActorServiceProvider sp = new AppcLcmActorServiceProvider();
+
+        assertEquals("APPC", sp.actor());
+        assertEquals(4, sp.recipes().size());
+        assertEquals("VM", sp.recipeTargets("Restart").get(0));
+        assertEquals("vm-id", sp.recipePayloads("Restart").get(0));
     }
 }

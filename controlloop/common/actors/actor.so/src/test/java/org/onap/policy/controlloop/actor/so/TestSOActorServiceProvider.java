@@ -20,7 +20,10 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.UUID;
 
@@ -36,73 +39,79 @@ import org.onap.policy.simulators.Util;
 import org.onap.policy.so.SORequest;
 
 public class TestSOActorServiceProvider {
-	@BeforeClass
-	public static void setUpSimulator() {
-		try {
-			Util.buildAaiSim();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
 
-	@AfterClass
-	public static void tearDownSimulator() {
-		HttpServletServer.factory.destroy();
-	}
+    /**
+     * Set up for test class.
+     */
+    @BeforeClass
+    public static void setUpSimulator() {
+        try {
+            Util.buildAaiSim();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testConstructRequest() {
-		VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
-		ControlLoopOperation operation = new ControlLoopOperation();
+    /**
+     * Tear down after test class.
+     */
+    @AfterClass
+    public static void tearDownSimulator() {
+        HttpServletServer.factory.destroy();
+    }
 
-		UUID requestID = UUID.randomUUID();
-		onset.setRequestID(requestID);
+    @Test
+    public void testConstructRequest() {
+        VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
+        final ControlLoopOperation operation = new ControlLoopOperation();
 
-		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-		PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-		PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        final UUID requestId = UUID.randomUUID();
+        onset.setRequestID(requestId);
 
-		Policy policy = new Policy();
-		policy.setActor("Dorothy");
-		policy.setRecipe("GoToOz");
-		assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 
-		policy.setActor("SO");
-		assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        Policy policy = new Policy();
+        policy.setActor("Dorothy");
+        policy.setRecipe("GoToOz");
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
 
-		policy.setRecipe("VF Module Create");
-		assertNotNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        policy.setActor("SO");
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
 
-		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:999999");
-		assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        policy.setRecipe("VF Module Create");
+        assertNotNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
 
-		PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-		assertNotNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:999999");
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
 
-		SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy);
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        assertNotNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
 
-		assertEquals(requestID, request.getRequestId());
-		assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
-		assertEquals("RegionOne", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
-	}
+        SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy);
 
-	@Test
-	public void testSendRequest() {
-		try {
-			SOActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null);
-		}
-		catch (Exception e) {
-			fail("Test should not throw an exception");
-		}
-	}
+        assertEquals(requestId, request.getRequestId());
+        assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
+        assertEquals("RegionOne", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
+    }
 
-	@Test
-	public void testMethods() {
-		SOActorServiceProvider sp = new SOActorServiceProvider();
+    @Test
+    public void testSendRequest() {
+        try {
+            SOActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null);
+        } catch (Exception e) {
+            fail("Test should not throw an exception");
+        }
+    }
 
-		assertEquals("SO", sp.actor());
-		assertEquals(1, sp.recipes().size());
-		assertEquals("VF Module Create", sp.recipes().get(0));
-		assertEquals(0, sp.recipePayloads("VF Module Create").size());
-	}
+    @Test
+    public void testMethods() {
+        SOActorServiceProvider sp = new SOActorServiceProvider();
+
+        assertEquals("SO", sp.actor());
+        assertEquals(1, sp.recipes().size());
+        assertEquals("VF Module Create", sp.recipes().get(0));
+        assertEquals(0, sp.recipePayloads("VF Module Create").size());
+    }
 }

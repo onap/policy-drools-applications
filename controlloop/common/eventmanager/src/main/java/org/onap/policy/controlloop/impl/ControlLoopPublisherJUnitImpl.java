@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,9 @@ package org.onap.policy.controlloop.impl;
 import org.onap.policy.controlloop.ControlLoopPublisher;
 
 public class ControlLoopPublisherJUnitImpl implements ControlLoopPublisher {
-	@Override
-	public void publish(Object object) {
-		throw new UnsupportedOperationException("publish() method is not implemented on " + this.getClass().getCanonicalName());
-	}
+    @Override
+    public void publish(Object object) {
+        throw new UnsupportedOperationException(
+                "publish() method is not implemented on " + this.getClass().getCanonicalName());
+    }
 }
