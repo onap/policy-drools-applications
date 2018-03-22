@@ -32,7 +32,7 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.aai.util.AAIException;
+import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appclcm.LCMCommonHeader;
 import org.onap.policy.appclcm.LCMRequest;
 import org.onap.policy.appclcm.LCMRequestWrapper;
@@ -312,7 +312,7 @@ public class AppcLcmServiceProviderTest {
         String targetVnfId = null;
         try {
             targetVnfId = AppcLcmActorServiceProvider.vnfNamedQuery(resourceId, "vnf01");
-        } catch (AAIException e) {
+        } catch (AaiException e) {
             logger.warn(e.toString());
             fail("no vnf-id found");
         }

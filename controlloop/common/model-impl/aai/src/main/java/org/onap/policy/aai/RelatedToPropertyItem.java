@@ -20,29 +20,31 @@
 
 package org.onap.policy.aai;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 public class RelatedToPropertyItem implements Serializable {
-	private static final long serialVersionUID = 5644372985092588637L;
-	
-	@SerializedName("property-key")
-	private String propertyKey;
-	@SerializedName("property-value")
-	private String propertyValue;
+    private static final long serialVersionUID = 5644372985092588637L;
 
-	public String getPropertyKey() {
-		return propertyKey;
-	}
-	public String getPropertyValue() {
-		return propertyValue;
-	}
+    @SerializedName("property-key")
+    private String propertyKey;
+    @SerializedName("property-value")
+    private String propertyValue;
 
-	public void setPropertyKey(String propertyKey) {
-		this.propertyKey = propertyKey;
-	}
-	public void setPropertyValue(String propertyValue) {
-		this.propertyValue = propertyValue;
-	}
+    public String getPropertyKey() {
+        return propertyKey;
+    }
+
+    public String getPropertyValue() {
+        return propertyValue;
+    }
+
+    public void setPropertyKey(String propertyKey) {
+        this.propertyKey = propertyKey;
+    }
+
+    public void setPropertyValue(String propertyValue) {
+        this.propertyValue = propertyValue;
+    }
 }

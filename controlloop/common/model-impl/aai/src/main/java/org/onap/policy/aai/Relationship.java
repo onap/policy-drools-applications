@@ -20,54 +20,54 @@
 
 package org.onap.policy.aai;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 public class Relationship implements Serializable {
-	private static final long serialVersionUID = -68508443869003054L;
-	
-	@SerializedName("related-to")
-	private String relatedTo;
-	
-	@SerializedName("related-link")
-	private String relatedLink; 
-	
-	@SerializedName("relationship-data")
-	private RelationshipData relationshipData = new RelationshipData();
-	
-	@SerializedName("related-to-property")
-	private RelatedToProperty relatedToProperty =  new RelatedToProperty();
+    private static final long serialVersionUID = -68508443869003054L;
 
-	public String getRelatedTo() {
-		return relatedTo;
-	}
+    @SerializedName("related-to")
+    private String relatedTo;
 
-	public String getRelatedLink() {
-		return relatedLink;
-	}
+    @SerializedName("related-link")
+    private String relatedLink;
 
-	public RelationshipData getRelationshipData() {
-		return relationshipData;
-	}
+    @SerializedName("relationship-data")
+    private RelationshipData relationshipData = new RelationshipData();
 
-	public RelatedToProperty getRelatedToProperty() {
-		return relatedToProperty;
-	}
+    @SerializedName("related-to-property")
+    private RelatedToProperty relatedToProperty = new RelatedToProperty();
 
-	public void setRelatedTo(String relatedTo) {
-		this.relatedTo = relatedTo;
-	}
+    public String getRelatedTo() {
+        return relatedTo;
+    }
 
-	public void setRelatedLink(String relatedLink) {
-		this.relatedLink = relatedLink;
-	}
+    public String getRelatedLink() {
+        return relatedLink;
+    }
 
-	public void setRelationshipData(RelationshipData relationshipData) {
-		this.relationshipData = relationshipData;
-	}
+    public RelationshipData getRelationshipData() {
+        return relationshipData;
+    }
 
-	public void setRelatedToProperty(RelatedToProperty relatedToProperty) {
-		this.relatedToProperty = relatedToProperty;
-	}
+    public RelatedToProperty getRelatedToProperty() {
+        return relatedToProperty;
+    }
+
+    public void setRelatedTo(String relatedTo) {
+        this.relatedTo = relatedTo;
+    }
+
+    public void setRelatedLink(String relatedLink) {
+        this.relatedLink = relatedLink;
+    }
+
+    public void setRelationshipData(RelationshipData relationshipData) {
+        this.relationshipData = relationshipData;
+    }
+
+    public void setRelatedToProperty(RelatedToProperty relatedToProperty) {
+        this.relatedToProperty = relatedToProperty;
+    }
 }

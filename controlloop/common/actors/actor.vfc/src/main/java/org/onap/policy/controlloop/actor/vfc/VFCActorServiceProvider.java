@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.onap.policy.aai.AAIGETVnfResponse;
-import org.onap.policy.aai.AAIManager;
+import org.onap.policy.aai.AaiGetVnfResponse;
+import org.onap.policy.aai.AaiManager;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -86,13 +86,13 @@ public class VFCActorServiceProvider implements Actor {
      * @return the constructed request
      */
     public static VFCRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
-            Policy policy, AAIGETVnfResponse vnfResponse) {
+            Policy policy, AaiGetVnfResponse vnfResponse) {
 
         // Construct an VFC request
         VFCRequest request = new VFCRequest();
         String serviceInstance = onset.getAAI().get("service-instance.service-instance-id");
         if (serviceInstance == null || "".equals(serviceInstance)) {
-            AAIGETVnfResponse tempVnfResp = vnfResponse;
+            AaiGetVnfResponse tempVnfResp = vnfResponse;
             if (tempVnfResp == null) { // if the response is null, we haven't queried
                 // This does the AAI query since we haven't already
                 tempVnfResp = getAaiServiceInstance(onset);
@@ -122,8 +122,8 @@ public class VFCActorServiceProvider implements Actor {
         return request;
     }
 
-    private static AAIGETVnfResponse getAaiServiceInstance(VirtualControlLoopEvent event) {
-        AAIGETVnfResponse response = null;
+    private static AaiGetVnfResponse getAaiServiceInstance(VirtualControlLoopEvent event) {
+        AaiGetVnfResponse response = null;
         UUID requestId = event.getRequestID();
         String vnfName = event.getAAI().get("generic-vnf.vnf-name");
         String vnfId = event.getAAI().get("generic-vnf.vnf-id");
@@ -133,11 +133,11 @@ public class VFCActorServiceProvider implements Actor {
         try {
             if (vnfName != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                response = new AAIManager(new RESTManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestId,
+                response = new AaiManager(new RESTManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestId,
                         vnfName);
             } else if (vnfId != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf/";
-                response = new AAIManager(new RESTManager()).getQueryByVnfID(url, aaiUsername, aaiPassword, requestId,
+                response = new AaiManager(new RESTManager()).getQueryByVnfId(url, aaiUsername, aaiPassword, requestId,
                         vnfId);
             } else {
                 logger.error("getAAIServiceInstance failed");

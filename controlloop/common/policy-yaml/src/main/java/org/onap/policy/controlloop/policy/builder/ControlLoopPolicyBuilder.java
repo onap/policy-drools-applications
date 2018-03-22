@@ -22,7 +22,7 @@ package org.onap.policy.controlloop.policy.builder;
 
 import java.util.Map;
 
-import org.onap.policy.aai.PNF;
+import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;
@@ -33,7 +33,7 @@ import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.Service;
 
 public interface ControlLoopPolicyBuilder {
-    
+
     /**
      * Adds one or more services to the ControlLoop
      * 
@@ -43,20 +43,20 @@ public interface ControlLoopPolicyBuilder {
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder addService(Service... services) throws BuilderException;
-    
+
     /**
      * @param services
      * @return
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder removeService(Service... services) throws BuilderException;
-    
+
     /**
      * @return
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder removeAllServices() throws BuilderException;
-    
+
     /**
      * Adds one or more resources to the ControlLoop
      * 
@@ -66,51 +66,51 @@ public interface ControlLoopPolicyBuilder {
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder addResource(Resource... resources) throws BuilderException;
-    
+
     /**
      * @param resources
      * @return
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder removeResource(Resource... resources) throws BuilderException;
-    
+
     /**
      * @return
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder removeAllResources() throws BuilderException;
-    
+
     /**
      * @param pnf
      * @return
      * @throws BuilderException
      */
-    public ControlLoopPolicyBuilder setPNF(PNF pnf) throws BuilderException;
-    
+    public ControlLoopPolicyBuilder setPNF(Pnf pnf) throws BuilderException;
+
     /**
      * @return
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder removePNF() throws BuilderException;
-    
+
     /**
-     *  @param abatement
-     *  @return
-     *  @throws BuilderException
+     * @param abatement
+     * @return
+     * @throws BuilderException
      */
     public ControlLoopPolicyBuilder setAbatement(Boolean abatement) throws BuilderException;
-    
-    
+
+
     /**
-     * Sets the overall timeout value for the Control Loop. If any operational policies have retries and timeouts,
-     * then this overall timeout value should exceed all those values.
+     * Sets the overall timeout value for the Control Loop. If any operational policies have retries
+     * and timeouts, then this overall timeout value should exceed all those values.
      * 
      * @param timeout
      * @return
      * @throws BuilderException
      */
     public ControlLoopPolicyBuilder setTimeout(Integer timeout) throws BuilderException;
-    
+
     /**
      * Scans the operational policies and calculate an minimum overall timeout for the Control Loop.
      * 
@@ -118,9 +118,10 @@ public interface ControlLoopPolicyBuilder {
      * @return Integer
      */
     public Integer calculateTimeout();
-    
+
     /**
-     * Sets the initial trigger policy when a DCAE Closed Loop Event arrives in the ONAP Policy Platform.
+     * Sets the initial trigger policy when a DCAE Closed Loop Event arrives in the ONAP Policy
+     * Platform.
      * 
      * 
      * @param name
@@ -133,8 +134,9 @@ public interface ControlLoopPolicyBuilder {
      * @return Policy
      * @throws BuilderException
      */
-    public Policy setTriggerPolicy(String name, String description, String actor, Target target, String recipe, Map<String, String> payload, Integer retries, Integer timeout) throws BuilderException;
-    
+    public Policy setTriggerPolicy(String name, String description, String actor, Target target, String recipe,
+            Map<String, String> payload, Integer retries, Integer timeout) throws BuilderException;
+
     /**
      * 
      * Changes the trigger policy to point to another existing Policy.
@@ -144,27 +146,27 @@ public interface ControlLoopPolicyBuilder {
      * @return ControlLoop
      * @throws BuilderException
      */
-    public ControlLoop  setTriggerPolicy(String id) throws BuilderException;
-    
+    public ControlLoop setTriggerPolicy(String id) throws BuilderException;
+
     /**
      * @return
      */
-    public boolean  isOpenLoop();
-    
+    public boolean isOpenLoop();
+
     /**
      * @return
      * @throws BuilderException
      */
-    public Policy   getTriggerPolicy() throws BuilderException;
-    
+    public Policy getTriggerPolicy() throws BuilderException;
+
     /**
      * Simply returns a copy of the ControlLoop information.
      * 
      * 
      * @return ControlLoop
      */
-    public ControlLoop  getControlLoop();
-    
+    public ControlLoop getControlLoop();
+
     /**
      * Creates a policy that is chained to the result of another Policy.
      * 
@@ -181,10 +183,11 @@ public interface ControlLoopPolicyBuilder {
      * @return
      * @throws BuilderException
      */
-    public Policy setPolicyForPolicyResult(String name, String description, String actor,
-            Target target, String recipe, Map<String, String> payload, Integer retries, Integer timeout, String policyID, PolicyResult... results) throws BuilderException;
-    
-    
+    public Policy setPolicyForPolicyResult(String name, String description, String actor, Target target, String recipe,
+            Map<String, String> payload, Integer retries, Integer timeout, String policyID, PolicyResult... results)
+            throws BuilderException;
+
+
     /**
      * Sets the policy result(s) to an existing Operational Policy.
      * 
@@ -195,11 +198,13 @@ public interface ControlLoopPolicyBuilder {
      * @return
      * @throws BuilderException
      */
-    public Policy setPolicyForPolicyResult(String policyResultID, String policyID, PolicyResult... results) throws BuilderException;
-    
+    public Policy setPolicyForPolicyResult(String policyResultID, String policyID, PolicyResult... results)
+            throws BuilderException;
+
     /**
-     * Removes an Operational Policy. Be mindful that if any other Operational Policies have results that point to this policy, any
-     * policies that have results pointing to this policy will have their result reset to the appropriate default FINAL_* result.
+     * Removes an Operational Policy. Be mindful that if any other Operational Policies have results
+     * that point to this policy, any policies that have results pointing to this policy will have
+     * their result reset to the appropriate default FINAL_* result.
      * 
      * 
      * @param policyID
@@ -207,7 +212,7 @@ public interface ControlLoopPolicyBuilder {
      * @throws BuilderException
      */
     public boolean removePolicy(String policyID) throws BuilderException;
-    
+
     /**
      * Resets a policy's results to defualt FINAL_* codes.
      * 
@@ -215,32 +220,33 @@ public interface ControlLoopPolicyBuilder {
      * @return Policy
      * @throws BuilderException - Policy does not exist
      */
-    public Policy   resetPolicyResults(String policyID) throws BuilderException;
-    
+    public Policy resetPolicyResults(String policyID) throws BuilderException;
+
     /**
      * Removes all existing Operational Policies and reverts back to an Open Loop.
      * 
      * @return
      */
     public ControlLoopPolicyBuilder removeAllPolicies();
-        
+
     /**
      * Adds an operationsAccumulateParams to an existing operational policy
      * 
      * @return Policy
      * @throws BuilderException - Policy does not exist
      */
-    public Policy addOperationsAccumulateParams(String policyID, OperationsAccumulateParams operationsAccumulateParams) throws BuilderException;
-    
+    public Policy addOperationsAccumulateParams(String policyID, OperationsAccumulateParams operationsAccumulateParams)
+            throws BuilderException;
+
     /**
-     * This will compile and build the YAML specification for the Control Loop Policy. Please iterate the Results object for details.
-     * The Results object will contains warnings and errors. If the specification compiled successfully, you will be able to retrieve the
-     * YAML.
+     * This will compile and build the YAML specification for the Control Loop Policy. Please
+     * iterate the Results object for details. The Results object will contains warnings and errors.
+     * If the specification compiled successfully, you will be able to retrieve the YAML.
      * 
      * @return Results
      */
-    public Results  buildSpecification();
-    
+    public Results buildSpecification();
+
     /**
      * The Factory is used to build a ControlLoopPolicyBuilder implementation.
      * 
@@ -248,36 +254,39 @@ public interface ControlLoopPolicyBuilder {
      *
      */
     public static class Factory {
-        private Factory(){
+        private Factory() {
             // Private Constructor.
         }
-        
+
         /**
-         * Builds a basic Control Loop with an overall timeout. Use this method if you wish to create an OpenLoop, or if you 
-         * want to interactively build a Closed Loop.
+         * Builds a basic Control Loop with an overall timeout. Use this method if you wish to
+         * create an OpenLoop, or if you want to interactively build a Closed Loop.
          * 
          * @param controlLoopName - Per Closed Loop AID v1.0, unique string for the closed loop.
          * @param timeout - Overall timeout for the Closed Loop to execute.
          * @return ControlLoopPolicyBuilder object
          */
-        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout) {
+        public static ControlLoopPolicyBuilder buildControlLoop(String controlLoopName, Integer timeout) {
             return new ControlLoopPolicyBuilderImpl(controlLoopName, timeout);
         }
-        
+
         /**
          * Build a Control Loop for a resource and services associated with the resource.
          * 
          * @param controlLoopName - Per Closed Loop AID v1.0, unique string for the closed loop.
          * @param timeout - Overall timeout for the Closed Loop to execute.
-         * @param resource - Resource this closed loop is for. Should come from ASDC, but if not available use resourceName to distinguish.
-         * @param services - Zero or more services associated with this resource. Should come from ASDC, but if not available use serviceName to distinguish.
+         * @param resource - Resource this closed loop is for. Should come from ASDC, but if not
+         *        available use resourceName to distinguish.
+         * @param services - Zero or more services associated with this resource. Should come from
+         *        ASDC, but if not available use serviceName to distinguish.
          * @return ControlLoopPolicyBuilder object
          * @throws BuilderException
          */
-        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout, Resource resource, Service... services) throws BuilderException {
-            return  new ControlLoopPolicyBuilderImpl(controlLoopName, timeout, resource, services);
+        public static ControlLoopPolicyBuilder buildControlLoop(String controlLoopName, Integer timeout,
+                Resource resource, Service... services) throws BuilderException {
+            return new ControlLoopPolicyBuilderImpl(controlLoopName, timeout, resource, services);
         }
-        
+
         /**
          * @param controlLoopName
          * @param timeout
@@ -286,18 +295,21 @@ public interface ControlLoopPolicyBuilder {
          * @return
          * @throws BuilderException
          */
-        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout, Service service, Resource... resources) throws BuilderException {
-            return  new ControlLoopPolicyBuilderImpl(controlLoopName, timeout, service, resources);
+        public static ControlLoopPolicyBuilder buildControlLoop(String controlLoopName, Integer timeout,
+                Service service, Resource... resources) throws BuilderException {
+            return new ControlLoopPolicyBuilderImpl(controlLoopName, timeout, service, resources);
         }
-        
+
         /**
          * @param controlLoopName - Per Closed Loop AID v1.0, unique string for the closed loop.
          * @param timeout - Overall timeout for the Closed Loop to execute.
-         * @param pnf - Physical Network Function. Should come from AIC, but if not available use well-known name to distinguish. Eg. eNodeB
+         * @param pnf - Physical Network Function. Should come from AIC, but if not available use
+         *        well-known name to distinguish. Eg. eNodeB
          * @return ControlLoopPolicyBuilder object
          * @throws BuilderException
          */
-        public static ControlLoopPolicyBuilder  buildControlLoop (String controlLoopName, Integer timeout, PNF pnf) throws BuilderException {
+        public static ControlLoopPolicyBuilder buildControlLoop(String controlLoopName, Integer timeout, Pnf pnf)
+                throws BuilderException {
             return new ControlLoopPolicyBuilderImpl(controlLoopName, timeout, pnf);
         }
     }
