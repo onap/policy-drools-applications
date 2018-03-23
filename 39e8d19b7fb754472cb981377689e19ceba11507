@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_870bce2a",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2018-03-23T13:35:13Z",
+      "side": 1,
+      "message": "I think we\u0027re going to have to do some integrity checks here to make sure that a new ControlLoopParams object getting inserted in to memory does not have a closedLoopControlName that is already taken by an existing ControlLoopParams object in memory. Unless the BRMSGW somehow keeps track of that. If this scenario occurs, we will have memory leaks and halt processing of certain events.",
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
