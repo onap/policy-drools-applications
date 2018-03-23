@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_b578742c",
+        "filename": "controlloop/common/model-impl/events/src/main/java/org/onap/policy/controlloop/params/ControlLoopParams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "If this is a new file, then let\u0027s change this to reflect that. Should only be 2018",
+      "range": {
+        "startLine": 3,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_957bf828",
+        "filename": "controlloop/common/model-impl/events/src/main/java/org/onap/policy/controlloop/params/ControlLoopParams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "Add super()",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 5
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_55757030",
+        "filename": "controlloop/templates/archetype-cl-beijing/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_158fe824",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_35946436",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_aa1c8f14",
         "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/config/so.success.json",
         "patchSetId": 1
@@ -25,6 +140,52 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_d598a06c",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f59d9c5a",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_870bce2a",
         "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -36,6 +197,29 @@
       "writtenOn": "2018-03-23T13:35:13Z",
       "side": 1,
       "message": "I think we\u0027re going to have to do some integrity checks here to make sure that a new ControlLoopParams object getting inserted in to memory does not have a closedLoopControlName that is already taken by an existing ControlLoopParams object in memory. Unless the BRMSGW somehow keeps track of that. If this scenario occurs, we will have memory leaks and halt processing of certain events.",
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_95a21899",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/test/resources/projects/basic/archetype.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-23T16:56:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
       "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
