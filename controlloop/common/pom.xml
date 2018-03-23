@@ -40,6 +40,7 @@
     <module>policy-yaml</module>
     <module>simulators</module>
     <module>feature-controlloop-utils</module>
+    <module>feature-controlloop-trans</module>
     <module>msb</module>
   </modules>
 
