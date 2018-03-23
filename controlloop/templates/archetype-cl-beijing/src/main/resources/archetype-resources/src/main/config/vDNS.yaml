@@ -1,0 +1,23 @@
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ${closedLoopControlName}
+  trigger_policy: unique-policy-id-1-scale-up
+  timeout: 3600
+  abatement: false
+ 
+policies:
+  - id: unique-policy-id-1-scale-up
+    name: Create a new VF Module
+    description:
+    actor: SO
+    recipe: VF Module Create
+    target:
+      type: VNF
+    retry: 3
+    timeout: 1200
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
