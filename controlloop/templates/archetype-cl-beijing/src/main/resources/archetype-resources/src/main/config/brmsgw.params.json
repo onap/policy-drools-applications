@@ -1,0 +1,7 @@
+{
+	"closedLoopControlName": "${closedLoopControlName}",
+	"controlLoopYaml": "${controlLoopYaml}",
+	"policyName": "${policyName}",
+	"policyScope": "${policyScope}",
+	"policyVersion": "${policyVersion}"
+}

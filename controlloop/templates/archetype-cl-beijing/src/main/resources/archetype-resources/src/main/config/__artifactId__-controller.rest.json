@@ -1,0 +1,38 @@
+{
+	"controller.name": "${artifactId}",
+	
+	"ueb.source.topics": "${dcaeTopic},APPC-CL,APPC-LCM-WRITE",
+
+	"ueb.source.topics.${dcaeTopic}.servers": "${dcaeServers}",
+	"ueb.source.topics.${dcaeTopic}.events": "org.onap.policy.controlloop.VirtualControlLoopEvent",
+	"ueb.source.topics.${dcaeTopic}.events.org.onap.policy.controlloop.VirtualControlLoopEvent.filter": "closedLoopEventStatus=.*",
+	"ueb.source.topics.${dcaeTopic}.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gson",
+	
+	"ueb.source.topics.APPC-CL.servers": "${dmaapServers}",
+	"ueb.source.topics.APPC-CL.events": "org.onap.policy.appc.Response",
+	"ueb.source.topics.APPC-CL.events.org.onap.policy.appclcm.LCMResponseWrapper.filter": "CommonHeader=.*,Status=.*",
+	"ueb.source.topics.APPC-CL.events.custom.gson": "org.onap.policy.appc.util.Serialization,gsonPretty",
+	
+	"ueb.source.topics.APPC-LCM-WRITE.servers": "${dmaapServers}",
+	"ueb.source.topics.APPC-LCM-WRITE.events": "org.onap.policy.appclcm.LCMResponseWrapper",
+	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LCMResponseWrapper.filter": "type=response",
+	"ueb.source.topics.APPC-LCM-WRITE.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
+	
+	"noop.sink.topics": "APPC-CL,APPC-LCM-READ,POLICY-CL-MGT",
+
+	"noop.sink.topics.APPC-CL.servers": "${dmaapServers}",
+	"noop.sink.topics.APPC-CL.events": "org.onap.policy.appc.Request",
+	"noop.sink.topics.APPC-CL.events.custom.gson": "org.onap.policy.appc.util.Serialization,gsonPretty",
+	
+	"noop.sink.topics.APPC-LCM-READ.servers": "${dmaapServers}",
+	"noop.sink.topics.APPC-LCM-READ.events": "org.onap.policy.appclcm.LCMRequestWrapper",
+	"noop.sink.topics.APPC-LCM-READ.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
+	
+	"noop.sink.topics.POLICY-CL-MGT.servers": "${dmaapServers}",
+	"noop.sink.topics.POLICY-CL-MGT.events": "org.onap.policy.controlloop.VirtualControlLoopNotification",
+	"noop.sink.topics.POLICY-CL-MGT.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gson",
+	
+	"rules.groupId": "${groupId}",
+	"rules.artifactId": "${artifactId}",
+	"rules.version": "${version}"
+}

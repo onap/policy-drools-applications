@@ -1,0 +1,18 @@
+{
+	"closedLoopControlName": "${closedLoopControlName}",
+	"closedLoopAlarmStart": 1484677482204798,
+    "closedLoopEventClient": "DCAE.HolmesInstance",
+    "closedLoopEventStatus": "ONSET",
+    "requestID": "97964e10-686e-4790-8c45-bdfa61df770f",
+    "target_type": "VM",
+    "target": "vserver.vserver-name",
+    "AAI": {
+    	"vserver.is-closed-loop-disabled": "false",
+        "vserver.vserver-name": "dfw1lb01lb01",
+        "service-instance.service-instance-id" : "vserver-name-16102016-aai3255-data-11-1",
+        "generic-vnf.vnf-id" : "vnf-id-16102016-aai3255-data-11-1",
+        "generic-vnf.vnf-name" : "vnf-name-16102016-aai3255-data-11-1"
+    },
+    "from": "DCAE",
+    "version": "1.0.2"
+}
