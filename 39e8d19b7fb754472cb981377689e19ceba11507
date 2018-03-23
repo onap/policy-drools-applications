@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_aa1c8f14",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/config/so.success.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-23T14:16:04Z",
+      "side": 1,
+      "message": "This is the same test data for SO as was used in Amsterdam. This will be updated to reflect the actual data returned by SO in the JIRA issue POLICY-448. Better to let this throuhg and change both Amsterdam and Beijing together.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "39e8d19b7fb754472cb981377689e19ceba11507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_870bce2a",
         "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
