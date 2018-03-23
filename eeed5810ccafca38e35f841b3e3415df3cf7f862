@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_30a6b2c2",
+        "filename": "controlloop/templates/archetype-cl-beijing/src/main/resources/archetype-resources/src/main/config/so.success.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-23T19:18:56Z",
+      "side": 1,
+      "message": "Again, this will be impacted byt he new SO handling.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "eeed5810ccafca38e35f841b3e3415df3cf7f862",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
