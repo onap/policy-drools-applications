@@ -22,6 +22,30 @@
       "revId": "3c2da78a6bec6e283c43486c59475b32f6d0ff62",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_15ee088c",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-03-23T17:38:46Z",
+      "side": 1,
+      "message": "Just to save some real state in inodes :).   \n\nNo particular one, since there\u0027s only one implementation at this point and the class is not visible outside the package I tend to keep them together, so to make the interface more relevant.",
+      "parentUuid": "5a93c517_07957ee3",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 73
+      },
+      "revId": "3c2da78a6bec6e283c43486c59475b32f6d0ff62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
