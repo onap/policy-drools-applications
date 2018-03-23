@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_07957ee3",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-23T13:08:21Z",
+      "side": 1,
+      "message": "Just wondering why this implementation of the interface is in the same file?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 73
+      },
+      "revId": "3c2da78a6bec6e283c43486c59475b32f6d0ff62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
