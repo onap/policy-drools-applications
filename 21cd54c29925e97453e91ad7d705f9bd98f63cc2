@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_0a79fe92",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-25T12:31:37Z",
+      "side": 1,
+      "message": "I was (rather slavishly) following the SO API specification in the documents. This will be changed back to v5 in the upcoming review submission.",
+      "parentUuid": "5a93c517_36e22ad6",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 11
+      },
+      "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_f6eb62ae",
         "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/Util.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2018-03-25T00:00:02Z",
       "side": 1,
       "message": "Did we want to remove the checkstyle and comments???",
+      "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ca7236ad",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-03-25T12:31:37Z",
+      "side": 1,
+      "message": "When I rebased, I missed the incoming checkstyle and comments, will restore them.",
+      "parentUuid": "5a93c517_f6eb62ae",
       "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
