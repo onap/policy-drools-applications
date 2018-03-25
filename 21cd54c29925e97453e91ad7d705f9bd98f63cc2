@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_36e22ad6",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-25T00:00:02Z",
+      "side": 1,
+      "message": "Hmm - why v2 switch? I thought we had to switch to v5 late in Amsterdam because they did not back support the version from pre-amsterdam.",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 11
+      },
+      "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f6eb62ae",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-25T00:00:02Z",
+      "side": 1,
+      "message": "Did we want to remove the checkstyle and comments???",
+      "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_96d0def8",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/SoSimulatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-25T00:00:02Z",
+      "side": 1,
+      "message": "add 2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b6cdda5f",
+        "filename": "controlloop/common/simulators/src/test/java/org/onap/policy/simulators/SoSimulatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-03-25T00:00:02Z",
+      "side": 1,
+      "message": "same v2 question",
+      "range": {
+        "startLine": 142,
+        "startChar": 48,
+        "endLine": 142,
+        "endChar": 50
+      },
+      "revId": "21cd54c29925e97453e91ad7d705f9bd98f63cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
