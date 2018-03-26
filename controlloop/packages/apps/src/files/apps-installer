@@ -33,6 +33,9 @@ echo
 
 source ${POLICY_HOME}/etc/build.info
 
+features install controlloop-trans
+features enable controlloop-trans
+
 # caching in local maven repo all dependencies to make it
 # easier for drools kie-ci - aether to fetch them
 
@@ -47,7 +50,7 @@ mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.on
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common.model-impl:trafficgenerator:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications:controlloop.common:eventmanager:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common:guard:${version}:jar -Dtransitive=false
-mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common.actors:actorserviceprovider:${version}:jar -Dtransitive=false
+mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common.actors:actorServiceProvider:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common.actors:actor.appc:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common.actors:actor.appclcm:${version}:jar -Dtransitive=false
 mvn org.apache.maven.plugins:maven-dependency-plugin:3.0.2:get -Dartifact=org.onap.policy.drools-applications.controlloop.common.actors:actor.so:${version}:jar -Dtransitive=false

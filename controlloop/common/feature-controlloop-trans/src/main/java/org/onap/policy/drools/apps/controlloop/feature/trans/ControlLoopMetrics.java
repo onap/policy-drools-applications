@@ -25,15 +25,18 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.system.PolicyController;
+import org.onap.policy.drools.utils.logging.MDCTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +79,6 @@ public interface ControlLoopMetrics {
      * removes an in-progress transaction
      *
      * @param requestId request ID
-     * @return in progress notification
      */
     void removeTransaction(UUID requestId);
 
@@ -195,8 +197,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 if (notification.wasEvicted()) {
                     evicted(notification.getValue());
                 } else {
-                    logger.info("REMOVAL: {}->{} from {} because of {}", notification.getValue().getFrom(),
-                        notification.getValue(), notification.getCause().name());
+                    logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestID(), notification.getCause().name());
                 }
             }
         };
@@ -241,8 +242,6 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
         notification.setFrom(notification.getFrom() + ":" + controller.getName());
 
-        this.metric(notification);
-
         switch (notification.getNotification()) {
             case REJECTED:
             case FINAL_FAILURE:
@@ -250,9 +249,17 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             case FINAL_OPENLOOP:
                 endTransaction(notification);
                 break;
-            default:
+            case ACTIVE:
+            case OPERATION:
+            case OPERATION_SUCCESS:
+            case OPERATION_FAILURE:
                 /* any other value is an in progress transaction */
                 inProgressTransaction(notification);
+                break;
+            default:
+                /* unexpected */
+                logger.warn("unexpected notification type {} in notification {}",
+                    notification.getNotification().toString(), notification);
                 break;
         }
     }
@@ -276,6 +283,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         if (cache.getIfPresent(notification.getRequestID()) == null) {
             cache.put(notification.getRequestID(), notification);
         }
+
+        this.metric(notification);
     }
 
     /**
@@ -293,12 +302,19 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         }
 
         this.transaction(notification, startTime);
-
         cache.invalidate(startNotification);
     }
 
     protected void evicted(VirtualControlLoopNotification notification) {
-        transaction(notification, ZonedDateTime.now());
+        // transaction(notification, ZonedDateTime.now());
+        MDCTransaction trans =
+            MDCTransaction.newTransaction(notification.getRequestID().toString(), notification.getFrom()).
+                setServiceName(notification.getClosedLoopControlName()).
+                setTargetEntity(notification.getTarget()).
+                setStartTime(notification.getNotificationTime().toInstant()).
+                setEndTime(Instant.now()).
+                setResponseDescription("EVICTED").
+                setStatusCode(false).metric().resetTransaction();
     }
 
     @Override
@@ -327,17 +343,100 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void metric(VirtualControlLoopNotification notification) {
-        // TODO: next review
-        // set up MDC
-        // logger.info(LoggerUtil.METRIC_LOG_MARKER, "METRIC:{}", notification);
+        MDCTransaction trans =
+            MDCTransaction.newTransaction(notification.getRequestID().toString(), notification.getFrom()).
+                setServiceName(notification.getClosedLoopControlName()).
+                setTargetEntity(notification.getTarget());
+
+        List<ControlLoopOperation> operations = notification.getHistory();
+        switch (notification.getNotification()) {
+            case ACTIVE:
+                trans.setStatusCode(true);
+                trans.metric().resetTransaction();
+                break;
+            case OPERATION:
+                trans.setStatusCode(true);
+                if (!operations.isEmpty()) {
+                    ControlLoopOperation operation = operations.get(operations.size()-1);
+                    trans.setTargetEntity(operation.getTarget());
+                    trans.setTargetServiceName(operation.getActor());
+                }
+                trans.metric().resetTransaction();
+                break;
+            case OPERATION_SUCCESS:
+                trans.setStatusCode(true);
+                operation(trans, operations);
+                trans.transaction().resetTransaction();
+                break;
+            case OPERATION_FAILURE:
+                trans.setStatusCode(false);
+                operation(trans, operations);
+                trans.transaction().resetTransaction();
+                break;
+            default:
+                /* unexpected */
+                logger.warn("unexpected notification type {} in notification {}",
+                    notification.getNotification().toString(), notification);
+                break;
+        }
+    }
+
+    protected void operation(MDCTransaction trans, List<ControlLoopOperation> operations) {
+        if (!operations.isEmpty()) {
+            ControlLoopOperation operation = operations.get(operations.size()-1);
+
+            if (operation.getTarget() != null)
+                trans.setTargetEntity(operation.getTarget());
+
+            if (operation.getActor() != null)
+                trans.setTargetServiceName(operation.getActor());
+
+            if (operation.getMessage() != null)
+                trans.setResponseDescription(operation.getMessage());
+
+            trans.setInvocationId(operation.getSubRequestId());
+
+            if (operation.getOutcome() != null)
+                trans.setResponseCode(operation.getOutcome());
+
+            if (operation.getStart() != null)
+                trans.setStartTime(operation.getStart());
+
+            if (operation.getEnd() != null)
+                trans.setEndTime(operation.getEnd());
+        }
     }
 
     protected void transaction(VirtualControlLoopNotification notification, ZonedDateTime startTime) {
-        // TODO: next review
-        // set up MDC
-        // Duration.between(notification.getNotificationTime(), ZonedDateTime.now()).toMillis())
-        // logger.info(LoggerUtil.TRANSACTION_LOG_MARKER, "TRANSACTION:{}->{} {} ms.", notification.getRequestID(), notification,
-        //  durationMs);
+        MDCTransaction trans =
+            MDCTransaction.newTransaction(notification.getRequestID().toString(), notification.getFrom()).
+                setServiceName(notification.getClosedLoopControlName()).
+                setTargetEntity(notification.getTarget()).
+                setStartTime(startTime.toInstant()).
+                setEndTime(notification.getNotificationTime().toInstant()).
+                setResponseDescription(notification.getMessage());
+
+        switch (notification.getNotification()) {
+            case FINAL_OPENLOOP:
+                trans.setStatusCode(true);
+                break;
+            case FINAL_SUCCESS:
+                trans.setStatusCode(true);
+                break;
+            case FINAL_FAILURE:
+                trans.setStatusCode(false);
+                break;
+            case REJECTED:
+                trans.setStatusCode(false);
+                break;
+            default:
+                /* unexpected */
+                logger.warn("unexpected notification type {} in notification {}",
+                    notification.getNotification().toString(), notification);
+                break;
+        }
+
+        trans.transaction().resetTransaction();
     }
 
     @Override
