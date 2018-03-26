@@ -1,0 +1,15 @@
+{
+  "closedLoopControlName": "${closedLoopControlName}",
+  "closedLoopAlarmStart": 1463679805324,
+  "closedLoopEventClient": "microservice.stringmatcher",
+  "closedLoopEventStatus": "ONSET",
+  "requestID": "c7c6a4aa-bb61-4a15-b831-ba1472dd4a65",
+  "target_type": "VNF",
+  "target": "generic-vnf.vnf-id",
+  "AAI": {
+    "vserver.is-closed-loop-disabled": "false",
+    "generic-vnf.vnf-id": "fw0002vm002fw002"
+  },
+  "from": "DCAE",
+  "version": "1.0.2"
+}
