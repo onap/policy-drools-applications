@@ -76,6 +76,12 @@
       <version>${project.version}</version>
       <type>zip</type>
     </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <artifactId>feature-controlloop-trans</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+    </dependency>
   </dependencies>
 
 </project>
