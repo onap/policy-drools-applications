@@ -1,0 +1,7 @@
+{
+	"closedLoopControlName": "${vdnsClosedLoopControlName}",
+	"controlLoopYaml": "${vdnsControlLoopYaml}",
+	"policyName": "${vdnsPolicyName}",
+	"policyScope": "${policyScope}",
+	"policyVersion": "${policyVersion}"
+}

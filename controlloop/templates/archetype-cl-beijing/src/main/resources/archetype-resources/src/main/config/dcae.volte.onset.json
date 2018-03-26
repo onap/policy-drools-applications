@@ -1,5 +1,5 @@
 {
-	"closedLoopControlName": "${closedLoopControlName}",
+	"closedLoopControlName": "${volteClosedLoopControlName}",
 	"closedLoopAlarmStart": 1484677482204798,
     "closedLoopEventClient": "DCAE.HolmesInstance",
     "closedLoopEventStatus": "ONSET",

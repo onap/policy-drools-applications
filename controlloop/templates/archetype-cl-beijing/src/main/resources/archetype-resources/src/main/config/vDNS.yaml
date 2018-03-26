@@ -1,6 +1,6 @@
 controlLoop:
   version: 2.0.0
-  controlLoopName: ${closedLoopControlName}
+  controlLoopName: ${vdnsClosedLoopControlName}
   trigger_policy: unique-policy-id-1-scale-up
   timeout: 3600
   abatement: false
