@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,101 +20,117 @@
 
 package org.onap.policy.appc;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Response implements Serializable {
-	private static final long serialVersionUID = 434953706339865151L;
+    private static final long serialVersionUID = 434953706339865151L;
 
-	@SerializedName("CommonHeader")
-	private CommonHeader commonHeader;
-	
-	@SerializedName("Status")
-	private ResponseStatus status = new ResponseStatus();
-	
-	@SerializedName("Payload")
-	private HashMap<String, Object> payload = new HashMap<>();
-	
-	public Response() {
-		
-	}
-	
-	public Response(Request request) {
-		if (request.getCommonHeader() != null) {
-			this.commonHeader = new CommonHeader(request.getCommonHeader());
-		}
-		if (request.getPayload() != null) {
-			this.payload.putAll(request.getPayload());
-		}
-	}
+    @SerializedName("CommonHeader")
+    private CommonHeader commonHeader;
 
-	public CommonHeader getCommonHeader() {
-		return commonHeader;
-	}
+    @SerializedName("Status")
+    private ResponseStatus status = new ResponseStatus();
 
-	public void setCommonHeader(CommonHeader commonHeader) {
-		this.commonHeader = commonHeader;
-	}
+    @SerializedName("Payload")
+    private HashMap<String, Object> payload = new HashMap<>();
 
-	public ResponseStatus getStatus() {
-		return status;
-	}
+    public Response() {
 
-	public void setStatus(ResponseStatus status) {
-		this.status = status;
-	}
+    }
 
-	public Map<String, Object> getPayload() {
-		return payload;
-	}
+    /**
+     * Construct an instance from an existing instance.
+     * 
+     * @param request the existing instance
+     */
+    public Response(Request request) {
+        if (request.getCommonHeader() != null) {
+            this.commonHeader = new CommonHeader(request.getCommonHeader());
+        }
+        if (request.getPayload() != null) {
+            this.payload.putAll(request.getPayload());
+        }
+    }
 
-	public void setPayload(Map<String, Object> payload) {
-		this.payload = new HashMap<>(payload);
-	}
+    public CommonHeader getCommonHeader() {
+        return commonHeader;
+    }
 
-	@Override
-	public String toString() {
-		return "Response [CommonHeader=" + commonHeader + ", Status=" + status + ", Payload=" + payload + "]";
-	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
-		result = prime * result + ((payload == null) ? 0 : payload.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Response other = (Response) obj;
-		if (commonHeader == null) {
-			if (other.commonHeader != null)
-				return false;
-		} else if (!commonHeader.equals(other.commonHeader))
-			return false;
-		if (payload == null) {
-			if (other.payload != null)
-				return false;
-		} else if (!payload.equals(other.payload))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
-		return true;
-	}
-	
-	
-	
+    public void setCommonHeader(CommonHeader commonHeader) {
+        this.commonHeader = commonHeader;
+    }
+
+    public ResponseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
+
+    public Map<String, Object> getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Map<String, Object> payload) {
+        this.payload = new HashMap<>(payload);
+    }
+
+    @Override
+    public String toString() {
+        return "Response [CommonHeader=" + commonHeader + ", Status=" + status + ", Payload=" + payload + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
+        result = prime * result + ((payload == null) ? 0 : payload.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Response other = (Response) obj;
+        if (commonHeader == null) {
+            if (other.commonHeader != null) {
+                return false;
+            }
+        } else if (!commonHeader.equals(other.commonHeader)) {
+            return false;
+        }
+        if (payload == null) {
+            if (other.payload != null) {
+                return false;
+            }
+        } else if (!payload.equals(other.payload)) {
+            return false;
+        }
+        if (status == null) {
+            if (other.status != null) {
+                return false;
+            }
+        } else if (!status.equals(other.status)) {
+            return false;
+        }
+        return true;
+    }
+
+
+
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,183 +25,205 @@ import java.time.Instant;
 
 public class ControlLoopOperation implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8662706581293017099L;
-	
-	private String	actor;
-	private String	operation;
-	private String	target;
-	private Instant	start = Instant.now();
-	private Instant	end;
-	private String	subRequestId;
-	private String	outcome;
-	private String	message;
-	
-	public ControlLoopOperation() {
-		
-	}
-	
-	public ControlLoopOperation(ControlLoopOperation op) {
-		if (op == null) {
-			return;
-		}
-		
-		this.actor = op.actor;
-		this.operation = op.operation;
-		this.target = op.target;
-		this.start = op.start;
-		this.end = op.end;
-		this.subRequestId = op.subRequestId;
-		this.outcome = op.outcome;
-		this.message = op.message;
-	}
+    private static final long serialVersionUID = 8662706581293017099L;
 
-	public String	toMessage() {
-		return "actor="+actor+",operation="+operation+",target="+target+",subRequestId="+subRequestId;
-	}
-	
-	public String	toHistory() {
-		return "actor="+actor+",operation="+operation+",target="+target+",start="+start+",end="+end+",subRequestId="+subRequestId+",outcome="+outcome+",message="+message;
-	}
-	
-	public String getActor() {
-		return actor;
-	}
+    private String actor;
+    private String operation;
+    private String target;
+    private Instant start = Instant.now();
+    private Instant end;
+    private String subRequestId;
+    private String outcome;
+    private String message;
 
-	public void setActor(String actor) {
-		this.actor = actor;
-	}
+    public ControlLoopOperation() {
 
-	public String getOperation() {
-		return operation;
-	}
+    }
 
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    /**
+     * Construct an instance from an existing instance.
+     * 
+     * @param op the existing instance
+     */
+    public ControlLoopOperation(ControlLoopOperation op) {
+        if (op == null) {
+            return;
+        }
 
-	public String getTarget() {
-		return target;
-	}
+        this.actor = op.actor;
+        this.operation = op.operation;
+        this.target = op.target;
+        this.start = op.start;
+        this.end = op.end;
+        this.subRequestId = op.subRequestId;
+        this.outcome = op.outcome;
+        this.message = op.message;
+    }
 
-	public void setTarget(String target) {
-		this.target = target;
-	}
+    public String toMessage() {
+        return "actor=" + actor + ",operation=" + operation + ",target=" + target + ",subRequestId=" + subRequestId;
+    }
 
-	public Instant getStart() {
-		return start;
-	}
+    public String toHistory() {
+        return "actor=" + actor + ",operation=" + operation + ",target=" + target + ",start=" + start + ",end=" + end
+                + ",subRequestId=" + subRequestId + ",outcome=" + outcome + ",message=" + message;
+    }
 
-	public void setStart(Instant start) {
-		this.start = start;
-	}
+    public String getActor() {
+        return actor;
+    }
 
-	public Instant getEnd() {
-		return end;
-	}
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
 
-	public void setEnd(Instant end) {
-		this.end = end;
-	}
+    public String getOperation() {
+        return operation;
+    }
 
-	public String getSubRequestId() {
-		return subRequestId;
-	}
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
-	public void setSubRequestId(String subRequestId) {
-		this.subRequestId = subRequestId;
-	}
+    public String getTarget() {
+        return target;
+    }
 
-	public String getOutcome() {
-		return outcome;
-	}
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-	public void setOutcome(String outcome) {
-		this.outcome = outcome;
-	}
+    public Instant getStart() {
+        return start;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setStart(Instant start) {
+        this.start = start;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public Instant getEnd() {
+        return end;
+    }
 
-	@Override
-	public String toString() {
-		return "ControlLoopOperation [actor=" + actor + ", operation=" + operation + ", target=" + target + ", start="
-				+ start + ", end=" + end + ", subRequestId=" + subRequestId + ", outcome=" + outcome + ", message="
-				+ message + "]";
-	}
+    public void setEnd(Instant end) {
+        this.end = end;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((actor == null) ? 0 : actor.hashCode());
-		result = prime * result + ((end == null) ? 0 : end.hashCode());
-		result = prime * result + ((message == null) ? 0 : message.hashCode());
-		result = prime * result + ((operation == null) ? 0 : operation.hashCode());
-		result = prime * result + ((outcome == null) ? 0 : outcome.hashCode());
-		result = prime * result + ((start == null) ? 0 : start.hashCode());
-		result = prime * result + ((subRequestId == null) ? 0 : subRequestId.hashCode());
-		result = prime * result + ((target == null) ? 0 : target.hashCode());
-		return result;
-	}
+    public String getSubRequestId() {
+        return subRequestId;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ControlLoopOperation other = (ControlLoopOperation) obj;
-		if (actor == null) {
-			if (other.actor != null)
-				return false;
-		} else if (!actor.equals(other.actor))
-			return false;
-		if (end == null) {
-			if (other.end != null)
-				return false;
-		} else if (!end.equals(other.end))
-			return false;
-		if (message == null) {
-			if (other.message != null)
-				return false;
-		} else if (!message.equals(other.message))
-			return false;
-		if (operation == null) {
-			if (other.operation != null)
-				return false;
-		} else if (!operation.equals(other.operation))
-			return false;
-		if (outcome == null) {
-			if (other.outcome != null)
-				return false;
-		} else if (!outcome.equals(other.outcome))
-			return false;
-		if (start == null) {
-			if (other.start != null)
-				return false;
-		} else if (!start.equals(other.start))
-			return false;
-		if (subRequestId == null) {
-			if (other.subRequestId != null)
-				return false;
-		} else if (!subRequestId.equals(other.subRequestId))
-			return false;
-		if (target == null) {
-			if (other.target != null)
-				return false;
-		} else if (!target.equals(other.target))
-			return false;
-		return true;
-	}
+    public void setSubRequestId(String subRequestId) {
+        this.subRequestId = subRequestId;
+    }
+
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "ControlLoopOperation [actor=" + actor + ", operation=" + operation + ", target=" + target + ", start="
+                + start + ", end=" + end + ", subRequestId=" + subRequestId + ", outcome=" + outcome + ", message="
+                + message + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((actor == null) ? 0 : actor.hashCode());
+        result = prime * result + ((end == null) ? 0 : end.hashCode());
+        result = prime * result + ((message == null) ? 0 : message.hashCode());
+        result = prime * result + ((operation == null) ? 0 : operation.hashCode());
+        result = prime * result + ((outcome == null) ? 0 : outcome.hashCode());
+        result = prime * result + ((start == null) ? 0 : start.hashCode());
+        result = prime * result + ((subRequestId == null) ? 0 : subRequestId.hashCode());
+        result = prime * result + ((target == null) ? 0 : target.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ControlLoopOperation other = (ControlLoopOperation) obj;
+        if (actor == null) {
+            if (other.actor != null) {
+                return false;
+            }
+        } else if (!actor.equals(other.actor)) {
+            return false;
+        }
+        if (end == null) {
+            if (other.end != null) {
+                return false;
+            }
+        } else if (!end.equals(other.end)) {
+            return false;
+        }
+        if (message == null) {
+            if (other.message != null) {
+                return false;
+            }
+        } else if (!message.equals(other.message)) {
+            return false;
+        }
+        if (operation == null) {
+            if (other.operation != null) {
+                return false;
+            }
+        } else if (!operation.equals(other.operation)) {
+            return false;
+        }
+        if (outcome == null) {
+            if (other.outcome != null) {
+                return false;
+            }
+        } else if (!outcome.equals(other.outcome)) {
+            return false;
+        }
+        if (start == null) {
+            if (other.start != null) {
+                return false;
+            }
+        } else if (!start.equals(other.start)) {
+            return false;
+        }
+        if (subRequestId == null) {
+            if (other.subRequestId != null) {
+                return false;
+            }
+        } else if (!subRequestId.equals(other.subRequestId)) {
+            return false;
+        }
+        if (target == null) {
+            if (other.target != null) {
+                return false;
+            }
+        } else if (!target.equals(other.target)) {
+            return false;
+        }
+        return true;
+    }
 
 }

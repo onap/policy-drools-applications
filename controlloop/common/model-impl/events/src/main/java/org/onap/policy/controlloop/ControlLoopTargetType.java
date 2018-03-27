@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,37 +21,39 @@
 package org.onap.policy.controlloop;
 
 public enum ControlLoopTargetType {
-	VM("VM"),
-	VF("VF"),
-	VFC("VFC"),
-	VNF("VNF")
-	;
-	
-	private String type;
-	
-	private ControlLoopTargetType(String type) {
-		this.type = type;
-	}
-	
-	@Override
-	public String toString() {
-		return this.type;
-	}
-	
-	public static ControlLoopTargetType toType(String type) {
-		if (VM.toString().equals(type)) {
-			return VM;
-		}
-		if (VF.toString().equals(type)) {
-			return VF;
-		}
-		if (VFC.toString().equals(type)) {
-			return VFC;
-		}
-		if (VNF.toString().equals(type)) {
-			return VNF;
-		}		
+    VM("VM"), VF("VF"), VFC("VFC"), VNF("VNF");
 
-		return null;
-	}
+    private String type;
+
+    private ControlLoopTargetType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return this.type;
+    }
+
+    /**
+     * Convert a String type to a ControlLoopTargetType.
+     * 
+     * @param type the String type
+     * @return the ControlLoopTargetType
+     */
+    public static ControlLoopTargetType toType(String type) {
+        if (VM.toString().equals(type)) {
+            return VM;
+        }
+        if (VF.toString().equals(type)) {
+            return VF;
+        }
+        if (VFC.toString().equals(type)) {
+            return VFC;
+        }
+        if (VNF.toString().equals(type)) {
+            return VNF;
+        }
+
+        return null;
+    }
 }

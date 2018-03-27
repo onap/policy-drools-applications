@@ -39,12 +39,12 @@ import org.onap.policy.aai.AaiNqQueryParameters;
 import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.AaiNqResponse;
 import org.onap.policy.aai.util.AaiException;
-import org.onap.policy.appclcm.LCMCommonHeader;
-import org.onap.policy.appclcm.LCMRequest;
-import org.onap.policy.appclcm.LCMRequestWrapper;
-import org.onap.policy.appclcm.LCMResponse;
-import org.onap.policy.appclcm.LCMResponseCode;
-import org.onap.policy.appclcm.LCMResponseWrapper;
+import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.appclcm.LcmRequest;
+import org.onap.policy.appclcm.LcmRequestWrapper;
+import org.onap.policy.appclcm.LcmResponse;
+import org.onap.policy.appclcm.LcmResponseCode;
+import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -187,7 +187,7 @@ public class AppcLcmActorServiceProvider implements Actor {
      *        Policy GUI/API
      * @return an APPC request conforming to the lcm API using the DMAAP wrapper
      */
-    public static LCMRequestWrapper constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+    public static LcmRequestWrapper constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
             Policy policy, String targetVnf) {
 
         /* Construct an APPC request using LCM Model */
@@ -196,19 +196,19 @@ public class AppcLcmActorServiceProvider implements Actor {
          * The actual LCM request is placed in a wrapper used to send through dmaap. The current
          * version is 2.0 as of R1.
          */
-        LCMRequestWrapper dmaapRequest = new LCMRequestWrapper();
+        LcmRequestWrapper dmaapRequest = new LcmRequestWrapper();
         dmaapRequest.setVersion("2.0");
-        dmaapRequest.setCorrelationId(onset.getRequestID() + "-" + operation.getSubRequestId());
+        dmaapRequest.setCorrelationId(onset.getRequestId() + "-" + operation.getSubRequestId());
         dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
         dmaapRequest.setType("request");
 
         /* This is the actual request that is placed in the dmaap wrapper. */
-        final LCMRequest appcRequest = new LCMRequest();
+        final LcmRequest appcRequest = new LcmRequest();
 
         /* The common header is a required field for all APPC requests. */
-        LCMCommonHeader requestCommonHeader = new LCMCommonHeader();
-        requestCommonHeader.setOriginatorId(onset.getRequestID().toString());
-        requestCommonHeader.setRequestId(onset.getRequestID());
+        LcmCommonHeader requestCommonHeader = new LcmCommonHeader();
+        requestCommonHeader.setOriginatorId(onset.getRequestId().toString());
+        requestCommonHeader.setRequestId(onset.getRequestId());
         requestCommonHeader.setSubRequestId(operation.getSubRequestId());
 
         appcRequest.setCommonHeader(requestCommonHeader);
@@ -276,9 +276,9 @@ public class AppcLcmActorServiceProvider implements Actor {
      * 
      * @return an key-value pair that contains the Policy result and APPC response message
      */
-    public static SimpleEntry<PolicyResult, String> processResponse(LCMResponseWrapper dmaapResponse) {
+    public static SimpleEntry<PolicyResult, String> processResponse(LcmResponseWrapper dmaapResponse) {
         /* The actual APPC response is inside the wrapper's body field. */
-        LCMResponse appcResponse = dmaapResponse.getBody();
+        LcmResponse appcResponse = dmaapResponse.getBody();
 
         /* The message returned in the APPC response. */
         String message;
@@ -293,7 +293,7 @@ public class AppcLcmActorServiceProvider implements Actor {
         }
 
         /* If there is no code, Policy cannot determine if the request was successful. */
-        String responseValue = LCMResponseCode.toResponseValue(appcResponse.getStatus().getCode());
+        String responseValue = LcmResponseCode.toResponseValue(appcResponse.getStatus().getCode());
         if (responseValue == null) {
             message = "Policy was unable to parse APP-C response status code field.";
             return new AbstractMap.SimpleEntry<>(PolicyResult.FAILURE_EXCEPTION, message);
@@ -304,18 +304,18 @@ public class AppcLcmActorServiceProvider implements Actor {
 
         /* Maps the APPC response result to a Policy result. */
         switch (responseValue) {
-            case LCMResponseCode.ACCEPTED:
+            case LcmResponseCode.ACCEPTED:
                 /* Nothing to do if code is accept, continue processing */
                 result = null;
                 break;
-            case LCMResponseCode.SUCCESS:
+            case LcmResponseCode.SUCCESS:
                 result = PolicyResult.SUCCESS;
                 break;
-            case LCMResponseCode.FAILURE:
+            case LcmResponseCode.FAILURE:
                 result = PolicyResult.FAILURE;
                 break;
-            case LCMResponseCode.REJECT:
-            case LCMResponseCode.ERROR:
+            case LcmResponseCode.REJECT:
+            case LcmResponseCode.ERROR:
             default:
                 result = PolicyResult.FAILURE_EXCEPTION;
         }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,60 +20,61 @@
 
 package org.onap.policy.controlloop;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.annotations.SerializedName;
-
 public class VirtualControlLoopNotification extends ControlLoopNotification {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5354756047932144017L;
+    private static final long serialVersionUID = 5354756047932144017L;
 
-	@SerializedName("AAI")
-	private Map<String, String> aai = new HashMap<>();
-	private Instant closedLoopAlarmStart;
-	private Instant closedLoopAlarmEnd;
+    @SerializedName("AAI")
+    private Map<String, String> aai = new HashMap<>();
+    private Instant closedLoopAlarmStart;
+    private Instant closedLoopAlarmEnd;
 
-	public VirtualControlLoopNotification() {
-	}
+    public VirtualControlLoopNotification() {}
 
-	public VirtualControlLoopNotification(VirtualControlLoopEvent event) {
-		super(event);
-		if (event == null) {
-			return;
-		}
-		if (event.getAAI() != null) {
-			this.setAAI(new HashMap<>(event.getAAI()));
-		}
-		this.closedLoopAlarmStart = event.getClosedLoopAlarmStart();
-		this.closedLoopAlarmEnd = event.getClosedLoopAlarmEnd();
-	}
+    /**
+     * Construct an instance.
+     * 
+     * @param event the event
+     */
+    public VirtualControlLoopNotification(VirtualControlLoopEvent event) {
+        super(event);
+        if (event == null) {
+            return;
+        }
+        if (event.getAai() != null) {
+            this.setAai(new HashMap<>(event.getAai()));
+        }
+        this.closedLoopAlarmStart = event.getClosedLoopAlarmStart();
+        this.closedLoopAlarmEnd = event.getClosedLoopAlarmEnd();
+    }
 
-	public Map<String, String> getAAI() {
-		return aai;
-	}
+    public Map<String, String> getAai() {
+        return aai;
+    }
 
-	public void setAAI(Map<String, String> aAI) {
-		this.aai = aAI;
-	}
+    public void setAai(Map<String, String> aai) {
+        this.aai = aai;
+    }
 
-	public Instant getClosedLoopAlarmStart() {
-		return closedLoopAlarmStart;
-	}
+    public Instant getClosedLoopAlarmStart() {
+        return closedLoopAlarmStart;
+    }
 
-	public void setClosedLoopAlarmStart(Instant closedLoopAlarmStart) {
-		this.closedLoopAlarmStart = closedLoopAlarmStart;
-	}
+    public void setClosedLoopAlarmStart(Instant closedLoopAlarmStart) {
+        this.closedLoopAlarmStart = closedLoopAlarmStart;
+    }
 
-	public Instant getClosedLoopAlarmEnd() {
-		return closedLoopAlarmEnd;
-	}
+    public Instant getClosedLoopAlarmEnd() {
+        return closedLoopAlarmEnd;
+    }
 
-	public void setClosedLoopAlarmEnd(Instant closedLoopAlarmEnd) {
-		this.closedLoopAlarmEnd = closedLoopAlarmEnd;
-	}
+    public void setClosedLoopAlarmEnd(Instant closedLoopAlarmEnd) {
+        this.closedLoopAlarmEnd = closedLoopAlarmEnd;
+    }
 }

@@ -74,13 +74,13 @@ public class ControlLoopEventManagerTest {
     {
         onset = new VirtualControlLoopEvent();
         onset.setClosedLoopControlName("ControlLoop-vUSP");
-        onset.setRequestID(UUID.randomUUID());
+        onset.setRequestId(UUID.randomUUID());
         onset.setTarget("VM_NAME");
         onset.setClosedLoopAlarmStart(Instant.now());
-        onset.setAAI(new HashMap<String, String>());
-        onset.getAAI().put("cloud-region.identity-url", "foo");
-        onset.getAAI().put("vserver.selflink", "bar");
-        onset.getAAI().put("generic-vnf.vnf-id", "83f674e8-7555-44d7-9a39-bdc3770b0491");
+        onset.setAai(new HashMap<String, String>());
+        onset.getAai().put("cloud-region.identity-url", "foo");
+        onset.getAai().put("vserver.selflink", "bar");
+        onset.getAai().put("generic-vnf.vnf-id", "83f674e8-7555-44d7-9a39-bdc3770b0491");
         onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
     }
 
@@ -209,12 +209,12 @@ public class ControlLoopEventManagerTest {
     public void abatemetCheckEventSyntaxTest() {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("abatementAAI");
-        event.setRequestID(UUID.randomUUID());
+        event.setRequestId(UUID.randomUUID());
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         assertNull(manager.getVnfResponse());
         assertNull(manager.getVserverResponse());
         try {
@@ -228,8 +228,8 @@ public class ControlLoopEventManagerTest {
         assertNull(manager.getVserverResponse());
 
 
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "abatementTest");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "abatementTest");
         try {
             manager.checkEventSyntax(event);
         } catch (ControlLoopException e) {
@@ -246,15 +246,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
-        event.setRequestID(requestId);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(event);
 
         assertNotNull(notification);
@@ -276,12 +276,12 @@ public class ControlLoopEventManagerTest {
 
         VirtualControlLoopEvent event2 = new VirtualControlLoopEvent();
         event2.setClosedLoopControlName("TwoOnsetTest");
-        event2.setRequestID(requestId);
+        event2.setRequestId(requestId);
         event2.setTarget("generic-vnf.vnf-id");
         event2.setClosedLoopAlarmStart(Instant.now());
         event2.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event2.setAAI(new HashMap<>());
-        event2.getAAI().put("generic-vnf.vnf-name", "onsetTwo");
+        event2.setAai(new HashMap<>());
+        event2.getAai().put("generic-vnf.vnf-name", "onsetTwo");
 
 
         try {
@@ -494,15 +494,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
-        event.setRequestID(requestId);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         manager.setActivated(true);
         VirtualControlLoopNotification notification = manager.activate(event);
         assertEquals(ControlLoopNotificationType.REJECTED, notification.getNotification());
@@ -519,15 +519,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
-        event.setRequestID(requestId);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
 
         // Null YAML should fail
         VirtualControlLoopNotification notificationNull = manager.activate(null, event);
@@ -562,15 +562,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
-        event.setRequestID(requestId);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         try {
             manager.isControlLoopFinal();
             fail("test should throw an exception here");
@@ -599,7 +599,7 @@ public class ControlLoopEventManagerTest {
         assertNotNull(clfNotification);
         assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, clfNotification.getNotification());
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -609,7 +609,7 @@ public class ControlLoopEventManagerTest {
         assertNotNull(clfNotification);
         assertEquals(ControlLoopNotificationType.FINAL_FAILURE, clfNotification.getNotification());
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -633,15 +633,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
-        event.setRequestID(requestId);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         try {
             manager.processControlLoop();
             fail("test should throw an exception here");
@@ -674,7 +674,7 @@ public class ControlLoopEventManagerTest {
             assertEquals("Already working an Operation, do not call this method.", e.getMessage());
         }
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -692,7 +692,7 @@ public class ControlLoopEventManagerTest {
             assertEquals("Control Loop is in FINAL state, do not call this method.", e.getMessage());
         }
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -718,15 +718,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
-        event.setRequestID(requestId);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAAI(new HashMap<>());
-        event.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         try {
             manager.finishOperation(null);
             fail("test should throw an exception here");
@@ -781,7 +781,7 @@ public class ControlLoopEventManagerTest {
         manager.finishOperation(clom);
 
         ControlLoopEventManager otherManager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestID());
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         VirtualControlLoopNotification otherNotification = otherManager.activate(yamlStringStd, event);
         assertNotNull(otherNotification);
         assertEquals(ControlLoopNotificationType.ACTIVE, otherNotification.getNotification());
@@ -801,24 +801,24 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         VirtualControlLoopEvent abatedEvent = new VirtualControlLoopEvent();
         abatedEvent.setClosedLoopControlName("TwoOnsetTest");
-        abatedEvent.setRequestID(requestId);
+        abatedEvent.setRequestId(requestId);
         abatedEvent.setTarget("generic-vnf.vnf-id");
         abatedEvent.setClosedLoopAlarmStart(Instant.now());
         abatedEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
-        abatedEvent.setAAI(new HashMap<>());
-        abatedEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        abatedEvent.setAai(new HashMap<>());
+        abatedEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -828,7 +828,7 @@ public class ControlLoopEventManagerTest {
         assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
 
         VirtualControlLoopEvent checkSyntaxEvent = new VirtualControlLoopEvent();
-        checkSyntaxEvent.setAAI(null);
+        checkSyntaxEvent.setAai(null);
         checkSyntaxEvent.setClosedLoopAlarmEnd(null);
         checkSyntaxEvent.setClosedLoopAlarmStart(null);
         checkSyntaxEvent.setClosedLoopControlName(null);
@@ -838,7 +838,7 @@ public class ControlLoopEventManagerTest {
         checkSyntaxEvent.setPolicyName(null);
         checkSyntaxEvent.setPolicyScope(null);
         checkSyntaxEvent.setPolicyVersion(null);
-        checkSyntaxEvent.setRequestID(null);
+        checkSyntaxEvent.setRequestId(null);
         checkSyntaxEvent.setTarget(null);
         checkSyntaxEvent.setTargetType(null);
         checkSyntaxEvent.setVersion(null);
@@ -857,16 +857,16 @@ public class ControlLoopEventManagerTest {
         checkSyntaxEvent.setClosedLoopControlName("TwoOnsetTest");
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.setRequestID(null);
+        checkSyntaxEvent.setRequestId(null);
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.setRequestID(requestId);
+        checkSyntaxEvent.setRequestId(requestId);
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.setAAI(null);
+        checkSyntaxEvent.setAai(null);
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.setAAI(new HashMap<>());
+        checkSyntaxEvent.setAai(new HashMap<>());
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("");
@@ -896,19 +896,19 @@ public class ControlLoopEventManagerTest {
         checkSyntaxEvent.setTarget("generic-vnf.vnf-name");
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.setAAI(null);
+        checkSyntaxEvent.setAai(null);
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.setAAI(new HashMap<>());
+        checkSyntaxEvent.setAai(new HashMap<>());
         assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
-        checkSyntaxEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        checkSyntaxEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
         assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
 
-        checkSyntaxEvent.getAAI().put("vserver.vserver-name", "onsetOne");
+        checkSyntaxEvent.getAai().put("vserver.vserver-name", "onsetOne");
         assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
 
-        checkSyntaxEvent.getAAI().put("generic-vnf.vnf-id", "onsetOne");
+        checkSyntaxEvent.getAai().put("generic-vnf.vnf-id", "onsetOne");
         assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
     }
 
@@ -920,15 +920,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         assertTrue(0 == manager.getControlLoopTimeout(null));
         assertTrue(120 == manager.getControlLoopTimeout(120));
 
@@ -947,15 +947,15 @@ public class ControlLoopEventManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         manager.queryAai(onsetEvent);
 
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
@@ -964,53 +964,53 @@ public class ControlLoopEventManagerTest {
 
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().put("generic-vnf.is-closed-loop-disabled", "true");
+        onsetEvent.getAai().put("generic-vnf.is-closed-loop-disabled", "true");
         try {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
         } catch (Exception e) {
             assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", e.getMessage());
         }
-        onsetEvent.getAAI().put("vserver.is-closed-loop-disabled", "true");
+        onsetEvent.getAai().put("vserver.is-closed-loop-disabled", "true");
         try {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
         } catch (Exception e) {
             assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", e.getMessage());
         }
-        onsetEvent.getAAI().remove("generic-vnf.is-closed-loop-disabled");
+        onsetEvent.getAai().remove("generic-vnf.is-closed-loop-disabled");
         try {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
         } catch (Exception e) {
             assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", e.getMessage());
         }
-        onsetEvent.getAAI().remove("vserver.is-closed-loop-disabled");
+        onsetEvent.getAai().remove("vserver.is-closed-loop-disabled");
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().put("generic-vnf.is-closed-loop-disabled", "false");
+        onsetEvent.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
         manager.queryAai(onsetEvent);
-        onsetEvent.getAAI().put("vserver.is-closed-loop-disabled", "false");
-        manager.queryAai(onsetEvent);
-
-        onsetEvent.getAAI().remove("generic-vnf.vnf-id");
-        onsetEvent.getAAI().remove("generic-vnf.vnf-name");
-        onsetEvent.getAAI().remove("vserver.vserver-name");
+        onsetEvent.getAai().put("vserver.is-closed-loop-disabled", "false");
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().put("vserver.vserver-name", "AVserver");
+        onsetEvent.getAai().remove("generic-vnf.vnf-id");
+        onsetEvent.getAai().remove("generic-vnf.vnf-name");
+        onsetEvent.getAai().remove("vserver.vserver-name");
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "AVNFName");
+        onsetEvent.getAai().put("vserver.vserver-name", "AVserver");
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().put("generic-vnf.vnf-id", "AVNFID");
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "AVNFName");
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().remove("vserver.vserver-name");
+        onsetEvent.getAai().put("generic-vnf.vnf-id", "AVNFID");
         manager.queryAai(onsetEvent);
 
-        onsetEvent.getAAI().remove("generic-vnf.vnf-name");
+        onsetEvent.getAai().remove("vserver.vserver-name");
+        manager.queryAai(onsetEvent);
+
+        onsetEvent.getAai().remove("generic-vnf.vnf-name");
         manager.queryAai(onsetEvent);
 
         // Force AAI errors
@@ -1024,8 +1024,8 @@ public class ControlLoopEventManagerTest {
                     + "(query by vnf-id)", e.getMessage());
         }
 
-        onsetEvent.getAAI().remove("generic-vnf.vnf-id");
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "AVNFName");
+        onsetEvent.getAai().remove("generic-vnf.vnf-id");
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "AVNFName");
         try {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");
@@ -1034,8 +1034,8 @@ public class ControlLoopEventManagerTest {
                     + "(query by vnf-name)", e.getMessage());
         }
 
-        onsetEvent.getAAI().remove("generic-vnf.vnf-name");
-        onsetEvent.getAAI().put("vserver.vserver-name", "AVserver");
+        onsetEvent.getAai().remove("generic-vnf.vnf-name");
+        onsetEvent.getAai().put("vserver.vserver-name", "AVserver");
         try {
             manager.queryAai(onsetEvent);
             fail("test should throw an exception here");

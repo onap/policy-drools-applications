@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,31 +24,31 @@ import java.util.UUID;
 
 public class ControlLoopOperationWrapper {
 
-	private UUID requestID;
-	private ControlLoopOperation operation;
-	
-	public ControlLoopOperationWrapper() {
-		
-	}
-	
-	public ControlLoopOperationWrapper(UUID requestID, ControlLoopOperation operation) {
-		this.requestID = requestID;
-		this.operation = operation;
-	}
+    private UUID requestId;
+    private ControlLoopOperation operation;
 
-	public UUID getRequestID() {
-		return requestID;
-	}
+    public ControlLoopOperationWrapper() {
 
-	public void setRequestID(UUID requestID) {
-		this.requestID = requestID;
-	}
+    }
 
-	public ControlLoopOperation getOperation() {
-		return operation;
-	}
+    public ControlLoopOperationWrapper(UUID requestId, ControlLoopOperation operation) {
+        this.requestId = requestId;
+        this.operation = operation;
+    }
 
-	public void setOperation(ControlLoopOperation operation) {
-		this.operation = operation;
-	}
+    public UUID getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(UUID requestId) {
+        this.requestId = requestId;
+    }
+
+    public ControlLoopOperation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(ControlLoopOperation operation) {
+        this.operation = operation;
+    }
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 
 package org.onap.policy.appclcm;
 
-public class LCMResponseCode {   
-    
+public class LcmResponseCode {
+
     /* These fields define the key to the response code value. */
     public static final String ACCEPTED = "ACCEPTED";
     public static final String ERROR = "ERROR";
@@ -30,13 +30,13 @@ public class LCMResponseCode {
     public static final String FAILURE = "FAILURE";
     public static final String PARTIAL_SUCCESS = "PARTIAL SUCCESS";
     public static final String PARTIAL_FAILURE = "PARTIAL FAILURE";
-    
+
     private Integer code;
 
-    protected LCMResponseCode(final int code) {
-    		this.code = code;
+    protected LcmResponseCode(final int code) {
+        this.code = code;
     }
-    
+
     public int getCode() {
         return this.code;
     }
@@ -49,31 +49,24 @@ public class LCMResponseCode {
     /**
      * Translates the code to a string value that represents the meaning of the code.
      * 
-     * @param code
-     *            the numeric value that is returned by APPC based on success,
-     *            failure, etc. of the action requested
+     * @param code the numeric value that is returned by APPC based on success, failure, etc. of the
+     *        action requested
      * @return the string value equivalent of the APPC response code
      */
     public static String toResponseValue(int code) {
         if (code == 100) {
             return ACCEPTED;
-        }
-        else if (code == 200) {
+        } else if (code == 200) {
             return ERROR;
-        }
-        else if (code >= 300 && code <= 313) {
+        } else if (code >= 300 && code <= 313) {
             return REJECT;
-        }
-        else if (code == 400) {
+        } else if (code == 400) {
             return SUCCESS;
-        }
-        else if (code == 450 || (code >= 401 && code <= 406)) {
+        } else if (code == 450 || (code >= 401 && code <= 406)) {
             return FAILURE;
-        }
-        else if (code == 500) {
+        } else if (code == 500) {
             return PARTIAL_SUCCESS;
-        }
-        else if (code >= 501 && code <= 599) {
+        } else if (code >= 501 && code <= 599) {
             return PARTIAL_FAILURE;
         }
         return null;

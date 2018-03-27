@@ -171,7 +171,7 @@ public class SOActorServiceProvider implements Actor {
 
         // Construct SO Request
         SORequest request = new SORequest();
-        request.setRequestId(onset.getRequestID());
+        request.setRequestId(onset.getRequestId());
         request.setRequestDetails(new SORequestDetails());
         request.getRequestDetails().setModelInfo(new SOModelInfo());
         request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
@@ -325,7 +325,7 @@ public class SOActorServiceProvider implements Actor {
         Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
         Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
         // TO DO: get vserver.vname from dcae onset.AAI.get("vserver.vserver-name")
-        aaiNqInstanceFilterMapItem.put("vserver-name", onset.getAAI().get("vserver.vserver-name"));
+        aaiNqInstanceFilterMapItem.put("vserver-name", onset.getAai().get("vserver.vserver-name"));
         aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
         aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
         aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
@@ -336,7 +336,7 @@ public class SOActorServiceProvider implements Actor {
 
         AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
                 getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiNqRequest,
-                onset.getRequestID());
+                onset.getRequestId());
 
         // Check AAI response
         if (aaiNqResponse == null) {
@@ -345,7 +345,7 @@ public class SOActorServiceProvider implements Actor {
         }
 
         // Create AAINQResponseWrapper
-        AaiNqResponseWrapper aaiNqResponseWrapper = new AaiNqResponseWrapper(onset.getRequestID(), aaiNqResponse);
+        AaiNqResponseWrapper aaiNqResponseWrapper = new AaiNqResponseWrapper(onset.getRequestId(), aaiNqResponse);
 
         if (logger.isDebugEnabled()) {
             logger.debug("AAI Named Query Response: ");
