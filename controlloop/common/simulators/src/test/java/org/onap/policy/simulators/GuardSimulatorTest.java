@@ -28,7 +28,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.drools.utils.LoggerUtil;
+import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
 

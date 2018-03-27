@@ -54,7 +54,7 @@ import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.drools.utils.LoggerUtil;
+import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.vfc.VFCRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
