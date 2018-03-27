@@ -25,6 +25,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.persistence.SystemPersistence;
@@ -136,6 +138,7 @@ public interface ControlLoopMetrics {
     ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
 }
 
+
 /**
  * Control Loop Metrics Tracker Implementation
  */
@@ -151,28 +154,28 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     public CacheBasedControlLoopMetricsManager() {
 
         Properties properties =
-            SystemPersistence.manager.getProperties(ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME);
+                SystemPersistence.manager.getProperties(ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME);
 
         /* cache size */
 
         try {
             this.cacheSize =
-                Long.parseLong(properties.getProperty(ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_PROPERTY,
-                    "" + ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_DEFAULT));
+                    Long.parseLong(properties.getProperty(ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_PROPERTY,
+                            "" + ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_DEFAULT));
         } catch (Exception e) {
             logger.warn("{}:{} property cannot be accessed", ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME,
-                ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_PROPERTY, e);
+                    ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_PROPERTY, e);
         }
 
         /* transaction timeout */
 
         try {
-            this.transactionTimeout =
-                Long.parseLong(properties.getProperty(ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY,
-                    "" + ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_DEFAULT));
+            this.transactionTimeout = Long
+                    .parseLong(properties.getProperty(ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY,
+                            "" + ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_DEFAULT));
         } catch (Exception e) {
             logger.warn("{}:{} property cannot be accessed", ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME,
-                ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY, e);
+                    ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY, e);
         }
 
         resetCache(this.cacheSize, this.transactionTimeout);
@@ -183,24 +186,27 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         this.cacheSize = cacheSize;
         this.transactionTimeout = transactionTimeout;
 
-        CacheLoader<UUID, VirtualControlLoopNotification> loader = new CacheLoader<UUID, VirtualControlLoopNotification>() {
+        CacheLoader<UUID, VirtualControlLoopNotification> loader =
+                new CacheLoader<UUID, VirtualControlLoopNotification>() {
 
-            @Override
-            public VirtualControlLoopNotification load(UUID key) throws Exception {
-                return null;
-            }
-        };
+                    @Override
+                    public VirtualControlLoopNotification load(UUID key) throws Exception {
+                        return null;
+                    }
+                };
 
-        RemovalListener<UUID, VirtualControlLoopNotification> listener = new RemovalListener<UUID, VirtualControlLoopNotification>() {
-            @Override
-            public void onRemoval(RemovalNotification<UUID, VirtualControlLoopNotification> notification) {
-                if (notification.wasEvicted()) {
-                    evicted(notification.getValue());
-                } else {
-                    logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestID(), notification.getCause().name());
-                }
-            }
-        };
+        RemovalListener<UUID, VirtualControlLoopNotification> listener =
+                new RemovalListener<UUID, VirtualControlLoopNotification>() {
+                    @Override
+                    public void onRemoval(RemovalNotification<UUID, VirtualControlLoopNotification> notification) {
+                        if (notification.wasEvicted()) {
+                            evicted(notification.getValue());
+                        } else {
+                            logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
+                                    notification.getCause().name());
+                        }
+                    }
+                };
 
         synchronized (this) {
             if (this.cache != null) {
@@ -208,9 +214,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 this.cache.invalidateAll();
             }
 
-            this.cache = CacheBuilder.newBuilder().
-                maximumSize(this.cacheSize).expireAfterWrite(transactionTimeout, TimeUnit.SECONDS).
-                removalListener(listener).build(loader);
+            this.cache = CacheBuilder.newBuilder().maximumSize(this.cacheSize)
+                    .expireAfterWrite(transactionTimeout, TimeUnit.SECONDS).removalListener(listener).build(loader);
         }
     }
 
@@ -231,7 +236,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     @Override
     public void transactionEvent(PolicyController controller, VirtualControlLoopNotification notification) {
-        if (notification == null || notification.getRequestID() == null || notification.getNotification() == null) {
+        if (notification == null || notification.getRequestId() == null || notification.getNotification() == null) {
             logger.warn("Invalid notification: {}", notification);
             return;
         }
@@ -259,7 +264,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             default:
                 /* unexpected */
                 logger.warn("unexpected notification type {} in notification {}",
-                    notification.getNotification().toString(), notification);
+                        notification.getNotification().toString(), notification);
                 break;
         }
     }
@@ -280,8 +285,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
      * @param notification control loop notification
      */
     protected void inProgressTransaction(VirtualControlLoopNotification notification) {
-        if (cache.getIfPresent(notification.getRequestID()) == null) {
-            cache.put(notification.getRequestID(), notification);
+        if (cache.getIfPresent(notification.getRequestId()) == null) {
+            cache.put(notification.getRequestId(), notification);
         }
 
         this.metric(notification);
@@ -294,7 +299,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
      */
     protected void endTransaction(VirtualControlLoopNotification notification) {
         ZonedDateTime startTime;
-        VirtualControlLoopNotification startNotification = cache.getIfPresent(notification.getRequestID());
+        VirtualControlLoopNotification startNotification = cache.getIfPresent(notification.getRequestId());
         if (startNotification != null) {
             startTime = startNotification.getNotificationTime();
         } else {
@@ -307,14 +312,11 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     protected void evicted(VirtualControlLoopNotification notification) {
         // transaction(notification, ZonedDateTime.now());
-        MDCTransaction trans =
-            MDCTransaction.newTransaction(notification.getRequestID().toString(), notification.getFrom()).
-                setServiceName(notification.getClosedLoopControlName()).
-                setTargetEntity(notification.getTarget()).
-                setStartTime(notification.getNotificationTime().toInstant()).
-                setEndTime(Instant.now()).
-                setResponseDescription("EVICTED").
-                setStatusCode(false).metric().resetTransaction();
+        MDCTransaction trans = MDCTransaction
+                .newTransaction(notification.getRequestId().toString(), notification.getFrom())
+                .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
+                .setStartTime(notification.getNotificationTime().toInstant()).setEndTime(Instant.now())
+                .setResponseDescription("EVICTED").setStatusCode(false).metric().resetTransaction();
     }
 
     @Override
@@ -343,10 +345,9 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void metric(VirtualControlLoopNotification notification) {
-        MDCTransaction trans =
-            MDCTransaction.newTransaction(notification.getRequestID().toString(), notification.getFrom()).
-                setServiceName(notification.getClosedLoopControlName()).
-                setTargetEntity(notification.getTarget());
+        MDCTransaction trans = MDCTransaction
+                .newTransaction(notification.getRequestId().toString(), notification.getFrom())
+                .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget());
 
         List<ControlLoopOperation> operations = notification.getHistory();
         switch (notification.getNotification()) {
@@ -357,7 +358,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             case OPERATION:
                 trans.setStatusCode(true);
                 if (!operations.isEmpty()) {
-                    ControlLoopOperation operation = operations.get(operations.size()-1);
+                    ControlLoopOperation operation = operations.get(operations.size() - 1);
                     trans.setTargetEntity(operation.getTarget());
                     trans.setTargetServiceName(operation.getActor());
                 }
@@ -376,45 +377,49 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             default:
                 /* unexpected */
                 logger.warn("unexpected notification type {} in notification {}",
-                    notification.getNotification().toString(), notification);
+                        notification.getNotification().toString(), notification);
                 break;
         }
     }
 
     protected void operation(MDCTransaction trans, List<ControlLoopOperation> operations) {
         if (!operations.isEmpty()) {
-            ControlLoopOperation operation = operations.get(operations.size()-1);
+            ControlLoopOperation operation = operations.get(operations.size() - 1);
 
-            if (operation.getTarget() != null)
+            if (operation.getTarget() != null) {
                 trans.setTargetEntity(operation.getTarget());
+            }
 
-            if (operation.getActor() != null)
+            if (operation.getActor() != null) {
                 trans.setTargetServiceName(operation.getActor());
+            }
 
-            if (operation.getMessage() != null)
+            if (operation.getMessage() != null) {
                 trans.setResponseDescription(operation.getMessage());
+            }
 
             trans.setInvocationId(operation.getSubRequestId());
 
-            if (operation.getOutcome() != null)
+            if (operation.getOutcome() != null) {
                 trans.setResponseCode(operation.getOutcome());
+            }
 
-            if (operation.getStart() != null)
+            if (operation.getStart() != null) {
                 trans.setStartTime(operation.getStart());
+            }
 
-            if (operation.getEnd() != null)
+            if (operation.getEnd() != null) {
                 trans.setEndTime(operation.getEnd());
+            }
         }
     }
 
     protected void transaction(VirtualControlLoopNotification notification, ZonedDateTime startTime) {
-        MDCTransaction trans =
-            MDCTransaction.newTransaction(notification.getRequestID().toString(), notification.getFrom()).
-                setServiceName(notification.getClosedLoopControlName()).
-                setTargetEntity(notification.getTarget()).
-                setStartTime(startTime.toInstant()).
-                setEndTime(notification.getNotificationTime().toInstant()).
-                setResponseDescription(notification.getMessage());
+        MDCTransaction trans = MDCTransaction
+                .newTransaction(notification.getRequestId().toString(), notification.getFrom())
+                .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
+                .setStartTime(startTime.toInstant()).setEndTime(notification.getNotificationTime().toInstant())
+                .setResponseDescription(notification.getMessage());
 
         switch (notification.getNotification()) {
             case FINAL_OPENLOOP:
@@ -432,7 +437,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             default:
                 /* unexpected */
                 logger.warn("unexpected notification type {} in notification {}",
-                    notification.getNotification().toString(), notification);
+                        notification.getNotification().toString(), notification);
                 break;
         }
 

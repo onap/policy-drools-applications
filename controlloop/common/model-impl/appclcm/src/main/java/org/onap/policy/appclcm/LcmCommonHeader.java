@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,57 +20,58 @@
 
 package org.onap.policy.appclcm;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.google.gson.annotations.SerializedName;
-
-public class LCMCommonHeader implements Serializable {
+public class LcmCommonHeader implements Serializable {
 
     private static final long serialVersionUID = 6581963539127062114L;
 
-    @SerializedName(value="timestamp")
+    @SerializedName(value = "timestamp")
     private Instant timeStamp = Instant.now();
 
-    @SerializedName(value="api-ver")
-    private String apiVer="2.00";
+    @SerializedName(value = "api-ver")
+    private String apiVer = "2.00";
 
-    @SerializedName(value="originator-id")
+    @SerializedName(value = "originator-id")
     private String originatorId;
 
-    @SerializedName(value="request-id")
+    @SerializedName(value = "request-id")
     private UUID requestId;
 
-    @SerializedName(value="sub-request-id")
+    @SerializedName(value = "sub-request-id")
     private String subRequestId;
 
-    @SerializedName(value="flags")
+    @SerializedName(value = "flags")
     private Map<String, String> flags = new HashMap<>();
 
-    public LCMCommonHeader() {
+    public LcmCommonHeader() {
 
     }
 
     /**
      * Used to copy a common header.
      * 
-     * @param commonHeader
-     *            a header that is defined by the lcm api guide that contains
-     *            information about the request (requestId, flags, etc.)
+     * @param commonHeader a header that is defined by the lcm api guide that contains information
+     *        about the request (requestId, flags, etc.)
      */
-    public LCMCommonHeader(LCMCommonHeader commonHeader) {
+    public LcmCommonHeader(LcmCommonHeader commonHeader) {
         this.originatorId = commonHeader.originatorId;
         this.requestId = commonHeader.requestId;
         this.subRequestId = commonHeader.subRequestId;
         if (commonHeader.flags != null) {
             this.flags.putAll(commonHeader.flags);
         }
-    }  
+    }
 
     /**
+     * Get the timestamp.
+     * 
      * @return the timeStamp
      */
     public Instant getTimeStamp() {
@@ -78,6 +79,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Set the timestamp.
+     * 
      * @param timeStamp the timeStamp to set
      */
     public void setTimeStamp(Instant timeStamp) {
@@ -85,6 +88,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Get the API version.
+     * 
      * @return the apiVer
      */
     public String getApiVer() {
@@ -92,6 +97,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Set the API version.
+     * 
      * @param apiVer the apiVer to set
      */
     public void setApiVer(String apiVer) {
@@ -99,6 +106,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Get the originator Id.
+     * 
      * @return the originatorId
      */
     public String getOriginatorId() {
@@ -106,6 +115,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Set the originator Id.
+     * 
      * @param originatorId the originatorId to set
      */
     public void setOriginatorId(String originatorId) {
@@ -113,6 +124,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Get the request Id.
+     * 
      * @return the requestId
      */
     public UUID getRequestId() {
@@ -120,6 +133,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Set the request Id.
+     * 
      * @param requestId the requestId to set
      */
     public void setRequestId(UUID requestId) {
@@ -127,6 +142,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Get the sub request Id.
+     * 
      * @return the subRequestId
      */
     public String getSubRequestId() {
@@ -134,6 +151,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Set the sub request Id.
+     * 
      * @param subRequestId the subRequestId to set
      */
     public void setSubRequestId(String subRequestId) {
@@ -141,6 +160,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Get the flags.
+     * 
      * @return the flags
      */
     public Map<String, String> getFlags() {
@@ -148,6 +169,8 @@ public class LCMCommonHeader implements Serializable {
     }
 
     /**
+     * Set the flags.
+     * 
      * @param flags the flags to set
      */
     public void setFlags(Map<String, String> flags) {
@@ -184,7 +207,7 @@ public class LCMCommonHeader implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LCMCommonHeader other = (LCMCommonHeader) obj;
+        LcmCommonHeader other = (LcmCommonHeader) obj;
         if (apiVer == null) {
             if (other.apiVer != null) {
                 return false;

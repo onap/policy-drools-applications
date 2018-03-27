@@ -64,14 +64,14 @@ public class AppcServiceProviderTest {
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
-        onsetEvent.setRequestID(UUID.randomUUID());
+        onsetEvent.setRequestId(UUID.randomUUID());
         onsetEvent.setClosedLoopEventClient("tca.instance00001");
         onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setTarget("generic-vnf.vnf-name");
         onsetEvent.setFrom("DCAE");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "fw0001vm001fw001");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "fw0001vm001fw001");
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
         /* Construct an operation with an APPC actor and ModifyConfig operation. */
@@ -132,7 +132,7 @@ public class AppcServiceProviderTest {
 
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
-        assertEquals(appcRequest.getCommonHeader().getRequestID(), onsetEvent.getRequestID());
+        assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.getRequestId());
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());

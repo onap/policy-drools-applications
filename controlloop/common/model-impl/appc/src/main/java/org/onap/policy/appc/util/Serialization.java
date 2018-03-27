@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,6 @@
 
 package org.onap.policy.appc.util;
 
-import java.lang.reflect.Type;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -37,51 +29,57 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public final class Serialization {
-	public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
+    public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
-	private Serialization(){
-	}
+    private Serialization() {}
 
-	public static class GSONUTCAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-		private static final Logger logger = LoggerFactory.getLogger(GSONUTCAdapter.class);
-		
-		@Override
-		public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-			try {
-				return ZonedDateTime.parse(element.getAsString(), format);
-			} catch (Exception e) {
-				logger.error("deserialize threw: ", e);
-			}
-			return null;
-		}
+    public static class GsonUtcAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
+        private static final Logger logger = LoggerFactory.getLogger(GsonUtcAdapter.class);
 
-		public JsonElement serialize(ZonedDateTime datetime, Type type, JsonSerializationContext context) {
-			return new JsonPrimitive(datetime.format(format));
-		}	
-	}
-	
-	public static class GSONInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+        @Override
+        public ZonedDateTime deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            try {
+                return ZonedDateTime.parse(element.getAsString(), format);
+            } catch (Exception e) {
+                logger.error("deserialize threw: ", e);
+            }
+            return null;
+        }
 
-		@Override
-		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-			return Instant.ofEpochMilli(json.getAsLong());
-		}
+        @Override
+        public JsonElement serialize(ZonedDateTime datetime, Type type, JsonSerializationContext context) {
+            return new JsonPrimitive(datetime.format(format));
+        }
+    }
 
-		@Override
-		public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-			return new JsonPrimitive(src.toEpochMilli());
-		}
-		
-	}
+    public static class GsonInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
-	public static final Gson gsonPretty = new GsonBuilder()
-			.disableHtmlEscaping()
-			.setPrettyPrinting()
-			.registerTypeAdapter(ZonedDateTime.class, new GSONUTCAdapter())
-			.registerTypeAdapter(Instant.class, new GSONInstantAdapter())
-//			.registerTypeAdapter(CommonHeader1607.class, new gsonCommonHeaderInstance())
-//			.registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
-			.create();
-	
+        @Override
+        public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            return Instant.ofEpochMilli(json.getAsLong());
+        }
+
+        @Override
+        public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toEpochMilli());
+        }
+
+    }
+
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
+            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+            // .registerTypeAdapter(CommonHeader1607.class, new gsonCommonHeaderInstance())
+            // .registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
+            .create();
+
 }

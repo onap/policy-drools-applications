@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,133 +20,146 @@
 
 package org.onap.policy.appc;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.annotations.SerializedName;
+public class Request implements Serializable {
+    private static final long serialVersionUID = -3912323643990646431L;
 
-public class Request implements Serializable{
-	private static final long serialVersionUID = -3912323643990646431L;
+    @SerializedName("CommonHeader")
+    private CommonHeader commonHeader;
 
-	@SerializedName("CommonHeader")
-	private CommonHeader		        commonHeader;
-	
-	@SerializedName("Action")
-	private String			     	action;
-	
-	@SerializedName("TargetID")
-	private String				    targetID;
-	
-	@SerializedName("ObjectID")
-	private String				    objectID;
-	
-	@SerializedName("Payload")
-	private HashMap<String, Object>	payload = new HashMap<>();
-	
-	public Request() {
-		// Initiate an empty Request instance
-	}
-	
-	public CommonHeader getCommonHeader() {
-		return commonHeader;
-	}
-	
-	public Map<String, Object> getPayload() {
-		return payload;
-	}
-	
-	public String getAction() {
-		return action;
-	}
+    @SerializedName("Action")
+    private String action;
 
-	public void setAction(String action) {
-		this.action = action;
-	}
+    @SerializedName("TargetID")
+    private String targetId;
 
-	public String getTargetID() {
-		return targetID;
-	}
+    @SerializedName("ObjectID")
+    private String objectId;
 
-	public void setTargetID(String targetID) {
-		this.targetID = targetID;
-	}
+    @SerializedName("Payload")
+    private HashMap<String, Object> payload = new HashMap<>();
 
-	public String getObjectID() {
-		return objectID;
-	}
+    public Request() {
+        // Initiate an empty Request instance
+    }
 
-	public void setObjectID(String objectID) {
-		this.objectID = objectID;
-	}
+    public CommonHeader getCommonHeader() {
+        return commonHeader;
+    }
 
-	public void setCommonHeader(CommonHeader commonHeader) {
-		this.commonHeader = commonHeader;
-	}
+    public Map<String, Object> getPayload() {
+        return payload;
+    }
 
-	public void setPayload(Map<String, Object> payload) {
-		this.payload = new HashMap<>(payload);
-	}
+    public String getAction() {
+        return action;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((action == null) ? 0 : action.hashCode());
-		result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
-		result = prime * result + ((objectID == null) ? 0 : objectID.hashCode());
-		result = prime * result + ((payload == null) ? 0 : payload.hashCode());
-		result = prime * result + ((targetID == null) ? 0 : targetID.hashCode());
-		return result;
-	}
+    public void setAction(String action) {
+        this.action = action;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		
-		Request other = (Request) obj;
-		if (action == null) {
-			if (other.action != null)
-				return false;
-		} else if (!action.equals(other.action))
-			return false;
-		
-		if (commonHeader == null) {
-			if (other.commonHeader != null)
-				return false;
-		} else if (!commonHeader.equals(other.commonHeader))
-			return false;
-		
-		if (objectID == null) {
-			if (other.objectID != null)
-				return false;
-		} else if (!objectID.equals(other.objectID))
-			return false;
-		
-		if (payload == null) {
-			if (other.payload != null)
-				return false;
-		} else if (!payload.equals(other.payload))
-			return false;
-		
-		if (targetID == null) {
-			if (other.targetID != null)
-				return false;
-		} else if (!targetID.equals(other.targetID))
-			return false;
-		
-		return true;
-	}
+    public String getTargetId() {
+        return targetId;
+    }
 
-	@Override
-	public String toString() {
-		return "Request [CommonHeader=" + commonHeader + ", Action=" + action + ", TargetID=" + targetID + ", ObjectID="
-				+ objectID + ", Payload=" + payload + "]";
-	}
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public void setCommonHeader(CommonHeader commonHeader) {
+        this.commonHeader = commonHeader;
+    }
+
+    public void setPayload(Map<String, Object> payload) {
+        this.payload = new HashMap<>(payload);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((action == null) ? 0 : action.hashCode());
+        result = prime * result + ((commonHeader == null) ? 0 : commonHeader.hashCode());
+        result = prime * result + ((objectId == null) ? 0 : objectId.hashCode());
+        result = prime * result + ((payload == null) ? 0 : payload.hashCode());
+        result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Request other = (Request) obj;
+        if (action == null) {
+            if (other.action != null) {
+                return false;
+            }
+        } else if (!action.equals(other.action)) {
+            return false;
+        }
+
+        if (commonHeader == null) {
+            if (other.commonHeader != null) {
+                return false;
+            }
+        } else if (!commonHeader.equals(other.commonHeader)) {
+            return false;
+        }
+
+        if (objectId == null) {
+            if (other.objectId != null) {
+                return false;
+            }
+        } else if (!objectId.equals(other.objectId)) {
+            return false;
+        }
+
+        if (payload == null) {
+            if (other.payload != null) {
+                return false;
+            }
+        } else if (!payload.equals(other.payload)) {
+            return false;
+        }
+
+        if (targetId == null) {
+            if (other.targetId != null) {
+                return false;
+            }
+        } else if (!targetId.equals(other.targetId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Request [CommonHeader=" + commonHeader + ", Action=" + action + ", TargetID=" + targetId + ", ObjectID="
+                + objectId + ", Payload=" + payload + "]";
+    }
 
 }
