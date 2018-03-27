@@ -26,9 +26,9 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
-import org.onap.policy.appclcm.LCMCommonHeader;
-import org.onap.policy.appclcm.LCMRequest;
-import org.onap.policy.appclcm.LCMRequestWrapper;
+import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.appclcm.LcmRequest;
+import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
@@ -54,12 +54,12 @@ public class DroolsPolicyEngineTest {
 
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
-        request.getCommonHeader().setSubRequestID("12321");
+        request.getCommonHeader().setSubRequestId("12321");
         pe.deliver("OmniBus", "TheWizardOfOz", request);
 
-        LCMRequestWrapper lcmRw = new LCMRequestWrapper();
-        lcmRw.setBody(new LCMRequest());
-        lcmRw.getBody().setCommonHeader(new LCMCommonHeader());
+        LcmRequestWrapper lcmRw = new LcmRequestWrapper();
+        lcmRw.setBody(new LcmRequest());
+        lcmRw.getBody().setCommonHeader(new LcmCommonHeader());
         lcmRw.getBody().getCommonHeader().setSubRequestId("54321");
         pe.deliver("OmniBus", "TheWizardOfOz", lcmRw);
     }

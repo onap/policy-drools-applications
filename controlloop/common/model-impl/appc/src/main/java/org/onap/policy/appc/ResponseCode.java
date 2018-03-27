@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,45 +23,46 @@ package org.onap.policy.appc;
 import com.google.gson.annotations.SerializedName;
 
 public enum ResponseCode {
-	ACCEPT(100),
-	ERROR(200),
-	REJECT(300),
-	SUCCESS(400),
-	FAILURE(500)
-	;
+    ACCEPT(100), ERROR(200), REJECT(300), SUCCESS(400), FAILURE(500);
 
-	@SerializedName("Code")
-	private Integer code;
+    @SerializedName("Code")
+    private Integer code;
 
-	private ResponseCode(int code) {
-		this.code = code;
-	}
+    private ResponseCode(int code) {
+        this.code = code;
+    }
 
-	public int	getValue() {
-		return this.code;
-	}
+    public int getValue() {
+        return this.code;
+    }
 
-	@Override
-	public String toString() {
-		return Integer.toString(this.code);
-	}
+    @Override
+    public String toString() {
+        return Integer.toString(this.code);
+    }
 
-	public static ResponseCode toResponseCode(int code) {
-		if (code == ACCEPT.code) {
-			return ACCEPT;
-		}
-		if (code == ERROR.code) {
-			return ERROR;
-		}
-		if (code == REJECT.code) {
-			return REJECT;
-		}
-		if (code == SUCCESS.code) {
-			return SUCCESS;
-		}
-		if (code == FAILURE.code) {
-			return FAILURE;
-		}
-		return null;
-	}
+    /**
+     * Convert an integer code to a ResponseCode.
+     * 
+     * @param code the integer code
+     * @return the ResponseCode
+     */
+    public static ResponseCode toResponseCode(int code) {
+        if (code == ACCEPT.code) {
+            return ACCEPT;
+        }
+        if (code == ERROR.code) {
+            return ERROR;
+        }
+        if (code == REJECT.code) {
+            return REJECT;
+        }
+        if (code == SUCCESS.code) {
+            return SUCCESS;
+        }
+        if (code == FAILURE.code) {
+            return FAILURE;
+        }
+        return null;
+    }
 }

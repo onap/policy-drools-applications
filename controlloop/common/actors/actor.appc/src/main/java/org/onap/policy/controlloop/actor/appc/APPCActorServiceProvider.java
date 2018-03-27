@@ -93,8 +93,8 @@ public class APPCActorServiceProvider implements Actor {
          */
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
-        request.getCommonHeader().setRequestID(onset.getRequestID());
-        request.getCommonHeader().setSubRequestID(operation.getSubRequestId());
+        request.getCommonHeader().setRequestId(onset.getRequestId());
+        request.getCommonHeader().setSubRequestId(operation.getSubRequestId());
         request.setAction(policy.getRecipe().substring(0, 1).toUpperCase() + policy.getRecipe().substring(1));
 
         /*

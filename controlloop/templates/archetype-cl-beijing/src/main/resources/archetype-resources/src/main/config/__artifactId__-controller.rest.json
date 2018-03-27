@@ -14,12 +14,12 @@
 	
 	"ueb.source.topics.APPC-CL.servers": "${dmaapServers}",
 	"ueb.source.topics.APPC-CL.events": "org.onap.policy.appc.Response",
-	"ueb.source.topics.APPC-CL.events.org.onap.policy.appclcm.LCMResponseWrapper.filter": "CommonHeader=.*,Status=.*",
+	"ueb.source.topics.APPC-CL.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "CommonHeader=.*,Status=.*",
 	"ueb.source.topics.APPC-CL.events.custom.gson": "org.onap.policy.appc.util.Serialization,gsonPretty",
 	
 	"ueb.source.topics.APPC-LCM-WRITE.servers": "${dmaapServers}",
-	"ueb.source.topics.APPC-LCM-WRITE.events": "org.onap.policy.appclcm.LCMResponseWrapper",
-	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LCMResponseWrapper.filter": "type=response",
+	"ueb.source.topics.APPC-LCM-WRITE.events": "org.onap.policy.appclcm.LcmResponseWrapper",
+	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "type=response",
 	"ueb.source.topics.APPC-LCM-WRITE.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
 	
 	"noop.sink.topics": "APPC-CL,APPC-LCM-READ,POLICY-CL-MGT",
@@ -29,7 +29,7 @@
 	"noop.sink.topics.APPC-CL.events.custom.gson": "org.onap.policy.appc.util.Serialization,gsonPretty",
 	
 	"noop.sink.topics.APPC-LCM-READ.servers": "${dmaapServers}",
-	"noop.sink.topics.APPC-LCM-READ.events": "org.onap.policy.appclcm.LCMRequestWrapper",
+	"noop.sink.topics.APPC-LCM-READ.events": "org.onap.policy.appclcm.LcmRequestWrapper",
 	"noop.sink.topics.APPC-LCM-READ.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
 	
 	"noop.sink.topics.POLICY-CL-MGT.servers": "${dmaapServers}",

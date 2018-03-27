@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,30 +20,34 @@
 
 package org.onap.policy.appc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 public class TestResponseStatus {
 
-	@Test
-	public void testResonseStatus() {
-		ResponseStatus status = new ResponseStatus();
-		assertNotNull(status);
-		assertNotEquals(0, status.hashCode());
-		
-		status.setCode(1234);
-		assertEquals(1234, status.getCode());
-		
-		status.setDescription("The wonderful land of Oz");
-		assertEquals("The wonderful land of Oz", status.getDescription());
-		
-		status.setValue("There's no place like home");
-		assertEquals("There's no place like home", status.getValue());
-		assertNotEquals(0, status.hashCode());
-		
-		assertEquals("ResponseStatus [Code=1234, Value=There's no pla", status.toString().substring(0,  47));
-		
+    @Test
+    public void testResonseStatus() {
+        ResponseStatus status = new ResponseStatus();
+        assertNotNull(status);
+        assertNotEquals(0, status.hashCode());
+
+        status.setCode(1234);
+        assertEquals(1234, status.getCode());
+
+        status.setDescription("The wonderful land of Oz");
+        assertEquals("The wonderful land of Oz", status.getDescription());
+
+        status.setValue("There's no place like home");
+        assertEquals("There's no place like home", status.getValue());
+        assertNotEquals(0, status.hashCode());
+
+        assertEquals("ResponseStatus [Code=1234, Value=There's no pla", status.toString().substring(0, 47));
+
         ResponseStatus copiedStatus = new ResponseStatus();
         copiedStatus.setCode(status.getCode());
         copiedStatus.setDescription(status.getDescription());
@@ -53,7 +57,7 @@ public class TestResponseStatus {
         assertTrue(status.equals(copiedStatus));
         assertFalse(status.equals(null));
         assertFalse(status.equals("Hello"));
-        
+
         status.setCode(-1);
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setCode(-1);
@@ -62,7 +66,7 @@ public class TestResponseStatus {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setCode(1234);
         assertTrue(status.equals(copiedStatus));
-        
+
         status.setDescription(null);
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setDescription(null);
@@ -71,7 +75,7 @@ public class TestResponseStatus {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setDescription("The wonderful land of Oz");
         assertTrue(status.equals(copiedStatus));
-        
+
         status.setValue(null);
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setValue(null);
@@ -80,5 +84,5 @@ public class TestResponseStatus {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setValue("There's no place like home");
         assertTrue(status.equals(copiedStatus));
-	}
+    }
 }

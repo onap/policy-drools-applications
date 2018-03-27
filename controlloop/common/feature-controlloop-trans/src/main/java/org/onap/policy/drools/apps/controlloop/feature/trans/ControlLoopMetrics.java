@@ -231,7 +231,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     @Override
     public void transactionEvent(PolicyController controller, VirtualControlLoopNotification notification) {
-        if (notification == null || notification.getRequestID() == null || notification.getNotification() == null) {
+        if (notification == null || notification.getRequestId() == null || notification.getNotification() == null) {
             logger.warn("Invalid notification: {}", notification);
             return;
         }
@@ -280,8 +280,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
      * @param notification control loop notification
      */
     protected void inProgressTransaction(VirtualControlLoopNotification notification) {
-        if (cache.getIfPresent(notification.getRequestID()) == null) {
-            cache.put(notification.getRequestID(), notification);
+        if (cache.getIfPresent(notification.getRequestId()) == null) {
+            cache.put(notification.getRequestId(), notification);
         }
 
         this.metric(notification);
@@ -294,7 +294,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
      */
     protected void endTransaction(VirtualControlLoopNotification notification) {
         ZonedDateTime startTime;
-        VirtualControlLoopNotification startNotification = cache.getIfPresent(notification.getRequestID());
+        VirtualControlLoopNotification startNotification = cache.getIfPresent(notification.getRequestId());
         if (startNotification != null) {
             startTime = startNotification.getNotificationTime();
         } else {

@@ -20,12 +20,6 @@
 
 package org.onap.policy.appclcm.util;
 
-import java.lang.reflect.Type;
-import java.time.Instant;
-
-import org.onap.policy.appclcm.LCMRequest;
-import org.onap.policy.appclcm.LCMResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -36,79 +30,84 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import java.lang.reflect.Type;
+import java.time.Instant;
+
+import org.onap.policy.appclcm.LcmRequest;
+import org.onap.policy.appclcm.LcmResponse;
+
 public final class Serialization {
-	private Serialization() {
-	}
+    private Serialization() {}
 
-	public static class RequestAdapter implements JsonSerializer<LCMRequest>, JsonDeserializer<LCMRequest> {
+    public static class RequestAdapter implements JsonSerializer<LcmRequest>, JsonDeserializer<LcmRequest> {
 
-		@Override
-		public JsonElement serialize(LCMRequest src, Type typeOfSrc, JsonSerializationContext context) {            
-			JsonElement requestJson = gsonPretty.toJsonTree(src, LCMRequest.class);
-			JsonObject input = new JsonObject();
-			input.add("input", requestJson);
+        @Override
+        public JsonElement serialize(LcmRequest src, Type typeOfSrc, JsonSerializationContext context) {
+            JsonElement requestJson = gsonPretty.toJsonTree(src, LcmRequest.class);
+            JsonObject input = new JsonObject();
+            input.add("input", requestJson);
 
-			return input;
-		}
+            return input;
+        }
 
-		@Override
-		public LCMRequest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-			return gsonPretty.fromJson(json.getAsJsonObject().get("input"), LCMRequest.class);
-		}
-	}
+        @Override
+        public LcmRequest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            return gsonPretty.fromJson(json.getAsJsonObject().get("input"), LcmRequest.class);
+        }
+    }
 
-	public static class ResponseAdapter implements JsonSerializer<LCMResponse>, JsonDeserializer<LCMResponse> {
+    public static class ResponseAdapter implements JsonSerializer<LcmResponse>, JsonDeserializer<LcmResponse> {
 
-		@Override
-		public JsonElement serialize(LCMResponse src, Type typeOfSrc, JsonSerializationContext context) {
-			JsonElement responseJson = gsonPretty.toJsonTree(src, LCMResponse.class);
-			JsonObject output = new JsonObject();
-			output.add("output", responseJson);
-			return output;
-		}
+        @Override
+        public JsonElement serialize(LcmResponse src, Type typeOfSrc, JsonSerializationContext context) {
+            JsonElement responseJson = gsonPretty.toJsonTree(src, LcmResponse.class);
+            JsonObject output = new JsonObject();
+            output.add("output", responseJson);
+            return output;
+        }
 
-		@Override
-		public LCMResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-			return gsonPretty.fromJson(json.getAsJsonObject().get("output"), LCMResponse.class);
-		}
-	}
+        @Override
+        public LcmResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            return gsonPretty.fromJson(json.getAsJsonObject().get("output"), LcmResponse.class);
+        }
+    }
 
-	public static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+    public static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
-		@Override
-		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-			return Instant.parse(json.getAsString());
-		}
+        @Override
+        public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            return Instant.parse(json.getAsString());
+        }
 
-		@Override
-		public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-			return new JsonPrimitive(src.toString());
-		}
+        @Override
+        public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toString());
+        }
 
-	}
+    }
 
-	public static class InstantJunitAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+    public static class InstantJunitAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
-		@Override
-		public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-			return Instant.ofEpochMilli(json.getAsLong());
-		}
+        @Override
+        public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            return Instant.ofEpochMilli(json.getAsLong());
+        }
 
-		@Override
-		public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-			return new JsonPrimitive(src.toEpochMilli());
-		}
+        @Override
+        public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toEpochMilli());
+        }
 
-	}
+    }
 
-	public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-			.registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
 
-	public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-			.registerTypeAdapter(LCMRequest.class, new RequestAdapter())
-			.registerTypeAdapter(LCMResponse.class, new ResponseAdapter()).create();
+    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(LcmRequest.class, new RequestAdapter())
+            .registerTypeAdapter(LcmResponse.class, new ResponseAdapter()).create();
 
-	public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-			.registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
+    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
 }

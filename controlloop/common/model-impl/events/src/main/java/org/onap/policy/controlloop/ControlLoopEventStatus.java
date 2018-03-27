@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,35 +21,39 @@
 package org.onap.policy.controlloop;
 
 public enum ControlLoopEventStatus {
-	ONSET("ONSET"),
-	ABATED("ABATED")
-	;
-	
-	private String status;
-	
-	private ControlLoopEventStatus(String status) {
-		this.status = status;
-	}
+    ONSET("ONSET"), ABATED("ABATED");
 
-	@Override
-	public String toString() {
-		return this.status;
-	}
-	
-	public static ControlLoopEventStatus toStatus(String status) {
-		if (ONSET.status.equalsIgnoreCase(status)) {
-			return ONSET;
-		}
-		if (ABATED.status.equalsIgnoreCase(status)) {
-			return ABATED;
-		}
-		//
-		// In case DCAE uses the old abatement
-		//
-		if ("abatement".equalsIgnoreCase(status)) {
-			return ABATED;
-		}
-		return null;
-	}
+    private String status;
+
+    private ControlLoopEventStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return this.status;
+    }
+
+    /**
+     * Convert a String status to a ControlLoopEventStatus.
+     * 
+     * @param status the String status
+     * @return the ControlLoopEventStatus
+     */
+    public static ControlLoopEventStatus toStatus(String status) {
+        if (ONSET.status.equalsIgnoreCase(status)) {
+            return ONSET;
+        }
+        if (ABATED.status.equalsIgnoreCase(status)) {
+            return ABATED;
+        }
+        //
+        // In case DCAE uses the old abatement
+        //
+        if ("abatement".equalsIgnoreCase(status)) {
+            return ABATED;
+        }
+        return null;
+    }
 
 }

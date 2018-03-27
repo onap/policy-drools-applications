@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,31 @@
 
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class TestLCMResponseStatus {
+public class TestLcmResponseStatus {
 
-	@Test
-	public void testResonseStatus() {
-		LCMResponseStatus status = new LCMResponseStatus();
-		assertNotNull(status);
-		assertNotEquals(0, status.hashCode());
-		
-		status.setCode(1234);
-		assertEquals(1234, status.getCode());
-		
-		status.setMessage("The wonderful land of Oz");
-		assertEquals("The wonderful land of Oz", status.getMessage());
-		
-		assertEquals("ResponseStatus [code=1234, message=The wonderfu", status.toString().substring(0,  47));
-		
-        LCMResponseStatus copiedStatus = new LCMResponseStatus();
+    @Test
+    public void testResonseStatus() {
+        LcmResponseStatus status = new LcmResponseStatus();
+        assertNotNull(status);
+        assertNotEquals(0, status.hashCode());
+
+        status.setCode(1234);
+        assertEquals(1234, status.getCode());
+
+        status.setMessage("The wonderful land of Oz");
+        assertEquals("The wonderful land of Oz", status.getMessage());
+
+        assertEquals("ResponseStatus [code=1234, message=The wonderfu", status.toString().substring(0, 47));
+
+        LcmResponseStatus copiedStatus = new LcmResponseStatus();
         copiedStatus.setCode(status.getCode());
         copiedStatus.setMessage(status.getMessage());
 
@@ -48,7 +52,7 @@ public class TestLCMResponseStatus {
         assertTrue(status.equals(copiedStatus));
         assertFalse(status.equals(null));
         assertFalse(status.equals("Hello"));
-        
+
         status.setCode(-1);
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setCode(-1);
@@ -57,7 +61,7 @@ public class TestLCMResponseStatus {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setCode(1234);
         assertTrue(status.equals(copiedStatus));
-        
+
         status.setMessage(null);
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setMessage(null);
@@ -66,5 +70,5 @@ public class TestLCMResponseStatus {
         assertFalse(status.equals(copiedStatus));
         copiedStatus.setMessage("The wonderful land of Oz");
         assertTrue(status.equals(copiedStatus));
-	}
+    }
 }
