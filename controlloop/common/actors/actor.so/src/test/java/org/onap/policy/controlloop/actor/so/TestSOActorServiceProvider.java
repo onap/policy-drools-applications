@@ -66,7 +66,7 @@ public class TestSOActorServiceProvider {
         final ControlLoopOperation operation = new ControlLoopOperation();
 
         final UUID requestId = UUID.randomUUID();
-        onset.setRequestID(requestId);
+        onset.setRequestId(requestId);
 
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");

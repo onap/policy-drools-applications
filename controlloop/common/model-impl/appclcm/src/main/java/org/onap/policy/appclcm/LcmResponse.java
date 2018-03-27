@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,34 +21,33 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class LCMResponse implements Serializable {
+public class LcmResponse implements Serializable {
 
     private static final long serialVersionUID = 6332508597287669750L;
 
     @SerializedName(value = "common-header")
-    private LCMCommonHeader commonHeader;
+    private LcmCommonHeader commonHeader;
 
     @SerializedName(value = "status")
-    private LCMResponseStatus status = new LCMResponseStatus();
+    private LcmResponseStatus status = new LcmResponseStatus();
 
     @SerializedName(value = "payload")
     private String payload;
 
-    public LCMResponse() {
-    	// EMPTY
+    public LcmResponse() {
+        // EMPTY
     }
 
     /**
-     * Constructs a response using the common header of the request since they
-     * will be the same.
+     * Constructs a response using the common header of the request since they will be the same.
      * 
-     * @param request
-     *            an appc lcm request object specified by the lcm api guide
+     * @param request an appc lcm request object specified by the lcm api guide
      */
-    public LCMResponse(LCMRequest request) {
-        this.commonHeader = new LCMCommonHeader(request.getCommonHeader());
+    public LcmResponse(LcmRequest request) {
+        this.commonHeader = new LcmCommonHeader(request.getCommonHeader());
         String requestPayload = request.getPayload();
         if (requestPayload != null) {
             this.payload = requestPayload;
@@ -56,34 +55,44 @@ public class LCMResponse implements Serializable {
     }
 
     /**
+     * Get the common header.
+     * 
      * @return the commonHeader
      */
-    public LCMCommonHeader getCommonHeader() {
+    public LcmCommonHeader getCommonHeader() {
         return commonHeader;
     }
 
     /**
+     * Set the common header.
+     * 
      * @param commonHeader the commonHeader to set
      */
-    public void setCommonHeader(LCMCommonHeader commonHeader) {
+    public void setCommonHeader(LcmCommonHeader commonHeader) {
         this.commonHeader = commonHeader;
     }
 
     /**
+     * Get the status.
+     * 
      * @return the status
      */
-    public LCMResponseStatus getStatus() {
+    public LcmResponseStatus getStatus() {
         return status;
     }
 
     /**
+     * Set the status.
+     * 
      * @param status the status to set
      */
-    public void setStatus(LCMResponseStatus status) {
+    public void setStatus(LcmResponseStatus status) {
         this.status = status;
     }
 
     /**
+     * Get the payload.
+     * 
      * @return the payload
      */
     public String getPayload() {
@@ -91,6 +100,8 @@ public class LCMResponse implements Serializable {
     }
 
     /**
+     * Set the payload.
+     * 
      * @param payload the payload to set
      */
     public void setPayload(String payload) {
@@ -123,7 +134,7 @@ public class LCMResponse implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LCMResponse other = (LCMResponse) obj;
+        LcmResponse other = (LcmResponse) obj;
         if (commonHeader == null) {
             if (other.commonHeader != null) {
                 return false;

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,47 +23,48 @@ package org.onap.policy.appc;
 import com.google.gson.annotations.SerializedName;
 
 public enum ResponseValue {
-	ACCEPT("ACCEPT"),
-	ERROR("ERROR"),
-	REJECT("REJECT"),
-	SUCCESS("SUCCESS"),
-	FAILURE("FAILURE")
-	;
-	
-	@SerializedName("Value")
-	private String value;
-	
-	private ResponseValue(String value) {
-		this.value = value;
-	}
+    ACCEPT("ACCEPT"), ERROR("ERROR"), REJECT("REJECT"), SUCCESS("SUCCESS"), FAILURE("FAILURE");
 
-	@Override
-	public String toString() {
-		return this.value;
-	}
+    @SerializedName("Value")
+    private String value;
 
-	public static ResponseValue toResponseValue(String value) {
-		if (value == null) {
-			return null;
-		}
-		
-		if (value.equals(ACCEPT.toString())) {
-			return ACCEPT;
-		}
-		if (value.equals(ERROR.toString())) {
-			return ERROR;
-		}
-		if (value.equals(REJECT.toString())) {
-			return REJECT;
-		}
-		if (value.equals(SUCCESS.toString())) {
-			return SUCCESS;
-		}
-		if (value.equals(FAILURE.toString())) {
-			return FAILURE;
-		}
-		
-		return null;
-	}
-	
+    private ResponseValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
+
+    /**
+     * Convert a String value to a ResponseValue.
+     * 
+     * @param value the String value
+     * @return the ResponseValue
+     */
+    public static ResponseValue toResponseValue(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        if (value.equals(ACCEPT.toString())) {
+            return ACCEPT;
+        }
+        if (value.equals(ERROR.toString())) {
+            return ERROR;
+        }
+        if (value.equals(REJECT.toString())) {
+            return REJECT;
+        }
+        if (value.equals(SUCCESS.toString())) {
+            return SUCCESS;
+        }
+        if (value.equals(FAILURE.toString())) {
+            return FAILURE;
+        }
+
+        return null;
+    }
+
 }

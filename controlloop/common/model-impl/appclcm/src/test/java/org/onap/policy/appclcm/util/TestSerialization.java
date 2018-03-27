@@ -20,39 +20,38 @@
 
 package org.onap.policy.appclcm.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.junit.Test;
-import org.onap.policy.appclcm.util.Serialization;
 
 public class TestSerialization {
 
-	@Test
-	public void test() {
-		String nameString = "Dorothy";
-		String jsonName = Serialization.gsonPretty.toJson(nameString, String.class);
-		assertEquals("\"Dorothy\"", jsonName);
-		String jsonInOutName = Serialization.gsonPretty.fromJson(jsonName, String.class);
-		assertEquals("Dorothy", jsonInOutName);
-		
-		Instant instant0 = Instant.ofEpochMilli(1516127215000L);
-		String instantString0 = Serialization.gsonPretty.toJson(instant0, Instant.class);
-		assertEquals("\"2018-01-16T18:26:55Z\"", instantString0);
-		Instant outInstant0 = Serialization.gsonPretty.fromJson(instantString0, Instant.class);
-		assertEquals(instant0, outInstant0);
-		
-		Instant instant1 = Instant.ofEpochMilli(1516127215000L);
-		String instantString1 = Serialization.gsonJunit.toJson(instant1, Instant.class);
-		assertEquals("1516127215000", instantString1);
-		Instant outInstant1 = Serialization.gsonJunit.fromJson(instantString1, Instant.class);
-		assertEquals(instant1, outInstant1);
-		
-		ZonedDateTime zdt = ZonedDateTime.ofInstant(instant0, ZoneId.of("UTC"));
-		String zdtString = Serialization.gsonPretty.toJson(zdt, ZonedDateTime.class);
-		assertEquals("{\n  \"dateTime\": {\n    \"date\":", zdtString.substring(0, 29));
-	}
+    @Test
+    public void test() {
+        String nameString = "Dorothy";
+        String jsonName = Serialization.gsonPretty.toJson(nameString, String.class);
+        assertEquals("\"Dorothy\"", jsonName);
+        String jsonInOutName = Serialization.gsonPretty.fromJson(jsonName, String.class);
+        assertEquals("Dorothy", jsonInOutName);
+
+        Instant instant0 = Instant.ofEpochMilli(1516127215000L);
+        String instantString0 = Serialization.gsonPretty.toJson(instant0, Instant.class);
+        assertEquals("\"2018-01-16T18:26:55Z\"", instantString0);
+        Instant outInstant0 = Serialization.gsonPretty.fromJson(instantString0, Instant.class);
+        assertEquals(instant0, outInstant0);
+
+        Instant instant1 = Instant.ofEpochMilli(1516127215000L);
+        String instantString1 = Serialization.gsonJunit.toJson(instant1, Instant.class);
+        assertEquals("1516127215000", instantString1);
+        Instant outInstant1 = Serialization.gsonJunit.fromJson(instantString1, Instant.class);
+        assertEquals(instant1, outInstant1);
+
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(instant0, ZoneId.of("UTC"));
+        String zdtString = Serialization.gsonPretty.toJson(zdt, ZonedDateTime.class);
+        assertEquals("{\n  \"dateTime\": {\n    \"date\":", zdtString.substring(0, 29));
+    }
 }

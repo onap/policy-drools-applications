@@ -25,7 +25,7 @@ import java.io.Serializable;
 public class ControlLoopParams implements Serializable {
 
     private static final long serialVersionUID = 970755684770982776L;
-    
+
     private String closedLoopControlName;
     private String controlLoopYaml;
     private String policyName;
@@ -36,6 +36,11 @@ public class ControlLoopParams implements Serializable {
         super();
     }
 
+    /**
+     * Construct an instance from an existing instance.
+     * 
+     * @param params the existing instance
+     */
     public ControlLoopParams(ControlLoopParams params) {
         this.closedLoopControlName = params.closedLoopControlName;
         this.controlLoopYaml = params.controlLoopYaml;

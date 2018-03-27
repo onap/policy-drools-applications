@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,20 @@
 package org.onap.policy.controlloop;
 
 public class PhysicalControlLoopNotification extends ControlLoopNotification {
-	private static final long serialVersionUID = 8105197217140032892L;
-	
-	public PhysicalControlLoopNotification() {
-	}
+    private static final long serialVersionUID = 8105197217140032892L;
 
-	public PhysicalControlLoopNotification(PhysicalControlLoopEvent event) {
-		super(event);
-		if (event == null) {
-			return;
-		}
-	}
+    public PhysicalControlLoopNotification() {}
+
+    /**
+     * Construct an instance from an existing instance.
+     * 
+     * @param event the existing instance
+     */
+    public PhysicalControlLoopNotification(PhysicalControlLoopEvent event) {
+        super(event);
+        if (event == null) {
+            return;
+        }
+    }
 
 }

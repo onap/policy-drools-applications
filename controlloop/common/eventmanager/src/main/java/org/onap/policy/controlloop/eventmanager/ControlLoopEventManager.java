@@ -457,7 +457,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             //
             LockResult<GuardResult, TargetLock> lockResult =
                     PolicyGuard.lockTarget(this.currentOperation.policy.getTarget().getType(),
-                            this.currentOperation.getTargetEntity(), this.onset.getRequestID(), this);
+                            this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this);
             //
             // Was it acquired?
             //
@@ -613,7 +613,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (event.getClosedLoopControlName() == null || event.getClosedLoopControlName().length() < 1) {
             throw new ControlLoopException("No control loop name");
         }
-        if (event.getRequestID() == null) {
+        if (event.getRequestId() == null) {
             throw new ControlLoopException("No request ID");
         }
         if (event.getClosedLoopEventStatus() == ControlLoopEventStatus.ABATED) {
@@ -627,11 +627,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 && !GENERIC_VNF_VNF_NAME.equalsIgnoreCase(event.getTarget())) {
             throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
         }
-        if (event.getAAI() == null) {
+        if (event.getAai() == null) {
             throw new ControlLoopException("AAI is null");
         }
-        if (event.getAAI().get(GENERIC_VNF_VNF_ID) == null && event.getAAI().get(VSERVER_VSERVER_NAME) == null
-                && event.getAAI().get(GENERIC_VNF_VNF_NAME) == null) {
+        if (event.getAai().get(GENERIC_VNF_VNF_ID) == null && event.getAai().get(VSERVER_VSERVER_NAME) == null
+                && event.getAai().get(GENERIC_VNF_VNF_NAME) == null) {
             throw new ControlLoopException(
                     "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
         }
@@ -644,16 +644,16 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @throws AaiException if an error occurs retrieving information from A&AI
      */
     public void queryAai(VirtualControlLoopEvent event) throws AaiException {
-        if ((event.getAAI().get(VSERVER_IS_CLOSED_LOOP_DISABLED) != null
-                || event.getAAI().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED) != null) && isClosedLoopDisabled(event)) {
+        if ((event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED) != null
+                || event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED) != null) && isClosedLoopDisabled(event)) {
             throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
         }
 
         try {
-            if (event.getAAI().get(GENERIC_VNF_VNF_ID) != null || event.getAAI().get(GENERIC_VNF_VNF_NAME) != null) {
+            if (event.getAai().get(GENERIC_VNF_VNF_ID) != null || event.getAai().get(GENERIC_VNF_VNF_NAME) != null) {
                 vnfResponse = getAAIVnfInfo(event);
-                processVNFResponse(vnfResponse, event.getAAI().get(GENERIC_VNF_VNF_ID) != null);
-            } else if (event.getAAI().get(VSERVER_VSERVER_NAME) != null) {
+                processVNFResponse(vnfResponse, event.getAai().get(GENERIC_VNF_VNF_ID) != null);
+            } else if (event.getAai().get(VSERVER_VSERVER_NAME) != null) {
                 vserverResponse = getAAIVserverInfo(event);
                 processVServerResponse(vserverResponse);
             }
@@ -714,16 +714,16 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @return <code>true</code> if the contol loop is disabled, <code>false</code> otherwise
      */
     public static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
-        if ("true".equalsIgnoreCase(event.getAAI().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || "T".equalsIgnoreCase(event.getAAI().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || "yes".equalsIgnoreCase(event.getAAI().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || "Y".equalsIgnoreCase(event.getAAI().get(VSERVER_IS_CLOSED_LOOP_DISABLED))) {
+        if ("true".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
+                || "T".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
+                || "yes".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
+                || "Y".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))) {
             return true;
         }
-        return ("true".equalsIgnoreCase(event.getAAI().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                || "T".equalsIgnoreCase(event.getAAI().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                || "yes".equalsIgnoreCase(event.getAAI().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                || "Y".equalsIgnoreCase(event.getAAI().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
+        return ("true".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
+                || "T".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
+                || "yes".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
+                || "Y".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
     }
 
     /**
@@ -734,9 +734,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public static AaiGetVserverResponse getAAIVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-        UUID requestId = event.getRequestID();
+        UUID requestId = event.getRequestId();
         AaiGetVserverResponse response = null;
-        String vserverName = event.getAAI().get(VSERVER_VSERVER_NAME);
+        String vserverName = event.getAai().get(VSERVER_VSERVER_NAME);
 
         try {
             if (vserverName != null) {
@@ -765,10 +765,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public static AaiGetVnfResponse getAAIVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-        UUID requestId = event.getRequestID();
+        UUID requestId = event.getRequestId();
         AaiGetVnfResponse response = null;
-        String vnfName = event.getAAI().get(GENERIC_VNF_VNF_NAME);
-        String vnfId = event.getAAI().get(GENERIC_VNF_VNF_ID);
+        String vnfName = event.getAai().get(GENERIC_VNF_VNF_NAME);
+        String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
 
         aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
         aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
@@ -811,7 +811,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     @Override
     public String toString() {
         return "ControlLoopEventManager [closedLoopControlName=" + closedLoopControlName + ", requestID=" + requestID
-                + ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestID() : "null")
+                + ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestId() : "null")
                 + ", numOnsets=" + numOnsets + ", numAbatements=" + numAbatements + ", isActivated=" + isActivated
                 + ", currentOperation=" + currentOperation + ", targetLock=" + targetLock + "]";
     }

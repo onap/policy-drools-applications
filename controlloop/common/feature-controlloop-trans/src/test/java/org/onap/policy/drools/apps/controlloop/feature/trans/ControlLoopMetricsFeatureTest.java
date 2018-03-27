@@ -73,7 +73,7 @@ public class ControlLoopMetricsFeatureTest {
         this.cacheDefaults();
 
         UUID requestId = UUID.randomUUID();
-        notification.setRequestID(requestId);
+        notification.setRequestId(requestId);
 
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
         assertNull(ControlLoopMetrics.manager.getTransaction(requestId));
@@ -85,7 +85,7 @@ public class ControlLoopMetricsFeatureTest {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
         UUID requestId = UUID.randomUUID();
-        notification.setRequestID(requestId);
+        notification.setRequestId(requestId);
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
 
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
@@ -110,23 +110,23 @@ public class ControlLoopMetricsFeatureTest {
         VirtualControlLoopNotification notification = this.generateNotification();
         new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
 
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestID()));
+        assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
 
         ControlLoopMetrics.manager.resetCache(ControlLoopMetrics.manager.getCacheSize(), ControlLoopMetrics.manager.getTransactionTimeout());
-        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestID()));
+        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
         this.cacheDefaults();
     }
 
     @Test
     public void removeTransaction() {
         VirtualControlLoopNotification notification = this.generateNotification();
-        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestID()));
-        ControlLoopMetrics.manager.removeTransaction(notification.getRequestID());
+        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
+        ControlLoopMetrics.manager.removeTransaction(notification.getRequestId());
 
         ControlLoopMetrics.manager.transactionEvent(testController, notification);
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestID()));
-        ControlLoopMetrics.manager.removeTransaction(notification.getRequestID());
-        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestID()));
+        assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
+        ControlLoopMetrics.manager.removeTransaction(notification.getRequestId());
+        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ControlLoopMetricsFeatureTest {
         for (int i=0; i < ControlLoopMetrics.manager.getCacheSize(); i++) {
             VirtualControlLoopNotification notification = generateNotification();
             feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
-            assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestID()));
+            assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
         }
 
         assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheOccupancy());
@@ -143,7 +143,7 @@ public class ControlLoopMetricsFeatureTest {
         VirtualControlLoopNotification overflowNotification = generateNotification();
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", overflowNotification);
         assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheOccupancy());
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(overflowNotification.getRequestID()));
+        assertNotNull(ControlLoopMetrics.manager.getTransaction(overflowNotification.getRequestId()));
         assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager.getCacheSize());
         assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheSize());
         assertFalse(ControlLoopMetrics.manager.getTransactionIds().isEmpty());
@@ -168,7 +168,7 @@ public class ControlLoopMetricsFeatureTest {
     private VirtualControlLoopNotification generateNotification() {
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
         UUID requestId = UUID.randomUUID();
-        notification.setRequestID(requestId);
+        notification.setRequestId(requestId);
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
         return notification;
     }
