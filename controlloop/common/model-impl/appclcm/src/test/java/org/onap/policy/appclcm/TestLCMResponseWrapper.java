@@ -20,42 +20,46 @@
 
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class TestLCMResponseWrapper {
+public class TestLcmResponseWrapper {
 
-	@Test
-	public void testLCMResponseWrapperWrapper() {
-		LCMResponseWrapper responseWrapper = new LCMResponseWrapper();
-		assertNotNull(responseWrapper);
-		assertNotEquals(0, responseWrapper.hashCode());
-		
-		LCMResponse response = new LCMResponse();
+    @Test
+    public void testLcmResponseWrapperWrapper() {
+        LcmResponseWrapper responseWrapper = new LcmResponseWrapper();
+        assertNotNull(responseWrapper);
+        assertNotEquals(0, responseWrapper.hashCode());
 
-		responseWrapper.setBody(response);
-		assertEquals(response, responseWrapper.getBody());
-		
-		assertNotEquals(0, responseWrapper.hashCode());
-		
-		assertEquals("ResponseWrapper [body=Response [commonHeader=n", responseWrapper.toString().substring(0,  46));
-		
-        LCMResponseWrapper copiedLCMResponseWrapper = new LCMResponseWrapper();
-        copiedLCMResponseWrapper.setBody(responseWrapper.getBody());
+        LcmResponse response = new LcmResponse();
+
+        responseWrapper.setBody(response);
+        assertEquals(response, responseWrapper.getBody());
+
+        assertNotEquals(0, responseWrapper.hashCode());
+
+        assertEquals("ResponseWrapper [body=Response [commonHeader=n", responseWrapper.toString().substring(0, 46));
+
+        LcmResponseWrapper copiedLcmResponseWrapper = new LcmResponseWrapper();
+        copiedLcmResponseWrapper.setBody(responseWrapper.getBody());
 
         assertTrue(responseWrapper.equals(responseWrapper));
-        assertTrue(responseWrapper.equals(copiedLCMResponseWrapper));
+        assertTrue(responseWrapper.equals(copiedLcmResponseWrapper));
         assertFalse(responseWrapper.equals(null));
         assertFalse(responseWrapper.equals("Hello"));
-        
+
         responseWrapper.setBody(null);
-        assertFalse(responseWrapper.equals(copiedLCMResponseWrapper));
-        copiedLCMResponseWrapper.setBody(null);
-        assertTrue(responseWrapper.equals(copiedLCMResponseWrapper));
+        assertFalse(responseWrapper.equals(copiedLcmResponseWrapper));
+        copiedLcmResponseWrapper.setBody(null);
+        assertTrue(responseWrapper.equals(copiedLcmResponseWrapper));
         responseWrapper.setBody(response);
-        assertFalse(responseWrapper.equals(copiedLCMResponseWrapper));
-        copiedLCMResponseWrapper.setBody(response);
-        assertTrue(responseWrapper.equals(copiedLCMResponseWrapper));
-	}
+        assertFalse(responseWrapper.equals(copiedLcmResponseWrapper));
+        copiedLcmResponseWrapper.setBody(response);
+        assertTrue(responseWrapper.equals(copiedLcmResponseWrapper));
+    }
 }

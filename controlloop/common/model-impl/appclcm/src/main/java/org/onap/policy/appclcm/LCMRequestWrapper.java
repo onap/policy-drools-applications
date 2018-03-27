@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,34 +21,39 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class LCMRequestWrapper extends LCMWrapper implements Serializable {
+public class LcmRequestWrapper extends LcmWrapper implements Serializable {
 
     private static final long serialVersionUID = 424866914715980798L;
-    
-    @SerializedName(value="body")
-    private LCMRequest body;
 
-    public LCMRequestWrapper() {
+    @SerializedName(value = "body")
+    private LcmRequest body;
+
+    public LcmRequestWrapper() {
         super();
     }
 
-    public LCMRequestWrapper(LCMRequest request) {
+    public LcmRequestWrapper(LcmRequest request) {
         body = request;
     }
-    
+
     /**
+     * Get the body.
+     * 
      * @return the body
      */
-    public LCMRequest getBody() {
+    public LcmRequest getBody() {
         return body;
     }
 
     /**
+     * Set the body.
+     * 
      * @param body the body to set
      */
-    public void setBody(LCMRequest body) {
+    public void setBody(LcmRequest body) {
         this.body = body;
     }
 
@@ -76,7 +81,7 @@ public class LCMRequestWrapper extends LCMWrapper implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LCMRequestWrapper other = (LCMRequestWrapper) obj;
+        LcmRequestWrapper other = (LcmRequestWrapper) obj;
         if (body == null) {
             if (other.body != null) {
                 return false;

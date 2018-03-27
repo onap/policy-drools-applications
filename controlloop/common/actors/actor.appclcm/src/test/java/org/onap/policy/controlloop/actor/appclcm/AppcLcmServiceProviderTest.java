@@ -33,11 +33,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.util.AaiException;
-import org.onap.policy.appclcm.LCMCommonHeader;
-import org.onap.policy.appclcm.LCMRequest;
-import org.onap.policy.appclcm.LCMRequestWrapper;
-import org.onap.policy.appclcm.LCMResponse;
-import org.onap.policy.appclcm.LCMResponseWrapper;
+import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.appclcm.LcmRequest;
+import org.onap.policy.appclcm.LcmRequestWrapper;
+import org.onap.policy.appclcm.LcmResponse;
+import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopTargetType;
@@ -59,8 +59,8 @@ public class AppcLcmServiceProviderTest {
     private static VirtualControlLoopEvent onsetEvent;
     private static ControlLoopOperation operation;
     private static Policy policy;
-    private static LCMRequestWrapper dmaapRequest;
-    private static LCMResponseWrapper dmaapResponse;
+    private static LcmRequestWrapper dmaapRequest;
+    private static LcmResponseWrapper dmaapResponse;
 
     static {
         /*
@@ -69,14 +69,14 @@ public class AppcLcmServiceProviderTest {
          */
         onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("closedLoopControlName-Test");
-        onsetEvent.setRequestID(UUID.randomUUID());
+        onsetEvent.setRequestId(UUID.randomUUID());
         onsetEvent.setClosedLoopEventClient("tca.instance00001");
         onsetEvent.setTargetType(ControlLoopTargetType.VM);
         onsetEvent.setTarget("generic-vnf.vnf-name");
         onsetEvent.setFrom("DCAE");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "fw0001vm001fw001");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "fw0001vm001fw001");
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
         /* Construct an operation with an APPC actor and restart operation. */
@@ -99,14 +99,14 @@ public class AppcLcmServiceProviderTest {
         policy.setTimeout(300);
 
         /* A sample DMAAP request wrapper. */
-        dmaapRequest = new LCMRequestWrapper();
-        dmaapRequest.setCorrelationId(onsetEvent.getRequestID().toString() + "-" + "1");
+        dmaapRequest = new LcmRequestWrapper();
+        dmaapRequest.setCorrelationId(onsetEvent.getRequestId().toString() + "-" + "1");
         dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
         dmaapRequest.setType("request");
 
         /* A sample DMAAP response wrapper */
-        dmaapResponse = new LCMResponseWrapper();
-        dmaapResponse.setCorrelationId(onsetEvent.getRequestID().toString() + "-" + "1");
+        dmaapResponse = new LcmResponseWrapper();
+        dmaapResponse.setCorrelationId(onsetEvent.getRequestId().toString() + "-" + "1");
         dmaapResponse.setRpcName(policy.getRecipe().toLowerCase());
         dmaapResponse.setType("response");
 
@@ -116,7 +116,7 @@ public class AppcLcmServiceProviderTest {
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
 
         /* A sample APPC LCM request. */
-        LCMRequest appcRequest = new LCMRequest();
+        LcmRequest appcRequest = new LcmRequest();
 
         /* The following code constructs a sample APPC LCM Request */
         appcRequest.setAction("restart");
@@ -126,10 +126,10 @@ public class AppcLcmServiceProviderTest {
 
         appcRequest.setActionIdentifiers(actionIdentifiers);
 
-        LCMCommonHeader commonHeader = new LCMCommonHeader();
-        commonHeader.setRequestId(onsetEvent.getRequestID());
+        LcmCommonHeader commonHeader = new LcmCommonHeader();
+        commonHeader.setRequestId(onsetEvent.getRequestId());
         commonHeader.setSubRequestId("1");
-        commonHeader.setOriginatorId(onsetEvent.getRequestID().toString());
+        commonHeader.setOriginatorId(onsetEvent.getRequestId().toString());
 
         appcRequest.setCommonHeader(commonHeader);
 
@@ -138,7 +138,7 @@ public class AppcLcmServiceProviderTest {
         dmaapRequest.setBody(appcRequest);
 
         /* The following code constructs a sample APPC LCM Response */
-        LCMResponse appcResponse = new LCMResponse(appcRequest);
+        LcmResponse appcResponse = new LcmResponse(appcRequest);
         appcResponse.getStatus().setCode(400);
         appcResponse.getStatus().setMessage("Restart Successful");
 
@@ -171,7 +171,7 @@ public class AppcLcmServiceProviderTest {
     @Test
     public void constructRestartRequestTest() {
 
-        LCMRequestWrapper dmaapRequest =
+        LcmRequestWrapper dmaapRequest =
                 AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
 
         /* The service provider must return a non null DMAAP request wrapper */
@@ -183,11 +183,11 @@ public class AppcLcmServiceProviderTest {
         /* The DMAAP wrapper's body field cannot be null */
         assertNotNull(dmaapRequest.getBody());
 
-        LCMRequest appcRequest = dmaapRequest.getBody();
+        LcmRequest appcRequest = dmaapRequest.getBody();
 
         /* A common header is required and cannot be null */
         assertNotNull(appcRequest.getCommonHeader());
-        assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.getRequestID());
+        assertEquals(appcRequest.getCommonHeader().getRequestId(), onsetEvent.getRequestId());
 
         /* An action is required and cannot be null */
         assertNotNull(appcRequest.getAction());

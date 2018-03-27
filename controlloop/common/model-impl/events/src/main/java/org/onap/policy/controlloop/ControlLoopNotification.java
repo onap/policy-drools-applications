@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,157 +29,162 @@ import java.util.UUID;
 
 public abstract class ControlLoopNotification implements Serializable {
 
-	private static final long serialVersionUID = 7538596984567127915L;
+    private static final long serialVersionUID = 7538596984567127915L;
 
-	private String closedLoopControlName;
-	private String version = "1.0.2";
-	private UUID requestID;
-	private String closedLoopEventClient;
-	private ControlLoopTargetType targetType;
-	private String target;
-	private String from;
-	private String policyScope;
-	private String policyName;
-	private String policyVersion;
-	private ControlLoopNotificationType notification;
-	private String message;
-	private ZonedDateTime notificationTime = ZonedDateTime.now(ZoneOffset.UTC);
-	private Integer opsCLTimer;
-	private List<ControlLoopOperation> history = new LinkedList<>();
-	
-	public ControlLoopNotification() {
-		
-	}
-	
-	public ControlLoopNotification(ControlLoopEvent event) {
-		if (event == null) {
-			return;
-		}
-		
-		this.setClosedLoopControlName(event.getClosedLoopControlName());
-		this.setRequestID(event.getRequestID());
-		this.setClosedLoopEventClient(event.getClosedLoopEventClient());
-		this.setTargetType(event.getTargetType());
-		this.setTarget(event.getTarget());
-	}
+    private String closedLoopControlName;
+    private String version = "1.0.2";
+    private UUID requestId;
+    private String closedLoopEventClient;
+    private ControlLoopTargetType targetType;
+    private String target;
+    private String from;
+    private String policyScope;
+    private String policyName;
+    private String policyVersion;
+    private ControlLoopNotificationType notification;
+    private String message;
+    private ZonedDateTime notificationTime = ZonedDateTime.now(ZoneOffset.UTC);
+    private Integer opsClTimer;
+    private List<ControlLoopOperation> history = new LinkedList<>();
 
-	public String getClosedLoopControlName() {
-		return closedLoopControlName;
-	}
+    public ControlLoopNotification() {
 
-	public void setClosedLoopControlName(String closedLoopControlName) {
-		this.closedLoopControlName = closedLoopControlName;
-	}
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    /**
+     * Construct an instance.
+     * 
+     * @param event the event
+     */
+    public ControlLoopNotification(ControlLoopEvent event) {
+        if (event == null) {
+            return;
+        }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+        this.setClosedLoopControlName(event.getClosedLoopControlName());
+        this.setRequestId(event.getRequestId());
+        this.setClosedLoopEventClient(event.getClosedLoopEventClient());
+        this.setTargetType(event.getTargetType());
+        this.setTarget(event.getTarget());
+    }
 
-	public UUID getRequestID() {
-		return requestID;
-	}
+    public String getClosedLoopControlName() {
+        return closedLoopControlName;
+    }
 
-	public void setRequestID(UUID requestID) {
-		this.requestID = requestID;
-	}
+    public void setClosedLoopControlName(String closedLoopControlName) {
+        this.closedLoopControlName = closedLoopControlName;
+    }
 
-	public String getClosedLoopEventClient() {
-		return closedLoopEventClient;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public void setClosedLoopEventClient(String closedLoopEventClient) {
-		this.closedLoopEventClient = closedLoopEventClient;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public ControlLoopTargetType getTargetType() {
-		return targetType;
-	}
+    public UUID getRequestId() {
+        return requestId;
+    }
 
-	public void setTargetType(ControlLoopTargetType targetType) {
-		this.targetType = targetType;
-	}
+    public void setRequestId(UUID requestId) {
+        this.requestId = requestId;
+    }
 
-	public String getTarget() {
-		return target;
-	}
+    public String getClosedLoopEventClient() {
+        return closedLoopEventClient;
+    }
 
-	public void setTarget(String target) {
-		this.target = target;
-	}
+    public void setClosedLoopEventClient(String closedLoopEventClient) {
+        this.closedLoopEventClient = closedLoopEventClient;
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    public ControlLoopTargetType getTargetType() {
+        return targetType;
+    }
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
+    public void setTargetType(ControlLoopTargetType targetType) {
+        this.targetType = targetType;
+    }
 
-	public String getPolicyScope() {
-		return policyScope;
-	}
+    public String getTarget() {
+        return target;
+    }
 
-	public void setPolicyScope(String policyScope) {
-		this.policyScope = policyScope;
-	}
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-	public String getPolicyName() {
-		return policyName;
-	}
+    public String getFrom() {
+        return from;
+    }
 
-	public void setPolicyName(String policyName) {
-		this.policyName = policyName;
-	}
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
-	public String getPolicyVersion() {
-		return policyVersion;
-	}
+    public String getPolicyScope() {
+        return policyScope;
+    }
 
-	public void setPolicyVersion(String policyVersion) {
-		this.policyVersion = policyVersion;
-	}
+    public void setPolicyScope(String policyScope) {
+        this.policyScope = policyScope;
+    }
 
-	public ControlLoopNotificationType getNotification() {
-		return notification;
-	}
+    public String getPolicyName() {
+        return policyName;
+    }
 
-	public void setNotification(ControlLoopNotificationType notification) {
-		this.notification = notification;
-	}
+    public void setPolicyName(String policyName) {
+        this.policyName = policyName;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getPolicyVersion() {
+        return policyVersion;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setPolicyVersion(String policyVersion) {
+        this.policyVersion = policyVersion;
+    }
 
-	public ZonedDateTime getNotificationTime() {
-		return notificationTime;
-	}
+    public ControlLoopNotificationType getNotification() {
+        return notification;
+    }
 
-	public void setNotificationTime(ZonedDateTime notificationTime) {
-		this.notificationTime = notificationTime;
-	}
+    public void setNotification(ControlLoopNotificationType notification) {
+        this.notification = notification;
+    }
 
-	public Integer getOpsCLTimer() {
-		return opsCLTimer;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setOpsCLTimer(Integer opsCLTimer) {
-		this.opsCLTimer = opsCLTimer;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public List<ControlLoopOperation> getHistory() {
-		return history;
-	}
+    public ZonedDateTime getNotificationTime() {
+        return notificationTime;
+    }
 
-	public void setHistory(List<ControlLoopOperation> history) {
-		this.history = history;
-	}
+    public void setNotificationTime(ZonedDateTime notificationTime) {
+        this.notificationTime = notificationTime;
+    }
+
+    public Integer getOpsClTimer() {
+        return opsClTimer;
+    }
+
+    public void setOpsClTimer(Integer opsClTimer) {
+        this.opsClTimer = opsClTimer;
+    }
+
+    public List<ControlLoopOperation> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<ControlLoopOperation> history) {
+        this.history = history;
+    }
 }

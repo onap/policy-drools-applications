@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,43 +20,47 @@
 
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class TestLCMRequestWrapper {
+public class TestLcmRequestWrapper {
 
-	@Test
-	public void testLCMRequestWrapperWrapper() {
-		assertNotNull(new LCMRequestWrapper(new LCMRequest()));
-		LCMRequestWrapper requestWrapper = new LCMRequestWrapper();
-		assertNotNull(requestWrapper);
-		assertNotEquals(0, requestWrapper.hashCode());
-		
-		LCMRequest request = new LCMRequest();
+    @Test
+    public void testLcmRequestWrapperWrapper() {
+        assertNotNull(new LcmRequestWrapper(new LcmRequest()));
+        LcmRequestWrapper requestWrapper = new LcmRequestWrapper();
+        assertNotNull(requestWrapper);
+        assertNotEquals(0, requestWrapper.hashCode());
 
-		requestWrapper.setBody(request);
-		assertEquals(request, requestWrapper.getBody());
-		
-		assertNotEquals(0, requestWrapper.hashCode());
-		
-		assertEquals("RequestWrapper [body=Request [commonHeader=nul", requestWrapper.toString().substring(0,  46));
-		
-        LCMRequestWrapper copiedLCMRequestWrapper = new LCMRequestWrapper();
-        copiedLCMRequestWrapper.setBody(requestWrapper.getBody());
+        LcmRequest request = new LcmRequest();
+
+        requestWrapper.setBody(request);
+        assertEquals(request, requestWrapper.getBody());
+
+        assertNotEquals(0, requestWrapper.hashCode());
+
+        assertEquals("RequestWrapper [body=Request [commonHeader=nul", requestWrapper.toString().substring(0, 46));
+
+        LcmRequestWrapper copiedLcmRequestWrapper = new LcmRequestWrapper();
+        copiedLcmRequestWrapper.setBody(requestWrapper.getBody());
 
         assertTrue(requestWrapper.equals(requestWrapper));
-        assertTrue(requestWrapper.equals(copiedLCMRequestWrapper));
+        assertTrue(requestWrapper.equals(copiedLcmRequestWrapper));
         assertFalse(requestWrapper.equals(null));
         assertFalse(requestWrapper.equals("Hello"));
-        
+
         requestWrapper.setBody(null);
-        assertFalse(requestWrapper.equals(copiedLCMRequestWrapper));
-        copiedLCMRequestWrapper.setBody(null);
-        assertTrue(requestWrapper.equals(copiedLCMRequestWrapper));
+        assertFalse(requestWrapper.equals(copiedLcmRequestWrapper));
+        copiedLcmRequestWrapper.setBody(null);
+        assertTrue(requestWrapper.equals(copiedLcmRequestWrapper));
         requestWrapper.setBody(request);
-        assertFalse(requestWrapper.equals(copiedLCMRequestWrapper));
-        copiedLCMRequestWrapper.setBody(request);
-        assertTrue(requestWrapper.equals(copiedLCMRequestWrapper));
-	}
+        assertFalse(requestWrapper.equals(copiedLcmRequestWrapper));
+        copiedLcmRequestWrapper.setBody(request);
+        assertTrue(requestWrapper.equals(copiedLcmRequestWrapper));
+    }
 }

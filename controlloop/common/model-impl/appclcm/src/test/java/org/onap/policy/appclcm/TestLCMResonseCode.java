@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,35 +20,36 @@
 
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-public class TestLCMResonseCode {
+public class TestLcmResonseCode {
 
-	@Test
-	public void testLCMResponseCode() {
-		assertNull(LCMResponseCode.toResponseValue(0));
-		
-		assertEquals(LCMResponseCode.ACCEPTED, LCMResponseCode.toResponseValue(100));
-		assertEquals(LCMResponseCode.ERROR, LCMResponseCode.toResponseValue(200));
-		assertEquals(LCMResponseCode.REJECT, LCMResponseCode.toResponseValue(300));
-		assertEquals(LCMResponseCode.SUCCESS, LCMResponseCode.toResponseValue(400));
-		assertEquals(LCMResponseCode.FAILURE, LCMResponseCode.toResponseValue(450));
-		assertEquals(LCMResponseCode.FAILURE, LCMResponseCode.toResponseValue(401));
-		assertEquals(LCMResponseCode.FAILURE, LCMResponseCode.toResponseValue(406));
-		assertEquals(LCMResponseCode.PARTIAL_SUCCESS, LCMResponseCode.toResponseValue(500));
-		assertEquals(LCMResponseCode.PARTIAL_FAILURE, LCMResponseCode.toResponseValue(501));
-		assertEquals(LCMResponseCode.PARTIAL_FAILURE, LCMResponseCode.toResponseValue(599));
-		
-		assertEquals("100", new LCMResponseCode(100).toString());
-		assertEquals("200", new LCMResponseCode(200).toString());
-		assertEquals("300", new LCMResponseCode(300).toString());
-		assertEquals("400", new LCMResponseCode(400).toString());
-		assertEquals("450", new LCMResponseCode(450).toString());
-		assertEquals("500", new LCMResponseCode(500).toString());
-		assertEquals("510", new LCMResponseCode(510).toString());
-		
-		assertEquals(300, new LCMResponseCode(300).getCode());
-	}
+    @Test
+    public void testLcmResponseCode() {
+        assertNull(LcmResponseCode.toResponseValue(0));
+
+        assertEquals(LcmResponseCode.ACCEPTED, LcmResponseCode.toResponseValue(100));
+        assertEquals(LcmResponseCode.ERROR, LcmResponseCode.toResponseValue(200));
+        assertEquals(LcmResponseCode.REJECT, LcmResponseCode.toResponseValue(300));
+        assertEquals(LcmResponseCode.SUCCESS, LcmResponseCode.toResponseValue(400));
+        assertEquals(LcmResponseCode.FAILURE, LcmResponseCode.toResponseValue(450));
+        assertEquals(LcmResponseCode.FAILURE, LcmResponseCode.toResponseValue(401));
+        assertEquals(LcmResponseCode.FAILURE, LcmResponseCode.toResponseValue(406));
+        assertEquals(LcmResponseCode.PARTIAL_SUCCESS, LcmResponseCode.toResponseValue(500));
+        assertEquals(LcmResponseCode.PARTIAL_FAILURE, LcmResponseCode.toResponseValue(501));
+        assertEquals(LcmResponseCode.PARTIAL_FAILURE, LcmResponseCode.toResponseValue(599));
+
+        assertEquals("100", new LcmResponseCode(100).toString());
+        assertEquals("200", new LcmResponseCode(200).toString());
+        assertEquals("300", new LcmResponseCode(300).toString());
+        assertEquals("400", new LcmResponseCode(400).toString());
+        assertEquals("450", new LcmResponseCode(450).toString());
+        assertEquals("500", new LcmResponseCode(500).toString());
+        assertEquals("510", new LcmResponseCode(510).toString());
+
+        assertEquals(300, new LcmResponseCode(300).getCode());
+    }
 }

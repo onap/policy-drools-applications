@@ -90,7 +90,7 @@ public class VFCActorServiceProvider implements Actor {
 
         // Construct an VFC request
         VFCRequest request = new VFCRequest();
-        String serviceInstance = onset.getAAI().get("service-instance.service-instance-id");
+        String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
         if (serviceInstance == null || "".equals(serviceInstance)) {
             AaiGetVnfResponse tempVnfResp = vnfResponse;
             if (tempVnfResp == null) { // if the response is null, we haven't queried
@@ -103,9 +103,9 @@ public class VFCActorServiceProvider implements Actor {
             serviceInstance = tempVnfResp.getServiceId();
         }
         request.setNSInstanceId(serviceInstance);
-        request.setRequestId(onset.getRequestID());
+        request.setRequestId(onset.getRequestId());
         request.setHealRequest(new VFCHealRequest());
-        request.getHealRequest().setVnfInstanceId(onset.getAAI().get("generic-vnf.vnf-id"));
+        request.getHealRequest().setVnfInstanceId(onset.getAai().get("generic-vnf.vnf-id"));
         request.getHealRequest().setCause(operation.getMessage());
         request.getHealRequest().setAdditionalParams(new VFCHealAdditionalParams());
 
@@ -113,9 +113,9 @@ public class VFCActorServiceProvider implements Actor {
             request.getHealRequest().getAdditionalParams().setAction("restartvm");
             request.getHealRequest().getAdditionalParams().setActionInfo(new VFCHealActionVmInfo());
             request.getHealRequest().getAdditionalParams().getActionInfo()
-                    .setVmid(onset.getAAI().get("vserver.vserver-id"));
+                    .setVmid(onset.getAai().get("vserver.vserver-id"));
             request.getHealRequest().getAdditionalParams().getActionInfo()
-                    .setVmname(onset.getAAI().get("vserver.vserver-name"));
+                    .setVmname(onset.getAai().get("vserver.vserver-name"));
         } else {
             return null;
         }
@@ -124,9 +124,9 @@ public class VFCActorServiceProvider implements Actor {
 
     private static AaiGetVnfResponse getAaiServiceInstance(VirtualControlLoopEvent event) {
         AaiGetVnfResponse response = null;
-        UUID requestId = event.getRequestID();
-        String vnfName = event.getAAI().get("generic-vnf.vnf-name");
-        String vnfId = event.getAAI().get("generic-vnf.vnf-id");
+        UUID requestId = event.getRequestId();
+        String vnfName = event.getAai().get("generic-vnf.vnf-name");
+        String vnfId = event.getAai().get("generic-vnf.vnf-id");
         String aaiUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
         String aaiUsername = PolicyEngine.manager.getEnvironmentProperty("aai.username");
         String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");

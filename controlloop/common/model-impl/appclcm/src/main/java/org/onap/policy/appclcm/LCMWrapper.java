@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,32 +21,35 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class LCMWrapper implements Serializable {
+public class LcmWrapper implements Serializable {
 
     private static final long serialVersionUID = 753005805432396532L;
 
-    @SerializedName(value="version")
+    @SerializedName(value = "version")
     private String version;
-    
-    @SerializedName(value="cambria-partition")
+
+    @SerializedName(value = "cambria-partition")
     private String cambriaPartition;
-    
-    @SerializedName(value="rpc-name")
+
+    @SerializedName(value = "rpc-name")
     private String rpcName;
-    
-    @SerializedName(value="correlation-id")
+
+    @SerializedName(value = "correlation-id")
     private String correlationId;
-    
-    @SerializedName(value="type")
+
+    @SerializedName(value = "type")
     private String type;
 
-    public LCMWrapper() {
-		// Create a default LCMWrapper instance
+    public LcmWrapper() {
+        // Create a default LCMWrapper instance
     }
-    
+
     /**
+     * Get the version.
+     * 
      * @return the version
      */
     public String getVersion() {
@@ -54,6 +57,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Set the version.
+     * 
      * @param version the version to set
      */
     public void setVersion(String version) {
@@ -61,6 +66,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Get the cambria partition.
+     * 
      * @return the cambriaPartition
      */
     public String getCambriaPartition() {
@@ -68,6 +75,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Set the cambria partition.
+     * 
      * @param cambriaPartition the cambriaPartition to set
      */
     public void setCambriaPartition(String cambriaPartition) {
@@ -75,6 +84,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Get the RPN name.
+     * 
      * @return the rpcName
      */
     public String getRpcName() {
@@ -82,6 +93,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Set the RPC name.
+     * 
      * @param rpcName the rpcName to set
      */
     public void setRpcName(String rpcName) {
@@ -89,6 +102,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Get the correlation Id.
+     * 
      * @return the correlationId
      */
     public String getCorrelationId() {
@@ -96,6 +111,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Set the correclation Id.
+     * 
      * @param correlationId the correlationId to set
      */
     public void setCorrelationId(String correlationId) {
@@ -103,6 +120,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Get the type.
+     * 
      * @return the type
      */
     public String getType() {
@@ -110,6 +129,8 @@ public class LCMWrapper implements Serializable {
     }
 
     /**
+     * Set the type.
+     * 
      * @param type the type to set
      */
     public void setType(String type) {
@@ -145,7 +166,7 @@ public class LCMWrapper implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LCMWrapper other = (LCMWrapper) obj;
+        LcmWrapper other = (LcmWrapper) obj;
         if (cambriaPartition == null) {
             if (other.cambriaPartition != null) {
                 return false;

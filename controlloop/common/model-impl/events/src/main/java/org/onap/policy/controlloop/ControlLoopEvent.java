@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,130 +24,135 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public abstract class ControlLoopEvent implements Serializable {
-	
-	private static final long serialVersionUID = 2391252138583119195L;
-	
-	private String closedLoopControlName;
-	private String version = "1.0.2";
-	private UUID requestID;
-	private String closedLoopEventClient;
-	private ControlLoopTargetType targetType;
-	private String target;
-	private String from;
-	private String policyScope;
-	private String policyName;
-	private String policyVersion;
-	private ControlLoopEventStatus closedLoopEventStatus;
-	
-	public ControlLoopEvent() {
-		
-	}
-	
-	public ControlLoopEvent(ControlLoopEvent event) {
-		if (event == null) {
-			return;
-		}
-		this.closedLoopControlName = event.closedLoopControlName;
-		this.requestID = event.requestID;
-		this.closedLoopEventClient = event.closedLoopEventClient;
-		this.targetType = event.targetType;
-		this.target = event.target;
-		this.from = event.from;
-		this.policyScope = event.policyScope;
-		this.policyName = event.policyName;
-		this.policyVersion = event.policyVersion;
-		this.closedLoopEventStatus = event.closedLoopEventStatus;
-	}
 
-	public boolean isEventStatusValid() {
-		return this.closedLoopEventStatus != null;
-	}
+    private static final long serialVersionUID = 2391252138583119195L;
 
-	public String getClosedLoopControlName() {
-		return closedLoopControlName;
-	}
+    private String closedLoopControlName;
+    private String version = "1.0.2";
+    private UUID requestId;
+    private String closedLoopEventClient;
+    private ControlLoopTargetType targetType;
+    private String target;
+    private String from;
+    private String policyScope;
+    private String policyName;
+    private String policyVersion;
+    private ControlLoopEventStatus closedLoopEventStatus;
 
-	public void setClosedLoopControlName(String closedLoopControlName) {
-		this.closedLoopControlName = closedLoopControlName;
-	}
+    public ControlLoopEvent() {
 
-	public String getVersion() {
-		return version;
-	}
+    }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    /**
+     * Construct an instace from an existing instance.
+     * 
+     * @param event the existing instance
+     */
+    public ControlLoopEvent(ControlLoopEvent event) {
+        if (event == null) {
+            return;
+        }
+        this.closedLoopControlName = event.closedLoopControlName;
+        this.requestId = event.requestId;
+        this.closedLoopEventClient = event.closedLoopEventClient;
+        this.targetType = event.targetType;
+        this.target = event.target;
+        this.from = event.from;
+        this.policyScope = event.policyScope;
+        this.policyName = event.policyName;
+        this.policyVersion = event.policyVersion;
+        this.closedLoopEventStatus = event.closedLoopEventStatus;
+    }
 
-	public UUID getRequestID() {
-		return requestID;
-	}
+    public boolean isEventStatusValid() {
+        return this.closedLoopEventStatus != null;
+    }
 
-	public void setRequestID(UUID requestID) {
-		this.requestID = requestID;
-	}
+    public String getClosedLoopControlName() {
+        return closedLoopControlName;
+    }
 
-	public String getClosedLoopEventClient() {
-		return closedLoopEventClient;
-	}
+    public void setClosedLoopControlName(String closedLoopControlName) {
+        this.closedLoopControlName = closedLoopControlName;
+    }
 
-	public void setClosedLoopEventClient(String closedLoopEventClient) {
-		this.closedLoopEventClient = closedLoopEventClient;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public ControlLoopTargetType getTargetType() {
-		return targetType;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public void setTargetType(ControlLoopTargetType targetType) {
-		this.targetType = targetType;
-	}
+    public UUID getRequestId() {
+        return requestId;
+    }
 
-	public String getTarget() {
-		return target;
-	}
+    public void setRequestId(UUID requestId) {
+        this.requestId = requestId;
+    }
 
-	public void setTarget(String target) {
-		this.target = target;
-	}
+    public String getClosedLoopEventClient() {
+        return closedLoopEventClient;
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    public void setClosedLoopEventClient(String closedLoopEventClient) {
+        this.closedLoopEventClient = closedLoopEventClient;
+    }
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
+    public ControlLoopTargetType getTargetType() {
+        return targetType;
+    }
 
-	public String getPolicyScope() {
-		return policyScope;
-	}
+    public void setTargetType(ControlLoopTargetType targetType) {
+        this.targetType = targetType;
+    }
 
-	public void setPolicyScope(String policyScope) {
-		this.policyScope = policyScope;
-	}
+    public String getTarget() {
+        return target;
+    }
 
-	public String getPolicyName() {
-		return policyName;
-	}
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-	public void setPolicyName(String policyName) {
-		this.policyName = policyName;
-	}
+    public String getFrom() {
+        return from;
+    }
 
-	public String getPolicyVersion() {
-		return policyVersion;
-	}
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
-	public void setPolicyVersion(String policyVersion) {
-		this.policyVersion = policyVersion;
-	}
+    public String getPolicyScope() {
+        return policyScope;
+    }
 
-	public ControlLoopEventStatus getClosedLoopEventStatus() {
-		return closedLoopEventStatus;
-	}
+    public void setPolicyScope(String policyScope) {
+        this.policyScope = policyScope;
+    }
 
-	public void setClosedLoopEventStatus(ControlLoopEventStatus closedLoopEventStatus) {
-		this.closedLoopEventStatus = closedLoopEventStatus;
-	}
+    public String getPolicyName() {
+        return policyName;
+    }
+
+    public void setPolicyName(String policyName) {
+        this.policyName = policyName;
+    }
+
+    public String getPolicyVersion() {
+        return policyVersion;
+    }
+
+    public void setPolicyVersion(String policyVersion) {
+        this.policyVersion = policyVersion;
+    }
+
+    public ControlLoopEventStatus getClosedLoopEventStatus() {
+        return closedLoopEventStatus;
+    }
+
+    public void setClosedLoopEventStatus(ControlLoopEventStatus closedLoopEventStatus) {
+        this.closedLoopEventStatus = closedLoopEventStatus;
+    }
 }

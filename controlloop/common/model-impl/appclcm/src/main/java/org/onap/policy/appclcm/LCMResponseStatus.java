@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,87 +21,96 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class LCMResponseStatus implements Serializable {
+public class LcmResponseStatus implements Serializable {
 
-	private static final long serialVersionUID = 974891505135467199L;
+    private static final long serialVersionUID = 974891505135467199L;
 
-	@SerializedName(value="code")
-	private int code;
+    @SerializedName(value = "code")
+    private int code;
 
-	@SerializedName(value="message")
-	private String message;
+    @SerializedName(value = "message")
+    private String message;
 
-	public LCMResponseStatus() {
-		// Create a default LCMResponseStatus instance
-	}
+    public LcmResponseStatus() {
+        // Create a default LCMResponseStatus instance
+    }
 
-	/**
-	 * @return the code
-	 */
-	public int getCode() {
-		return code;
-	}
+    /**
+     * Get the code.
+     * 
+     * @return the code
+     */
+    public int getCode() {
+        return code;
+    }
 
-	/**
-	 * @param code the code to set
-	 */
-	public void setCode(int code) {
-		this.code = code;
-	}
+    /**
+     * Set the code.
+     * 
+     * @param code the code to set
+     */
+    public void setCode(int code) {
+        this.code = code;
+    }
 
-	/**
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
-	}
+    /**
+     * Get the message.
+     * 
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
 
-	/**
-	 * @param message the message to set
-	 */
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    /**
+     * Set the message.
+     * 
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	@Override
-	public String toString() {
-		return "ResponseStatus [code=" + code + ", message=" + message + "]";
-	}
+    @Override
+    public String toString() {
+        return "ResponseStatus [code=" + code + ", message=" + message + "]";
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + code;
-		result = prime * result + ((message == null) ? 0 : message.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + code;
+        result = prime * result + ((message == null) ? 0 : message.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		LCMResponseStatus other = (LCMResponseStatus) obj;
-		if (code != other.code) {
-			return false;
-		}
-		if (message == null) {
-			if (other.message != null) {
-				return false;
-			}
-		} else if (!message.equals(other.message)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        LcmResponseStatus other = (LcmResponseStatus) obj;
+        if (code != other.code) {
+            return false;
+        }
+        if (message == null) {
+            if (other.message != null) {
+                return false;
+            }
+        } else if (!message.equals(other.message)) {
+            return false;
+        }
+        return true;
+    }
 
 }

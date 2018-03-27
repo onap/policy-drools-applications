@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,93 +17,97 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class LCMResponseTest {
-	
-	private static final String PAYLOAD = "payload";
+public class LcmResponseTest {
 
-	@Test
-	public void testHashCode() {
-		LCMResponse response = new LCMResponse();
-		assertTrue(response.hashCode() != 0);
-		response.setCommonHeader(new LCMCommonHeader());
-		assertTrue(response.hashCode() != 0);
-		response.setPayload(PAYLOAD);
-		assertTrue(response.hashCode() != 0);
-		response.setStatus(null);
-		assertTrue(response.hashCode() != 0);
-	}
+    private static final String PAYLOAD = "payload";
 
-	@Test
-	public void testLCMResponse() {
-		LCMResponse response = new LCMResponse();
-		assertNull(response.getCommonHeader());
-		assertNull(response.getPayload());
-		assertNotNull(response.getStatus());
-	}
+    @Test
+    public void testHashCode() {
+        LcmResponse response = new LcmResponse();
+        assertTrue(response.hashCode() != 0);
+        response.setCommonHeader(new LcmCommonHeader());
+        assertTrue(response.hashCode() != 0);
+        response.setPayload(PAYLOAD);
+        assertTrue(response.hashCode() != 0);
+        response.setStatus(null);
+        assertTrue(response.hashCode() != 0);
+    }
 
-	@Test
-	public void testToString() {
-		LCMResponse response = new LCMResponse();
-		assertFalse(response.toString().isEmpty());
-	}
+    @Test
+    public void testLcmResponse() {
+        LcmResponse response = new LcmResponse();
+        assertNull(response.getCommonHeader());
+        assertNull(response.getPayload());
+        assertNotNull(response.getStatus());
+    }
 
-	@Test
-	public void testEqualsObject() {
-		LCMResponse response = new LCMResponse();
-		assertTrue(response.equals(response));
-		assertFalse(response.equals(null));
-		assertFalse(response.equals(new Object()));
-		
-		LCMResponse response2 = new LCMResponse();
-		assertTrue(response.equals(response2));
-		
-		response.setCommonHeader(new LCMCommonHeader());
-		assertFalse(response.equals(response2));
-		response2.setCommonHeader(response.getCommonHeader());
-		assertTrue(response.equals(response2));
-		
-		response.setPayload(PAYLOAD);
-		assertFalse(response.equals(response2));
-		response2.setPayload(response.getPayload());
-		assertTrue(response.equals(response2));
-		
-		response.setCommonHeader(null);
-		assertFalse(response.equals(response2));
-		response2.setCommonHeader(null);
-		assertTrue(response.equals(response2));
+    @Test
+    public void testToString() {
+        LcmResponse response = new LcmResponse();
+        assertFalse(response.toString().isEmpty());
+    }
 
-		response.setPayload(null);
-		assertFalse(response.equals(response2));
-		response2.setPayload(response.getPayload());
-		assertTrue(response.equals(response2));
-		
-		response.setStatus(null);
-		assertFalse(response.equals(response2));
-		response2.setStatus(response.getStatus());
-		assertTrue(response.equals(response2));
-		
-		LCMResponseStatus status = new LCMResponseStatus();
-		status.setCode(5);
-		response.setStatus(status);
-		response2.setStatus(new LCMResponseStatus());
-		assertFalse(response.equals(response2));
-	}
-	
-	@Test
-	public void testResponseRequest() {
-		LCMRequest request = new LCMRequest();
-		request.setCommonHeader(new LCMCommonHeader());
-		request.setPayload(PAYLOAD);
-		
-		LCMResponse response = new LCMResponse(request);
-		
-		assertTrue(response.getPayload().equals(PAYLOAD));
-	}
+    @Test
+    public void testEqualsObject() {
+        LcmResponse response = new LcmResponse();
+        assertTrue(response.equals(response));
+        assertFalse(response.equals(null));
+        assertFalse(response.equals(new Object()));
+
+        LcmResponse response2 = new LcmResponse();
+        assertTrue(response.equals(response2));
+
+        response.setCommonHeader(new LcmCommonHeader());
+        assertFalse(response.equals(response2));
+        response2.setCommonHeader(response.getCommonHeader());
+        assertTrue(response.equals(response2));
+
+        response.setPayload(PAYLOAD);
+        assertFalse(response.equals(response2));
+        response2.setPayload(response.getPayload());
+        assertTrue(response.equals(response2));
+
+        response.setCommonHeader(null);
+        assertFalse(response.equals(response2));
+        response2.setCommonHeader(null);
+        assertTrue(response.equals(response2));
+
+        response.setPayload(null);
+        assertFalse(response.equals(response2));
+        response2.setPayload(response.getPayload());
+        assertTrue(response.equals(response2));
+
+        response.setStatus(null);
+        assertFalse(response.equals(response2));
+        response2.setStatus(response.getStatus());
+        assertTrue(response.equals(response2));
+
+        LcmResponseStatus status = new LcmResponseStatus();
+        status.setCode(5);
+        response.setStatus(status);
+        response2.setStatus(new LcmResponseStatus());
+        assertFalse(response.equals(response2));
+    }
+
+    @Test
+    public void testResponseRequest() {
+        LcmRequest request = new LcmRequest();
+        request.setCommonHeader(new LcmCommonHeader());
+        request.setPayload(PAYLOAD);
+
+        LcmResponse response = new LcmResponse(request);
+
+        assertTrue(response.getPayload().equals(PAYLOAD));
+    }
 
 }

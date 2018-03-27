@@ -45,11 +45,11 @@ import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appc.ResponseStatus;
-import org.onap.policy.appclcm.LCMCommonHeader;
-import org.onap.policy.appclcm.LCMRequest;
-import org.onap.policy.appclcm.LCMRequestWrapper;
-import org.onap.policy.appclcm.LCMResponse;
-import org.onap.policy.appclcm.LCMResponseWrapper;
+import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.appclcm.LcmRequest;
+import org.onap.policy.appclcm.LcmRequestWrapper;
+import org.onap.policy.appclcm.LcmResponse;
+import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -80,12 +80,12 @@ public class ControlLoopOperationManagerTest {
 
     static {
         onset = new VirtualControlLoopEvent();
-        onset.setRequestID(UUID.randomUUID());
+        onset.setRequestId(UUID.randomUUID());
         onset.setTarget("generic-vnf.vnf-name");
         onset.setTargetType(ControlLoopTargetType.VNF);
         onset.setClosedLoopAlarmStart(Instant.now());
-        onset.setAAI(new HashMap<>());
-        onset.getAAI().put("generic-vnf.vnf-name", "testTriggerSource");
+        onset.setAai(new HashMap<>());
+        onset.getAai().put("generic-vnf.vnf-name", "testTriggerSource");
         onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
         /* Set environment properties */
@@ -127,7 +127,7 @@ public class ControlLoopOperationManagerTest {
             // create the manager
             //
             ControlLoopEventManager eventManager =
-                    new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestID());
+                    new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
             VirtualControlLoopNotification notification = eventManager.activate(onset);
 
             assertNotNull(notification);
@@ -157,17 +157,17 @@ public class ControlLoopOperationManagerTest {
             Object request = manager.startOperation(onset);
             logger.debug("{}", manager);
             assertNotNull(request);
-            assertTrue(request instanceof LCMRequestWrapper);
-            LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) request;
-            LCMRequest appcRequest = dmaapRequest.getBody();
+            assertTrue(request instanceof LcmRequestWrapper);
+            LcmRequestWrapper dmaapRequest = (LcmRequestWrapper) request;
+            LcmRequest appcRequest = dmaapRequest.getBody();
             assertTrue(appcRequest.getCommonHeader().getSubRequestId().contentEquals("1"));
             assertFalse(manager.isOperationComplete());
             assertTrue(manager.isOperationRunning());
             //
             // Accept
             //
-            LCMResponseWrapper dmaapResponse = new LCMResponseWrapper();
-            LCMResponse appcResponse = new LCMResponse(appcRequest);
+            LcmResponseWrapper dmaapResponse = new LcmResponseWrapper();
+            LcmResponse appcResponse = new LcmResponse(appcRequest);
             appcResponse.getStatus().setCode(100);
             appcResponse.getStatus().setMessage("ACCEPT");
             dmaapResponse.setBody(appcResponse);
@@ -182,7 +182,7 @@ public class ControlLoopOperationManagerTest {
             //
             // Now we are going to Fail it
             //
-            appcResponse = new LCMResponse(appcRequest);
+            appcResponse = new LcmResponse(appcRequest);
             appcResponse.getStatus().setCode(401);
             appcResponse.getStatus().setMessage("AppC failed for some reason");
             dmaapResponse.setBody(appcResponse);
@@ -197,8 +197,8 @@ public class ControlLoopOperationManagerTest {
             request = manager.startOperation(onset);
             logger.debug("{}", manager);
             assertNotNull(request);
-            assertTrue(request instanceof LCMRequestWrapper);
-            dmaapRequest = (LCMRequestWrapper) request;
+            assertTrue(request instanceof LcmRequestWrapper);
+            dmaapRequest = (LcmRequestWrapper) request;
             appcRequest = dmaapRequest.getBody();
             assertTrue(appcRequest.getCommonHeader().getSubRequestId().contentEquals("2"));
             assertFalse(manager.isOperationComplete());
@@ -206,7 +206,7 @@ public class ControlLoopOperationManagerTest {
             //
             //
             //
-            appcResponse = new LCMResponse(appcRequest);
+            appcResponse = new LcmResponse(appcRequest);
             logger.debug("{}", manager);
             appcResponse.getStatus().setCode(100);
             appcResponse.getStatus().setMessage("ACCEPT");
@@ -222,7 +222,7 @@ public class ControlLoopOperationManagerTest {
             //
             // Now we are going to Fail it
             //
-            appcResponse = new LCMResponse(appcRequest);
+            appcResponse = new LcmResponse(appcRequest);
             appcResponse.getStatus().setCode(401);
             appcResponse.getStatus().setMessage("AppC failed for some reason");
             dmaapResponse.setBody(appcResponse);
@@ -258,7 +258,7 @@ public class ControlLoopOperationManagerTest {
             // create the manager
             //
             ControlLoopEventManager eventManager =
-                    new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestID());
+                    new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
             VirtualControlLoopNotification notification = eventManager.activate(onset);
 
             assertNotNull(notification);
@@ -288,17 +288,17 @@ public class ControlLoopOperationManagerTest {
             Object request = manager.startOperation(onset);
             logger.debug("{}", manager);
             assertNotNull(request);
-            assertTrue((request) instanceof LCMRequestWrapper);
-            LCMRequestWrapper dmaapRequest = (LCMRequestWrapper) request;
-            LCMRequest appcRequest = dmaapRequest.getBody();
+            assertTrue((request) instanceof LcmRequestWrapper);
+            LcmRequestWrapper dmaapRequest = (LcmRequestWrapper) request;
+            LcmRequest appcRequest = dmaapRequest.getBody();
             assertTrue((appcRequest).getCommonHeader().getSubRequestId().contentEquals("1"));
             assertFalse(manager.isOperationComplete());
             assertTrue(manager.isOperationRunning());
             //
             // Accept
             //
-            LCMResponseWrapper dmaapResponse = new LCMResponseWrapper();
-            LCMResponse appcResponse = new LCMResponse(appcRequest);
+            LcmResponseWrapper dmaapResponse = new LcmResponseWrapper();
+            LcmResponse appcResponse = new LcmResponse(appcRequest);
             dmaapResponse.setBody(appcResponse);
             appcResponse.getStatus().setCode(100);
             appcResponse.getStatus().setMessage("ACCEPT");
@@ -322,7 +322,7 @@ public class ControlLoopOperationManagerTest {
             //
             // Now we are going to Fail the previous request
             //
-            appcResponse = new LCMResponse(appcRequest);
+            appcResponse = new LcmResponse(appcRequest);
             appcResponse.getStatus().setCode(401);
             appcResponse.getStatus().setMessage("AppC failed for some reason");
             dmaapResponse.setBody(appcResponse);
@@ -348,15 +348,15 @@ public class ControlLoopOperationManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -406,9 +406,9 @@ public class ControlLoopOperationManagerTest {
         }
 
         onsetEvent.setTarget("Oz");
-        onsetEvent.getAAI().remove("generic-vnf.vnf-name");
-        onsetEvent.getAAI().remove("generic-vnf.vnf-id");
-        onsetEvent.getAAI().remove("vserver.vserver-name");
+        onsetEvent.getAai().remove("generic-vnf.vnf-name");
+        onsetEvent.getAai().remove("generic-vnf.vnf-id");
+        onsetEvent.getAai().remove("vserver.vserver-name");
 
         policy.getTarget().setType(TargetType.VNF);
         try {
@@ -419,12 +419,12 @@ public class ControlLoopOperationManagerTest {
         }
 
         onsetEvent.setTarget("vserver.vserver-name");
-        onsetEvent.getAAI().put("vserver.vserver-name", "OzVServer");
+        onsetEvent.getAai().put("vserver.vserver-name", "OzVServer");
         assertEquals("OzVServer", clom.getTarget(policy));
 
-        onsetEvent.getAAI().remove("vserver.vserver-name");
+        onsetEvent.getAai().remove("vserver.vserver-name");
         onsetEvent.setTarget("generic-vnf.vnf-id");
-        onsetEvent.getAAI().put("generic-vnf.vnf-id", "OzVNF");
+        onsetEvent.getAai().put("generic-vnf.vnf-id", "OzVNF");
         assertEquals("OzVNF", clom.getTarget(policy));
 
         onsetEvent.setTarget("generic-vnf.vnf-name");
@@ -432,7 +432,7 @@ public class ControlLoopOperationManagerTest {
 
         manager.onNewEvent(onsetEvent);
 
-        onsetEvent.getAAI().remove("generic-vnf.vnf-id");
+        onsetEvent.getAai().remove("generic-vnf.vnf-id");
         manager.getVnfResponse();
         clom.getEventManager().getVnfResponse().setVnfId("generic-vnf.vnf-id");
         assertEquals("generic-vnf.vnf-id", clom.getTarget(policy));
@@ -475,15 +475,15 @@ public class ControlLoopOperationManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -530,15 +530,15 @@ public class ControlLoopOperationManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -634,15 +634,15 @@ public class ControlLoopOperationManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -658,7 +658,7 @@ public class ControlLoopOperationManagerTest {
         appcResponse.setCommonHeader(commonHeader);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, clom.onResponse(appcResponse));
 
-        commonHeader.setSubRequestID("12345");
+        commonHeader.setSubRequestId("12345");
         appcResponse.setStatus(null);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, clom.onResponse(appcResponse));
 
@@ -684,9 +684,9 @@ public class ControlLoopOperationManagerTest {
         responseStatus.setCode(ResponseCode.SUCCESS.getValue());
         assertEquals(PolicyResult.SUCCESS, clom.onResponse(appcResponse));
 
-        LCMResponseWrapper lrw = new LCMResponseWrapper();
-        LCMResponse body = new LCMResponse();
-        LCMCommonHeader lcmCh = new LCMCommonHeader();
+        LcmResponseWrapper lrw = new LcmResponseWrapper();
+        LcmResponse body = new LcmResponse();
+        LcmCommonHeader lcmCh = new LcmCommonHeader();
         body.setCommonHeader(lcmCh);
         lrw.setBody(body);
 
@@ -727,15 +727,15 @@ public class ControlLoopOperationManagerTest {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestID(requestId);
+        onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget("generic-vnf.vnf-id");
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAAI(new HashMap<>());
-        onsetEvent.getAAI().put("generic-vnf.vnf-name", "onsetOne");
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestID());
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());

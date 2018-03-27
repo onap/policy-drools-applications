@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appclcm
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,30 +21,35 @@
 package org.onap.policy.appclcm;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class LCMResponseWrapper extends LCMWrapper implements Serializable {
+public class LcmResponseWrapper extends LcmWrapper implements Serializable {
 
     private static final long serialVersionUID = 463937813781086802L;
-    
-    @SerializedName(value="body")
-    private LCMResponse body;
-    
-    public LCMResponseWrapper() {
+
+    @SerializedName(value = "body")
+    private LcmResponse body;
+
+    public LcmResponseWrapper() {
         super();
     }
-    
+
     /**
+     * Get the body.
+     * 
      * @return the body
      */
-    public LCMResponse getBody() {
+    public LcmResponse getBody() {
         return body;
     }
 
     /**
+     * Set the body.
+     * 
      * @param body the body to set
      */
-    public void setBody(LCMResponse body) {
+    public void setBody(LcmResponse body) {
         this.body = body;
     }
 
@@ -52,7 +57,7 @@ public class LCMResponseWrapper extends LCMWrapper implements Serializable {
     public String toString() {
         return "ResponseWrapper [body=" + body + ", toString()=" + super.toString() + "]";
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -72,7 +77,7 @@ public class LCMResponseWrapper extends LCMWrapper implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LCMResponseWrapper other = (LCMResponseWrapper) obj;
+        LcmResponseWrapper other = (LcmResponseWrapper) obj;
         if (body == null) {
             if (other.body != null) {
                 return false;

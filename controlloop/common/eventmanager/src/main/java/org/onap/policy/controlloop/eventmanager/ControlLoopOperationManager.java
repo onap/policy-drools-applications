@@ -35,7 +35,7 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
-import org.onap.policy.appclcm.LCMResponseWrapper;
+import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -63,7 +63,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     @Override
     public String toString() {
-        return "ControlLoopOperationManager [onset=" + (onset != null ? onset.getRequestID() : "null") + ", policy="
+        return "ControlLoopOperationManager [onset=" + (onset != null ? onset.getRequestId() : "null") + ", policy="
                 + (policy != null ? policy.getId() : "null") + ", attempts=" + attempts + ", policyResult="
                 + policyResult + ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
                 + "]";
@@ -152,15 +152,15 @@ public class ControlLoopOperationManager implements Serializable {
             case VNF:
                 VirtualControlLoopEvent virtualOnset = (VirtualControlLoopEvent) this.onset;
                 if (this.onset.getTarget().equalsIgnoreCase(VSERVER_VSERVER_NAME)) {
-                    return virtualOnset.getAAI().get(VSERVER_VSERVER_NAME);
+                    return virtualOnset.getAai().get(VSERVER_VSERVER_NAME);
                 } else if (this.onset.getTarget().equalsIgnoreCase(GENERIC_VNF_VNF_ID)) {
-                    return virtualOnset.getAAI().get(GENERIC_VNF_VNF_ID);
+                    return virtualOnset.getAai().get(GENERIC_VNF_VNF_ID);
                 } else if (this.onset.getTarget().equalsIgnoreCase(GENERIC_VNF_VNF_NAME)) {
                     /*
                      * If the onset is enriched with the vnf-id, we don't need an A&AI response
                      */
-                    if (virtualOnset.getAAI().containsKey(GENERIC_VNF_VNF_ID)) {
-                        return virtualOnset.getAAI().get(GENERIC_VNF_VNF_ID);
+                    if (virtualOnset.getAai().containsKey(GENERIC_VNF_VNF_ID)) {
+                        return virtualOnset.getAai().get(GENERIC_VNF_VNF_ID);
                     }
 
                     /*
@@ -303,11 +303,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast APPC response and handle it
             //
             return onResponse((Response) response);
-        } else if (response instanceof LCMResponseWrapper) {
+        } else if (response instanceof LcmResponseWrapper) {
             //
             // Cast LCM response and handle it
             //
-            return onResponse((LCMResponseWrapper) response);
+            return onResponse((LcmResponseWrapper) response);
         } else if (response instanceof SOResponseWrapper) {
             //
             // Cast SO response and handle it
@@ -335,7 +335,7 @@ public class ControlLoopOperationManager implements Serializable {
         //
         Integer operationAttempt = null;
         try {
-            operationAttempt = Integer.parseInt(appcResponse.getCommonHeader().getSubRequestID());
+            operationAttempt = Integer.parseInt(appcResponse.getCommonHeader().getSubRequestId());
         } catch (NumberFormatException e) {
             //
             // We cannot tell what happened if this doesn't exist
@@ -422,7 +422,7 @@ public class ControlLoopOperationManager implements Serializable {
      * @param dmaapResponse the LCM response
      * @return The result of the response handling
      */
-    private PolicyResult onResponse(LCMResponseWrapper dmaapResponse) {
+    private PolicyResult onResponse(LcmResponseWrapper dmaapResponse) {
         /*
          * Parse out the operation attempt using the subrequestid
          */
@@ -789,7 +789,7 @@ public class ControlLoopOperationManager implements Serializable {
         OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry();
 
         newEntry.setClosedLoopName(this.onset.getClosedLoopControlName());
-        newEntry.setRequestId(this.onset.getRequestID().toString());
+        newEntry.setRequestId(this.onset.getRequestId().toString());
         newEntry.setActor(this.currentOperation.clOperation.getActor());
         newEntry.setOperation(this.currentOperation.clOperation.getOperation());
         newEntry.setTarget(this.targetEntity);

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,88 +20,92 @@
 
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
-public class TestLCMRequest {
+public class TestLcmRequest {
 
-	@Test
-	public void testLCMRequest() {
-		LCMRequest request = new LCMRequest();
-		assertNotNull(request);
-		assertNotEquals(0, request.hashCode());
-		
-		LCMCommonHeader commonHeader = new LCMCommonHeader();
+    @Test
+    public void testLcmRequest() {
+        LcmRequest request = new LcmRequest();
+        assertNotNull(request);
+        assertNotEquals(0, request.hashCode());
 
-		request.setCommonHeader(commonHeader);
-		assertEquals(commonHeader, request.getCommonHeader());
-		
-		request.setAction("Go to Oz");
-		assertEquals("Go to Oz", request.getAction());
-		
-		Map<String, String> actionIdentifiers = new HashMap<>();
-		actionIdentifiers.put("North", "Good Witch");
-		actionIdentifiers.put("West", "Bad Witch");
-		
-		request.setActionIdentifiers(actionIdentifiers);
-		assertEquals(actionIdentifiers, request.getActionIdentifiers());
-		
-		request.setPayload("The Emerald City");
-		assertEquals("The Emerald City", request.getPayload());
-		
-		assertNotEquals(0, request.hashCode());
-		
-		assertEquals("Request [commonHeader=CommonHeader [timeStamp=", request.toString().substring(0,  46));
-		
-        LCMRequest copiedLCMRequest = new LCMRequest();
-        copiedLCMRequest.setCommonHeader(request.getCommonHeader());
-        copiedLCMRequest.setAction(request.getAction());
-        copiedLCMRequest.setActionIdentifiers(request.getActionIdentifiers());
-        copiedLCMRequest.setPayload(request.getPayload());
+        LcmCommonHeader commonHeader = new LcmCommonHeader();
+
+        request.setCommonHeader(commonHeader);
+        assertEquals(commonHeader, request.getCommonHeader());
+
+        request.setAction("Go to Oz");
+        assertEquals("Go to Oz", request.getAction());
+
+        Map<String, String> actionIdentifiers = new HashMap<>();
+        actionIdentifiers.put("North", "Good Witch");
+        actionIdentifiers.put("West", "Bad Witch");
+
+        request.setActionIdentifiers(actionIdentifiers);
+        assertEquals(actionIdentifiers, request.getActionIdentifiers());
+
+        request.setPayload("The Emerald City");
+        assertEquals("The Emerald City", request.getPayload());
+
+        assertNotEquals(0, request.hashCode());
+
+        assertEquals("Request [commonHeader=CommonHeader [timeStamp=", request.toString().substring(0, 46));
+
+        LcmRequest copiedLcmRequest = new LcmRequest();
+        copiedLcmRequest.setCommonHeader(request.getCommonHeader());
+        copiedLcmRequest.setAction(request.getAction());
+        copiedLcmRequest.setActionIdentifiers(request.getActionIdentifiers());
+        copiedLcmRequest.setPayload(request.getPayload());
 
         assertTrue(request.equals(request));
-        assertTrue(request.equals(copiedLCMRequest));
+        assertTrue(request.equals(copiedLcmRequest));
         assertFalse(request.equals(null));
         assertFalse(request.equals("Hello"));
-        
+
         request.setCommonHeader(null);
-        assertFalse(request.equals(copiedLCMRequest));
-        copiedLCMRequest.setCommonHeader(null);
-        assertTrue(request.equals(copiedLCMRequest));
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setCommonHeader(null);
+        assertTrue(request.equals(copiedLcmRequest));
         request.setCommonHeader(commonHeader);
-        assertFalse(request.equals(copiedLCMRequest));
-        copiedLCMRequest.setCommonHeader(commonHeader);
-        assertTrue(request.equals(copiedLCMRequest));
-        
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setCommonHeader(commonHeader);
+        assertTrue(request.equals(copiedLcmRequest));
+
         request.setAction(null);
-        assertFalse(request.equals(copiedLCMRequest));
-        copiedLCMRequest.setAction(null);
-        assertTrue(request.equals(copiedLCMRequest));
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setAction(null);
+        assertTrue(request.equals(copiedLcmRequest));
         request.setAction("Go to Oz");
-        assertFalse(request.equals(copiedLCMRequest));
-        copiedLCMRequest.setAction("Go to Oz");
-        assertTrue(request.equals(copiedLCMRequest));
-        
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setAction("Go to Oz");
+        assertTrue(request.equals(copiedLcmRequest));
+
         request.setActionIdentifiers(null);
-        assertFalse(request.equals(copiedLCMRequest));
-        copiedLCMRequest.setActionIdentifiers(null);
-        assertTrue(request.equals(copiedLCMRequest));
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setActionIdentifiers(null);
+        assertTrue(request.equals(copiedLcmRequest));
         request.setActionIdentifiers(actionIdentifiers);
-        assertFalse(request.equals(copiedLCMRequest));
-        copiedLCMRequest.setActionIdentifiers(actionIdentifiers);
-        assertTrue(request.equals(copiedLCMRequest));
-		
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setActionIdentifiers(actionIdentifiers);
+        assertTrue(request.equals(copiedLcmRequest));
+
         request.setPayload(null);
-        assertFalse(request.equals(copiedLCMRequest));
-		copiedLCMRequest.setPayload(null);
-        assertTrue(request.equals(copiedLCMRequest));
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setPayload(null);
+        assertTrue(request.equals(copiedLcmRequest));
         request.setPayload("The Emerald City");
-        assertFalse(request.equals(copiedLCMRequest));
-		copiedLCMRequest.setPayload("The Emerald City");
-        assertTrue(request.equals(copiedLCMRequest));
-	}
+        assertFalse(request.equals(copiedLcmRequest));
+        copiedLcmRequest.setPayload("The Emerald City");
+        assertTrue(request.equals(copiedLcmRequest));
+    }
 }
