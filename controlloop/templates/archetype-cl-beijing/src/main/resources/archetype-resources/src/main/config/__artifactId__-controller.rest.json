@@ -1,7 +1,11 @@
 {
 	"controller.name": "${artifactId}",
 	
-	"ueb.source.topics": "${dcaeTopic},APPC-CL,APPC-LCM-WRITE",
+	"ueb.source.topics": "${brmsgwTopic},${dcaeTopic},APPC-CL,APPC-LCM-WRITE",
+	
+	"ueb.source.topics.${brmsgwTopic}.servers": "${brmsgwServers}",
+	"ueb.source.topics.${brmsgwTopic}.events": "org.onap.policy.controlloop.params.ControlLoopParams",
+	"ueb.source.topics.${brmsgwTopic}.events.org.onap.policy.controlloop.params.ControlLoopParams.filter": "closedLoopControlName=.*,controlLoopYaml=.*",
 
 	"ueb.source.topics.${dcaeTopic}.servers": "${dcaeServers}",
 	"ueb.source.topics.${dcaeTopic}.events": "org.onap.policy.controlloop.VirtualControlLoopEvent",

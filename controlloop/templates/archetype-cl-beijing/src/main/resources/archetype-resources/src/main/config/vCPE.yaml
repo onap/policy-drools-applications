@@ -1,6 +1,6 @@
 controlLoop:
   version: 2.0.0
-  controlLoopName: ${closedLoopControlName}
+  controlLoopName: ${vcpeClosedLoopControlName}
   trigger_policy: unique-policy-id-1-restart
   timeout: 3600
   abatement: true

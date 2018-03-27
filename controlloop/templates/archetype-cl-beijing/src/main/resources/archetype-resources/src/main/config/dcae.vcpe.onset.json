@@ -1,5 +1,5 @@
 {
-  "closedLoopControlName": "${closedLoopControlName}",
+  "closedLoopControlName": "${vcpeClosedLoopControlName}",
   "closedLoopAlarmStart": 1463679805324,
   "closedLoopEventClient": "DCAE_INSTANCE_ID.dcae-tca",
   "closedLoopEventStatus": "ONSET",
@@ -7,7 +7,7 @@
   "target_type": "VNF",
   "target": "generic-vnf.vnf-id",
   "AAI": {
-    "vserver.is-closed-loop-disabled": "false",
+    "generic-vnf.is-closed-loop-disabled": "false",
     "generic-vnf.vnf-id": "vCPE_Infrastructure_vGMUX_demo_app"
   },
   "from": "DCAE",

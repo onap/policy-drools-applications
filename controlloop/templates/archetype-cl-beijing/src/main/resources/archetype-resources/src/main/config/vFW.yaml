@@ -1,6 +1,6 @@
 controlLoop:
   version: 2.0.0
-  controlLoopName: ${closedLoopControlName}
+  controlLoopName: ${vfwClosedLoopControlName}
   trigger_policy: unique-policy-id-1-modifyConfig
   timeout: 3600
   abatement: false

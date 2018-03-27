@@ -1,0 +1,7 @@
+{
+	"closedLoopControlName": "${vcpeClosedLoopControlName}",
+	"controlLoopYaml": "${vcpeControlLoopYaml}",
+	"policyName": "${vcpePolicyName}",
+	"policyScope": "${policyScope}",
+	"policyVersion": "${policyVersion}"
+}

@@ -1,0 +1,7 @@
+{
+	"closedLoopControlName": "${volteClosedLoopControlName}",
+	"controlLoopYaml": "${volteControlLoopYaml}",
+	"policyName": "${voltePolicyName}",
+	"policyScope": "${policyScope}",
+	"policyVersion": "${policyVersion}"
+}
