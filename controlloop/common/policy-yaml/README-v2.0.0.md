@@ -134,10 +134,10 @@ This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an 
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
-| resourceInvariantUUID | string - UUID | optional | via SDC, the unique ID for the resource version |
-| resourceName | string | required if NO resourceUUID available | Name of the resource, ideally from SDC catalog. But if not available, use well-known name. |
+| resourceInvariantUuid | string - UUID | optional | via SDC, the unique ID for the resource version |
+| resourceName | string | required if NO resourceUuid available | Name of the resource, ideally from SDC catalog. But if not available, use well-known name. |
 | resourceType | string | optional | Use values defined by SDC: VF, VFC, VL, CP. |
-| resourceUUID | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via SDC.
+| resourceUuid | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via SDC.
 | resourceVersion | string | optional | string version of the resource via SDC catalog
 
 
@@ -147,9 +147,9 @@ This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an 
 
 | Field Name      | Type          | Required   | Description  |
 | ---------------:| -------------:| ----------:| ------------:|
-| serviceInvariantUUID | string - UUID | optional | via SDC catalog, the unique ID for the service version |
-| serviceName | string | required if NO serviceUUID available | Name of the service, ideally from SDC catalog. But if not available, use well-known name. |
-| serviceUUID | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via SDC
+| serviceInvariantUuid | string - UUID | optional | via SDC catalog, the unique ID for the service version |
+| serviceName | string | required if NO serviceUuid available | Name of the service, ideally from SDC catalog. But if not available, use well-known name. |
+| serviceUuid | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via SDC
 | serviceVersion | string | optional | string version of the service via SDC catalog
     
 
@@ -286,8 +286,8 @@ controlLoop:
   version: 2.0.0
   controlLoopName: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
   services: 
-    - serviceInvariantUUID: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
-      serviceUUID: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
+    - serviceInvariantUuid: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
+      serviceUuid: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
       serviceName: 57e66ea7-0ed6-45c7-970f
   trigger_policy: unique-policy-id-1-modifyConfig
   timeout: 1200
@@ -320,8 +320,8 @@ controlLoop:
   controlLoopName: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
   services: 
     - serviceName: d4738992-6497-4dca-9db9
-      serviceInvariantUUID: dc112d6e-7e73-4777-9c6f-1a7fb5fd1b6f
-      serviceUUID: 2eea06c6-e1d3-4c3a-b9c4-478c506eeedf
+      serviceInvariantUuid: dc112d6e-7e73-4777-9c6f-1a7fb5fd1b6f
+      serviceUuid: 2eea06c6-e1d3-4c3a-b9c4-478c506eeedf
   trigger_policy: unique-policy-id-1-scale-up
   timeout: 1200
 

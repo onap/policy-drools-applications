@@ -2,8 +2,8 @@ controlLoop:
   version: 2.0.0
   controlLoopName: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
   services:
-    - serviceInvariantUUID: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
-      serviceUUID: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
+    - serviceInvariantUuid: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
+      serviceUuid: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
       serviceName: 57e66ea7-0ed6-45c7-970f
   trigger_policy: unique-policy-id-1-modifyConfig
   timeout: 60

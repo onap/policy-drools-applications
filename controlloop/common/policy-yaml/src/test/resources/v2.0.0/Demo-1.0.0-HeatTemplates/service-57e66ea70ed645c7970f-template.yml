@@ -1,6 +1,6 @@
 tosca_definitions_version: tosca_simple_yaml_1_0
 metadata:
-  invariantUUID: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
+  invariantUuid: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
   UUID: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
   name: 57e66ea7-0ed6-45c7-970f
   description: catalog service description

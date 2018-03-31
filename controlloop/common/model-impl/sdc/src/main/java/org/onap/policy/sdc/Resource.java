@@ -24,136 +24,244 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Resource implements Serializable {
+  private static final long serialVersionUID = -913729158733348027L;
 
-    private static final long serialVersionUID = -913729158733348027L;
-    
-    private UUID    resourceUUID;
-    private UUID    resourceInvariantUUID;
-    private String  resourceName;
-    private String  resourceVersion;
-    private ResourceType    resourceType;
-    
-    public Resource() {
-        //Empty Constructor
-    }
-    
-    public Resource(Resource resource) {
-        this.resourceUUID = resource.resourceUUID;
-        this.resourceInvariantUUID = resource.resourceInvariantUUID;
-        this.resourceName = resource.resourceName;
-        this.resourceVersion = resource.resourceVersion;
-        this.resourceType = resource.resourceType;
-    }
-    
-    public Resource(UUID uuid) {
-        this.resourceUUID = uuid;
-    }
-    
-    public Resource(String name, ResourceType type) {
-        this.resourceName = name;
-        this.resourceType = type;
-    }
-    
-    public Resource(UUID uuid, UUID invariantUUID, String name, String version, ResourceType type) {
-        this.resourceUUID = uuid;
-        this.resourceInvariantUUID = invariantUUID;
-        this.resourceName = name;
-        this.resourceVersion = version;
-        this.resourceType = type;
-    }
-    
-    public UUID getResourceUUID() {
-        return resourceUUID;
-    }
+  private UUID resourceUuid;
+  private UUID resourceInvariantUuid;
+  private String resourceName;
+  private String resourceVersion;
+  private ResourceType resourceType;
 
-    public void setResourceUUID(UUID resourceUUID) {
-        this.resourceUUID = resourceUUID;
-    }
+  /**
+   * Instantiates a new resource.
+   */
+  public Resource() {
+    // Empty Constructor
+  }
 
-    public UUID getResourceInvariantUUID() {
-        return resourceInvariantUUID;
-    }
+  /**
+   * Copy Constructor, create a resource from another resource.
+   * 
+   * @param resource The resource to copy from
+   */
+  public Resource(Resource resource) {
+    this.resourceUuid = resource.resourceUuid;
+    this.resourceInvariantUuid = resource.resourceInvariantUuid;
+    this.resourceName = resource.resourceName;
+    this.resourceVersion = resource.resourceVersion;
+    this.resourceType = resource.resourceType;
+  }
 
-    public void setResourceInvariantUUID(UUID resourceInvariantUUID) {
-        this.resourceInvariantUUID = resourceInvariantUUID;
-    }
+  /**
+   * Instantiates a new resource.
+   *
+   * @param uuid the resource UUID
+   */
+  public Resource(UUID uuid) {
+    this.resourceUuid = uuid;
+  }
 
-    public String getResourceName() {
-        return resourceName;
-    }
+  /**
+   * Instantiates a new resource.
+   *
+   * @param name the resource name
+   * @param type the resource type
+   */
+  public Resource(String name, ResourceType type) {
+    this.resourceName = name;
+    this.resourceType = type;
+  }
 
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-    }
+  /**
+   * Instantiates a new resource.
+   *
+   * @param uuid the resource UUID
+   * @param invariantUuid the resource invariant UUID
+   * @param name the resource name
+   * @param version the resource version
+   * @param type the resource type
+   */
+  public Resource(UUID uuid, UUID invariantUuid, String name, String version, ResourceType type) {
+    this.resourceUuid = uuid;
+    this.resourceInvariantUuid = invariantUuid;
+    this.resourceName = name;
+    this.resourceVersion = version;
+    this.resourceType = type;
+  }
 
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
+  /**
+   * Gets the resource UUID.
+   *
+   * @return the resource UUID
+   */
+  public UUID getResourceUuid() {
+    return resourceUuid;
+  }
 
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
+  /**
+   * Sets the resource UUID.
+   *
+   * @param resourceUuid the new resource UUID
+   */
+  public void setResourceUuid(UUID resourceUuid) {
+    this.resourceUuid = resourceUuid;
+  }
 
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
+  /**
+   * Gets the resource invariant UUID.
+   *
+   * @return the resource invariant UUID
+   */
+  public UUID getResourceInvariantUuid() {
+    return resourceInvariantUuid;
+  }
 
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
+  /**
+   * Sets the resource invariant UUID.
+   *
+   * @param resourceInvariantUuid the new resource invariant UUID
+   */
+  public void setResourceInvariantUuid(UUID resourceInvariantUuid) {
+    this.resourceInvariantUuid = resourceInvariantUuid;
+  }
 
-    @Override
-    public String toString() {
-        return "Resource [resourceUUID=" + resourceUUID + ", resourceInvariantUUID=" + resourceInvariantUUID
-                + ", resourceName=" + resourceName + ", resourceVersion=" + resourceVersion + ", resourceType="
-                + resourceType + "]";
+  /**
+   * Gets the resource name.
+   *
+   * @return the resource name
+   */
+  public String getResourceName() {
+    return resourceName;
+  }
+
+  /**
+   * Sets the resource name.
+   *
+   * @param resourceName the new resource name
+   */
+  public void setResourceName(String resourceName) {
+    this.resourceName = resourceName;
+  }
+
+  /**
+   * Gets the resource version.
+   *
+   * @return the resource version
+   */
+  public String getResourceVersion() {
+    return resourceVersion;
+  }
+
+  /**
+   * Sets the resource version.
+   *
+   * @param resourceVersion the new resource version
+   */
+  public void setResourceVersion(String resourceVersion) {
+    this.resourceVersion = resourceVersion;
+  }
+
+  /**
+   * Gets the resource type.
+   *
+   * @return the resource type
+   */
+  public ResourceType getResourceType() {
+    return resourceType;
+  }
+
+  /**
+   * Sets the resource type.
+   *
+   * @param resourceType the new resource type
+   */
+  public void setResourceType(ResourceType resourceType) {
+    this.resourceType = resourceType;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Resource [resourceUUID=" + resourceUuid + ", resourceInvariantUUID="
+        + resourceInvariantUuid + ", resourceName=" + resourceName + ", resourceVersion="
+        + resourceVersion + ", resourceType=" + resourceType + "]";
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result =
+        prime * result + ((resourceInvariantUuid == null) ? 0 : resourceInvariantUuid.hashCode());
+    result = prime * result + ((resourceName == null) ? 0 : resourceName.hashCode());
+    result = prime * result + ((resourceType == null) ? 0 : resourceType.hashCode());
+    result = prime * result + ((resourceUuid == null) ? 0 : resourceUuid.hashCode());
+    result = prime * result + ((resourceVersion == null) ? 0 : resourceVersion.hashCode());
+    return result;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((resourceInvariantUUID == null) ? 0 : resourceInvariantUUID.hashCode());
-        result = prime * result + ((resourceName == null) ? 0 : resourceName.hashCode());
-        result = prime * result + ((resourceType == null) ? 0 : resourceType.hashCode());
-        result = prime * result + ((resourceUUID == null) ? 0 : resourceUUID.hashCode());
-        result = prime * result + ((resourceVersion == null) ? 0 : resourceVersion.hashCode());
-        return result;
+    if (obj == null) {
+      return false;
     }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Resource other = (Resource) obj;
-        if (resourceInvariantUUID == null) {
-            if (other.resourceInvariantUUID != null)
-                return false;
-        } else if (!resourceInvariantUUID.equals(other.resourceInvariantUUID))
-            return false;
-        if (resourceName == null) {
-            if (other.resourceName != null)
-                return false;
-        } else if (!resourceName.equals(other.resourceName))
-            return false;
-        if (resourceType == null) {
-            if (other.resourceType != null)
-                return false;
-        } else if (!resourceType.equals(other.resourceType))
-            return false;
-        if (resourceUUID == null) {
-            if (other.resourceUUID != null)
-                return false;
-        } else if (!resourceUUID.equals(other.resourceUUID))
-            return false;
-        if (resourceVersion == null) {
-            if (other.resourceVersion != null)
-                return false;
-        } else if (!resourceVersion.equals(other.resourceVersion))
-            return false;
-        return true;
+    if (getClass() != obj.getClass()) {
+      return false;
     }
-    
+    Resource other = (Resource) obj;
+    if (resourceInvariantUuid == null) {
+      if (other.resourceInvariantUuid != null) {
+        return false;
+      }
+    } else if (!resourceInvariantUuid.equals(other.resourceInvariantUuid)) {
+      return false;
+    }
+    if (resourceName == null) {
+      if (other.resourceName != null) {
+        return false;
+      }
+    } else if (!resourceName.equals(other.resourceName)) {
+      return false;
+    }
+    if (resourceType == null) {
+      if (other.resourceType != null) {
+        return false;
+      }
+    } else if (!resourceType.equals(other.resourceType)) {
+      return false;
+    }
+    if (resourceUuid == null) {
+      if (other.resourceUuid != null) {
+        return false;
+      }
+    } else if (!resourceUuid.equals(other.resourceUuid)) {
+      return false;
+    }
+    if (resourceVersion == null) {
+      if (other.resourceVersion != null) {
+        return false;
+      }
+    } else if (!resourceVersion.equals(other.resourceVersion)) {
+      return false;
+    }
+    return true;
+  }
+
 }

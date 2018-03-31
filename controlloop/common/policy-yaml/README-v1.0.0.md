@@ -106,10 +106,10 @@ This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an 
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
-| resourceInvariantUUID | string - UUID | optional | via SDC, the unique ID for the resource version |
-| resourceName | string | required if NO resourceUUID available | Name of the resource, ideally from SDC catalog. But if not available, use well-known name. |
+| resourceInvariantUuid | string - UUID | optional | via SDC, the unique ID for the resource version |
+| resourceName | string | required if NO resourceUuid available | Name of the resource, ideally from SDC catalog. But if not available, use well-known name. |
 | resourceType | string | optional | Use values defined by SDC: VF, VFC, VL, CP. |
-| resourceUUID | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via SDC.
+| resourceUuid | string - UUID | required IF available, else populate resourceName | Unique ID for the resource as assigned via SDC.
 | resourceVersion | string | optional | string version of the resource via SDC catalog
 
 SDC catalog is not fully available and resources have not been defined yet, use resourceName. Eg. vFW
@@ -120,9 +120,9 @@ This object was derived via SDC Catalog API and SDC Data Dictionary (POC) in an 
 
 | Field Name      | Type          | Required   | Description  |
 | -------------   |:-------------:| -----------| ------------:|
-| serviceInvariantUUID | string - UUID | optional | via SDC catalog, the unique ID for the service version |
-| serviceName | string | required if NO serviceUUID available | Name of the service, ideally from SDC catalog. But if not available, use well-known name. |
-| serviceUUID | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via SDC
+| serviceInvariantUuid | string - UUID | optional | via SDC catalog, the unique ID for the service version |
+| serviceName | string | required if NO serviceUuid available | Name of the service, ideally from SDC catalog. But if not available, use well-known name. |
+| serviceUuid | string - UUID | required IF available, else populate serviceName | Unique ID fort he service as assigned via SDC
 | serviceVersion | string | optional | string version of the service via SDC catalog
     
 SDC catalog is not fully available and some services have not been defined yet, use serviceName. Eg. vLB.

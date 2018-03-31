@@ -1,10 +1,10 @@
 Service:
   type: Object
   properties:
-    serviceUUID:
+    serviceUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    serviceInvariantUUID:
+    serviceInvariantUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
     serviceName:
@@ -14,10 +14,10 @@ Service:
 Resource:
   type: Object
   properties:
-    resourceUUID:
+    resourceUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    resourceInvariantUUID:
+    resourceInvariantUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
     resourceName:
@@ -34,16 +34,16 @@ Resource:
 ServiceInstance:
   type: Object
   properties:
-    personaModelUUID:
+    personaModelUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    serviceUUID:
+    serviceUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    serviceInstanceUUID:
+    serviceInstanceUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    widgetModelUUID:
+    widgetModelUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
     widgetModelVersion:
@@ -59,7 +59,7 @@ ResourceInstance:
       type: string
     resourceName:
       type: string
-    resourceInvariantUUID:
+    resourceInvariantUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
     resourceVersion:
@@ -71,6 +71,6 @@ ResourceInstance:
         - VFC
         - CP
         - VL
-    resourceUUID:
+    resourceUuid:
       type: string
       pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"

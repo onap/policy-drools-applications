@@ -93,7 +93,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (service == null) {
                 throw new BuilderException("Service must not be null");
             }
-            if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+            if (service.getServiceUuid() == null && Strings.isNullOrEmpty(service.getServiceName())) {
                 throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
             }
             if (controlLoopPolicy.getControlLoop().getServices() == null) {
@@ -113,7 +113,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (service == null) {
                 throw new BuilderException("Service must not be null");
             }
-            if (service.getServiceUUID() == null && Strings.isNullOrEmpty(service.getServiceName())) {
+            if (service.getServiceUuid() == null && Strings.isNullOrEmpty(service.getServiceName())) {
                 throw new BuilderException("Invalid service - need either a serviceUUID or serviceName");
             }
             boolean removed = controlLoopPolicy.getControlLoop().getServices().remove(service);
@@ -137,7 +137,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (resource == null) {
                 throw new BuilderException("Resource must not be null");
             }
-            if (resource.getResourceUUID() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
+            if (resource.getResourceUuid() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
                 throw new BuilderException("Invalid resource - need either resourceUUID or resourceName");
             }
             if (controlLoopPolicy.getControlLoop().getResources() == null) {
@@ -318,7 +318,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (resource == null) {
                 throw new BuilderException("Resource must not be null");
             }
-            if (resource.getResourceUUID() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
+            if (resource.getResourceUuid() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
                 throw new BuilderException("Invalid resource - need either a resourceUUID or resourceName");
             }
             boolean removed = controlLoopPolicy.getControlLoop().getResources().remove(resource);

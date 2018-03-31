@@ -1,6 +1,6 @@
 tosca_definitions_version: tosca_simple_yaml_1_0
 metadata:
-  invariantUUID: 4b8d4018-068b-4c33-b9bb-d980798e52c2
+  invariantUuid: 4b8d4018-068b-4c33-b9bb-d980798e52c2
   UUID: d7d28881-b24d-4512-bfee-1e2eb335591f
   name: 59a2ee3f-b580-45fe-b5a1
   description: vendor software product
