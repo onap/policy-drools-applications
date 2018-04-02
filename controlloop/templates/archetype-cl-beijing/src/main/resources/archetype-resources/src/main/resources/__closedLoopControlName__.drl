@@ -822,7 +822,7 @@ rule "APPC.LCM.RESPONSE"
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
         $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
         $lock : TargetLock (requestID == $event.getRequestId())
-        $response : LcmResponseWrapper( getBody().get().getRequestId() == $event.getRequestId() )
+        $response : LcmResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestId() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -900,7 +900,7 @@ end
 rule "APPC.LCM.RESPONSE.CLEANUP"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $response : LcmResponseWrapper($id : getBody().get().getRequestId )
+        $response : LcmResponseWrapper($id : getBody().getCommonHeader().getRequestId )
         not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
     then
     

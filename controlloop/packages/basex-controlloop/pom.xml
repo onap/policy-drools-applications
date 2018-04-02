@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-  Drools PDP Application Models
+  PDP-D Application Installation Packages
   ================================================================================
   Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
   ================================================================================
@@ -24,20 +24,37 @@
   <packaging>pom</packaging>
 
   <parent>
-    <groupId>org.onap.policy.drools-applications.controlloop</groupId>
-    <artifactId>controlloop</artifactId>
+    <groupId>org.onap.policy.drools-applications.controlloop.packages</groupId>
+    <artifactId>packages</artifactId>
     <version>1.2.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.onap.policy.drools-applications.controlloop.packages</groupId>
-  <artifactId>packages</artifactId>
+  <artifactId>basex-controlloop</artifactId>
 
-  <name>PDP-D Application Installation Packages</name>
-  <description>PDP-D Installation</description>
+  <name>basex-controlloop</name>
+  <description>Control Loop Drools Applications Base Extension Package</description>
 
-  <modules>
-    <module>basex-controlloop</module>
-    <module>artifacts-controlloop</module>
-    <module>apps-controlloop</module>
-  </modules>
+  <build>
+    <plugins>
+      <plugin>
+	<artifactId>maven-assembly-plugin</artifactId>
+	<executions>
+	  <execution>
+	    <goals>
+	      <goal>single</goal>
+	    </goals>
+	    <phase>package</phase>
+	    <configuration>
+	      <descriptors>
+		    <descriptor>src/assembly/zip.xml</descriptor>
+	      </descriptors>
+	      <appendAssemblyId>false</appendAssemblyId>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
+
