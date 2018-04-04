@@ -20,23 +20,46 @@
 
 package org.onap.policy.controlloop;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 public abstract class ControlLoopEvent implements Serializable {
 
     private static final long serialVersionUID = 2391252138583119195L;
-
+    
+    @SerializedName("closedLoopControlName")
     private String closedLoopControlName;
+    
+    @SerializedName("version")
     private String version = "1.0.2";
+    
+    @SerializedName("requestID")
     private UUID requestId;
+    
+    @SerializedName("closedLoopEventClient")
     private String closedLoopEventClient;
+    
+    @SerializedName("target_type")
     private ControlLoopTargetType targetType;
+    
+    @SerializedName("target")
     private String target;
+    
+    @SerializedName("from")
     private String from;
+    
+    @SerializedName("policyScope")
     private String policyScope;
+    
+    @SerializedName("policyName")
     private String policyName;
+    
+    @SerializedName("policyVersion")
     private String policyVersion;
+    
+    @SerializedName("closedLoopEventStatus")
     private ControlLoopEventStatus closedLoopEventStatus;
 
     public ControlLoopEvent() {

@@ -29,8 +29,13 @@ import java.util.Map;
 public class VirtualControlLoopEvent extends ControlLoopEvent {
 
     private static final long serialVersionUID = -5752405682246066226L;
+    
+    @SerializedName("closedLoopAlarmStart")
     private Instant closedLoopAlarmStart;
+    
+    @SerializedName("closedLoopAlarmEnd")
     private Instant closedLoopAlarmEnd;
+    
     @SerializedName("AAI")
     private Map<String, String> aai = new HashMap<>();
 

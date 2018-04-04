@@ -32,7 +32,11 @@ public class VirtualControlLoopNotification extends ControlLoopNotification {
 
     @SerializedName("AAI")
     private Map<String, String> aai = new HashMap<>();
+    
+    @SerializedName("closedLoopAlarmStart")
     private Instant closedLoopAlarmStart;
+    
+    @SerializedName("closedLoopAlarmEnd")
     private Instant closedLoopAlarmEnd;
 
     public VirtualControlLoopNotification() {}
