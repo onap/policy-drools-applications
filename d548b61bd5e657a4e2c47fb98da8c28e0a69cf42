@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e43fb9b2",
+        "filename": "controlloop/common/actors/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-04-16T18:47:13Z",
+      "side": 1,
+      "message": "The \u003c?xml version .. line has been deleted ..",
+      "revId": "d548b61bd5e657a4e2c47fb98da8c28e0a69cf42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
