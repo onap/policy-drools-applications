@@ -34,10 +34,14 @@ public class TestGet {
         mgr.get(null, "user", null, null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUsernameNull() {
         RESTManager mgr = new RESTManager();
-        mgr.get("nothing", null, null, null);
+
+        Pair<Integer, String> result = mgr.get("http://www.example.org", null, null, null);
+        assertEquals((Integer)200, result.a);
+        assertTrue(result.b != null);
+        assertTrue(result.b.length() > 0);
     }
 
     @Test

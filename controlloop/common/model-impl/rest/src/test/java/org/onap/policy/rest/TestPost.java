@@ -27,10 +27,11 @@ import org.onap.policy.rest.RESTManager.Pair;
 
 public class TestPost {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUsernameNull() {
         RESTManager mgr = new RESTManager();
-        mgr.post("nothing", null, null, null, null, null);
+        Pair<Integer, String> result = mgr.post("http://www.example.org", null, null, null, null, null);
+        assertEquals(null, result);
     }
 
     @Test
