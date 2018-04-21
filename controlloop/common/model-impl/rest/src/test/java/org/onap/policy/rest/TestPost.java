@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * 
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,11 @@ import org.onap.policy.rest.RESTManager.Pair;
 
 public class TestPost {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUsernameNull() {
         RESTManager mgr = new RESTManager();
-        mgr.post("nothing", null, null, null, null, null);
+        Pair<Integer, String> result = mgr.post("http://www.example.org", null, null, null, null, null);
+        assertEquals(null, result);
     }
 
     @Test

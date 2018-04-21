@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * 
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,10 +34,14 @@ public class TestGet {
         mgr.get(null, "user", null, null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUsernameNull() {
         RESTManager mgr = new RESTManager();
-        mgr.get("nothing", null, null, null);
+
+        Pair<Integer, String> result = mgr.get("http://www.example.org", null, null, null);
+        assertEquals((Integer)200, result.a);
+        assertTrue(result.b != null);
+        assertTrue(result.b.length() > 0);
     }
 
     @Test

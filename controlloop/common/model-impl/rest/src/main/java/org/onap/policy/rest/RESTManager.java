@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,16 @@
 package org.onap.policy.rest;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import javax.xml.bind.DatatypeConverter;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -55,9 +53,8 @@ public class RESTManager {
 
     public Pair<Integer, String> post(String url, String username, String password,
             Map<String, String> headers, String contentType, String body) {
-        CredentialsProvider credentials = new BasicCredentialsProvider();
-        credentials.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(username, password));
+
+        String authHeader = makeAuthHeader(username, password);
 
         logger.debug("HTTP REQUEST: {} -> {} {} -> {}", url, username,
                 ((password != null) ? password.length() : "-"), contentType);
@@ -71,7 +68,6 @@ public class RESTManager {
                 HttpClientBuilder
                         .create()
                         .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                        .setDefaultCredentialsProvider(credentials)
                         .build()) {
 
             HttpPost post = new HttpPost(url);
@@ -80,7 +76,10 @@ public class RESTManager {
                     post.addHeader(entry.getKey(), headers.get(entry.getKey()));
                 }
             }
-            post.addHeader("Content-Type", contentType);
+            post.addHeader("Content-Type", contentType);            
+            if(authHeader != null) {
+                post.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+            }
 
             StringEntity input = new StringEntity(body);
             input.setContentType(contentType);
@@ -111,15 +110,12 @@ public class RESTManager {
     public Pair<Integer, String> get(String url, String username, String password,
             Map<String, String> headers) {
 
-        CredentialsProvider credentials = new BasicCredentialsProvider();
-        credentials.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(username, password));
+        String authHeader = makeAuthHeader(username, password);
 
         try (CloseableHttpClient client =
                 HttpClientBuilder
                         .create()
                         .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                        .setDefaultCredentialsProvider(credentials)
                         .build()) {
 
             HttpGet get = new HttpGet(url);
@@ -127,6 +123,9 @@ public class RESTManager {
                 for (Entry<String, String> entry : headers.entrySet()) {
                     get.addHeader(entry.getKey(), headers.get(entry.getKey()));
                 }
+            }           
+            if(authHeader != null) {
+                get.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
             }
 
             HttpResponse response = client.execute(get);
@@ -144,5 +143,14 @@ public class RESTManager {
             logger.error("Failed to GET to {}", url, e);
             return null;
         }
+    }
+
+    private String makeAuthHeader(String username, String password) {
+        if (username == null) {
+            return null;
+        }
+
+        String auth = username + ":" + (password == null ? "" : password);
+        return "Basic " + DatatypeConverter.printBase64Binary(auth.getBytes(Charset.forName("ISO-8859-1")));
     }
 }
