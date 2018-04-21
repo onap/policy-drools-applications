@@ -21,17 +21,26 @@
 package org.onap.policy.rest;
 
 import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import javax.xml.bind.DatatypeConverter;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -111,15 +120,10 @@ public class RESTManager {
     public Pair<Integer, String> get(String url, String username, String password,
             Map<String, String> headers) {
 
-        CredentialsProvider credentials = new BasicCredentialsProvider();
-        credentials.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(username, password));
-
         try (CloseableHttpClient client =
                 HttpClientBuilder
                         .create()
                         .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                        .setDefaultCredentialsProvider(credentials)
                         .build()) {
 
             HttpGet get = new HttpGet(url);
@@ -128,6 +132,11 @@ public class RESTManager {
                     get.addHeader(entry.getKey(), headers.get(entry.getKey()));
                 }
             }
+
+            String auth = username + ":" + password;
+            String authHeader = "Basic "
+                            + DatatypeConverter.printBase64Binary(auth.getBytes(Charset.forName("ISO-8859-1")));
+            get.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
 
             HttpResponse response = client.execute(get);
 
