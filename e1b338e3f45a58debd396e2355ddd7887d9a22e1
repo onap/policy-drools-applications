@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_a9689488",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-04-23T13:08:11Z",
+      "side": 1,
+      "message": "Oh, I see, thanks, even though it is something you did not introduce, do you mind to change it?",
+      "parentUuid": "5a93c517_e94bfc28",
+      "revId": "e1b338e3f45a58debd396e2355ddd7887d9a22e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a9b5f432",
         "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
         "patchSetId": 4
