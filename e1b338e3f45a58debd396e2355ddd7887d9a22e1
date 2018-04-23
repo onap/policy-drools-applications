@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_e94bfc28",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-04-23T13:01:22Z",
+      "side": 1,
+      "message": "Actually, this behavior is unchanged.  I discovered while running an existing junit test that it expected the code to throw an IllegalArgumentException if the username was null, thus I incorporated this behavior into the fix.",
+      "parentUuid": "5a93c517_09ad08e9",
+      "revId": "e1b338e3f45a58debd396e2355ddd7887d9a22e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a9b5f432",
         "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
         "patchSetId": 4
