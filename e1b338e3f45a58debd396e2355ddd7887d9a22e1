@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_09ad08e9",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-04-23T12:42:24Z",
+      "side": 1,
+      "message": "I think it is better to add the auth header optionally, it seems it would always try to add it, and in the case that there is no username/password, it will throw and exception and not proceed with the message (we would want it for our own private testing).    In addition, if the IllegalArgumentException leaks all the way up to the dry and does not get caught could have unintended consequences (I haven\u0027t checked the exception path).",
+      "revId": "e1b338e3f45a58debd396e2355ddd7887d9a22e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a9b5f432",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-04-23T12:42:24Z",
+      "side": 1,
+      "message": "same comment as before",
+      "revId": "e1b338e3f45a58debd396e2355ddd7887d9a22e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
