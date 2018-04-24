@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop event manager
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,9 +80,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private transient TargetLock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
-    private static String aaiHostURL;
-    private static String aaiUser;
-    private static String aaiPassword;
 
     private static Collection<String> requiredAAIKeys = new ArrayList<>();
 
@@ -644,6 +641,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @throws AaiException if an error occurs retrieving information from A&AI
      */
     public void queryAai(VirtualControlLoopEvent event) throws AaiException {
+        if(vnfResponse != null || vserverResponse != null) {
+            // query has already been performed
+            return;
+        }
+        
         if ((event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED) != null
                 || event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED) != null) && isClosedLoopDisabled(event)) {
             throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
@@ -740,9 +742,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         try {
             if (vserverName != null) {
-                aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-                aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-                aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+                String aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+                String aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
+                String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostURL + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
@@ -770,9 +772,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         String vnfName = event.getAai().get(GENERIC_VNF_VNF_NAME);
         String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
 
-        aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-        aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-        aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+        String aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+        String aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
+        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 
         try {
             if (vnfName != null) {
