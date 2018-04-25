@@ -1,4 +1,4 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
@@ -923,7 +923,7 @@ rule "SO.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $event : VirtualControlLoopEvent( closedLoopControlName == $clName, closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName() )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
         $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
         $lock : TargetLock (requestID == $event.getRequestId())
@@ -1007,7 +1007,7 @@ rule "VFC.RESPONSE"
 	when
 		$params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $event : VirtualControlLoopEvent( closedLoopControlName == $clName, closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-		$manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName() )
+		$manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId() )
 		$operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
 		$opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
         $lock : TargetLock (requestID == $event.getRequestId())
