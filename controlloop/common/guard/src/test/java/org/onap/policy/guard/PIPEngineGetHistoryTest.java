@@ -57,9 +57,11 @@ import java.util.Properties;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -67,6 +69,9 @@ import org.onap.policy.drools.system.PolicyEngine;
 public class PIPEngineGetHistoryTest {
     static PIPEngineGetHistory pegh;
     private static final String ISSUER = "issuerIntw:mid:end";
+    
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
 
     /**
      * Set up test class.
@@ -79,6 +84,43 @@ public class PIPEngineGetHistoryTest {
         } catch (Exception e) {
             fail("PIPEngineGetHistory constructor failed");
         }
+
+        // Set PU
+        System.setProperty(Util.PU_KEY, Util.JUNITPU);
+
+        // Enter dummy props to avoid nullPointerException
+        PolicyEngine.manager.setEnvironmentProperty(Util.ONAP_KEY_URL, "a");
+        PolicyEngine.manager.setEnvironmentProperty(Util.ONAP_KEY_USER, "b");
+        PolicyEngine.manager.setEnvironmentProperty(Util.ONAP_KEY_PASS, "c");
+
+        // Connect to in-mem db
+        emf = Persistence.createEntityManagerFactory(Util.JUNITPU);
+        em = emf.createEntityManager();
+
+        // Create necessary table
+        String sql = "CREATE TABLE `operationshistory10` (" + "`CLNAME` varchar(255)," + "`requestID` varchar(100),"
+                + "`actor` varchar(50) ," + "`operation` varchar(50)," + "`target` varchar(50),"
+                + "`starttime` timestamp," + "`outcome` varchar(50)," + "`message` varchar(255),"
+                + "`subrequestId` varchar(100)," + "`endtime` timestamp" + ")";
+        Query nq = em.createNativeQuery(sql);
+        em.getTransaction().begin();
+        nq.executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    @AfterClass
+    public static void tearDown() {
+        emf.close();
+    }
+
+    @Before
+    public void setUp() {
+        // clear the table
+        String sql = "DELETE FROM `operationshistory10`";
+        Query nq = em.createNativeQuery(sql);
+        em.getTransaction().begin();
+        nq.executeUpdate();
+        em.getTransaction().commit();
     }
 
     @Test
@@ -124,31 +166,6 @@ public class PIPEngineGetHistoryTest {
 
     @Test
     public void testGetCountFromDb() {
-        // Set PU
-        System.setProperty(Util.PU_KEY, Util.JUNITPU);
-
-        // Enter dummy props to avoid nullPointerException
-        PolicyEngine.manager.setEnvironmentProperty(Util.ONAP_KEY_URL, "a");
-        PolicyEngine.manager.setEnvironmentProperty(Util.ONAP_KEY_USER, "b");
-        PolicyEngine.manager.setEnvironmentProperty(Util.ONAP_KEY_PASS, "c");
-
-        // Connect to in-mem db
-        EntityManager em = null;
-        try {
-            em = Persistence.createEntityManagerFactory(Util.JUNITPU).createEntityManager();
-        } catch (Exception e) {
-            fail(e.getLocalizedMessage());
-        }
-
-        String sql = "CREATE TABLE `operationshistory10` (" + "`CLNAME` varchar(255)," + "`requestID` varchar(100),"
-                + "`actor` varchar(50) ," + "`operation` varchar(50)," + "`target` varchar(50),"
-                + "`starttime` timestamp," + "`outcome` varchar(50)," + "`message` varchar(255),"
-                + "`subrequestId` varchar(100)," + "`endtime` timestamp" + ")";
-        // Create necessary table
-        Query nq = em.createNativeQuery(sql);
-        em.getTransaction().begin();
-        nq.executeUpdate();
-        em.getTransaction().commit();
 
         // Use reflection to run getCountFromDB
         Method method = null;
@@ -172,7 +189,6 @@ public class PIPEngineGetHistoryTest {
         em.getTransaction().begin();
         nq2.executeUpdate();
         em.getTransaction().commit();
-        em.close();
 
         try {
             count = (int) method.invoke(null, "actor", "op", "target", "1 MINUTE");
