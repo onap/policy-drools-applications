@@ -717,7 +717,7 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
-        event.getAai().put("generic-vnf.vnf-name", "onsetOne");
+        event.getAai().put("generic-vnf.vnf-id", "onsetOne");
 
         ControlLoopEventManager manager = makeManager(event);
         try {
