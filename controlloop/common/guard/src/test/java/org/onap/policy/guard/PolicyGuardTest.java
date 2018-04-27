@@ -25,11 +25,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import java.util.UUID;
-
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
+import org.onap.policy.guard.PolicyGuard.Factory;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.impl.PNFTargetLock;
 import org.onap.policy.guard.impl.VMTargetLock;
@@ -37,6 +46,13 @@ import org.onap.policy.guard.impl.VNFTargetLock;
 
 public class PolicyGuardTest {
     private static final String INSTANCENAME = "targetInstance";
+    
+    private static Factory saveFactory;
+    
+    private Factory factory;
+    private PolicyResourceLockManager mgr;
+    private UUID uuid;
+    private DummyLockCallback dlcb;
 
     private class DummyLockCallback implements LockCallback {
         @Override
@@ -51,6 +67,14 @@ public class PolicyGuardTest {
     }
 
     private class DummyTargetLock implements TargetLock {
+        private TargetType type;
+        private UUID reqid;
+        
+        public DummyTargetLock(TargetType type, UUID reqid) {
+            this.type = type;
+            this.reqid = reqid;
+        }
+        
         @Override
         public UUID getLockID() {
             return null;
@@ -58,7 +82,7 @@ public class PolicyGuardTest {
 
         @Override
         public TargetType getTargetType() {
-            return null;
+            return type;
         }
 
         @Override
@@ -68,18 +92,45 @@ public class PolicyGuardTest {
 
         @Override
         public UUID getRequestID() {
-            return null;
+            return reqid;
         }
+    }
+    
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        saveFactory = PolicyGuard.getFactory();
+    }
+    
+    @AfterClass
+    public static void tearDownAfterClass() {
+        PolicyGuard.setFactory(saveFactory);
+    }
+    
+    @Before
+    public void setUp() {
+        mgr = new PolicyResourceLockManager() {
+            // only way to access the constructor            
+        };
+        
+        factory = new Factory() {
+            @Override
+            public PolicyResourceLockManager getManager() {
+                return mgr;
+            }
+        };
+        
+        uuid = UUID.randomUUID();
+        dlcb = new DummyLockCallback();
+
+        PolicyGuard.setFactory(factory);
     }
 
     @Test
     public void testLockVm() {
-        UUID uuid = UUID.randomUUID();
         TargetType type = TargetType.VM;
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        DummyLockCallback dlcb = new DummyLockCallback();
         LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
@@ -94,18 +145,16 @@ public class PolicyGuardTest {
         assertEquals(dlcb, vtl.getCallback());
 
         // Test isLocked after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
     }
 
     @Test
     public void testLockPnf() {
-        UUID uuid = UUID.randomUUID();
         TargetType type = TargetType.PNF;
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        DummyLockCallback dlcb = new DummyLockCallback();
         LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
@@ -120,19 +169,17 @@ public class PolicyGuardTest {
         assertEquals(dlcb, ptl.getCallback());
 
         // Test isLocked after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
     }
 
 
     @Test
     public void testLockVnf() {
-        UUID uuid = UUID.randomUUID();
         TargetType type = TargetType.VNF;
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        DummyLockCallback dlcb = new DummyLockCallback();
         LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
@@ -147,18 +194,16 @@ public class PolicyGuardTest {
         assertEquals(dlcb, vtl.getCallback());
 
         // Test isLocked after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
     }
 
     @Test
     public void testLockVfc() {
-        UUID uuid = UUID.randomUUID();
         TargetType type = TargetType.VFC;
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        DummyLockCallback dlcb = new DummyLockCallback();
         LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
@@ -166,18 +211,16 @@ public class PolicyGuardTest {
         assertNull(result.getB());
 
         // Test isLocked after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
     }
 
     @Test
     public void testUnLockNotLocked() {
-        UUID uuid = UUID.randomUUID();
         TargetType type = TargetType.VM;
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        DummyLockCallback dlcb = new DummyLockCallback();
         LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
@@ -191,22 +234,20 @@ public class PolicyGuardTest {
         assertNull(result.getB());
 
         // Test isLocked after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         // Test unlock after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
     }
 
     @Test
     public void testLockAlreadyLocked() {
-        UUID uuid = UUID.randomUUID();
         TargetType type = TargetType.VM;
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        DummyLockCallback dlcb = new DummyLockCallback();
         LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
@@ -220,21 +261,78 @@ public class PolicyGuardTest {
         assertNull(result.getB());
 
         // Test isLocked after lock removed
-        PolicyGuard.unlockTarget(new DummyTargetLock());
+        PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
     }
 
     @Test
     public void testInnards() {
+        TargetType type = TargetType.VM;
 
-        DummyLockCallback dlcb = new DummyLockCallback();
         assertFalse(dlcb.isActive());
         assertFalse(dlcb.releaseLock());
 
-        DummyTargetLock dtl = new DummyTargetLock();
+        DummyTargetLock dtl = new DummyTargetLock(type, uuid);
         assertNull(dtl.getLockID());
-        assertNull(dtl.getRequestID());
+        assertEquals(uuid, dtl.getRequestID());
         assertEquals(INSTANCENAME, dtl.getTargetInstance());
-        assertNull(dtl.getTargetType());
+        assertEquals(type, dtl.getTargetType());
+    }
+
+    @Test
+    public void testManagerLockTarget() throws Exception {
+        TargetType type = TargetType.VM;
+        
+        @SuppressWarnings("unchecked")
+        Future<Boolean> fut = mock(Future.class);
+        
+        mgr = mock(PolicyResourceLockManager.class);
+        when(mgr.lock(any(), any(), any())).thenReturn(fut);
+
+        LockResult<GuardResult, TargetLock> result;
+
+        // acquired
+        when(fut.get()).thenReturn(true);
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(VMTargetLock.class, result.getB().getClass());
+
+        // denied
+        when(fut.get()).thenReturn(false);
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertEquals(GuardResult.LOCK_DENIED, result.getA());
+        assertNull(result.getB());
+
+        // illegal state exception
+        doThrow(new IllegalStateException("state expected")).when(fut).get();
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertEquals(GuardResult.LOCK_DENIED, result.getA());
+        assertNull(result.getB());
+        assertFalse(Thread.currentThread().isInterrupted());
+
+        // interrupted exception
+        doThrow(new InterruptedException("interrupt expected")).when(fut).get();
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
+        assertNull(result.getB());
+        // verify interrupted & reset interrupt status
+        assertTrue(Thread.interrupted());
+
+        // exec exception
+        doThrow(new ExecutionException(new IllegalArgumentException("exec expected"))).when(fut).get();
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
+        assertNull(result.getB());
+        assertFalse(Thread.currentThread().isInterrupted());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMakeOwner_NullTargetType() {
+        PolicyGuard.isLocked(null, INSTANCENAME, uuid);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMakeOwner_NullReqId() {
+        PolicyGuard.isLocked(TargetType.PNF, INSTANCENAME, null);
     }
 }
