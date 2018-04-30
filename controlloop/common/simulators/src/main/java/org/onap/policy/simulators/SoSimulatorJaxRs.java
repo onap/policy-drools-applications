@@ -50,18 +50,18 @@ public class SoSimulatorJaxRs {
     @Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String soPostQuery(@PathParam("serviceInstanceId") String serviceInstanceId, @PathParam("vnfInstanceId") String vnfInstanceId)
+    public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId, @PathParam("vnfInstanceId") final String vnfInstanceId)
     {
-        SORequest request = new SORequest();
-        SORequestStatus requestStatus = new SORequestStatus();
+        final SORequest request = new SORequest();
+        final SORequestStatus requestStatus = new SORequestStatus();
         requestStatus.setRequestState("COMPLETE");
         request.setRequestStatus(requestStatus);
         request.setRequestId(UUID.randomUUID());
         
-        SOResponse response = new SOResponse();
+        final SOResponse response = new SOResponse();
         
-        SORequestReferences requestReferences = new SORequestReferences();
-        String requestId = UUID.randomUUID().toString();
+        final SORequestReferences requestReferences = new SORequestReferences();
+        final String requestId = UUID.randomUUID().toString();
         requestReferences.setRequestId(requestId);
         response.setRequestReferences(requestReferences);
         
