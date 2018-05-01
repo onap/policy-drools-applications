@@ -1,0 +1,1879 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="4.0" jmeter="4.0 r1823414">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="DROOLS PDP STABILITY TEST PLAN" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+        <collectionProp name="HeaderManager.headers"/>
+      </HeaderManager>
+      <hashTree/>
+      <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+        <collectionProp name="AuthManager.auth_list">
+          <elementProp name="" elementType="Authorization">
+            <stringProp name="Authorization.url"></stringProp>
+            <stringProp name="Authorization.username">@1b3rt</stringProp>
+            <stringProp name="Authorization.password">31nst31n</stringProp>
+            <stringProp name="Authorization.domain"></stringProp>
+            <stringProp name="Authorization.realm"></stringProp>
+          </elementProp>
+        </collectionProp>
+      </AuthManager>
+      <hashTree/>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain"></stringProp>
+        <stringProp name="HTTPSampler.port">9696</stringProp>
+        <stringProp name="HTTPSampler.protocol">http</stringProp>
+        <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+        <stringProp name="HTTPSampler.path"></stringProp>
+        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.response_timeout"></stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="size" elementType="Argument">
+            <stringProp name="Argument.name">size</stringProp>
+            <stringProp name="Argument.value">2000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">max number of VNF instances</stringProp>
+          </elementProp>
+          <elementProp name="wait" elementType="Argument">
+            <stringProp name="Argument.name">wait</stringProp>
+            <stringProp name="Argument.value">500</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Sleep time for each request</stringProp>
+          </elementProp>
+          <elementProp name="vCPEControlLoop" elementType="Argument">
+            <stringProp name="Argument.name">vCPEControlLoop</stringProp>
+            <stringProp name="Argument.value">ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">vCPE Control loop name</stringProp>
+          </elementProp>
+          <elementProp name="vDNSControlLoop" elementType="Argument">
+            <stringProp name="Argument.name">vDNSControlLoop</stringProp>
+            <stringProp name="Argument.value">ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">vDNS Control loop name</stringProp>
+          </elementProp>
+          <elementProp name="vFWControlLoop" elementType="Argument">
+            <stringProp name="Argument.name">vFWControlLoop</stringProp>
+            <stringProp name="Argument.value">ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">vFW Controll loop name</stringProp>
+          </elementProp>
+          <elementProp name="VOLTEControlLoop" elementType="Argument">
+            <stringProp name="Argument.name">VOLTEControlLoop</stringProp>
+            <stringProp name="Argument.value">ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">VOLTE Control loop name</stringProp>
+          </elementProp>
+          <elementProp name="threads" elementType="Argument">
+            <stringProp name="Argument.name">threads</stringProp>
+            <stringProp name="Argument.value">2</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="threadsTimeOutInMs" elementType="Argument">
+            <stringProp name="Argument.name">threadsTimeOutInMs</stringProp>
+            <stringProp name="Argument.value">5000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Controller" enabled="true"/>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertation Before" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET FACT REQUEST" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/amsterdam/drools/facts/amsterdam/</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="124225537">{&quot;org.onap.policy.controlloop.Params&quot;:4}</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message"></stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+            <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Use Cases Controller" enabled="true"/>
+          <hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vCPE Use Case" enabled="true"/>
+            <hashTree>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vCPE SUCCESS Use Case" enabled="true">
+                <stringProp name="TestPlan.comments">Run vCPE Sucess flow</stringProp>
+              </GenericController>
+              <hashTree>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vCPE Use Case Controller" enabled="true">
+                  <stringProp name="TestPlan.comments">Run vCPE Sucess flow</stringProp>
+                </GenericController>
+                <hashTree>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vCPE Cache Initializer" enabled="true">
+                    <stringProp name="scriptLanguage">java</stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.List;
+
+final List vCPECache = new ArrayList();
+vars.putObject(&quot;vCPECache&quot;, vCPECache);
+
+</stringProp>
+                    <stringProp name="TestPlan.comments">This sampler intializes cache to store generate requestID for vCPE success flow</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="vCPE VNF ID Counter" enabled="true">
+                    <stringProp name="CounterConfig.start">1</stringProp>
+                    <stringProp name="CounterConfig.end">${size}</stringProp>
+                    <stringProp name="CounterConfig.incr">1</stringProp>
+                    <stringProp name="CounterConfig.name">vnfID</stringProp>
+                    <stringProp name="CounterConfig.format">vCPE_Infrastructure_vGMUX_demo_app-00</stringProp>
+                    <boolProp name="CounterConfig.per_user">false</boolProp>
+                    <stringProp name="TestPlan.comments">This counter generate unique vnf-id</stringProp>
+                  </CounterConfig>
+                  <hashTree/>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vCPE REQUEST ID Generator" enabled="true">
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="script">import java.util.List;
+import java.util.UUID;
+
+final List vCPECache = vars.getObject(&quot;vCPECache&quot;);
+
+final String uuid = UUID.randomUUID().toString();
+vars.put(&quot;requestID&quot;,uuid);
+
+vCPECache.add(uuid);
+log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
+                    <stringProp name="scriptLanguage">java</stringProp>
+                    <stringProp name="TestPlan.comments">this sampler generates unique requestId using UUID and adds it to local cache</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Onset Request Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;closedLoopControlName&quot;: &quot;${vCPEControlLoop}&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;: 1463679805324,&#xd;
+  &quot;closedLoopEventClient&quot;: &quot;DCAE_INSTANCE_ID.dcae-tca&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;: &quot;ONSET&quot;,&#xd;
+  &quot;requestID&quot;: &quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;: &quot;VNF&quot;,&#xd;
+  &quot;target&quot;: &quot;generic-vnf.vnf-id&quot;,&#xd;
+  &quot;AAI&quot;: {&#xd;
+    &quot;vserver.is-closed-loop-disabled&quot;: &quot;false&quot;,&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnfID}&quot;&#xd;
+  },&#xd;
+  &quot;from&quot;: &quot;DCAE&quot;,&#xd;
+  &quot;version&quot;: &quot;1.0.2&quot;&#xd;
+}&#xd;
+</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vCPE Assert Onset Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">8</intProp>
+                      <stringProp name="Scope.variable">Response code</stringProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                  </ConstantTimer>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE APPC Success Response Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{ &#xd;
+  &quot;body&quot;: { &#xd;
+    &quot;output&quot;: { &#xd;
+      &quot;common-header&quot;: { &#xd;
+        &quot;timestamp&quot;: &quot;2017-08-25T21:06:23.037Z&quot;, &#xd;
+        &quot;api-ver&quot;: &quot;5.00&quot;, &#xd;
+        &quot;originator-id&quot;: &quot;664be3d2-6c12-4f4b-a3e7-c349acced200&quot;, &#xd;
+        &quot;request-id&quot;: &quot;${requestID}&quot;, &#xd;
+        &quot;sub-request-id&quot;: &quot;1&quot;, &#xd;
+        &quot;flags&quot;: {} &#xd;
+      }, &#xd;
+      &quot;status&quot;: { &#xd;
+        &quot;code&quot;: 400, &#xd;
+        &quot;message&quot;: &quot;Restart Successful&quot; &#xd;
+      } &#xd;
+    } &#xd;
+  }, &#xd;
+  &quot;version&quot;: &quot;2.0&quot;, &#xd;
+  &quot;rpc-name&quot;: &quot;restart&quot;, &#xd;
+  &quot;correlation-id&quot;: &quot;664be3d2-6c12-4f4b-a3e7-c349acced200-1&quot;, &#xd;
+  &quot;type&quot;: &quot;response&quot; &#xd;
+}</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/APPC-LCM-WRITE/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vCPE Assert APPC Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">16</intProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="false">
+                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                  </ConstantTimer>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE ABADETEMENT REQUEST" enabled="false">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;closedLoopControlName&quot;: &quot;ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;: 1463679805324,&#xd;
+  &quot;closedLoopAlarmEnd&quot;: 1463699805324,&#xd;
+  &quot;closedLoopEventClient&quot;: &quot;DCAE_INSTANCE_ID.dcae-tca&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;: &quot;ABATED&quot;,&#xd;
+  &quot;requestID&quot;: &quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;: &quot;VNF&quot;,&#xd;
+  &quot;target&quot;: &quot;generic-vnf.vnf-id&quot;,&#xd;
+  &quot;AAI&quot;: {&#xd;
+    &quot;generic-vnf.is-closed-loop-disabled&quot;: &quot;false&quot;,&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnfID}&quot;&#xd;
+  },&#xd;
+  &quot;from&quot;: &quot;DCAE&quot;,&#xd;
+  &quot;version&quot;: &quot;1.0.2&quot;&#xd;
+}&#xd;
+</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert APPC Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">16</intProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                  <stringProp name="groupSize">${threads}</stringProp>
+                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                </SyncTimer>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
+                <hashTree>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Sink Events" enabled="true">
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                      <collectionProp name="Arguments.arguments"/>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sinks/noop/POLICY-CL-MGT</stringProp>
+                    <stringProp name="HTTPSampler.method">GET</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vCPE JSON Extractor" enabled="true">
+                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                    </JSONPostProcessor>
+                    <hashTree/>
+                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="vCPE JSON Assertion" enabled="true">
+                      <stringProp name="scriptLanguage">java</stringProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="cacheKey">true</stringProp>
+                      <stringProp name="script">import net.minidev.json.parser.JSONParser;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONArray;
+
+final Map records = new HashMap();
+final JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+
+final String result = vars.get(&quot;result&quot;);
+final JSONObject jsonObj = (JSONObject) p.parse(result);
+
+ if (jsonObj != null) {
+ 	final JSONArray events =  (JSONArray) jsonObj.get(&quot;recentEvents&quot;);
+ 	if (events != null) {
+	 	for (int j = 0; j &lt; events.size(); j++) {
+			final String event = (String) events.get(j);
+			if (event != null ) {
+				final JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+				final JSONObject eventObj = (JSONObject) parser.parse(event);
+				final String controlLoopName = vars.get(&quot;vCPEControlLoop&quot;);
+				if (eventObj.get(&quot;closedLoopControlName&quot;).equals(controlLoopName)) {
+					final String requestId = eventObj.get(&quot;requestId&quot;);
+					final String notification = eventObj.get(&quot;notification&quot;);
+					records.put(requestId, notification);
+				}
+			}
+		}
+ 	}
+ }
+
+boolean failure = false;
+final String expectedNotification = &quot;FINAL: SUCCESS&quot;;
+final List cache = vars.getObject(&quot;vCPECache&quot;);
+
+for (int i = 0; i &lt; cache.size(); i++) {
+	final String requestId = cache.get(i);
+	final String notification = records.get(requestId);
+	if (!(notification != null &amp;&amp; expectedNotification.equals(notification))) {
+	   log.error(&quot;[vCPE] Assertion failed for requestId: &quot; + requestId +&quot; Expected notification: &quot; + expectedNotification + &quot; But found: &quot; + notification);
+	   failure = true;
+	}
+}
+
+if (failure || cache.isEmpty()) {
+	final String error = &quot;[vCPE] Unable to find notification with &quot; + expectedNotification + &quot; in topic &apos;POLICY-CL-MGT&apos;&quot;;
+	AssertionResult.setFailureMessage(error);
+	AssertionResult.setFailure(true);
+	log.error(error);
+	log.info(&quot;[vCPE] vCPECache: &quot; + cache);
+	log.info(&quot;[vCPE] Success Records found: &quot; + records);
+	log.info(&quot;[vCPE] &quot; + result);
+} else {
+	AssertionResult.setFailure(false);
+}
+
+</stringProp>
+                      <stringProp name="TestPlan.comments">this assertion handler parse sink event response and checks notification result for each request made</stringProp>
+                    </JSR223Assertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+              </hashTree>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vCPE FAILURE Use Case" enabled="true">
+                <stringProp name="TestPlan.comments">Run vCPE failure flow</stringProp>
+              </GenericController>
+              <hashTree>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vCPE Use Case Controller" enabled="true">
+                  <stringProp name="TestPlan.comments">Run vCPE failure flow</stringProp>
+                </GenericController>
+                <hashTree>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vCPE Failure Cache Initializer" enabled="true">
+                    <stringProp name="scriptLanguage">java</stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.List;
+
+List vCPEFailureCache = new ArrayList();
+vars.putObject(&quot;vCPEFailureCache&quot;, vCPEFailureCache);
+</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="vCPE Failure VNF ID Counter" enabled="true">
+                    <stringProp name="CounterConfig.start">1</stringProp>
+                    <stringProp name="CounterConfig.end">${size}</stringProp>
+                    <stringProp name="CounterConfig.incr">1</stringProp>
+                    <stringProp name="CounterConfig.name">vnfID</stringProp>
+                    <stringProp name="CounterConfig.format">vCPE_Infrastructure_vGMUX_demo_app-00</stringProp>
+                    <boolProp name="CounterConfig.per_user">false</boolProp>
+                  </CounterConfig>
+                  <hashTree/>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vCPE Failure REQUEST ID Generator" enabled="true">
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="script">import java.util.List;
+import java.util.UUID;
+
+final List vCPEFailureCache = vars.getObject(&quot;vCPEFailureCache&quot;);
+
+final String uuid = UUID.randomUUID().toString();
+vars.put(&quot;requestID&quot;,uuid);
+
+vCPEFailureCache.add(uuid);
+log.debug(&quot;[vCPE Failure] requestID &quot;+ uuid);</stringProp>
+                    <stringProp name="scriptLanguage">java</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Failure Onset Request Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;closedLoopControlName&quot;: &quot;${vCPEControlLoop}&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;: 1463679805324,&#xd;
+  &quot;closedLoopEventClient&quot;: &quot;DCAE_INSTANCE_ID.dcae-tca&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;: &quot;ONSET&quot;,&#xd;
+  &quot;requestID&quot;: &quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;: &quot;VNF&quot;,&#xd;
+  &quot;target&quot;: &quot;generic-vnf.vnf-id&quot;,&#xd;
+  &quot;AAI&quot;: {&#xd;
+    &quot;vserver.is-closed-loop-disabled&quot;: &quot;false&quot;,&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnfID}&quot;&#xd;
+  },&#xd;
+  &quot;from&quot;: &quot;DCAE&quot;,&#xd;
+  &quot;version&quot;: &quot;1.0.2&quot;&#xd;
+}&#xd;
+</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vCPE Failure Assert Onset Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">8</intProp>
+                      <stringProp name="Scope.variable">Response code</stringProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="false">
+                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                    </JSONPostProcessor>
+                    <hashTree/>
+                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="false">
+                      <stringProp name="scriptLanguage">javascript</stringProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="cacheKey">true</stringProp>
+                      <stringProp name="script">
+var result = vars.get(&quot;result&quot;);
+var count = (result.match(/closedLoopControlName/g) || []).length;
+
+if(count &gt; 0){
+	AssertionResult.setFailure(false);
+} else {
+	AssertionResult.setFailureMessage(&quot;Expected atleast 1 closedLoopControlName got :&quot; + count);
+	AssertionResult.setFailure(true);
+}</stringProp>
+                    </JSR223Assertion>
+                    <hashTree/>
+                  </hashTree>
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                  </ConstantTimer>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Failure APPC Response Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{ &#xd;
+  &quot;body&quot;: { &#xd;
+    &quot;output&quot;: { &#xd;
+      &quot;common-header&quot;: { &#xd;
+        &quot;timestamp&quot;: &quot;2017-08-25T21:06:23.037Z&quot;, &#xd;
+        &quot;api-ver&quot;: &quot;5.00&quot;, &#xd;
+        &quot;originator-id&quot;: &quot;664be3d2-6c12-4f4b-a3e7-c349acced200&quot;, &#xd;
+        &quot;request-id&quot;: &quot;${requestID}&quot;, &#xd;
+        &quot;sub-request-id&quot;: &quot;1&quot;, &#xd;
+        &quot;flags&quot;: {} &#xd;
+      }, &#xd;
+      &quot;status&quot;: { &#xd;
+        &quot;code&quot;: 500, &#xd;
+        &quot;message&quot;: &quot;Restart Failed&quot; &#xd;
+      } &#xd;
+    } &#xd;
+  }, &#xd;
+  &quot;version&quot;: &quot;2.0&quot;, &#xd;
+  &quot;rpc-name&quot;: &quot;restart&quot;, &#xd;
+  &quot;correlation-id&quot;: &quot;664be3d2-6c12-4f4b-a3e7-c349acced200-1&quot;, &#xd;
+  &quot;type&quot;: &quot;response&quot; &#xd;
+}</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/APPC-LCM-WRITE/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vCPE Failure Assert APPC Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">16</intProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                  <stringProp name="groupSize">${threads}</stringProp>
+                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                </SyncTimer>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
+                <hashTree>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Failure Sink Events" enabled="true">
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                      <collectionProp name="Arguments.arguments"/>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sinks/noop/POLICY-CL-MGT</stringProp>
+                    <stringProp name="HTTPSampler.method">GET</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vCPE Failure JSON Extractor" enabled="true">
+                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                    </JSONPostProcessor>
+                    <hashTree/>
+                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="vCPE Failure Assertion" enabled="true">
+                      <stringProp name="scriptLanguage">java</stringProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="cacheKey">true</stringProp>
+                      <stringProp name="script">import net.minidev.json.parser.JSONParser;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONArray;
+
+final Map records = new HashMap();
+final JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+
+final String result = vars.get(&quot;result&quot;);
+final JSONObject jsonObj = (JSONObject) p.parse(result);
+
+ if (jsonObj != null) {
+ 	final JSONArray events =  (JSONArray) jsonObj.get(&quot;recentEvents&quot;);
+ 	if (events != null) {
+	 	for (int j = 0; j &lt; events.size(); j++) {
+			final String event = (String) events.get(j);
+			if (event != null ) {
+				final JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+				final JSONObject eventObj = (JSONObject) parser.parse(event);
+				final String controlLoopName = vars.get(&quot;vCPEControlLoop&quot;);
+				if (eventObj.get(&quot;closedLoopControlName&quot;).equals(controlLoopName)) {
+					final String requestId = eventObj.get(&quot;requestId&quot;);
+					final String notification = eventObj.get(&quot;notification&quot;);
+					records.put(requestId, notification);
+				}
+			}
+		}
+ 	}
+ }
+
+
+boolean failure = false;
+final String expectedNotification = &quot;FINAL: FAILURE&quot;;
+final List cache = vars.getObject(&quot;vCPEFailureCache&quot;);
+
+for (int i = 0; i &lt; cache.size(); i++) {
+	final String requestId = cache.get(i);
+	final String notification = records.get(requestId);
+	if (!(notification != null &amp;&amp; expectedNotification.equals(notification))) {
+		log.error(&quot;[vCPE Failue] Assertion failed for requestId: &quot; + requestId +
+	   			&quot; Expected notification: &quot; + expectedNotification + &quot; But found: &quot; + 	 notification);
+		failure = true;
+	}
+}
+
+if (failure || cache.isEmpty()) {
+	final String error = &quot;[vCPE]  Unable to find notification with &quot; + expectedNotification + &quot; in topic &apos;POLICY-CL-MGT&apos;&quot;;
+	AssertionResult.setFailureMessage(error);
+	AssertionResult.setFailure(true);
+	log.error(error);
+	log.info(&quot;[vCPE Failue]  vCPECache: &quot; + cache);
+	log.info(&quot;[vCPE Failue] Success Records found: &quot; + records);
+	log.info(&quot;[vCPE Failue] &quot; + result);
+} else {
+	AssertionResult.setFailure(false);
+}
+
+</stringProp>
+                    </JSR223Assertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vDNS Use Case" enabled="true"/>
+            <hashTree>
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vDNS Cache Initializer" enabled="true">
+                <stringProp name="scriptLanguage">java</stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="script">import java.util.ArrayList;
+import java.util.List;
+
+final List vDNSCache = new ArrayList();
+vars.putObject(&quot;vDNSCache&quot;, vDNSCache);</stringProp>
+              </JSR223Sampler>
+              <hashTree/>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vDNS Controller" enabled="true"/>
+              <hashTree>
+                <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="vDNS vSERVER NAME Counter" enabled="true">
+                  <stringProp name="CounterConfig.start">1</stringProp>
+                  <stringProp name="CounterConfig.end">${size}</stringProp>
+                  <stringProp name="CounterConfig.incr">1</stringProp>
+                  <stringProp name="CounterConfig.name">vserver-name</stringProp>
+                  <stringProp name="CounterConfig.format">dnsvserver-name-0</stringProp>
+                  <boolProp name="CounterConfig.per_user">false</boolProp>
+                </CounterConfig>
+                <hashTree/>
+                <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vDNS Request ID Generator" enabled="true">
+                  <stringProp name="cacheKey">true</stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="script">import java.util.List;
+import java.util.UUID;
+
+final List vDNSCache = vars.getObject(&quot;vDNSCache&quot;);
+
+final String uuid = UUID.randomUUID().toString();
+vars.put(&quot;requestID&quot;, uuid);
+
+vDNSCache.add(uuid);
+log.debug(&quot;[vDNS] requestID &quot;+ uuid);</stringProp>
+                  <stringProp name="scriptLanguage">java</stringProp>
+                </JSR223Sampler>
+                <hashTree/>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vDNS Onset Request Event" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">{&#xd;
+  &quot;closedLoopControlName&quot;: &quot;${vDNSControlLoop}&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;: 1484677482204798,&#xd;
+  &quot;closedLoopEventClient&quot;: &quot;DCAE_INSTANCE_ID.dcae-tca&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;: &quot;ONSET&quot;,&#xd;
+  &quot;requestID&quot;: &quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;: &quot;VNF&quot;,&#xd;
+  &quot;target&quot;: &quot;vserver.vserver-name&quot;,&#xd;
+  &quot;AAI&quot;: {&#xd;
+    &quot;vserver.is-closed-loop-disabled&quot;: &quot;false&quot;,&#xd;
+    &quot;vserver.vserver-name&quot;: &quot;${vserver-name}&quot;&#xd;
+  },   &#xd;
+  &quot;from&quot;: &quot;DCAE&quot;,&#xd;
+  &quot;version&quot;: &quot;1.0.2&quot;&#xd;
+}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain"></stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol"></stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                  <stringProp name="HTTPSampler.method">PUT</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vDNS Assert Onset Response Code" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="49586">200</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">8</intProp>
+                    <stringProp name="Scope.variable">Response code</stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                <stringProp name="groupSize">${threads}</stringProp>
+                <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+              </SyncTimer>
+              <hashTree/>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vDNS Sink Events" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                    <collectionProp name="Arguments.arguments"/>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain"></stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol"></stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sinks/noop/POLICY-CL-MGT</stringProp>
+                  <stringProp name="HTTPSampler.method">GET</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vDNS JSON Extractor" enabled="true">
+                    <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                    <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                    <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                  </JSONPostProcessor>
+                  <hashTree/>
+                  <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="vDNS JSON Assertion" enabled="true">
+                    <stringProp name="scriptLanguage">java</stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="script">import net.minidev.json.parser.JSONParser;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONArray;
+
+final Map records = new HashMap();
+final JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+
+final String result = vars.get(&quot;result&quot;);
+final JSONObject jsonObj = (JSONObject) p.parse(result);
+
+ if (jsonObj != null) {
+ 	final JSONArray events =  (JSONArray) jsonObj.get(&quot;recentEvents&quot;);
+ 	if (events != null) {
+	 	for (int j = 0; j &lt; events.size(); j++) {
+			final String event = (String) events.get(j);
+			if (event != null ) {
+				final JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+				final JSONObject eventObj = (JSONObject) parser.parse(event);
+				final String controlLoopName = vars.get(&quot;vDNSControlLoop&quot;);
+				if (eventObj.get(&quot;closedLoopControlName&quot;).equals(controlLoopName)) {
+					final String requestId = eventObj.get(&quot;requestId&quot;);
+					final String notification = eventObj.get(&quot;notification&quot;);
+					records.put(requestId, notification);
+				}
+			}
+		}
+ 	}
+ }
+
+boolean failure = false;
+final String expectedNotification = &quot;FINAL: SUCCESS&quot;;
+final List cache = vars.getObject(&quot;vDNSCache&quot;);
+
+for (int i = 0; i &lt; cache.size(); i++) {
+	final String requestId = cache.get(i);
+	final String notification = records.get(requestId);
+	if (!(notification != null &amp;&amp; expectedNotification.equals(notification))) {
+	   log.error(&quot;[vDNS] Assertion failed for requestId: &quot; + requestId +&quot; Expected notification: &quot; + expectedNotification + &quot; But found: &quot; + notification);
+	   failure = true;
+	}
+}
+
+if (failure || cache.isEmpty()) {
+	final String error = &quot;[vDNS]  Unable to find notification with &quot; + expectedNotification + &quot; in topic &apos;POLICY-CL-MGT&apos;&quot;;
+	AssertionResult.setFailureMessage(error);
+	AssertionResult.setFailure(true);
+	log.error(error);
+	log.info(&quot;[vDNS]  vDNSCache: &quot; + cache);
+	log.info(&quot;[vDNS] Success Records found: &quot; + records);
+	log.info(&quot;[vDNS] &quot; + result);
+} else {
+	AssertionResult.setFailure(false);
+}
+
+</stringProp>
+                  </JSR223Assertion>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vFW Use Case" enabled="true"/>
+            <hashTree>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vFW SUCESS Use Case" enabled="true"/>
+              <hashTree>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vFW Use Case Controller" enabled="true"/>
+                <hashTree>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vFW Cache Initializer" enabled="true">
+                    <stringProp name="scriptLanguage">java</stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.List;
+
+final List vFWCache = new ArrayList();
+vars.putObject(&quot;vFWCache&quot;, vFWCache);</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="vFW VNF ID Counter" enabled="true">
+                    <stringProp name="CounterConfig.start">1</stringProp>
+                    <stringProp name="CounterConfig.end">${size}</stringProp>
+                    <stringProp name="CounterConfig.incr">1</stringProp>
+                    <stringProp name="CounterConfig.name">vnf-id</stringProp>
+                    <stringProp name="CounterConfig.format">fwvnfid-0</stringProp>
+                    <boolProp name="CounterConfig.per_user">false</boolProp>
+                  </CounterConfig>
+                  <hashTree/>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vFW Request ID Generator" enabled="true">
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="script">import java.util.List;
+import java.util.UUID;
+
+final List vFWCache = vars.getObject(&quot;vFWCache&quot;);
+
+final String uuid = UUID.randomUUID().toString();
+vars.put(&quot;requestID&quot;, uuid);
+
+vFWCache.add(uuid);
+log.debug(&quot;[vFW] requestID &quot;+ uuid);</stringProp>
+                    <stringProp name="scriptLanguage">java</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Onset Request Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;closedLoopControlName&quot;: &quot;${vFWControlLoop}&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;: 1463679805324,&#xd;
+  &quot;closedLoopEventClient&quot;: &quot;microservice.stringmatcher&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;: &quot;ONSET&quot;,&#xd;
+  &quot;requestID&quot;: &quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;: &quot;VNF&quot;,&#xd;
+  &quot;target&quot;: &quot;generic-vnf.vnf-id&quot;,&#xd;
+  &quot;AAI&quot;: {&#xd;
+    &quot;generic-vnf.is-closed-loop-disabled&quot;: &quot;false&quot;,&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnf-id}&quot;&#xd;
+  },&#xd;
+  &quot;from&quot;: &quot;DCAE&quot;,&#xd;
+  &quot;version&quot;: &quot;1.0.2&quot;&#xd;
+}</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vFW Assert Onset Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">8</intProp>
+                      <stringProp name="Scope.variable">Response code</stringProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                  </ConstantTimer>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW APPC Legacy Success Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;CommonHeader&quot;: {&#xd;
+    &quot;TimeStamp&quot;: 1506051879001,&#xd;
+    &quot;APIver&quot;: &quot;1.01&quot;,&#xd;
+    &quot;RequestID&quot;: &quot;${requestID}&quot;,&#xd;
+    &quot;SubRequestID&quot;: &quot;1&quot;,&#xd;
+    &quot;RequestTrack&quot;: [],&#xd;
+    &quot;Flags&quot;: []&#xd;
+  },&#xd;
+  &quot;Status&quot;: {&#xd;
+    &quot;Code&quot;: 400,&#xd;
+    &quot;Value&quot;: &quot;SUCCESS&quot;&#xd;
+  },&#xd;
+  &quot;Payload&quot;: {&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnf-id}&quot;,&#xd;
+    &quot;pg-streams&quot;: {&#xd;
+      &quot;pg-stream&quot;: [&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp1&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp2&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp3&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp4&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp5&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        }&#xd;
+      ]&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/APPC-CL/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vFW Assert APPC Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">16</intProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                  <stringProp name="groupSize">${threads}</stringProp>
+                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                </SyncTimer>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
+                <hashTree>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Sink Events" enabled="true">
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                      <collectionProp name="Arguments.arguments"/>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sinks/noop/POLICY-CL-MGT</stringProp>
+                    <stringProp name="HTTPSampler.method">GET</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vFW JSON Extractor" enabled="true">
+                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                    </JSONPostProcessor>
+                    <hashTree/>
+                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="vFW JSON Assertion" enabled="true">
+                      <stringProp name="scriptLanguage">java</stringProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="cacheKey">true</stringProp>
+                      <stringProp name="script">import net.minidev.json.parser.JSONParser;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONArray;
+
+final Map records = new HashMap();
+final JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+
+final String result = vars.get(&quot;result&quot;);
+final JSONObject jsonObj = (JSONObject) p.parse(result);
+
+ if (jsonObj != null) {
+ 	final JSONArray events =  (JSONArray) jsonObj.get(&quot;recentEvents&quot;);
+ 	if (events != null) {
+	 	for (int j = 0; j &lt; events.size(); j++) {
+			final String event = (String) events.get(j);
+			if (event != null ) {
+				final JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+				final JSONObject eventObj = (JSONObject) parser.parse(event);
+				final String controlLoopName = vars.get(&quot;vFWControlLoop&quot;);
+				if (eventObj.get(&quot;closedLoopControlName&quot;).equals(controlLoopName)) {
+					final String requestId = eventObj.get(&quot;requestId&quot;);
+					final String notification = eventObj.get(&quot;notification&quot;);
+					records.put(requestId, notification);
+				}
+			}
+		}
+ 	}
+ }
+
+boolean failure = false;
+final String expectedNotification = &quot;FINAL: SUCCESS&quot;;
+final List cache = vars.getObject(&quot;vFWCache&quot;);
+
+for (int i = 0; i &lt; cache.size(); i++) {
+	final String requestId = cache.get(i);
+	final String notification = records.get(requestId);
+	if (!(notification != null &amp;&amp; expectedNotification.equals(notification))) {
+	   log.error(&quot;[vFW] Assertion failed for requestId: &quot; + requestId +&quot; Expected notification: &quot; + expectedNotification + &quot; But found: &quot; + notification);
+	   failure = true;
+	}
+}
+
+if (failure || cache.isEmpty()) {
+	final String error = &quot;[vFW] Unable to find notification with &quot; + expectedNotification + &quot; in topic &apos;POLICY-CL-MGT&apos;&quot;;
+	AssertionResult.setFailureMessage(error);
+	AssertionResult.setFailure(true);
+	log.error(error);
+	log.info(&quot;[vFW] vFWCache: &quot; + cache);
+	log.info(&quot;[vFW] Success Records found: &quot; + records);
+	log.info(&quot;[vFW] &quot; + result);
+} else {
+	AssertionResult.setFailure(false);
+}
+
+</stringProp>
+                    </JSR223Assertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+              </hashTree>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vFW FAILURE Use Case" enabled="true"/>
+              <hashTree>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vFW Use Case Controller" enabled="true"/>
+                <hashTree>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vFW Failure Cache Initializer" enabled="true">
+                    <stringProp name="scriptLanguage">java</stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="script">import java.util.ArrayList;
+import java.util.List;
+
+final List vFWFailueCache = new ArrayList();
+vars.putObject(&quot;vFWFailueCache&quot;, vFWFailueCache);</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="vFW Failure VNF ID Counter" enabled="true">
+                    <stringProp name="CounterConfig.start">1</stringProp>
+                    <stringProp name="CounterConfig.end">${size}</stringProp>
+                    <stringProp name="CounterConfig.incr">1</stringProp>
+                    <stringProp name="CounterConfig.name">vnf-id</stringProp>
+                    <stringProp name="CounterConfig.format">fwvnfid-0</stringProp>
+                    <boolProp name="CounterConfig.per_user">false</boolProp>
+                  </CounterConfig>
+                  <hashTree/>
+                  <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="vFW Failure Request ID Generator" enabled="true">
+                    <stringProp name="cacheKey">true</stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="script">import java.util.List;
+import java.util.UUID;
+
+final List vFWFailueCache = vars.getObject(&quot;vFWFailueCache&quot;);
+
+final String uuid = UUID.randomUUID().toString();
+vars.put(&quot;requestID&quot;, uuid);
+
+vFWFailueCache.add(uuid);
+log.debug(&quot;[vFW FAILURE] requestID &quot;+ uuid);</stringProp>
+                    <stringProp name="scriptLanguage">java</stringProp>
+                  </JSR223Sampler>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Failure Onset Request Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;closedLoopControlName&quot;: &quot;${vFWControlLoop}&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;: 1463679805324,&#xd;
+  &quot;closedLoopEventClient&quot;: &quot;microservice.stringmatcher&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;: &quot;ONSET&quot;,&#xd;
+  &quot;requestID&quot;: &quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;: &quot;VNF&quot;,&#xd;
+  &quot;target&quot;: &quot;generic-vnf.vnf-id&quot;,&#xd;
+  &quot;AAI&quot;: {&#xd;
+    &quot;generic-vnf.is-closed-loop-disabled&quot;: &quot;false&quot;,&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnf-id}&quot;&#xd;
+  },&#xd;
+  &quot;from&quot;: &quot;DCAE&quot;,&#xd;
+  &quot;version&quot;: &quot;1.0.2&quot;&#xd;
+}</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vFW Failure Assert Onset Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">8</intProp>
+                      <stringProp name="Scope.variable">Response code</stringProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                  </ConstantTimer>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Failure APPC Legacy Failed Event" enabled="true">
+                    <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                      <collectionProp name="Arguments.arguments">
+                        <elementProp name="" elementType="HTTPArgument">
+                          <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                          <stringProp name="Argument.value">{&#xd;
+  &quot;CommonHeader&quot;: {&#xd;
+    &quot;TimeStamp&quot;: 1506051879001,&#xd;
+    &quot;APIver&quot;: &quot;1.01&quot;,&#xd;
+    &quot;RequestID&quot;: &quot;${requestID}&quot;,&#xd;
+    &quot;SubRequestID&quot;: &quot;1&quot;,&#xd;
+    &quot;RequestTrack&quot;: [],&#xd;
+    &quot;Flags&quot;: []&#xd;
+  },&#xd;
+  &quot;Status&quot;: {&#xd;
+    &quot;Code&quot;: 500,&#xd;
+    &quot;Value&quot;: &quot;FAILED&quot;&#xd;
+  },&#xd;
+  &quot;Payload&quot;: {&#xd;
+    &quot;generic-vnf.vnf-id&quot;: &quot;${vnf-id}&quot;,&#xd;
+    &quot;pg-streams&quot;: {&#xd;
+      &quot;pg-stream&quot;: [&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp1&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp2&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp3&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp4&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        },&#xd;
+        {&#xd;
+          &quot;id&quot;: &quot;fw_udp5&quot;,&#xd;
+          &quot;is-enabled&quot;: &quot;true&quot;&#xd;
+        }&#xd;
+      ]&#xd;
+    }&#xd;
+  }&#xd;
+}</stringProp>
+                          <stringProp name="Argument.metadata">=</stringProp>
+                        </elementProp>
+                      </collectionProp>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/APPC-CL/events</stringProp>
+                    <stringProp name="HTTPSampler.method">PUT</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vFW Failure Assert APPC Response Code" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message"></stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">16</intProp>
+                    </ResponseAssertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                  <stringProp name="groupSize">${threads}</stringProp>
+                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                </SyncTimer>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
+                <hashTree>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Failure Sink Events" enabled="true">
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                      <collectionProp name="Arguments.arguments"/>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sinks/noop/POLICY-CL-MGT</stringProp>
+                    <stringProp name="HTTPSampler.method">GET</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vFW Failure JSON Extractor" enabled="true">
+                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                    </JSONPostProcessor>
+                    <hashTree/>
+                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="vFW Failure JSON Assertion" enabled="true">
+                      <stringProp name="scriptLanguage">java</stringProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="cacheKey">true</stringProp>
+                      <stringProp name="script">import net.minidev.json.parser.JSONParser;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONArray;
+
+final Map records = new HashMap();
+final JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+
+final String result = vars.get(&quot;result&quot;);
+final JSONObject jsonObj = (JSONObject) p.parse(result);
+
+ if (jsonObj != null) {
+ 	final JSONArray events =  (JSONArray) jsonObj.get(&quot;recentEvents&quot;);
+ 	if (events != null) {
+	 	for (int j = 0; j &lt; events.size(); j++) {
+			final String event = (String) events.get(j);
+			if (event != null ) {
+				final JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+				final JSONObject eventObj = (JSONObject) parser.parse(event);
+				final String controlLoopName = vars.get(&quot;vFWControlLoop&quot;);
+				if (eventObj.get(&quot;closedLoopControlName&quot;).equals(controlLoopName)) {
+					final String requestId = eventObj.get(&quot;requestId&quot;);
+					final String notification = eventObj.get(&quot;notification&quot;);
+					records.put(requestId, notification);
+				}
+			}
+		}
+ 	}
+ }
+
+boolean failure = false;
+final String expectedNotification = &quot;FINAL: FAILURE&quot;;
+final List cache = vars.getObject(&quot;vFWFailueCache&quot;);
+
+for (int i = 0; i &lt; cache.size(); i++) {
+	final String requestId = cache.get(i);
+	final String notification = records.get(requestId);
+	if (!(notification != null &amp;&amp; expectedNotification.equals(notification))) {
+	   log.error(&quot;[vFW] Assertion failed for requestId: &quot; + requestId +&quot; Expected notification: &quot; + expectedNotification + &quot; But found: &quot; + notification);
+	   failure = true;
+	}
+}
+
+if (failure || cache.isEmpty()) {
+	final String error = &quot;[vFW] Unable to find notification with &quot; + expectedNotification + &quot; in topic &apos;POLICY-CL-MGT&apos;&quot;;
+	AssertionResult.setFailureMessage(error);
+	AssertionResult.setFailure(true);
+	log.error(error);
+	log.info(&quot;[vFW] vFWCache: &quot; + cache);
+	log.info(&quot;[vFW] Success Records found: &quot; + records);
+	log.info(&quot;[vFW] &quot; + result);
+} else {
+	AssertionResult.setFailure(false);
+}
+
+</stringProp>
+                    </JSR223Assertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="VOLTE Use Case" enabled="true"/>
+            <hashTree>
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="VOLTE Cache Initializer" enabled="true">
+                <stringProp name="scriptLanguage">java</stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="script">import java.util.ArrayList;
+import java.util.List;
+
+final List vVOLTECache = new ArrayList();
+vars.putObject(&quot;vVOLTECache&quot;, vVOLTECache);</stringProp>
+              </JSR223Sampler>
+              <hashTree/>
+              <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="VOLTE Controller" enabled="true"/>
+              <hashTree>
+                <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="VOLTE Request ID Generator" enabled="true">
+                  <stringProp name="cacheKey">true</stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="script">import java.util.List;
+import java.util.UUID;
+
+final List vVOLTECache = vars.getObject(&quot;vVOLTECache&quot;);
+
+final String uuid = UUID.randomUUID().toString();
+vars.put(&quot;requestID&quot;,uuid);
+
+vVOLTECache.add(uuid);
+log.debug(&quot;[VOLTE] requestID &quot;+ uuid);</stringProp>
+                  <stringProp name="scriptLanguage">java</stringProp>
+                </JSR223Sampler>
+                <hashTree/>
+                <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="VOLTE SERVICE INSTANCE ID Counter" enabled="true">
+                  <stringProp name="CounterConfig.start">1</stringProp>
+                  <stringProp name="CounterConfig.end">${size}</stringProp>
+                  <stringProp name="CounterConfig.incr">1</stringProp>
+                  <stringProp name="CounterConfig.name">service-instance-id</stringProp>
+                  <stringProp name="CounterConfig.format">volte-service-instance-id-0</stringProp>
+                  <boolProp name="CounterConfig.per_user">false</boolProp>
+                </CounterConfig>
+                <hashTree/>
+                <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="VOLTE vSERVER NAME Counter" enabled="true">
+                  <stringProp name="CounterConfig.start">1</stringProp>
+                  <stringProp name="CounterConfig.end">${size}</stringProp>
+                  <stringProp name="CounterConfig.incr">1</stringProp>
+                  <stringProp name="CounterConfig.name">vserver-name</stringProp>
+                  <stringProp name="CounterConfig.format">dnsvserver-name-0</stringProp>
+                  <boolProp name="CounterConfig.per_user">false</boolProp>
+                </CounterConfig>
+                <hashTree/>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="VOLTE Onset Request Event" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">{  &#xd;
+  &quot;closedLoopControlName&quot;:&quot;${VOLTEControlLoop}&quot;,&#xd;
+  &quot;closedLoopAlarmStart&quot;:1484677482204798,&#xd;
+  &quot;closedLoopEventClient&quot;:&quot;DCAE.HolmesInstance&quot;,&#xd;
+  &quot;closedLoopEventStatus&quot;:&quot;ONSET&quot;,&#xd;
+  &quot;requestID&quot;:&quot;${requestID}&quot;,&#xd;
+  &quot;target_type&quot;:&quot;VM&quot;,&#xd;
+  &quot;target&quot;:&quot;vserver.vserver-name&quot;,&#xd;
+  &quot;AAI&quot;:{  &#xd;
+    &quot;vserver.is-closed-loop-disabled&quot;:&quot;false&quot;,&#xd;
+    &quot;vserver.vserver-name&quot;:&quot;${vserver-name}&quot;,&#xd;
+    &quot;service-instance.service-instance-id&quot;:&quot;vserver-name-${service-instance-id}&quot;,&#xd;
+    &quot;generic-vnf.vnf-id&quot;:&quot;vnf-id-${service-instance-id}&quot;,&#xd;
+    &quot;generic-vnf.vnf-name&quot;:&quot;vnf-name-${service-instance-id}&quot;&#xd;
+  },&#xd;
+  &quot;from&quot;:&quot;DCAE&quot;,&#xd;
+  &quot;version&quot;:&quot;1.0.2&quot;&#xd;
+}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain"></stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol"></stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/unauthenticated.DCAE_CL_OUTPUT/events</stringProp>
+                  <stringProp name="HTTPSampler.method">PUT</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="VOLTE Assert Onset Response Code" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="49586">200</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">8</intProp>
+                    <stringProp name="Scope.variable">Response code</stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                </ConstantTimer>
+                <hashTree/>
+                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                  <stringProp name="groupSize">${threads}</stringProp>
+                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                </SyncTimer>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
+                <hashTree>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="VOLTE Sink Events" enabled="true">
+                    <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                      <collectionProp name="Arguments.arguments"/>
+                    </elementProp>
+                    <stringProp name="HTTPSampler.domain"></stringProp>
+                    <stringProp name="HTTPSampler.port"></stringProp>
+                    <stringProp name="HTTPSampler.protocol"></stringProp>
+                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                    <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sinks/noop/POLICY-CL-MGT</stringProp>
+                    <stringProp name="HTTPSampler.method">GET</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                    <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                    <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  </HTTPSamplerProxy>
+                  <hashTree>
+                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="VOLTE JSON Extractor" enabled="true">
+                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
+                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
+                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                    </JSONPostProcessor>
+                    <hashTree/>
+                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="VOLTE JSON Assertion" enabled="true">
+                      <stringProp name="scriptLanguage">java</stringProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="cacheKey">true</stringProp>
+                      <stringProp name="script">import net.minidev.json.parser.JSONParser;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONArray;
+
+final Map records = new HashMap();
+final JSONParser p = new JSONParser(JSONParser.MODE_PERMISSIVE);
+
+final String result = vars.get(&quot;result&quot;);
+final JSONObject jsonObj = (JSONObject) p.parse(result);
+
+ if (jsonObj != null) {
+ 	final JSONArray events =  (JSONArray) jsonObj.get(&quot;recentEvents&quot;);
+ 	if (events != null) {
+	 	for (int j = 0; j &lt; events.size(); j++) {
+			final String event = (String) events.get(j);
+			if (event != null ) {
+				final JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+				final JSONObject eventObj = (JSONObject) parser.parse(event);
+				final String controlLoopName = vars.get(&quot;VOLTEControlLoop&quot;);
+				if (eventObj.get(&quot;closedLoopControlName&quot;).equals(controlLoopName)) {
+					final String requestId = eventObj.get(&quot;requestId&quot;);
+					final String notification = eventObj.get(&quot;notification&quot;);
+					records.put(requestId, notification);
+				}
+			}
+		}
+ 	}
+ }
+
+boolean failure = false;
+final String expectedNotification = &quot;FINAL: SUCCESS&quot;;
+final List cache = vars.getObject(&quot;vVOLTECache&quot;);
+
+for (int i = 0; i &lt; cache.size(); i++) {
+	final String requestId = cache.get(i);
+	final String notification = records.get(requestId);
+	if (!(notification != null &amp;&amp; expectedNotification.equals(notification))) {
+	   log.error(&quot;[VOLTE] Assertion failed for requestId: &quot; + requestId +&quot; Expected notification: &quot; + expectedNotification + &quot; But found: &quot; + notification);
+	   failure = true;
+	}
+}
+
+if (failure || cache.isEmpty()) {
+	final String error = &quot;[VOLTE] Unable to find notification with &quot; + expectedNotification + &quot; in topic &apos;POLICY-CL-MGT&apos;&quot;;
+	AssertionResult.setFailureMessage(error);
+	AssertionResult.setFailure(true);
+	log.error(error);
+	log.info(&quot;[VOLTE] vVOLTECache: &quot; + cache);
+	log.info(&quot;[VOLTE] Success Records found: &quot; + records);
+	log.info(&quot;[VOLTE] &quot; + result);
+} else {
+	AssertionResult.setFailure(false);
+}
+
+</stringProp>
+                    </JSR223Assertion>
+                    <hashTree/>
+                  </hashTree>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertation After" enabled="true"/>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+              <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET FACT REQUEST" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/amsterdam/drools/facts/amsterdam/</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="124225537">{&quot;org.onap.policy.controlloop.Params&quot;:4}</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message"></stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
