@@ -315,18 +315,18 @@ log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
                     </ResponseAssertion>
                     <hashTree/>
                   </hashTree>
-                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="false">
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
                     <stringProp name="ConstantTimer.delay">${wait}</stringProp>
                   </ConstantTimer>
                   <hashTree/>
-                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE ABADETEMENT REQUEST" enabled="false">
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Abatement Request" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                       <collectionProp name="Arguments.arguments">
                         <elementProp name="" elementType="HTTPArgument">
                           <boolProp name="HTTPArgument.always_encode">false</boolProp>
                           <stringProp name="Argument.value">{&#xd;
-  &quot;closedLoopControlName&quot;: &quot;ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e&quot;,&#xd;
+  &quot;closedLoopControlName&quot;: &quot;${vCPEControlLoop}&quot;,&#xd;
   &quot;closedLoopAlarmStart&quot;: 1463679805324,&#xd;
   &quot;closedLoopAlarmEnd&quot;: 1463699805324,&#xd;
   &quot;closedLoopEventClient&quot;: &quot;DCAE_INSTANCE_ID.dcae-tca&quot;,&#xd;
@@ -361,7 +361,7 @@ log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
-                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert APPC Response Code" enabled="true">
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vCPE Abatement Assert Response Code" enabled="true">
                       <collectionProp name="Asserion.test_strings">
                         <stringProp name="49586">200</stringProp>
                       </collectionProp>
