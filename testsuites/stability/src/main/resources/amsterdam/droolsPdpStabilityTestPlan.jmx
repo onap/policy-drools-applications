@@ -90,6 +90,16 @@
             <stringProp name="Argument.value">5000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="controller" elementType="Argument">
+            <stringProp name="Argument.name">controller</stringProp>
+            <stringProp name="Argument.value">amsterdam</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="session" elementType="Argument">
+            <stringProp name="Argument.name">session</stringProp>
+            <stringProp name="Argument.value">amsterdam</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
@@ -118,7 +128,7 @@
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.protocol"></stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/amsterdam/drools/facts/amsterdam/</stringProp>
+              <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/${controller}/drools/facts/${session}/</stringProp>
               <stringProp name="HTTPSampler.method">GET</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -140,11 +150,12 @@
               </ResponseAssertion>
               <hashTree/>
             </hashTree>
+            <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+              <stringProp name="groupSize">${threads}</stringProp>
+              <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+            </SyncTimer>
+            <hashTree/>
           </hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-            <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-          </ConstantTimer>
-          <hashTree/>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Use Cases Controller" enabled="true"/>
           <hashTree>
             <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="vCPE Use Case" enabled="true"/>
@@ -253,10 +264,6 @@ log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
                     </ResponseAssertion>
                     <hashTree/>
                   </hashTree>
-                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                  </ConstantTimer>
-                  <hashTree/>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE APPC Success Response Event" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -314,11 +321,11 @@ log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
                       <intProp name="Assertion.test_type">16</intProp>
                     </ResponseAssertion>
                     <hashTree/>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
                   </hashTree>
-                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                  </ConstantTimer>
-                  <hashTree/>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Abatement Request" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -371,17 +378,12 @@ log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
                       <intProp name="Assertion.test_type">16</intProp>
                     </ResponseAssertion>
                     <hashTree/>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
                   </hashTree>
                 </hashTree>
-                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                </ConstantTimer>
-                <hashTree/>
-                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
-                  <stringProp name="groupSize">${threads}</stringProp>
-                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
-                </SyncTimer>
-                <hashTree/>
                 <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
                 <hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Sink Events" enabled="true">
@@ -403,6 +405,15 @@ log.debug(&quot;[vCPE] requestID &quot; + uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
+                    <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                      <stringProp name="groupSize">${threads}</stringProp>
+                      <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                    </SyncTimer>
+                    <hashTree/>
                     <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vCPE JSON Extractor" enabled="true">
                       <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
                       <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -574,34 +585,7 @@ log.debug(&quot;[vCPE Failure] requestID &quot;+ uuid);</stringProp>
                       <stringProp name="Scope.variable">Response code</stringProp>
                     </ResponseAssertion>
                     <hashTree/>
-                    <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="false">
-                      <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
-                      <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
-                      <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-                    </JSONPostProcessor>
-                    <hashTree/>
-                    <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="false">
-                      <stringProp name="scriptLanguage">javascript</stringProp>
-                      <stringProp name="parameters"></stringProp>
-                      <stringProp name="filename"></stringProp>
-                      <stringProp name="cacheKey">true</stringProp>
-                      <stringProp name="script">
-var result = vars.get(&quot;result&quot;);
-var count = (result.match(/closedLoopControlName/g) || []).length;
-
-if(count &gt; 0){
-	AssertionResult.setFailure(false);
-} else {
-	AssertionResult.setFailureMessage(&quot;Expected atleast 1 closedLoopControlName got :&quot; + count);
-	AssertionResult.setFailure(true);
-}</stringProp>
-                    </JSR223Assertion>
-                    <hashTree/>
                   </hashTree>
-                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                  </ConstantTimer>
-                  <hashTree/>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Failure APPC Response Event" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -659,17 +643,12 @@ if(count &gt; 0){
                       <intProp name="Assertion.test_type">16</intProp>
                     </ResponseAssertion>
                     <hashTree/>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
                   </hashTree>
                 </hashTree>
-                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                </ConstantTimer>
-                <hashTree/>
-                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
-                  <stringProp name="groupSize">${threads}</stringProp>
-                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
-                </SyncTimer>
-                <hashTree/>
                 <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
                 <hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vCPE Failure Sink Events" enabled="true">
@@ -691,6 +670,15 @@ if(count &gt; 0){
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
+                    <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                      <stringProp name="groupSize">${threads}</stringProp>
+                      <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                    </SyncTimer>
+                    <hashTree/>
                     <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vCPE Failure JSON Extractor" enabled="true">
                       <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
                       <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -860,15 +848,6 @@ log.debug(&quot;[vDNS] requestID &quot;+ uuid);</stringProp>
                   <hashTree/>
                 </hashTree>
               </hashTree>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-              </ConstantTimer>
-              <hashTree/>
-              <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
-                <stringProp name="groupSize">${threads}</stringProp>
-                <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
-              </SyncTimer>
-              <hashTree/>
               <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
               <hashTree>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vDNS Sink Events" enabled="true">
@@ -890,6 +869,15 @@ log.debug(&quot;[vDNS] requestID &quot;+ uuid);</stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 </HTTPSamplerProxy>
                 <hashTree>
+                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                  </ConstantTimer>
+                  <hashTree/>
+                  <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                    <stringProp name="groupSize">${threads}</stringProp>
+                    <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                  </SyncTimer>
+                  <hashTree/>
                   <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vDNS JSON Extractor" enabled="true">
                     <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
                     <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -1057,10 +1045,6 @@ log.debug(&quot;[vFW] requestID &quot;+ uuid);</stringProp>
                     </ResponseAssertion>
                     <hashTree/>
                   </hashTree>
-                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                  </ConstantTimer>
-                  <hashTree/>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW APPC Legacy Success Event" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -1127,6 +1111,10 @@ log.debug(&quot;[vFW] requestID &quot;+ uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
                     <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vFW Assert APPC Response Code" enabled="true">
                       <collectionProp name="Asserion.test_strings">
                         <stringProp name="49586">200</stringProp>
@@ -1139,15 +1127,6 @@ log.debug(&quot;[vFW] requestID &quot;+ uuid);</stringProp>
                     <hashTree/>
                   </hashTree>
                 </hashTree>
-                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                </ConstantTimer>
-                <hashTree/>
-                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
-                  <stringProp name="groupSize">${threads}</stringProp>
-                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
-                </SyncTimer>
-                <hashTree/>
                 <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
                 <hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Sink Events" enabled="true">
@@ -1169,6 +1148,15 @@ log.debug(&quot;[vFW] requestID &quot;+ uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
+                    <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                      <stringProp name="groupSize">${threads}</stringProp>
+                      <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                    </SyncTimer>
+                    <hashTree/>
                     <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vFW JSON Extractor" enabled="true">
                       <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
                       <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -1334,10 +1322,6 @@ log.debug(&quot;[vFW FAILURE] requestID &quot;+ uuid);</stringProp>
                     </ResponseAssertion>
                     <hashTree/>
                   </hashTree>
-                  <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                    <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                  </ConstantTimer>
-                  <hashTree/>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Failure APPC Legacy Failed Event" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -1404,6 +1388,10 @@ log.debug(&quot;[vFW FAILURE] requestID &quot;+ uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
                     <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="vFW Failure Assert APPC Response Code" enabled="true">
                       <collectionProp name="Asserion.test_strings">
                         <stringProp name="49586">200</stringProp>
@@ -1416,15 +1404,6 @@ log.debug(&quot;[vFW FAILURE] requestID &quot;+ uuid);</stringProp>
                     <hashTree/>
                   </hashTree>
                 </hashTree>
-                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                </ConstantTimer>
-                <hashTree/>
-                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
-                  <stringProp name="groupSize">${threads}</stringProp>
-                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
-                </SyncTimer>
-                <hashTree/>
                 <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
                 <hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vFW Failure Sink Events" enabled="true">
@@ -1446,6 +1425,15 @@ log.debug(&quot;[vFW FAILURE] requestID &quot;+ uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
+                    <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                      <stringProp name="groupSize">${threads}</stringProp>
+                      <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                    </SyncTimer>
+                    <hashTree/>
                     <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="vFW Failure JSON Extractor" enabled="true">
                       <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
                       <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -1624,15 +1612,6 @@ log.debug(&quot;[VOLTE] requestID &quot;+ uuid);</stringProp>
                   </ResponseAssertion>
                   <hashTree/>
                 </hashTree>
-                <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-                  <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-                </ConstantTimer>
-                <hashTree/>
-                <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
-                  <stringProp name="groupSize">${threads}</stringProp>
-                  <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
-                </SyncTimer>
-                <hashTree/>
                 <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertion Controller" enabled="true"/>
                 <hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="VOLTE Sink Events" enabled="true">
@@ -1654,6 +1633,15 @@ log.debug(&quot;[VOLTE] requestID &quot;+ uuid);</stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
+                    <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
+                      <stringProp name="ConstantTimer.delay">${wait}</stringProp>
+                    </ConstantTimer>
+                    <hashTree/>
+                    <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+                      <stringProp name="groupSize">${threads}</stringProp>
+                      <stringProp name="timeoutInMs">${threadsTimeOutInMs}</stringProp>
+                    </SyncTimer>
+                    <hashTree/>
                     <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="VOLTE JSON Extractor" enabled="true">
                       <stringProp name="JSONPostProcessor.referenceNames">result</stringProp>
                       <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -1729,10 +1717,6 @@ if (failure || cache.isEmpty()) {
           </hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Assertation After" enabled="true"/>
           <hashTree>
-            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="WAIT" enabled="true">
-              <stringProp name="ConstantTimer.delay">${wait}</stringProp>
-            </ConstantTimer>
-            <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET FACT REQUEST" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
@@ -1741,7 +1725,7 @@ if (failure || cache.isEmpty()) {
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.protocol"></stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/amsterdam/drools/facts/amsterdam/</stringProp>
+              <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/${controller}/drools/facts/${session}/</stringProp>
               <stringProp name="HTTPSampler.method">GET</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
