@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ============LICENSE_START=======================================================
   stability
@@ -17,8 +18,7 @@
   limitations under the License.
   ============LICENSE_END=========================================================
   -->
-  
-<?xml version="1.0" encoding="UTF-8"?>
+
 <jmeterTestPlan version="1.2" properties="4.0" jmeter="4.0 r1823414">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="DROOLS PDP STABILITY TEST PLAN" enabled="true">
