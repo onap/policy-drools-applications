@@ -31,6 +31,7 @@
             <outputDirectory>tests/amsterdam</outputDirectory>
             <includes>
                 <include>*.jmx</include>
+                <include>*.sh</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0644</fileMode>
