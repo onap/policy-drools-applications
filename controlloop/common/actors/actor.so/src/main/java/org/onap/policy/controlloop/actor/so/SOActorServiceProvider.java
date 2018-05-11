@@ -248,6 +248,9 @@ public class SOActorServiceProvider implements Actor {
             } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
                 relatedInstanceListElement1.getRelatedInstance().getModelInfo()
                         .setModelVersion(prop.getPropertyValue());
+            } else if (prop.getPropertyName().equals(modelVersionIdPropertyKey)) {
+              relatedInstanceListElement1.getRelatedInstance().getModelInfo()
+                      .setModelVersionId(prop.getPropertyValue());
             }
         }
 
