@@ -91,7 +91,6 @@ public class TestSOActorServiceProvider {
 
         SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy);
 
-        assertEquals(requestId, request.getRequestId());
         assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
         assertEquals("RegionOne", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
     }

@@ -20,15 +20,11 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.drools.core.WorkingMemory;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.aai.AaiNqExtraProperty;
@@ -57,6 +53,8 @@ import org.onap.policy.so.SORequestParameters;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class SOActorServiceProvider implements Actor {
     private static final Logger logger = LoggerFactory.getLogger(SOActorServiceProvider.class);
@@ -171,7 +169,9 @@ public class SOActorServiceProvider implements Actor {
 
         // Construct SO Request
         SORequest request = new SORequest();
-        request.setRequestId(onset.getRequestId());
+        //
+        // Do NOT send So the requestId, they do not support this field
+        //
         request.setRequestDetails(new SORequestDetails());
         request.getRequestDetails().setModelInfo(new SOModelInfo());
         request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
@@ -207,22 +207,8 @@ public class SOActorServiceProvider implements Actor {
         //
         // requestInfo
         //
-        String instanceName = vnfItem.getItems().getInventoryResponseItems().get(baseIndex).getVfModule()
-                .getVfModuleName().replace("Vfmodule", "vDNS");
-        int numberOfNonBaseModules = findNonBaseModules(vnfItem.getItems().getInventoryResponseItems());
-        // Code to create unique VF Module names across the invocations.
-        if (numberOfNonBaseModules == 1) {
-            int instanceNumber = 1;
-            instanceName = instanceName.concat("-").concat(String.valueOf(instanceNumber));
-            request.getRequestDetails().getRequestInfo().setInstanceName(instanceName);
-        } else if (numberOfNonBaseModules > 1) {
-            int instanceNumber = numberOfNonBaseModules + 1;
-            instanceName = instanceName.concat("-").concat(String.valueOf(instanceNumber));
-            request.getRequestDetails().getRequestInfo().setInstanceName(instanceName);
-        } else {
-            request.getRequestDetails().getRequestInfo().setInstanceName(vnfItem.getItems().getInventoryResponseItems()
-                    .get(baseIndex).getVfModule().getVfModuleName().replace("Vfmodule", "vDNS"));
-        }
+        request.getRequestDetails().getRequestInfo().setInstanceName(vnfItem.getItems().getInventoryResponseItems()
+            .get(baseIndex).getVfModule().getVfModuleName().replace("Vfmodule", "vDNS"));
         request.getRequestDetails().getRequestInfo().setSource("POLICY");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
         request.getRequestDetails().getRequestInfo().setRequestorId("policy");
@@ -384,6 +370,7 @@ public class SOActorServiceProvider implements Actor {
      * @return number of non base index modules
      */
 
+    @SuppressWarnings("unused")
     private int findNonBaseModules(List<AaiNqInventoryResponseItem> inventoryResponseItems) {
         int nonBaseModuleCount = 0;
         for (AaiNqInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
