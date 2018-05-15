@@ -1238,3 +1238,23 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
         }
     }
 end
+
+/*
+*
+* This rule will clean up any rogue onsets where there is no 
+* ControlLoopParams object corresponding to the onset event.
+*
+*/
+rule "EVENT.CLEANUP"
+    when
+        $event : VirtualControlLoopEvent( $clName: closedLoopControlName )
+        not ( Params( getClosedLoopControlName() == $clName) )
+    then
+ 
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $clName, drools.getRule().getName());
+    logger.debug("{}: {}: orphan onset event={}", 
+                $clName, drools.getRule().getName(), $event);
+
+    retract($event);
+end
