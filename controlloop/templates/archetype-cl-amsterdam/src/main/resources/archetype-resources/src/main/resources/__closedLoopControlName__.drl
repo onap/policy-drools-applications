@@ -1245,7 +1245,7 @@ end
 * ControlLoopParams object corresponding to the onset event.
 *
 */
-rule "EVENT.CLEANUP"
+rule "${policyName}.EVENT.CLEANUP"
     when
         $event : VirtualControlLoopEvent( $clName: closedLoopControlName )
         not ( Params( getClosedLoopControlName() == $clName) )
