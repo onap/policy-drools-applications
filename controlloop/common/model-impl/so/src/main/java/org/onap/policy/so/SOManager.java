@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ package org.onap.policy.so;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -153,7 +152,7 @@ public final class SOManager {
             String soJson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(request);
 
             netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
-            Pair<Integer, String> httpResponse = restManager.post(url, "policy",    "policy", createAuthenticateHeaders(username, password), MEDIA_TYPE, soJson);
+            Pair<Integer, String> httpResponse = restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
 
             // Process the response from SO
             SOResponse response =  waitForSOOperationCompletion(urlBase, username, password, url, httpResponse);
@@ -163,23 +162,6 @@ public final class SOManager {
             wm.insert(soWrapper);
             
             return response;
-        }
-        
-        /**
-         * Create HTTP headers for authenticated requests to SO.
-         * @param username user name on SO
-         * @param password password on SO
-         * @return the HTTP headers
-         */
-        private Map<String, String> createAuthenticateHeaders(final String username, final String password) {
-            String auth = username + ":" + password;
-
-            Map<String, String> headers = new HashMap<>();
-            byte[] encodedBytes = Base64.getEncoder().encode(auth.getBytes());
-            headers.put("Accept", MEDIA_TYPE);
-            headers.put("Authorization", "Basic " + new String(encodedBytes));
-            
-            return headers;
         }
     }
 
