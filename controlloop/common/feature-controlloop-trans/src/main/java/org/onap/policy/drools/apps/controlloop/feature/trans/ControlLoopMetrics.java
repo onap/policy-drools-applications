@@ -307,7 +307,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         }
 
         this.transaction(notification, startTime);
-        cache.invalidate(startNotification);
+        if (startNotification != null)
+            cache.invalidate(startNotification);
     }
 
     protected void evicted(VirtualControlLoopNotification notification) {
