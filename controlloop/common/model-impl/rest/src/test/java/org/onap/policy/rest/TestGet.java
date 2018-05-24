@@ -45,6 +45,16 @@ public class TestGet {
     }
 
     @Test
+    public void testUsernameEmpty() {
+        RESTManager mgr = new RESTManager();
+
+        Pair<Integer, String> result = mgr.get("http://www.example.org", "", null, null);
+        assertEquals((Integer)200, result.a);
+        assertTrue(result.b != null);
+        assertTrue(result.b.length() > 0);
+    }
+
+    @Test
     public void testUrlExampleOrg() {
         RESTManager mgr = new RESTManager();
 

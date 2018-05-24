@@ -146,7 +146,7 @@ public class RESTManager {
     }
 
     private String makeAuthHeader(String username, String password) {
-        if (username == null) {
+        if (username == null || username.isEmpty()) {
             return null;
         }
 

@@ -35,6 +35,13 @@ public class TestPost {
     }
 
     @Test
+    public void testUsernameEmpty() {
+        RESTManager mgr = new RESTManager();
+        Pair<Integer, String> result = mgr.post("http://www.example.org", "", null, null, null, null);
+        assertEquals(null, result);
+    }
+
+    @Test
     public void testBodyNull() {
         RESTManager mgr = new RESTManager();
         Pair<Integer, String> result = mgr.post("http://www.example.org", "user", null, null, null, null);
