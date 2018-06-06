@@ -158,15 +158,15 @@
             <groupId>com.att.research.xacml</groupId>
             <artifactId>xacml-pdp</artifactId>
             <version>1.0.1</version>
-		      <exclusions>
-		        <!-- The LDAP PIP uses velocity which pulls this insecure jar in. We
-		        are not using that PIP and can safely exclude this jar to resolve CLM issue.
-		         -->
-		        <exclusion>
-		          <groupId>commons-collections</groupId>
-		          <artifactId>commons-collections</artifactId>
-		        </exclusion>
-		      </exclusions>
+            <exclusions>
+                <!-- The LDAP PIP uses velocity which pulls this insecure jar in. We
+                are not using that PIP and can safely exclude this jar to resolve CLM issue.
+                 -->
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-pdp</groupId>
@@ -177,4 +177,46 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <!--This profile is used to store Eclipse m2e settings only. It has no 
+                influence on the Maven build itself. -->
+            <id>only-eclipse</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.eclipse.m2e</groupId>
+                            <artifactId>lifecycle-mapping</artifactId>
+                            <version>1.0.0</version>
+                            <configuration>
+                                <lifecycleMappingMetadata>
+                                    <pluginExecutions>
+                                        <pluginExecution>
+                                            <pluginExecutionFilter>
+                                                <groupId>org.kie</groupId>
+                                                <artifactId>kie-maven-plugin</artifactId>
+                                                <versionRange>6.5.0.Final</versionRange>
+                                                <goals>
+                                                    <goal>build</goal>
+                                                </goals>
+                                            </pluginExecutionFilter>
+                                            <action>
+                                                <ignore />
+                                            </action>
+                                        </pluginExecution>
+                                    </pluginExecutions>
+                                </lifecycleMappingMetadata>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 </project>
