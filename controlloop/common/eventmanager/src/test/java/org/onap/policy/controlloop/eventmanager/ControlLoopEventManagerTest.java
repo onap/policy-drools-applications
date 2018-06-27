@@ -754,10 +754,12 @@ public class ControlLoopEventManagerTest {
         assertNull(clom.getOperationResult());
 
         LockResult<GuardResult, TargetLock> lockLock = manager.lockCurrentOperation();
+        assertEquals(GuardResult.LOCK_ACQUIRED, lockLock.getA());
         assertNotNull(lockLock);
 
         LockResult<GuardResult, TargetLock> lockLockAgain = manager.lockCurrentOperation();
         assertNotNull(lockLockAgain);
+        assertEquals(GuardResult.LOCK_ACQUIRED, lockLockAgain.getA());
         assertEquals(lockLock.getB(), lockLockAgain.getB());
 
         assertEquals(lockLock.getB(), manager.unlockCurrentOperation());
