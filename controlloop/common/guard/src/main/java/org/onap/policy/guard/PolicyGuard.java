@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@
 package org.onap.policy.guard;
 
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
 import org.onap.policy.guard.impl.PNFTargetLock;
@@ -87,15 +85,16 @@ public class PolicyGuard {
      * @param targetInstance the target instance
      * @param requestID the request Id
      * @param callback the LockCallback
+     * @param holdSec maximum number of seconds to hold the lock
      * @return the LockResult
      * @throws IllegalArgumentException if an argument is null
      */
     public static LockResult<GuardResult, TargetLock> lockTarget(TargetType targetType, String targetInstance,
-            UUID requestID, LockCallback callback) {
+            UUID requestID, LockCallback callback, int holdSec) {
         
         String owner = makeOwner(targetType, requestID);
         
-        GuardResult guardResult = managerLockTarget(targetInstance, owner);
+        GuardResult guardResult = managerLockTarget(targetInstance, owner, holdSec);
         if(guardResult != GuardResult.LOCK_ACQUIRED) {
             return LockResult.createLockResult(guardResult, null);
         }
@@ -133,31 +132,31 @@ public class PolicyGuard {
         logger.debug("Locked {}", lock);
         return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
     }
+    
+    /**
+     * Extends a lock on a target.
+     * @param lock      current lock
+     * @param holdSec maximum number of seconds to hold the lock
+     * @return the result: acquired or denied
+     */
+    public static GuardResult lockTarget(TargetLock lock, int holdSec) {
+        String owner = makeOwner(lock.getTargetType(), lock.getRequestID());
+        GuardResult result = managerLockTarget(lock.getTargetInstance(), owner, holdSec);
+        
+        logger.debug("Lock {} extend {}", lock, result);
+        return result;
+    }
 
     /**
      * Asks the manager to lock the given target.
      * @param targetInstance
      * @param owner
-     * @return the result: acquired, denied, or exception
+     * @param holdSec maximum number of seconds to hold the lock
+     * @return the result: acquired or denied
      */
-    private static GuardResult managerLockTarget(String targetInstance, String owner) {
-        try {
-            Future<Boolean> result = factory.getManager().lock(targetInstance, owner, null);
-            return(result.get() ? GuardResult.LOCK_ACQUIRED : GuardResult.LOCK_DENIED);
-            
-        } catch(IllegalStateException e) {
-            logger.warn("{} attempted to re-lock {}", owner, targetInstance);
-            return GuardResult.LOCK_DENIED;
-            
-        } catch (InterruptedException e) {
-            logger.error("exception getting lock for {}", targetInstance, e);
-            Thread.currentThread().interrupt();
-            return GuardResult.LOCK_EXCEPTION;
-            
-        } catch (ExecutionException e) {
-            logger.error("exception getting lock for {}", targetInstance, e);
-            return GuardResult.LOCK_EXCEPTION;
-        }
+    private static GuardResult managerLockTarget(String targetInstance, String owner, int holdSec) {
+        boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
+        return(result ? GuardResult.LOCK_ACQUIRED : GuardResult.LOCK_DENIED);
     }
 
     /**

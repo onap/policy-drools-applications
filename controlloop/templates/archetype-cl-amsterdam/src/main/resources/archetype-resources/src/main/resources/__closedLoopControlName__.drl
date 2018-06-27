@@ -449,6 +449,10 @@ rule "${policyName}.EVENT.MANAGER"
               	retract($event);
               	retract($manager);
               	retract($clTimer);
+              	
+              	if(result.getB() != null) {
+              	     retract(result.getB());
+              	}
               }
               logger.info("{}: {}: starting operation={}", 
                           $params.getClosedLoopControlName(), drools.getRule().getName(), 

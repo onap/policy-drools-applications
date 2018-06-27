@@ -60,6 +60,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private static final String GENERIC_VNF_IS_CLOSED_LOOP_DISABLED = "generic-vnf.is-closed-loop-disabled";
     private static final String VSERVER_IS_CLOSED_LOOP_DISABLED = "vserver.is-closed-loop-disabled";
 
+    /**
+     * Additional time, in seconds, to add to a "lock" request. This ensures that the lock
+     * won't expire right before an operation completes.
+     */
+    private static final int ADDITIONAL_LOCK_SEC = 60;
+
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager.class);
 
     private static final long serialVersionUID = -1216568161322872641L;
@@ -447,14 +453,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             // TODO: Make sure the current lock is for the same target.
             // Currently, it should be. But in the future it may not.
             //
-            return new LockResult<>(GuardResult.LOCK_ACQUIRED, this.targetLock);
+            GuardResult result = PolicyGuard.lockTarget(targetLock,
+                            this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
+            return new LockResult<>(result, this.targetLock);
         } else {
             //
             // Ask the Guard
             //
             LockResult<GuardResult, TargetLock> lockResult =
                     PolicyGuard.lockTarget(this.currentOperation.policy.getTarget().getType(),
-                            this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this);
+                            this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this,
+                            this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
             //
             // Was it acquired?
             //

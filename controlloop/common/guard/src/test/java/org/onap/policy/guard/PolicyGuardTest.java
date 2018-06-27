@@ -25,13 +25,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -46,6 +45,7 @@ import org.onap.policy.guard.impl.VNFTargetLock;
 
 public class PolicyGuardTest {
     private static final String INSTANCENAME = "targetInstance";
+    private static final int LOCK_SEC = 10;
     
     private static Factory saveFactory;
     
@@ -131,7 +131,7 @@ public class PolicyGuardTest {
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
@@ -155,7 +155,7 @@ public class PolicyGuardTest {
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
@@ -180,7 +180,7 @@ public class PolicyGuardTest {
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
@@ -204,7 +204,7 @@ public class PolicyGuardTest {
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
@@ -221,17 +221,11 @@ public class PolicyGuardTest {
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
-
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
-        assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-
-        assertEquals(GuardResult.LOCK_DENIED, result.getA());
-        assertNull(result.getB());
 
         // Test isLocked after lock removed
         PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
@@ -248,13 +242,16 @@ public class PolicyGuardTest {
 
         // Test isLocked before and after lock added
         assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
-        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        LockResult<GuardResult, TargetLock> result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
 
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        UUID uuid2 = UUID.randomUUID();
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid2, dlcb, LOCK_SEC);
+        assertFalse(PolicyGuard.isLocked(type, INSTANCENAME, uuid2));
+
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_DENIED, result.getA());
@@ -283,47 +280,41 @@ public class PolicyGuardTest {
     public void testManagerLockTarget() throws Exception {
         TargetType type = TargetType.VM;
         
-        @SuppressWarnings("unchecked")
-        Future<Boolean> fut = mock(Future.class);
-        
         mgr = mock(PolicyResourceLockManager.class);
-        when(mgr.lock(any(), any(), any())).thenReturn(fut);
 
         LockResult<GuardResult, TargetLock> result;
 
         // acquired
-        when(fut.get()).thenReturn(true);
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(true);
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
+        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
 
         // denied
-        when(fut.get()).thenReturn(false);
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
+        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(false);
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC+2);
+        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC+2);
         assertEquals(GuardResult.LOCK_DENIED, result.getA());
         assertNull(result.getB());
+    }
 
-        // illegal state exception
-        doThrow(new IllegalStateException("state expected")).when(fut).get();
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
-        assertEquals(GuardResult.LOCK_DENIED, result.getA());
-        assertNull(result.getB());
-        assertFalse(Thread.currentThread().isInterrupted());
+    @Test
+    public void testManagerLockTargetTargetLockInt() throws Exception {
+        TargetType type = TargetType.VM;
+        DummyTargetLock lock = new DummyTargetLock(type, uuid);
+        
+        mgr = mock(PolicyResourceLockManager.class);
 
-        // interrupted exception
-        doThrow(new InterruptedException("interrupt expected")).when(fut).get();
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
-        assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
-        assertNull(result.getB());
-        // verify interrupted & reset interrupt status
-        assertTrue(Thread.interrupted());
+        // acquired
+        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(true);
+        assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC));
+        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC);
 
-        // exec exception
-        doThrow(new ExecutionException(new IllegalArgumentException("exec expected"))).when(fut).get();
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb);
-        assertEquals(GuardResult.LOCK_EXCEPTION, result.getA());
-        assertNull(result.getB());
-        assertFalse(Thread.currentThread().isInterrupted());
+        // denied
+        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(false);
+        assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC+1));
+        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC+1);
     }
 
     @Test(expected = IllegalArgumentException.class)
