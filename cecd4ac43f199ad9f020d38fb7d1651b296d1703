@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_5f4d4f98",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2018-06-29T18:30:25Z",
+      "side": 1,
+      "message": "Do you think this should be configurable? Or maybe even have the extended hold time always be the length of the operation time? (may be good for the retry scenarios)",
+      "revId": "cecd4ac43f199ad9f020d38fb7d1651b296d1703",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
