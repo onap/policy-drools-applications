@@ -768,7 +768,7 @@ public class ControlLoopEventManagerTest {
         lockLock = manager.lockCurrentOperation();
         assertNotNull(lockLock);
         PolicyGuard.unlockTarget(lockLock.getB());
-        assertNull(manager.unlockCurrentOperation());
+        assertEquals(lockLock.getB(), manager.unlockCurrentOperation());
 
         clom.startOperation(event);
 

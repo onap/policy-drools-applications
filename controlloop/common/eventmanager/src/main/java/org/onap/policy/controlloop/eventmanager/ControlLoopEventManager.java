@@ -486,12 +486,14 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (this.targetLock == null) {
             return null;
         }
-        if (PolicyGuard.unlockTarget(this.targetLock)) {
-            TargetLock returnLock = this.targetLock;
-            this.targetLock = null;
-            return returnLock;
-        }
-        return null;
+        
+        TargetLock returnLock = this.targetLock;
+        this.targetLock = null;
+        
+        PolicyGuard.unlockTarget(returnLock);
+        
+        // always return the old target lock so rules can retract it
+        return returnLock;
     }
 
     public enum NEW_EVENT_STATUS {
