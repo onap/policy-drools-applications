@@ -121,7 +121,9 @@ end
 *
 */
 rule "${policyName}.SETUP"
+    salience 1
     when
+        not( Params( getClosedLoopControlName() == "${closedLoopControlName}", getControlLoopYaml() == "${controlLoopYaml}" ) )
     then
     
     Params params = new Params();
@@ -134,6 +136,23 @@ rule "${policyName}.SETUP"
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(), params.getControlLoopYaml());
+end
+
+/*
+*
+* This rule removes an old Params object that has the wrong YAML.
+*
+*/
+rule "${policyName}.PARAMS.CEANUP"
+    salience 1
+    when
+        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}", getControlLoopYaml() != "${controlLoopYaml}" )
+    then
+    
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(), $params.getControlLoopYaml());
+    
+    retract($params);
 end
 
 /*
@@ -1173,26 +1192,14 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId() )
         $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString(), $to : getDelay() )
-        $operations : LinkedList()
-                        from collect( ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() ) )
-        $opTimers : LinkedList()
-                        from collect( OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() ) )
-        $locks : LinkedList()
-                        from collect( TargetLock (requestID == $event.getRequestId()) )
     then
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
 
-    if ($operations == null) {
-      logger.debug("{}: {}: event={} manager={} clTimer={} operations=0", 
-                  $params.getClosedLoopControlName(), drools.getRule().getName(),
-                  $event, $manager, $clTimer);
-    } else {
-      logger.debug("{}: {}: event={} manager={} clTimer={} operations={}", 
-                  $params.getClosedLoopControlName(), drools.getRule().getName(),
-                  $event, $manager, $clTimer, $operations.size());
-    }
+    logger.debug("{}: {}: event={}", 
+              $params.getClosedLoopControlName(), drools.getRule().getName(),
+              $event);
     //
     // Tell the Event Manager it has timed out
     //
@@ -1208,38 +1215,51 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
         PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
     }
     //
-    // Retract EVERYTHING
+    // Retract the event
     //
     retract($event);
+end
+
+/*
+*
+* This rule cleans up the manager and other objects after an event has
+* been retracted.
+*
+*/
+rule "${policyName}.EVENT.MANAGER.CLEANUP"
+    when
+        $manager : ControlLoopEventManager( $clName : getClosedLoopControlName(), $requestId : getRequestID() )
+        $clTimer : ControlLoopTimer ( closedLoopControlName == $clName, requestID == $requestId.toString() )
+        $operations : LinkedList()
+                        from collect( ControlLoopOperationManager( onset.closedLoopControlName == $clName, onset.getRequestId() == $requestId ) )
+        $opTimers : LinkedList()
+                        from collect( OperationTimer( closedLoopControlName == $clName, requestID == $requestId.toString() ) )
+        $locks : LinkedList()
+                        from collect( TargetLock (requestID == $requestId) )
+        not( VirtualControlLoopEvent( closedLoopControlName == $clName, requestId == $requestId ) )
+    then
+    
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $clName, drools.getRule().getName());
+
+    logger.debug("{}: {}: manager={} clTimer={} operations={}", 
+              $clName, drools.getRule().getName(),
+              $manager, $clTimer, $operations.size());
+    
+    //
+    // Retract EVERYTHING
+    //
     retract($manager);
     retract($clTimer);
-    if ($operations != null && $operations.size() > 0) {
-        Iterator<ControlLoopOperationManager> iter = $operations.iterator();
-        while (iter.hasNext()) {
-            ControlLoopOperationManager manager = iter.next();
-            retract(manager);
-        }
+    
+    for(Object manager: $operations) {
+        retract((ControlLoopOperationManager) manager);
     }
-    if ($opTimers != null && $opTimers.size() > 0) {
-        Iterator<OperationTimer> iter = $opTimers.iterator();
-        while (iter.hasNext()) {
-            OperationTimer opTimer = iter.next();
-            retract(opTimer);
-        }
+    for(Object opTimer: $opTimers) {
+        retract((OperationTimer) opTimer);
     }
-    if ($locks != null && $locks.size() > 0) {
-        Iterator<TargetLock> iter = $locks.iterator();
-        while (iter.hasNext()) {
-            TargetLock lock = iter.next();
-            //
-            // Ensure we release the lock
-            //
-            PolicyGuard.unlockTarget(lock);
-            //
-            //
-            //
-            retract(lock);
-        }
+    for(Object lock: $locks) {
+        retract((TargetLock) lock);
     }
 end
 
