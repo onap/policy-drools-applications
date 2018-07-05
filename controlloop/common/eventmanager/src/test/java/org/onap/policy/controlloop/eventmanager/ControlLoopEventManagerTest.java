@@ -459,7 +459,11 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testMethods() {
-        ControlLoopEventManager clem = new ControlLoopEventManager("MyClosedLoopName", UUID.randomUUID());
+        UUID requestId = UUID.randomUUID();
+        ControlLoopEventManager clem = new ControlLoopEventManager("MyClosedLoopName", requestId);
+        
+        assertEquals("MyClosedLoopName", clem.getClosedLoopControlName());
+        assertEquals(requestId, clem.getRequestID());
 
         clem.setActivated(true);
         assertEquals(true, clem.isActivated());

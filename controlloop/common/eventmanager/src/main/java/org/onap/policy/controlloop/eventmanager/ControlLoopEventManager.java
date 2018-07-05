@@ -101,6 +101,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         this.requestID = requestID;
     }
 
+    public String getClosedLoopControlName() {
+        return closedLoopControlName;
+    }
+
     public String getControlLoopResult() {
         return controlLoopResult;
     }
@@ -143,6 +147,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     public ControlLoopProcessor getProcessor() {
         return this.processor;
+    }
+
+    public UUID getRequestID() {
+        return requestID;
     }
 
     /**
