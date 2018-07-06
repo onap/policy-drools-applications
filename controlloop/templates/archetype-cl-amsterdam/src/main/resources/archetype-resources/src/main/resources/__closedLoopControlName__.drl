@@ -96,6 +96,14 @@ declare Params
   controlLoopYaml : String
 end
 
+/*
+ * Used to clean up Params that no longer have associated rules.
+ */
+declare ParamsCleaner
+  closedLoopControlName : String
+  controlLoopYaml : String
+end
+
 
 /*
  * Operation Timer
@@ -118,6 +126,8 @@ end
 /*
 *
 * Called once and only once to insert the parameters into working memory for this Closed Loop policy.
+* This has a higher salience so we can ensure that the Params is created before we have a chance to
+* discard any events.
 *
 */
 rule "${policyName}.SETUP"
@@ -136,23 +146,6 @@ rule "${policyName}.SETUP"
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(), params.getControlLoopYaml());
-end
-
-/*
-*
-* This rule removes an old Params object that has the wrong YAML.
-*
-*/
-rule "${policyName}.PARAMS.CEANUP"
-    salience 1
-    when
-        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}", getControlLoopYaml() != "${controlLoopYaml}" )
-    then
-    
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(), $params.getControlLoopYaml());
-    
-    retract($params);
 end
 
 /*
@@ -322,7 +315,7 @@ rule "${policyName}.EVENT.MANAGER"
 	    // cleanup and avoid the other rules being fired for this event.
 	    //
 	    if (eventStatus != NEW_EVENT_STATUS.FIRST_ONSET) {
-	        logger.warn("{}: {}: no first onset", 
+	        logger.warn("{}: {}: not first onset", 
 	                    $params.getClosedLoopControlName(), drools.getRule().getName());
 	        retract($event);
 	    }
@@ -1286,4 +1279,94 @@ rule "${policyName}.EVENT.CLEANUP"
                 $clName, drools.getRule().getName(), $event);
 
     retract($event);
+end
+
+/*
+*
+* When rules are deleted, the associated Params (and its subordinate objects)
+* remain in working memory, because there are no longer any rules to clean
+* them up.  However, ANY time new rules are loaded, this rule will trigger
+* a clean-up of ALL Params, regardless of their name & yaml, thus removing
+* any that no longer have associated rules.
+* This has a higher salience so that we immediately check Params when the
+* rules change, before processing any events.
+*
+*/
+rule "${policyName}.PARAMS.CHECKUP"
+    salience 2
+    when
+        Params( $clName: closedLoopControlName, $yaml: controlLoopYaml )
+    then
+ 
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $clName, drools.getRule().getName(), $yaml);
+    
+    ParamsCleaner cleaner = new ParamsCleaner();
+    cleaner.setClosedLoopControlName($clName);
+    cleaner.setControlLoopYaml($yaml);
+    
+    insert(cleaner);
+end
+
+/*
+*
+* This rule removes "cleaner" objects for rules that are still active, thus
+* preventing the associated Params objects from being removed.  Any cleaners
+* that are left after this rule has fired will cause their corresponding Params
+* to be removed.
+* This has a higher salience so that we discard the cleaner before it has
+* a chance to force the removal of the associated Params.
+*
+*/
+rule "${policyName}.CLEANER.ACTIVE"
+    salience 2
+    when
+        $cleaner: ParamsCleaner( getClosedLoopControlName() == "${closedLoopControlName}", getControlLoopYaml() == "${controlLoopYaml}" )
+    then
+ 
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $cleaner.getClosedLoopControlName(), drools.getRule().getName(), $cleaner.getControlLoopYaml());
+    
+    retract($cleaner);
+end
+
+/*
+*
+* This rule removes Params objects that no longer have associated rules; if a
+* Params still had associated rules, then the cleaner would have been removed
+* by those rules and thus this rule would not fire.
+* This has a higher salience so that we remove old Params before it causes any
+* events to be processed.
+*
+*/
+rule "${policyName}.PARAMS.CLEANUP"
+    salience 1
+    when
+        $params: Params( $clName: closedLoopControlName, $yaml: controlLoopYaml )
+        ParamsCleaner( getClosedLoopControlName() == $clName, getControlLoopYaml() == $yaml )
+    then
+ 
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(), $params.getControlLoopYaml());
+    
+    retract($params);
+    
+    // Note: the cleaner may be needed for cleaning additional params, thus
+    // we do not retract it here - we'll leave that to another rule
+end
+
+/*
+*
+* This rule removes "cleaner" objects when they're no longer needed.
+*
+*/
+rule "${policyName}.CLEANER.CLEANUP"
+    when
+        $cleaner: ParamsCleaner( )
+    then
+ 
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $cleaner.getClosedLoopControlName(), drools.getRule().getName(), $cleaner.getControlLoopYaml());
+    
+    retract($cleaner);
 end
