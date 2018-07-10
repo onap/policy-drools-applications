@@ -521,15 +521,97 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 
     Object request = null;
     boolean caughtException = false;
+    
     try {
         request = $operation.startOperation($event);
-    }
-    catch (ControlLoopException e) {
+        
+	    if (request != null) {
+	      logger.debug("{}: {}: starting operation ..", 
+	                   $params.getClosedLoopControlName(), drools.getRule().getName());
+	      //
+	      // Tell interested parties we are performing this Operation
+	      //
+	      VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+	      notification.setNotification(ControlLoopNotificationType.OPERATION);
+	      notification.setMessage($operation.getOperationMessage());
+	      notification.setHistory($operation.getHistory());
+	      notification.setFrom("policy");
+	      notification.setPolicyName(drools.getRule().getName());
+	      notification.setPolicyScope("${policyScope}");
+	      notification.setPolicyVersion("${policyVersion}");
+	      
+	      PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+	      
+	      switch ($operation.policy.getActor()){
+	          
+	          case "APPC":
+	      
+	              if (request instanceof Request) {
+	                  PolicyEngine.manager.deliver("APPC-CL", request);
+	              }
+	              else if (request instanceof LcmRequestWrapper) {
+	                  PolicyEngine.manager.deliver("APPC-LCM-READ", request);
+	              }
+	              break;
+	          case "SO":
+	              // at this point the AAI named query request should have already been made, the response recieved and used
+	              // in the construction of the SO Request which is stored in operationRequest
+	              
+	              if(request instanceof SORequest) {
+	                  // Call SO. The response will be inserted into memory once it's received 
+	                  SOActorServiceProvider.sendRequest($event.getRequestId().toString(), drools.getWorkingMemory(), request);                        
+	              }
+	              break;
+	          case "VFC":
+	              if (request instanceof VFCRequest) {
+	                  // Start VFC thread
+	                  Thread t = new Thread(new VFCManager(drools.getWorkingMemory(), (VFCRequest)request));
+	                  t.start();
+	              }          
+	              break;
+	      }
+	    } else {
+	      //
+	      // What happens if its null?
+	      //
+	        logger.warn("{}: {}: unexpected null operation request", 
+	                  $params.getClosedLoopControlName(), 
+	                  drools.getRule().getName());
+	        if ("SO".equals($operation.policy.getActor())) {
+	            retract($opTimer);
+	            retract($operation);
+	            modify($manager) {finishOperation($operation)};
+	        }
+	        else if ("vfc".equalsIgnoreCase($operation.policy.getActor())) {
+	            retract($opTimer);
+	            retract($operation);
+	            modify($manager) {finishOperation($operation)};
+	        }
+	    }
+	    
+    } catch (ControlLoopException|IllegalArgumentException e) {
         String msg = e.getMessage();
         logger.warn("{}: {}: operation={}:  AAI failure: {}", 
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
                     $operation, msg, e);
         $operation.setOperationHasException(msg);
+        
+        if(request != null) {
+	        //
+	        // Create a notification for it ("DB Write - end operation")
+	        //
+	        VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+	        notification.setFrom("policy");
+	        notification.setPolicyName(drools.getRule().getName());
+	        notification.setPolicyScope("${policyScope}");
+	        notification.setPolicyVersion("${policyVersion}");
+	        notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
+	        notification.setMessage($operation.getOperationHistory());
+	        notification.setHistory($operation.getHistory());
+          
+            PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+        }
+    
         retract($opTimer);
         retract($operation);
         caughtException = true;
@@ -538,70 +620,6 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
     // Having the modify statement in the catch clause doesn't work for whatever reason
     if (caughtException) {
         modify($manager) {finishOperation($operation)};
-    }
-    else if (request != null) {
-      logger.debug("{}: {}: starting operation ..", 
-                   $params.getClosedLoopControlName(), drools.getRule().getName());
-      //
-      // Tell interested parties we are performing this Operation
-      //
-      VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
-      notification.setNotification(ControlLoopNotificationType.OPERATION);
-      notification.setMessage($operation.getOperationMessage());
-      notification.setHistory($operation.getHistory());
-      notification.setFrom("policy");
-      notification.setPolicyName(drools.getRule().getName());
-      notification.setPolicyScope("${policyScope}");
-      notification.setPolicyVersion("${policyVersion}");
-      
-      PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
-      
-      switch ($operation.policy.getActor()){
-          
-          case "APPC":
-      
-              if (request instanceof Request) {
-                  PolicyEngine.manager.deliver("APPC-CL", request);
-              }
-              else if (request instanceof LcmRequestWrapper) {
-                  PolicyEngine.manager.deliver("APPC-LCM-READ", request);
-              }
-              break;
-          case "SO":
-              // at this point the AAI named query request should have already been made, the response recieved and used
-              // in the construction of the SO Request which is stored in operationRequest
-              
-              if(request instanceof SORequest) {
-                  // Call SO. The response will be inserted into memory once it's received 
-                  SOActorServiceProvider.sendRequest($event.getRequestId().toString(), drools.getWorkingMemory(), request);                        
-              }
-              break;
-          case "VFC":
-              if (request instanceof VFCRequest) {
-                  // Start VFC thread
-                  Thread t = new Thread(new VFCManager(drools.getWorkingMemory(), (VFCRequest)request));
-                  t.start();
-              }          
-              break;
-      }
-    } else {
-      //
-      // What happens if its null?
-      //
-		logger.warn("{}: {}: unexpected null operation request", 
-                  $params.getClosedLoopControlName(), 
-                  drools.getRule().getName());
-		if ("SO".equals($operation.policy.getActor())) {
-		    retract($opTimer);
-			retract($operation);
-			modify($manager) {finishOperation($operation)};
-		}
-		else if ("vfc".equalsIgnoreCase($operation.policy.getActor())) {
-		    retract($opTimer);
-			retract($operation);
-			modify($manager) {finishOperation($operation)};
-		}
-
     }
 end
 
