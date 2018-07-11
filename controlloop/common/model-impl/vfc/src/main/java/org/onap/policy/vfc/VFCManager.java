@@ -1,5 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
+ * ================================================================================
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,7 +57,9 @@ public final class VFCManager implements Runnable {
 
 		restManager = new RESTManager();
 
-		setVFCParams(getPEManagerEnvProperty("vfc.url"), getPEManagerEnvProperty("vfc.username"), getPEManagerEnvProperty("vfc.password"));
+		// use getPEManagerEnvProperty() for required properties; others are optional
+        setVFCParams(getPEManagerEnvProperty("vfc.url"), PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
+                        PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
 	}
 
 	public void setVFCParams(String baseUrl, String name, String pwd) {

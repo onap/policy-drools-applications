@@ -2,6 +2,8 @@
  * ============LICENSE_START=======================================================
  * vfc
  * ================================================================================
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.drools.core.WorkingMemory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -104,6 +107,13 @@ public class TestVFCManager {
 		response.setResponseDescriptor(responseDescriptor);
 	}
 
+    @After
+    public void tearDown() {
+        PolicyEngine.manager.getEnvironment().remove("vfc.password");
+        PolicyEngine.manager.getEnvironment().remove("vfc.username");
+        PolicyEngine.manager.getEnvironment().remove("vfc.url");
+    }
+
 	@Test
 	public void testVFCInitiation() {
 		try {
@@ -129,31 +139,17 @@ public class TestVFCManager {
 		catch (IllegalArgumentException e) {
 			assertEquals("The value of policy engine manager environment property \"vfc.url\" may not be null", e.getMessage());
 		}
-
+        
+        // add url; username & password are not required
 		PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-		try {
-			new VFCManager(mockedWorkingMemory, request);
-			fail("test should throw an exception here");
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals("The value of policy engine manager environment property \"vfc.username\" may not be null", e.getMessage());
-		}
+        new VFCManager(mockedWorkingMemory, request);
 
+        // url & username, but no password
 		PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
-		try {
-			new VFCManager(mockedWorkingMemory, request);
-			fail("test should throw an exception here");
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals("The value of policy engine manager environment property \"vfc.password\" may not be null", e.getMessage());
-		}
 
+		// url, username, and password
 		PolicyEngine.manager.getEnvironment().put("vfc.password", "Toto");
-		assertNotNull(new VFCManager(mockedWorkingMemory, request));
-
-		PolicyEngine.manager.getEnvironment().remove("vfc.password");
-		PolicyEngine.manager.getEnvironment().remove("vfc.username");
-		PolicyEngine.manager.getEnvironment().remove("vfc.url");
+		new VFCManager(mockedWorkingMemory, request);
 	}
 
 	@Test
