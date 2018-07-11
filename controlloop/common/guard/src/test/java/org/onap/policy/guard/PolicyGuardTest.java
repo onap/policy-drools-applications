@@ -25,9 +25,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.UUID;
@@ -44,6 +43,7 @@ import org.onap.policy.guard.impl.VMTargetLock;
 import org.onap.policy.guard.impl.VNFTargetLock;
 
 public class PolicyGuardTest {
+    private static final String HOSTNAME = "my.host";
     private static final String INSTANCENAME = "targetInstance";
     private static final int LOCK_SEC = 10;
     
@@ -108,16 +108,16 @@ public class PolicyGuardTest {
     
     @Before
     public void setUp() {
-        mgr = new PolicyResourceLockManager() {
-            // only way to access the constructor            
-        };
+        mgr = spy(new PolicyResourceLockManager() {
+            /*
+             * we want each test to have its own lock manager, but the constructor for the
+             * manager is protected; this gets around that
+             */
+        });
         
-        factory = new Factory() {
-            @Override
-            public PolicyResourceLockManager getManager() {
-                return mgr;
-            }
-        };
+        factory = mock(Factory.class);
+        when(factory.getManager()).thenReturn(mgr);
+        when(factory.getHostname()).thenReturn(HOSTNAME);
         
         uuid = UUID.randomUUID();
         dlcb = new DummyLockCallback();
@@ -279,22 +279,19 @@ public class PolicyGuardTest {
     @Test
     public void testManagerLockTarget() throws Exception {
         TargetType type = TargetType.VM;
-        
-        mgr = mock(PolicyResourceLockManager.class);
 
         LockResult<GuardResult, TargetLock> result;
 
         // acquired
-        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(true);
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
-        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC);
+        verify(mgr).lock(INSTANCENAME, HOSTNAME+":"+type+":"+uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
 
-        // denied
-        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(false);
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC+2);
-        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC+2);
+        // diff host name - denied
+        when(factory.getHostname()).thenReturn(HOSTNAME+"x");
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC+10);
+        verify(mgr).lock(INSTANCENAME, HOSTNAME+"x:"+type+":"+uuid, LOCK_SEC+10);
         assertEquals(GuardResult.LOCK_DENIED, result.getA());
         assertNull(result.getB());
     }
@@ -303,18 +300,19 @@ public class PolicyGuardTest {
     public void testManagerLockTargetTargetLockInt() throws Exception {
         TargetType type = TargetType.VM;
         DummyTargetLock lock = new DummyTargetLock(type, uuid);
-        
-        mgr = mock(PolicyResourceLockManager.class);
 
         // acquired
-        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(true);
         assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC));
-        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC);
-
-        // denied
-        when(mgr.lock(anyString(), anyString(), anyInt())).thenReturn(false);
-        assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC+1));
-        verify(mgr).lock(INSTANCENAME, type.toString()+":"+uuid.toString(), LOCK_SEC+1);
+        verify(mgr).lock(INSTANCENAME, HOSTNAME+":"+type+":"+uuid, LOCK_SEC);
+        
+        // same host name - re-acquired
+        assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC+1));
+        verify(mgr).lock(INSTANCENAME, HOSTNAME+":"+type+":"+uuid, LOCK_SEC+1);
+        
+        // diff host name - denied
+        when(factory.getHostname()).thenReturn(HOSTNAME+"_");
+        assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC+2));
+        verify(mgr).lock(INSTANCENAME, HOSTNAME+"_:"+type+":"+uuid, LOCK_SEC+2);
     }
 
     @Test(expected = IllegalArgumentException.class)
