@@ -23,6 +23,7 @@ package org.onap.policy.guard;
 import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
+import org.onap.policy.drools.utils.NetworkUtil;
 import org.onap.policy.guard.impl.PNFTargetLock;
 import org.onap.policy.guard.impl.VMTargetLock;
 import org.onap.policy.guard.impl.VNFTargetLock;
@@ -209,7 +210,7 @@ public class PolicyGuard {
             throw new IllegalArgumentException("null requestID for lock type " + targetType);
         }
         
-        return targetType.toString() + ":" + requestID.toString();
+        return factory.getHostname() + ":" + targetType + ":" + requestID;
     }
     
     /**
@@ -222,6 +223,13 @@ public class PolicyGuard {
          */
         public PolicyResourceLockManager getManager() {
             return PolicyResourceLockManager.getInstance();
+        }
+        
+        /**
+         * @return the current host name
+         */
+        public String getHostname() {
+            return NetworkUtil.getHostname();
         }
     }
 }
