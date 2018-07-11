@@ -34,6 +34,41 @@
       "revId": "eef3d01fceba5573999bcebfe93f0121e6a69a83",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b0d7d44e",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VFCManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-11T16:33:32Z",
+      "side": 1,
+      "message": "That doesn\u0027t sound quite right.  Intel has the copyright for 2017; that hasn\u0027t changed, so it seems that \"2017\" still needs to be part of the copyright for Intel.  So which of these is right (or should it be something else):\n\nApproach #1 (this matches what has been done in the past, though may be incorrect)\n2017 Intel\n2018 AT\u0026T\n\nApproach #2 (seems incorrect to me, as it loses the 2017 for Intel)\n2018 Intel, AT\u0026T\n\nApproach #2 (seems incorrect to me, as 2017 doesn\u0027t apply to AT\u0026T)\n2017-2018 Intel, AT\u0026T\n\nApproach #3\n2017-2018 Intel\n2018 AT\u0026T",
+      "parentUuid": "5a93c517_5061b0d1",
+      "revId": "eef3d01fceba5573999bcebfe93f0121e6a69a83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_30d3c460",
+        "filename": "controlloop/common/model-impl/vfc/src/test/java/org/onap/policy/vfc/TestVFCManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-11T16:33:32Z",
+      "side": 1,
+      "message": "based on the comments, I\u0027ll remove this line and simply add AT\u0026T to line 7",
+      "revId": "eef3d01fceba5573999bcebfe93f0121e6a69a83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
