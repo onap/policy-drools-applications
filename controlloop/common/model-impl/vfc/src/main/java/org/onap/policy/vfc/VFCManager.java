@@ -54,7 +54,9 @@ public final class VFCManager implements Runnable {
 
 		restManager = new RESTManager();
 
-		setVFCParams(getPEManagerEnvProperty("vfc.url"), getPEManagerEnvProperty("vfc.username"), getPEManagerEnvProperty("vfc.password"));
+		// use getPEManagerEnvProperty() for required properties; others are optional
+        setVFCParams(getPEManagerEnvProperty("vfc.url"), PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
+                        PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
 	}
 
 	public void setVFCParams(String baseUrl, String name, String pwd) {
