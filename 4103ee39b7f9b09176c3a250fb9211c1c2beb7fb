@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_1074889a",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-11T16:14:09Z",
+      "side": 1,
+      "message": "OK, will make this change",
+      "parentUuid": "5a93c517_3050a409",
+      "revId": "4103ee39b7f9b09176c3a250fb9211c1c2beb7fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_702e2c8e",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-11T16:01:33Z",
       "side": 1,
       "message": "if i read correctly caughtException is only set in line 617, so can the modify(..) be moved within catch {} above?",
+      "revId": "4103ee39b7f9b09176c3a250fb9211c1c2beb7fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d06dc0cd",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-11T16:14:09Z",
+      "side": 1,
+      "message": "the comment indicated that \"modify\" did not work inside the \"catch\" clause, so I left it outside of the \"catch\" clause like the original code",
+      "parentUuid": "5a93c517_702e2c8e",
       "revId": "4103ee39b7f9b09176c3a250fb9211c1c2beb7fb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
