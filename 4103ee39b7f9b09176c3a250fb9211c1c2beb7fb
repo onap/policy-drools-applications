@@ -69,6 +69,24 @@
       "revId": "4103ee39b7f9b09176c3a250fb9211c1c2beb7fb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d0a4e009",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-07-11T16:19:23Z",
+      "side": 1,
+      "message": "sounds good, I see the comment now",
+      "parentUuid": "5a93c517_d06dc0cd",
+      "revId": "4103ee39b7f9b09176c3a250fb9211c1c2beb7fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
