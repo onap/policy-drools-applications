@@ -23,7 +23,6 @@ package org.onap.policy.guard;
 import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
-import org.onap.policy.drools.utils.NetworkUtil;
 import org.onap.policy.guard.impl.PNFTargetLock;
 import org.onap.policy.guard.impl.VMTargetLock;
 import org.onap.policy.guard.impl.VNFTargetLock;
@@ -94,10 +93,10 @@ public class PolicyGuard {
             UUID requestID, LockCallback callback, int holdSec) {
         
         String owner = makeOwner(targetType, requestID);
-        
-        GuardResult guardResult = managerLockTarget(targetInstance, owner, holdSec);
-        if(guardResult != GuardResult.LOCK_ACQUIRED) {
-            return LockResult.createLockResult(guardResult, null);
+
+        boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
+        if(!result) {
+            return LockResult.createLockResult(GuardResult.LOCK_DENIED, null);
         }
         
         TargetLock lock = null;
@@ -142,21 +141,10 @@ public class PolicyGuard {
      */
     public static GuardResult lockTarget(TargetLock lock, int holdSec) {
         String owner = makeOwner(lock.getTargetType(), lock.getRequestID());
-        GuardResult result = managerLockTarget(lock.getTargetInstance(), owner, holdSec);
+        
+        boolean result = factory.getManager().refresh(lock.getTargetInstance(), owner, holdSec);
         
         logger.debug("Lock {} extend {}", lock, result);
-        return result;
-    }
-
-    /**
-     * Asks the manager to lock the given target.
-     * @param targetInstance
-     * @param owner
-     * @param holdSec maximum number of seconds to hold the lock
-     * @return the result: acquired or denied
-     */
-    private static GuardResult managerLockTarget(String targetInstance, String owner, int holdSec) {
-        boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
         return(result ? GuardResult.LOCK_ACQUIRED : GuardResult.LOCK_DENIED);
     }
 
@@ -210,7 +198,7 @@ public class PolicyGuard {
             throw new IllegalArgumentException("null requestID for lock type " + targetType);
         }
         
-        return factory.getHostname() + ":" + targetType + ":" + requestID;
+        return targetType + ":" + requestID;
     }
     
     /**
@@ -223,13 +211,6 @@ public class PolicyGuard {
          */
         public PolicyResourceLockManager getManager() {
             return PolicyResourceLockManager.getInstance();
-        }
-        
-        /**
-         * @return the current host name
-         */
-        public String getHostname() {
-            return NetworkUtil.getHostname();
         }
     }
 }

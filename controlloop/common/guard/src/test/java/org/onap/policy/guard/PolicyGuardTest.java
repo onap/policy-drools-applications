@@ -43,7 +43,6 @@ import org.onap.policy.guard.impl.VMTargetLock;
 import org.onap.policy.guard.impl.VNFTargetLock;
 
 public class PolicyGuardTest {
-    private static final String HOSTNAME = "my.host";
     private static final String INSTANCENAME = "targetInstance";
     private static final int LOCK_SEC = 10;
     
@@ -117,7 +116,6 @@ public class PolicyGuardTest {
         
         factory = mock(Factory.class);
         when(factory.getManager()).thenReturn(mgr);
-        when(factory.getHostname()).thenReturn(HOSTNAME);
         
         uuid = UUID.randomUUID();
         dlcb = new DummyLockCallback();
@@ -277,42 +275,48 @@ public class PolicyGuardTest {
     }
 
     @Test
-    public void testManagerLockTarget() throws Exception {
+    public void testLockTargetTargetTypeStringUUIDLockCallbackInt() throws Exception {
         TargetType type = TargetType.VM;
 
         LockResult<GuardResult, TargetLock> result;
 
         // acquired
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
-        verify(mgr).lock(INSTANCENAME, HOSTNAME+":"+type+":"+uuid, LOCK_SEC);
+        verify(mgr).lock(INSTANCENAME, type+":"+uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
 
-        // diff host name - denied
-        when(factory.getHostname()).thenReturn(HOSTNAME+"x");
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC+10);
-        verify(mgr).lock(INSTANCENAME, HOSTNAME+"x:"+type+":"+uuid, LOCK_SEC+10);
+        // diff owner - denied
+        UUID uuid2 = UUID.randomUUID();
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid2, dlcb, LOCK_SEC+10);
+        verify(mgr).lock(INSTANCENAME, type+":"+uuid2, LOCK_SEC+10);
         assertEquals(GuardResult.LOCK_DENIED, result.getA());
         assertNull(result.getB());
     }
 
     @Test
-    public void testManagerLockTargetTargetLockInt() throws Exception {
+    public void testLockTargetTargetLockInt() throws Exception {
         TargetType type = TargetType.VM;
-        DummyTargetLock lock = new DummyTargetLock(type, uuid);
+
+        LockResult<GuardResult, TargetLock> result;
 
         // acquired
-        assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC));
-        verify(mgr).lock(INSTANCENAME, HOSTNAME+":"+type+":"+uuid, LOCK_SEC);
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
+        verify(mgr).lock(INSTANCENAME, type+":"+uuid, LOCK_SEC);
+        assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
+        assertEquals(VMTargetLock.class, result.getB().getClass());
         
-        // same host name - re-acquired
+        TargetLock lock = result.getB();
+        
+        // refresh - re-acquired
         assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC+1));
-        verify(mgr).lock(INSTANCENAME, HOSTNAME+":"+type+":"+uuid, LOCK_SEC+1);
+        verify(mgr).refresh(INSTANCENAME, type+":"+uuid, LOCK_SEC+1);
         
-        // diff host name - denied
-        when(factory.getHostname()).thenReturn(HOSTNAME+"_");
+        // unlock
+        PolicyGuard.unlockTarget(lock);
+        
+        // refresh - denied, as we no longer own the lock
         assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC+2));
-        verify(mgr).lock(INSTANCENAME, HOSTNAME+"_:"+type+":"+uuid, LOCK_SEC+2);
     }
 
     @Test(expected = IllegalArgumentException.class)
