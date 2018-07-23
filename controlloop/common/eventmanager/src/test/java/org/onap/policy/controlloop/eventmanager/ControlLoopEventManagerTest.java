@@ -48,6 +48,7 @@ import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipDataItem;
 import org.onap.policy.aai.RelationshipList;
 import org.onap.policy.aai.util.AaiException;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -57,7 +58,6 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.GuardResult;
 import org.onap.policy.guard.PolicyGuard;
@@ -101,7 +101,7 @@ public class ControlLoopEventManagerTest {
 
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        IndexedHttpServletServerFactory.getInstance().destroy();
     }
 
     @Test
@@ -461,7 +461,7 @@ public class ControlLoopEventManagerTest {
     public void testMethods() {
         UUID requestId = UUID.randomUUID();
         ControlLoopEventManager clem = new ControlLoopEventManager("MyClosedLoopName", requestId);
-        
+
         assertEquals("MyClosedLoopName", clem.getClosedLoopControlName());
         assertEquals(requestId, clem.getRequestID());
 
@@ -959,9 +959,9 @@ public class ControlLoopEventManagerTest {
 
         // repeat query with same manager
         manager.queryAai(onsetEvent);
-        
+
         // remaining queries each use their own manager so they will be re-executed
-        
+
         makeManager(onsetEvent).queryAai(onsetEvent);
 
         onsetEvent.getAai().put("generic-vnf.is-closed-loop-disabled", "true");

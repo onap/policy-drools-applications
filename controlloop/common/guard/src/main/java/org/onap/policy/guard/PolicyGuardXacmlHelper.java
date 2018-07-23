@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 public class PolicyGuardXacmlHelper {
     private static final Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
     private static final Logger netLogger =
-            LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
+            LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
 
     // Constant for the systme line separator
     private static final String SYSTEM_LS = System.lineSeparator();

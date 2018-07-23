@@ -30,10 +30,10 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.onap.policy.so.SORequest;
@@ -57,7 +57,7 @@ public class TestSOActorServiceProvider {
      */
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        IndexedHttpServletServerFactory.getInstance().destroy();
     }
 
     @Test

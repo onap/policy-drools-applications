@@ -41,17 +41,17 @@ import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.event.comm.TopicListener;
+import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.common.endpoints.event.comm.impl.ProxyTopicEndpointManager;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
+import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.drools.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.drools.event.comm.TopicEndpoint;
-import org.onap.policy.drools.event.comm.TopicListener;
-import org.onap.policy.drools.event.comm.TopicSink;
-import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.drools.properties.PolicyProperties;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
@@ -83,7 +83,7 @@ public class VFWControlLoopTest implements TopicListener {
         PolicyEngine.manager.configure(new Properties());
         assertTrue(PolicyEngine.manager.start());
         Properties noopSinkProperties = new Properties();
-        noopSinkProperties.put(PolicyProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-CL,POLICY-CL-MGT");
+        noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-CL,POLICY-CL-MGT");
         noopSinkProperties.put("noop.sink.topics.APPC-CL.events", "org.onap.policy.appc.Response");
         noopSinkProperties.put("noop.sink.topics.APPC-CL.events.custom.gson",
                 "org.onap.policy.appc.util.Serialization,gsonPretty");
@@ -91,7 +91,7 @@ public class VFWControlLoopTest implements TopicListener {
                 "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+        noopTopics = ProxyTopicEndpointManager.getInstance().addTopicSinks(noopSinkProperties);
 
         EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "POLICY-CL-MGT",
                 "org.onap.policy.controlloop.VirtualControlLoopNotification", new JsonProtocolFilter(), null, null,
@@ -130,9 +130,9 @@ public class VFWControlLoopTest implements TopicListener {
         kieSession.dispose();
 
         PolicyEngine.manager.stop();
-        HttpServletServer.factory.destroy();
+        IndexedHttpServletServerFactory.getInstance().destroy();
         PolicyController.factory.shutdown();
-        TopicEndpoint.manager.shutdown();
+        ProxyTopicEndpointManager.getInstance().shutdown();
     }
 
     @Test
