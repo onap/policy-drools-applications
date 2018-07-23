@@ -23,7 +23,7 @@ package org.onap.policy.drools.apps.controlloop.feature.utils;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;

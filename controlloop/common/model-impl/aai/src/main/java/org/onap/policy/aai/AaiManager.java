@@ -45,7 +45,7 @@ public final class AaiManager {
 
     /** The Constant netLogger. */
     private static final Logger netLogger =
-            LoggerFactory.getLogger(org.onap.policy.drools.event.comm.Topic.NETWORK_LOGGER);
+            LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
 
     /** The rest manager. */
     // The REST manager used for processing REST calls for this AAI manager

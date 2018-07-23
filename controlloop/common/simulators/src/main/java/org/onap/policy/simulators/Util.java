@@ -22,8 +22,8 @@ package org.onap.policy.simulators;
 
 import java.io.IOException;
 
-import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.drools.utils.NetworkUtil;
+import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.utils.network.NetworkUtil;
 
 public class Util {
     private Util() {

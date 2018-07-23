@@ -20,8 +20,8 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.drools.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.drools.features.PolicyControllerFeatureAPI;
 import org.onap.policy.drools.system.PolicyController;
 import org.slf4j.Logger;
@@ -51,7 +51,8 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
     /**
      * transaction timeout in minutes
      */
-    public static final String CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY = "controllop.cache.transactions.timeout.seconds";
+    public static final String CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY =
+            "controllop.cache.transactions.timeout.seconds";
     public static final long CL_CACHE_TRANS_TIMEOUT_SECONDS_DEFAULT = 1L * 60 * 60;
 
     @Override
@@ -75,8 +76,9 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
      */
     @Override
     public boolean beforeDeliver(PolicyController controller, CommInfrastructure protocol, String topic, Object event) {
-        if (event instanceof VirtualControlLoopNotification)
+        if (event instanceof VirtualControlLoopNotification) {
             ControlLoopMetrics.manager.transactionEvent(controller, (VirtualControlLoopNotification) event);
+        }
 
         /* do not take ownership */
         return false;
