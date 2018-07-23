@@ -29,7 +29,7 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
@@ -62,7 +62,7 @@ public class SoSimulatorTest {
 
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        IndexedHttpServletServerFactory.getInstance().destroy();
     }
 
     /**

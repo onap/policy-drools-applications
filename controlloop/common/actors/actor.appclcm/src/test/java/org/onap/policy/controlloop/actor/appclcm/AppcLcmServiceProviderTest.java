@@ -38,6 +38,7 @@ import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmResponseWrapper;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopTargetType;
@@ -46,7 +47,6 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.http.server.HttpServletServer;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
@@ -162,7 +162,7 @@ public class AppcLcmServiceProviderTest {
      */
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        IndexedHttpServletServerFactory.getInstance().destroy();
     }
 
     /**

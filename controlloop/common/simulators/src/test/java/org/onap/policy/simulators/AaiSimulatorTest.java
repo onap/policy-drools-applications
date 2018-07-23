@@ -39,7 +39,7 @@ import org.onap.policy.aai.AaiNqNamedQuery;
 import org.onap.policy.aai.AaiNqQueryParameters;
 import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.AaiNqResponse;
-import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.rest.RESTManager;
 
@@ -61,7 +61,7 @@ public class AaiSimulatorTest {
 
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        IndexedHttpServletServerFactory.getInstance().destroy();
     }
 
     @Test

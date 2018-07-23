@@ -22,8 +22,9 @@ package org.onap.policy.simulators;
 
 import java.io.IOException;
 
-import org.onap.policy.drools.http.server.HttpServletServer;
-import org.onap.policy.drools.utils.NetworkUtil;
+import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.impl.IndexedHttpServletServerFactory;
+import org.onap.policy.common.utils.network.NetworkUtil;
 
 public class Util {
     private Util() {
@@ -48,8 +49,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(AAISIM_SERVER_NAME, "localhost", AAISIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = IndexedHttpServletServerFactory.getInstance().build(AAISIM_SERVER_NAME,
+                "localhost", AAISIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
@@ -66,8 +67,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(SOSIM_SERVER_NAME, "localhost", SOSIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = IndexedHttpServletServerFactory.getInstance().build(SOSIM_SERVER_NAME,
+                "localhost", SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
@@ -84,8 +85,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
-        final HttpServletServer testServer =
-                HttpServletServer.factory.build(VFCSIM_SERVER_NAME, "localhost", VFCSIM_SERVER_PORT, "/", false, true);
+        final HttpServletServer testServer = IndexedHttpServletServerFactory.getInstance().build(VFCSIM_SERVER_NAME,
+                "localhost", VFCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
@@ -102,8 +103,8 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
-        HttpServletServer testServer = HttpServletServer.factory.build(GUARDSIM_SERVER_NAME, "localhost",
-                GUARDSIM_SERVER_PORT, "/", false, true);
+        HttpServletServer testServer = IndexedHttpServletServerFactory.getInstance().build(GUARDSIM_SERVER_NAME,
+                "localhost", GUARDSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {

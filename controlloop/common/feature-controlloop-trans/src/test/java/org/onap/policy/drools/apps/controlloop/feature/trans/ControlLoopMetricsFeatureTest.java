@@ -20,22 +20,23 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.nio.file.Path;
 import java.util.UUID;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.drools.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * ControlLoopMetrics Tests
@@ -48,9 +49,8 @@ public class ControlLoopMetricsFeatureTest {
     @BeforeClass
     public static void setUp() {
         SystemPersistence.manager.setConfigurationDir("src/test/resources");
-        testController =
-            PolicyEngine.manager.createPolicyController
-                ("metrics", SystemPersistence.manager.getControllerProperties("metrics"));
+        testController = PolicyEngine.manager.createPolicyController("metrics",
+                SystemPersistence.manager.getControllerProperties("metrics"));
     }
 
     @AfterClass
@@ -96,7 +96,7 @@ public class ControlLoopMetricsFeatureTest {
 
         /* let the entries expire */
         try {
-            Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout()+5)*1000L);
+            Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 5) * 1000L);
         } catch (InterruptedException e) {
             /* nothing to do */
         }
@@ -108,11 +108,13 @@ public class ControlLoopMetricsFeatureTest {
     @Test
     public void reset() {
         VirtualControlLoopNotification notification = this.generateNotification();
-        new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
+        new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT",
+                notification);
 
         assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
 
-        ControlLoopMetrics.manager.resetCache(ControlLoopMetrics.manager.getCacheSize(), ControlLoopMetrics.manager.getTransactionTimeout());
+        ControlLoopMetrics.manager.resetCache(ControlLoopMetrics.manager.getCacheSize(),
+                ControlLoopMetrics.manager.getTransactionTimeout());
         assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
         this.cacheDefaults();
     }
@@ -132,7 +134,7 @@ public class ControlLoopMetricsFeatureTest {
     @Test
     public void eviction() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
-        for (int i=0; i < ControlLoopMetrics.manager.getCacheSize(); i++) {
+        for (int i = 0; i < ControlLoopMetrics.manager.getCacheSize(); i++) {
             VirtualControlLoopNotification notification = generateNotification();
             feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
             assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
@@ -151,13 +153,14 @@ public class ControlLoopMetricsFeatureTest {
 
         /* let the entries expire */
         try {
-            Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout()+5)*1000L);
+            Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 5) * 1000L);
         } catch (InterruptedException e) {
             /* nothing to do */
         }
 
         ControlLoopMetrics.manager.refresh();
-        assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager.getCacheOccupancy());
+        assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager
+                .getCacheOccupancy());
         assertFalse(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheSize());
         assertTrue(ControlLoopMetrics.manager.getTransactionIds().isEmpty());
         assertTrue(ControlLoopMetrics.manager.getTransactions().isEmpty());

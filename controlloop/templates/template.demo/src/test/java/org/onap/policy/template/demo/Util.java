@@ -46,7 +46,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
-import org.onap.policy.drools.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.PolicyGuardYamlToXacml;
 import org.slf4j.Logger;
