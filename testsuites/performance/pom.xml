@@ -1,9 +1,8 @@
 <!--
   ============LICENSE_START=======================================================
-  testsuites
+  performance
   ================================================================================
-  Copyright (C) 2018 Ericsson. All rights reserved.
-  Modifications Copyright (C) 2018 AT&T. All rights reserved.
+  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -23,13 +22,30 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>drools-applications</artifactId>
+        <artifactId>testsuites</artifactId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
-    <artifactId>testsuites</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>stability</module>
-        <module>performance</module>
-    </modules>
+    <artifactId>performance</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
