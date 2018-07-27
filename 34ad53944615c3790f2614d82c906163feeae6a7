@@ -189,6 +189,30 @@
       "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_69ce9a5c",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/uebtime.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-07-27T14:03:13Z",
+      "side": 1,
+      "message": "Agree that we should pass this to generate.sh using -w option and use the same subtraction logic.\n\nI thought the MT script will be made to run continuously for 72 hours before running the performance scripts to collect metrics. As running it only once (for less than an hour) won\u0027t give the actual performance figures. What do you say?\n\nRegarding rollover, I think there is a limit of total number of files in that folder (/var/log/onap/policy/pdpd) post which it gets purged and that\u0027s why we will not have all the files at the end of 72 hours for calculation.",
+      "parentUuid": "da7095c5_a99ef254",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
