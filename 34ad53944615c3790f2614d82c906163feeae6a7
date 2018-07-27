@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_497cf620",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/generate_performance_report.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-07-27T13:21:05Z",
+      "side": 1,
+      "message": "That\u0027s very cool!!! Thanks.",
+      "parentUuid": "da7095c5_c9d32637",
+      "range": {
+        "startLine": 73,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 74
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_b381854c",
         "filename": "testsuites/performance/src/main/resources/amsterdam/uebtime.sh",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Yes, the user of this script must unzip the relevant network log zip files, though for this test, everything fits in one network.log and one network.log.zip, so the prep work is not very much.\n\nThis is executed manually, like the generate.sh script.",
       "parentUuid": "da7095c5_b381854c",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_a9b032f5",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/uebtime.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-07-27T13:21:05Z",
+      "side": 1,
+      "message": "May be I am missing something here, you are referring to network.log file of drools PDP right? \nCouldn\u0027t understand that how we can make sure that everything fits in one network.log? \nI mean if we will execute this script after executing test plan for 72 hours, there will be multiple network.log files. And the APPC request/response logs will span through multiple files. How to decide which is the relevant network.log file?\n\nAlso, I am not clear as why we are calculating the time taken for APPC to process the request. As per me, it should not affect the performance metrics of drools PDP.",
+      "parentUuid": "da7095c5_49207649",
       "range": {
         "startLine": 188,
         "startChar": 0,
