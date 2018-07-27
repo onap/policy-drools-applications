@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_84e8b57d",
+        "filename": "controlloop/common/actors/actor.appc/src/test/java/org/onap/policy/controlloop/actor/appc/AppcServiceProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-07-27T20:49:13Z",
+      "side": 1,
+      "message": "Oh I didn\u0027t realize that the \"singletons\" defined in the interface in policy-common/HttpServletServer interfaces hiding the types of factories underneath went away.   I guess the code move went a bit bit beyond what I expected. \n\nI would have expected only package changes and not actual lines of code changes, so only the imports, so they don\u0027t trickle all the way to all users.\n\nThe idea of having it work as before\n\nHttpServletServer.factory.destroy();\n\nbesides in my opinion being more cosmetic, it allows you to swap factory implementation in one simple point without users knowing about it .. so if you have another  implementation that builds objects and stores in database for some other purpose, you just create another class and swap it in the interface, and don\u0027t change all the underlying uses of it, now you\u0027ll have to change it.   I guess I have an issue with all these \"Indexed\" names proliferating in user code ..\n\nI would prefer for example to have kept the static final factory class member.\n\nI also envisioned that while the  HttpServletServer.factory guarantees the singleton behavior, somebody that don\u0027t want the singleton behavior, could use the \"new IndexedHttpServletFactory(..)\" that will become handy for junits, etc ..   I think now it is forced to treat always be used as a singleton.\n\nI guess this is a general comment.  \n\nLet me know your thoughts ..",
+      "revId": "f6101910a7d0b3f2ca81d9423be7c89f09bc15fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
