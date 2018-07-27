@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_93a56106",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/generate_performance_report.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-07-27T08:49:07Z",
+      "side": 1,
+      "message": "I see that you have removed the wait time from average calculation, so how do you determine that when to send the APPC Response?\n\nAnd, can we rename this file with \"Multi thread or something\" just to differentiate between the old one and this one.",
+      "range": {
+        "startLine": 73,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 74
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_b381854c",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/uebtime.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-07-27T08:49:07Z",
+      "side": 1,
+      "message": "Using network.log for calculation will be risky in performance tests. Because if you are running multiple threads and that too for long time, the network logs will be rotated very fast. That\u0027s what we saw during our testing with just 2 threads.\n\nAlso, this script is run manually after running the test plan or executed by the test plan after every interval?",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
