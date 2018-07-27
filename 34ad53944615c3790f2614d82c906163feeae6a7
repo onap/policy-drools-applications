@@ -213,6 +213,30 @@
       "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_c979e6fd",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/uebtime.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-27T14:22:20Z",
+      "side": 1,
+      "message": "First, only the data for the last 10K events of each type is reported, thus the elapsed time values for the individual types will be the same whether it\u0027s run for an hour or run for 70 hours.  Second, from brief measurements that I\u0027ve taken, the actual CPU usage doesn\u0027t vary much whether it\u0027s run for five minutes or an hour, thus, I kind of doubt that there will be much advantage to running it longer - this is not intended to be a stability test.\nThat being said, I hadn\u0027t noticed before that generate.sh automatically scans the zipped files.  I\u0027ll see what I can do to modify this version to do the same and to combine the scanning of the network \u0026 audit logs into a single script.",
+      "parentUuid": "da7095c5_69ce9a5c",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
