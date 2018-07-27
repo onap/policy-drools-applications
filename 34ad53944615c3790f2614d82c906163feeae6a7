@@ -141,6 +141,30 @@
       "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_e994ea38",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/uebtime.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-27T13:35:35Z",
+      "side": 1,
+      "message": "The MT jmeter script takes less than an hour to run.  As a result, the network log doesn\u0027t roll over more than once.\n\nRegarding the purpose: The performance metrics show the total elapsed time from initial ONSET to FINAL notification.  With the stability script, there is a fixed wait time that must be subtracted from the total elapsed time.  Similarly, with the MT test, the time should also be subtracted.  However, the time is no longer fixed, but is dependent on DMaaP and the jmeter script\u0027s response time, thus uebtime.sh attempts to measure that time.  Now that I think about it, I should have left the \"-w\" option in generate.sh and then passed the output from uebtime.sh to generate.sh via the \"-w\" option.",
+      "parentUuid": "da7095c5_a9b032f5",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "34ad53944615c3790f2614d82c906163feeae6a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
