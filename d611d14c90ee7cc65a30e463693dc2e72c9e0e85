@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9c190925",
+        "filename": "testsuites/performance/src/main/resources/amsterdam/policyMTPerformanceTestPlan.jmx",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-08-01T13:48:19Z",
+      "side": 1,
+      "message": "I think we have DMaaP as well in the test setup, considering that we may trigger the ONSET/ABATEMENT to drools-pdp through DMaaP and not directly through the REST interface. What do you say?",
+      "range": {
+        "startLine": 274,
+        "startChar": 52,
+        "endLine": 274,
+        "endChar": 108
+      },
+      "revId": "d611d14c90ee7cc65a30e463693dc2e72c9e0e85",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
