@@ -37,7 +37,7 @@ source ${POLICY_HOME}/etc/build.info
 
 features install controlloop-trans
 features install controlloop-amsterdam
-features install controlloop-beijing
+features install controlloop-casablanca
 
 features enable controlloop-trans
 features enable controlloop-amsterdam

@@ -39,11 +39,11 @@
     <module>model-impl</module>
     <module>policy-yaml</module>
     <module>simulators</module>
-    <module>controller-beijing</module>
+    <module>controller-casablanca</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>
     <module>feature-controlloop-amsterdam</module>
-    <module>feature-controlloop-beijing</module>
+    <module>feature-controlloop-casablanca</module>
     <module>msb</module>
   </modules>
 

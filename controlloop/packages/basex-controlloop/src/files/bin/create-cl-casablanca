@@ -1,0 +1,316 @@
+#! /bin/bash
+
+###
+# ============LICENSE_START=======================================================
+# PDP-D APPS Base Package
+# ================================================================================
+# Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============LICENSE_END=========================================================
+###
+
+# Interactive script to generate and install in a pdp-d control loops demo rules
+# for a standalone PDP-D usage
+
+source "${POLICY_HOME}"/etc/build.info
+
+echo "Control Loop CLI Generator for R2 Casablanca Release"
+echo "---------------------------------------------------"
+echo
+
+GROUP_ID="org.onap.policy.rules.casablanca"
+ARTIFACT_ID="casablanca"
+VERSION="${version:-1.2.0}"
+PACKAGE="org.onap.policy.rules.casablanca"
+
+# vCPE Policy Parameters
+VCPE_CONTROL_LOOP_NAME="ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
+VCPE_POLICY_NAME="vcpe"
+VCPE_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoopName%3A+ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e%0D%0A++trigger_policy%3A+unique-policy-id-1-restart%0D%0A++timeout%3A+3600%0D%0A++abatement%3A+true%0D%0A+%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-1-restart%0D%0A++++name%3A+Restart+the+VM%0D%0A++++description%3A%0D%0A++++actor%3A+APPC%0D%0A++++recipe%3A+Restart%0D%0A++++target%3A%0D%0A++++++type%3A+VM%0D%0A++++retry%3A+3%0D%0A++++timeout%3A+1200%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
+
+# vFW Policy Parameters
+VFW_CONTROL_LOOP_NAME="ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a"
+VFW_POLICY_NAME="vfw"
+VFW_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoopName%3A+ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a%0D%0A++trigger_policy%3A+unique-policy-id-1-modifyConfig%0D%0A++timeout%3A+1200%0D%0A++abatement%3A+false%0D%0A+%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-1-modifyConfig%0D%0A++++name%3A+modify+packet+gen+config%0D%0A++++description%3A%0D%0A++++actor%3A+APPC%0D%0A++++recipe%3A+ModifyConfig%0D%0A++++target%3A%0D%0A++++++%23+TBD+-+Cannot+be+known+until+instantiation+is+done%0D%0A++++++resourceID%3A+Eace933104d443b496b8.nodes.heat.vpg%0D%0A++++++type%3A+VNF%0D%0A++++retry%3A+0%0D%0A++++timeout%3A+300%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
+
+# vDNS Policy Parameters
+VDNS_CONTROL_LOOP_NAME="ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3"
+VDNS_POLICY_NAME="vdns"
+VDNS_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoopName%3A+ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3%0D%0A++trigger_policy%3A+unique-policy-id-1-scale-up%0D%0A++timeout%3A+1200%0D%0A++abatement%3A+false%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-1-scale-up%0D%0A++++name%3A+Create+a+new+VF+Module%0D%0A++++description%3A%0D%0A++++actor%3A+SO%0D%0A++++recipe%3A+VF+Module+Create%0D%0A++++target%3A%0D%0A++++++type%3A+VNF%0D%0A++++retry%3A+0%0D%0A++++timeout%3A+1200%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
+
+# VoLTE Policy Parameters
+VOLTE_CONTROL_LOOP_NAME="ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b"
+VOLTE_POLICY_NAME="volte"
+VOLTE_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoopName%3A+ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b%0D%0A++trigger_policy%3A+unique-policy-id-1-restart%0D%0A++timeout%3A+3600%0D%0A++abatement%3A+false%0D%0A+%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-1-restart%0D%0A++++name%3A+Restart+the+VM%0D%0A++++description%3A%0D%0A++++actor%3A+VFC%0D%0A++++recipe%3A+Restart%0D%0A++++target%3A%0D%0A++++++type%3A+VM%0D%0A++++retry%3A+3%0D%0A++++timeout%3A+1200%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
+
+# Generic Scope and Version
+POLICY_SCOPE="casablanca"
+POLICY_VERSION="v0.0.1"
+
+BRMSGW_TOPIC="BRMSGW-POLICY"
+BRMSGW_SERVERS="vm1.mr.simpledemo.openecomp.org"
+
+DMAAP_SERVERS="vm1.mr.simpledemo.openecomp.org"
+DCAE_TOPIC="unauthenticated.DCAE_CL_OUTPUT"
+DCAE_SERVERS="vm1.mr.simpledemo.openecomp.org"
+
+read -e -i "${GROUP_ID}" -p "Target Rules Group Id> " GROUP_ID
+read -e -i "${ARTIFACT_ID}" -p "Target Rules Artifact Id> " ARTIFACT_ID
+read -e -i "${VERSION}" -p "Target Rules Version> " VERSION
+read -e -i "${PACKAGE}" -p "Target Rules Java Package> " PACKAGE
+
+read -e -i "${VCPE_CONTROL_LOOP_NAME}" -p "VCPE Control Loop Name> " VCPE_CONTROL_LOOP_NAME
+read -e -i "${VCPE_POLICY_NAME}" -p "VCPE Policy Name> " VCPE_POLICY_NAME
+read -e -i "${VCPE_CONTROL_LOOP_YAML}" -p "VCPE Control Loop Yaml> " VCPE_CONTROL_LOOP_YAML
+
+read -e -i "${VFW_CONTROL_LOOP_NAME}" -p "VFW Control Loop Name> " VFW_CONTROL_LOOP_NAME
+read -e -i "${VFW_POLICY_NAME}" -p "VFW Policy Name> " VFW_POLICY_NAME
+read -e -i "${VFW_CONTROL_LOOP_YAML}" -p "VFW Control Loop Yaml> " VFW_CONTROL_LOOP_YAML
+
+read -e -i "${VDNS_CONTROL_LOOP_NAME}" -p "VDNS Control Loop Name> " VDNS_CONTROL_LOOP_NAME
+read -e -i "${VDNS_POLICY_NAME}" -p "VDNS Policy Name> " VDNS_POLICY_NAME
+read -e -i "${VDNS_CONTROL_LOOP_YAML}" -p "VDNS Control Loop Yaml> " VDNS_CONTROL_LOOP_YAML
+
+read -e -i "${VOLTE_CONTROL_LOOP_NAME}" -p "VOLTE Control Loop Name> " VOLTE_CONTROL_LOOP_NAME
+read -e -i "${VOLTE_POLICY_NAME}" -p "VOLTE Policy Name> " VOLTE_POLICY_NAME
+read -e -i "${VOLTE_CONTROL_LOOP_YAML}" -p "VOLTE Control Loop Yaml> " VOLTE_CONTROL_LOOP_YAML
+
+read -e -i "${POLICY_SCOPE}" -p "Generic Policy Scope> " POLICY_SCOPE
+read -e -i "${POLICY_VERSION}" -p "Generic Policy Version> " POLICY_VERSION
+
+read -e -i "${BRMSGW_TOPIC}" -p "Controller BRMSGW TOPIC> " BRMSGW_TOPIC
+read -e -i "${BRMSGW_SERVERS}" -p "Configuration BRMSGW DMaaP Servers> " BRMSGW_SERVERS
+
+read -e -i "${DCAE_SERVERS}" -p "Configuration DCAE DMaaP Servers> " DCAE_SERVERS
+read -e -i "${DMAAP_SERVERS}" -p "Configuration Open DMaaP Servers> " DMAAP_SERVERS
+read -e -i "${DCAE_TOPIC}" -p "Controller DCAE Topic> " DCAE_TOPIC
+
+echo
+echo
+
+if [ -z "${GROUP_ID}" ]; then echo "Aborting: Rules Maven Group Id not provided"; exit 1; fi
+if [ -z "${ARTIFACT_ID}" ]; then echo "Aborting: Rules Maven Coordinates Artifact Id not provided"; exit 1; fi
+if [ -z "${VERSION}" ]; then echo "Aborting: Rules Maven Coordinates Version not provided"; exit 1; fi
+if [ -z "${PACKAGE}" ]; then echo "Aborting: Rules Package not provided"; exit 1; fi
+
+if [ -z "${VCPE_CONTROL_LOOP_NAME}" ]; then echo "Aborting: VCPE Control Loop Name not provided"; exit 1; fi
+if [ -z "${VCPE_POLICY_NAME}" ]; then echo "Aborting: VCPE Policy Name not provided"; exit 1; fi
+if [ -z "${VCPE_CONTROL_LOOP_YAML}" ]; then echo "Aborting: VCPE Control Loop Yaml not provided"; exit 1; fi
+
+if [ -z "${VFW_CONTROL_LOOP_NAME}" ]; then echo "Aborting: VFW Control Loop Name not provided"; exit 1; fi
+if [ -z "${VFW_POLICY_NAME}" ]; then echo "Aborting: VFW Policy Name not provided"; exit 1; fi
+if [ -z "${VFW_CONTROL_LOOP_YAML}" ]; then echo "Aborting: VFW Control Loop Yaml not provided"; exit 1; fi
+
+if [ -z "${VDNS_CONTROL_LOOP_NAME}" ]; then echo "Aborting: VDNS Control Loop Name not provided"; exit 1; fi
+if [ -z "${VDNS_POLICY_NAME}" ]; then echo "Aborting: VDNS Policy Name not provided"; exit 1; fi
+if [ -z "${VDNS_CONTROL_LOOP_YAML}" ]; then echo "Aborting: VDNS Control Loop Yaml not provided"; exit 1; fi
+
+if [ -z "${VOLTE_CONTROL_LOOP_NAME}" ]; then echo "Aborting: VOLTE Control Loop Name not provided"; exit 1; fi
+if [ -z "${VOLTE_POLICY_NAME}" ]; then echo "Aborting: VOLTE Policy Name not provided"; exit 1; fi
+if [ -z "${VOLTE_CONTROL_LOOP_YAML}" ]; then echo "Aborting: VOLTE Control Loop Yaml not provided"; exit 1; fi
+
+if [ -z "${POLICY_SCOPE}" ]; then echo "Aborting: Template Policy Scope not provided"; exit 1; fi
+if [ -z "${POLICY_VERSION}" ]; then echo "Aborting: Template Policy Version not provided"; exit 1; fi
+
+if [ -z "${BRMSGW_TOPIC}" ]; then echo "Aborting: Configuration BRMSGW DMaaP Topic not provided"; exit 1; fi
+if [ -z "${BRMSGW_SERVERS}" ]; then echo "Aborting: Configuration BRMSGW DMaaP Servers not provided"; exit 1; fi
+
+if [ -z "${DCAE_TOPIC}" ]; then echo "Aborting: Configuration DCAE DMaaP Topic not provided"; exit 1; fi
+if [ -z "${DMAAP_SERVERS}" ]; then echo "Aborting: Configuration Open DMaaP Servers not provided"; exit 1; fi
+if [ -z "${DCAE_SERVERS}" ]; then echo "Aborting: Configuration DCAE DMaaP Servers not provided"; exit 1; fi
+
+DEPENDENCIES_VERSION="${version}"
+
+read -e -i "${DEPENDENCIES_VERSION}" -p  "Control Loop Jar Dependencies Version (ie: 1.2.0-SNAPSHOT, or 1.2.0) > " DEPENDENCIES_VERSION
+if [ -z "${DEPENDENCIES_VERSION}" ]; then echo "Aborting: Control Loop Jar Dependencies Version not provided"; exit 1; fi
+
+echo "---------------------------------------------------------------------------------------"
+echo "Please review the Control Loop Rules, Template, and Configuration Parameters:"
+echo
+echo "The generated rules jar will be installed in a local Maven Repository"
+echo
+echo "Rules Maven Artifact Generation: Group Id: ${GROUP_ID}"
+echo "Rules Maven Artifact Generation: Artifact Id: ${ARTIFACT_ID}"
+echo "Rules Maven Artifact Generation: Version: ${VERSION}"
+echo "Rules Maven Artifact Generation: Java Package: ${PACKAGE}"
+echo "Rules Maven Artifact Generation: pom: Java Libraries Dependencies Version: ${DEPENDENCIES_VERSION}"
+echo
+echo "VCPE Drools Fact Generation: VCPE Control Loop Control Name: ${VCPE_CONTROL_LOOP_NAME}"
+echo "VCPE Drools Fact Generation: VCPE Control Loop Policy Name: ${VCPE_POLICY_NAME}"
+echo "VCPE Drools Fact Generation: VCPE Control Loop Yaml: ${VCPE_CONTROL_LOOP_YAML}"
+echo
+echo "VFW Drools Fact Generation: VFW Control Loop Control Name: ${VFW_CONTROL_LOOP_NAME}"
+echo "VFW Drools Fact Generation: VFW Control Loop Policy Name: ${VFW_POLICY_NAME}"
+echo "VFW Drools Fact Generation: VFW Control Loop Yaml: ${VFW_CONTROL_LOOP_YAML}"
+echo
+echo "VDNS Drools Fact Generation: VDNS Control Loop Control Name: ${VDNS_CONTROL_LOOP_NAME}"
+echo "VDNS Drools Fact Generation: VDNS Control Loop Policy Name: ${VDNS_POLICY_NAME}"
+echo "VDNS Drools Fact Generation: VDNS Control Loop Yaml: ${VDNS_CONTROL_LOOP_YAML}"
+echo
+echo "VOLTE Drools Fact Generation: VOLTE Control Loop Control Name: ${VOLTE_CONTROL_LOOP_NAME}"
+echo "VOLTE Drools Fact Generation: VOLTE Control Loop Policy Name: ${VOLTE_POLICY_NAME}"
+echo "VOLTE Drools Fact Generation: VOLTE Control Loop Yaml: ${VOLTE_CONTROL_LOOP_YAML}"
+echo
+echo "Generic Drools Fact: Control Loop Policy Scope: ${POLICY_SCOPE}"
+echo "Generic: Control Loop Policy Version: ${POLICY_VERSION}"
+echo
+echo "Configuration Policy Controller: Rules: Group Id: ${GROUP_ID}"
+echo "Configuration Policy Controller: Rules: Artifact Id: ${ARTIFACT_ID}"
+echo "Configuration Policy Controller: Rules: Version: ${VERSION}"
+echo
+echo "Configuration Policy Controller: BRMSGW DMaaP Topic: ${BRMSGW_TOPIC}"
+echo "Configuration Policy Controller: BRMSGW DMaaP Servers: ${BRMSGW_SERVERS}"
+echo
+echo "Configuration Policy Controller: DCAE DMaaP Topic: ${DCAE_TOPIC}"
+echo "Configuration Policy Controller: DCAE DMaaP Servers: ${DCAE_SERVERS}"
+echo
+echo "Configuration Policy Controller: Open DMaaP Servers: ${DMAAP_SERVERS}"
+echo "---------------------------------------------------------------------------------------"
+echo
+
+HAPPY="Y"
+read -e -i "${HAPPY}" -p  "Are the previous parameters correct (Y/N)? " HAPPY
+if [[ ${HAPPY} != "Y" ]]; then
+	exit 1
+fi
+
+echo
+DIR_TMP="/tmp"
+echo "The Control Loop Rules Maven Project Source Rules will be installed at ${DIR_TMP}"
+read -e -i "${DIR_TMP}" -p  "Do you want to change the Rules Source Project install directory? " DIR_TMP
+
+if [ ! -w "${DIR_TMP}" ]; then
+	echo "Aborting.  ${DIR_TMP} is not writable"
+	exit 1
+fi
+
+ARCHETYPE_GROUP_ID="org.onap.policy.drools-applications.controlloop.templates"
+ARCHETYPE_ARTIFACT_ID="archetype-cl-casablanca"
+ARCHETYPE_VERSION="${VERSION}"
+
+if [ -d "${DIR_TMP}/${ARTIFACT_ID}/" ]; then
+	if [ "$(ls -A "${DIR_TMP}/${ARTIFACT_ID}"/)" ]; then
+    		echo "${DIR_TMP} already contains a ${ARTIFACT_ID}/ directory, saving it to ${DIR_TMP}/${ARTIFACT_ID}.arch.bak/"
+    		if [ -d "${DIR_TMP}/${ARTIFACT_ID}.arch.bak"/ ]; then
+    			( 
+    				echo "${DIR_TMP}/${ARTIFACT_ID}.arch.bak/ also exists, deleting it .."
+    				cd "${DIR_TMP}"/
+    				rm -fr "${ARTIFACT_ID}.arch.bak"
+    			)
+    		fi
+		/bin/mv --force "${DIR_TMP}/${ARTIFACT_ID}/" "${DIR_TMP}/${ARTIFACT_ID}.arch.bak"
+		if [ "${?}" -ne 0 ]; then
+			echo
+			echo
+		    echo "Aborting: ${DIR_TMP}/${ARTIFACT_ID}/ cannot be moved"
+		    exit 1
+		fi
+	else
+    		( cd "${DIR_TMP}/" ; rmdir "${DIR_TMP}/${ARTIFACT_ID}/" )
+	fi
+fi
+
+CREATEARTIFACT="Y"
+read -e -i "${CREATEARTIFACT}" -p  "Create Maven Artifact (Y/N)? " CREATEARTIFACT
+if [[ ${CREATEARTIFACT} != "Y" ]]; then
+	exit 1
+fi
+
+(
+cd "${DIR_TMP}"
+
+mvn archetype:generate \
+    -B \
+    -DarchetypeCatalog=local \
+    -DarchetypeGroupId="${ARCHETYPE_GROUP_ID}" \
+    -DarchetypeArtifactId="${ARCHETYPE_ARTIFACT_ID}" \
+    -DarchetypeVersion="${ARCHETYPE_VERSION}" \
+    -Dpackage="${PACKAGE}" \
+    -DgroupId="${GROUP_ID}" \
+    -DartifactId="${ARTIFACT_ID}" \
+    -Dversion="${VERSION}" \
+    -DvcpeClosedLoopControlName="${VCPE_CONTROL_LOOP_NAME}" \
+    -DvcpePolicyName="${VCPE_POLICY_NAME}" \
+    -DvcpeControlLoopYaml="${VCPE_CONTROL_LOOP_YAML}" \
+    -DvfwClosedLoopControlName="${VFW_CONTROL_LOOP_NAME}" \
+    -DvfwPolicyName="${VFW_POLICY_NAME}" \
+    -DvfwControlLoopYaml="${VFW_CONTROL_LOOP_YAML}" \
+    -DvdnsClosedLoopControlName="${VDNS_CONTROL_LOOP_NAME}" \
+    -DvdnsPolicyName="${VDNS_POLICY_NAME}" \
+    -DvdnsControlLoopYaml="${VDNS_CONTROL_LOOP_YAML}" \
+    -DvolteClosedLoopControlName="${VOLTE_CONTROL_LOOP_NAME}" \
+    -DvoltePolicyName="${VOLTE_POLICY_NAME}" \
+    -DvolteControlLoopYaml="${VOLTE_CONTROL_LOOP_YAML}" \
+    -DpolicyScope="${POLICY_SCOPE}" \
+    -DpolicyVersion="${POLICY_VERSION}" \
+    -DbrmsgwTopic="${BRMSGW_TOPIC}" \
+    -DbrmsgwServers="${BRMSGW_SERVERS}" \
+    -DdmaapServers="${DMAAP_SERVERS}" \
+    -DdcaeTopic="${DCAE_TOPIC}" \
+    -DdcaeServers="${DCAE_SERVERS}" \
+    -DdependenciesVersion="${DEPENDENCIES_VERSION}"
+    
+if [ "${?}" -ne 0 ]; then
+	echo
+	echo
+	echo "Aborting: ${ARTIFACT_ID} has not been successfully generated"
+	exit 1
+fi
+
+echo 
+
+cd "${DIR_TMP}/${ARTIFACT_ID}"/
+
+mv src/main/config/* .
+
+echo
+echo "Control Loop Rules from templates have been successfully created under ${DIR_TMP}/${ARTIFACT_ID}/"
+echo "You have to option to further tweak this project or deploy it as is to the local maven repository."
+echo "If you decide to customize the source rules project, please enter 'N' below,"
+echo "and when finished type 'mvn install' at ${DIR_TMP}/${ARTIFACT_ID}/ to install the Control Loop."
+
+INSTALLREPO="Y"
+read -e -i "${INSTALLREPO}" -p  "Do you want to deploy ${ARTIFACT_ID} rules into maven repository (Y/N)? " INSTALLREPO
+if [[ ${INSTALLREPO} != "Y" ]]; then
+	exit 1
+fi
+
+echo
+echo "installing the rules ${ARTIFACT_ID} maven artifact .."
+
+mvn install
+
+if [ "${?}" -ne 0 ]; then
+	echo
+	echo
+	echo "Aborting: ${ARTIFACT_ID} deployable jar cannot be installed"
+	echo "Fix the source rules project issues, and issue 'mvn install'"
+	echo "at ${DIR_TMP}/${ARTIFACT_ID}/ when done to install it."
+	exit 1
+fi
+
+
+echo
+echo "${ARTIFACT_ID} has been successfully installed in user's (${USER}) local repository"
+echo "Find configuration files at ${DIR_TMP}/${ARTIFACT_ID}/"
+echo
+echo "To deploy this Control Loop into the PDP-D, follow one of these methods: "
+echo "1. copy ${DIR_TMP}/${ARTIFACT_ID}/${ARTIFACT_ID}-controller.properties under '${POLICY_HOME}/config'"
+echo "   and restart the pdp-d (policy stop; policy start)"
+echo "2. cd ${DIR_TMP}/${ARTIFACT_ID}/; rest-add-controller ${ARTIFACT_ID}"
+echo 
+echo "Once this Control Loop is deployed, you can run the push-policies-casablanca script"
+echo "to automatically insert the policies for all use cases supported in this release"
+echo
+)
