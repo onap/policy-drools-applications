@@ -53,9 +53,9 @@ public class AppcServiceProviderTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AppcServiceProviderTest.class);
 
-    private static VirtualControlLoopEvent onsetEvent;
-    private static ControlLoopOperation operation;
-    private static Policy policy;
+    private static final VirtualControlLoopEvent onsetEvent;
+    private static final ControlLoopOperation operation;
+    private static final Policy policy;
 
     static {
         /*
@@ -124,7 +124,7 @@ public class AppcServiceProviderTest {
     @Test
     public void constructModifyConfigRequestTest() {
 
-        Request appcRequest = null;
+        Request appcRequest;
         appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
 
         /* The service provider must return a non null APPC request */

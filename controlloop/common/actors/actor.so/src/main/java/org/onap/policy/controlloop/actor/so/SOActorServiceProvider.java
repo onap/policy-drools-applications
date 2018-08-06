@@ -121,7 +121,7 @@ public class SOActorServiceProvider implements Actor {
         // Perform named query request and handle response
         AaiNqResponseWrapper aaiResponseWrapper = performAaiNamedQueryRequest(onset);
         if (aaiResponseWrapper == null) {
-            // Tracing and error handling handied in the "performAaiNamedQueryRequest()" method
+            // Tracing and error handling handled in the "performAaiNamedQueryRequest()" method
             return null;
         }
 
@@ -292,8 +292,8 @@ public class SOActorServiceProvider implements Actor {
     /**
      * Constructs and sends an AAI vserver Named Query.
      * 
-     * @param onset the virtial control loop event
-     * @returns the response to the AAI Named Query
+     * @param onset the virtual control loop event
+     * @return the response to the AAI Named Query
      */
     private AaiNqResponseWrapper performAaiNamedQueryRequest(VirtualControlLoopEvent onset) {
 
@@ -353,10 +353,10 @@ public class SOActorServiceProvider implements Actor {
      * @return the base or non base index or -1 if the index was not found
      */
     private int findIndex(List<AaiNqInventoryResponseItem> inventoryResponseItems, boolean baseIndexFlag) {
-        for (AaiNqInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
-            if (invenoryResponseItem.getVfModule() != null
-                    && baseIndexFlag == invenoryResponseItem.getVfModule().getIsBaseVfModule()) {
-                return inventoryResponseItems.indexOf(invenoryResponseItem);
+        for (AaiNqInventoryResponseItem inventoryResponseItem : inventoryResponseItems) {
+            if (inventoryResponseItem.getVfModule() != null
+                    && baseIndexFlag == inventoryResponseItem.getVfModule().getIsBaseVfModule()) {
+                return inventoryResponseItems.indexOf(inventoryResponseItem);
             }
         }
 
@@ -373,9 +373,9 @@ public class SOActorServiceProvider implements Actor {
     @SuppressWarnings("unused")
     private int findNonBaseModules(List<AaiNqInventoryResponseItem> inventoryResponseItems) {
         int nonBaseModuleCount = 0;
-        for (AaiNqInventoryResponseItem invenoryResponseItem : inventoryResponseItems) {
-            if (invenoryResponseItem.getVfModule() != null
-                    && (!invenoryResponseItem.getVfModule().getIsBaseVfModule())) {
+        for (AaiNqInventoryResponseItem inventoryResponseItem : inventoryResponseItems) {
+            if (inventoryResponseItem.getVfModule() != null
+                    && (!inventoryResponseItem.getVfModule().getIsBaseVfModule())) {
                 nonBaseModuleCount++;
             }
         }
@@ -398,7 +398,7 @@ public class SOActorServiceProvider implements Actor {
      * This method reads and validates environmental properties coming from the policy engine. Null
      * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
      * 
-     * @param string the name of the parameter to retrieve
+     * @param enginePropertyName the name of the parameter to retrieve
      * @return the property value
      */
     private static String getPeManagerEnvProperty(String enginePropertyName) {

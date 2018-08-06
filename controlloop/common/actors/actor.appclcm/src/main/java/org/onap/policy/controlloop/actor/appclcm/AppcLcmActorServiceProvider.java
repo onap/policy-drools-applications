@@ -299,7 +299,7 @@ public class AppcLcmActorServiceProvider implements Actor {
             return new AbstractMap.SimpleEntry<>(PolicyResult.FAILURE_EXCEPTION, message);
         }
 
-        /* Save the APPC response's message for Policy noticiation message. */
+        /* Save the APPC response's message for Policy notification message. */
         message = appcResponse.getStatus().getMessage();
 
         /* Maps the APPC response result to a Policy result. */
@@ -326,7 +326,7 @@ public class AppcLcmActorServiceProvider implements Actor {
      * This method reads and validates environmental properties coming from the policy engine. Null
      * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
      * 
-     * @param string the name of the parameter to retrieve
+     * @param enginePropertyName the name of the parameter to retrieve
      * @return the property value
      */
     private static String getPeManagerEnvProperty(String enginePropertyName) {
