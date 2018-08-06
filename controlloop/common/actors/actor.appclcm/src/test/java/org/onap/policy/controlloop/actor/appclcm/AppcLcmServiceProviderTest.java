@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.time.Instant;
@@ -52,15 +53,15 @@ import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class AppcLcmServiceProviderTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AppcLcmServiceProviderTest.class);
 
-    private static VirtualControlLoopEvent onsetEvent;
-    private static ControlLoopOperation operation;
-    private static Policy policy;
-    private static LcmRequestWrapper dmaapRequest;
-    private static LcmResponseWrapper dmaapResponse;
+    private static final VirtualControlLoopEvent onsetEvent;
+    private static final ControlLoopOperation operation;
+    private static final Policy policy;
+    private static final LcmResponseWrapper dmaapResponse;
 
     static {
         /*
@@ -99,7 +100,7 @@ public class AppcLcmServiceProviderTest {
         policy.setTimeout(300);
 
         /* A sample DMAAP request wrapper. */
-        dmaapRequest = new LcmRequestWrapper();
+        LcmRequestWrapper dmaapRequest = new LcmRequestWrapper();
         dmaapRequest.setCorrelationId(onsetEvent.getRequestId().toString() + "-" + "1");
         dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
         dmaapRequest.setType("request");
@@ -224,7 +225,7 @@ public class AppcLcmServiceProviderTest {
         dmaapResponse.getBody().getStatus().setCode(100);
         dmaapResponse.getBody().getStatus().setMessage("ACCEPTED");
         result = AppcLcmActorServiceProvider.processResponse(dmaapResponse);
-        assertEquals(null, result.getKey());
+        assertNull(result.getKey());
 
         /* If APPC is successful, PolicyResult is success */
         dmaapResponse.getBody().getStatus().setCode(400);

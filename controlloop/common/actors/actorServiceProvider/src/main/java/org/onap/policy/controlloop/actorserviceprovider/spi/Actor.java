@@ -24,12 +24,12 @@ import java.util.List;
 
 public interface Actor {
 
-    public String actor();
+    String actor();
 
-    public List<String> recipes();
+    List<String> recipes();
 
-    public List<String> recipeTargets(String recipe);
+    List<String> recipeTargets(String recipe);
 
-    public List<String> recipePayloads(String recipe);
+    List<String> recipePayloads(String recipe);
 
 }

@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import org.junit.AfterClass;
@@ -98,7 +99,7 @@ public class TestVFCActorServiceProvider {
         VFCRequest request =
                 VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse());
 
-        assertEquals(requestId, request.getRequestId());
+        assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
         assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
         assertEquals("restartvm", request.getHealRequest().getAdditionalParams().getAction());
     }

@@ -33,28 +33,28 @@ public class TestActor implements Actor {
 
     @Override
     public List<String> recipes() {
-        List<String> recipieList = new ArrayList<>();
-        recipieList.add("Dorothy");
-        recipieList.add("Wizard");
+        List<String> recipeList = new ArrayList<>();
+        recipeList.add("Dorothy");
+        recipeList.add("Wizard");
 
-        return recipieList;
+        return recipeList;
     }
 
     @Override
     public List<String> recipeTargets(String recipe) {
-        List<String> recipieTargetList = new ArrayList<>();
-        recipieTargetList.add("Wicked Witch");
-        recipieTargetList.add("Wizard of Oz");
+        List<String> recipeTargetList = new ArrayList<>();
+        recipeTargetList.add("Wicked Witch");
+        recipeTargetList.add("Wizard of Oz");
 
-        return recipieTargetList;
+        return recipeTargetList;
     }
 
     @Override
     public List<String> recipePayloads(String recipe) {
-        List<String> recipiePayloadList = new ArrayList<>();
-        recipiePayloadList.add("Dorothy");
-        recipiePayloadList.add("Toto");
+        List<String> recipePayloadList = new ArrayList<>();
+        recipePayloadList.add("Dorothy");
+        recipePayloadList.add("Toto");
 
-        return recipiePayloadList;
+        return recipePayloadList;
     }
 }
