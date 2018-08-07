@@ -35,7 +35,7 @@ public class ActorService {
     private static ActorService service;
 
     // USed to load actors
-    private ServiceLoader<Actor> loader;
+    private final ServiceLoader<Actor> loader;
 
     private ActorService() {
         loader = ServiceLoader.load(Actor.class);
