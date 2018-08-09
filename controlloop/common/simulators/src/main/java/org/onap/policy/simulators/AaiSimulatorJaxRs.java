@@ -324,7 +324,7 @@ public class AaiSimulatorJaxRs {
         }
         final boolean isDisabled = "disableClosedLoop".equals(vserverName);
         final String vserverId = getUUIDValue(vserverName, "d0668d4f-c25e-4a1b-87c4-83845c01efd8");
-        return "{\"vserver\": [{ \"vserver-id\": \"" + vserverId + "\", \"vserver-name\": \"" + vserverName
+        return "{ \"vserver-id\": \"" + vserverId + "\", \"vserver-name\": \"" + vserverName
                 + "\", \"vserver-name2\": \"vjunos0\", \"vserver-selflink\": \"https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8\", \"in-maint\": false, \"is-closed-loop-disabled\": "
                 + isDisabled
                 + ", \"resource-version\": \"1494001931513\", \"relationship-list\": {\"relationship\":[{ \"related-to"
@@ -335,7 +335,7 @@ public class AaiSimulatorJaxRs {
                 + "USMSO1SX7NJ0103UJSW01\" }]},{ \"related-to\": \"pserver\", \"related-link\": \"/aai/v11/"
                 + "cloud-infrastructure/pservers/pserver/USMSO1SX7NJ0103UJZZ01\", \"relationship-data\": [ {\""
                 + "relationship-key\": \"pserver.hostname\",\"relationship-value\": \"USMSO1SX7NJ0103UJZZ01\" }], \""
-                + "related-to-property\": [{\"property-key\": \"pserver.pserver-name2\"}]} ]}}]}";
+                + "related-to-property\": [{\"property-key\": \"pserver.pserver-name2\"}]} ]}}";
     }
 
     private String getUUIDValue(final String value, final String defaultValue) {
