@@ -21,6 +21,8 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -29,28 +31,31 @@ import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RelatedToPropertyTest {
-    private static final Logger logger = LoggerFactory.getLogger(RelatedToPropertyTest.class);
+public class AaiGetResponseTest {
+    private static final Logger logger = LoggerFactory.getLogger(AaiGetResponseTest.class);
 
     @Test
     public void test() throws Exception {
         // deserialize json and verify fields are populated properly
         String json = new String(Files.readAllBytes(
-                        new File("src/test/resources/org/onap/policy/aai/RelatedToProperty.json").toPath()));
+                        new File("src/test/resources/org/onap/policy/aai/AaiGetResponseError.json").toPath()));
 
-        RelatedToProperty relatedToProperty = Serialization.gsonPretty.fromJson(json, RelatedToProperty.class);
+        AaiGetResponse resp = Serialization.gsonPretty.fromJson(json, AaiGetResponse.class);
 
-        assertEquals("generic-vnf.vnf-name", relatedToProperty.getPropertyKey());
-        assertEquals("vLoadBalancerMS-Vnf-0809-1", relatedToProperty.getPropertyValue());
+        // don't need to verify this in depth, as it has its own tests that do that
+        assertNotNull(resp.getRequestError());
+        assertNotNull(resp.getRequestError().getServiceExcept());
+        assertEquals("SVC3001", resp.getRequestError().getServiceExcept().getMessageId());
 
-        logger.info(Serialization.gsonPretty.toJson(relatedToProperty));
+        logger.info(Serialization.gsonPretty.toJson(resp));
 
         // verify that setXxx methods work
-        relatedToProperty.setPropertyKey("a key");
-        relatedToProperty.setPropertyValue("a value");
+        resp.setRequestError(null);
+        assertNull(resp.getRequestError());
 
-        assertEquals("a key", relatedToProperty.getPropertyKey());
-        assertEquals("a value", relatedToProperty.getPropertyValue());
+        AaiNqRequestError err = new AaiNqRequestError();
+        resp.setRequestError(err);
+        assertEquals(err, resp.getRequestError());
     }
 
 }

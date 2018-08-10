@@ -21,7 +21,11 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
@@ -31,64 +35,70 @@ public class AaiGetVnfResponseTest {
     private static final Logger logger = LoggerFactory.getLogger(AaiGetVnfResponseTest.class);
 
     @Test
-    public void test() {
-        AaiGetVnfResponse response = new AaiGetVnfResponse();
+    public void test() throws Exception {
+        // deserialize json and verify fields are populated properly
+        String json = new String(Files.readAllBytes(
+                        new File("src/test/resources/org/onap/policy/aai/AaiGetVnfResponse.json").toPath()));
 
-        response.setVnfId("83f674e8-7555-44d7-9a39-bdc3770b0491");
-        response.setVnfName("lll_vnf_010317");
-        response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
-        response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
-        response.setOrchestrationStatus("Created");
-        response.setInMaint("false");
-        response.setIsClosedLoopDisabled("false");
-        response.setResourceVersion("1494001988835");
-        response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
-        assertEquals("83f674e8-7555-44d7-9a39-bdc3770b0491", response.getVnfId());
-        assertEquals("lll_vnf_010317", response.getVnfName());
-        assertEquals("Basa-122216-Service/VidVsamp12BaseVolume 1", response.getVnfType());
-        assertEquals("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb", response.getServiceId());
-        assertEquals("Created", response.getOrchestrationStatus());
-        assertEquals("false", response.getInMaint());
-        assertEquals("false", response.getIsClosedLoopDisabled());
-        assertEquals("1494001988835", response.getResourceVersion());
-        assertEquals("f18be3cd-d446-456e-9109-121d9b62feaa", response.getModelInvariantId());
+        AaiGetVnfResponse resp = Serialization.gsonPretty.fromJson(json, AaiGetVnfResponse.class);
 
-        final RelationshipList relationshipList = new RelationshipList();
-        final Relationship relationship = new Relationship();
-        RelationshipData relationshipData = new RelationshipData();
-        RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
+        assertEquals("807a3f02-f878-436b-870c-f0e91e81570d", resp.getVnfId());
+        assertEquals("vLoadBalancerMS-Vnf-0809-2", resp.getVnfName());
+        assertEquals("vLoadBalancerMS/vLoadBalancerMS 0", resp.getVnfType());
+        assertEquals("1533850960381", resp.getResourceVersion());
+        assertEquals(false, resp.getInMaint());
+        assertEquals(true, resp.getIsClosedLoopDisabled());
+        assertEquals("53638a85-361a-437d-8830-4b0d5329225e", resp.getModelInvariantId());
+        assertEquals("Active", resp.getOrchestrationStatus());
+        assertEquals("50e1b0be-e0c9-48e2-9f42-15279a783ee8", resp.getServiceId());
 
-        relationshipDataItem.setRelationshipKey("customer.global-customer-id");
-        relationshipDataItem.setRelationshipValue("MSO_1610_ST");
-        relationshipData.getRelationshipData().add(relationshipDataItem);
+        // don't need to verify this in depth, as it has its own tests that do that
+        RelationshipList relationshipList = resp.getRelationshipList();
+        assertNotNull(relationshipList);
 
-        relationshipDataItem.setRelationshipKey("service-subscription.service-type");
-        relationshipDataItem.setRelationshipValue("MSO-dev-service-type");
-        relationshipData.getRelationshipData().add(relationshipDataItem);
+        List<Relationship> lst = relationshipList.getRelationships();
+        assertNotNull(lst);
 
-        relationshipDataItem.setRelationshipKey("service-instance.service-instance-id");
-        relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
-        relationshipData.getRelationshipData().add(relationshipDataItem);
+        assertEquals(5, lst.size());
+        assertEquals("service-instance", lst.get(0).getRelatedTo());
+        assertEquals("line-of-business", lst.get(1).getRelatedTo());
 
-        RelatedToProperty relatedToProperty = new RelatedToProperty();
-        RelatedToPropertyItem item = new RelatedToPropertyItem();
-        item.setPropertyKey("service-instance.service-instance-name");
-        item.setPropertyValue("lll_svc_010317");
-        relatedToProperty.getRelatedTo().add(item);
-        assertEquals("service-instance.service-instance-name", item.getPropertyKey());
-        assertEquals("lll_svc_010317", item.getPropertyValue());
+        logger.info(Serialization.gsonPretty.toJson(resp));
 
-        relationship.setRelatedTo("service-instance");
-        relationship.setRelatedLink(
-                "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/"
-                        + "MSO-dev-service-type/service-instances/service-instance/"
-                        + "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
-        relationship.setRelationshipData(relationshipData);
-        relationship.setRelatedToProperty(relatedToProperty);
+        // verify that setXxx methods work
+        relationshipList = new RelationshipList();
 
-        relationshipList.getRelationshipList().add(relationship);
-        response.setRelationshipList(relationshipList);
+        resp.setInMaint(true);
+        resp.setIsClosedLoopDisabled(false);
+        resp.setModelInvariantId("modiv");
+        resp.setOrchestrationStatus("orch");
+        resp.setRelationshipList(relationshipList);
+        resp.setResourceVersion("vers");
+        resp.setServiceId("svc");
+        resp.setVnfId("vnfid");
+        resp.setVnfName("vnfname");
+        resp.setVnfType("vnftype");
 
-        logger.info(Serialization.gsonPretty.toJson(response));
+        assertEquals("vnfid", resp.getVnfId());
+        assertEquals("vnfname", resp.getVnfName());
+        assertEquals("vnftype", resp.getVnfType());
+        assertEquals("vers", resp.getResourceVersion());
+        assertEquals(true, resp.getInMaint());
+        assertEquals(false, resp.getIsClosedLoopDisabled());
+        assertEquals("modiv", resp.getModelInvariantId());
+        assertEquals("orch", resp.getOrchestrationStatus());
+        assertEquals("svc", resp.getServiceId());
+        assertEquals(relationshipList, resp.getRelationshipList());
+
+
+        // test error case
+        json = new String(Files.readAllBytes(
+                        new File("src/test/resources/org/onap/policy/aai/AaiGetResponseError.json").toPath()));
+        resp = Serialization.gsonPretty.fromJson(json, AaiGetVnfResponse.class);
+
+        // don't need to verify this in depth, as it has its own tests that do that
+        assertNotNull(resp.getRequestError());
+        assertNotNull(resp.getRequestError().getServiceExcept());
+        assertEquals("SVC3001", resp.getRequestError().getServiceExcept().getMessageId());
     }
 }

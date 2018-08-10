@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,9 @@ public class AaiNqVServer implements Serializable {
     @SerializedName("resource-version")
     private String resourceVersion;
 
+    @SerializedName("relationship-list")
+    private RelationshipList relationshipList;
+
     public String getVserverId() {
         return vserverId;
     }
@@ -81,6 +84,10 @@ public class AaiNqVServer implements Serializable {
 
     public String getResourceVersion() {
         return resourceVersion;
+    }
+
+    public RelationshipList getRelationshipList() {
+        return relationshipList;
     }
 
     public void setVserverId(String vserverId) {
@@ -115,5 +122,8 @@ public class AaiNqVServer implements Serializable {
         this.resourceVersion = resourceVersion;
     }
 
+    public void setRelationshipList(RelationshipList relationshipList) {
+        this.relationshipList = relationshipList;
+    }
 
 }

@@ -23,6 +23,9 @@ package org.onap.policy.aai;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,26 +44,58 @@ public class AaiNqVServerTest {
     public static void tearDownAfterClass() throws Exception {}
 
     @Test
-    public void test() {
-        AaiNqVServer aaiNqVServer = new AaiNqVServer();
-        aaiNqVServer.setVserverId("dhv-test-vserver");
-        aaiNqVServer.setVserverName("dhv-test-vserver-name");
-        aaiNqVServer.setVserverName2("dhv-test-vserver-name2");
-        aaiNqVServer.setProvStatus("PREPROV");
-        aaiNqVServer.setVserverSelflink("dhv-test-vserver-selflink");
-        aaiNqVServer.setInMaint(false);
-        aaiNqVServer.setIsClosedLoopDisabled(false);
-        aaiNqVServer.setResourceVersion("1485366417");
-        assertNotNull(aaiNqVServer);
-        assertEquals("dhv-test-vserver", aaiNqVServer.getVserverId());
-        assertEquals("dhv-test-vserver-name", aaiNqVServer.getVserverName());
-        assertEquals("dhv-test-vserver-name2", aaiNqVServer.getVserverName2());
-        assertEquals("PREPROV", aaiNqVServer.getProvStatus());
-        assertEquals("dhv-test-vserver-selflink", aaiNqVServer.getVserverSelflink());
-        assertEquals(false, aaiNqVServer.getInMaint());
-        assertEquals(false, aaiNqVServer.getIsClosedLoopDisabled());
-        assertEquals("1485366417", aaiNqVServer.getResourceVersion());
-        logger.info(Serialization.gsonPretty.toJson(aaiNqVServer));
+    public void test() throws Exception {
+        // deserialize json and verify fields are populated properly
+        String json = new String(Files
+                        .readAllBytes(new File("src/test/resources/org/onap/policy/aai/AaiNqVServer.json").toPath()));
+
+        AaiNqVServer resp = Serialization.gsonPretty.fromJson(json, AaiNqVServer.class);
+
+        assertEquals(false, resp.getInMaint());
+        assertEquals(true, resp.getIsClosedLoopDisabled());
+        assertEquals("ACTIVE", resp.getProvStatus());
+        assertEquals("1533850964910", resp.getResourceVersion());
+        assertEquals("1c94da3f-16f1-4fc7-9ed1-e018dfa62774", resp.getVserverId());
+        assertEquals("vlb-ms-0809-1", resp.getVserverName());
+        assertEquals("vlb-ms-0809-7", resp.getVserverName2());
+        assertEquals("http://localhost:8774/v2.1/4086f396c5e04caf9502c5fdeca575c4/servers/1c94da3f-16f1-4fc7-9ed1-e018dfa62774",
+                        resp.getVserverSelflink());
+
+        // don't need to verify this in depth, as it has its own tests that do that
+        RelationshipList relationshipList = resp.getRelationshipList();
+        assertNotNull(relationshipList);
+
+        List<Relationship> lst = relationshipList.getRelationships();
+        assertNotNull(lst);
+
+        assertEquals(3, lst.size());
+        assertEquals("generic-vnf", lst.get(0).getRelatedTo());
+        assertEquals("image", lst.get(1).getRelatedTo());
+
+        logger.info(Serialization.gsonPretty.toJson(resp));
+
+        // verify that setXxx methods work
+        relationshipList = new RelationshipList();
+
+        resp.setInMaint(true);
+        resp.setIsClosedLoopDisabled(false);
+        resp.setProvStatus("inactive");
+        resp.setRelationshipList(relationshipList);
+        resp.setResourceVersion("vers");
+        resp.setVserverId("vid");
+        resp.setVserverName("vname");
+        resp.setVserverName2("vname2");
+        resp.setVserverSelflink("link");
+
+        assertEquals(true, resp.getInMaint());
+        assertEquals(false, resp.getIsClosedLoopDisabled());
+        assertEquals("inactive", resp.getProvStatus());
+        assertEquals("vers", resp.getResourceVersion());
+        assertEquals("vid", resp.getVserverId());
+        assertEquals("vname", resp.getVserverName());
+        assertEquals("vname2", resp.getVserverName2());
+        assertEquals("link", resp.getVserverSelflink());
+        assertEquals(relationshipList, resp.getRelationshipList());
     }
 
 }
