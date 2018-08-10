@@ -26,11 +26,13 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.AaiNqVServer;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -708,12 +710,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             throw new AaiException("AAI Responded with a request error (query by " + queryTypeString + ")");
         }
 
-        if (aaiResponse.getIsClosedLoopDisabled() != null) {
-            String value = aaiResponse.getIsClosedLoopDisabled();
-            if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value)
-                    || "Y".equalsIgnoreCase(value)) {
-                throw new AaiException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
-            }
+        if (aaiResponse.getIsClosedLoopDisabled()) {
+            throw new AaiException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
         }
     }
 
@@ -724,13 +722,15 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (aaiResponse.getRequestError() != null) {
             throw new AaiException("AAI responded with a request error (query by vserver-name)");
         }
-
-        if (aaiResponse.getIsClosedLoopDisabled() != null) {
-            String value = aaiResponse.getIsClosedLoopDisabled();
-            if ("true".equalsIgnoreCase(value) || "T".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value)
-                    || "Y".equalsIgnoreCase(value)) {
-                throw new AaiException("is-closed-loop-disabled is set to true (query by vserver-name)");
-            }
+        
+        List<AaiNqVServer> lst = aaiResponse.getVserver();
+        if(lst.isEmpty()) {
+            return;
+        }
+        
+        AaiNqVServer svr = lst.get(0);
+        if (svr.getIsClosedLoopDisabled()) {
+            throw new AaiException("is-closed-loop-disabled is set to true (query by vserver-name)");
         }
     }
 

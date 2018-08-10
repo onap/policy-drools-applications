@@ -21,10 +21,8 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import java.io.File;
+import java.nio.file.Files;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
@@ -33,33 +31,24 @@ import org.slf4j.LoggerFactory;
 public class RelationshipDataTest {
     private static final Logger logger = LoggerFactory.getLogger(RelationshipDataTest.class);
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
-
     @Test
-    public void test() {
-        RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
-        relationshipDataItem.setRelationshipKey("relationship-key");
-        relationshipDataItem.setRelationshipValue("relationship-value");
-        assertNotNull(relationshipDataItem);
-        assertEquals("relationship-key", relationshipDataItem.getRelationshipKey());
-        assertEquals("relationship-value", relationshipDataItem.getRelationshipValue());
+    public void test() throws Exception {
+        // deserialize json and verify fields are populated properly
+        String json = new String(Files.readAllBytes(new File("src/test/resources/org/onap/policy/aai/RelationshipData.json").toPath()));
 
-        RelationshipData relationshipData = new RelationshipData();
-        relationshipData.getRelationshipData().add(relationshipDataItem);
-        RelationshipDataItem relationshipDataItem2 = new RelationshipDataItem();
-        relationshipDataItem2.setRelationshipKey("relationship-key2");
-        relationshipDataItem2.setRelationshipValue("relationship-value2");
-        relationshipData.getRelationshipData().add(relationshipDataItem2);
-        assertNotNull(relationshipData);
-
-        relationshipData.setRelationshipData(relationshipData.getRelationshipData());
-        assertNotNull(relationshipData);
-
+        RelationshipData relationshipData = Serialization.gsonPretty.fromJson(json, RelationshipData.class);
+        
+        assertEquals("generic-vnf.vnf-id", relationshipData.getRelationshipKey());
+        assertEquals("807a3f02-f878-436b-870c-f0e91e81570d", relationshipData.getRelationshipValue());
+        
         logger.info(Serialization.gsonPretty.toJson(relationshipData));
+        
+        // verify that setXxx methods work        
+        relationshipData.setRelationshipKey("a key");
+        relationshipData.setRelationshipValue("a value");
+
+        assertEquals("a key", relationshipData.getRelationshipKey());
+        assertEquals("a value", relationshipData.getRelationshipValue());
     }
 
 }

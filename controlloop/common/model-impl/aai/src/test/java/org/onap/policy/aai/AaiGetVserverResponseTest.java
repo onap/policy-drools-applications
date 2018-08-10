@@ -1,4 +1,4 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
@@ -21,8 +21,11 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
+import static org.junit.Assert.assertNotNull;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.List;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
@@ -32,66 +35,40 @@ public class AaiGetVserverResponseTest {
     private static final Logger logger = LoggerFactory.getLogger(AaiGetVserverResponseTest.class);
 
     @Test
-    public void test() {
-        AaiGetVserverResponse response = new AaiGetVserverResponse();
+    public void test() throws Exception {
+        // deserialize json and verify fields are populated properly
+        String json = new String(Files.readAllBytes(new File("src/test/resources/org/onap/policy/aai/AaiGetVserverResponse.json").toPath()));
 
-        response.setVserverId("d0668d4f-c25e-4a1b-87c4-83845c01efd8");
-        response.setVserverName("USMSO1SX7NJ0103UJZZ01-vjunos0");
-        response.setVserverName2("vjunos0");
-        response.setVserverSelflink(
-                "https://aai-ext1.test.aaa.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/aaa-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8");
-        response.setInMaint("false");
-        response.setIsClosedLoopDisabled("false");
-        response.setResourceVersion("1494001931513");
+        AaiGetVserverResponse resp = Serialization.gsonPretty.fromJson(json, AaiGetVserverResponse.class);
 
-        assertEquals("d0668d4f-c25e-4a1b-87c4-83845c01efd8", response.getVserverId());
-        assertEquals("USMSO1SX7NJ0103UJZZ01-vjunos0", response.getVserverName());
-        assertEquals("vjunos0", response.getVserverName2());
-        assertEquals("https://aai-ext1.test.aaa.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/"
-                + "aaa-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver"
-                + "/d0668d4f-c25e-4a1b-87c4-83845c01efd8", response.getVserverSelflink());
-        assertEquals("false", response.getInMaint());
-        assertEquals("false", response.getIsClosedLoopDisabled());
-        assertEquals("1494001931513", response.getResourceVersion());
-
-        final RelationshipList relationshipList = new RelationshipList();
-        final Relationship relationship = new Relationship();
-        RelationshipData relationshipData = new RelationshipData();
-        RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
-
-        relationshipDataItem.setRelationshipKey("customer.global-customer-id");
-        relationshipDataItem.setRelationshipValue("MSO_1610_ST");
-        relationshipData.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey("service-subscription.service-type");
-        relationshipDataItem.setRelationshipValue("MSO-dev-service-type");
-        relationshipData.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey("service-instance.service-instance-id");
-        relationshipDataItem.setRelationshipValue("e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
-        relationshipData.getRelationshipData().add(relationshipDataItem);
-
-        RelatedToProperty relatedToProperty = new RelatedToProperty();
-        RelatedToPropertyItem item = new RelatedToPropertyItem();
-        item.setPropertyKey("service-instance.service-instance-name");
-        item.setPropertyValue("lll_svc_010317");
-        relatedToProperty.getRelatedTo().add(item);
-
-        relationship.setRelatedTo("service-instance");
-        relationship.setRelatedLink(
-                "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription/"
-                        + "MSO-dev-service-type/service-instances/service-instance/"
-                        + "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970");
-        relationship.setRelationshipData(relationshipData);
-        relationship.setRelatedToProperty(relatedToProperty);
-
-        relationshipList.getRelationshipList().add(relationship);
-        response.setRelationshipList(relationshipList);
-        assertEquals(response.getRelationshipList(), relationshipList);
-        response.setRequestError(null);
-        assertNull(response.getRequestError());
-
-        logger.info(Serialization.gsonPretty.toJson(response));
+        // don't need to verify this in depth, as it has its own tests that do that
+        List<AaiNqVServer> lst = resp.getVserver();
+        assertEquals(1, lst.size());
+        
+        AaiNqVServer svr = lst.get(0);
+        assertNotNull(svr);
+        assertEquals("1c94da3f-16f1-4fc7-9ed1-e018dfa62774", svr.getVserverId());
+        
+        logger.info(Serialization.gsonPretty.toJson(resp));
+        
+        // verify that setXxx methods work
+        lst = new LinkedList<>();
+        lst.add(new AaiNqVServer());
+        lst.add(new AaiNqVServer());
+        
+        resp.setVserver(lst);
+        
+        assertEquals(lst, resp.getVserver());
+        
+        
+        // test error case
+        json = new String(Files.readAllBytes(new File("src/test/resources/org/onap/policy/aai/AaiGetResponseError.json").toPath()));
+        resp = Serialization.gsonPretty.fromJson(json, AaiGetVserverResponse.class);
+        
+        // don't need to verify this in depth, as it has its own tests that do that
+        assertNotNull(resp.getRequestError());
+        assertNotNull(resp.getRequestError().getServiceExcept());
+        assertEquals("SVC3001", resp.getRequestError().getServiceExcept().getMessageId());
     }
 
 }

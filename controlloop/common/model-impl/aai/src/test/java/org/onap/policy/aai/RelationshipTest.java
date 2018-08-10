@@ -22,51 +22,64 @@ package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.List;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RelationshipTest {
-    private static final Logger logger = LoggerFactory.getLogger(AaiNqResponseWrapperTest.class);
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
+    private static final Logger logger = LoggerFactory.getLogger(RelationshipTest.class);
 
     @Test
-    public void test() {
-        Relationship relationship = new Relationship();
+    public void test() throws Exception {
+        // deserialize json and verify fields are populated properly
+        String json = new String(Files.readAllBytes(new File("src/test/resources/org/onap/policy/aai/Relationship.json").toPath()));
+
+        Relationship relationship = Serialization.gsonPretty.fromJson(json, Relationship.class);
+        
+        assertEquals("/aai/v11/network/generic-vnfs/generic-vnf/807a3f02-f878-436b-870c-f0e91e81570d", relationship.getRelatedLink());
+        assertEquals("generic-vnf", relationship.getRelatedTo());
+
+        // don't need to verify this in depth, as it has its own tests that do that
+        List<RelatedToProperty> relatedToProperty = relationship.getRelatedToProperty();
+        assertNotNull(relatedToProperty);
+        assertEquals(2, relatedToProperty.size());        
+        assertEquals("vLoadBalancerMS-Vnf-0809-1", relatedToProperty.get(0).getPropertyValue());
+        assertEquals("vLoadBalancerMS-Vnf-0809-2", relatedToProperty.get(1).getPropertyValue());
+
+        // don't need to verify this in depth, as it has its own tests that do that
+        List<RelationshipData> relationshipData = relationship.getRelationshipData();
+        assertNotNull(relationshipData);
+        assertEquals(2, relationshipData.size());        
+        assertEquals("807a3f02-f878-436b-870c-f0e91e81570d", relationshipData.get(0).getRelationshipValue());
+        assertEquals("907a3f02-f878-436b-870c-f0e91e81570e", relationshipData.get(1).getRelationshipValue());
+        
+        logger.info(Serialization.gsonPretty.toJson(relationship));
+        
+        // verify that setXxx methods work
+        relatedToProperty = new LinkedList<>();
+        relatedToProperty.add(new RelatedToProperty());
+        relatedToProperty.add(new RelatedToProperty());
+        relatedToProperty.add(new RelatedToProperty());
+        
+        relationshipData = new LinkedList<>();
+        relationshipData.add(new RelationshipData());
+        relationshipData.add(new RelationshipData());
+        relationshipData.add(new RelationshipData());
+        
         relationship.setRelatedLink("related-link");
         relationship.setRelatedTo("related-to");
+        relationship.setRelatedToProperty(relatedToProperty);
+        relationship.setRelationshipData(relationshipData);
+        
         assertEquals("related-link", relationship.getRelatedLink());
         assertEquals("related-to", relationship.getRelatedTo());
-
-        RelatedToProperty relatedToProperty = new RelatedToProperty();
-        RelatedToPropertyItem relatedToPropertyItem = new RelatedToPropertyItem();
-        relatedToPropertyItem.setPropertyKey("model.model-name");
-        relatedToPropertyItem.setPropertyValue("service-instance");
-        relatedToProperty.getRelatedTo().add(relatedToPropertyItem);
-        RelatedToPropertyItem relatedToPropertyItem2 = new RelatedToPropertyItem();
-        relatedToPropertyItem2.setPropertyKey("model.model-name2");
-        relatedToPropertyItem2.setPropertyValue("service-instance2");
-        relatedToProperty.getRelatedTo().add(relatedToPropertyItem2);
-        relationship.setRelatedToProperty(relatedToProperty);
-        assertEquals(relationship.getRelatedToProperty(), relatedToProperty);
-        RelationshipDataItem relationshipDataItem = new RelationshipDataItem();
-        relationshipDataItem.setRelationshipKey("relationship-key");
-        relationshipDataItem.setRelationshipValue("relationship-value");
-        RelationshipData relationshipData = new RelationshipData();
-        relationshipData.getRelationshipData().add(relationshipDataItem);
-        relationship.setRelationshipData(relationshipData);
-        assertEquals(relationship.getRelationshipData(), relationshipData);
-        assertNotNull(relationship);
-        logger.info(Serialization.gsonPretty.toJson(relationship));
+        assertEquals(relatedToProperty, relationship.getRelatedToProperty());
+        assertEquals(relationshipData, relationship.getRelationshipData());
     }
 
 }

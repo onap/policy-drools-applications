@@ -21,6 +21,8 @@
 package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import java.io.File;
 import java.nio.file.Files;
 import org.junit.Test;
@@ -28,27 +30,30 @@ import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RelatedToPropertyTest {
-    private static final Logger logger = LoggerFactory.getLogger(RelatedToPropertyTest.class);
+public class AaiGetResponseTest {
+    private static final Logger logger = LoggerFactory.getLogger(AaiGetResponseTest.class);
 
     @Test
     public void test() throws Exception {
         // deserialize json and verify fields are populated properly
-        String json = new String(Files.readAllBytes(new File("src/test/resources/org/onap/policy/aai/RelatedToProperty.json").toPath()));
+        String json = new String(Files.readAllBytes(new File("src/test/resources/org/onap/policy/aai/AaiGetResponseError.json").toPath()));
 
-        RelatedToProperty relatedToProperty = Serialization.gsonPretty.fromJson(json, RelatedToProperty.class);
-        
-        assertEquals("generic-vnf.vnf-name", relatedToProperty.getPropertyKey());
-        assertEquals("vLoadBalancerMS-Vnf-0809-1", relatedToProperty.getPropertyValue());
-        
-        logger.info(Serialization.gsonPretty.toJson(relatedToProperty));
-        
-        // verify that setXxx methods work        
-        relatedToProperty.setPropertyKey("a key");
-        relatedToProperty.setPropertyValue("a value");
+        AaiGetResponse resp = Serialization.gsonPretty.fromJson(json, AaiGetResponse.class);
 
-        assertEquals("a key", relatedToProperty.getPropertyKey());
-        assertEquals("a value", relatedToProperty.getPropertyValue());
+        // don't need to verify this in depth, as it has its own tests that do that
+        assertNotNull(resp.getRequestError());
+        assertNotNull(resp.getRequestError().getServiceExcept());
+        assertEquals("SVC3001", resp.getRequestError().getServiceExcept().getMessageId());
+        
+        logger.info(Serialization.gsonPretty.toJson(resp));
+        
+        // verify that setXxx methods work
+        resp.setRequestError(null);
+        assertNull(resp.getRequestError());
+        
+        AaiNqRequestError err = new AaiNqRequestError();
+        resp.setRequestError(err);
+        assertEquals(err, resp.getRequestError());
     }
 
 }
