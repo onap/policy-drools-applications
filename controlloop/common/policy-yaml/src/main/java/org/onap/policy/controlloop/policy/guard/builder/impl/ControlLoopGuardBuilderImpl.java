@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,9 @@ import org.yaml.snakeyaml.Yaml;
 
 public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
     private static final String NO_EXISTING_GUARD_POLICY_MATCHING_THE_ID = "No existing guard policy matching the id: ";
-	private static final String THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL = "The id of target guard policy must not be null";
-	private static Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderImpl.class.getName());
+    private static final String THE_ID_OF_TARGET_GUARD_POLICY_MUST_NOT_BE_NULL = 
+                    "The id of target guard policy must not be null";
+    private static Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderImpl.class.getName());
     private ControlLoopGuard cLGuard;
     
     public ControlLoopGuardBuilderImpl(Guard guard) {
