@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import org.onap.policy.controlloop.policy.builder.Message;
 import org.onap.policy.controlloop.policy.builder.Results;
 
 public class ResultsImpl implements Results {
-	
-	private String specification;
-	private List<Message> messages = new LinkedList<>();
 
-	@Override
-	public List<Message> getMessages() {
-		return messages;
-	}
+    private String specification;
+    private List<Message> messages = new LinkedList<>();
 
-	@Override
-	public String getSpecification() {
-		return specification;
-	}
+    @Override
+    public List<Message> getMessages() {
+        return messages;
+    }
 
-	@Override
-	public boolean isValid() {
-		return (this.specification != null);
-	}
+    @Override
+    public String getSpecification() {
+        return specification;
+    }
 
-	public void addMessage(Message message) {
-		this.messages.add(message);
-	}
-	
-	public void setSpecification(String spec) {
-		this.specification = spec;
-	}
+    @Override
+    public boolean isValid() {
+        return (this.specification != null);
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
+
+    public void setSpecification(String spec) {
+        this.specification = spec;
+    }
 }

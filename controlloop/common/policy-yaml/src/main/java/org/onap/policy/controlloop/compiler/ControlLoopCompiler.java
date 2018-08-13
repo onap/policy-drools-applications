@@ -20,6 +20,9 @@
 
 package org.onap.policy.controlloop.compiler;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Collections;
@@ -43,15 +46,14 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
-public class ControlLoopCompiler implements Serializable{
+public class ControlLoopCompiler implements Serializable {
     private static final String OPERATION_POLICY = "Operation Policy ";
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlLoopCompiler.class.getName());
     
-    public static ControlLoopPolicy compile(ControlLoopPolicy policy, ControlLoopCompilerCallback callback) throws CompilerException {
+    public static ControlLoopPolicy compile(ControlLoopPolicy policy, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         //
         // Ensure the control loop is sane
         //
@@ -64,7 +66,8 @@ public class ControlLoopCompiler implements Serializable{
         return policy;
     }
     
-    public static ControlLoopPolicy compile(InputStream yamlSpecification, ControlLoopCompilerCallback callback) throws CompilerException {
+    public static ControlLoopPolicy compile(InputStream yamlSpecification, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
         Object obj = yaml.load(yamlSpecification);
         if (obj == null) {
@@ -76,12 +79,14 @@ public class ControlLoopCompiler implements Serializable{
         return ControlLoopCompiler.compile((ControlLoopPolicy) obj, callback);
     }
     
-    private static void validateControlLoop(ControlLoop controlLoop, ControlLoopCompilerCallback callback) throws CompilerException {
+    private static void validateControlLoop(ControlLoop controlLoop, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         if (controlLoop == null && callback != null) {
             callback.onError("controlLoop cannot be null");
         }
         if (controlLoop!=null){
-            if ((controlLoop.getControlLoopName() == null || controlLoop.getControlLoopName().length() < 1) && callback != null) {
+            if ((controlLoop.getControlLoopName() == null || controlLoop.getControlLoopName().length() < 1) 
+                            && callback != null) {
                 callback.onError("Missing controlLoopName");
             }
             if ((!controlLoop.getVersion().contentEquals(ControlLoop.getVERSION())) && callback != null) {
@@ -93,18 +98,20 @@ public class ControlLoopCompiler implements Serializable{
         }
     }
 
-    private static void validatePolicies(ControlLoopPolicy policy, ControlLoopCompilerCallback callback) throws CompilerException {
+    private static void validatePolicies(ControlLoopPolicy policy, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         if (policy == null) {
             throw new CompilerException("policy cannot be null");
         }
         if (policy.getPolicies() == null) {
             callback.onWarning("controlLoop is an open loop.");   
-        }
-        else{
+        } else {
             //
             // For this version we can use a directed multigraph, in the future we may not be able to
             //
-            DirectedGraph<NodeWrapper, LabeledEdge> graph = new DirectedMultigraph<>(new ClassBasedEdgeFactory<NodeWrapper, LabeledEdge>(LabeledEdge.class));
+            DirectedGraph<NodeWrapper, LabeledEdge> graph = 
+                            new DirectedMultigraph<>(new ClassBasedEdgeFactory<NodeWrapper, 
+                                            LabeledEdge>(LabeledEdge.class));
             //
             // Check to see if the trigger Event is for OpenLoop, we do so by
             // attempting to create a FinalResult object from it. If its a policy id, this should
@@ -134,7 +141,8 @@ public class ControlLoopCompiler implements Serializable{
             FinalResultNodeWrapper finalFailure = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE);
             FinalResultNodeWrapper finalFailureTimeout = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_TIMEOUT);
             FinalResultNodeWrapper finalFailureRetries = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_RETRIES);
-            FinalResultNodeWrapper finalFailureException = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_EXCEPTION);
+            FinalResultNodeWrapper finalFailureException = 
+                            new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_EXCEPTION);
             FinalResultNodeWrapper finalFailureGuard = new FinalResultNodeWrapper(FinalResult.FINAL_FAILURE_GUARD);
             graph.addVertex(finalSuccess);
             graph.addVertex(finalFailure);
@@ -157,38 +165,47 @@ public class ControlLoopCompiler implements Serializable{
                 if (node == null) {
                     continue;
                 }
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getSuccess(), finalSuccess, PolicyResult.SUCCESS, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure(), finalFailure, PolicyResult.FAILURE, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_timeout(), finalFailureTimeout, PolicyResult.FAILURE_TIMEOUT, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_retries(), finalFailureRetries, PolicyResult.FAILURE_RETRIES, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_exception(), finalFailureException, PolicyResult.FAILURE_EXCEPTION, node);
-                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_guard(), finalFailureGuard, PolicyResult.FAILURE_GUARD, node);
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getSuccess(), finalSuccess, 
+                                PolicyResult.SUCCESS, node);
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure(), finalFailure, 
+                                PolicyResult.FAILURE, node);
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_timeout(), finalFailureTimeout, 
+                                PolicyResult.FAILURE_TIMEOUT, node);
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_retries(), finalFailureRetries, 
+                                PolicyResult.FAILURE_RETRIES, node);
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_exception(), finalFailureException, 
+                                PolicyResult.FAILURE_EXCEPTION, node);
+                addEdge(graph, mapNodes, operPolicy.getId(), operPolicy.getFailure_guard(), finalFailureGuard, 
+                                PolicyResult.FAILURE_GUARD, node);
             }
             validateNodesAndEdges(graph, callback);
         }   
     }
     
-    private static void validateOpenLoopPolicy(ControlLoopPolicy policy, FinalResult triggerResult, ControlLoopCompilerCallback callback) throws CompilerException{
+    private static void validateOpenLoopPolicy(ControlLoopPolicy policy, FinalResult triggerResult, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         //
         // Ensure they didn't use some other FinalResult code
         //
         if (triggerResult != FinalResult.FINAL_OPENLOOP) {
-            throw new CompilerException("Unexpected Final Result for trigger_policy, should only be " + FinalResult.FINAL_OPENLOOP.toString() + " or a valid Policy ID");
+            throw new CompilerException("Unexpected Final Result for trigger_policy, should only be " 
+        + FinalResult.FINAL_OPENLOOP.toString() + " or a valid Policy ID");
         }
         //
         // They really shouldn't have any policies attached.
         //
-        if ((policy.getPolicies() != null || policy.getPolicies().isEmpty())&& callback != null ) {
+        if ((policy.getPolicies() != null || policy.getPolicies().isEmpty()) && callback != null ) {
             callback.onWarning("Open Loop policy contains policies. The policies will never be invoked.");
         }
     }
     
-    private static void validatePoliciesContainTriggerPolicyAndCombinedTimeoutIsOk(ControlLoopPolicy policy, ControlLoopCompilerCallback callback) throws CompilerException{
+    private static void validatePoliciesContainTriggerPolicyAndCombinedTimeoutIsOk(ControlLoopPolicy policy, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         int sum = 0;
         boolean triggerPolicyFound = false;
         for (Policy operPolicy : policy.getPolicies()) {
             sum += operPolicy.getTimeout().intValue();
-            if (policy.getControlLoop().getTrigger_policy().equals(operPolicy.getId())){
+            if (policy.getControlLoop().getTrigger_policy().equals(operPolicy.getId())) {
                 triggerPolicyFound = true;
             }
         }
@@ -196,13 +213,15 @@ public class ControlLoopCompiler implements Serializable{
             callback.onError("controlLoop overall timeout is less than the sum of operational policy timeouts.");
         }
         
-        if (!triggerPolicyFound){
-            throw new CompilerException("Unexpected value for trigger_policy, should only be " + FinalResult.FINAL_OPENLOOP.toString() + " or a valid Policy ID");
+        if (!triggerPolicyFound) {
+            throw new CompilerException("Unexpected value for trigger_policy, should only be " 
+        + FinalResult.FINAL_OPENLOOP.toString() + " or a valid Policy ID");
         }
     }
     
     private static Map<Policy, PolicyNodeWrapper> addPoliciesAsNodes(ControlLoopPolicy policy, 
-            DirectedGraph<NodeWrapper, LabeledEdge> graph, TriggerNodeWrapper triggerNode, ControlLoopCompilerCallback callback){
+            DirectedGraph<NodeWrapper, LabeledEdge> graph, TriggerNodeWrapper triggerNode, 
+            ControlLoopCompilerCallback callback) {
         Map<Policy, PolicyNodeWrapper> mapNodes = new HashMap<>();
         for (Policy operPolicy : policy.getPolicies()) {
             //
@@ -234,22 +253,27 @@ public class ControlLoopCompiler implements Serializable{
         return mapNodes;
     }
     
-    private static void addEdge(DirectedGraph<NodeWrapper, LabeledEdge> graph, Map<Policy, PolicyNodeWrapper> mapNodes, String policyId, String connectedPolicy, 
-            FinalResultNodeWrapper finalResultNodeWrapper, PolicyResult policyResult, NodeWrapper node) throws CompilerException{
+    private static void addEdge(DirectedGraph<NodeWrapper, LabeledEdge> graph, Map<Policy, PolicyNodeWrapper> mapNodes,
+                    String policyId, String connectedPolicy, 
+                    FinalResultNodeWrapper finalResultNodeWrapper, 
+                    PolicyResult policyResult, NodeWrapper node) throws CompilerException {
         FinalResult finalResult = FinalResult.toResult(finalResultNodeWrapper.getID());
         if (FinalResult.isResult(connectedPolicy, finalResult)) {
-            graph.addEdge(node, finalResultNodeWrapper, new LabeledEdge(node, finalResultNodeWrapper, new FinalResultEdgeWrapper(finalResult)));
+            graph.addEdge(node, finalResultNodeWrapper, new LabeledEdge(node, finalResultNodeWrapper, 
+                            new FinalResultEdgeWrapper(finalResult)));
         } else {
             PolicyNodeWrapper toNode = findPolicyNode(mapNodes, connectedPolicy);
             if (toNode == null) {
-                throw new CompilerException(OPERATION_POLICY + policyId + " is connected to unknown policy " + connectedPolicy);
+                throw new CompilerException(OPERATION_POLICY + policyId + " is connected to unknown policy " 
+            + connectedPolicy);
             } else {
                 graph.addEdge(node, toNode, new LabeledEdge(node, toNode, new PolicyResultEdgeWrapper(policyResult)));
             }
         }
     }
     
-    private static void validateNodesAndEdges(DirectedGraph<NodeWrapper, LabeledEdge> graph, ControlLoopCompilerCallback callback) throws CompilerException{
+    private static void validateNodesAndEdges(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         for (NodeWrapper node : graph.vertexSet()) {
             if (node instanceof TriggerNodeWrapper) {
                 validateTriggerNodeWrapper(graph, node);
@@ -258,13 +282,14 @@ public class ControlLoopCompiler implements Serializable{
             } else if (node instanceof PolicyNodeWrapper) {
                 validatePolicyNodeWrapper(graph, node, callback);
             }
-            for (LabeledEdge edge : graph.outgoingEdgesOf(node)){
+            for (LabeledEdge edge : graph.outgoingEdgesOf(node)) {
                 LOGGER.info(edge.from.getID() + " invokes " + edge.to.getID() + " upon " + edge.edge.getID());
             }
         }
     }
     
-    private static void validateTriggerNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, NodeWrapper node) throws CompilerException{
+    private static void validateTriggerNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
+                    NodeWrapper node) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("Trigger Node {}", node.toString());
         }
@@ -282,7 +307,8 @@ public class ControlLoopCompiler implements Serializable{
         }
     }
     
-    private static void validateFinalResultNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, NodeWrapper node) throws CompilerException{
+    private static void validateFinalResultNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
+                    NodeWrapper node) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("FinalResult Node {}", node.toString());
         }
@@ -294,7 +320,8 @@ public class ControlLoopCompiler implements Serializable{
         }
     }
     
-    private static void validatePolicyNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, NodeWrapper node, ControlLoopCompilerCallback callback) throws CompilerException{
+    private static void validatePolicyNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
+                    NodeWrapper node, ControlLoopCompilerCallback callback) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("Policy Node {}", node.toString());
         }
@@ -383,13 +410,23 @@ public class ControlLoopCompiler implements Serializable{
         // 
         ImmutableMap<String, List<String>> recipes = new ImmutableMap.Builder<String, List<String>>()
                 .put("APPC", ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig"))
-                .put("AOTS", ImmutableList.of("checkMaintenanceWindow", "checkENodeBTicketHours", "checkEquipmentStatus", "checkEimStatus", "checkEquipmentMaintenance"))
+                .put("AOTS", ImmutableList.of("checkMaintenanceWindow", 
+                                "checkENodeBTicketHours", 
+                                "checkEquipmentStatus", 
+                                "checkEimStatus", 
+                                "checkEquipmentMaintenance"))
                 .put("MSO", ImmutableList.of("VF Module Create"))
-                .put("SDNO", ImmutableList.of("health-diagnostic-type", "health-diagnostic", "health-diagnostic-history", "health-diagnostic-commands", "health-diagnostic-aes"))
+                .put("SDNO", ImmutableList.of("health-diagnostic-type", 
+                                "health-diagnostic", 
+                                "health-diagnostic-history", 
+                                "health-diagnostic-commands", 
+                                "health-diagnostic-aes"))
                 .put("SDNR", ImmutableList.of("Restart", "Reboot"))
                 .build();
         //
-        if (operPolicy.getRecipe() != null && (!recipes.getOrDefault(operPolicy.getActor(), Collections.emptyList()).contains(operPolicy.getRecipe()))) {
+        if (operPolicy.getRecipe() != null 
+                        && (!recipes.getOrDefault(operPolicy.getActor(), 
+                                        Collections.emptyList()).contains(operPolicy.getRecipe()))) {
             if (callback != null) {
                 callback.onError("Policy recipe is invalid");
             }
@@ -406,7 +443,10 @@ public class ControlLoopCompiler implements Serializable{
             }
             isOk = false;
         }
-        if (operPolicy.getTarget() != null && operPolicy.getTarget().getType() != TargetType.VM && operPolicy.getTarget().getType() != TargetType.VFC && operPolicy.getTarget().getType() != TargetType.PNF) {
+        if (operPolicy.getTarget() != null 
+                        && operPolicy.getTarget().getType() != TargetType.VM 
+                        && operPolicy.getTarget().getType() != TargetType.VFC 
+                        && operPolicy.getTarget().getType() != TargetType.PNF) {
             if (callback != null) {
                 callback.onError("Policy target is invalid");
             }
@@ -428,9 +468,10 @@ public class ControlLoopCompiler implements Serializable{
         return isOk;
     }
     
-    private static boolean isSuccessPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback){
+    private static boolean isSuccessPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = true;
-        if (FinalResult.toResult(operPolicy.getSuccess()) != null && !operPolicy.getSuccess().equals(FinalResult.FINAL_SUCCESS.toString())) {
+        if (FinalResult.toResult(operPolicy.getSuccess()) != null 
+                        && !operPolicy.getSuccess().equals(FinalResult.FINAL_SUCCESS.toString())) {
             if (callback != null) {
                 callback.onError("Policy success is neither another policy nor FINAL_SUCCESS");
             }
@@ -439,9 +480,10 @@ public class ControlLoopCompiler implements Serializable{
         return isOk;
     }
     
-    private static boolean isFailurePolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback){
+    private static boolean isFailurePolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = true;
-        if (FinalResult.toResult(operPolicy.getFailure()) != null && !operPolicy.getFailure().equals(FinalResult.FINAL_FAILURE.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailure()) != null 
+                        && !operPolicy.getFailure().equals(FinalResult.FINAL_FAILURE.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure is neither another policy nor FINAL_FAILURE");
             }
@@ -450,9 +492,10 @@ public class ControlLoopCompiler implements Serializable{
         return isOk;
     }
     
-    private static boolean isFailureRetriesPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback){
+    private static boolean isFailureRetriesPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = true;
-        if (FinalResult.toResult(operPolicy.getFailure_retries()) != null && !operPolicy.getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailure_retries()) != null 
+                        && !operPolicy.getFailure_retries().equals(FinalResult.FINAL_FAILURE_RETRIES.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure retries is neither another policy nor FINAL_FAILURE_RETRIES");
             }
@@ -461,9 +504,10 @@ public class ControlLoopCompiler implements Serializable{
         return isOk;
     }
     
-    private static boolean isFailureTimeoutPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback){
+    private static boolean isFailureTimeoutPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = true;
-        if (FinalResult.toResult(operPolicy.getFailure_timeout()) != null && !operPolicy.getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailure_timeout()) != null 
+                        && !operPolicy.getFailure_timeout().equals(FinalResult.FINAL_FAILURE_TIMEOUT.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure timeout is neither another policy nor FINAL_FAILURE_TIMEOUT");
             }
@@ -472,9 +516,10 @@ public class ControlLoopCompiler implements Serializable{
         return isOk;
     }
     
-    private static boolean isFailureExceptionPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback){
+    private static boolean isFailureExceptionPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = true;
-        if (FinalResult.toResult(operPolicy.getFailure_exception()) != null && !operPolicy.getFailure_exception().equals(FinalResult.FINAL_FAILURE_EXCEPTION.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailure_exception()) != null 
+                        && !operPolicy.getFailure_exception().equals(FinalResult.FINAL_FAILURE_EXCEPTION.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure exception is neither another policy nor FINAL_FAILURE_EXCEPTION");
             }
@@ -483,9 +528,10 @@ public class ControlLoopCompiler implements Serializable{
         return isOk;
     }
     
-    private static boolean isFailureGuardPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback){
+    private static boolean isFailureGuardPolicyResultOk(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = true;
-        if (FinalResult.toResult(operPolicy.getFailure_guard()) != null && !operPolicy.getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString())) {
+        if (FinalResult.toResult(operPolicy.getFailure_guard()) != null 
+                        && !operPolicy.getFailure_guard().equals(FinalResult.FINAL_FAILURE_GUARD.toString())) {
             if (callback != null) {
                 callback.onError("Policy failure guard is neither another policy nor FINAL_FAILURE_GUARD");
             }
@@ -504,7 +550,7 @@ public class ControlLoopCompiler implements Serializable{
     }
     
     @FunctionalInterface
-    private interface NodeWrapper extends Serializable{
+    private interface NodeWrapper extends Serializable {
         public String   getID();
     }
     
@@ -567,7 +613,7 @@ public class ControlLoopCompiler implements Serializable{
     }
     
     @FunctionalInterface
-    private interface EdgeWrapper extends Serializable{
+    private interface EdgeWrapper extends Serializable {
         public String getID();
         
     }
@@ -617,6 +663,7 @@ public class ControlLoopCompiler implements Serializable{
     private static class FinalResultEdgeWrapper implements EdgeWrapper {
         private static final long serialVersionUID = -1486381946896779840L;
         private FinalResult finalResult;
+        
         public FinalResultEdgeWrapper(FinalResult result) {
             this.finalResult = result;
         }

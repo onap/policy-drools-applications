@@ -15,16 +15,17 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.controlloop.compiler;
 
 import org.junit.Test;
 import org.onap.policy.common.utils.test.ExceptionsTester;
 
-public class CompilerExceptionTest extends ExceptionsTester{
-	
-	@Test
-	public void test() throws Exception {
-		test(CompilerException.class);
-	}
+public class CompilerExceptionTest extends ExceptionsTester {
+
+    @Test
+    public void test() throws Exception {
+        test(CompilerException.class);
+    }
 
 }

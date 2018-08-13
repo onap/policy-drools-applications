@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -190,13 +190,15 @@ public class Policy {
         }
     }
     
-    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target, Integer retries, Integer timeout) {
+    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target, 
+                    Integer retries, Integer timeout) {
         this(name, actor, recipe, payload, target);
         this.retry = retries;
         this.timeout = timeout;
     }
     
-    public Policy(String id, String name, String description, String actor, Map<String, String> payload, Target target, String recipe, Integer retries, Integer timeout) {
+    public Policy(String id, String name, String description, String actor, Map<String, String> payload, 
+                    Target target, String recipe, Integer retries, Integer timeout) {
         this(name, actor, recipe, payload, target, retries, timeout);
         this.id = id;
         this.description = description;
@@ -224,15 +226,17 @@ public class Policy {
     }
 
     public boolean isValid() {
-        return id==null || name==null || actor==null|| recipe==null || target==null;
+        return id == null || name == null || actor == null || recipe == null || target == null;
     }
 
     @Override
     public String toString() {
         return "Policy [id=" + id + ", name=" + name + ", description=" + description + ", actor=" + actor + ", recipe="
-                + recipe + ", payload=" + payload + ", target=" + target + ", operationsAccumulateParams=" + operationsAccumulateParams + ", retry=" + retry + ", timeout=" + timeout
+                + recipe + ", payload=" + payload + ", target=" + target + ", operationsAccumulateParams=" 
+                + operationsAccumulateParams + ", retry=" + retry + ", timeout=" + timeout
                 + ", success=" + success + ", failure=" + failure + ", failure_retries=" + failureRetries
-                + ", failure_timeout=" + failureTimeout + ", failure_exception=" + failureException + ", failure_guard=" + failureGuard + "]";
+                + ", failure_timeout=" + failureTimeout + ", failure_exception=" + failureException
+                + ", failure_guard=" + failureGuard + "]";
     }
 
     @Override
@@ -257,42 +261,45 @@ public class Policy {
         return result;
     }
     
-    private int addHashCodeForField(int hashCode, Object field){
+    private int addHashCodeForField(int hashCode, Object field) {
         final int prime = 31;
-    	return prime * hashCode + ((field == null) ? 0 : field.hashCode());
+        return prime * hashCode + ((field == null) ? 0 : field.hashCode());
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Policy other = (Policy) obj;
         return equalsMayBeNull(actor, other.actor)
-        		&& equalsMayBeNull(description, other.description)
-        		&& equalsMayBeNull(failure, other.failure)
-        		&& equalsMayBeNull(failureException, other.failureException)
-        		&& equalsMayBeNull(failureGuard, other.failureGuard)
-        		&& equalsMayBeNull(failureRetries, other.failureRetries)
-        		&& equalsMayBeNull(id, other.id)
-        		&& equalsMayBeNull(name, other.name)
-        		&& equalsMayBeNull(payload, other.payload)
-        		&& equalsMayBeNull(recipe, other.recipe)
-        		&& equalsMayBeNull(retry, other.retry)
-        		&& equalsMayBeNull(success, other.success)
-        		&& equalsMayBeNull(operationsAccumulateParams, other.operationsAccumulateParams)
-        		&& equalsMayBeNull(target, other.target)
-        		&& equalsMayBeNull(timeout, other.timeout);
+                && equalsMayBeNull(description, other.description)
+                && equalsMayBeNull(failure, other.failure)
+                && equalsMayBeNull(failureException, other.failureException)
+                && equalsMayBeNull(failureGuard, other.failureGuard)
+                && equalsMayBeNull(failureRetries, other.failureRetries)
+                && equalsMayBeNull(id, other.id)
+                && equalsMayBeNull(name, other.name)
+                && equalsMayBeNull(payload, other.payload)
+                && equalsMayBeNull(recipe, other.recipe)
+                && equalsMayBeNull(retry, other.retry)
+                && equalsMayBeNull(success, other.success)
+                && equalsMayBeNull(operationsAccumulateParams, other.operationsAccumulateParams)
+                && equalsMayBeNull(target, other.target)
+                && equalsMayBeNull(timeout, other.timeout);
     }
     
-    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
-    	if ( obj1 == null ) {
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2) {
+        if ( obj1 == null ) {
             return obj2 == null;
         }
-    	return obj1.equals(obj2);
+        return obj1.equals(obj2);
     }
     
 }

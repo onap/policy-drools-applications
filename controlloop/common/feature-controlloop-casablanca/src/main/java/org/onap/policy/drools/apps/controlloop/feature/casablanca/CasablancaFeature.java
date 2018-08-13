@@ -29,10 +29,10 @@ import org.onap.policy.drools.features.PolicyEngineFeatureAPI;
  * potential for errors in the pom.xml generated in
  * the brmsgw side.
  *
- * There is no impact on other components as the brmsgw
+ * <p>There is no impact on other components as the brmsgw
  * etc .. they will continue operating as usual.
  *
- * This class will be expanded in the future for additional
+ * <p>This class will be expanded in the future for additional
  * functionality
  *
  */
@@ -41,8 +41,8 @@ public class CasablancaFeature implements PolicyEngineFeatureAPI {
     public static final int SEQNO = 1000;
 
     @Override
-	public int getSequenceNumber() {
-		return SEQNO;
-	}
+    public int getSequenceNumber() {
+        return SEQNO;
+    }
 
 }
