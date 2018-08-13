@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,13 +37,14 @@ import org.yaml.snakeyaml.constructor.Constructor;
 public class ControlLoopGuardCompiler {
     
     private static final String GUARD_POLICIES_SHOULD_NOT_BE_NULL = "Guard policies should not be null";
-	private static final String GUARD_POLICY = "Guard policy ";
+    private static final String GUARD_POLICY = "Guard policy ";
 
-	private ControlLoopGuardCompiler(){
+    private ControlLoopGuardCompiler(){
         // Private Constructor 
     }
     
-    public static ControlLoopGuard compile(ControlLoopGuard cLGuard, ControlLoopCompilerCallback callback) throws CompilerException {
+    public static ControlLoopGuard compile(ControlLoopGuard cLGuard, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         //
         // Ensure ControlLoopGuard has at least one guard policies
         //
@@ -60,7 +61,8 @@ public class ControlLoopGuardCompiler {
         return cLGuard;
     }
     
-    public static ControlLoopGuard  compile(InputStream yamlSpecification, ControlLoopCompilerCallback callback) throws CompilerException {
+    public static ControlLoopGuard  compile(InputStream yamlSpecification, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         Yaml yaml = new Yaml(new Constructor(ControlLoopGuard.class));
         Object obj = yaml.load(yamlSpecification);
         if (obj == null) {
@@ -72,7 +74,8 @@ public class ControlLoopGuardCompiler {
         return ControlLoopGuardCompiler.compile((ControlLoopGuard) obj, callback);
     }
     
-    private static void validateControlLoopGuard(ControlLoopGuard cLGuard, ControlLoopCompilerCallback callback) throws CompilerException {
+    private static void validateControlLoopGuard(ControlLoopGuard cLGuard, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         if (cLGuard == null) {
             if (callback != null) {
                 callback.onError("ControlLoop Guard cannot be null");
@@ -91,7 +94,8 @@ public class ControlLoopGuardCompiler {
         }
     }
     
-    private static void validateGuardPolicies(List<GuardPolicy> policies, ControlLoopCompilerCallback callback) throws CompilerException {
+    private static void validateGuardPolicies(List<GuardPolicy> policies, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         if (policies == null) {
             if (callback != null) {
                 callback.onError(GUARD_POLICIES_SHOULD_NOT_BE_NULL);
@@ -118,7 +122,8 @@ public class ControlLoopGuardCompiler {
         }
     }
     
-    private static void validateConstraints(List<GuardPolicy> policies, ControlLoopCompilerCallback callback) throws CompilerException {
+    private static void validateConstraints(List<GuardPolicy> policies, 
+                    ControlLoopCompilerCallback callback) throws CompilerException {
         if (policies == null) {
             if (callback != null) {
                 callback.onError(GUARD_POLICIES_SHOULD_NOT_BE_NULL);

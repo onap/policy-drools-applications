@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,8 @@ public enum FinalResult {
      */
     FINAL_OPENLOOP("Final_OpenLoop"),
     /**
-     * The Control Loop Policy failed in its last Operation Policy. NOTE: Previous Operation Policies may have been successful.
+     * The Control Loop Policy failed in its last Operation Policy. 
+     * NOTE: Previous Operation Policies may have been successful.
      */
     FINAL_FAILURE("Final_Failure"),
     /**
@@ -46,7 +47,7 @@ public enum FinalResult {
      */
     FINAL_FAILURE_EXCEPTION("Final_Failure_Exception"), 
     /**
-     *  The Control Loop Policy failed due to guard denied
+     *  The Control Loop Policy failed due to guard denied.
      */
     FINAL_FAILURE_GUARD("Final_Failure_Guard")
     ;

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,12 +98,14 @@ public class GuardPolicy {
         }
     }
     
-    public GuardPolicy(String name, String description, MatchParameters matchParameters, List<Constraint> limitConstraints) {
+    public GuardPolicy(String name, String description, MatchParameters matchParameters, 
+                    List<Constraint> limitConstraints) {
         this(name, matchParameters, limitConstraints);
         this.description = description;
     }
     
-    public GuardPolicy(String id, String name, String description, MatchParameters matchParameters, List<Constraint> limitConstraints) {
+    public GuardPolicy(String id, String name, String description, MatchParameters matchParameters, 
+                    List<Constraint> limitConstraints) {
         this(name, description, matchParameters, limitConstraints);
         this.id = id;
     }
@@ -119,13 +121,13 @@ public class GuardPolicy {
     }
     
     public boolean isValid() {
-        return (id==null || name ==null)? false : true;
+        return (id == null || name == null) ? false : true;
     }
     
     @Override
     public String toString() {
         return "Policy [id=" + id + ", name=" + name + ", description=" + description + ", match_parameters=" 
-                +matchParameters + ", limitConstraints=" + limitConstraints + "]";
+                + matchParameters + ", limitConstraints=" + limitConstraints + "]";
     }
 
     @Override
@@ -142,24 +144,27 @@ public class GuardPolicy {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         GuardPolicy other = (GuardPolicy) obj;
         return equalsMayBeNull(description, other.description)
-        		&& equalsMayBeNull(id, other.id)
-        		&& equalsMayBeNull(name, other.name)
-        		&& equalsMayBeNull(limitConstraints, other.limitConstraints)
-        		&& equalsMayBeNull(matchParameters, other.matchParameters);
+                && equalsMayBeNull(id, other.id)
+                && equalsMayBeNull(name, other.name)
+                && equalsMayBeNull(limitConstraints, other.limitConstraints)
+                && equalsMayBeNull(matchParameters, other.matchParameters);
     }
     
-    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
-    	if ( obj1 == null ) {
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2) {
+        if ( obj1 == null ) {
             return obj2 == null;
         }
-    	return obj1.equals(obj2);
+        return obj1.equals(obj2);
     }        
 }

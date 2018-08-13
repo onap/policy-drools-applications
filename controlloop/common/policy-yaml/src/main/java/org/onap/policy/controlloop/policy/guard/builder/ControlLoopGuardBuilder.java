@@ -93,15 +93,17 @@ public interface ControlLoopGuardBuilder {
     public ControlLoopGuardBuilder  removeAllLimitConstraints(String id) throws BuilderException;
     
     /**
-     *  Simply return a copy of control loop guard
+     *  Simply return a copy of control loop guard.
      *  
      *  @return ControlLoopGuard
      */
     public ControlLoopGuard getControlLoopGuard();  
     
     /**
-     * This will compile and build the YAML specification for the Control Loop Guard. Please iterate the Results object for details.
-     * The Results object will contains warnings and errors. If the specification compiled successfully, you will be able to retrieve the
+     * This will compile and build the YAML specification for the Control Loop Guard. 
+     * Please iterate the Results object for details.
+     * The Results object will contains warnings and errors. 
+     * If the specification compiled successfully, you will be able to retrieve the
      * YAML.
      * 
      * @return Results
@@ -118,10 +120,13 @@ public interface ControlLoopGuardBuilder {
             //Do Nothing Private Constructor. 
         }
         /**
-         * @param guard
+         * Build the control loop guard.
+         * 
+         * @param guard the guard
          * @return ControlLoopGuardBuilder object
          */
-        public static ControlLoopGuardBuilder   buildControlLoopGuard (Guard guard) {
+        
+        public static ControlLoopGuardBuilder   buildControlLoopGuard(Guard guard) {
             
             return  new ControlLoopGuardBuilderImpl(guard);
             

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,83 +38,84 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 
 public class ControlLoopPolicyTest {
-	private static final Logger logger = LoggerFactory.getLogger(ControlLoopPolicyTest.class);
-	@Test 
-	public void test() {
-		this.test("src/test/resources/v1.0.0/policy_Test.yaml");
-	}
-	
-	@Test 
-	public void testvService1() {
-		this.test("src/test/resources/v1.0.0/policy_vService.yaml");
-	}
+    private static final Logger logger = LoggerFactory.getLogger(ControlLoopPolicyTest.class);
+    
+    @Test 
+    public void test() {
+        this.test("src/test/resources/v1.0.0/policy_Test.yaml");
+    }
 
-	@Test 
-	public void testOpenLoop() {
-		this.test("src/test/resources/v1.0.0/policy_OpenLoop.yaml");
-	}
+    @Test 
+    public void testvService1() {
+        this.test("src/test/resources/v1.0.0/policy_vService.yaml");
+    }
 
-	@Test 
-	public void testvDNS() {
-		this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vDNS.yaml");
-	}
+    @Test 
+    public void testOpenLoop() {
+        this.test("src/test/resources/v1.0.0/policy_OpenLoop.yaml");
+    }
 
-	@Test 
-	public void testvFirewall() {
-		// Chenfei to fix this.
-//		this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
-	}
+    @Test 
+    public void testvDNS() {
+        this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vDNS.yaml");
+    }
 
-	@Test 
-	public void testvCPE() {
-		this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vCPE.yaml");
-	}
+    @Test 
+    public void testvFirewall() {
+        // Chenfei to fix this.
+        //		this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
+    }
 
-	@Test 
-	public void testVOLTE() {
-		this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
-	}
+    @Test 
+    public void testvCPE() {
+        this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vCPE.yaml");
+    }
 
-	public void test(String testFile) {
-		try (InputStream is = new FileInputStream(new File(testFile))) {
-			//
-			// Read the yaml into our Java Object
-			//
-			Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
-			Object obj = yaml.load(is);
-			assertNotNull(obj);
-			assertTrue(obj instanceof ControlLoopPolicy);
-			dump(obj);
-			//
-			// Now dump it to a yaml string
-			//
-			DumperOptions options = new DumperOptions();
-			options.setDefaultFlowStyle(FlowStyle.BLOCK);
-			options.setPrettyFlow(true);
-			yaml = new Yaml(options);
-			String dumpedYaml = yaml.dump(obj);
-			logger.debug(dumpedYaml);
-			//
-			// Read that string back into our java object
-			//
-			Object newObject = yaml.load(dumpedYaml);
-			dump(newObject);
-			assertNotNull(newObject);
-			assertTrue(newObject instanceof ControlLoopPolicy);
-			//
-			// Have to comment it out tentatively since it causes junit to fail. 
-			// Seems we cannot use assertEquals here. Need advice.
-			//
-			//assertEquals(newObject, obj);
-		} catch (FileNotFoundException e) {
-			fail(e.getLocalizedMessage());
-		} catch (IOException e) {
-			fail(e.getLocalizedMessage());
-		}
-	}
-	
-	public void dump(Object obj) {
-		logger.debug("Dumping ", obj.getClass().getCanonicalName());
-		logger.debug("{}", obj);
-	}
+    @Test 
+    public void testVOLTE() {
+        this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
+    }
+
+    public void test(String testFile) {
+        try (InputStream is = new FileInputStream(new File(testFile))) {
+            //
+            // Read the yaml into our Java Object
+            //
+            Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
+            Object obj = yaml.load(is);
+            assertNotNull(obj);
+            assertTrue(obj instanceof ControlLoopPolicy);
+            dump(obj);
+            //
+            // Now dump it to a yaml string
+            //
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(FlowStyle.BLOCK);
+            options.setPrettyFlow(true);
+            yaml = new Yaml(options);
+            String dumpedYaml = yaml.dump(obj);
+            logger.debug(dumpedYaml);
+            //
+            // Read that string back into our java object
+            //
+            Object newObject = yaml.load(dumpedYaml);
+            dump(newObject);
+            assertNotNull(newObject);
+            assertTrue(newObject instanceof ControlLoopPolicy);
+            //
+            // Have to comment it out tentatively since it causes junit to fail. 
+            // Seems we cannot use assertEquals here. Need advice.
+            //
+            //assertEquals(newObject, obj);
+        } catch (FileNotFoundException e) {
+            fail(e.getLocalizedMessage());
+        } catch (IOException e) {
+            fail(e.getLocalizedMessage());
+        }
+    }
+
+    public void dump(Object obj) {
+        logger.debug("Dumping ", obj.getClass().getCanonicalName());
+        logger.debug("{}", obj);
+    }
 }

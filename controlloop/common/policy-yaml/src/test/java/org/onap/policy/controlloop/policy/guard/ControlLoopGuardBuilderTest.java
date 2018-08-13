@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,8 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class ControlLoopGuardBuilderTest {
-	private static final Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControlLoopGuardBuilderTest.class);
+    
     @Test
     public void testControlLoopGuard() {
         try {
@@ -60,7 +61,8 @@ public class ControlLoopGuardBuilderTest {
             Results results = builder.buildSpecification();
             boolean no_guard_policies = false;
             for (Message m : results.getMessages()) {
-                if (m.getMessage().equals("ControlLoop Guard should have at least one guard policies") && m.getLevel() == MessageLevel.ERROR) {
+                if (m.getMessage().equals("ControlLoop Guard should have at least one guard policies") 
+                                && m.getLevel() == MessageLevel.ERROR) {
                     no_guard_policies = true;
                     break;
                 }
@@ -83,7 +85,8 @@ public class ControlLoopGuardBuilderTest {
             results = builder.buildSpecification();
             boolean no_constraint = false;
             for (Message m : results.getMessages()) {
-                if (m.getMessage().equals("Guard policy guardpolicy1 does not have any limit constraint") && m.getLevel() == MessageLevel.ERROR) {
+                if (m.getMessage().equals("Guard policy guardpolicy1 does not have any limit constraint") 
+                                && m.getLevel() == MessageLevel.ERROR) {
                     no_constraint = true;
                     break;
                 }
@@ -113,7 +116,8 @@ public class ControlLoopGuardBuilderTest {
             results = builder.buildSpecification();
             boolean duplicate_constraint = false;
             for (Message m : results.getMessages()) {
-                if (m.getMessage().equals("Guard policy guardpolicy1 has duplicate limit constraints") && m.getLevel() == MessageLevel.WARNING) {
+                if (m.getMessage().equals("Guard policy guardpolicy1 has duplicate limit constraints") 
+                                && m.getLevel() == MessageLevel.WARNING) {
                     duplicate_constraint = true;
                     break;
                 }
@@ -134,7 +138,8 @@ public class ControlLoopGuardBuilderTest {
             results = builder.buildSpecification();
             boolean duplicate_guard_policy = false;
             for (Message m : results.getMessages()) {
-                if (m.getMessage().equals("There are duplicate guard policies") && m.getLevel() == MessageLevel.WARNING) {
+                if (m.getMessage().equals("There are duplicate guard policies") 
+                                && m.getLevel() == MessageLevel.WARNING) {
                     duplicate_guard_policy = true;
                     break;
                 }
@@ -178,12 +183,14 @@ public class ControlLoopGuardBuilderTest {
             //
             // Now we're going to try to use the builder to build this.
             //
-            ControlLoopGuardBuilder builder = ControlLoopGuardBuilder.Factory.buildControlLoopGuard(guardTobuild.getGuard());
+            ControlLoopGuardBuilder builder = 
+                            ControlLoopGuardBuilder.Factory.buildControlLoopGuard(guardTobuild.getGuard());
             //
             // Add guard policy
             //
             if (guardTobuild.getGuards() != null) {
-                builder = builder.addGuardPolicy(guardTobuild.getGuards().toArray(new GuardPolicy[guardTobuild.getGuards().size()]));
+                builder = builder.addGuardPolicy(guardTobuild.getGuards().toArray(
+                                new GuardPolicy[guardTobuild.getGuards().size()]));
             }
             //
             // Build the specification

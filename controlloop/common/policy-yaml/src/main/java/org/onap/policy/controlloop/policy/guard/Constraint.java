@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,12 +99,13 @@ public class Constraint {
         }
     }
     
-    public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow, Map<String, String> activeTimeRange, List<String> blacklist) {
+    public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow, Map<String, String> activeTimeRange, 
+                    List<String> blacklist) {
         this(freqLimitPerTarget, timeWindow);
         if (activeTimeRange != null) {
             this.activeTimeRange = Collections.unmodifiableMap(activeTimeRange);
         }
-        if(blacklist!=null){
+        if(blacklist != null){
             this.blacklist = new LinkedList<>(blacklist);
         }
     }
@@ -119,12 +120,14 @@ public class Constraint {
     }
     
     public boolean isValid() {
-        return ((freqLimitPerTarget == null && timeWindow != null)|| (timeWindow == null && freqLimitPerTarget != null))? false : true;
+        return ((freqLimitPerTarget == null && timeWindow != null)
+                        || (timeWindow == null && freqLimitPerTarget != null)) ? false : true;
     }
     
     @Override
     public String toString() {
-        return "Constraint [freq_limit_per_target=" + freqLimitPerTarget + ", time_window=" + timeWindow + ", active_time_range=" + activeTimeRange + ", blacklist=" + blacklist + "]";
+        return "Constraint [freq_limit_per_target=" + freqLimitPerTarget + ", time_window=" 
+               + timeWindow + ", active_time_range=" + activeTimeRange + ", blacklist=" + blacklist + "]";
     }
 
     @Override

@@ -21,9 +21,9 @@
 package org.onap.policy.controlloop.compiler;
 
 public interface ControlLoopCompilerCallback {
-	
-	public boolean	onWarning(String message);
-	
-	public boolean	onError(String message);
-	
+
+    public boolean onWarning(String message);
+
+    public boolean onError(String message);
+
 }
