@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e9513363",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/compiler/ControlLoopGuardCompilerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:12:46Z",
+      "side": 1,
+      "message": "at some point, we should add \"fail()\" calls to these test cases",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a94b3baf",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/compiler/ControlLoopGuardCompilerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:12:46Z",
+      "side": 1,
+      "message": "wonder why these first two catches were separated?",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_69cd2331",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:12:46Z",
+      "side": 1,
+      "message": "wonder why these catches were separated?",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_09d26fd2",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/ControlLoopGuardTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:12:46Z",
+      "side": 1,
+      "message": "wonder why these first two catches were separated?",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c9db17ec",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/GuardPolicyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:12:46Z",
+      "side": 1,
+      "message": "these should use assertEquals instead of assertTrue/False",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
