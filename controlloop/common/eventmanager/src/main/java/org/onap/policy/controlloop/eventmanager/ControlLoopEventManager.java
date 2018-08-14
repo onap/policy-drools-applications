@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
@@ -99,6 +100,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private boolean isActivated = false;
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
+    private ControlLoopOperationManager lastOperationManager = null;
     private transient TargetLock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
@@ -414,6 +416,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         //
         // And setup an operation
         //
+        this.lastOperationManager = this.currentOperation;
         this.currentOperation = new ControlLoopOperationManager(this.onset, policy, this);
         //
         // Return it
@@ -449,6 +452,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 //
                 // Just null this out
                 //
+                this.lastOperationManager = this.currentOperation;
                 this.currentOperation = null;
                 //
                 // TODO: Release our lock
@@ -594,6 +598,24 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         return NEW_EVENT_STATUS.SYNTAX_ERROR;
     }
 
+
+    /**
+     * 
+     * 
+     */
+    public void commitAbatement(String message, String result) {
+        if (this.lastOperationManager == null) {
+            logger.error("{}: commitAbatement: no operation manager", this);
+            return;
+        }
+        try{
+            this.lastOperationManager.commitAbatement(message,result);          
+        } catch (NoSuchElementException e) {
+            logger.error("{}: commitAbatement threw an exception ", this, e);
+        }
+    }
+
+    
     /**
      * Set the control loop time out.
      *
