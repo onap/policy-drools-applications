@@ -135,7 +135,7 @@ public final class Util {
     /**
      * Sets Guard Properties.
      * 
-     * @see /guard/src/test/java/org/onap/policy/guard/UtilTest.java for setting test properties
+     * <p>see /guard/src/test/java/org/onap/policy/guard/UtilTest.java for setting test properties
      */
     public static void setGuardEnvProps(String url, String username, String password, String clientName,
             String clientPassword, String environment) {

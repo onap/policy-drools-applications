@@ -29,6 +29,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -105,6 +106,9 @@ public class PolicyGuardTest {
         PolicyGuard.setFactory(saveFactory);
     }
     
+    /**
+     * Setup method.
+     */
     @Before
     public void setUp() {
         mgr = spy(new PolicyResourceLockManager() {
@@ -282,14 +286,14 @@ public class PolicyGuardTest {
 
         // acquired
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
-        verify(mgr).lock(INSTANCENAME, type+":"+uuid, LOCK_SEC);
+        verify(mgr).lock(INSTANCENAME, type + ":" + uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
 
         // diff owner - denied
         UUID uuid2 = UUID.randomUUID();
-        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid2, dlcb, LOCK_SEC+10);
-        verify(mgr).lock(INSTANCENAME, type+":"+uuid2, LOCK_SEC+10);
+        result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid2, dlcb, LOCK_SEC + 10);
+        verify(mgr).lock(INSTANCENAME, type + ":" + uuid2, LOCK_SEC + 10);
         assertEquals(GuardResult.LOCK_DENIED, result.getA());
         assertNull(result.getB());
     }
@@ -302,21 +306,21 @@ public class PolicyGuardTest {
 
         // acquired
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
-        verify(mgr).lock(INSTANCENAME, type+":"+uuid, LOCK_SEC);
+        verify(mgr).lock(INSTANCENAME, type + ":" + uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VMTargetLock.class, result.getB().getClass());
         
         TargetLock lock = result.getB();
         
         // refresh - re-acquired
-        assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC+1));
-        verify(mgr).refresh(INSTANCENAME, type+":"+uuid, LOCK_SEC+1);
+        assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC + 1));
+        verify(mgr).refresh(INSTANCENAME, type + ":" + uuid, LOCK_SEC + 1);
         
         // unlock
         PolicyGuard.unlockTarget(lock);
         
         // refresh - denied, as we no longer own the lock
-        assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC+2));
+        assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC + 2));
     }
 
     @Test(expected = IllegalArgumentException.class)

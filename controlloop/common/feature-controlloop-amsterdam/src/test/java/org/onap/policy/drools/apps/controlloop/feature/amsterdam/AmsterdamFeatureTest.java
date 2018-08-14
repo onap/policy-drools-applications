@@ -17,6 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.drools.apps.controlloop.feature.amsterdam;
 
 import static org.junit.Assert.assertTrue;
