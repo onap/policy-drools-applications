@@ -340,6 +340,10 @@ rule "${policyName}.EVENT.MANAGER"
                 logger.info("{}: {}: abatement received for {}.  Closing the control loop", 
                             $params.getClosedLoopControlName(), drools.getRule().getName(), 
                             $event.getRequestId());
+                
+                /// DB Write---end event processing for this RequestId()
+                $manager.commitAbatement("Event Abated","Closed");
+                
                 notification.setFrom("policy");
                 notification.setPolicyName(drools.getRule().getName());
                 notification.setPolicyScope("${policyScope}");

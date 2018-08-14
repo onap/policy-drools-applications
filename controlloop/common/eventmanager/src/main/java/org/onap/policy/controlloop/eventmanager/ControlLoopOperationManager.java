@@ -27,6 +27,7 @@ import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -844,7 +845,30 @@ public class ControlLoopOperationManager implements Serializable {
             }
         }
         logger.debug("Could not find associated operation");
-
     }
 
+  
+    public void commitAbatement(String message, String result) {
+        logger.info("commitAbatement: " + message + ", " + result);
+        
+        if (this.currentOperation == null) {
+            try {
+                this.currentOperation = this.operationHistory.getLast();
+            } catch (NoSuchElementException e) {
+                logger.error("{}: commitAbatement threw: ", this, e);
+                return;
+            }
+        }
+        this.currentOperation.clOperation.setEnd(Instant.now());
+        this.currentOperation.clOperation.setMessage(message);
+        this.currentOperation.clOperation.setOutcome(result);
+        //
+        // Store commit in DB
+        //
+        this.storeOperationInDataBase();
+        //
+        // Clear the current operation field
+        //
+        this.currentOperation = null;
+     }
 }
