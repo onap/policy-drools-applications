@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c341b03a",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/compiler/ControlLoopGuardCompilerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-14T15:00:09Z",
+      "side": 1,
+      "message": "yikes",
+      "parentUuid": "1a76adc5_e9513363",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a94b3baf",
         "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/compiler/ControlLoopGuardCompilerTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-13T20:12:46Z",
       "side": 1,
       "message": "wonder why these first two catches were separated?",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_637a1c8a",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/compiler/ControlLoopGuardCompilerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-14T15:00:09Z",
+      "side": 1,
+      "message": "Hmmm - dunno. Sonar should have caught that, we did a good job clearing most of those.",
+      "parentUuid": "1a76adc5_a94b3baf",
       "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2018-08-13T20:12:46Z",
       "side": 1,
       "message": "these should use assertEquals instead of assertTrue/False",
+      "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_23742498",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/guard/GuardPolicyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-14T15:00:09Z",
+      "side": 1,
+      "message": "yep",
+      "parentUuid": "1a76adc5_c9db17ec",
       "revId": "6f9976df27dccb2dcaedeb9106166f62a435b050",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
