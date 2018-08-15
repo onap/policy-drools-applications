@@ -52,6 +52,9 @@ public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
     @SerializedName("model-invariant-id")
     private String modelInvariantId;
 
+    @SerializedName("prov-status")
+    private String provStatus;
+
     @SerializedName("resource-version")
     private String resourceVersion;
 
@@ -88,6 +91,10 @@ public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
 
     public String getModelInvariantId() {
         return modelInvariantId;
+    }
+
+    public String getProvStatus() {
+        return provStatus;
     }
 
     public String getResourceVersion() {
@@ -128,6 +135,10 @@ public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
 
     public void setModelInvariantId(String modelInvariantId) {
         this.modelInvariantId = modelInvariantId;
+    }
+
+    public void setProvStatus(String provStatus) {
+        this.provStatus = provStatus;
     }
 
     public void setResourceVersion(String resourceVersion) {

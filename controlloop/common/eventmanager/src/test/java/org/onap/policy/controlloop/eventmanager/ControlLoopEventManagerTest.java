@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.eventmanager;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -32,14 +33,19 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.AaiNqVServer;
+import org.onap.policy.aai.AaiNqRequestError;
 import org.onap.policy.aai.RelatedToProperty;
 import org.onap.policy.aai.Relationship;
 import org.onap.policy.aai.RelationshipData;
@@ -60,26 +66,17 @@ import org.onap.policy.guard.GuardResult;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
+import org.powermock.reflect.Whitebox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ControlLoopEventManagerTest {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManagerTest.class);
+    
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-    private static VirtualControlLoopEvent onset;
-
-    {
-        onset = new VirtualControlLoopEvent();
-        onset.setClosedLoopControlName("ControlLoop-vUSP");
-        onset.setRequestId(UUID.randomUUID());
-        onset.setTarget("VM_NAME");
-        onset.setClosedLoopAlarmStart(Instant.now());
-        onset.setAai(new HashMap<String, String>());
-        onset.getAai().put("cloud-region.identity-url", "foo");
-        onset.getAai().put("vserver.selflink", "bar");
-        onset.getAai().put("generic-vnf.vnf-id", "83f674e8-7555-44d7-9a39-bdc3770b0491");
-        onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-    }
+    private VirtualControlLoopEvent onset;
 
     /**
      * Set up test class.
@@ -99,6 +96,22 @@ public class ControlLoopEventManagerTest {
     @AfterClass
     public static void tearDownSimulator() {
         HttpServletServer.factory.destroy();
+    }
+    
+    @Before
+    public void setUp() {
+        onset = new VirtualControlLoopEvent();
+        onset.setClosedLoopControlName("ControlLoop-vUSP");
+        onset.setRequestId(UUID.randomUUID());
+        onset.setTarget("VM_NAME");
+        onset.setClosedLoopAlarmStart(Instant.now());
+        onset.setAai(new HashMap<String, String>());
+        onset.getAai().put("cloud-region.identity-url", "foo");
+        onset.getAai().put("vserver.selflink", "bar");
+        onset.getAai().put("generic-vnf.vnf-id", "83f674e8-7555-44d7-9a39-bdc3770b0491");
+        onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        
+        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
     }
 
     @Test
@@ -157,53 +170,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testIsClosedLoopDisabled() {
-        //
-        // Load up the policy
-        //
-        final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
-        onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
-
-        try {
-            logger.info("testIsClosedLoopDisabled --");
-            AaiGetVnfResponse response = getQueryByVnfId2(
-                    PolicyEngine.manager.getEnvironmentProperty("aai.url")
-                            + "/aai/v11/network/generic-vnfs/generic-vnf/",
-                    PolicyEngine.manager.getEnvironmentProperty("aai.username"),
-                    PolicyEngine.manager.getEnvironmentProperty("aai.password"), UUID.randomUUID(),
-                    "5e49ca06-2972-4532-9ed4-6d071588d792");
-            assertNotNull(response);
-
-            // TODO: Handle this
-            // boolean disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
-            // logger.info("QueryByVnfID - isClosedLoopDisabled: " + disabled);
-
-            response = getQueryByVnfName2(
-                    PolicyEngine.manager.getEnvironmentProperty("aai.url")
-                            + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=",
-                    PolicyEngine.manager.getEnvironmentProperty("aai.username"),
-                    PolicyEngine.manager.getEnvironmentProperty("aai.password"), UUID.randomUUID(), "lll_vnf_010317");
-            assertNotNull(response);
-            // TODO: Handle this
-            // disabled = ControlLoopEventManager.isClosedLoopDisabled(response);
-            // logger.info("QueryByVnfName - isClosedLoopDisabled: " + disabled);
-
-            AaiGetVserverResponse response2 = getQueryByVserverName2(
-                    PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/nodes/vservers?vserver-name=",
-                    PolicyEngine.manager.getEnvironmentProperty("aai.user"),
-                    PolicyEngine.manager.getEnvironmentProperty("aai.password"), UUID.randomUUID(),
-                    "USMSO1SX7NJ0103UJZZ01-vjunos0");
-            assertNotNull(response2);
-            // TODO: Handle this
-            // disabled = ControlLoopEventManager.isClosedLoopDisabled(response2);
-            // logger.info("QueryByVserverName - isClosedLoopDisabled: " + disabled);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
-
-    @Test
-    public void abatemetCheckEventSyntaxTest() {
+    public void abatementCheckEventSyntaxTest() {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("abatementAAI");
         event.setRequestId(UUID.randomUUID());
@@ -925,119 +892,350 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testQueryAai() throws IOException, AaiException {
-        InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
-        onsetEvent.setClosedLoopControlName("TwoOnsetTest");
-        onsetEvent.setRequestId(requestId);
-        onsetEvent.setTarget("generic-vnf.vnf-id");
-        onsetEvent.setClosedLoopAlarmStart(Instant.now());
-        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAai(new HashMap<>());
-        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
-
-        ControlLoopEventManager manager = makeManager(onsetEvent);
-        manager.queryAai(onsetEvent);
-
-        VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
-        assertNotNull(notification);
-        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
-
-        // repeat query with same manager
-        manager.queryAai(onsetEvent);
-
-        // remaining queries each use their own manager so they will be re-executed
-
-        makeManager(onsetEvent).queryAai(onsetEvent);
-
-        onsetEvent.getAai().put("generic-vnf.is-closed-loop-disabled", "true");
+    public void testQueryAai_AlreadyDisabled() throws AaiException {
+        ControlLoopEventManager mgr = null;
+        
         try {
-            makeManager(onsetEvent).queryAai(onsetEvent);
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", e.getMessage());
+            onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.TRUE.toString());
+            onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS,
+                            ControlLoopEventManager.PROV_STATUS_ACTIVE);
+
+            mgr = makeManager(onset);
+            mgr.queryAai(onset);
+
+            fail("missing exception");
+
+        } catch (AaiException expected) {
+            assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", expected.getMessage());
+            assertNull(mgr.getVnfResponse());
+            assertNull(mgr.getVserverResponse());
         }
-        onsetEvent.getAai().put("vserver.is-closed-loop-disabled", "true");
+    }
+
+    @Test
+    public void testQueryAai_AlreadyInactive() throws AaiException {
+        ControlLoopEventManager mgr = null;
+        
         try {
-            makeManager(onsetEvent).queryAai(onsetEvent);
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", e.getMessage());
+            onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.FALSE.toString());
+            onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS, "not-active2");
+
+            mgr = makeManager(onset);
+            mgr.queryAai(onset);
+
+            fail("missing exception");
+
+        } catch (AaiException expected) {
+            assertEquals("prov-status is not ACTIVE on VServer or VNF", expected.getMessage());
+            assertNull(mgr.getVnfResponse());
+            assertNull(mgr.getVserverResponse());
         }
-        onsetEvent.getAai().remove("generic-vnf.is-closed-loop-disabled");
+    }
+
+    @Test
+    public void testQueryAai_QueryVnfById() throws AaiException {
+        ControlLoopEventManager mgr = null;
+
+        mgr = makeManager(onset);
+        mgr.queryAai(onset);
+        
+        assertNotNull(mgr.getVnfResponse());
+        assertNull(mgr.getVserverResponse());
+
+        AaiGetVnfResponse vnfresp = mgr.getVnfResponse();
+        
+        // should not re-query
+        mgr.queryAai(onset);
+        
+        assertEquals(vnfresp, mgr.getVnfResponse());
+        assertNull(mgr.getVserverResponse());
+    }
+
+    @Test
+    public void testQueryAai_QueryVnfByName() throws AaiException {
+        ControlLoopEventManager mgr = null;
+        
+        // vnf query by name
+        onset.getAai().remove(ControlLoopEventManager.GENERIC_VNF_VNF_ID);
+        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_VNF_NAME, "AVNFName");
+
+        mgr = makeManager(onset);
+        mgr.queryAai(onset);
+        
+        assertNotNull(mgr.getVnfResponse());
+        assertNull(mgr.getVserverResponse());
+
+        AaiGetVnfResponse vnfresp = mgr.getVnfResponse();
+        
+        // should not re-query
+        mgr.queryAai(onset);
+        
+        assertEquals(vnfresp, mgr.getVnfResponse());
+        assertNull(mgr.getVserverResponse());
+    }
+
+    @Test
+    public void testQueryAai_QueryVnfById_Disabled() throws AaiException {
+        ControlLoopEventManager mgr = null;
+        
         try {
-            makeManager(onsetEvent).queryAai(onsetEvent);
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("is-closed-loop-disabled is set to true on VServer or VNF", e.getMessage());
+            onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_VNF_ID, "disableClosedLoop");
+            
+            mgr = makeManager(onset);
+            mgr.queryAai(onset);
+
+            fail("missing exception");
+
+        } catch (AaiException expected) {
+            assertEquals("is-closed-loop-disabled is set to true (query by vnf-id)", expected.getMessage());
+            
+            assertNotNull(mgr.getVnfResponse());
+            assertNull(mgr.getVserverResponse());
         }
-        onsetEvent.getAai().remove("vserver.is-closed-loop-disabled");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+    }
 
-        onsetEvent.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+    @Test
+    public void testQueryAai_QueryVserver() throws AaiException {
+        ControlLoopEventManager mgr = null;
 
-        onsetEvent.getAai().remove("generic-vnf.is-closed-loop-disabled");
-        onsetEvent.getAai().put("vserver.is-closed-loop-disabled", "false");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+        onset.getAai().remove(ControlLoopEventManager.GENERIC_VNF_VNF_ID);
+        onset.getAai().put(ControlLoopEventManager.VSERVER_VSERVER_NAME, "AVserver");
 
-        onsetEvent.getAai().remove("generic-vnf.vnf-id");
-        onsetEvent.getAai().remove("generic-vnf.vnf-name");
-        onsetEvent.getAai().remove("vserver.vserver-name");
-        onsetEvent.getAai().remove("generic-vnf.is-closed-loop-disabled");
-        onsetEvent.getAai().remove("vserver.is-closed-loop-disabled");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+        mgr = makeManager(onset);
+        mgr.queryAai(onset);
+        
+        assertNull(mgr.getVnfResponse());
+        assertNotNull(mgr.getVserverResponse());
+        
+        AaiGetVserverResponse vsvresp = mgr.getVserverResponse();
 
-        onsetEvent.getAai().put("vserver.vserver-name", "AVserver");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+        // should not re-query
+        mgr.queryAai(onset);
+        
+        assertNull(mgr.getVnfResponse());
+        assertEquals(vsvresp, mgr.getVserverResponse());
+    }
 
-        onsetEvent.getAai().put("generic-vnf.vnf-name", "AVNFName");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+    @Test
+    public void testQueryAai_QueryVserver_Disabled() throws AaiException {
+        ControlLoopEventManager mgr = null;
+        
+        try {
+            onset.getAai().remove(ControlLoopEventManager.GENERIC_VNF_VNF_ID);
+            onset.getAai().put(ControlLoopEventManager.VSERVER_VSERVER_NAME, "disableClosedLoop");
+            
+            mgr = makeManager(onset);
+            mgr.queryAai(onset);
 
-        onsetEvent.getAai().put("generic-vnf.vnf-id", "AVNFID");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+            fail("missing exception");
 
-        onsetEvent.getAai().remove("vserver.vserver-name");
-        makeManager(onsetEvent).queryAai(onsetEvent);
+        } catch (AaiException expected) {
+            assertEquals("is-closed-loop-disabled is set to true (query by vserver-name)", expected.getMessage());
+            
+            assertNull(mgr.getVnfResponse());
+            assertNotNull(mgr.getVserverResponse());
+        }
+    }
 
-        onsetEvent.getAai().remove("generic-vnf.vnf-name");
-        makeManager(onsetEvent).queryAai(onsetEvent);
-
+    @Test(expected = AaiException.class)
+    public void testQueryAai_QueryException() throws AaiException {
         // Force AAI errors
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:9999");
+        
+        makeManager(onset).queryAai(onset);
+    }
 
-        try {
-            makeManager(onsetEvent).queryAai(onsetEvent);
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AaiException: AAI Response is null "
-                    + "(query by vnf-id)", e.getMessage());
-        }
+    @Test
+    public void testProcessVNFResponse_Success() throws Exception {
+        AaiGetVnfResponse resp = new AaiGetVnfResponse();
+        resp.setIsClosedLoopDisabled(false);
+        resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, true);
+    }
 
-        onsetEvent.getAai().remove("generic-vnf.vnf-id");
-        onsetEvent.getAai().put("generic-vnf.vnf-name", "AVNFName");
-        try {
-            makeManager(onsetEvent).queryAai(onsetEvent);
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AaiException: AAI Response is null "
-                    + "(query by vnf-name)", e.getMessage());
-        }
+    @Test
+    public void testProcessVNFResponse_NullResponse() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("AAI Response is null (query by vnf-id)");
 
-        onsetEvent.getAai().remove("generic-vnf.vnf-name");
-        onsetEvent.getAai().put("vserver.vserver-name", "AVserver");
-        try {
-            makeManager(onsetEvent).queryAai(onsetEvent);
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("Exception from queryAai: org.onap.policy.aai.util.AaiException: AAI Response is null "
-                    + "(query by vserver-name)", e.getMessage());
-        }
+        AaiGetVnfResponse resp = null;
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, true);
+    }
 
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
+    @Test
+    public void testProcessVNFResponse_Error() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("AAI Responded with a request error (query by vnf-name)");
+        
+        AaiGetVnfResponse resp = new AaiGetVnfResponse();
+        
+        resp.setRequestError(new AaiNqRequestError());
+        
+        resp.setIsClosedLoopDisabled(false);
+        resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, false);
+    }
+
+    @Test
+    public void testProcessVNFResponse_Disabled() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("is-closed-loop-disabled is set to true (query by vnf-id)");
+        
+        AaiGetVnfResponse resp = new AaiGetVnfResponse();
+        resp.setIsClosedLoopDisabled(true);
+        resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, true);
+    }
+
+    @Test
+    public void testProcessVNFResponse_Inactive() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("prov-status is not ACTIVE (query by vnf-name)");
+
+        AaiGetVnfResponse resp = new AaiGetVnfResponse();
+        resp.setIsClosedLoopDisabled(false);
+        resp.setProvStatus("inactive1");
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, false);
+    }
+
+    @Test
+    public void testProcessVserverResponse_Success() throws Exception {
+        AaiGetVserverResponse resp = new AaiGetVserverResponse();
+        
+        AaiNqVServer svr = new AaiNqVServer();
+        resp.getVserver().add(svr);
+        
+        svr.setIsClosedLoopDisabled(false);
+        svr.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVServerResponse", resp);
+    }
+
+    @Test
+    public void testProcessVserverResponse_NullResponse() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("AAI Response is null (query by vserver-name)");
+
+        AaiGetVserverResponse resp = null;
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVServerResponse", resp);
+    }
+
+    @Test
+    public void testProcessVserverResponse_Error() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("AAI Responded with a request error (query by vserver-name)");
+
+        AaiGetVserverResponse resp = new AaiGetVserverResponse();
+        
+        resp.setRequestError(new AaiNqRequestError());
+        
+        AaiNqVServer svr = new AaiNqVServer();
+        resp.getVserver().add(svr);
+        
+        svr.setIsClosedLoopDisabled(false);
+        svr.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVServerResponse", resp);
+    }
+
+    @Test
+    public void testProcessVserverResponse_Disabled() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("is-closed-loop-disabled is set to true (query by vserver-name)");
+
+        AaiGetVserverResponse resp = new AaiGetVserverResponse();
+        AaiNqVServer svr = new AaiNqVServer();
+        resp.getVserver().add(svr);
+        
+        svr.setIsClosedLoopDisabled(true);
+        svr.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVServerResponse", resp);
+    }
+
+    @Test
+    public void testProcessVserverResponse_Inactive() throws Exception {
+        thrown.expect(AaiException.class);
+        thrown.expectMessage("prov-status is not ACTIVE (query by vserver-name)");
+
+        AaiGetVserverResponse resp = new AaiGetVserverResponse();
+        AaiNqVServer svr = new AaiNqVServer();
+        resp.getVserver().add(svr);
+        
+        svr.setIsClosedLoopDisabled(false);
+        svr.setProvStatus("inactive1");
+        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVServerResponse", resp);
+    }
+
+    @Test
+    public void testIsClosedLoopDisabled() {
+        Map<String, String> aai = onset.getAai();
+        
+        // null, null
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED);
+        aai.remove(ControlLoopEventManager.VSERVER_IS_CLOSED_LOOP_DISABLED);
+        assertFalse(ControlLoopEventManager.isClosedLoopDisabled(onset));
+        
+        // null, false
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED);
+        aai.put(ControlLoopEventManager.VSERVER_IS_CLOSED_LOOP_DISABLED, Boolean.FALSE.toString());
+        assertFalse(ControlLoopEventManager.isClosedLoopDisabled(onset));
+        
+        // false, null
+        aai.put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.FALSE.toString());
+        aai.remove(ControlLoopEventManager.VSERVER_IS_CLOSED_LOOP_DISABLED);
+        assertFalse(ControlLoopEventManager.isClosedLoopDisabled(onset));
+        
+        // null, true
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED);
+        aai.put(ControlLoopEventManager.VSERVER_IS_CLOSED_LOOP_DISABLED, Boolean.TRUE.toString());
+        assertTrue(ControlLoopEventManager.isClosedLoopDisabled(onset));
+        
+        // true, null
+        aai.put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.TRUE.toString());
+        aai.remove(ControlLoopEventManager.VSERVER_IS_CLOSED_LOOP_DISABLED);
+        assertTrue(ControlLoopEventManager.isClosedLoopDisabled(onset));
+    }
+    
+    @Test
+    public void testIsProvStatusInactive() {
+        Map<String, String> aai = onset.getAai();
+        
+        // null, null
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS);
+        aai.remove(ControlLoopEventManager.VSERVER_PROV_STATUS);
+        assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
+        
+        // null, active
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS);
+        aai.put(ControlLoopEventManager.VSERVER_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
+        
+        // active, null
+        aai.put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        aai.remove(ControlLoopEventManager.VSERVER_PROV_STATUS);
+        assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
+        
+        // null, inactive
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS);
+        aai.put(ControlLoopEventManager.VSERVER_PROV_STATUS, "other1");
+        assertTrue(ControlLoopEventManager.isProvStatusInactive(onset));
+        
+        // inactive, null
+        aai.put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS, "other2");
+        aai.remove(ControlLoopEventManager.VSERVER_PROV_STATUS);
+        assertTrue(ControlLoopEventManager.isProvStatusInactive(onset));
+    }
+    
+    @Test
+    public void testIsAaiTrue() {
+        assertTrue(ControlLoopEventManager.isAaiTrue("tRuE"));
+        assertTrue(ControlLoopEventManager.isAaiTrue("T"));
+        assertTrue(ControlLoopEventManager.isAaiTrue("t"));
+        assertTrue(ControlLoopEventManager.isAaiTrue("yES"));
+        assertTrue(ControlLoopEventManager.isAaiTrue("Y"));
+        assertTrue(ControlLoopEventManager.isAaiTrue("y"));
+        
+        assertFalse(ControlLoopEventManager.isAaiTrue("no"));
+        assertFalse(ControlLoopEventManager.isAaiTrue(null));
     }
 
     private ControlLoopEventManager makeManager(VirtualControlLoopEvent event) {

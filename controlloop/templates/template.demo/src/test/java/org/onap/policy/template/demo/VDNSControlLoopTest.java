@@ -371,6 +371,7 @@ public class VDNSControlLoopTest implements TopicListener {
         event.setAai(new HashMap<>());
         event.getAai().put("vserver.vserver-name", "dfw1lb01lb01");
         event.getAai().put("vserver.is-closed-loop-disabled", "false");
+        event.getAai().put("vserver.prov-status", "ACTIVE");
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }

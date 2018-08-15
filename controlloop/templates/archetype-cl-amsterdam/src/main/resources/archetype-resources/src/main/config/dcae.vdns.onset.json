@@ -8,6 +8,7 @@
   "target": "vserver.vserver-name",
   "AAI": {
     "vserver.is-closed-loop-disabled": "false",
+    "vserver.prov-status": "ACTIVE",
     "vserver.vserver-name": "dfw1lb01lb01"
   },   
   "from": "DCAE",

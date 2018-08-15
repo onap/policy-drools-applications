@@ -8,6 +8,7 @@
     "target": "vserver.vserver-name",
     "AAI": {
     	"vserver.is-closed-loop-disabled": "false",
+        "vserver-vnf.prov-status": "ACTIVE",
         "vserver.vserver-name": "dfw1lb01lb01",
         "service-instance.service-instance-id" : "vserver-name-16102016-aai3255-data-11-1",
         "generic-vnf.vnf-id" : "vnf-id-16102016-aai3255-data-11-1",

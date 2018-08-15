@@ -374,7 +374,7 @@ public class VCPEControlLoopTest implements TopicListener {
             event.getAai().put("generic-vnf.in-maint", "false");
             event.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
             event.getAai().put("generic-vnf.orchestration-status", "Created");
-            event.getAai().put("generic-vnf.prov-status", "PREPROV");
+            event.getAai().put("generic-vnf.prov-status", "ACTIVE");
             event.getAai().put("generic-vnf.resource-version", "1");
             event.getAai().put("generic-vnf.service-id", "e8cb8968-5411-478b-906a-f28747de72cd");
             event.getAai().put("generic-vnf.vnf-id", "63b31229-9a3a-444f-9159-04ce2dca3be9");

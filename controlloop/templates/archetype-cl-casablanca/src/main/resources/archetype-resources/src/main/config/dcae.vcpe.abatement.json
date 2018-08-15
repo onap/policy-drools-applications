@@ -9,6 +9,7 @@
   "target": "generic-vnf.vnf-id",
   "AAI": {
     "generic-vnf.is-closed-loop-disabled": "false",
+    "generic-vnf.prov-status": "ACTIVE",
     "generic-vnf.vnf-id": "vCPE_Infrastructure_vGMUX_demo_app"
   },
   "from": "DCAE",

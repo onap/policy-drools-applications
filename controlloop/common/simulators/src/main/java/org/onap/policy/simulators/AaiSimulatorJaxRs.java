@@ -81,7 +81,7 @@ public class AaiSimulatorJaxRs {
                         + "6ed3642c-f7a1-4a7c-9290-3d51fe1531eb\",\"vserver-name\":\"zdfw1lb01lb02\",\"vserver-name2\""
                         + ":\"zdfw1lb01lb02\",\"prov-status\":\"ACTIVE\",\"vserver-selflink\":\""
                         + "http://10.12.25.2:8774/v2.1/41d6d38489bd40b09ea8a6b6b852dcbd/servers/"
-                        + "6ed3642c-f7a1-4a7c-9290-3d51fe1531eb\",\"in-maint\":false,\"is-closed-loop-disabled\":false"
+                        + "6ed3642c-f7a1-4a7c-9290-3d51fe1531eb\",\"in-maint\":false,\"prov-status\":\"ACTIVE\",\"is-closed-loop-disabled\":false"
                         + ",\"resource-version\":\"1510606403522\"},\"extra-properties\":{},\"inventory-response-items"
                         + "\":{\"inventory-response-item\":[{\"model-name\":\"vLoadBalancer\",\"generic-vnf\":{\"vnf-id"
                         + "\":\"db373a8d-f7be-4d02-8ac8-6ca4c305d144\",\"vnf-name\":\"Vfmodule_vLB1113\",\"vnf-type"
@@ -159,7 +159,7 @@ public class AaiSimulatorJaxRs {
                 return "{\"inventory-response-item\": [{\"model-name\": \"service-instance\",\"generic-vnf\": {\""
                         + "vnf-id\": \"" + vnfId + "\",\"vnf-name\": \"" + vnfName + "\",\"vnf-type\": \"vMME Svc Jul "
                         + "14/vMME VF Jul 14 1\",\"service-id\": \"a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb\",\""
-                        + "orchestration-status\": \"active\",\"in-maint\": false,\"is-closed-loop-disabled\": false"
+                        + "orchestration-status\": \"active\",\"prov-status\":\"ACTIVE\",\"in-maint\": false,\"is-closed-loop-disabled\": false"
                         + ",\"resource-version\": \"1503082370097\",\"model-invariant-id\": \""
                         + "82194af1-3c2c-485a-8f44-420e22a9eaa4\",\"model-version-id\": \""
                         + "46b92144-923a-4d20-b85a-3cbd847668a9\"},\"extra-properties\": {},\""
@@ -212,7 +212,7 @@ public class AaiSimulatorJaxRs {
                     + "equipment-role\": \"UCPE\", \"orchestration-status\": \"created\", \"management-option\": \""
                     + "ATT\", \"ipv4-oam-address\": \"32.40.68.35\", \"ipv4-loopback0-address\": \"32.40.64.57\", \""
                     + "nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345\", \"management-v6-address\": \""
-                    + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"is-closed-loop-disabled\": " + isDisabled
+                    + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", \"is-closed-loop-disabled\": " + isDisabled
                     + ", \"resource-version\": \"1493389458092\", \"relationship-list\": {\"relationship\":[{ \""
                     + "related-to\": \"service-instance\", \"related-link\": \"/aai/v11/business/customers/customer/"
                     + "1610_Func_Global_20160817084727/service-subscriptions/service-subscription/uCPE-VMS/"
@@ -240,7 +240,7 @@ public class AaiSimulatorJaxRs {
                 + "equipment-role\": \"UCPE\", \"orchestration-status\": \"created\", \"management-option\": \"ATT"
                 + "\", \"ipv4-oam-address\": \"32.40.68.35\", \"ipv4-loopback0-address\": \"32.40.64.57\", \""
                 + "nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345\", \"management-v6-address\": \""
-                + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"is-closed-loop-disabled\": " + isDisabled
+                + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", \"is-closed-loop-disabled\": " + isDisabled
                 + ", \"resource-version\": \"1493389458092\", \"relationship-list\": {\"relationship\":[{ \""
                 + "related-to\": \"service-instance\", \"related-link\": \"/aai/v11/business/customers/customer"
                 + "/1610_Func_Global_20160817084727/service-subscriptions/service-subscription/uCPE-VMS/"
@@ -285,7 +285,7 @@ public class AaiSimulatorJaxRs {
                 + "d7bb0a21-66f2-4e6d-87d9-9ef3ced63ae4\", \"equipment-role\": \"UCPE\", \"orchestration-status"
                 + "\": \"created\", \"management-option\": \"ATT\", \"ipv4-oam-address\": \"32.40.68.35\", \""
                 + "ipv4-loopback0-address\": \"32.40.64.57\", \"nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345"
-                + "\", \"management-v6-address\": \"2001:1890:e00e:fffd::36\", \"in-maint\": false, \"" + ""
+                + "\", \"management-v6-address\": \"2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", \"" + ""
                 + "is-closed-loop-disabled\": " + isDisabled + ", \"resource-version\": \"1493389458092\", \""
                 + "relationship-list\": {\"relationship\":[{ \"related-to\": \"service-instance\", \"related-link"
                 + "\": \"/aai/v11/business/customers/customer/1610_Func_Global_20160817084727/service-subscriptions"
@@ -327,7 +327,7 @@ public class AaiSimulatorJaxRs {
         return "{\"vserver\": [{ \"vserver-id\": \"" + vserverId + "\", \"vserver-name\": \"" + vserverName
                 + "\", \"vserver-name2\": \"vjunos0\", \"vserver-selflink\": \"https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8\", \"in-maint\": false, \"is-closed-loop-disabled\": "
                 + isDisabled
-                + ", \"resource-version\": \"1494001931513\", \"relationship-list\": {\"relationship\":[{ \"related-to"
+                + ", \"prov-status\":\"ACTIVE\", \"resource-version\": \"1494001931513\", \"relationship-list\": {\"relationship\":[{ \"related-to"
                 + "\": \"generic-vnf\", \"related-link\": \"/aai/v11/network/generic-vnfs/generic-vnf/"
                 + "e1a41e99-4ede-409a-8f9d-b5e12984203a\", \"relationship-data\": [ {\"relationship-key\": \""
                 + "generic-vnf.vnf-id\",\"relationship-value\": \"e1a41e99-4ede-409a-8f9d-b5e12984203a\" }], \""

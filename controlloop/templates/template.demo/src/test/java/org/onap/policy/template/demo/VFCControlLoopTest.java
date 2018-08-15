@@ -346,6 +346,7 @@ public class VFCControlLoopTest implements TopicListener {
         event.getAai().put("generic-vnf.vnf-id", "vnf-id-16102016-aai3255-data-11-1");
         event.getAai().put("service-instance.service-instance-id", "service-instance-id-16102016-aai3255-data-11-1");
         event.getAai().put("vserver.is-closed-loop-disabled", "false");
+        event.getAai().put("vserver.prov-status", "ACTIVE");
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         kieSession.insert(event);
     }
