@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.onap.policy.aai.AaiGetVnfResponse;
@@ -54,13 +55,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ControlLoopEventManager implements LockCallback, Serializable {
+    public static final String PROV_STATUS_ACTIVE = "ACTIVE";
     private static final String VM_NAME = "VM_NAME";
     private static final String VNF_NAME = "VNF_NAME";
-    private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
-    private static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
-    private static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
-    private static final String GENERIC_VNF_IS_CLOSED_LOOP_DISABLED = "generic-vnf.is-closed-loop-disabled";
-    private static final String VSERVER_IS_CLOSED_LOOP_DISABLED = "vserver.is-closed-loop-disabled";
+    public static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
+    public static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
+    public static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
+    public static final String GENERIC_VNF_IS_CLOSED_LOOP_DISABLED = "generic-vnf.is-closed-loop-disabled";
+    public static final String VSERVER_IS_CLOSED_LOOP_DISABLED = "vserver.is-closed-loop-disabled";
+    public static final String GENERIC_VNF_PROV_STATUS = "generic-vnf.prov-status";
+    public static final String VSERVER_PROV_STATUS = "vserver.prov-status";
 
     /**
      * Additional time, in seconds, to add to a "lock" request. This ensures that the lock
@@ -661,31 +665,41 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @param event the event
      * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public void queryAai(VirtualControlLoopEvent event) throws AaiException {        
-        if (event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED) != null
-                || event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED) != null) {
-            
-            if (isClosedLoopDisabled(event)) {
-                throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
-            }
-            
+    public void queryAai(VirtualControlLoopEvent event) throws AaiException {
+
+        if (isClosedLoopDisabled(event)) {
+            throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
+        }
+
+        if (isProvStatusInactive(event)) {
+            throw new AaiException("prov-status is not ACTIVE on VServer or VNF");
+        }
+
+        Map<String, String> aai = event.getAai();
+
+        if ((aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
+                        && (aai.containsKey(VSERVER_PROV_STATUS) || aai.containsKey(GENERIC_VNF_PROV_STATUS))) {
+
             // no need to query, as we already have the data
             return;
         }
-        
+
         if (vnfResponse != null || vserverResponse != null) {
             // query has already been performed
             return;
         }
 
         try {
-            if (event.getAai().get(GENERIC_VNF_VNF_ID) != null || event.getAai().get(GENERIC_VNF_VNF_NAME) != null) {
+            if (aai.containsKey(GENERIC_VNF_VNF_ID) || aai.containsKey(GENERIC_VNF_VNF_NAME)) {
                 vnfResponse = getAAIVnfInfo(event);
-                processVNFResponse(vnfResponse, event.getAai().get(GENERIC_VNF_VNF_ID) != null);
-            } else if (event.getAai().get(VSERVER_VSERVER_NAME) != null) {
+                processVNFResponse(vnfResponse, aai.containsKey(GENERIC_VNF_VNF_ID));
+            } else if (aai.containsKey(VSERVER_VSERVER_NAME)) {
                 vserverResponse = getAAIVserverInfo(event);
                 processVServerResponse(vserverResponse);
             }
+        } catch (AaiException e) {
+            logger.error("Exception from queryAai: ", e);
+            throw e;
         } catch (Exception e) {
             logger.error("Exception from queryAai: ", e);
             throw new AaiException("Exception from queryAai: " + e.toString());
@@ -696,8 +710,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Process a response from A&AI for a VNF.
      * 
      * @param aaiResponse the response from A&AI
-     * @param queryByVnfId <code>true</code> if the query was based on vnf-id, <code>false</code> if
-     *        the query was based on vnf-name
+     * @param queryByVnfId <code>true</code> if the query was based on vnf-id,
+     *        <code>false</code> if the query was based on vnf-name
      * @throws AaiException if an error occurs processing the response
      */
     private static void processVNFResponse(AaiGetVnfResponse aaiResponse, boolean queryByVNFID) throws AaiException {
@@ -713,24 +727,38 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (aaiResponse.getIsClosedLoopDisabled()) {
             throw new AaiException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
         }
+
+        if (!PROV_STATUS_ACTIVE.equals(aaiResponse.getProvStatus())) {
+            throw new AaiException("prov-status is not ACTIVE (query by " + queryTypeString + ")");
+        }
     }
 
+    /**
+     * Process a response from A&AI for a VServer.
+     * 
+     * @param aaiResponse the response from A&AI
+     * @throws AaiException if an error occurs processing the response
+     */
     private static void processVServerResponse(AaiGetVserverResponse aaiResponse) throws AaiException {
         if (aaiResponse == null) {
             throw new AaiException("AAI Response is null (query by vserver-name)");
         }
         if (aaiResponse.getRequestError() != null) {
-            throw new AaiException("AAI responded with a request error (query by vserver-name)");
+            throw new AaiException("AAI Responded with a request error (query by vserver-name)");
         }
-        
+
         List<AaiNqVServer> lst = aaiResponse.getVserver();
-        if(lst.isEmpty()) {
+        if (lst.isEmpty()) {
             return;
         }
-        
+
         AaiNqVServer svr = lst.get(0);
         if (svr.getIsClosedLoopDisabled()) {
             throw new AaiException("is-closed-loop-disabled is set to true (query by vserver-name)");
+        }
+
+        if (!PROV_STATUS_ACTIVE.equals(svr.getProvStatus())) {
+            throw new AaiException("prov-status is not ACTIVE (query by vserver-name)");
         }
     }
 
@@ -738,19 +766,38 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Is closed loop disabled for an event.
      * 
      * @param event the event
-     * @return <code>true</code> if the contol loop is disabled, <code>false</code> otherwise
+     * @return <code>true</code> if the control loop is disabled, <code>false</code>
+     *         otherwise
      */
     public static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
-        if ("true".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || "T".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || "yes".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || "Y".equalsIgnoreCase(event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED))) {
-            return true;
-        }
-        return ("true".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                || "T".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                || "yes".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                || "Y".equalsIgnoreCase(event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
+        Map<String, String> aai = event.getAai();
+        return (isAaiTrue(aai.get(VSERVER_IS_CLOSED_LOOP_DISABLED))
+                        || isAaiTrue(aai.get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
+    }
+
+    /**
+     * Does provisioning status, for an event, have a value other than ACTIVE?
+     * 
+     * @param event the event
+     * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null},
+     *         {@code false} otherwise
+     */
+    protected static boolean isProvStatusInactive(VirtualControlLoopEvent event) {
+        Map<String, String> aai = event.getAai();
+        return (!PROV_STATUS_ACTIVE.equals(aai.getOrDefault(VSERVER_PROV_STATUS, PROV_STATUS_ACTIVE))
+                        || !PROV_STATUS_ACTIVE.equals(aai.getOrDefault(GENERIC_VNF_PROV_STATUS, PROV_STATUS_ACTIVE)));
+    }
+
+    /**
+     * Determines the boolean value represented by the given AAI field value.
+     * 
+     * @param aaiValue value to be examined
+     * @return the boolean value represented by the field value, or {@code false} if the
+     *         value is {@code null}
+     */
+    protected static boolean isAaiTrue(String aaiValue) {
+        return ("true".equalsIgnoreCase(aaiValue) || "T".equalsIgnoreCase(aaiValue) || "yes".equalsIgnoreCase(aaiValue)
+                        || "Y".equalsIgnoreCase(aaiValue));
     }
 
     /**

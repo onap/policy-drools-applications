@@ -49,6 +49,7 @@ public class AaiGetVnfResponseTest {
         assertEquals(false, resp.getInMaint());
         assertEquals(true, resp.getIsClosedLoopDisabled());
         assertEquals("53638a85-361a-437d-8830-4b0d5329225e", resp.getModelInvariantId());
+        assertEquals("PROV", resp.getProvStatus());
         assertEquals("Active", resp.getOrchestrationStatus());
         assertEquals("50e1b0be-e0c9-48e2-9f42-15279a783ee8", resp.getServiceId());
 
@@ -72,6 +73,7 @@ public class AaiGetVnfResponseTest {
         resp.setIsClosedLoopDisabled(false);
         resp.setModelInvariantId("modiv");
         resp.setOrchestrationStatus("orch");
+        resp.setProvStatus("mystatus");
         resp.setRelationshipList(relationshipList);
         resp.setResourceVersion("vers");
         resp.setServiceId("svc");
@@ -86,6 +88,7 @@ public class AaiGetVnfResponseTest {
         assertEquals(true, resp.getInMaint());
         assertEquals(false, resp.getIsClosedLoopDisabled());
         assertEquals("modiv", resp.getModelInvariantId());
+        assertEquals("mystatus", resp.getProvStatus());
         assertEquals("orch", resp.getOrchestrationStatus());
         assertEquals("svc", resp.getServiceId());
         assertEquals(relationshipList, resp.getRelationshipList());
