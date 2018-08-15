@@ -665,7 +665,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (event.getAai().get(VSERVER_IS_CLOSED_LOOP_DISABLED) != null
                 || event.getAai().get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED) != null) {
             
-            if(isClosedLoopDisabled(event)) {
+            if (isClosedLoopDisabled(event)) {
                 throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
             }
             
@@ -673,7 +673,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             return;
         }
         
-        if(vnfResponse != null || vserverResponse != null) {
+        if (vnfResponse != null || vserverResponse != null) {
             // query has already been performed
             return;
         }

@@ -33,23 +33,23 @@ import org.slf4j.LoggerFactory;
 public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
 
     /**
-     * Feature Sequence Priority
+     * Feature Sequence Priority.
      */
     public final static int FEATURE_SEQUENCE_PRIORITY = 100000;
 
     /**
-     * Properties Configuration Name
+     * Properties Configuration Name.
      */
     public static final String CONFIGURATION_PROPERTIES_NAME = "feature-controlloop-trans";
 
     /**
-     * maximum number of transaction cache entries
+     * Maximum number of transaction cache entries.
      */
     public static final String CL_CACHE_TRANS_SIZE_PROPERTY = "controlloop.cache.transactions.size";
     public static final int CL_CACHE_TRANS_SIZE_DEFAULT = 100;
 
     /**
-     * transaction timeout in minutes
+     * Transaction timeout in minutes.
      */
     public static final String CL_CACHE_TRANS_TIMEOUT_SECONDS_PROPERTY =
             "controllop.cache.transactions.timeout.seconds";
@@ -61,12 +61,12 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
     }
 
     /**
-     * Logger
+     * Logger.
      */
     private static Logger logger = LoggerFactory.getLogger(ControlLoopMetricsFeature.class);
 
     /**
-     * Intercept Control Loop Notifications
+     * Intercept Control Loop Notifications.
      *
      * @param controller - controller
      * @param protocol - protocol

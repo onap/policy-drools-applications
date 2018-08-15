@@ -43,26 +43,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Control Loop Metrics Tracker
+ * Control Loop Metrics Tracker.
  */
 public interface ControlLoopMetrics {
 
     /**
-     * gets all transaction identifiers being monitored
+     * Gets all transaction identifiers being monitored.
      *
      * @return transaction id list
      */
     List<UUID> getTransactionIds();
 
     /**
-     * gets all detailed transactions
+     * Gets all detailed transactions.
      *
      * @return list of transactions
      */
     List<VirtualControlLoopNotification> getTransactions();
 
     /**
-     * track controller's notification events
+     * Track controller's notification events.
      *
      * @param controller policy controller sending out notification
      * @param notification notification
@@ -70,7 +70,7 @@ public interface ControlLoopMetrics {
     void transactionEvent(PolicyController controller, VirtualControlLoopNotification notification);
 
     /**
-     * gets an in-progress transaction
+     * Gets an in-progress transaction.
      *
      * @param requestId request ID
      * @return in progress notification
@@ -78,49 +78,49 @@ public interface ControlLoopMetrics {
     VirtualControlLoopNotification getTransaction(UUID requestId);
 
     /**
-     * removes an in-progress transaction
+     * Removes an in-progress transaction.
      *
      * @param requestId request ID
      */
     void removeTransaction(UUID requestId);
 
     /**
-     * get cache size
+     * Get cache size.
      *
      * @return cache size
      */
     long getCacheSize();
 
     /**
-     * get cache size
+     * Get cache size.
      *
      * @return cache size
      */
     long getCacheOccupancy();
 
     /**
-     * sets cache size
+     * Sets cache size.
      *
      * @param cacheSize cache size
      */
     void setMaxCacheSize(long cacheSize);
 
     /**
-     * cached transaction expiration timeout in seconds
+     * Cached transaction expiration timeout in seconds.
      *
      * @return transaction timeout in seconds
      */
     long getTransactionTimeout();
 
     /**
-     * sets transaction timeout in seconds
+     * Sets transaction timeout in seconds.
      *
      * @param transactionTimeout transaction timeout in seconds
      */
     void setTransactionTimeout(long transactionTimeout);
 
     /**
-     * reset cache
+     * Reset cache.
      *
      * @param cacheSize new cache size
      * @param transactionTimeout new transaction timeout in seconds
@@ -128,19 +128,19 @@ public interface ControlLoopMetrics {
     void resetCache(long cacheSize, long transactionTimeout);
 
     /**
-     * refresh underlying transaction management
+     * Refresh underlying transaction management.
      */
     void refresh();
 
     /**
-     * singleton manager object
+     * Singleton manager object.
      */
     ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
 }
 
 
 /**
- * Control Loop Metrics Tracker Implementation
+ * Control Loop Metrics Tracker Implementation.
  */
 class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
@@ -189,24 +189,24 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         CacheLoader<UUID, VirtualControlLoopNotification> loader =
                 new CacheLoader<UUID, VirtualControlLoopNotification>() {
 
-                    @Override
-                    public VirtualControlLoopNotification load(UUID key) throws Exception {
-                        return null;
-                    }
-                };
+            @Override
+            public VirtualControlLoopNotification load(UUID key) throws Exception {
+                return null;
+            }
+        };
 
         RemovalListener<UUID, VirtualControlLoopNotification> listener =
                 new RemovalListener<UUID, VirtualControlLoopNotification>() {
-                    @Override
-                    public void onRemoval(RemovalNotification<UUID, VirtualControlLoopNotification> notification) {
-                        if (notification.wasEvicted()) {
-                            evicted(notification.getValue());
-                        } else {
-                            logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
+            @Override
+            public void onRemoval(RemovalNotification<UUID, VirtualControlLoopNotification> notification) {
+                if (notification.wasEvicted()) {
+                    evicted(notification.getValue());
+                } else {
+                    logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
                                     notification.getCause().name());
-                        }
-                    }
-                };
+                }
+            }
+        };
 
         synchronized (this) {
             if (this.cache != null) {
@@ -280,7 +280,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     /**
-     * tracks an in progress control loop transaction
+     * Tracks an in progress control loop transaction.
      *
      * @param notification control loop notification
      */
@@ -293,7 +293,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     /**
-     * end of a control loop transaction
+     * End of a control loop transaction.
      *
      * @param notification control loop notification
      */
@@ -307,8 +307,9 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         }
 
         this.transaction(notification, startTime);
-        if (startNotification != null)
+        if (startNotification != null) {
             cache.invalidate(startNotification);
+        }
     }
 
     protected void evicted(VirtualControlLoopNotification notification) {

@@ -52,6 +52,9 @@ public class ControlLoopCompiler implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(ControlLoopCompiler.class.getName());
     
+    /**
+     * Compiles the policy from an object.
+     */
     public static ControlLoopPolicy compile(ControlLoopPolicy policy, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
         //
@@ -66,6 +69,15 @@ public class ControlLoopCompiler implements Serializable {
         return policy;
     }
     
+    /**
+     * Compiles the policy from an input stream.
+     * 
+     * @param yamlSpecification the yaml input stream
+     * @param callback method to callback during compilation
+     * @return
+     * 
+     * @throws CompilerException throws any compile exception found
+     */
     public static ControlLoopPolicy compile(InputStream yamlSpecification, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
         Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
@@ -84,7 +96,7 @@ public class ControlLoopCompiler implements Serializable {
         if (controlLoop == null && callback != null) {
             callback.onError("controlLoop cannot be null");
         }
-        if (controlLoop!=null){
+        if (controlLoop != null) {
             if ((controlLoop.getControlLoopName() == null || controlLoop.getControlLoopName().length() < 1) 
                             && callback != null) {
                 callback.onError("Missing controlLoopName");

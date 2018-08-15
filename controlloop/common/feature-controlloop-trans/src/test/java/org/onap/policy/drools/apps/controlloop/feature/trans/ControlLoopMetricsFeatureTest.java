@@ -39,13 +39,16 @@ import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
 
 /**
- * ControlLoopMetrics Tests
+ * ControlLoopMetrics Tests.
  */
 public class ControlLoopMetricsFeatureTest {
 
     private static final Path configPath = SystemPersistence.manager.getConfigurationPath();
     private static PolicyController testController;
 
+    /**
+     * Setup method.
+     */
     @BeforeClass
     public static void setUp() {
         SystemPersistence.manager.setConfigurationDir("src/test/resources");

@@ -113,6 +113,9 @@ public class PIPEngineGetHistoryTest {
         emf.close();
     }
 
+    /**
+     * Setup method.
+     */
     @Before
     public void setUp() {
         // clear the table

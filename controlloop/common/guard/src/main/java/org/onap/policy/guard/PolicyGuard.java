@@ -64,6 +64,8 @@ public class PolicyGuard {
     }
     
     /**
+     * Get the factory.
+     * 
      * @return the factory used to access various objects
      */
     protected static Factory getFactory() {
@@ -72,7 +74,7 @@ public class PolicyGuard {
     
     /**
      * Sets the factory to be used by junit tests.
-     * @param factory
+     * @param factory factory
      */
     protected static void setFactory(Factory factory) {
         PolicyGuard.factory = factory;
@@ -95,7 +97,7 @@ public class PolicyGuard {
         String owner = makeOwner(targetType, requestID);
 
         boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
-        if(!result) {
+        if (!result) {
             return LockResult.createLockResult(GuardResult.LOCK_DENIED, null);
         }
         
@@ -145,7 +147,7 @@ public class PolicyGuard {
         boolean result = factory.getManager().refresh(lock.getTargetInstance(), owner, holdSec);
         
         logger.debug("Lock {} extend {}", lock, result);
-        return(result ? GuardResult.LOCK_ACQUIRED : GuardResult.LOCK_DENIED);
+        return (result ? GuardResult.LOCK_ACQUIRED : GuardResult.LOCK_DENIED);
     }
 
     /**
@@ -160,7 +162,7 @@ public class PolicyGuard {
         String owner = makeOwner(lock.getTargetType(), lock.getRequestID());
         boolean result = factory.getManager().unlock(lock.getTargetInstance(), owner);
         
-        if(result) {
+        if (result) {
             logger.debug("Unlocked {}", lock);
             return true;            
         }
@@ -184,17 +186,17 @@ public class PolicyGuard {
 
     /**
      * Combines the target type and request ID to yield a single, "owner" string.
-     * @param targetType
-     * @param requestID
+     * @param targetType target type
+     * @param requestID request id
      * @return the "owner" of a resource
      * @throws IllegalArgumentException if either argument is null
      */
     private static String makeOwner(TargetType targetType, UUID requestID) {
-        if(targetType == null) {
+        if (targetType == null) {
             throw new IllegalArgumentException("null targetType for lock request id " + requestID);
         }
 
-        if(requestID == null) {
+        if (requestID == null) {
             throw new IllegalArgumentException("null requestID for lock type " + targetType);
         }
         
@@ -207,6 +209,8 @@ public class PolicyGuard {
     public static class Factory {
 
         /**
+         * Get the manager.
+         * 
          * @return the lock manager to be used
          */
         public PolicyResourceLockManager getManager() {
