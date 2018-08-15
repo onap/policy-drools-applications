@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,21 +23,28 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 public class RelatedToProperty implements Serializable {
-    private static final long serialVersionUID = 2088088164920423658L;
+    private static final long serialVersionUID = 5644372985092588638L;
 
-    @SerializedName("related-to-property")
-    private List<RelatedToPropertyItem> relatedTo = new LinkedList<>();
+    @SerializedName("property-key")
+    private String propertyKey;
+    @SerializedName("property-value")
+    private String propertyValue;
 
-    public List<RelatedToPropertyItem> getRelatedTo() {
-        return relatedTo;
+    public String getPropertyKey() {
+        return propertyKey;
     }
 
-    public void setRelatedTo(List<RelatedToPropertyItem> relatedTo) {
-        this.relatedTo = relatedTo;
+    public String getPropertyValue() {
+        return propertyValue;
+    }
+
+    public void setPropertyKey(String propertyKey) {
+        this.propertyKey = propertyKey;
+    }
+
+    public void setPropertyValue(String propertyValue) {
+        this.propertyValue = propertyValue;
     }
 }
-

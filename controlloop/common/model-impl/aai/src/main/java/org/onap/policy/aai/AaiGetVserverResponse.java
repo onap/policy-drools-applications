@@ -23,52 +23,21 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AaiGetVserverResponse extends AaiGetResponse implements Serializable {
 
-    private static final long serialVersionUID = -6247505944905898870L;
+    private static final long serialVersionUID = -6247505944905898871L;
 
-    @SerializedName("vserver-id")
-    private String vserverId;
+    @SerializedName("vserver")
+    private List<AaiNqVServer> vserver = new LinkedList<>();
 
-    @SerializedName("vserver-name")
-    private String vserverName;
-
-    @SerializedName("vserver-name2")
-    private String vserverName2;
-
-    @SerializedName("vserver-selflink")
-    private String vserverSelflink;
-
-    public String getVserverId() {
-        return vserverId;
+    public List<AaiNqVServer> getVserver() {
+        return vserver;
     }
 
-    public String getVserverName() {
-        return vserverName;
-    }
-
-    public String getVserverName2() {
-        return vserverName2;
-    }
-
-    public String getVserverSelflink() {
-        return vserverSelflink;
-    }
-
-    public void setVserverId(String vserverId) {
-        this.vserverId = vserverId;
-    }
-
-    public void setVserverName(String vserverName) {
-        this.vserverName = vserverName;
-    }
-
-    public void setVserverName2(String vserverName2) {
-        this.vserverName2 = vserverName2;
-    }
-
-    public void setVserverSelflink(String vserverSelflink) {
-        this.vserverSelflink = vserverSelflink;
+    public void setVserver(List<AaiNqVServer> vserver) {
+        this.vserver = vserver;
     }
 }

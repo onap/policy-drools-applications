@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,17 +27,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RelationshipList implements Serializable {
-    private static final long serialVersionUID = 6115655704973981989L;
+    private static final long serialVersionUID = 6115655704973981990L;
 
-    @SerializedName("relationship-list")
+    @SerializedName("relationship")
     private List<Relationship> relationships = new LinkedList<>();
 
-    public List<Relationship> getRelationshipList() {
+    public List<Relationship> getRelationships() {
         return relationships;
     }
 
-    public void setRelationshipList(List<Relationship> relationshipList) {
-        this.relationships = relationshipList;
+    public void setRelationships(List<Relationship> relationships) {
+        this.relationships = relationships;
     }
 
 

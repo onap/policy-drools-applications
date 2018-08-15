@@ -25,72 +25,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class AaiGetResponse implements Serializable {
-
-    /**
-     * define common fields for AAIGETVnfResponse and AAIGETVserverResponse.
-     */
-    private static final long serialVersionUID = 7311418432051756161L;
-
-    @SerializedName("in-maint")
-    private String inMaint;
-
-    @SerializedName("is-closed-loop-disabled")
-    private String isClosedLoopDisabled;
-
-    @SerializedName("model-invariant-id")
-    private String modelInvariantId;
-
-    @SerializedName("resource-version")
-    private String resourceVersion;
-
-    @SerializedName("relationship-list")
-    private RelationshipList relationshipList;
+    private static final long serialVersionUID = 7311418432051756162L;
 
     @SerializedName("requestError")
     private AaiNqRequestError requestError;
 
-    public String getInMaint() {
-        return inMaint;
-    }
-
-    public String getIsClosedLoopDisabled() {
-        return isClosedLoopDisabled;
-    }
-
-    public String getModelInvariantId() {
-        return modelInvariantId;
-    }
-
-    public String getResourceVersion() {
-        return resourceVersion;
-    }
-
-    public RelationshipList getRelationshipList() {
-        return relationshipList;
-    }
-
     public AaiNqRequestError getRequestError() {
         return requestError;
-    }
-
-    public void setInMaint(String inMaint) {
-        this.inMaint = inMaint;
-    }
-
-    public void setIsClosedLoopDisabled(String isClosedLoopDisabled) {
-        this.isClosedLoopDisabled = isClosedLoopDisabled;
-    }
-
-    public void setModelInvariantId(String modelInvariantId) {
-        this.modelInvariantId = modelInvariantId;
-    }
-
-    public void setResourceVersion(String resourceVersion) {
-        this.resourceVersion = resourceVersion;
-    }
-
-    public void setRelationshipList(RelationshipList relationshipList) {
-        this.relationshipList = relationshipList;
     }
 
     public void setRequestError(AaiNqRequestError requestError) {

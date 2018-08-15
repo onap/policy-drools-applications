@@ -26,7 +26,7 @@ import java.io.Serializable;
 
 public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
 
-    private static final long serialVersionUID = -6247505944905898870L;
+    private static final long serialVersionUID = -6247505944905898871L;
 
     @SerializedName("vnf-id")
     private String vnfId;
@@ -42,6 +42,21 @@ public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
 
     @SerializedName("orchestration-status")
     private String orchestrationStatus;
+
+    @SerializedName("in-maint")
+    private boolean inMaint;
+
+    @SerializedName("is-closed-loop-disabled")
+    private boolean isClosedLoopDisabled;
+
+    @SerializedName("model-invariant-id")
+    private String modelInvariantId;
+
+    @SerializedName("resource-version")
+    private String resourceVersion;
+
+    @SerializedName("relationship-list")
+    private RelationshipList relationshipList;
 
     public String getVnfId() {
         return vnfId;
@@ -63,6 +78,26 @@ public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
         return orchestrationStatus;
     }
 
+    public boolean getInMaint() {
+        return inMaint;
+    }
+
+    public boolean getIsClosedLoopDisabled() {
+        return isClosedLoopDisabled;
+    }
+
+    public String getModelInvariantId() {
+        return modelInvariantId;
+    }
+
+    public String getResourceVersion() {
+        return resourceVersion;
+    }
+
+    public RelationshipList getRelationshipList() {
+        return relationshipList;
+    }
+
     public void setVnfId(String vnfId) {
         this.vnfId = vnfId;
     }
@@ -81,5 +116,25 @@ public class AaiGetVnfResponse extends AaiGetResponse implements Serializable {
 
     public void setOrchestrationStatus(String orchestrationStatus) {
         this.orchestrationStatus = orchestrationStatus;
+    }
+
+    public void setInMaint(boolean inMaint) {
+        this.inMaint = inMaint;
+    }
+
+    public void setIsClosedLoopDisabled(boolean isClosedLoopDisabled) {
+        this.isClosedLoopDisabled = isClosedLoopDisabled;
+    }
+
+    public void setModelInvariantId(String modelInvariantId) {
+        this.modelInvariantId = modelInvariantId;
+    }
+
+    public void setResourceVersion(String resourceVersion) {
+        this.resourceVersion = resourceVersion;
+    }
+
+    public void setRelationshipList(RelationshipList relationshipList) {
+        this.relationshipList = relationshipList;
     }
 }

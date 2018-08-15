@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,11 @@ package org.onap.policy.aai;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Relationship implements Serializable {
-    private static final long serialVersionUID = -68508443869003054L;
+    private static final long serialVersionUID = -68508443869003055L;
 
     @SerializedName("related-to")
     private String relatedTo;
@@ -34,10 +36,10 @@ public class Relationship implements Serializable {
     private String relatedLink;
 
     @SerializedName("relationship-data")
-    private RelationshipData relationshipData = new RelationshipData();
+    private List<RelationshipData> relationshipData = new LinkedList<>();
 
     @SerializedName("related-to-property")
-    private RelatedToProperty relatedToProperty = new RelatedToProperty();
+    private List<RelatedToProperty> relatedToProperty = new LinkedList<>();
 
     public String getRelatedTo() {
         return relatedTo;
@@ -47,11 +49,11 @@ public class Relationship implements Serializable {
         return relatedLink;
     }
 
-    public RelationshipData getRelationshipData() {
+    public List<RelationshipData> getRelationshipData() {
         return relationshipData;
     }
 
-    public RelatedToProperty getRelatedToProperty() {
+    public List<RelatedToProperty> getRelatedToProperty() {
         return relatedToProperty;
     }
 
@@ -63,11 +65,11 @@ public class Relationship implements Serializable {
         this.relatedLink = relatedLink;
     }
 
-    public void setRelationshipData(RelationshipData relationshipData) {
+    public void setRelationshipData(List<RelationshipData> relationshipData) {
         this.relationshipData = relationshipData;
     }
 
-    public void setRelatedToProperty(RelatedToProperty relatedToProperty) {
+    public void setRelatedToProperty(List<RelatedToProperty> relatedToProperty) {
         this.relatedToProperty = relatedToProperty;
     }
 }
