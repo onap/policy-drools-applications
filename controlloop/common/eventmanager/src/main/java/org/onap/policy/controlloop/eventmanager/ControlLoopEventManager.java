@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,6 +65,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     public static final String VSERVER_IS_CLOSED_LOOP_DISABLED = "vserver.is-closed-loop-disabled";
     public static final String GENERIC_VNF_PROV_STATUS = "generic-vnf.prov-status";
     public static final String VSERVER_PROV_STATUS = "vserver.prov-status";
+
+    private static final String QUERY_AAI_ERROR_MSG = "Exception from queryAai: ";
 
     /**
      * Additional time, in seconds, to add to a "lock" request. This ensures that the lock
@@ -161,7 +163,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Activate a control loop event.
-     * 
+     *
      * @param event the event
      * @return the VirtualControlLoopNotification
      */
@@ -200,7 +202,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Activate a control loop event.
-     * 
+     *
      * @param yamlSpecification the yaml specification
      * @param event the event
      * @return the VirtualControlLoopNotification
@@ -274,7 +276,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Check if the control loop is final.
-     * 
+     *
      * @return a VirtualControlLoopNotification if the control loop is final, otherwise
      *         <code>null</code> is returned
      * @throws ControlLoopException if an error occurs
@@ -348,7 +350,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Process the control loop.
-     * 
+     *
      * @return a ControlLoopOperationManager
      * @throws ControlLoopException if an error occurs
      * @throws AaiException if an error occurs retrieving information from A&AI
@@ -407,7 +409,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Finish an operation.
-     * 
+     *
      * @param operation the operation
      */
     public void finishOperation(ControlLoopOperationManager operation) throws ControlLoopException {
@@ -448,7 +450,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Obtain a lock for the current operation.
-     * 
+     *
      * @return the lock result
      * @throws ControlLoopException if an error occurs
      */
@@ -493,19 +495,19 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Release the lock for the current operation.
-     * 
+     *
      * @return the target lock
      */
     public synchronized TargetLock unlockCurrentOperation() {
         if (this.targetLock == null) {
             return null;
         }
-        
+
         TargetLock returnLock = this.targetLock;
         this.targetLock = null;
-        
+
         PolicyGuard.unlockTarget(returnLock);
-        
+
         // always return the old target lock so rules can retract it
         return returnLock;
     }
@@ -516,7 +518,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * An event onset/abatement.
-     * 
+     *
      * @param event the event
      * @return the status
      * @throws AaiException if an error occurs retrieving information from A&AI
@@ -580,7 +582,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Set the control loop time out.
-     * 
+     *
      * @return a VirtualControlLoopNotification
      */
     public VirtualControlLoopNotification setControlLoopTimedOut() {
@@ -598,7 +600,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Get the control loop timeout.
-     * 
+     *
      * @param defaultTimeout the default timeout
      * @return the timeout
      */
@@ -622,7 +624,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Check an event syntax.
-     * 
+     *
      * @param event the event syntax
      * @throws ControlLoopException if an error occurs
      */
@@ -661,7 +663,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Query A&AI for an event.
-     * 
+     *
      * @param event the event
      * @throws AaiException if an error occurs retrieving information from A&AI
      */
@@ -677,9 +679,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         Map<String, String> aai = event.getAai();
 
-        if ((aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
-                        && (aai.containsKey(VSERVER_PROV_STATUS) || aai.containsKey(GENERIC_VNF_PROV_STATUS))) {
-
+        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)) {
             // no need to query, as we already have the data
             return;
         }
@@ -698,17 +698,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 processVServerResponse(vserverResponse);
             }
         } catch (AaiException e) {
-            logger.error("Exception from queryAai: ", e);
+            logger.error(QUERY_AAI_ERROR_MSG, e);
             throw e;
         } catch (Exception e) {
-            logger.error("Exception from queryAai: ", e);
-            throw new AaiException("Exception from queryAai: " + e.toString());
+            logger.error(QUERY_AAI_ERROR_MSG, e);
+            throw new AaiException(QUERY_AAI_ERROR_MSG + e.toString());
         }
     }
 
     /**
      * Process a response from A&AI for a VNF.
-     * 
+     *
      * @param aaiResponse the response from A&AI
      * @param queryByVnfId <code>true</code> if the query was based on vnf-id,
      *        <code>false</code> if the query was based on vnf-name
@@ -735,7 +735,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Process a response from A&AI for a VServer.
-     * 
+     *
      * @param aaiResponse the response from A&AI
      * @throws AaiException if an error occurs processing the response
      */
@@ -764,7 +764,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Is closed loop disabled for an event.
-     * 
+     *
      * @param event the event
      * @return <code>true</code> if the control loop is disabled, <code>false</code>
      *         otherwise
@@ -777,7 +777,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Does provisioning status, for an event, have a value other than ACTIVE?
-     * 
+     *
      * @param event the event
      * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null},
      *         {@code false} otherwise
@@ -790,7 +790,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Determines the boolean value represented by the given AAI field value.
-     * 
+     *
      * @param aaiValue value to be examined
      * @return the boolean value represented by the field value, or {@code false} if the
      *         value is {@code null}
@@ -802,7 +802,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Get the A&AI VService information for an event.
-     * 
+     *
      * @param event the event
      * @return a AaiGetVserverResponse
      * @throws ControlLoopException if an error occurs
@@ -833,7 +833,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Get A&AI VNF information for an event.
-     * 
+     *
      * @param event the event
      * @return a AaiGetVnfResponse
      * @throws ControlLoopException if an error occurs
