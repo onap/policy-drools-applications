@@ -16,6 +16,24 @@
       "revId": "48eb8e2bd1674592ddfadfbbc01a611b6a263393",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e7086593",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-17T20:45:43Z",
+      "side": 1,
+      "message": "Per discussion with Pam, we can assume if one flag is there, then both flags are there; it\u0027s either enriched completely with A\u0026AI data, or it isn\u0027t enriched at all.",
+      "parentUuid": "1a76adc5_47a4b9a5",
+      "revId": "48eb8e2bd1674592ddfadfbbc01a611b6a263393",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
