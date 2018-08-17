@@ -22,6 +22,30 @@
       "revId": "2fb1e17d1e44a6b0e57fa0d268ac95d0986671a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_308a16c0",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-17T14:32:16Z",
+      "side": 1,
+      "message": "The previous calls return false if there is no data yet, so in that case, it falls into this block.  Nevertheless, I\u0027ve re-arranged it to be less ambiguous.",
+      "parentUuid": "1a76adc5_5069d223",
+      "range": {
+        "startLine": 682,
+        "startChar": 7,
+        "endLine": 685,
+        "endChar": 9
+      },
+      "revId": "2fb1e17d1e44a6b0e57fa0d268ac95d0986671a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
