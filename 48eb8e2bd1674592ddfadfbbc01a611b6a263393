@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_47a4b9a5",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-08-17T20:33:29Z",
+      "side": 1,
+      "message": "It seems that the checks are weakened compared to the previous version.   The previous version I thought it would cover the case where DCAE sends onset.aai section with no prov-status information, so in turn will trigger an aai query (if no data is already present).   \n\nThat seems to me not to be the case now, so if dcae sends onset.aai with missing prov-status info (closed-loop-disabled info would be present in this scenario), that query won\u0027t happen anymore.  \n\nIs the weakening of these checks intended?",
+      "revId": "48eb8e2bd1674592ddfadfbbc01a611b6a263393",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
