@@ -36,6 +36,14 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -94,23 +102,62 @@ public class ControlLoopOperationManagerTest {
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
     }
 
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
+
+
+    private static int getCount() {
+        // Create a query for number of items in DB
+        String sql = "select count(*) as count from operationshistory10";
+        Query nq = em.createNativeQuery(sql);
+
+        int numEvents = -1;
+        try {
+            numEvents = ((Number) nq.getSingleResult()).intValue();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            logger.error("getCountFromDb threw: ", ex);
+            fail(ex.getMessage());
+        }
+        return numEvents;
+    }
+
+    
     /**
      * Set up test class.
      */
     @BeforeClass
-    public static void setUpSimulator() {
+    public static void setUp() {
+
         try {
             org.onap.policy.simulators.Util.buildAaiSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
+        
+        // Set PU
+        System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
+
+        // Enter dummy props to avoid nullPointerException
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "b");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
+
+        // Connect to in-mem db
+        emf = Persistence.createEntityManagerFactory("TestOperationsHistoryPU");
+        em = emf.createEntityManager();
     }
 
+
+    /**
+     * Clean up test class.
+     */
     @AfterClass
-    public static void tearDownSimulator() {
+    public static void tearDown() {
+        em.close();
+        emf.close();
         HttpServletServer.factory.destroy();
     }
-
+    
     @Test
     public void testRetriesFail() {
         //
@@ -759,5 +806,44 @@ public class ControlLoopOperationManagerTest {
 
         System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
-    }
+    }    
+
+    @Test
+    public void testCommitAbatement() throws ControlLoopException, AaiException, IOException {
+        
+        InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
+        onsetEvent.setClosedLoopControlName("TwoOnsetTest");
+        onsetEvent.setRequestId(requestId);
+        onsetEvent.setTarget("generic-vnf.vnf-id");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
+
+        ControlLoopEventManager manager =
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        Policy policy = manager.getProcessor().getCurrentPolicy();
+        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        assertNotNull(clom);
+        
+        clom.startOperation(onsetEvent);
+
+        int numEventsBefore = getCount();
+        logger.info("numEventsBefore={}",numEventsBefore); 
+        
+        clom.commitAbatement("Test message","TEST_RESULT");
+
+        int numEventsAfter = getCount();
+        logger.info("numEventsAfter={}",numEventsAfter); 
+        
+        assertEquals(1,numEventsAfter - numEventsBefore);        
+    }    
 }
