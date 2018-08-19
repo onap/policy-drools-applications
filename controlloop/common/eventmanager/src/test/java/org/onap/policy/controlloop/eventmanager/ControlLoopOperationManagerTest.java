@@ -36,6 +36,14 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -94,6 +102,52 @@ public class ControlLoopOperationManagerTest {
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
     }
 
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
+
+    /**
+     * Set up test class.
+     */
+    @BeforeClass
+    public static void setUpDB() {
+
+        final String PU_KEY = "OperationsHistoryPU";
+        final String JUNITPU = "TestOperationsHistoryPU";
+        
+        // Set PU
+        System.setProperty(PU_KEY, JUNITPU);
+
+        // Enter dummy props to avoid nullPointerException
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "b");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
+
+        // Connect to in-mem db
+        emf = Persistence.createEntityManagerFactory(JUNITPU);
+        em = emf.createEntityManager();
+
+        // Create necessary table
+        String sql = "CREATE TABLE `operationshistory10` (" + "`CLNAME` varchar(255)," + "`requestID` varchar(100),"
+                + "`actor` varchar(50) ," + "`operation` varchar(50)," + "`target` varchar(50),"
+                + "`starttime` timestamp," + "`outcome` varchar(50)," + "`message` varchar(255),"
+                + "`subrequestId` varchar(100)," + "`endtime` timestamp" + ")";
+
+        // For some reason on this table appears to already exist
+        // (perhaps something done in guard tests) so leaving commented out
+
+        // Query nq = em.createNativeQuery(sql);
+        // em.getTransaction().begin();
+        // nq.executeUpdate();
+        // em.getTransaction().commit();
+    }
+    
+    @AfterClass
+    public static void tearDown() {
+        em.close();
+        emf.close();
+    }
+
+    
     /**
      * Set up test class.
      */
@@ -760,4 +814,59 @@ public class ControlLoopOperationManagerTest {
         System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
     }
+
+
+    @Test
+    public void testCommitAbatement() throws ControlLoopException, AaiException, IOException {
+        InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
+        onsetEvent.setClosedLoopControlName("TwoOnsetTest");
+        onsetEvent.setRequestId(requestId);
+        onsetEvent.setTarget("generic-vnf.vnf-id");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
+
+        ControlLoopEventManager manager =
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        Policy policy = manager.getProcessor().getCurrentPolicy();
+        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        assertNotNull(clom);
+
+        clom.startOperation(onsetEvent);
+
+        // Create a query for number of items in DB
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("select count(*) as count from operationshistory10");
+        Query nq = em.createNativeQuery(sqlBuilder.toString());
+
+        int numEventsBefore = -1;
+        try {
+            numEventsBefore = ((Number) nq.getSingleResult()).intValue();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            logger.error("Query threw: ", ex);
+            fail("Unsuccessful query");
+        }
+        
+        clom.commitAbatement("Test message","TEST_RESULT");
+
+        int numEventsAfter = -1;
+        try {
+            numEventsAfter = ((Number) nq.getSingleResult()).intValue();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            logger.error("Query threw: ", ex);
+            fail("Unsuccessful query");
+        }
+ 
+        assertEquals(1,numEventsAfter - numEventsBefore);        
+    }
+    
 }
