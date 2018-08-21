@@ -264,8 +264,8 @@ public class ControlLoopOperationManager implements Serializable {
                 return operationRequest;
             case "SO":
                 SOActorServiceProvider soActorSp = new SOActorServiceProvider();
-                this.operationRequest =
-                        soActorSp.constructRequest((VirtualControlLoopEvent) onset, operation.clOperation, this.policy);
+                this.operationRequest = soActorSp.constructRequest((VirtualControlLoopEvent) onset,
+                                operation.clOperation, this.policy, eventManager.getNqVserverFromAai());
 
                 // Save the operation
                 this.currentOperation = operation;
