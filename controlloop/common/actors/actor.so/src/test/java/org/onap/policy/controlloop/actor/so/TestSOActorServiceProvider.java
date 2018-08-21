@@ -24,33 +24,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.policy.aai.AaiNqInstanceFilters;
+import org.onap.policy.aai.AaiNqRequest;
+import org.onap.policy.aai.AaiNqResponse;
+import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.simulators.Util;
+import org.onap.policy.simulators.AaiSimulatorJaxRs;
 import org.onap.policy.so.SORequest;
+import org.onap.policy.so.util.Serialization;
 
 public class TestSOActorServiceProvider {
-
-    /**
-     * Set up for test class.
-     */
-    @BeforeClass
-    public static void setUpSimulator() {
-        try {
-            Util.buildAaiSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
 
     /**
      * Tear down after test class.
@@ -64,32 +55,22 @@ public class TestSOActorServiceProvider {
     public void testConstructRequest() {
         VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
         final ControlLoopOperation operation = new ControlLoopOperation();
+        final AaiNqResponseWrapper aaiNqResp = getNqVserverFromAai(onset);
 
         final UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
 
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-
         Policy policy = new Policy();
         policy.setActor("Dorothy");
         policy.setRecipe("GoToOz");
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setActor("SO");
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setRecipe("VF Module Create");
-        assertNotNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
-
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:999999");
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
-
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        assertNotNull(new SOActorServiceProvider().constructRequest(onset, operation, policy));
-
-        SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy);
+        SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        assertNotNull(request);
 
         assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
         assertEquals("RegionOne", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
@@ -112,5 +93,30 @@ public class TestSOActorServiceProvider {
         assertEquals(1, sp.recipes().size());
         assertEquals("VF Module Create", sp.recipes().get(0));
         assertEquals(0, sp.recipePayloads("VF Module Create").size());
+    }
+
+    /**
+     * Queries the AAI simulator directly (i.e., bypassing the REST API) to get the
+     * vserver named-query response.
+     * 
+     * @param onset the ONSET event
+     * @return output from the AAI vserver named-query
+     */
+    public AaiNqResponseWrapper getNqVserverFromAai(VirtualControlLoopEvent onset) {
+        AaiNqRequest aaiNqRequest = new AaiNqRequest();
+        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
+
+        Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
+        Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
+        aaiNqInstanceFilterMapItem.put("vserver-name", "my-vserver-name");
+        aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
+        aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
+        aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
+
+        String req = Serialization.gsonPretty.toJson(aaiNqRequest);
+        String resp = new AaiSimulatorJaxRs().aaiPostQuery(req);
+        AaiNqResponse aaiNqResponse = Serialization.gsonPretty.fromJson(resp, AaiNqResponse.class);
+
+        return new AaiNqResponseWrapper(onset.getRequestId(), aaiNqResponse);
     }
 }

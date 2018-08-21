@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,12 @@ import java.util.UUID;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.AaiNqInstanceFilters;
+import org.onap.policy.aai.AaiNqNamedQuery;
+import org.onap.policy.aai.AaiNqQueryParameters;
+import org.onap.policy.aai.AaiNqRequest;
+import org.onap.policy.aai.AaiNqResponse;
+import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.aai.AaiNqVServer;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
@@ -51,6 +58,7 @@ import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
 import org.onap.policy.rest.RESTManager;
+import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,6 +102,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private transient TargetLock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
+
+    /**
+     * Wrapper for AAI vserver named-query response. This is initialized in a lazy
+     * fashion.
+     */
+    private AaiNqResponseWrapper nqVserverResponse = null;
 
     private static Collection<String> requiredAAIKeys = new ArrayList<>();
 
@@ -869,6 +883,84 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         }
 
         return response;
+    }
+
+    /**
+     * Gets the output from the AAI vserver named-query, using the cache, if appropriate.
+     * @return output from the AAI vserver named-query
+     */
+    public AaiNqResponseWrapper getNqVserverFromAai() {
+        if(nqVserverResponse != null) {
+            // already queried
+            return nqVserverResponse;
+        }
+
+        String vserverName = onset.getAai().get(VSERVER_VSERVER_NAME);
+        if(vserverName == null) {
+            logger.warn("Missing vserver-name for AAI request {}", onset.getRequestId());
+            return null;
+        }
+
+        // create AAI named-query request with UUID started with ""
+        AaiNqRequest aaiNqRequest = new AaiNqRequest();
+        AaiNqQueryParameters aaiNqQueryParam = new AaiNqQueryParameters();
+        AaiNqNamedQuery aaiNqNamedQuery = new AaiNqNamedQuery();
+        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
+
+        // queryParameters
+        // TODO: UUID.fromString($params.getAaiNamedQueryUUID()) AaiNamedQueryUUID
+        aaiNqNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
+        aaiNqQueryParam.setNamedQuery(aaiNqNamedQuery);
+        aaiNqRequest.setQueryParameters(aaiNqQueryParam);
+        //
+        // instanceFilters
+        //
+        Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
+        Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
+        aaiNqInstanceFilterMapItem.put("vserver-name", vserverName);
+        aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
+        aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
+        aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aaiNqRequest));
+        }
+
+        AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
+                getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiNqRequest,
+                onset.getRequestId());
+
+        // Check AAI response
+        if (aaiNqResponse == null) {
+            logger.warn("No response received from AAI for request {}", aaiNqRequest);
+            return null;
+        }
+
+        // Create AAINQResponseWrapper
+        nqVserverResponse = new AaiNqResponseWrapper(onset.getRequestId(), aaiNqResponse);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("AAI Named Query Response: ");
+            logger.debug(Serialization.gsonPretty.toJson(nqVserverResponse.getAaiNqResponse()));
+        }
+
+        return nqVserverResponse;
+    }
+
+    /**
+     * This method reads and validates environmental properties coming from the policy engine. Null
+     * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
+     *
+     * @param enginePropertyName the name of the parameter to retrieve
+     * @return the property value
+     */
+    private static String getPeManagerEnvProperty(String enginePropertyName) {
+        String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
+        if (enginePropertyValue == null) {
+            throw new IllegalArgumentException("The value of policy engine manager environment property \""
+                    + enginePropertyName + "\" may not be null");
+        }
+        return enginePropertyValue;
     }
 
     @Override
