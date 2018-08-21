@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e1d128fc",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-21T11:49:57Z",
+      "side": 1,
+      "message": "Please use camel case for variables",
+      "range": {
+        "startLine": 114,
+        "startChar": 21,
+        "endLine": 114,
+        "endChar": 27
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_01cd445d",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-21T11:49:57Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 115,
+        "startChar": 21,
+        "endLine": 115,
+        "endChar": 28
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_61051879",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-21T11:49:57Z",
+      "side": 1,
+      "message": "What is the point of constructing this string if you are going to comment out the code to use it? It looks like it is being used to create the table. Tables should be temporary if this is a JUnit test. Perhaps it is not being properly cleaned up.",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 40
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_21e880b3",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-21T11:49:57Z",
+      "side": 1,
+      "message": "There should be a JUnit fail() here if this happens.",
+      "range": {
+        "startLine": 855,
+        "startChar": 12,
+        "endLine": 855,
+        "endChar": 55
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_41eb3cb0",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-21T11:49:57Z",
+      "side": 1,
+      "message": "same - add fail() statement",
+      "range": {
+        "startLine": 864,
+        "startChar": 12,
+        "endLine": 864,
+        "endChar": 55
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_41025c70",
+        "filename": "controlloop/common/eventmanager/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-21T11:49:57Z",
+      "side": 1,
+      "message": "Not sure we should be changing databases - what was wrong with Derby?",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
