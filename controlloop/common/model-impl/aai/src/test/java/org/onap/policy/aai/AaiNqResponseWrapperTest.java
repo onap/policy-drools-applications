@@ -20,13 +20,15 @@
 
 package org.onap.policy.aai;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
+import static org.junit.Assert.assertNull;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
 import org.slf4j.Logger;
@@ -34,12 +36,8 @@ import org.slf4j.LoggerFactory;
 
 public class AaiNqResponseWrapperTest {
     private static final Logger logger = LoggerFactory.getLogger(AaiNqResponseWrapperTest.class);
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {}
+    
+    private static final File DIR = new File("src/test/resources/org/onap/policy/aai");
 
     @Test
     public void test() {
@@ -168,5 +166,101 @@ public class AaiNqResponseWrapperTest {
         assertNotNull(aaiNqResponseWarapper2.getRequestId());
         assertNotNull(aaiNqResponseWarapper2.getAaiNqResponse());
         logger.info(Serialization.gsonPretty.toJson(aaiNqResponseWarapper2));
+    }
+
+    @Test
+    public void testCountVfModules() throws Exception {
+        AaiNqResponseWrapper resp;
+
+        // null item
+        resp = new AaiNqResponseWrapper();
+        assertEquals(0, resp.countVfModules());
+        
+        // no names
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
+        assertEquals(0, resp.countVfModules());
+
+        // has VF modules
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        assertEquals(3, resp.countVfModules());
+    }
+
+    @Test
+    public void testGenVfModuleName() throws Exception {
+        AaiNqResponseWrapper resp;
+
+        // null item
+        resp = new AaiNqResponseWrapper();
+        assertEquals(null, resp.genVfModuleName());
+        
+        // no names
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
+        assertEquals(null, resp.genVfModuleName());
+
+        // has VF modules
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        assertEquals("my-module-abc_124", resp.genVfModuleName());
+    }
+
+    @Test
+    public void testGetVfModules() throws Exception {
+        AaiNqResponseWrapper resp;
+
+        // null item
+        resp = new AaiNqResponseWrapper();
+        assertNull(resp.getVfModules(true));
+
+        // missing item
+        resp = new AaiNqResponseWrapper();
+        resp.setAaiNqResponse(new AaiNqResponse());
+        assertNull(resp.getVfModules(false));
+
+        // null item list
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoItems.json"));
+        resp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0)
+                        .getItems().setInventoryResponseItems(null);
+        assertNull(resp.getVfModules(false));
+        
+        // no modules
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoModules.json"));
+        assertNull(resp.getVfModules(false));
+        
+        // no names
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
+        List<AaiNqVfModule> lst;
+        lst = resp.getVfModules(false);
+        assertNotNull(lst);
+        assertEquals(0, lst.size());
+
+        // base VF modules
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        lst = resp.getVfModules(true);
+        assertNotNull(lst);
+        assertEquals(1, lst.size());
+        assertEquals("Vfmodule_vLBMS-0809-1", lst.get(0).getVfModuleName());
+        
+        // non base VF modules
+        resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
+        lst = resp.getVfModules(false);
+        assertNotNull(lst);
+        assertEquals(3, lst.size());
+        int index;
+        index = 0;
+        assertEquals("my-module-abc_1", lst.get(index++).getVfModuleName());
+        assertEquals("my-module-abc_123", lst.get(index++).getVfModuleName());
+        assertEquals("my-module-abc_34", lst.get(index++).getVfModuleName());
+    }
+
+    /**
+     * Loads a response from a JSON file.
+     * 
+     * @param fileName name of the file containing the JSON response
+     * @return the response
+     * @throws IOException if the file cannot be read
+     */
+    private AaiNqResponse load(String fileName) throws IOException {
+        File file = new File(DIR, fileName);
+        String json = new String(Files.readAllBytes(file.toPath()));
+        return Serialization.gsonPretty.fromJson(json, AaiNqResponse.class);
     }
 }
