@@ -41,11 +41,6 @@
   </modules>
   <dependencies>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>19.0</version>
-    </dependency>
-    <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
       <artifactId>policy-yaml</artifactId>
       <version>${project.version}</version>

@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.oparent</groupId>
         <artifactId>oparent</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -269,7 +269,22 @@
         </plugins>
     </reporting>
 
+	<dependencyManagement>
+		<dependencies>
+		    <dependency>
+		      <groupId>org.onap.oparent</groupId>
+		      <artifactId>dependencies</artifactId>
+		      <version>1.2.0-SNAPSHOT</version>
+		      <type>pom</type>
+		      <scope>import</scope>
+		    </dependency>
+		</dependencies>
+	</dependencyManagement>
     <dependencies>
+        <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
