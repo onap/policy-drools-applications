@@ -207,47 +207,47 @@ public class AaiNqResponseWrapperTest {
 
         // null item
         resp = new AaiNqResponseWrapper();
-        assertNull(resp.getVfModules(true));
+        assertNull(resp.getVfModuleItems(true));
 
         // missing item
         resp = new AaiNqResponseWrapper();
         resp.setAaiNqResponse(new AaiNqResponse());
-        assertNull(resp.getVfModules(false));
+        assertNull(resp.getVfModuleItems(false));
 
         // null item list
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoItems.json"));
         resp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0)
                         .getItems().setInventoryResponseItems(null);
-        assertNull(resp.getVfModules(false));
+        assertNull(resp.getVfModuleItems(false));
         
         // no modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoModules.json"));
-        assertNull(resp.getVfModules(false));
+        assertNull(resp.getVfModuleItems(false));
         
         // no names
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
-        List<AaiNqVfModule> lst;
-        lst = resp.getVfModules(false);
+        List<AaiNqInventoryResponseItem> lst;
+        lst = resp.getVfModuleItems(false);
         assertNotNull(lst);
         assertEquals(0, lst.size());
 
         // base VF modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
-        lst = resp.getVfModules(true);
+        lst = resp.getVfModuleItems(true);
         assertNotNull(lst);
         assertEquals(1, lst.size());
-        assertEquals("Vfmodule_vLBMS-0809-1", lst.get(0).getVfModuleName());
+        assertEquals("Vfmodule_vLBMS-0809-1", lst.get(0).getVfModule().getVfModuleName());
         
         // non base VF modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
-        lst = resp.getVfModules(false);
+        lst = resp.getVfModuleItems(false);
         assertNotNull(lst);
         assertEquals(3, lst.size());
         int index;
         index = 0;
-        assertEquals("my-module-abc_1", lst.get(index++).getVfModuleName());
-        assertEquals("my-module-abc_123", lst.get(index++).getVfModuleName());
-        assertEquals("my-module-abc_34", lst.get(index++).getVfModuleName());
+        assertEquals("my-module-abc_1", lst.get(index++).getVfModule().getVfModuleName());
+        assertEquals("my-module-abc_123", lst.get(index++).getVfModule().getVfModuleName());
+        assertEquals("my-module-abc_34", lst.get(index++).getVfModule().getVfModuleName());
     }
 
     /**

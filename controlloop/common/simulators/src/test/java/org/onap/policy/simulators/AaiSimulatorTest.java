@@ -21,6 +21,8 @@
 package org.onap.policy.simulators;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
@@ -75,6 +77,7 @@ public class AaiSimulatorTest {
 
     @Test
     public void testPost() {
+        // check vserver named query
         final AaiNqRequest request = new AaiNqRequest();
         final AaiNqQueryParameters tempQueryParameters = new AaiNqQueryParameters();
         final AaiNqNamedQuery tempNamedQuery = new AaiNqNamedQuery();
@@ -95,7 +98,17 @@ public class AaiSimulatorTest {
                 "testPass", request, UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
+        
+        // check error response for vserver query
+        tempInnerMap.put("vserver-name", "error");
 
+        response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
+                UUID.randomUUID());
+        assertNotNull(response);
+        assertNotNull(response.getRequestError());
+        assertTrue(response.getRequestError().getServiceExcept().getVariables()[2].contains("vserver"));
+
+        // check generic-vnf named query
         tempNamedQuery.setNamedQueryUuid(UUID.fromString("a93ac487-409c-4e8c-9e5f-334ae8f99087"));
         tempQueryParameters.setNamedQuery(tempNamedQuery);
         request.setQueryParameters(tempQueryParameters);
@@ -113,5 +126,15 @@ public class AaiSimulatorTest {
                 UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
+        assertNull(response.getRequestError());
+        
+        // check error response for generic-vnf query
+        tempInnerMap.put("vnf-id", "error");
+
+        response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
+                UUID.randomUUID());
+        assertNotNull(response);
+        assertNotNull(response.getRequestError());
+        assertTrue(response.getRequestError().getServiceExcept().getVariables()[2].contains("generic-vnf"));
     }
 }

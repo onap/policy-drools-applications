@@ -26,38 +26,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-import org.junit.AfterClass;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.onap.policy.aai.AaiNqInstanceFilters;
-import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.AaiNqResponse;
 import org.onap.policy.aai.AaiNqResponseWrapper;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.simulators.AaiSimulatorJaxRs;
 import org.onap.policy.so.SORequest;
 import org.onap.policy.so.util.Serialization;
 
 public class TestSOActorServiceProvider {
 
-    /**
-     * Tear down after test class.
-     */
-    @AfterClass
-    public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
-    }
-
     @Test
-    public void testConstructRequest() {
+    public void testConstructRequest() throws Exception {
         VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
         final ControlLoopOperation operation = new ControlLoopOperation();
-        final AaiNqResponseWrapper aaiNqResp = getNqVserverFromAai(onset);
+        final AaiNqResponseWrapper aaiNqResp = loadAaiResponse(onset, "aai/AaiNqResponse-Full.json");
 
         final UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
@@ -74,8 +62,20 @@ public class TestSOActorServiceProvider {
         SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
 
+        assertEquals("my_module_3", request.getRequestDetails().getRequestInfo().getInstanceName());
         assertEquals("policy", request.getRequestDetails().getRequestInfo().getRequestorId());
         assertEquals("RegionOne", request.getRequestDetails().getCloudConfiguration().getLcpCloudRegionId());
+
+        // null response
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, null));
+
+        // response has no base VF module
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy,
+                        loadAaiResponse(onset, "aai/AaiNqResponse-NoBase.json")));
+
+        // response has no non-base VF modules (other than the "dummy")
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy,
+                        loadAaiResponse(onset, "aai/AaiNqResponse-NoNonBase.json")));
     }
 
     @Test
@@ -98,25 +98,16 @@ public class TestSOActorServiceProvider {
     }
 
     /**
-     * Queries the AAI simulator directly (i.e., bypassing the REST API) to get the
-     * vserver named-query response.
+     * Reads an AAI vserver named-query response from a file.
      * 
      * @param onset the ONSET event
+     * @param fileName name of the file containing the JSON response
      * @return output from the AAI vserver named-query
+     * @throws IOException if the file cannot be read
      */
-    private AaiNqResponseWrapper getNqVserverFromAai(VirtualControlLoopEvent onset) {
-        AaiNqRequest aaiNqRequest = new AaiNqRequest();
-        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
-
-        Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
-        Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
-        aaiNqInstanceFilterMapItem.put("vserver-name", "my-vserver-name");
-        aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
-        aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
-        aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
-
-        String req = Serialization.gsonPretty.toJson(aaiNqRequest);
-        String resp = new AaiSimulatorJaxRs().aaiPostQuery(req);
+    private AaiNqResponseWrapper loadAaiResponse(VirtualControlLoopEvent onset, String fileName)
+                    throws IOException {
+        String resp = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
         AaiNqResponse aaiNqResponse = Serialization.gsonPretty.fromJson(resp, AaiNqResponse.class);
 
         return new AaiNqResponseWrapper(onset.getRequestId(), aaiNqResponse);

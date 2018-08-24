@@ -20,6 +20,11 @@
 
 package org.onap.policy.simulators;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
@@ -30,7 +35,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
+import org.apache.commons.io.IOUtils;
 import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.util.Serialization;
 
@@ -58,132 +63,45 @@ public class AaiSimulatorJaxRs {
      * 
      * @param req the request
      * @return the response
+     * @throws IOException if a response file cannot be read
      */
     @POST
     @Path("/search/named-query")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String aaiPostQuery(final String req) {
+    public String aaiPostQuery(final String req) throws IOException {
         final AaiNqRequest request = Serialization.gsonPretty.fromJson(req, AaiNqRequest.class);
 
         if (request.getInstanceFilters().getInstanceFilter().get(0).containsKey("vserver")) {
             final String vserverName =
                     request.getInstanceFilters().getInstanceFilter().get(0).get("vserver").get("vserver-name");
             if ("error".equals(vserverName)) {
-                return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not "
-                        + "found for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"POST Search\",\""
-                        + "getNamedQueryResponse\",\"Node Not Found:No Node of type vserver found for properties\""
-                        + ",\"ERR.5.4.6114\"]}}}";
+                Map<String,String> params = new TreeMap<>();
+                params.put("type", "vserver");
+                return load("aai/AaiNqResponse-Error.json", params);
             } else {
                 // vll format - new
                 // new aai response from Brian 11/13/2017
-                return "{\"inventory-response-item\":[{\"vserver\":{\"vserver-id\":\""
-                        + "6ed3642c-f7a1-4a7c-9290-3d51fe1531eb\",\"vserver-name\":\"zdfw1lb01lb02\",\"vserver-name2\""
-                        + ":\"zdfw1lb01lb02\",\"prov-status\":\"ACTIVE\",\"vserver-selflink\":\""
-                        + "http://10.12.25.2:8774/v2.1/41d6d38489bd40b09ea8a6b6b852dcbd/servers/"
-                        + "6ed3642c-f7a1-4a7c-9290-3d51fe1531eb\",\"in-maint\":false,\"prov-status\":\"ACTIVE\",\"is-closed-loop-disabled\":false"
-                        + ",\"resource-version\":\"1510606403522\"},\"extra-properties\":{},\"inventory-response-items"
-                        + "\":{\"inventory-response-item\":[{\"model-name\":\"vLoadBalancer\",\"generic-vnf\":{\"vnf-id"
-                        + "\":\"db373a8d-f7be-4d02-8ac8-6ca4c305d144\",\"vnf-name\":\"Vfmodule_vLB1113\",\"vnf-type"
-                        + "\":\"vLoadBalancer-1106/vLoadBalancer 0\",\"service-id\":\""
-                        + "66f157fc-4148-4880-95f5-e120677e98d1\",\"prov-status\":\"PREPROV\",\"orchestration-status\":"
-                        + "\"Created\",\"in-maint\":false,\"is-closed-loop-disabled\":false,\"resource-version\":\""
-                        + "1510604011851\",\"model-invariant-id\":\"cee050ed-92a5-494f-ab04-234307a846dc\",\""
-                        + "model-version-id\":\"fd65becc-6b2c-4fe8-ace9-cc29db9a3da2\",\"model-customization-id\":\""
-                        + "1983c783-444f-4e79-af3a-85e5d49628f3\",\"nf-type\":\"\",\"nf-function\":\"\",\"nf-role"
-                        + "\":\"\",\"nf-naming-code\":\"\"},\"extra-properties\":{\"extra-property\":[{\"property-name"
-                        + "\":\"model-ver.model-version-id\",\"property-value\":\"fd65becc-6b2c-4fe8-ace9-cc29db9a3da2"
-                        + "\"},{\"property-name\":\"model-ver.model-name\",\"property-value\":\"vLoadBalancer\"},{\""
-                        + "property-name\":\"model.model-type\",\"property-value\":\"resource\"},{\"property-name\":\""
-                        + "model.model-invariant-id\",\"property-value\":\"cee050ed-92a5-494f-ab04-234307a846dc\"},{\""
-                        + "property-name\":\"model-ver.model-version\",\"property-value\":\"1.0\"}]},\""
-                        + "inventory-response-items\":{\"inventory-response-item\":[{\"model-name\":\""
-                        + "vLoadBalancer-1106\",\"service-instance\":{\"service-instance-id\":\""
-                        + "3b12f31f-8f2d-4f5c-b875-61ff1194b941\",\"service-instance-name\":\"vLoadBalancer-1113\",\""
-                        + "model-invariant-id\":\"1321d60d-f7ff-4300-96c2-6bf0b3268b7a\",\"model-version-id\":\""
-                        + "732d4692-4b97-46f9-a996-0b3339e88c50\",\"resource-version\":\"1510603936425\"},\""
-                        + "extra-properties\":{\"extra-property\":[{\"property-name\":\"model-ver.model-version-id"
-                        + "\",\"property-value\":\"732d4692-4b97-46f9-a996-0b3339e88c50\"},{\"property-name\":\""
-                        + "model-ver.model-name\",\"property-value\":\"vLoadBalancer-1106\"},{\"property-name\":\""
-                        + "model.model-type\",\"property-value\":\"service\"},{\"property-name\":\""
-                        + "model.model-invariant-id\",\"property-value\":\"1321d60d-f7ff-4300-96c2-6bf0b3268b7a"
-                        + "\"},{\"property-name\":\"model-ver.model-version\",\"property-value\":\"1.0\"}]}},{\""
-                        + "model-name\":\"Vloadbalancer..base_vlb..module-0\",\"vf-module\":{\"vf-module-id\":\""
-                        + "e6b3e3eb-34e1-4c00-b8c1-2a4fbe479b12\",\"vf-module-name\":\"Vfmodule_vLB1113-1\",\""
-                        + "heat-stack-id\":\"Vfmodule_vLB1113-1/3dd6d900-772f-4fcc-a0cb-e250ab2bb4db\",\""
-                        + "orchestration-status\":\"active\",\"is-base-vf-module\":true,\"resource-version\":\""
-                        + "1510604612557\",\"model-invariant-id\":\"6d760188-9a24-451a-b05b-e08b86cb94f2\",\""
-                        + "model-version-id\":\"93facad9-55f2-4fe0-9574-814c2bc2d071\",\"model-customization-id\":\""
-                        + "93fd5bd4-8051-4074-8530-c0c504604df5\",\"module-index\":0},\"extra-properties\":{\""
-                        + "extra-property\":[{\"property-name\":\"model-ver.model-version-id\",\"property-value"
-                        + "\":\"93facad9-55f2-4fe0-9574-814c2bc2d071\"},{\"property-name\":\"model-ver.model-name"
-                        + "\",\"property-value\":\"Vloadbalancer..base_vlb..module-0\"},{\"property-name\":\""
-                        + "model.model-type\",\"property-value\":\"resource\"},{\"property-name\":\""
-                        + "model.model-invariant-id\",\"property-value\":\"6d760188-9a24-451a-b05b-e08b86cb94f2\"},"
-                        + "{\"property-name\":\"model-ver.model-version\",\"property-value\":\"1\"}]}},{\"model-name"
-                        + "\":\"Vloadbalancer..dnsscaling..module-1\",\"vf-module\":{\"vf-module-id\":\""
-                        + "dummy_db373a8d-f7be-4d02-8ac8-6ca4c305d144\",\"vf-module-name\":\""
-                        + "dummy_db373a8d-f7be-4d02-8ac8-6ca4c305d144\",\"is-base-vf-module\":false,\"resource-version"
-                        + "\":\"1510610079687\",\"model-invariant-id\":\"356a1cff-71f2-4086-9980-a2927ce11c1c\",\""
-                        + "model-version-id\":\"6b93d804-cfc8-4be3-92cc-9336d135859a\"},\"extra-properties\":{\""
-                        + "extra-property\":[{\"property-name\":\"model-ver.model-version-id\",\"property-value\":\""
-                        + "6b93d804-cfc8-4be3-92cc-9336d135859a\"},{\"property-name\":\"model-ver.model-name\",\""
-                        + "property-value\":\"Vloadbalancer..dnsscaling..module-1\"},{\"property-name\":\""
-                        + "model.model-type\",\"property-value\":\"resource\"},{\"property-name\":\""
-                        + "model.model-invariant-id\",\"property-value\":\"356a1cff-71f2-4086-9980-a2927ce11c1c\"},"
-                        + "{\"property-name\":\"model-ver.model-version\",\"property-value\":\"1\"}]}}]}},{\"tenant"
-                        + "\":{\"tenant-id\":\"41d6d38489bd40b09ea8a6b6b852dcbd\",\"tenant-name\":\"Integration-SB-00"
-                        + "\",\"resource-version\":\"1509587770200\"},\"extra-properties\":{},\""
-                        + "inventory-response-items\":{\"inventory-response-item\":[{\"cloud-region\":{\"cloud-owner"
-                        + "\":\"CloudOwner\",\"cloud-region-id\":\"RegionOne\",\"cloud-type\":\"SharedNode\",\""
-                        + "owner-defined-type\":\"OwnerType\",\"cloud-region-version\":\"v1\",\"cloud-zone\":\""
-                        + "CloudZone\",\"sriov-automation\":false,\"resource-version\":\"1509587770092\"},\""
-                        + "extra-properties\":{}}]}}]}}]}";
+                return load("aai/AaiNqResponse-Vserver.json", new TreeMap<>());
             }
         } else {
             final String vnfId =
                     request.getInstanceFilters().getInstanceFilter().get(0).get("generic-vnf").get("vnf-id");
             if ("error".equals(vnfId)) {
-                return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not "
-                        + "found for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"POST Search\",\""
-                        + "getNamedQueryResponse\",\"Node Not Found:No Node of type generic-vnf found for properties"
-                        + "\",\"ERR.5.4.6114\"]}}}";
+                Map<String,String> params = new TreeMap<>();
+                params.put("type", "generic-vnf");
+                return load("aai/AaiNqResponse-Error.json", params);
             } else {
-                final String vnfName = getUUIDValue(vnfId, "ZRDM2MMEX39");
-                final String pnfVndName = "pnf-test-" + vnfId;
-                final String pnfVnfId = getUUIDValue(pnfVndName, "jimmy-test");
+                Map<String,String> params = new TreeMap<>();
+                params.put("vnfId", vnfId);
+                params.put("vnfName", getUUIDValue(vnfId, "ZRDM2MMEX39"));
+                params.put("pnfVndName", "pnf-test-" + vnfId);
+                params.put("pnfVnfId", getUUIDValue(params.get("pnfVndName"), "jimmy-test"));
 
-                final String serviceInstanceVnfName = "service-instance-test-" + vnfId;
-                final String serviceInstanceVnfId = getUUIDValue(serviceInstanceVnfName, "jimmy-test-vnf2");
+                params.put("serviceInstanceVnfName", "service-instance-test-" + vnfId);
+                params.put("serviceInstanceVnfId", getUUIDValue(params.get("serviceInstanceVnfName"), "jimmy-test-vnf2"));
 
-                return "{\"inventory-response-item\": [{\"model-name\": \"service-instance\",\"generic-vnf\": {\""
-                        + "vnf-id\": \"" + vnfId + "\",\"vnf-name\": \"" + vnfName + "\",\"vnf-type\": \"vMME Svc Jul "
-                        + "14/vMME VF Jul 14 1\",\"service-id\": \"a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb\",\""
-                        + "orchestration-status\": \"active\",\"prov-status\":\"ACTIVE\",\"in-maint\": false,\"is-closed-loop-disabled\": false"
-                        + ",\"resource-version\": \"1503082370097\",\"model-invariant-id\": \""
-                        + "82194af1-3c2c-485a-8f44-420e22a9eaa4\",\"model-version-id\": \""
-                        + "46b92144-923a-4d20-b85a-3cbd847668a9\"},\"extra-properties\": {},\""
-                        + "inventory-response-items\": {\"inventory-response-item\": [{\"model-name\": \""
-                        + "service-instance\",\"service-instance\": {\"service-instance-id\": \""
-                        + "37b8cdb7-94eb-468f-a0c2-4e3c3546578e\",\"service-instance-name\": \"Changed Service "
-                        + "Instance NAME\",\"model-invariant-id\": \"82194af1-3c2c-485a-8f44-420e22a9eaa4\",\""
-                        + "model-version-id\": \"46b92144-923a-4d20-b85a-3cbd847668a9\",\"resource-version\": \""
-                        + "1503082993532\",\"orchestration-status\": \"Active\"},\"extra-properties\": {},\""
-                        + "inventory-response-items\": {\"inventory-response-item\": [{\"model-name\": \"pnf\",\""
-                        + "generic-vnf\": {\"vnf-id\": \"" + pnfVnfId + "\",\"vnf-name\": \"" + pnfVndName
-                        + "\",\"vnf-type" + "\": \"vMME Svc Jul 14/vMME VF Jul 14 1\",\"service-id\": \""
-                        + "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb\",\"orchestration-status\": \"active\",\"in-maint\":"
-                        + " false,\"is-closed-loop-disabled\": false,\"resource-version\": \"1504013830207\",\""
-                        + "model-invariant-id\": \"862b25a1-262a-4961-bdaa-cdc55d69785a\",\"model-version-id\": \""
-                        + "e9f1fa7d-c839-418a-9601-03dc0d2ad687\"},\"extra-properties\": {}},{\"model-name\": \""
-                        + "service-instance\",\"generic-vnf\": {\"vnf-id\": \"" + serviceInstanceVnfId
-                        + "\",\"vnf-name\": \"" + "" + serviceInstanceVnfName
-                        + "\",\"vnf-type\": \"vMME Svc Jul 14/vMME VF Jul 14 1\",\"service-id"
-                        + "\": \"a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb\",\"orchestration-status\": \"active\",\""
-                        + "in-maint\": false,\"is-closed-loop-disabled\": false,\"resource-version\": \""
-                        + "1504014833841\",\"model-invariant-id\": \"Eace933104d443b496b8.nodes.heat.vpg\",\""
-                        + "model-version-id\": \"46b92144-923a-4d20-b85a-3cbd847668a9\"},\"extra-properties\": "
-                        + "{}}]}}]}}]}";
+                return load("aai/AaiNqResponse-GenericVnf.json", params);
             }
         }
     }
@@ -340,5 +258,27 @@ public class AaiSimulatorJaxRs {
 
     private String getUUIDValue(final String value, final String defaultValue) {
         return value != null ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : defaultValue;
+    }
+
+    /**
+     * Loads a JSON response from a file and then replaces parameters of the form, ${xxx},
+     * with values.
+     * 
+     * @param fileName name of the file containing the JSON
+     * @param params parameters to be substituted
+     * @return the JSON response, after parameter substitution
+     * @throws IOException if the file cannot be read
+     */
+    private String load(String fileName, Map<String, String> params) throws IOException {
+        String json = IOUtils.toString(getClass().getResource(fileName), StandardCharsets.UTF_8);
+
+        // perform parameter substitution
+        for (Entry<String, String> ent : params.entrySet()) {
+            String name = "${" + ent.getKey() + "}";
+            String value = ent.getValue();
+            json = json.replace(name, value);
+        }
+
+        return json;
     }
 }

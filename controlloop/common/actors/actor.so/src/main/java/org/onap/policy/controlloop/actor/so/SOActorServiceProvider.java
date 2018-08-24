@@ -145,11 +145,11 @@ public class SOActorServiceProvider implements Actor {
         }
 
         // Find the index for base vf module and non-base vf module
-        int baseIndex = findIndex(vnfItem.getItems().getInventoryResponseItems(), true);
-        int nonBaseIndex = findIndex(vnfItem.getItems().getInventoryResponseItems(), false);
+        AaiNqInventoryResponseItem baseItem = findVfModule(aaiResponseWrapper, true);
+        AaiNqInventoryResponseItem vfModuleItem = findVfModule(aaiResponseWrapper, false);
 
         // Report the error if either base vf module or non-base vf module is not found
-        if (baseIndex == -1 || nonBaseIndex == -1) {
+        if (baseItem == null || vfModuleItem == null) {
             logger.error("Either base or non-base vf module is not found from AAI response.");
             return null;
         }
@@ -177,8 +177,6 @@ public class SOActorServiceProvider implements Actor {
         //
         // modelInfo
         //
-        AaiNqInventoryResponseItem vfModuleItem = vnfItem.getItems().getInventoryResponseItems().get(nonBaseIndex);
-
         request.getRequestDetails().getModelInfo().setModelType("vfModule");
         request.getRequestDetails().getModelInfo()
                 .setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
@@ -195,8 +193,7 @@ public class SOActorServiceProvider implements Actor {
         //
         // requestInfo
         //
-        request.getRequestDetails().getRequestInfo().setInstanceName(vnfItem.getItems().getInventoryResponseItems()
-            .get(baseIndex).getVfModule().getVfModuleName().replace("Vfmodule", "vDNS"));
+        request.getRequestDetails().getRequestInfo().setInstanceName(aaiResponseWrapper.genVfModuleName());
         request.getRequestDetails().getRequestInfo().setSource("POLICY");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
         request.getRequestDetails().getRequestInfo().setRequestorId("policy");
@@ -278,41 +275,16 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * Find the base index or non base index in a list of inventory response items.
+     * Find the base or non base VF module item in an AAI response.
      *
-     * @param inventoryResponseItems the list of inventory response items
-     * @param baseIndexFlag true if we are searching for the base index, false if we are searching
-     *        for the non base index
-     * @return the base or non base index or -1 if the index was not found
+     * @param aaiResponseWrapper the AAI response containing the VF modules
+     * @param baseFlag true if we are searching for the base, false if we are searching
+     *        for the non base
+     * @return the base or non base VF module item or null if the module was not found
      */
-    private int findIndex(List<AaiNqInventoryResponseItem> inventoryResponseItems, boolean baseIndexFlag) {
-        for (AaiNqInventoryResponseItem inventoryResponseItem : inventoryResponseItems) {
-            if (inventoryResponseItem.getVfModule() != null
-                    && baseIndexFlag == inventoryResponseItem.getVfModule().getIsBaseVfModule()) {
-                return inventoryResponseItems.indexOf(inventoryResponseItem);
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Find the number of non base modules present in API response object.
-     *
-     * @param inventoryResponseItems the list of inventory response items
-     * @return number of non base index modules
-     */
-
-    @SuppressWarnings("unused")
-    private int findNonBaseModules(List<AaiNqInventoryResponseItem> inventoryResponseItems) {
-        int nonBaseModuleCount = 0;
-        for (AaiNqInventoryResponseItem inventoryResponseItem : inventoryResponseItems) {
-            if (inventoryResponseItem.getVfModule() != null
-                    && (!inventoryResponseItem.getVfModule().getIsBaseVfModule())) {
-                nonBaseModuleCount++;
-            }
-        }
-        return nonBaseModuleCount;
+    private AaiNqInventoryResponseItem findVfModule(AaiNqResponseWrapper aaiResponseWrapper, boolean baseFlag) {
+        List<AaiNqInventoryResponseItem> lst = aaiResponseWrapper.getVfModuleItems(baseFlag);
+        return (lst == null || lst.isEmpty() ? null : lst.get(0));
     }
 
     /**
