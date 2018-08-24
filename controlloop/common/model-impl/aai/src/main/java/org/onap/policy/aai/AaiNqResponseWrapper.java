@@ -68,7 +68,7 @@ public class AaiNqResponseWrapper implements Serializable {
      * @return the number of VF modules, or {@code 0} if there are none
      */
     public int countVfModules() {
-        List<AaiNqVfModule> lst = getVfModules(false);
+        List<AaiNqInventoryResponseItem> lst = getVfModuleItems(false);
         return (lst == null ? 0 : lst.size());
     }
 
@@ -80,7 +80,7 @@ public class AaiNqResponseWrapper implements Serializable {
      *         which to model it)
      */
     public String genVfModuleName() {
-        List<AaiNqVfModule> lst = getVfModules(false);
+        List<AaiNqInventoryResponseItem> lst = getVfModuleItems(false);
         if (lst == null) {
             return null;
         }
@@ -92,8 +92,8 @@ public class AaiNqResponseWrapper implements Serializable {
         String prefix = null;
         int maxSuffix = -1;
 
-        for (AaiNqVfModule vfmod : lst) {
-            String name = vfmod.getVfModuleName();
+        for (AaiNqInventoryResponseItem item : lst) {
+            String name = item.getVfModule().getVfModuleName();
             Matcher matcher = VF_MODULE_NAME_PAT.matcher(name);
             if (matcher.matches()) {
                 int suffix = Integer.parseInt(matcher.group(2));
@@ -116,9 +116,9 @@ public class AaiNqResponseWrapper implements Serializable {
      *
      * @param wantBaseModule {@code true} if the the base VF module(s) is desired,
      *        {@code false} otherwise
-     * @return the list of VF modules, or {@code null} if there are no VF modules
+     * @return the list of VF module items, or {@code null} if there are no VF modules
      */
-    public List<AaiNqVfModule> getVfModules(boolean wantBaseModule) {
+    public List<AaiNqInventoryResponseItem> getVfModuleItems(boolean wantBaseModule) {
         // get the list of items
         List<AaiNqInventoryResponseItem> itemList;
         try {
@@ -138,7 +138,7 @@ public class AaiNqResponseWrapper implements Serializable {
          * Walk the items looking for VF modules, allocating the list only when an item is
          * found.
          */
-        List<AaiNqVfModule> vfModules = null;
+        List<AaiNqInventoryResponseItem> vfModuleItems = null;
 
         for (AaiNqInventoryResponseItem inventoryResponseItem : itemList) {
             AaiNqVfModule vfmod = inventoryResponseItem.getVfModule();
@@ -146,16 +146,16 @@ public class AaiNqResponseWrapper implements Serializable {
                 continue;
             }
 
-            if (vfModules == null) {
-                vfModules = new ArrayList<>(itemList.size());
+            if (vfModuleItems == null) {
+                vfModuleItems = new ArrayList<>(itemList.size());
             }
 
             if (vfmod.getIsBaseVfModule() == wantBaseModule
                             && (wantBaseModule || VF_MODULE_NAME_PAT.matcher(vfmod.getVfModuleName()).matches())) {
-                vfModules.add(vfmod);
+                vfModuleItems.add(inventoryResponseItem);
             }
         }
 
-        return vfModules;
+        return vfModuleItems;
     }
 }
