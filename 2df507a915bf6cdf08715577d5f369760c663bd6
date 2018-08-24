@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_dea63010",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-24T14:53:44Z",
+      "side": 1,
+      "message": "is it possible for lastOperation to be null?",
+      "revId": "2df507a915bf6cdf08715577d5f369760c663bd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5e6300dc",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-24T14:53:44Z",
+      "side": 1,
+      "message": "change trailing \": \" to \" an exception\", as the exception will not necessarily be logged on the same line",
+      "revId": "2df507a915bf6cdf08715577d5f369760c663bd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5eba2024",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-24T14:53:44Z",
+      "side": 1,
+      "message": "exception may appear on a different line",
+      "revId": "2df507a915bf6cdf08715577d5f369760c663bd6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
