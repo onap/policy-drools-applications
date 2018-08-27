@@ -23,7 +23,7 @@ package org.onap.policy.so;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 
 public class SORequestDetails implements Serializable {
@@ -48,6 +48,9 @@ public class SORequestDetails implements Serializable {
     @SerializedName("requestParameters")
     private SORequestParameters requestParameters;
 
+    @SerializedName("configurationParameters")
+    private List<Map<String, String>> configurationParameters = new LinkedList<>();
+
     public SORequestDetails() {
 
     }
@@ -59,54 +62,6 @@ public class SORequestDetails implements Serializable {
         this.relatedInstanceList = soRequestDetails.relatedInstanceList;
         this.requestParameters = soRequestDetails.requestParameters;
         this.subscriberInfo = soRequestDetails.subscriberInfo;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        SORequestDetails other = (SORequestDetails) obj;
-        if (cloudConfiguration == null) {
-            if (other.cloudConfiguration != null)
-                return false;
-        }
-        else if (!cloudConfiguration.equals(other.cloudConfiguration))
-            return false;
-        if (modelInfo == null) {
-            if (other.modelInfo != null)
-                return false;
-        }
-        else if (!modelInfo.equals(other.modelInfo))
-            return false;
-        if (relatedInstanceList == null) {
-            if (other.relatedInstanceList != null)
-                return false;
-        }
-        else if (!relatedInstanceList.equals(other.relatedInstanceList))
-            return false;
-        if (requestInfo == null) {
-            if (other.requestInfo != null)
-                return false;
-        }
-        else if (!requestInfo.equals(other.requestInfo))
-            return false;
-        if (requestParameters == null) {
-            if (other.requestParameters != null)
-                return false;
-        }
-        else if (!requestParameters.equals(other.requestParameters))
-            return false;
-        if (subscriberInfo == null) {
-            if (other.subscriberInfo != null)
-                return false;
-        }
-        else if (!subscriberInfo.equals(other.subscriberInfo))
-            return false;
-        return true;
     }
 
     public SOCloudConfiguration getCloudConfiguration() {
@@ -129,22 +84,12 @@ public class SORequestDetails implements Serializable {
         return requestParameters;
     }
 
-    public SOSubscriberInfo getSubscriberInfo() {
-        return subscriberInfo;
+    public List<Map<String, String>> getConfigurationParameters() {
+        return configurationParameters;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((cloudConfiguration == null) ? 0 : cloudConfiguration.hashCode());
-        result = prime * result + ((modelInfo == null) ? 0 : modelInfo.hashCode());
-        result = prime * result
-                + ((relatedInstanceList == null) ? 0 : relatedInstanceList.hashCode());
-        result = prime * result + ((requestInfo == null) ? 0 : requestInfo.hashCode());
-        result = prime * result + ((requestParameters == null) ? 0 : requestParameters.hashCode());
-        return result;
+    public SOSubscriberInfo getSubscriberInfo() {
+        return subscriberInfo;
     }
 
     public void setCloudConfiguration(SOCloudConfiguration cloudConfiguration) {
@@ -163,6 +108,10 @@ public class SORequestDetails implements Serializable {
         this.requestParameters = requestParameters;
     }
 
+    public void setConfigurationParameters(List<Map<String, String>> configurationParameters) {
+        this.configurationParameters = configurationParameters;
+    }
+
     public void setSubscriberInfo(SOSubscriberInfo subscriberInfo) {
         this.subscriberInfo = subscriberInfo;
     }
@@ -172,11 +121,72 @@ public class SORequestDetails implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((cloudConfiguration == null) ? 0 : cloudConfiguration.hashCode());
+        result = prime * result + ((configurationParameters == null) ? 0 : configurationParameters.hashCode());
+        result = prime * result + ((modelInfo == null) ? 0 : modelInfo.hashCode());
+        result = prime * result + ((relatedInstanceList == null) ? 0 : relatedInstanceList.hashCode());
+        result = prime * result + ((requestInfo == null) ? 0 : requestInfo.hashCode());
+        result = prime * result + ((requestParameters == null) ? 0 : requestParameters.hashCode());
+        result = prime * result + ((subscriberInfo == null) ? 0 : subscriberInfo.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SORequestDetails other = (SORequestDetails) obj;
+        if (cloudConfiguration == null) {
+            if (other.cloudConfiguration != null)
+                return false;
+        } else if (!cloudConfiguration.equals(other.cloudConfiguration))
+            return false;
+        if (configurationParameters == null) {
+            if (other.configurationParameters != null)
+                return false;
+        } else if (!configurationParameters.equals(other.configurationParameters))
+            return false;
+        if (modelInfo == null) {
+            if (other.modelInfo != null)
+                return false;
+        } else if (!modelInfo.equals(other.modelInfo))
+            return false;
+        if (relatedInstanceList == null) {
+            if (other.relatedInstanceList != null)
+                return false;
+        } else if (!relatedInstanceList.equals(other.relatedInstanceList))
+            return false;
+        if (requestInfo == null) {
+            if (other.requestInfo != null)
+                return false;
+        } else if (!requestInfo.equals(other.requestInfo))
+            return false;
+        if (requestParameters == null) {
+            if (other.requestParameters != null)
+                return false;
+        } else if (!requestParameters.equals(other.requestParameters))
+            return false;
+        if (subscriberInfo == null) {
+            if (other.subscriberInfo != null)
+                return false;
+        } else if (!subscriberInfo.equals(other.subscriberInfo))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return "SORequestDetails [modelInfo=" + modelInfo + ", cloudConfiguration="
-                + cloudConfiguration + ", requestInfo=" + requestInfo + ", relatedInstanceList="
-                + relatedInstanceList + ", requestParameters=" + requestParameters +
-                ", subscriberInfo=" + subscriberInfo + "]";
+        return "SORequestDetails [modelInfo=" + modelInfo + ", cloudConfiguration=" + cloudConfiguration
+                        + ", requestInfo=" + requestInfo + ", subscriberInfo=" + subscriberInfo
+                        + ", relatedInstanceList=" + relatedInstanceList + ", requestParameters=" + requestParameters
+                        + ", configurationParameters=" + configurationParameters + "]";
     }
 
 }

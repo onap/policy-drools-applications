@@ -56,6 +56,7 @@ public class AaiNqVfModuleTest {
         aaiNqVfModule.setContrailServiceInstanceFqdn("example-contrail-service-instance-fqdn-val-86796");
         aaiNqVfModule.setModelInvariantId("SomeId");
         aaiNqVfModule.setModelVersionId("SomeVersion");
+        aaiNqVfModule.setModelCustomizationId("SomeCustomizationId");
         assertNotNull(aaiNqVfModule);
         assertEquals("example-vf-module-id-val-49261", aaiNqVfModule.getVfModuleId());
         assertEquals("example-vf-module-name-val-73074", aaiNqVfModule.getVfModuleName());
@@ -71,6 +72,7 @@ public class AaiNqVfModuleTest {
                 aaiNqVfModule.getContrailServiceInstanceFqdn());
         assertEquals("SomeId", aaiNqVfModule.getModelInvariantId());
         assertEquals("SomeVersion", aaiNqVfModule.getModelVersionId());
+        assertEquals("SomeCustomizationId", aaiNqVfModule.getModelCustomizationId());
         logger.info(Serialization.gsonPretty.toJson(aaiNqVfModule));
     }
 

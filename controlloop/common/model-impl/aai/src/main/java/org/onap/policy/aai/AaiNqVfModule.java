@@ -66,6 +66,9 @@ public class AaiNqVfModule implements Serializable {
     @SerializedName("model-version-id")
     private String modelVersionId;
 
+    @SerializedName("model-customization-id")
+    private String modelCustomizationId = null;
+
     public String getVfModuleId() {
         return vfModuleId;
     }
@@ -118,6 +121,10 @@ public class AaiNqVfModule implements Serializable {
         return modelVersionId;
     }
 
+    public String getModelCustomizationId() {
+        return modelCustomizationId;
+    }
+
     public void setVfModuleId(String vfModuleId) {
         this.vfModuleId = vfModuleId;
     }
@@ -168,5 +175,9 @@ public class AaiNqVfModule implements Serializable {
 
     public void setModelVersionId(String modelVersionId) {
         this.modelVersionId = modelVersionId;
+    }
+
+    public void setModelCustomizationId(String modelCustomizationId) {
+        this.modelCustomizationId = modelCustomizationId;
     }
 }

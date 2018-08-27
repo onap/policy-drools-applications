@@ -56,7 +56,7 @@ public class TestSoDummyServer {
     }
 
     @POST
-    @Path("/serviceInstances/v5")
+    @Path("/serviceInstantiation/v7")
     public Response servicePostRequest(final String jsonString) {
         postMessagesReceived++;
 
@@ -147,7 +147,7 @@ public class TestSoDummyServer {
     }
 
     @POST
-    @Path("/serviceInstances/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
+    @Path("/serviceInstantiation/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
     public Response servicePostRequestVfModules(
             @PathParam("serviceInstanceId") final String serviceInstanceId,
             @PathParam("vnfInstanceId") final String vnfInstanceId,

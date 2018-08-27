@@ -45,6 +45,7 @@ public class AaiNqGenericVnfTest {
         aaiNqGenericVnf.setIsClosedLoopDisabled(false);
         aaiNqGenericVnf.setModelInvariantId("653d2caa-7e47-4614-95b3-26c8d82755b8");
         aaiNqGenericVnf.setModelVersionId("98f410f6-4c63-447b-97d2-42508437cec0");
+        aaiNqGenericVnf.setModelCustomizationId("SomeCustomizationId");
         aaiNqGenericVnf.setOperationalState("active");
         aaiNqGenericVnf.setPersonaModelId("653d2caa-7e47-4614-95b3-26c8d82755b8");
         aaiNqGenericVnf.setPersonaModelVersion("98f410f6-4c63-447b-97d2-42508437cec0");
@@ -64,6 +65,7 @@ public class AaiNqGenericVnfTest {
         assertEquals(false, aaiNqGenericVnf.getIsClosedLoopDisabled());
         assertEquals("653d2caa-7e47-4614-95b3-26c8d82755b8", aaiNqGenericVnf.getModelInvariantId());
         assertEquals("98f410f6-4c63-447b-97d2-42508437cec0", aaiNqGenericVnf.getModelVersionId());
+        assertEquals("SomeCustomizationId", aaiNqGenericVnf.getModelCustomizationId());
         assertEquals("active", aaiNqGenericVnf.getOperationalState());
         assertEquals("653d2caa-7e47-4614-95b3-26c8d82755b8", aaiNqGenericVnf.getPersonaModelId());
         assertEquals("98f410f6-4c63-447b-97d2-42508437cec0", aaiNqGenericVnf.getPersonaModelVersion());

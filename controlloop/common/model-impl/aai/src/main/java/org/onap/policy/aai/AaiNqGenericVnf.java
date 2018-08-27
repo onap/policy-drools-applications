@@ -79,6 +79,9 @@ public class AaiNqGenericVnf implements Serializable {
     @SerializedName("model-version-id")
     private String modelVersionId;
 
+    @SerializedName("model-customization-id")
+    private String modelCustomizationId = null;
+
     public String getVnfId() {
         return vnfId;
     }
@@ -147,6 +150,10 @@ public class AaiNqGenericVnf implements Serializable {
         return modelVersionId;
     }
 
+    public String getModelCustomizationId() {
+        return modelCustomizationId;
+    }
+
     public void setVnfId(String vnfId) {
         this.vnfId = vnfId;
     }
@@ -213,5 +220,9 @@ public class AaiNqGenericVnf implements Serializable {
 
     public void setModelVersionId(String modelVersionId) {
         this.modelVersionId = modelVersionId;
+    }
+
+    public void setModelCustomizationId(String modelCustomizationId) {
+        this.modelCustomizationId = modelCustomizationId;
     }
 }

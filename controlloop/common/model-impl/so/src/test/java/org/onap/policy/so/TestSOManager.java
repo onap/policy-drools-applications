@@ -80,10 +80,10 @@ public class TestSOManager {
         SOResponse response = manager.createModuleInstance("http:/localhost:99999999", BASE_SO_URI, "sean", "citizen", null);
         assertNull(response);
 
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", null);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", null);
         assertNull(response);
 
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", new SORequest());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", new SORequest());
         assertNull(response);
 
         SORequest request = new SORequest();
@@ -94,16 +94,16 @@ public class TestSOManager {
         request.setRequestStatus(new SORequestStatus());
         request.getRequestStatus().setRequestState("ONGOING");
 
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNull(response);
 
         request.setRequestType("ReturnCompleted");
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNotNull(response);
         assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
         request.setRequestType("ReturnFailed");
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNotNull(response);
         assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
 
@@ -111,14 +111,14 @@ public class TestSOManager {
 
         request.setRequestType("ReturnOnging200");
         request.setRequestScope(new Integer(10).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNotNull(response);
         assertNotNull(response.getRequest());
         assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
         request.setRequestType("ReturnOnging202");
         request.setRequestScope(new Integer(20).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNotNull(response);
         assertNotNull(response.getRequest());
         assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
@@ -126,13 +126,13 @@ public class TestSOManager {
         // Test timeout after 20 attempts for a response
         request.setRequestType("ReturnOnging202");
         request.setRequestScope(new Integer(21).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNull(response);
 
         // Test bad response after 3 attempts for a response
         request.setRequestType("ReturnBadAfterWait");
         request.setRequestScope(new Integer(3).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean", "citizen", request);
         assertNull(response);
     }
 

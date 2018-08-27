@@ -36,7 +36,7 @@ import org.onap.policy.so.SOResponse;
 
 import com.att.aft.dme2.internal.gson.Gson;
 
-@Path("/serviceInstances")
+@Path("/serviceInstantiation")
 public class SoSimulatorJaxRs {
     
 	/**
@@ -47,7 +47,7 @@ public class SoSimulatorJaxRs {
      * @return the response
      */
     @POST
-    @Path("/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
+    @Path("/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId, @PathParam("vnfInstanceId") final String vnfInstanceId)
