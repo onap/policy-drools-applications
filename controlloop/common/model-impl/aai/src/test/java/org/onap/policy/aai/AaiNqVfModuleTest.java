@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@ package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -56,6 +55,7 @@ public class AaiNqVfModuleTest {
         aaiNqVfModule.setContrailServiceInstanceFqdn("example-contrail-service-instance-fqdn-val-86796");
         aaiNqVfModule.setModelInvariantId("SomeId");
         aaiNqVfModule.setModelVersionId("SomeVersion");
+        aaiNqVfModule.setModelCustomizationId("SomeCustomizationId");
         assertNotNull(aaiNqVfModule);
         assertEquals("example-vf-module-id-val-49261", aaiNqVfModule.getVfModuleId());
         assertEquals("example-vf-module-name-val-73074", aaiNqVfModule.getVfModuleName());
@@ -68,9 +68,10 @@ public class AaiNqVfModuleTest {
         assertEquals("example-widget-model-id-val-92571", aaiNqVfModule.getWidgetModelId());
         assertEquals("example-widget-model-version-val-83317", aaiNqVfModule.getWidgetModelVersion());
         assertEquals("example-contrail-service-instance-fqdn-val-86796",
-                aaiNqVfModule.getContrailServiceInstanceFqdn());
+                        aaiNqVfModule.getContrailServiceInstanceFqdn());
         assertEquals("SomeId", aaiNqVfModule.getModelInvariantId());
         assertEquals("SomeVersion", aaiNqVfModule.getModelVersionId());
+        assertEquals("SomeCustomizationId", aaiNqVfModule.getModelCustomizationId());
         logger.info(Serialization.gsonPretty.toJson(aaiNqVfModule));
     }
 

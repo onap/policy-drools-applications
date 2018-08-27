@@ -22,10 +22,8 @@ package org.onap.policy.simulators;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-
 import java.util.HashMap;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -96,7 +94,7 @@ public class SoSimulatorTest {
         // requestInfo
         //
         request.getRequestDetails().getRequestInfo()
-                .setInstanceName("vDNS_Ete_Named90e1ab3-dcd5-4877-9edb-eadfc84e32c8");
+                        .setInstanceName("vDNS_Ete_Named90e1ab3-dcd5-4877-9edb-eadfc84e32c8");
         request.getRequestDetails().getRequestInfo().setSource("POLICY");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
         request.getRequestDetails().getRequestInfo().setRequestorId("policy");
@@ -112,9 +110,9 @@ public class SoSimulatorTest {
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                .setModelInvariantId("4fcbc1c0-7793-46d8-8aa1-fa1c2ed9ec7b");
+                        .setModelInvariantId("4fcbc1c0-7793-46d8-8aa1-fa1c2ed9ec7b");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                .setModelVersionId("5c996219-b2e2-4c76-9b43-7e8672a33c1d");
+                        .setModelVersionId("5c996219-b2e2-4c76-9b43-7e8672a33c1d");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName("8330e932-2a23-4943-8606");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion("1.0");
         //
@@ -122,13 +120,13 @@ public class SoSimulatorTest {
         relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                .setModelInvariantId("033a32ed-aa65-4764-a736-36f2942f1aa0");
+                        .setModelInvariantId("033a32ed-aa65-4764-a736-36f2942f1aa0");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                .setModelVersionId("d4d072dc-4e21-4a03-9524-628985819a8e");
+                        .setModelVersionId("d4d072dc-4e21-4a03-9524-628985819a8e");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName("c15ce9e1-e914-4c8f-b8bb");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion("1");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                .setModelCustomizationName("c15ce9e1-e914-4c8f-b8bb 1");
+                        .setModelCustomizationName("c15ce9e1-e914-4c8f-b8bb 1");
         //
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
@@ -139,9 +137,9 @@ public class SoSimulatorTest {
     @Test
     public void testResponse() {
         final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
-        final Pair<Integer, String> httpDetails =
-                new RESTManager().post("http://localhost:6667/serviceInstances/v5/12345/vnfs/12345/vfModules",
-                        "username", "password", new HashMap<>(), "application/json", request);
+        final Pair<Integer, String> httpDetails = new RESTManager().post(
+                        "http://localhost:6667/serviceInstantiation/v7/12345/vnfs/12345/vfModules/scaleOut", "username",
+                        "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
         final SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
         assertNotNull(response);

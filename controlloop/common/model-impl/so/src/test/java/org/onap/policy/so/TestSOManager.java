@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,12 +24,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
 import java.util.concurrent.Future;
-
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -46,14 +44,14 @@ import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
 
 public class TestSOManager {
-    private static final String BASE_URI    = "http://localhost:46553/TestSOManager";
+    private static final String BASE_URI = "http://localhost:46553/TestSOManager";
     private static final String BASE_SO_URI = BASE_URI + "/SO";
     private static HttpServer server;
 
     @BeforeClass
     public static void setUp() {
         final ResourceConfig rc = new ResourceConfig(TestSoDummyServer.class);
-        server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);  
+        server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
     @AfterClass
@@ -77,13 +75,16 @@ public class TestSOManager {
         assertNotNull(manager);
         manager.setRestGetTimeout(100);
 
-        SOResponse response = manager.createModuleInstance("http:/localhost:99999999", BASE_SO_URI, "sean", "citizen", null);
+        SOResponse response =
+                        manager.createModuleInstance("http:/localhost:99999999", BASE_SO_URI, "sean", "citizen", null);
         assertNull(response);
 
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", null);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", null);
         assertNull(response);
 
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", new SORequest());
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", new SORequest());
         assertNull(response);
 
         SORequest request = new SORequest();
@@ -94,16 +95,19 @@ public class TestSOManager {
         request.setRequestStatus(new SORequestStatus());
         request.getRequestStatus().setRequestState("ONGOING");
 
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNull(response);
 
         request.setRequestType("ReturnCompleted");
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNotNull(response);
         assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
         request.setRequestType("ReturnFailed");
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNotNull(response);
         assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
 
@@ -111,14 +115,16 @@ public class TestSOManager {
 
         request.setRequestType("ReturnOnging200");
         request.setRequestScope(new Integer(10).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNotNull(response);
         assertNotNull(response.getRequest());
         assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
 
         request.setRequestType("ReturnOnging202");
         request.setRequestScope(new Integer(20).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNotNull(response);
         assertNotNull(response.getRequest());
         assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
@@ -126,13 +132,15 @@ public class TestSOManager {
         // Test timeout after 20 attempts for a response
         request.setRequestType("ReturnOnging202");
         request.setRequestScope(new Integer(21).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNull(response);
 
         // Test bad response after 3 attempts for a response
         request.setRequestType("ReturnBadAfterWait");
         request.setRequestScope(new Integer(3).toString());
-        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstances/v5", BASE_SO_URI, "sean", "citizen", request);
+        response = manager.createModuleInstance(BASE_SO_URI + "/serviceInstantiation/v7", BASE_SO_URI, "sean",
+                        "citizen", request);
         assertNull(response);
     }
 
@@ -148,31 +156,31 @@ public class TestSOManager {
         WorkingMemory wm = new DummyWorkingMemory();
 
         PolicyEngine.manager.setEnvironmentProperty("so.url", "http:/localhost:99999999");
-        Future<SOResponse> asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), null);
+        Future<SOResponse> asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm,
+                        UUID.randomUUID().toString(), UUID.randomUUID().toString(), null);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals(999, response.getHttpResponseCode());
-        }
-        catch (Exception e) {
-            fail("test should not throw an exception");
-        }
-        
-        PolicyEngine.manager.setEnvironmentProperty("so.url", BASE_SO_URI);
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), null);
-        try {
-            SOResponse response = asyncRestCallFuture.get();
-            assertEquals(999, response.getHttpResponseCode());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), new SORequest());
+        PolicyEngine.manager.setEnvironmentProperty("so.url", BASE_SO_URI);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), null);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals(999, response.getHttpResponseCode());
+        } catch (Exception e) {
+            fail("test should not throw an exception");
         }
-        catch (Exception e) {
+
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), new SORequest());
+        try {
+            SOResponse response = asyncRestCallFuture.get();
+            assertEquals(999, response.getHttpResponseCode());
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
@@ -184,33 +192,33 @@ public class TestSOManager {
         request.setRequestStatus(new SORequestStatus());
         request.getRequestStatus().setRequestState("ONGOING");
 
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals(999, response.getHttpResponseCode());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
         request.setRequestType("ReturnCompleted");
 
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
         request.setRequestType("ReturnFailed");
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals("FAILED", response.getRequest().getRequestStatus().getRequestState());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
@@ -218,49 +226,49 @@ public class TestSOManager {
 
         request.setRequestType("ReturnOnging200");
         request.setRequestScope(new Integer(10).toString());
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertNotNull(response.getRequest());
             assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
         request.setRequestType("ReturnOnging202");
         request.setRequestScope(new Integer(20).toString());
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertNotNull(response.getRequest());
             assertEquals("COMPLETE", response.getRequest().getRequestStatus().getRequestState());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
         // Test timeout after 20 attempts for a response
         request.setRequestType("ReturnOnging202");
         request.setRequestScope(new Integer(21).toString());
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals(999, response.getHttpResponseCode());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
 
         // Test bad response after 3 attempts for a response
         request.setRequestType("ReturnBadAfterWait");
         request.setRequestScope(new Integer(3).toString());
-        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(), UUID.randomUUID().toString(), request);
+        asyncRestCallFuture = manager.asyncSORestCall(UUID.randomUUID().toString(), wm, UUID.randomUUID().toString(),
+                        UUID.randomUUID().toString(), request);
         try {
             SOResponse response = asyncRestCallFuture.get();
             assertEquals(999, response.getHttpResponseCode());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             fail("test should not throw an exception");
         }
     }

@@ -26,6 +26,9 @@ policies:
     recipe: VF Module Create
     target:
       type: VNF
+    payload:
+      requestParameters: '{"usePreload":true,"userParams":[{"name":"gtp_bind_addr","value":"vmme_private_ip_0"},{"name":"mmc","value":"001"},{"name":"mme_addr","value":"vmme_private_ip_0"},{"name":"mnc","value":"01"},{"name":"n_prob","value":"50"},{"name":"vnfHostIpAddress","value":"veb_private_ip_0"}]}'
+      configurationParameters: '[{"availability-zone":"$.vnf-topology.vnf-resource-assignments.availability-zones.availability-zone[0]","xtz-123":"$.vnf-topology.vnf-resource-assignments.availability-zones.availability-zone[0]"}]'
     retry: 3
     timeout: 1200
     success: final_success

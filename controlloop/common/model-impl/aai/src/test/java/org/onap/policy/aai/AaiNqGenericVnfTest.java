@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@ package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,6 +44,7 @@ public class AaiNqGenericVnfTest {
         aaiNqGenericVnf.setIsClosedLoopDisabled(false);
         aaiNqGenericVnf.setModelInvariantId("653d2caa-7e47-4614-95b3-26c8d82755b8");
         aaiNqGenericVnf.setModelVersionId("98f410f6-4c63-447b-97d2-42508437cec0");
+        aaiNqGenericVnf.setModelCustomizationId("SomeCustomizationId");
         aaiNqGenericVnf.setOperationalState("active");
         aaiNqGenericVnf.setPersonaModelId("653d2caa-7e47-4614-95b3-26c8d82755b8");
         aaiNqGenericVnf.setPersonaModelVersion("98f410f6-4c63-447b-97d2-42508437cec0");
@@ -64,6 +64,7 @@ public class AaiNqGenericVnfTest {
         assertEquals(false, aaiNqGenericVnf.getIsClosedLoopDisabled());
         assertEquals("653d2caa-7e47-4614-95b3-26c8d82755b8", aaiNqGenericVnf.getModelInvariantId());
         assertEquals("98f410f6-4c63-447b-97d2-42508437cec0", aaiNqGenericVnf.getModelVersionId());
+        assertEquals("SomeCustomizationId", aaiNqGenericVnf.getModelCustomizationId());
         assertEquals("active", aaiNqGenericVnf.getOperationalState());
         assertEquals("653d2caa-7e47-4614-95b3-26c8d82755b8", aaiNqGenericVnf.getPersonaModelId());
         assertEquals("98f410f6-4c63-447b-97d2-42508437cec0", aaiNqGenericVnf.getPersonaModelVersion());

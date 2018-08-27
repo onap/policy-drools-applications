@@ -4,12 +4,14 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 AT&T. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,13 +24,11 @@ package org.onap.policy.so;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-
 import com.google.gson.Gson;
 
 @Path("/SO")
@@ -45,7 +45,8 @@ public class TestSoDummyServer {
     @Path("/Stats")
     public Response serviceGetStats() {
         statMessagesReceived++;
-        return Response.status(200).entity("{\"GET\": " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived + ",\"POST\": " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived + "}").build();
+        return Response.status(200).entity("{\"GET\": " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
+                        + ",\"POST\": " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived + "}").build();
     }
 
     @GET
@@ -56,7 +57,7 @@ public class TestSoDummyServer {
     }
 
     @POST
-    @Path("/serviceInstances/v5")
+    @Path("/serviceInstantiation/v7")
     public Response servicePostRequest(final String jsonString) {
         postMessagesReceived++;
 
@@ -67,8 +68,7 @@ public class TestSoDummyServer {
         SORequest request = null;
         try {
             request = new Gson().fromJson(jsonString, SORequest.class);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return Response.status(400).build();
         }
 
@@ -82,8 +82,10 @@ public class TestSoDummyServer {
 
         if ("ReturnBadJson".equals(request.getRequestType())) {
             return Response.status(200)
-                    .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived + ",\"POST\": , " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived + "}")
-                    .build();
+                            .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
+                                            + ",\"POST\": , " + postMessagesReceived + ",\"PUT\": "
+                                            + putMessagesReceived + "}")
+                            .build();
         }
 
         SOResponse response = new SOResponse();
@@ -95,18 +97,14 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("COMPLETE");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         if ("ReturnFailed".equals(request.getRequestType())) {
             response.getRequest().getRequestStatus().setRequestState("FAILED");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         if ("ReturnOnging202".equals(request.getRequestType())) {
@@ -115,9 +113,7 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(202);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         if ("ReturnOnging200".equals(request.getRequestType())) {
@@ -126,9 +122,7 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
 
@@ -138,20 +132,16 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         return null;
     }
 
     @POST
-    @Path("/serviceInstances/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
-    public Response servicePostRequestVfModules(
-            @PathParam("serviceInstanceId") final String serviceInstanceId,
-            @PathParam("vnfInstanceId") final String vnfInstanceId,
-            final String jsonString) {
+    @Path("/serviceInstantiation/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
+    public Response servicePostRequestVfModules(@PathParam("serviceInstanceId") final String serviceInstanceId,
+                    @PathParam("vnfInstanceId") final String vnfInstanceId, final String jsonString) {
         postMessagesReceived++;
 
         if (jsonString == null) {
@@ -161,8 +151,7 @@ public class TestSoDummyServer {
         SORequest request = null;
         try {
             request = new Gson().fromJson(jsonString, SORequest.class);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return Response.status(400).build();
         }
 
@@ -176,8 +165,10 @@ public class TestSoDummyServer {
 
         if ("ReturnBadJson".equals(request.getRequestType())) {
             return Response.status(200)
-                    .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived + ",\"POST\": , " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived + "}")
-                    .build();
+                            .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
+                                            + ",\"POST\": , " + postMessagesReceived + ",\"PUT\": "
+                                            + putMessagesReceived + "}")
+                            .build();
         }
 
         SOResponse response = new SOResponse();
@@ -189,18 +180,14 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("COMPLETE");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         if ("ReturnFailed".equals(request.getRequestType())) {
             response.getRequest().getRequestStatus().setRequestState("FAILED");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         if ("ReturnOnging202".equals(request.getRequestType())) {
@@ -209,9 +196,7 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(202);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         if ("ReturnOnging200".equals(request.getRequestType())) {
@@ -220,9 +205,7 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
 
@@ -232,9 +215,7 @@ public class TestSoDummyServer {
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(200);
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         return null;
@@ -250,9 +231,7 @@ public class TestSoDummyServer {
         if (--iterationsLeft > 0) {
             response.getRequest().setRequestScope(new Integer(iterationsLeft).toString());
             String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode())
-                    .entity(responseString)
-                    .build();
+            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
         ongoingRequestMap.remove(nsInstanceId);
@@ -265,8 +244,6 @@ public class TestSoDummyServer {
         response.getRequest().setRequestScope("0");
         response.setHttpResponseCode(200);
         String responseString = new Gson().toJson(response, SOResponse.class);
-        return Response.status(response.getHttpResponseCode())
-                .entity(responseString)
-                .build();
+        return Response.status(response.getHttpResponseCode()).entity(responseString).build();
     }
 }

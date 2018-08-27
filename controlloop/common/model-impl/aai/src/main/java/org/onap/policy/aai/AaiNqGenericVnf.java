@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,12 +21,11 @@
 package org.onap.policy.aai;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class AaiNqGenericVnf implements Serializable {
 
-    private static final long serialVersionUID = 834322706248060559L;
+    private static final long serialVersionUID = 834322706248060560L;
 
     @SerializedName("vnf-id")
     private String vnfId;
@@ -78,6 +77,9 @@ public class AaiNqGenericVnf implements Serializable {
 
     @SerializedName("model-version-id")
     private String modelVersionId;
+
+    @SerializedName("model-customization-id")
+    private String modelCustomizationId = null;
 
     public String getVnfId() {
         return vnfId;
@@ -147,6 +149,10 @@ public class AaiNqGenericVnf implements Serializable {
         return modelVersionId;
     }
 
+    public String getModelCustomizationId() {
+        return modelCustomizationId;
+    }
+
     public void setVnfId(String vnfId) {
         this.vnfId = vnfId;
     }
@@ -213,5 +219,9 @@ public class AaiNqGenericVnf implements Serializable {
 
     public void setModelVersionId(String modelVersionId) {
         this.modelVersionId = modelVersionId;
+    }
+
+    public void setModelCustomizationId(String modelCustomizationId) {
+        this.modelCustomizationId = modelCustomizationId;
     }
 }
