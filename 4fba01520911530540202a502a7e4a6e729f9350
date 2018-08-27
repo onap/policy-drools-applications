@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_27ff3069",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-08-27T21:56:12Z",
+      "side": 1,
+      "message": "I\u0027ve copied the same style used for these variables in \n\nhttps://gerrit.onap.org/r/gitweb?p\u003dpolicy/drools-applications.git;a\u003dblob_plain;f\u003dcontrolloop/common/guard/src/main/java/org/onap/policy/guard/Util.java;hb\u003dHEAD\n\nplease confirm that you want this changed to camelcase",
+      "parentUuid": "1a76adc5_e1d128fc",
+      "range": {
+        "startLine": 114,
+        "startChar": 21,
+        "endLine": 114,
+        "endChar": 27
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_01cd445d",
         "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2018-08-21T11:49:57Z",
       "side": 1,
       "message": "What is the point of constructing this string if you are going to comment out the code to use it? It looks like it is being used to create the table. Tables should be temporary if this is a JUnit test. Perhaps it is not being properly cleaned up.",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 40
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_07cd545d",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-08-27T21:56:12Z",
+      "side": 1,
+      "message": "You are correct, but for whatever reason, the table created in\n\nhttps://gerrit.onap.org/r/gitweb?p\u003dpolicy/drools-applications.git;a\u003dblob_plain;f\u003dcontrolloop/common/guard/src/test/java/org/onap/policy/guard/PIPEngineGetHistoryTest.java;hb\u003d48eb8e2bd1674592ddfadfbbc01a611b6a263393\n\nis never dropped.  I initially attempted to fix that code by adding a \u0027drop table\u0027 in an AfterClass method, but for whatever reason that didn\u0027t seem to fix the problem and I didn\u0027t have time to pursue the matter further.  \n\nI see several options:\n1) I can work on fixing the erroneous code in guard first and then resubmit this test for review.\n2) I can remove the commented out code for setting up the table here.\n3) I can add a comment explaining the issue.\n\nPlease let me know which of these (or another) you\u0027d like.",
+      "parentUuid": "1a76adc5_61051879",
       "range": {
         "startLine": 129,
         "startChar": 8,
@@ -128,6 +176,30 @@
       "writtenOn": "2018-08-21T11:49:57Z",
       "side": 1,
       "message": "Not sure we should be changing databases - what was wrong with Derby?",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 63
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c772fc10",
+        "filename": "controlloop/common/eventmanager/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-08-27T21:56:12Z",
+      "side": 1,
+      "message": "The biggest thing that was wrong w/ Derby was that it wasn\u0027t actually being used.  The output of the tests contained a bunch of derby-related errors.  The first problem was that the pom hadn\u0027t even included a dependency for Derby!  I tried fixing that, but some other errors then arose.  Instead of trying to get Derby working for the first time, I switched to using the same setup as https://gerrit.onap.org/r/gitweb?p\u003dpolicy/drools-applications.git;a\u003dblob_plain;f\u003dcontrolloop/common/guard/src/test/resources/META-INF/persistence.xml;hb\u003dHEAD\nwhich had the added bonuses of both working properly and making the DB-related test code in eventmanager consistent with the DB-related test code in guard.",
+      "parentUuid": "1a76adc5_41025c70",
       "range": {
         "startLine": 25,
         "startChar": 1,
