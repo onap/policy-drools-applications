@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class SORequestParameters implements Serializable {
 
-    private static final long serialVersionUID = -3283942659786236032L;
+    private static final long serialVersionUID = -3283942659786236033L;
 
     @SerializedName("subscriptionServiceType")
     private String subscriptionServiceType;
+
+    @SerializedName("usePreload")
+    private boolean usePreload;
 
     @SerializedName("userParams")
     private List<Map<String, String>> userParams = new LinkedList<>();
@@ -45,12 +48,20 @@ public class SORequestParameters implements Serializable {
         return subscriptionServiceType;
     }
 
+    public boolean isUsePreload() {
+        return usePreload;
+    }
+
     public List<Map<String, String>> getUserParams() {
         return userParams;
     }
 
     public void setSubscriptionServiceType(String subscriptionServiceType) {
         this.subscriptionServiceType = subscriptionServiceType;
+    }
+
+    public void setUsePreload(boolean usePreload) {
+        this.usePreload = usePreload;
     }
 
     public void setUserParams(List<Map<String, String>> userParams) {

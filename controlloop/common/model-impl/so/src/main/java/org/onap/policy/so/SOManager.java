@@ -155,7 +155,7 @@ public final class SOManager {
 
             // The URL of the request we will POST
             String url =
-                    urlBase + "/serviceInstances/v5/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModules";
+                    urlBase + "/serviceInstantiation/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId + "/vfModules/scaleOut";
 
             // Create a JSON representation of the request
             String soJson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(request);

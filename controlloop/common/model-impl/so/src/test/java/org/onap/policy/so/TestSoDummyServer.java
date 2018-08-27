@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 AT&T. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -56,7 +58,7 @@ public class TestSoDummyServer {
     }
 
     @POST
-    @Path("/serviceInstances/v5")
+    @Path("/serviceInstantiation/v7")
     public Response servicePostRequest(final String jsonString) {
         postMessagesReceived++;
 
@@ -147,7 +149,7 @@ public class TestSoDummyServer {
     }
 
     @POST
-    @Path("/serviceInstances/v5/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules")
+    @Path("/serviceInstantiation/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
     public Response servicePostRequestVfModules(
             @PathParam("serviceInstanceId") final String serviceInstanceId,
             @PathParam("vnfInstanceId") final String vnfInstanceId,
