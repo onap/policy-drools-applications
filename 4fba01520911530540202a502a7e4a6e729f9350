@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_d3eb79ae",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T15:11:18Z",
+      "side": 1,
+      "message": "How much time would it be to do option 1? Option 2 (assuming the table is there) creates an implicit dependency between this test and the other test. JUnit explicitly does not guarantee what order tests will be executed in so your test could run before the other test. We should not take option 3.",
+      "parentUuid": "1a76adc5_07cd545d",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 40
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_21e880b3",
         "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
         "patchSetId": 1
@@ -158,6 +182,29 @@
         "startChar": 12,
         "endLine": 864,
         "endChar": 55
+      },
+      "revId": "4fba01520911530540202a502a7e4a6e729f9350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f305557a",
+        "filename": "controlloop/common/eventmanager/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T15:11:18Z",
+      "side": 1,
+      "message": "More tabs",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 1
       },
       "revId": "4fba01520911530540202a502a7e4a6e729f9350",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
