@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_b3f4bdf2",
+        "filename": "controlloop/common/msb/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-28T14:20:02Z",
+      "side": 1,
+      "message": "oops I can fix this formatting also",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 7
+      },
+      "revId": "c0096259710d5686a5cb9f9d9399f19c27c28554",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d3f7f9f3",
+        "filename": "controlloop/common/simulators/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-28T14:20:02Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "c0096259710d5686a5cb9f9d9399f19c27c28554",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
