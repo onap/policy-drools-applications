@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_531689f2",
+        "filename": "controlloop/common/feature-controlloop-utils/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-28T14:50:07Z",
+      "side": 1,
+      "message": "Google java style doesn\u0027t really work on the pom.xml file. Do you have a suggestion to get this formatted? Eclipse checkstyle seems to make these all tabs.",
+      "parentUuid": "1a76adc5_5368c986",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 1
+      },
+      "revId": "acfe06391a8ec90636c33f7f5c830a3d33f2aeb7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_f306b5cd",
         "filename": "controlloop/common/msb/pom.xml",
         "patchSetId": 2
