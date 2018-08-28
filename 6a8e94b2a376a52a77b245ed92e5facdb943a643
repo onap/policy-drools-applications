@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_932181b6",
+        "filename": "controlloop/common/model-impl/appc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3330ad00",
+        "filename": "controlloop/common/model-impl/appclcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_532be993",
+        "filename": "controlloop/common/model-impl/events/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_131d7173",
+        "filename": "controlloop/common/model-impl/so/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b3135d65",
+        "filename": "controlloop/common/model-impl/trafficgenerator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d3161955",
+        "filename": "controlloop/common/model-impl/vfc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_730dc53d",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T16:04:37Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "6a8e94b2a376a52a77b245ed92e5facdb943a643",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
