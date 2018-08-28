@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ee756c98",
+        "filename": "controlloop/common/model-impl/rest/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T16:31:54Z",
+      "side": 1,
+      "message": "Another one!",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "2f306d2b7acea417595757e7b169320c693f5fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0e79c892",
+        "filename": "controlloop/common/model-impl/sdc/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T16:31:54Z",
+      "side": 1,
+      "message": "And a tab!",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "2f306d2b7acea417595757e7b169320c693f5fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
