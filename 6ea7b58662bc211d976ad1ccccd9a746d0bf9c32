@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d3b4d9d2",
+        "filename": "controlloop/common/eventmanager/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T15:11:18Z",
+      "side": 1,
+      "message": "Tabs have snuck in here, maybe check the settings for tabs/spaces in your IDE.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 1
+      },
+      "revId": "6ea7b58662bc211d976ad1ccccd9a746d0bf9c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
