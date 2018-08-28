@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_50ed1fee",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T12:44:49Z",
+      "side": 1,
+      "message": "Line longer than 120 characters",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 129
+      },
+      "revId": "6e0a53e0d38b13cd8651865a50f9487a989e3d59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_70cffb7f",
+        "filename": "controlloop/common/model-impl/so/src/test/java/org/onap/policy/so/TestSOManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-28T12:44:49Z",
+      "side": 1,
+      "message": "Could you format the lines in this class to be less than 120 characters as well.",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 4
+      },
+      "revId": "6e0a53e0d38b13cd8651865a50f9487a989e3d59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
