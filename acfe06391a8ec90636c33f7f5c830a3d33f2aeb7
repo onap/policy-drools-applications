@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b3b59def",
+        "filename": "controlloop/common/feature-controlloop-utils/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2018-08-28T14:55:55Z",
+      "side": 1,
+      "message": "It works for me in Eclipse. ctrl+sht+F removes all the tabs.",
+      "parentUuid": "1a76adc5_531689f2",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 1
+      },
+      "revId": "acfe06391a8ec90636c33f7f5c830a3d33f2aeb7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_f306b5cd",
         "filename": "controlloop/common/msb/pom.xml",
         "patchSetId": 2
