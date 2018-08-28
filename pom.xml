@@ -23,10 +23,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.onap.oparent</groupId>
-        <artifactId>oparent</artifactId>
-        <version>1.1.0</version>
-        <relativePath />
+        <groupId>org.onap.policy.parent</groupId>
+        <artifactId>integration</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
     <groupId>org.onap.policy.drools-applications</groupId>
@@ -109,7 +109,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
                 <configuration>
                     <encoding>${project.encoding}</encoding>
                     <source>${project.source.version}</source>
@@ -273,7 +272,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
