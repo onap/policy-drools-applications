@@ -34,6 +34,24 @@
       "revId": "8216ae7a6141b3c77877c26fb173a3ab65f1b11d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_69015137",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/Util.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T18:00:48Z",
+      "side": 1,
+      "message": "of course, if I\u0027d thought of it sooner, I would have suggested using Pair out of drools-pdp/policy-utils.  However, that would have been more work, because the field access would all have to change to method calls, so maybe this is best for now",
+      "parentUuid": "1a76adc5_e9d7a149",
+      "revId": "8216ae7a6141b3c77877c26fb173a3ab65f1b11d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
