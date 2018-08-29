@@ -3,6 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,26 +21,32 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-public class TestVFCHealAdditionalParams {
+public class TestVfcResponse {
 
-	@Test
-	public void testVFCHealAdditionalParameters() {
-		VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
-		assertNotNull(additionalParams);
-		assertNotEquals(0, additionalParams.hashCode());
-		
-		String action = "Go Home";
-		additionalParams.setAction(action);
-		assertEquals(action, additionalParams.getAction());
-		
-		VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
-		additionalParams.setActionInfo(actionInfo );
-		assertEquals(actionInfo, additionalParams.getActionInfo());
-		
-		assertNotEquals(0, additionalParams.hashCode());
-	}
+    @Test
+    public void testVfcResponse() {
+        VFCResponse response = new VFCResponse();
+        assertNotNull(response);
+        assertNotEquals(0, response.hashCode());
+
+        String jobId = "GetToOz";
+        response.setJobId(jobId);
+        assertEquals(jobId, response.getJobId());
+
+        String requestId = "Get Home";
+        response.setRequestId(requestId);
+        assertEquals(requestId, response.getRequestId());
+
+        VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
+        response.setResponseDescriptor(responseDescriptor);
+        assertEquals(responseDescriptor, response.getResponseDescriptor());
+
+        assertNotEquals(0, response.hashCode());
+    }
 }

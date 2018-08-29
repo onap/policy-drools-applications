@@ -80,6 +80,9 @@ public class ControlLoopFailureTest implements TopicListener {
         Util.setPUProp();
     }
 
+    /**
+     * Setup simulator.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         PolicyEngine.manager.configure(new Properties());
@@ -112,7 +115,8 @@ public class ControlLoopFailureTest implements TopicListener {
          */
         try {
             kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
+                    + "/src/main/resources/__closedLoopControlName__.drl",
                     "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vCPE",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
@@ -123,6 +127,9 @@ public class ControlLoopFailureTest implements TopicListener {
         }
     }
 
+    /**
+     * Tear down simulator.
+     */
     @AfterClass
     public static void tearDownSimulator() {
         /*
@@ -210,7 +217,7 @@ public class ControlLoopFailureTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException
+     * @throws IOException throws IO exception
      */
     private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
             String policyName, String policyVersion) throws IOException {
@@ -354,7 +361,7 @@ public class ControlLoopFailureTest implements TopicListener {
      * @param policy the controlLoopName comes from the policy
      * @param requestID the requestId for this event
      * @param status could be onset or abated
-     * @param target, the target entity to take an action on
+     * @param target the target entity to take an action on
      */
     protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String target) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();

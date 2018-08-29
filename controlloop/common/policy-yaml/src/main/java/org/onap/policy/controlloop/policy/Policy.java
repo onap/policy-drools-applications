@@ -180,6 +180,15 @@ public class Policy {
         this.id = id;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param name name
+     * @param actor actor
+     * @param recipe recipe
+     * @param payload payload
+     * @param target target
+     */
     public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target) {
         this.name = name;
         this.actor = actor;
@@ -190,6 +199,17 @@ public class Policy {
         }
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param name name
+     * @param actor actor
+     * @param recipe recipe
+     * @param payload payload
+     * @param target target
+     * @param retries retries
+     * @param timeout timeout
+     */
     public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target, 
                     Integer retries, Integer timeout) {
         this(name, actor, recipe, payload, target);
@@ -197,6 +217,19 @@ public class Policy {
         this.timeout = timeout;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param id id
+     * @param name name
+     * @param description description
+     * @param actor actor
+     * @param payload payload
+     * @param target target
+     * @param recipe recipe
+     * @param retries retries
+     * @param timeout timeout
+     */
     public Policy(String id, String name, String description, String actor, Map<String, String> payload, 
                     Target target, String recipe, Integer retries, Integer timeout) {
         this(name, actor, recipe, payload, target, retries, timeout);
@@ -204,6 +237,11 @@ public class Policy {
         this.description = description;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param policy copy object
+     */
     public Policy(Policy policy) {
         this.id = policy.id;
         this.name = policy.name;

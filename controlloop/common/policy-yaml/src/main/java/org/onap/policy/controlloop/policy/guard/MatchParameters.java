@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,13 @@ public class MatchParameters {
         this.recipe = recipe;
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param actor actor
+     * @param recipe recipe
+     * @param targets targets
+     */
     public MatchParameters(String actor, String recipe, List<String> targets) {
         this(actor, recipe);
         if (targets != null) {
@@ -83,6 +90,11 @@ public class MatchParameters {
         this.controlLoopName = controlLoopName;
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param matchParameters match parameters
+     */
     public MatchParameters(MatchParameters matchParameters) {
 
         this.controlLoopName = matchParameters.controlLoopName;
@@ -112,24 +124,27 @@ public class MatchParameters {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         MatchParameters other = (MatchParameters) obj;
         
         return equalsMayBeNull(actor, other.actor)
-        		&& equalsMayBeNull(controlLoopName, other.controlLoopName)
-        		&& equalsMayBeNull(recipe, other.recipe)
-        		&& equalsMayBeNull(targets, other.targets);
+                && equalsMayBeNull(controlLoopName, other.controlLoopName)
+                && equalsMayBeNull(recipe, other.recipe)
+                && equalsMayBeNull(targets, other.targets);
     }
     
-    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
-    	if ( obj1 == null ) {
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2) {
+        if (obj1 == null) {
             return obj2 == null;
         }
-    	return obj1.equals(obj2);
+        return obj1.equals(obj2);
     }
 }

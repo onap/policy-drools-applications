@@ -75,9 +75,15 @@ public class Constraint {
         this.blacklist = blacklist;
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param freqLimitPerTarget frequency limit
+     * @param timeWindow time window
+     */
     public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow) {
         this.freqLimitPerTarget = freqLimitPerTarget;
-        if(timeWindow!=null){
+        if (timeWindow != null) {
             this.timeWindow = Collections.unmodifiableMap(timeWindow);
         }
     }
@@ -86,12 +92,26 @@ public class Constraint {
         this.blacklist = new LinkedList<>(blacklist);
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param freqLimitPerTarget frequency limit
+     * @param timeWindow time window
+     * @param blacklist blacklist
+     */
     public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow, List<String> blacklist) {
         this.freqLimitPerTarget = freqLimitPerTarget;
         this.timeWindow = Collections.unmodifiableMap(timeWindow);
         this.blacklist = new LinkedList<>(blacklist);
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param freqLimitPerTarget frequency limit
+     * @param timeWindow time window
+     * @param activeTimeRange active time range
+     */
     public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow, Map<String, String> activeTimeRange) {
         this(freqLimitPerTarget, timeWindow);
         if (activeTimeRange != null) {
@@ -99,17 +119,30 @@ public class Constraint {
         }
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param freqLimitPerTarget frequency limit
+     * @param timeWindow the time window
+     * @param activeTimeRange active time range
+     * @param blacklist incoming blacklist
+     */
     public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow, Map<String, String> activeTimeRange, 
                     List<String> blacklist) {
         this(freqLimitPerTarget, timeWindow);
         if (activeTimeRange != null) {
             this.activeTimeRange = Collections.unmodifiableMap(activeTimeRange);
         }
-        if(blacklist != null){
+        if (blacklist != null) {
             this.blacklist = new LinkedList<>(blacklist);
         }
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param constraint objec to copy
+     */
     public Constraint(Constraint constraint) {
         this.freqLimitPerTarget = constraint.freqLimitPerTarget;
         this.timeWindow = constraint.timeWindow;
@@ -143,23 +176,26 @@ public class Constraint {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Constraint other = (Constraint) obj;
         return equalsMayBeNull(freqLimitPerTarget, other.freqLimitPerTarget)
-        		&& equalsMayBeNull(timeWindow, other.timeWindow)
-        		&& equalsMayBeNull(activeTimeRange, other.activeTimeRange)
-        		&& equalsMayBeNull(blacklist, other.blacklist);
+                && equalsMayBeNull(timeWindow, other.timeWindow)
+                && equalsMayBeNull(activeTimeRange, other.activeTimeRange)
+                && equalsMayBeNull(blacklist, other.blacklist);
     }
     
-    private boolean equalsMayBeNull(final Object obj1, final Object obj2){
-    	if ( obj1 == null ) {
+    private boolean equalsMayBeNull(final Object obj1, final Object obj2) {
+        if (obj1 == null) {
             return obj2 == null;
         } 
-    	return obj1.equals(obj2);
+        return obj1.equals(obj2);
     }
 }
