@@ -1,15 +1,15 @@
 /*-
  * ============LICENSE_START=======================================================
- * rest
+ * so
  * ================================================================================
- * 
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,25 +18,23 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.rest;
+package org.onap.policy.so;
 
-import static org.junit.Assert.assertEquals;
+/**
+ * Enumeration of SO Operations type that can be performed by a policy
+ */
+public enum SoOperationType {
+    SCALE_OUT("Scale-out Vf Module"),
+    DELETE_VF_MODULE("Delete Vf Module");
 
-import org.junit.Test;
-import org.onap.policy.rest.RESTManager.Pair;
+    private String operationType;
 
-public class TestPair {
+    SoOperationType(String operationType) {
+        this.operationType = operationType;
+    }
 
-    @Test
-    public void testPair() {
-        RESTManager mgr = new RESTManager();
-
-        Pair<Integer, Integer> pii = mgr.new Pair<>(1, 2);
-        assertEquals((Integer) 1, (Integer) pii.first);
-        assertEquals((Integer) 2, (Integer) pii.second);
-
-        Pair<Integer, String> pis = mgr.new Pair<>(1, "test");
-        assertEquals((Integer) 1, (Integer) pis.first);
-        assertEquals("test", pis.second);
+    @Override
+    public String toString() {
+        return this.operationType;
     }
 }

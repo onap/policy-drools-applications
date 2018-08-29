@@ -39,9 +39,9 @@ public class TestGet {
         RESTManager mgr = new RESTManager();
 
         Pair<Integer, String> result = mgr.get("http://www.example.org", null, null, null);
-        assertEquals((Integer)200, result.a);
-        assertTrue(result.b != null);
-        assertTrue(result.b.length() > 0);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
     }
 
     @Test
@@ -49,9 +49,9 @@ public class TestGet {
         RESTManager mgr = new RESTManager();
 
         Pair<Integer, String> result = mgr.get("http://www.example.org", "", null, null);
-        assertEquals((Integer)200, result.a);
-        assertTrue(result.b != null);
-        assertTrue(result.b.length() > 0);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class TestGet {
         RESTManager mgr = new RESTManager();
 
         Pair<Integer, String> result = mgr.get("http://www.example.org", "user", null, null);
-        assertEquals((Integer)200, result.a);
-        assertTrue(result.b != null);
-        assertTrue(result.b.length() > 0);
+        assertEquals((Integer)200, result.first);
+        assertTrue(result.second != null);
+        assertTrue(result.second.length() > 0);
     }
 }
