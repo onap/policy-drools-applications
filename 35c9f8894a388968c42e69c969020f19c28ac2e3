@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_23493ab7",
+        "filename": "controlloop/common/actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/TestSoActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T13:15:06Z",
+      "side": 1,
+      "message": "As long as this is being renamed, maybe move \"Test\" to the end of the name to match the standard in the rest of Policy.",
+      "revId": "35c9f8894a388968c42e69c969020f19c28ac2e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e36a62ed",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T13:15:06Z",
+      "side": 1,
+      "message": "seems like \"DNS\" is more appropriate.  why change this to all lower, but not change testvFirewall?",
+      "revId": "35c9f8894a388968c42e69c969020f19c28ac2e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
