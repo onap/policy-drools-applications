@@ -60,16 +60,16 @@ public class GuardSimulatorTest {
         Pair<Integer, String> response =
                 new RESTManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
-        assertNotNull(response.a);
-        assertNotNull(response.b);
-        assertEquals("{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}", response.b);
+        assertNotNull(response.first);
+        assertNotNull(response.second);
+        assertEquals("{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}", response.second);
 
         request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
         response = new RESTManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
-        assertNotNull(response.a);
-        assertNotNull(response.b);
-        assertEquals("{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}", response.b);
+        assertNotNull(response.first);
+        assertNotNull(response.second);
+        assertEquals("{\"decision\": \"DENY\", \"details\": \"Decision Deny. You asked for it\"}", response.second);
     }
 
     private static String makeRequest(String actor, String recipe, String target, String clName) {
