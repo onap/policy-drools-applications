@@ -59,15 +59,15 @@ public class ControlLoopGuardBuilderTest {
             // Assert there is no guard policies yet
             //
             Results results = builder.buildSpecification();
-            boolean no_guard_policies = false;
+            boolean noGuardPolicies = false;
             for (Message m : results.getMessages()) {
                 if (m.getMessage().equals("ControlLoop Guard should have at least one guard policies") 
                                 && m.getLevel() == MessageLevel.ERROR) {
-                    no_guard_policies = true;
+                    noGuardPolicies = true;
                     break;
                 }
             }
-            assertTrue(no_guard_policies);
+            assertTrue(noGuardPolicies);
             //
             // Add a guard policy without limit constraint
             //
@@ -83,28 +83,28 @@ public class ControlLoopGuardBuilderTest {
             // Assert there is no limit constraint associated with the only guard policy
             //
             results = builder.buildSpecification();
-            boolean no_constraint = false;
+            boolean noConstraint = false;
             for (Message m : results.getMessages()) {
                 if (m.getMessage().equals("Guard policy guardpolicy1 does not have any limit constraint") 
                                 && m.getLevel() == MessageLevel.ERROR) {
-                    no_constraint = true;
+                    noConstraint = true;
                     break;
                 }
             }
-            assertTrue(no_constraint);
+            assertTrue(noConstraint);
             //
             // Add a constraint to policy1
             //
-            Map<String, String> active_time_range = new HashMap<String, String>();
-            active_time_range.put("start", "00:00:00-05:00");
-            active_time_range.put("end", "23:59:59-05:00");
+            Map<String, String> activeTimeRange = new HashMap<String, String>();
+            activeTimeRange.put("start", "00:00:00-05:00");
+            activeTimeRange.put("end", "23:59:59-05:00");
             List<String> blacklist = new LinkedList<String>();
             blacklist.add("eNodeB_common_id1");
             blacklist.add("eNodeB_common_id2");
-            Map<String, String> time_window = new HashMap<String, String>();
-            time_window.put("value", "10");
-            time_window.put("units", "minute");
-            Constraint cons = new Constraint(5, time_window, active_time_range, blacklist);
+            Map<String, String> timeWindow = new HashMap<String, String>();
+            timeWindow.put("value", "10");
+            timeWindow.put("units", "minute");
+            Constraint cons = new Constraint(5, timeWindow, activeTimeRange, blacklist);
             builder = builder.addLimitConstraint(policy1.getId(), cons);
             //
             // Add a duplicate constraint to policy1
@@ -114,15 +114,15 @@ public class ControlLoopGuardBuilderTest {
             // Assert there are duplicate constraints associated with the only guard policy
             //
             results = builder.buildSpecification();
-            boolean duplicate_constraint = false;
+            boolean duplicateConstraint = false;
             for (Message m : results.getMessages()) {
                 if (m.getMessage().equals("Guard policy guardpolicy1 has duplicate limit constraints") 
                                 && m.getLevel() == MessageLevel.WARNING) {
-                    duplicate_constraint = true;
+                    duplicateConstraint = true;
                     break;
                 }
             }
-            assertTrue(duplicate_constraint);
+            assertTrue(duplicateConstraint);
             //
             // Remove the duplicate constraint
             //
@@ -136,15 +136,15 @@ public class ControlLoopGuardBuilderTest {
             // Assert there are duplicate guard policies
             //
             results = builder.buildSpecification();
-            boolean duplicate_guard_policy = false;
+            boolean duplicateGuardPolicy = false;
             for (Message m : results.getMessages()) {
                 if (m.getMessage().equals("There are duplicate guard policies") 
                                 && m.getLevel() == MessageLevel.WARNING) {
-                    duplicate_guard_policy = true;
+                    duplicateGuardPolicy = true;
                     break;
                 }
             }
-            assertTrue(duplicate_guard_policy);
+            assertTrue(duplicateGuardPolicy);
             //
             // Remove the duplicate guard policy
             //
@@ -170,6 +170,11 @@ public class ControlLoopGuardBuilderTest {
         this.test("src/test/resources/v2.0.0-guard/policy_guard_appc_restart.yaml");
     }
     
+    /**
+     * Do the actual test.
+     * 
+     * @param testFile input test file
+     */
     public void test(String testFile) {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             //

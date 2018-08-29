@@ -37,6 +37,11 @@ public class ResourceInstance implements Serializable {
         //Empty Constructor
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param instance copy object
+     */
     public ResourceInstance(ResourceInstance instance) {
         if (instance == null) { 
             return;
@@ -103,6 +108,7 @@ public class ResourceInstance implements Serializable {
                 + ", resourceInvariantUUID=" + resourceInvariantUUID + ", resourceVersion=" + resourceVersion
                 + ", resourceType=" + resourceType + ", resourceUUID=" + resourceUUID + "]";
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -115,42 +121,57 @@ public class ResourceInstance implements Serializable {
         result = prime * result + ((resourceVersion == null) ? 0 : resourceVersion.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ResourceInstance other = (ResourceInstance) obj;
         if (resourceInstanceName == null) {
-            if (other.resourceInstanceName != null)
+            if (other.resourceInstanceName != null) {
                 return false;
-        } else if (!resourceInstanceName.equals(other.resourceInstanceName))
+            }
+        } else if (!resourceInstanceName.equals(other.resourceInstanceName)) {
             return false;
+        }
         if (resourceInvariantUUID == null) {
-            if (other.resourceInvariantUUID != null)
+            if (other.resourceInvariantUUID != null) {
                 return false;
-        } else if (!resourceInvariantUUID.equals(other.resourceInvariantUUID))
+            }
+        } else if (!resourceInvariantUUID.equals(other.resourceInvariantUUID)) {
             return false;
+        }
         if (resourceName == null) {
-            if (other.resourceName != null)
+            if (other.resourceName != null) {
                 return false;
-        } else if (!resourceName.equals(other.resourceName))
+            }
+        } else if (!resourceName.equals(other.resourceName)) {
             return false;
-        if (resourceType != other.resourceType)
+        }
+        if (resourceType != other.resourceType) {
             return false;
+        }
         if (resourceUUID == null) {
-            if (other.resourceUUID != null)
+            if (other.resourceUUID != null) {
                 return false;
-        } else if (!resourceUUID.equals(other.resourceUUID))
+            }
+        } else if (!resourceUUID.equals(other.resourceUUID)) {
             return false;
+        }
         if (resourceVersion == null) {
-            if (other.resourceVersion != null)
+            if (other.resourceVersion != null) {
                 return false;
-        } else if (!resourceVersion.equals(other.resourceVersion))
+            }
+        } else if (!resourceVersion.equals(other.resourceVersion)) {
             return false;
+        }
         return true;
     }
     

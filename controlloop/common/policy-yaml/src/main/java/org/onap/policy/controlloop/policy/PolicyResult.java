@@ -58,6 +58,12 @@ public enum PolicyResult {
         return this.result;
     }
     
+    /**
+     * Convert to a result.
+     * 
+     * @param result result string
+     * @return Result object
+     */
     public static PolicyResult toResult(String result) {
         if (result.equalsIgnoreCase(SUCCESS.toString())) {
             return SUCCESS;

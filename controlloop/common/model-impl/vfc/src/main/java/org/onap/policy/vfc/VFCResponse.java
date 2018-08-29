@@ -18,9 +18,9 @@
 
 package org.onap.policy.vfc;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class VFCResponse implements Serializable {
 
@@ -35,30 +35,30 @@ public class VFCResponse implements Serializable {
     private transient String requestId;
 
     public VFCResponse() {
-		// Default constructor for VFCResponse
+        // Default constructor for VFCResponse
     }
 
-	public String getJobId() {
-		return jobId;
-	}
+    public String getJobId() {
+        return jobId;
+    }
 
-	public void setJobId(String jobId) {
-		this.jobId = jobId;
-	}
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
 
-	public VFCResponseDescriptor getResponseDescriptor() {
-		return responseDescriptor;
-	}
+    public VFCResponseDescriptor getResponseDescriptor() {
+        return responseDescriptor;
+    }
 
-	public void setResponseDescriptor(VFCResponseDescriptor responseDescriptor) {
-		this.responseDescriptor = responseDescriptor;
-	}
+    public void setResponseDescriptor(VFCResponseDescriptor responseDescriptor) {
+        this.responseDescriptor = responseDescriptor;
+    }
 
-	public String getRequestId() {
-		return requestId;
-	}
+    public String getRequestId() {
+        return requestId;
+    }
 
-	public void setRequestId(String requestId) {
-		this.requestId = requestId;
-	}
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
 }

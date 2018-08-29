@@ -112,6 +112,11 @@ public class ControlLoop {
         this.pnf = pnf;
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param controlLoop copy object
+     */
     public ControlLoop(ControlLoop controlLoop) {
         this.controlLoopName = controlLoop.controlLoopName;
         this.services = new LinkedList<>();

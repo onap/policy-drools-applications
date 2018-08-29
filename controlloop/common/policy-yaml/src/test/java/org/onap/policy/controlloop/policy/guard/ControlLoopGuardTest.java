@@ -20,7 +20,11 @@
 
 package org.onap.policy.controlloop.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,7 +56,7 @@ public class ControlLoopGuardTest {
     }
 
     @Test
-    public void testConstructorControlLoopGuard(){
+    public void testConstructorControlLoopGuard() {
         Guard guard1 = new Guard();
         GuardPolicy guardPolicy1 = new GuardPolicy();
         GuardPolicy guardPolicy2 = new GuardPolicy();
@@ -71,7 +75,7 @@ public class ControlLoopGuardTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        Guard guard1 = new Guard();
+        final Guard guard1 = new Guard();
         GuardPolicy guardPolicy1 = new GuardPolicy();
         GuardPolicy guardPolicy2 = new GuardPolicy();
         LinkedList<GuardPolicy> guardPolicies = new LinkedList<>();
@@ -115,6 +119,11 @@ public class ControlLoopGuardTest {
         assertFalse(controlLoopGuard.equals(""));
     }
 
+    /**
+     * Does the actual test.
+     * 
+     * @param testFile input file
+     */
     public void test(String testFile) {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             //

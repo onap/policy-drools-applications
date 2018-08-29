@@ -37,6 +37,11 @@ public class Resource implements Serializable {
         //Empty Constructor
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param resource copy object
+     */
     public Resource(Resource resource) {
         this.resourceUUID = resource.resourceUUID;
         this.resourceInvariantUUID = resource.resourceInvariantUUID;
@@ -54,6 +59,15 @@ public class Resource implements Serializable {
         this.resourceType = type;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param uuid uuid
+     * @param invariantUUID invariant uuid
+     * @param name name
+     * @param version version
+     * @param type type
+     */
     public Resource(UUID uuid, UUID invariantUUID, String name, String version, ResourceType type) {
         this.resourceUUID = uuid;
         this.resourceInvariantUUID = invariantUUID;
@@ -108,6 +122,7 @@ public class Resource implements Serializable {
                 + ", resourceName=" + resourceName + ", resourceVersion=" + resourceVersion + ", resourceType="
                 + resourceType + "]";
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -119,40 +134,54 @@ public class Resource implements Serializable {
         result = prime * result + ((resourceVersion == null) ? 0 : resourceVersion.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Resource other = (Resource) obj;
         if (resourceInvariantUUID == null) {
-            if (other.resourceInvariantUUID != null)
+            if (other.resourceInvariantUUID != null) {
                 return false;
-        } else if (!resourceInvariantUUID.equals(other.resourceInvariantUUID))
+            }
+        } else if (!resourceInvariantUUID.equals(other.resourceInvariantUUID)) {
             return false;
+        }
         if (resourceName == null) {
-            if (other.resourceName != null)
+            if (other.resourceName != null) {
                 return false;
-        } else if (!resourceName.equals(other.resourceName))
+            }
+        } else if (!resourceName.equals(other.resourceName)) {
             return false;
+        }
         if (resourceType == null) {
-            if (other.resourceType != null)
+            if (other.resourceType != null) {
                 return false;
-        } else if (!resourceType.equals(other.resourceType))
+            }
+        } else if (!resourceType.equals(other.resourceType)) {
             return false;
+        }
         if (resourceUUID == null) {
-            if (other.resourceUUID != null)
+            if (other.resourceUUID != null) {
                 return false;
-        } else if (!resourceUUID.equals(other.resourceUUID))
+            }
+        } else if (!resourceUUID.equals(other.resourceUUID)) {
             return false;
+        }
         if (resourceVersion == null) {
-            if (other.resourceVersion != null)
+            if (other.resourceVersion != null) {
                 return false;
-        } else if (!resourceVersion.equals(other.resourceVersion))
+            }
+        } else if (!resourceVersion.equals(other.resourceVersion)) {
             return false;
+        }
         return true;
     }
     

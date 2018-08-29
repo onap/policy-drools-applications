@@ -791,7 +791,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     }
 
     /**
-     * Does provisioning status, for an event, have a value other than ACTIVE?
+     * Does provisioning status, for an event, have a value other than ACTIVE.
      *
      * @param event the event
      * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null},
@@ -890,13 +890,13 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @return output from the AAI vserver named-query
      */
     public AaiNqResponseWrapper getNqVserverFromAai() {
-        if(nqVserverResponse != null) {
+        if (nqVserverResponse != null) {
             // already queried
             return nqVserverResponse;
         }
 
         String vserverName = onset.getAai().get(VSERVER_VSERVER_NAME);
-        if(vserverName == null) {
+        if (vserverName == null) {
             logger.warn("Missing vserver-name for AAI request {}", onset.getRequestId());
             return null;
         }

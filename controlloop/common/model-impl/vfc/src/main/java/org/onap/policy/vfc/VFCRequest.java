@@ -18,10 +18,10 @@
 
 package org.onap.policy.vfc;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.UUID;
-
-import com.google.gson.annotations.SerializedName;
 
 public class VFCRequest implements Serializable {
 
@@ -34,30 +34,30 @@ public class VFCRequest implements Serializable {
     private VFCHealRequest healRequest;
 
     public VFCRequest() {
-    		// Default constructor for VFCRequest
+        // Default constructor for VFCRequest
     }
 
-	public String getNSInstanceId() {
-		return nsInstanceId;
-	}
+    public String getNSInstanceId() {
+        return nsInstanceId;
+    }
 
-	public void setNSInstanceId(String nsInstanceId) {
-		this.nsInstanceId = nsInstanceId;
-	}
+    public void setNSInstanceId(String nsInstanceId) {
+        this.nsInstanceId = nsInstanceId;
+    }
 
-	public UUID getRequestId() {
-		return requestId;
-	}
+    public UUID getRequestId() {
+        return requestId;
+    }
 
-	public void setRequestId(UUID requestId) {
-		this.requestId = requestId;
-	}
+    public void setRequestId(UUID requestId) {
+        this.requestId = requestId;
+    }
 
-	public VFCHealRequest getHealRequest() {
-		return healRequest;
-	}
+    public VFCHealRequest getHealRequest() {
+        return healRequest;
+    }
 
-	public void setHealRequest(VFCHealRequest healRequest) {
-		this.healRequest = healRequest;
-	}
+    public void setHealRequest(VFCHealRequest healRequest) {
+        this.healRequest = healRequest;
+    }
 }

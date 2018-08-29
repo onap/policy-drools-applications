@@ -20,8 +20,8 @@
 
 package org.onap.policy.vnf.trafficgenerator;
 
-
 import org.junit.Test;
+
 import org.onap.policy.vnf.trafficgenerator.PGRequest;
 import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;

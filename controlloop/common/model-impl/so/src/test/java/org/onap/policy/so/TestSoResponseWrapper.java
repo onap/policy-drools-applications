@@ -53,23 +53,23 @@ public class TestSoResponseWrapper {
         obj.setRequestID("id2");
         assertEquals("id2", obj.getRequestID());
     }
-    
-	@Test
-	public void testSOResponseWrapperMethods() {
-		String requestID = UUID.randomUUID().toString();
-		SOResponse response = new SOResponse();
 
-		SOResponseWrapper responseWrapper = new SOResponseWrapper(response, requestID);
-		assertNotNull(responseWrapper);
-		assertNotEquals(0, responseWrapper.hashCode());
-		
-		assertEquals(response, responseWrapper.getSoResponse());
-		
-		assertNotEquals(0, responseWrapper.hashCode());
-		
-		assertEquals("SOResponseWrapper [SOResponse=org.onap.policy.", responseWrapper.toString().substring(0,  46));
-		
-		SOResponseWrapper identicalResponseWrapper = new SOResponseWrapper(response, requestID);
+    @Test
+    public void testSOResponseWrapperMethods() {
+        String requestID = UUID.randomUUID().toString();
+        SOResponse response = new SOResponse();
+
+        SOResponseWrapper responseWrapper = new SOResponseWrapper(response, requestID);
+        assertNotNull(responseWrapper);
+        assertNotEquals(0, responseWrapper.hashCode());
+
+        assertEquals(response, responseWrapper.getSoResponse());
+
+        assertNotEquals(0, responseWrapper.hashCode());
+
+        assertEquals("SOResponseWrapper [SOResponse=org.onap.policy.", responseWrapper.toString().substring(0,  46));
+
+        SOResponseWrapper identicalResponseWrapper = new SOResponseWrapper(response, requestID);
 
         assertEquals(responseWrapper,  responseWrapper);
         assertEquals(responseWrapper,  identicalResponseWrapper);
@@ -81,9 +81,9 @@ public class TestSoResponseWrapper {
         assertEquals(new SOResponseWrapper(null, null), new SOResponseWrapper(null, null));
         assertNotEquals(new SOResponseWrapper(null, null), identicalResponseWrapper);
         
-		assertNotEquals(0, new SOResponseWrapper(null, null).hashCode());
+        assertNotEquals(0, new SOResponseWrapper(null, null).hashCode());
 
-		identicalResponseWrapper.setSoResponse(new SOResponse());
+        identicalResponseWrapper.setSoResponse(new SOResponse());
         assertNotEquals(responseWrapper,  identicalResponseWrapper);
         identicalResponseWrapper.setSoResponse(response);
         assertEquals(responseWrapper,  identicalResponseWrapper);
@@ -101,5 +101,5 @@ public class TestSoResponseWrapper {
         assertNotEquals(responseWrapper,  identicalResponseWrapper);
         identicalResponseWrapper.setRequestID(requestID);
         assertEquals(responseWrapper,  identicalResponseWrapper);
-	}
+    }
 }

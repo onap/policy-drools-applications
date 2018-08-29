@@ -44,6 +44,14 @@ public class Service implements Serializable {
         this.serviceName = name;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param uuid service id
+     * @param invariantUUID service invariant id
+     * @param name name
+     * @param version version
+     */
     public Service(UUID uuid, UUID invariantUUID, String name, String version) {
         this.serviceUUID = uuid;
         this.serviceInvariantUUID = invariantUUID;
@@ -51,6 +59,11 @@ public class Service implements Serializable {
         this.serviceVersion = version;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param service copy object
+     */
     public Service(Service service) {
         this.serviceUUID = service.serviceUUID;
         this.serviceInvariantUUID = service.serviceInvariantUUID;
@@ -95,6 +108,7 @@ public class Service implements Serializable {
         return "Service [serviceUUID=" + serviceUUID + ", serviceInvariantUUID=" + serviceInvariantUUID
                 + ", serviceName=" + serviceName + ", serviceVersion=" + serviceVersion + "]";
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -105,35 +119,47 @@ public class Service implements Serializable {
         result = prime * result + ((serviceVersion == null) ? 0 : serviceVersion.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Service other = (Service) obj;
         if (serviceInvariantUUID == null) {
-            if (other.serviceInvariantUUID != null)
+            if (other.serviceInvariantUUID != null) {
                 return false;
-        } else if (!serviceInvariantUUID.equals(other.serviceInvariantUUID))
+            }
+        } else if (!serviceInvariantUUID.equals(other.serviceInvariantUUID)) {
             return false;
+        }
         if (serviceName == null) {
-            if (other.serviceName != null)
+            if (other.serviceName != null) {
                 return false;
-        } else if (!serviceName.equals(other.serviceName))
+            }
+        } else if (!serviceName.equals(other.serviceName)) {
             return false;
+        }
         if (serviceUUID == null) {
-            if (other.serviceUUID != null)
+            if (other.serviceUUID != null) {
                 return false;
-        } else if (!serviceUUID.equals(other.serviceUUID))
+            }
+        } else if (!serviceUUID.equals(other.serviceUUID)) {
             return false;
+        }
         if (serviceVersion == null) {
-            if (other.serviceVersion != null)
+            if (other.serviceVersion != null) {
                 return false;
-        } else if (!serviceVersion.equals(other.serviceVersion))
+            }
+        } else if (!serviceVersion.equals(other.serviceVersion)) {
             return false;
+        }
         return true;
     }
 

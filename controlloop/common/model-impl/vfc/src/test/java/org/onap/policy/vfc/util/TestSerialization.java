@@ -20,14 +20,14 @@
 
 package org.onap.policy.vfc.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class TestSerialization {
 
-	@Test
-	public void test() {
-		assertNotNull(Serialization.gsonPretty);
-	}
+    @Test
+    public void test() {
+        assertNotNull(Serialization.gsonPretty);
+    }
 }

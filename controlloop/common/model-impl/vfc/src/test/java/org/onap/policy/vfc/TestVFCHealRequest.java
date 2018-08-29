@@ -20,30 +20,32 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class TestVFCHealRequest {
 
-	@Test
-	public void testVFCHealRequest() {
-		VFCHealRequest request = new VFCHealRequest();
-		assertNotNull(request);
-		assertNotEquals(0, request.hashCode());
-		
-		String vnfInstanceId = "Go To Oz";
-		request.setVnfInstanceId(vnfInstanceId);
-		assertEquals(vnfInstanceId, request.getVnfInstanceId());
-		
-		String cause = "West Witch";
-		request.setCause(cause);
-		assertEquals(cause, request.getCause());
-		
-		VFCHealAdditionalParams additionalParams= new VFCHealAdditionalParams();
-		request.setAdditionalParams(additionalParams);
-		assertEquals(additionalParams, request.getAdditionalParams());
-		
-		assertNotEquals(0, request.hashCode());
-	}
+    @Test
+    public void testVFCHealRequest() {
+        VFCHealRequest request = new VFCHealRequest();
+        assertNotNull(request);
+        assertNotEquals(0, request.hashCode());
+
+        String vnfInstanceId = "Go To Oz";
+        request.setVnfInstanceId(vnfInstanceId);
+        assertEquals(vnfInstanceId, request.getVnfInstanceId());
+
+        String cause = "West Witch";
+        request.setCause(cause);
+        assertEquals(cause, request.getCause());
+
+        VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
+        request.setAdditionalParams(additionalParams);
+        assertEquals(additionalParams, request.getAdditionalParams());
+
+        assertNotEquals(0, request.hashCode());
+    }
 }

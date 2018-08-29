@@ -18,37 +18,37 @@
 
 package org.onap.policy.vfc;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class VFCHealActionVmInfo implements Serializable {
 
-	private static final long serialVersionUID = 3208673205100673119L;
+    private static final long serialVersionUID = 3208673205100673119L;
 
-	@SerializedName("vmid")
-	private String vmid;
+    @SerializedName("vmid")
+    private String vmid;
 
-	@SerializedName("vmname")
-	private String vmname;
+    @SerializedName("vmname")
+    private String vmname;
 
-	public VFCHealActionVmInfo() {
-		// Default constructor for VFCHealActionVmInfo
-	}
+    public VFCHealActionVmInfo() {
+        // Default constructor for VFCHealActionVmInfo
+    }
 
-	public String getVmid() {
-		return vmid;
-	}
+    public String getVmid() {
+        return vmid;
+    }
 
-	public void setVmid(String vmid) {
-		this.vmid = vmid;
-	}
+    public void setVmid(String vmid) {
+        this.vmid = vmid;
+    }
 
-	public String getVmname() {
-		return vmname;
-	}
+    public String getVmname() {
+        return vmname;
+    }
 
-	public void setVmname(String vmname) {
-		this.vmname = vmname;
-	}
+    public void setVmname(String vmname) {
+        this.vmname = vmname;
+    }
 }

@@ -77,6 +77,9 @@ public class VDNSControlLoopTest implements TopicListener {
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
+    /**
+     * Setup the simulator.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         PolicyEngine.manager.configure(new Properties());
@@ -106,7 +109,8 @@ public class VDNSControlLoopTest implements TopicListener {
          */
         try {
             kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/"
+                    + "src/main/resources/__closedLoopControlName__.drl",
                     "src/test/resources/yaml/policy_ControlLoop_SO-test.yaml", "type=operational", "CL_vDNS", "v2.0");
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,6 +119,9 @@ public class VDNSControlLoopTest implements TopicListener {
         }
     }
 
+    /**
+     * Tear down the simulator.
+     */
     @AfterClass
     public static void tearDownSimulator() {
 
@@ -253,7 +260,7 @@ public class VDNSControlLoopTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException
+     * @throws IOException IO Exception
      */
     private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
             String policyName, String policyVersion) throws IOException {

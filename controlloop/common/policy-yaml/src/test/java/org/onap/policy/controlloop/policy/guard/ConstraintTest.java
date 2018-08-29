@@ -18,7 +18,10 @@
 
 package org.onap.policy.controlloop.policy.guard;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +65,7 @@ public class ConstraintTest {
         activeTimeRange.put("timeWindowKey", "timeWindowValue");
         Constraint constraint = new Constraint();
         constraint.setActive_time_range(activeTimeRange);;
-        assertEquals(activeTimeRange, constraint.getActive_time_range());	
+        assertEquals(activeTimeRange, constraint.getActive_time_range());
     }
 
     @Test
@@ -71,7 +74,7 @@ public class ConstraintTest {
         blacklist.add("blacklist item");
         Constraint constraint = new Constraint();
         constraint.setBlacklist(blacklist);
-        assertEquals(blacklist, constraint.getBlacklist());	
+        assertEquals(blacklist, constraint.getBlacklist());
     }
 
     @Test
@@ -164,7 +167,7 @@ public class ConstraintTest {
     @Test
     public void testIsValid() {
         Integer freqLimitPerTarget = 10;
-        Map<String, String> timeWindow = new HashMap<>();
+        final Map<String, String> timeWindow = new HashMap<>();
 
         Constraint constraint = new Constraint();
         assertTrue(constraint.isValid());
@@ -197,8 +200,8 @@ public class ConstraintTest {
     @Test
     public void testEquals() {
         Integer freqLimitPerTarget = 10;
-        Map<String, String> timeWindow = new HashMap<>();
-        Map<String, String> activeTimeRange = new HashMap<>();
+        final Map<String, String> timeWindow = new HashMap<>();
+        final Map<String, String> activeTimeRange = new HashMap<>();
         List<String> blacklist = new ArrayList<>();
         blacklist.add("blacklist item");
 

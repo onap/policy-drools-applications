@@ -20,11 +20,11 @@
 
 package org.onap.policy.so;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import com.google.gson.annotations.SerializedName;
 
 public class SORequest implements Serializable {
 

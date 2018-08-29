@@ -20,26 +20,28 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class TestVFCHealAdditionalParams {
 
-	@Test
-	public void testVFCHealAdditionalParameters() {
-		VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
-		assertNotNull(additionalParams);
-		assertNotEquals(0, additionalParams.hashCode());
-		
-		String action = "Go Home";
-		additionalParams.setAction(action);
-		assertEquals(action, additionalParams.getAction());
-		
-		VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
-		additionalParams.setActionInfo(actionInfo );
-		assertEquals(actionInfo, additionalParams.getActionInfo());
-		
-		assertNotEquals(0, additionalParams.hashCode());
-	}
+    @Test
+    public void testVFCHealAdditionalParameters() {
+        VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
+        assertNotNull(additionalParams);
+        assertNotEquals(0, additionalParams.hashCode());
+
+        String action = "Go Home";
+        additionalParams.setAction(action);
+        assertEquals(action, additionalParams.getAction());
+
+        VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
+        additionalParams.setActionInfo(actionInfo );
+        assertEquals(actionInfo, additionalParams.getActionInfo());
+
+        assertNotEquals(0, additionalParams.hashCode());
+    }
 }

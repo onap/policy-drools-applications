@@ -18,9 +18,10 @@
 
 package org.onap.policy.vfc;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
-import com.google.gson.annotations.SerializedName;
 
 public class VFCResponseDescriptor implements Serializable {
 
@@ -45,54 +46,54 @@ public class VFCResponseDescriptor implements Serializable {
     private List<VFCResponseDescriptor> responseHistoryList;
 
     public VFCResponseDescriptor() {
-		// Default constructor for VFCResponseDescriptor
+        // Default constructor for VFCResponseDescriptor
     }
 
     public String getStatus() {
-	return status;
+        return status;
     }
 
-	public String getProgress() {
-		return progress;
-	}
+    public String getProgress() {
+        return progress;
+    }
 
-	public void setProgress(String progress) {
-		this.progress = progress;
-	}
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
 
-	public String getStatusDescription() {
-		return statusDescription;
-	}
+    public String getStatusDescription() {
+        return statusDescription;
+    }
 
-	public void setStatusDescription(String statusDescription) {
-		this.statusDescription = statusDescription;
-	}
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
+    }
 
-	public String getErrorCode() {
-		return errorCode;
-	}
+    public String getErrorCode() {
+        return errorCode;
+    }
 
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
-	}
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
 
-	public String getResponseId() {
-		return responseId;
-	}
+    public String getResponseId() {
+        return responseId;
+    }
 
-	public void setResponseId(String responseId) {
-		this.responseId = responseId;
-	}
+    public void setResponseId(String responseId) {
+        this.responseId = responseId;
+    }
 
-	public List<VFCResponseDescriptor> getResponseHistoryList() {
-		return responseHistoryList;
-	}
+    public List<VFCResponseDescriptor> getResponseHistoryList() {
+        return responseHistoryList;
+    }
 
-	public void setResponseHistoryList(List<VFCResponseDescriptor> responseHistoryList) {
-		this.responseHistoryList = responseHistoryList;
-	}
+    public void setResponseHistoryList(List<VFCResponseDescriptor> responseHistoryList) {
+        this.responseHistoryList = responseHistoryList;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

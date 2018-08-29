@@ -20,7 +20,9 @@
 
 package org.onap.policy.controlloop.policy;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +43,7 @@ public class ControlLoopPolicyTest {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopPolicyTest.class);
     
     @Test 
-    public void test() {
+    public void test1() {
         this.test("src/test/resources/v1.0.0/policy_Test.yaml");
     }
 
@@ -63,7 +65,7 @@ public class ControlLoopPolicyTest {
     @Test 
     public void testvFirewall() {
         // Chenfei to fix this.
-        //		this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
+        // this.test("src/test/resources/v2.0.0/policy_ONAP_demo_vFirewall.yaml");
     }
 
     @Test 
@@ -76,6 +78,11 @@ public class ControlLoopPolicyTest {
         this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
     }
 
+    /**
+     * Does the actual test.
+     * 
+     * @param testFile input file
+     */
     public void test(String testFile) {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             //

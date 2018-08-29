@@ -21,10 +21,8 @@
 package org.onap.policy.controlloop.policy.builder;
 
 public enum MessageLevel {
-	INFO,
-	WARNING,
-	ERROR,
-	EXCEPTION
-	;
-
+  INFO,
+  WARNING,
+  ERROR,
+  EXCEPTION;
 }

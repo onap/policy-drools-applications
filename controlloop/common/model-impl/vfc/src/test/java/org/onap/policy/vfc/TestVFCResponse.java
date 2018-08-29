@@ -20,30 +20,32 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class TestVFCResponse {
 
-	@Test
-	public void testVFCResponse() {
-		VFCResponse response = new VFCResponse();
-		assertNotNull(response);
-		assertNotEquals(0, response.hashCode());
+    @Test
+    public void testVFCResponse() {
+        VFCResponse response = new VFCResponse();
+        assertNotNull(response);
+        assertNotEquals(0, response.hashCode());
 
-		String jobId = "GetToOz";
-		response.setJobId(jobId);
-		assertEquals(jobId, response.getJobId());
-		
-		String requestId = "Get Home";
-		response.setRequestId(requestId);
-		assertEquals(requestId, response.getRequestId());
-		
-		VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
-		response.setResponseDescriptor(responseDescriptor);
-		assertEquals(responseDescriptor, response.getResponseDescriptor());
-		
-		assertNotEquals(0, response.hashCode());
-	}
+        String jobId = "GetToOz";
+        response.setJobId(jobId);
+        assertEquals(jobId, response.getJobId());
+
+        String requestId = "Get Home";
+        response.setRequestId(requestId);
+        assertEquals(requestId, response.getRequestId());
+
+        VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
+        response.setResponseDescriptor(responseDescriptor);
+        assertEquals(responseDescriptor, response.getResponseDescriptor());
+
+        assertNotEquals(0, response.hashCode());
+    }
 }

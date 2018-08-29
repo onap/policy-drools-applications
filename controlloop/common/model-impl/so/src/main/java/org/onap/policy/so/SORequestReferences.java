@@ -20,9 +20,9 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class SORequestReferences implements Serializable {
 

@@ -20,9 +20,9 @@
 
 package org.onap.policy.so;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class SOResponseWrapper implements Serializable {
 
@@ -86,12 +86,12 @@ public class SOResponseWrapper implements Serializable {
         return result;
     }
 
-    public void setRequestID(String requestID) {
-        this.requestID = requestID;
+    public void setRequestID(String requestId) {
+        this.requestID = requestId;
     }
 
-    public void setSoResponse(SOResponse sOResponse) {
-        soResponse = sOResponse;
+    public void setSoResponse(SOResponse response) {
+        soResponse = response;
     }
 
     @Override

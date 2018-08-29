@@ -66,7 +66,7 @@ public class TestDemo {
         responseDescriptor.setErrorCode(null);
         responseDescriptor.setResponseId("11");
 
-	    response.getResponseDescriptor().setResponseHistoryList(new LinkedList<>());
+        response.getResponseDescriptor().setResponseHistoryList(new LinkedList<>());
         response.getResponseDescriptor().getResponseHistoryList().add(responseDescriptor);
 
         body = Serialization.gsonPretty.toJson(response);

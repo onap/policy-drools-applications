@@ -24,9 +24,6 @@ import java.io.Serializable;
 
 public class OperationsAccumulateParams implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3597358159130168247L;
     
     private String period;
@@ -75,25 +72,33 @@ public class OperationsAccumulateParams implements Serializable {
         result = prime * result + ((limit == null) ? 0 : limit.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         OperationsAccumulateParams other = (OperationsAccumulateParams) obj;
         if (period == null) {
-            if (other.period != null)
+            if (other.period != null) {
                 return false;
-        } else if (!period.equals(other.period))
+            }
+        } else if (!period.equals(other.period)) {
             return false;
+        }
         if (limit == null) {
-            if (other.limit != null)
+            if (other.limit != null) {
                 return false;
-        } else if (!limit.equals(other.limit))
+            }
+        } else if (!limit.equals(other.limit)) {
             return false;
+        }
         return true;
     }
 

@@ -20,10 +20,10 @@
 
 package org.onap.policy.so;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import com.google.gson.annotations.SerializedName;
 
 public class SOAsyncRequestStatus implements Serializable {
 

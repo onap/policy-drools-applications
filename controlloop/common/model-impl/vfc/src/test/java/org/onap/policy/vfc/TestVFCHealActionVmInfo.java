@@ -20,26 +20,28 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class TestVFCHealActionVmInfo {
 
-	@Test
-	public void testVFCHealActionVmInfo() {
-		VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
-		assertNotNull(actionInfo);
-		assertNotEquals(0, actionInfo.hashCode());
-		
-		String vmid = "ECity";
-		actionInfo.setVmid(vmid);
-		assertEquals(vmid, actionInfo.getVmid());
-		
-		String vmName = "Emerald City";
-		actionInfo.setVmname(vmName);
-		assertEquals(vmName, actionInfo.getVmname());
-		
-		assertNotEquals(0, actionInfo.hashCode());
-	}
+    @Test
+    public void testVFCHealActionVmInfo() {
+        VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
+        assertNotNull(actionInfo);
+        assertNotEquals(0, actionInfo.hashCode());
+
+        String vmid = "ECity";
+        actionInfo.setVmid(vmid);
+        assertEquals(vmid, actionInfo.getVmid());
+
+        String vmName = "Emerald City";
+        actionInfo.setVmname(vmName);
+        assertEquals(vmName, actionInfo.getVmname());
+
+        assertNotEquals(0, actionInfo.hashCode());
+    }
 }

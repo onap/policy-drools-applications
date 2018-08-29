@@ -60,23 +60,30 @@ public class ControlLoopPolicy {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ControlLoopPolicy other = (ControlLoopPolicy) obj;
         if (controlLoop == null) {
-            if (other.controlLoop != null)
+            if (other.controlLoop != null) {
                 return false;
-        } else if (!controlLoop.equals(other.controlLoop))
+            }
+        } else if (!controlLoop.equals(other.controlLoop)) {
             return false;
+        }
         if (policies == null) {
-            if (other.policies != null)
+            if (other.policies != null) {
                 return false;
-        } else if (!policies.equals(other.policies))
+            }
+        } else if (!policies.equals(other.policies)) {
             return false;
+        }
         return true;
     }
 

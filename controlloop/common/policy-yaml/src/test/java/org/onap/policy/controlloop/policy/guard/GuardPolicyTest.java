@@ -211,9 +211,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testEquals() {
-        String id = "guard id";
-        String name = "guard name";
-        String description = "guard description";
+        final String id = "guard id";
+        final String name = "guard name";
+        final String description = "guard description";
         GuardPolicy guardPolicy1 = new GuardPolicy(id);
         GuardPolicy guardPolicy2 = new GuardPolicy();
         assertFalse(guardPolicy1.equals(guardPolicy2));

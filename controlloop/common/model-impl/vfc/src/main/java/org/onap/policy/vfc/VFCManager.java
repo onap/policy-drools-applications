@@ -46,6 +46,12 @@ public final class VFCManager implements Runnable {
     // The REST manager used for processing REST calls for this VFC manager
     private RESTManager restManager;
 
+    /**
+     * Constructor.
+     * 
+     * @param wm Drools working memory
+     * @param request request
+     */
     public VFCManager(WorkingMemory wm, VFCRequest request) {
         if (wm == null || request == null) {
             throw new IllegalArgumentException(
@@ -61,6 +67,13 @@ public final class VFCManager implements Runnable {
                 PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
     }
 
+    /**
+     * Set the parameters.
+     * 
+     * @param baseUrl base URL
+     * @param name username
+     * @param pwd password
+     */
     public void setVFCParams(String baseUrl, String name, String pwd) {
         vfcUrlBase = baseUrl + "/api/nslcm/v1";
         username = name;
@@ -148,7 +161,7 @@ public final class VFCManager implements Runnable {
     }
 
     /**
-     * Protected setter for rest manager to allow mocked rest manager to be used for testing
+     * Protected setter for rest manager to allow mocked rest manager to be used for testing.
      * 
      * @param restManager the test REST manager
      */

@@ -20,15 +20,12 @@
 
 package org.onap.policy.vnf.trafficgenerator;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class PGStream implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5567635677419358210L;
 
     @SerializedName("id")

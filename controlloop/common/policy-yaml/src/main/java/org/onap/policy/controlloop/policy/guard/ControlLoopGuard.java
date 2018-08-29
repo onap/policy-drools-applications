@@ -48,9 +48,9 @@ public class ControlLoopGuard {
         this.guards = guards;
     }
 
-    public ControlLoopGuard(ControlLoopGuard cLGuard) {
+    public ControlLoopGuard(ControlLoopGuard clGuard) {
         this.guard = new Guard();
-        this.guards = new LinkedList<>(cLGuard.guards);
+        this.guards = new LinkedList<>(clGuard.guards);
     }
     
     @Override
@@ -69,23 +69,30 @@ public class ControlLoopGuard {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ControlLoopGuard other = (ControlLoopGuard) obj;
         if (guard == null) {
-            if (other.guard != null)
+            if (other.guard != null) {
                 return false;
-        } else if (!guard.equals(other.guard))
+            }
+        } else if (!guard.equals(other.guard)) {
             return false;
+        }
         if (guards == null) {
-            if (other.guards != null)
+            if (other.guards != null) {
                 return false;
-        } else if (!guards.equals(other.guards))
+            }
+        } else if (!guards.equals(other.guards)) {
             return false;
+        }
         return true;
     }
 
