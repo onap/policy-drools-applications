@@ -88,13 +88,13 @@ public final class AaiManager {
             return null;
         }
 
-        int httpResponseCode = httpDetails.a;
+        int httpResponseCode = httpDetails.first;
 
         logger.info(url);
         logger.info("{}", httpResponseCode);
-        logger.info(httpDetails.b);
+        logger.info(httpDetails.second);
 
-        if (httpDetails.b != null) {
+        if (httpDetails.second != null) {
             return composeResponse(httpDetails, url, AaiNqResponse.class);
         }
         return null;
@@ -174,11 +174,11 @@ public final class AaiManager {
                 return null;
             }
 
-            int httpResponseCode = httpDetailsGet.a;
+            int httpResponseCode = httpDetailsGet.first;
 
             logger.info(urlGet);
             logger.info("{}", httpResponseCode);
-            logger.info(httpDetailsGet.b);
+            logger.info(httpDetailsGet.second);
 
             if (httpResponseCode == 200) {
                 T responseGet = composeResponse(httpDetailsGet, urlGet, classOfResponse);
@@ -226,8 +226,8 @@ public final class AaiManager {
     private <T> T composeResponse(final Pair<Integer, String> httpDetails, final String url,
             final Class<T> classOfResponse) {
         try {
-            T response = Serialization.gsonPretty.fromJson(httpDetails.b, classOfResponse);
-            netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, httpDetails.b);
+            T response = Serialization.gsonPretty.fromJson(httpDetails.second, classOfResponse);
+            netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, httpDetails.second);
             return response;
         } catch (JsonSyntaxException e) {
             logger.error("postQuery threw: ", e);
