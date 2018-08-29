@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -211,9 +212,9 @@ public class GuardPolicyTest {
 
     @Test
     public void testEquals() {
-        String id = "guard id";
-        String name = "guard name";
-        String description = "guard description";
+        final String id = "guard id";
+        final String name = "guard name";
+        final String description = "guard description";
         GuardPolicy guardPolicy1 = new GuardPolicy(id);
         GuardPolicy guardPolicy2 = new GuardPolicy();
         assertFalse(guardPolicy1.equals(guardPolicy2));

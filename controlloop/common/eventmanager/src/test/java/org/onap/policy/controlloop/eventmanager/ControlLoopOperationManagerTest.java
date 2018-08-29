@@ -454,10 +454,10 @@ public class ControlLoopOperationManagerTest {
 
         clom.startOperation(onsetEvent);
 
-        assertEquals("actor=SO,operation=Restart,target=Target [type=VFC, resourceID=null],subRequestId=1",
+        assertEquals("actor=SO,operation=Restart,target=Target [type=VFC, resourceId=null],subRequestId=1",
                 clom.getOperationMessage());
         assertEquals(
-                "actor=SO,operation=Restart,target=Target [type=VFC, resourceID=null],subRequestId=1, Guard result: "
+                "actor=SO,operation=Restart,target=Target [type=VFC, resourceId=null],subRequestId=1, Guard result: "
                         + "The Wizard Escaped",
                 clom.getOperationMessage("The Wizard Escaped"));
 

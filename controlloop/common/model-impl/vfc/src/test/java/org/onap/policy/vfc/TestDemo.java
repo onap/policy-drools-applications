@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +67,7 @@ public class TestDemo {
         responseDescriptor.setErrorCode(null);
         responseDescriptor.setResponseId("11");
 
-	    response.getResponseDescriptor().setResponseHistoryList(new LinkedList<>());
+        response.getResponseDescriptor().setResponseHistoryList(new LinkedList<>());
         response.getResponseDescriptor().getResponseHistoryList().add(responseDescriptor);
 
         body = Serialization.gsonPretty.toJson(response);

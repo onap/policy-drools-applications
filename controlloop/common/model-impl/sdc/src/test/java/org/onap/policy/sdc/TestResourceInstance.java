@@ -33,7 +33,7 @@ public class TestResourceInstance {
     public void testConstructors() {
         ResourceInstance ri = new ResourceInstance();
         assertEquals(null, ri.getResourceInstanceName());
-        assertEquals(null, ri.getResourceUUID());
+        assertEquals(null, ri.getResourceUuid());
         assertEquals(null, ri.getResourceInvariantUUID());
         assertEquals(null, ri.getResourceName());
         assertEquals(null, ri.getResourceType());
@@ -41,7 +41,7 @@ public class TestResourceInstance {
 
         ResourceInstance ri2 = new ResourceInstance((ResourceInstance) null);
         assertEquals(null, ri2.getResourceInstanceName());
-        assertEquals(null, ri2.getResourceUUID());
+        assertEquals(null, ri2.getResourceUuid());
         assertEquals(null, ri2.getResourceInvariantUUID());
         assertEquals(null, ri2.getResourceName());
         assertEquals(null, ri2.getResourceType());
@@ -49,7 +49,7 @@ public class TestResourceInstance {
 
         ri2 = new ResourceInstance(ri);
         assertEquals(ri2.getResourceInstanceName(), ri.getResourceInstanceName());
-        assertEquals(ri2.getResourceUUID(), ri.getResourceUUID());
+        assertEquals(ri2.getResourceUuid(), ri.getResourceUuid());
         assertEquals(ri2.getResourceInvariantUUID(), ri.getResourceInvariantUUID());
         assertEquals(ri2.getResourceName(), ri.getResourceName());
         assertEquals(ri2.getResourceType(), ri.getResourceType());
@@ -68,8 +68,8 @@ public class TestResourceInstance {
     public void testUuid() {
         ResourceInstance ri = new ResourceInstance();
         UUID uuid = UUID.randomUUID();
-        ri.setResourceUUID(uuid);
-        assertEquals(uuid, ri.getResourceUUID());
+        ri.setResourceUuid(uuid);
+        assertEquals(uuid, ri.getResourceUuid());
     }
 
     @Test

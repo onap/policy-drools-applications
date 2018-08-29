@@ -3,6 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2017-2018 Intel Corp. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +69,7 @@ public class VFCControlLoopTest implements TopicListener {
 
     private static KieSession kieSession;
     private static Util.Pair<ControlLoopPolicy, String> pair;
-    private UUID requestID;
+    private UUID requestId;
 
     static {
         /* Set environment properties */
@@ -79,6 +80,9 @@ public class VFCControlLoopTest implements TopicListener {
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
+    /**
+     * Setup the simulator.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         PolicyEngine.manager.configure(new Properties());
@@ -108,7 +112,8 @@ public class VFCControlLoopTest implements TopicListener {
          */
         try {
             kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/"
+                    + "src/main/resources/__closedLoopControlName__.drl",
                     "src/test/resources/yaml/policy_ControlLoop_VFC.yaml", "type=operational", "CL_VoLTE", "v2.0");
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,6 +122,9 @@ public class VFCControlLoopTest implements TopicListener {
         }
     }
 
+    /**
+     * Tear down the simulator.
+     */
     @AfterClass
     public static void tearDownSimulator() {
 
@@ -146,13 +154,13 @@ public class VFCControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
+        sendEvent(pair.a, requestId, ControlLoopEventStatus.ONSET);
 
         kieSession.fireUntilHalt();
 
@@ -182,7 +190,7 @@ public class VFCControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
@@ -224,7 +232,7 @@ public class VFCControlLoopTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException
+     * @throws IOException IO Exception
      */
     private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
             String policyName, String policyVersion) throws IOException {
@@ -351,6 +359,11 @@ public class VFCControlLoopTest implements TopicListener {
         kieSession.insert(event);
     }
 
+    /**
+     * Dumps the kie session facts.
+     * 
+     * @param kieSession input session
+     */
     public static void dumpFacts(KieSession kieSession) {
         logger.debug("Fact Count: " + kieSession.getFactCount());
         for (FactHandle handle : kieSession.getFactHandles()) {

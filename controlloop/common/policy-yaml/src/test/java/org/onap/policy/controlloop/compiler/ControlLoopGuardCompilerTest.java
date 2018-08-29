@@ -88,6 +88,12 @@ public class ControlLoopGuardCompilerTest {
         }
     }
 
+    /**
+     * Does the actual test.
+     * 
+     * @param testFile input test file
+     * @throws Exception exception thrown
+     */
     public void test(String testFile) throws Exception {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             ControlLoopGuardCompiler.compile(is, null);

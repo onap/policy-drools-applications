@@ -20,6 +20,9 @@
 
 package org.onap.policy.controlloop.actor.so;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
@@ -45,9 +48,6 @@ import org.onap.policy.so.SORequestParameters;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.reflect.TypeToken;
 
 public class SOActorServiceProvider implements Actor {
     private static final Logger logger = LoggerFactory.getLogger(SOActorServiceProvider.class);

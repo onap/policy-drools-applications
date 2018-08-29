@@ -58,6 +58,12 @@ public enum FinalResult {
         this.result = result;
     }
     
+    /**
+     * Converts to a result object.
+     * 
+     * @param result input string
+     * @return result object
+     */
     public static FinalResult toResult(String result) {
         if (result.equalsIgnoreCase(FINAL_SUCCESS.toString())) {
             return FINAL_SUCCESS;
@@ -83,6 +89,13 @@ public enum FinalResult {
         return null;
     }
     
+    /**
+     * Check if the result really is a result.
+     * 
+     * @param result string
+     * @param finalResult result object
+     * @return true if a result
+     */
     public static boolean isResult(String result, FinalResult finalResult) {
         FinalResult toResult = FinalResult.toResult(result);
         if (toResult == null) {

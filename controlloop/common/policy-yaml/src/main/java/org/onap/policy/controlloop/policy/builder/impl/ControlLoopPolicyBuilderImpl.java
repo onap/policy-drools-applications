@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,12 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     private static Logger logger = LoggerFactory.getLogger(ControlLoopPolicyBuilderImpl.class.getName());
     private ControlLoopPolicy controlLoopPolicy;
 
+    /**
+     * Constructor.
+     * 
+     * @param controlLoopName control loop id
+     * @param timeout timeout value
+     */
     public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout) {
         controlLoopPolicy = new ControlLoopPolicy();
         ControlLoop controlLoop = new ControlLoop();
@@ -62,6 +68,15 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         controlLoopPolicy.setControlLoop(controlLoop);
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param controlLoopName control loop id
+     * @param timeout timeout value
+     * @param resource resource
+     * @param services services
+     * @throws BuilderException builder exception
+     */
     public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Resource resource, Service... services)
             throws BuilderException {
         this(controlLoopName, timeout);
@@ -74,6 +89,15 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         this.setPNF(pnf);
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param controlLoopName control loop id
+     * @param timeout timeout
+     * @param service service
+     * @param resources resources
+     * @throws BuilderException builder exception
+     */
     public ControlLoopPolicyBuilderImpl(String controlLoopName, Integer timeout, Service service, Resource[] resources)
             throws BuilderException {
         this(controlLoopName, timeout);
@@ -137,7 +161,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (resource == null) {
                 throw new BuilderException("Resource must not be null");
             }
-            if (resource.getResourceUUID() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
+            if (resource.getResourceUuid() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
                 throw new BuilderException("Invalid resource - need either resourceUUID or resourceName");
             }
             if (controlLoopPolicy.getControlLoop().getResources() == null) {
@@ -192,15 +216,29 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
+    public ControlLoop setTriggerPolicy(String id) throws BuilderException {
+        if (id == null) {
+            throw new BuilderException("Id must not be null");
+        }
+        Policy trigger = this.findPolicy(id);
+        if (trigger == null) {
+            throw new BuilderException(UNKNOWN_POLICY + id);
+        } else {
+            this.controlLoopPolicy.getControlLoop().setTrigger_policy(id);
+        }
+        return new ControlLoop(this.controlLoopPolicy.getControlLoop());
+    }
+
+    @Override
     public Policy setPolicyForPolicyResult(String name, String description, String actor, Target target, String recipe,
-            Map<String, String> payload, Integer retries, Integer timeout, String policyID, PolicyResult... results)
+            Map<String, String> payload, Integer retries, Integer timeout, String policyId, PolicyResult... results)
             throws BuilderException {
         //
         // Find the existing policy
         //
-        Policy existingPolicy = this.findPolicy(policyID);
+        Policy existingPolicy = this.findPolicy(policyId);
         if (existingPolicy == null) {
-            throw new BuilderException(UNKNOWN_POLICY + policyID);
+            throw new BuilderException(UNKNOWN_POLICY + policyId);
         }
         //
         // Create the new Policy
@@ -242,6 +280,49 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         // Return a policy to them
         //
         return new Policy(newPolicy);
+    }
+
+    @Override
+    public Policy setPolicyForPolicyResult(String policyResultId, String policyId, PolicyResult... results)
+            throws BuilderException {
+        //
+        // Find the existing policy
+        //
+        Policy existingPolicy = this.findPolicy(policyId);
+        if (existingPolicy == null) {
+            throw new BuilderException(policyId + " does not exist");
+        }
+        if (this.findPolicy(policyResultId) == null) {
+            throw new BuilderException("Operational policy " + policyResultId + " does not exist");
+        }
+        //
+        // Connect the results
+        //
+        for (PolicyResult result : results) {
+            switch (result) {
+                case FAILURE:
+                    existingPolicy.setFailure(policyResultId);
+                    break;
+                case FAILURE_EXCEPTION:
+                    existingPolicy.setFailure_exception(policyResultId);
+                    break;
+                case FAILURE_RETRIES:
+                    existingPolicy.setFailure_retries(policyResultId);
+                    break;
+                case FAILURE_TIMEOUT:
+                    existingPolicy.setFailure_timeout(policyResultId);
+                    break;
+                case FAILURE_GUARD:
+                    existingPolicy.setFailure_guard(policyResultId);
+                    break;
+                case SUCCESS:
+                    existingPolicy.setSuccess(policyResultId);
+                    break;
+                default:
+                    throw new BuilderException("Invalid PolicyResult " + result);
+            }
+        }
+        return new Policy(this.findPolicy(policyResultId));
     }
 
     private class BuilderCompilerCallback implements ControlLoopCompilerCallback {
@@ -318,7 +399,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
             if (resource == null) {
                 throw new BuilderException("Resource must not be null");
             }
-            if (resource.getResourceUUID() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
+            if (resource.getResourceUuid() == null && Strings.isNullOrEmpty(resource.getResourceName())) {
                 throw new BuilderException("Invalid resource - need either a resourceUUID or resourceName");
             }
             boolean removed = controlLoopPolicy.getControlLoop().getResources().remove(resource);
@@ -345,20 +426,6 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public ControlLoop setTriggerPolicy(String id) throws BuilderException {
-        if (id == null) {
-            throw new BuilderException("Id must not be null");
-        }
-        Policy trigger = this.findPolicy(id);
-        if (trigger == null) {
-            throw new BuilderException(UNKNOWN_POLICY + id);
-        } else {
-            this.controlLoopPolicy.getControlLoop().setTrigger_policy(id);
-        }
-        return new ControlLoop(this.controlLoopPolicy.getControlLoop());
-    }
-
-    @Override
     public boolean isOpenLoop() {
         return this.controlLoopPolicy.getControlLoop().getTrigger_policy()
                 .equals(FinalResult.FINAL_OPENLOOP.toString());
@@ -379,61 +446,18 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy setPolicyForPolicyResult(String policyResultID, String policyID, PolicyResult... results)
-            throws BuilderException {
-        //
-        // Find the existing policy
-        //
-        Policy existingPolicy = this.findPolicy(policyID);
+    public boolean removePolicy(String policyId) throws BuilderException {
+        Policy existingPolicy = this.findPolicy(policyId);
         if (existingPolicy == null) {
-            throw new BuilderException(policyID + " does not exist");
-        }
-        if (this.findPolicy(policyResultID) == null) {
-            throw new BuilderException("Operational policy " + policyResultID + " does not exist");
-        }
-        //
-        // Connect the results
-        //
-        for (PolicyResult result : results) {
-            switch (result) {
-                case FAILURE:
-                    existingPolicy.setFailure(policyResultID);
-                    break;
-                case FAILURE_EXCEPTION:
-                    existingPolicy.setFailure_exception(policyResultID);
-                    break;
-                case FAILURE_RETRIES:
-                    existingPolicy.setFailure_retries(policyResultID);
-                    break;
-                case FAILURE_TIMEOUT:
-                    existingPolicy.setFailure_timeout(policyResultID);
-                    break;
-                case FAILURE_GUARD:
-                    existingPolicy.setFailure_guard(policyResultID);
-                    break;
-                case SUCCESS:
-                    existingPolicy.setSuccess(policyResultID);
-                    break;
-                default:
-                    throw new BuilderException("Invalid PolicyResult " + result);
-            }
-        }
-        return new Policy(this.findPolicy(policyResultID));
-    }
-
-    @Override
-    public boolean removePolicy(String policyID) throws BuilderException {
-        Policy existingPolicy = this.findPolicy(policyID);
-        if (existingPolicy == null) {
-            throw new BuilderException(UNKNOWN_POLICY + policyID);
+            throw new BuilderException(UNKNOWN_POLICY + policyId);
         }
         //
         // Check if the policy to remove is trigger_policy
         //
-        if (this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(policyID)) {
+        if (this.controlLoopPolicy.getControlLoop().getTrigger_policy().equals(policyId)) {
             this.controlLoopPolicy.getControlLoop().setTrigger_policy(FinalResult.FINAL_OPENLOOP.toString());
         } else {
-            updateChainedPoliciesForPolicyRemoval(policyID);
+            updateChainedPoliciesForPolicyRemoval(policyId);
         }
         //
         // remove the policy
@@ -443,7 +467,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     private void updateChainedPoliciesForPolicyRemoval(String idOfPolicyBeingRemoved) {
         for (Policy policy : this.controlLoopPolicy.getPolicies()) {
-            int index = this.controlLoopPolicy.getPolicies().indexOf(policy);
+            final int index = this.controlLoopPolicy.getPolicies().indexOf(policy);
             if (policy.getSuccess().equals(idOfPolicyBeingRemoved)) {
                 policy.setSuccess(FinalResult.FINAL_SUCCESS.toString());
             }
@@ -467,10 +491,10 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy resetPolicyResults(String policyID) throws BuilderException {
-        Policy existingPolicy = this.findPolicy(policyID);
+    public Policy resetPolicyResults(String policyId) throws BuilderException {
+        Policy existingPolicy = this.findPolicy(policyId);
         if (existingPolicy == null) {
-            throw new BuilderException(UNKNOWN_POLICY + policyID);
+            throw new BuilderException(UNKNOWN_POLICY + policyId);
         }
         //
         // reset policy results
@@ -498,11 +522,11 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy addOperationsAccumulateParams(String policyID, OperationsAccumulateParams operationsAccumulateParams)
+    public Policy addOperationsAccumulateParams(String policyId, OperationsAccumulateParams operationsAccumulateParams)
             throws BuilderException {
-        Policy existingPolicy = this.findPolicy(policyID);
+        Policy existingPolicy = this.findPolicy(policyId);
         if (existingPolicy == null) {
-            throw new BuilderException(UNKNOWN_POLICY + policyID);
+            throw new BuilderException(UNKNOWN_POLICY + policyId);
         }
         //
         // Add operationsAccumulateParams to existingPolicy

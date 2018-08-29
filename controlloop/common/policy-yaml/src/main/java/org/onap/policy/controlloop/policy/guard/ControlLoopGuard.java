@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,9 +48,9 @@ public class ControlLoopGuard {
         this.guards = guards;
     }
 
-    public ControlLoopGuard(ControlLoopGuard cLGuard) {
+    public ControlLoopGuard(ControlLoopGuard clGuard) {
         this.guard = new Guard();
-        this.guards = new LinkedList<>(cLGuard.guards);
+        this.guards = new LinkedList<>(clGuard.guards);
     }
     
     @Override
@@ -69,23 +69,30 @@ public class ControlLoopGuard {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ControlLoopGuard other = (ControlLoopGuard) obj;
         if (guard == null) {
-            if (other.guard != null)
+            if (other.guard != null) {
                 return false;
-        } else if (!guard.equals(other.guard))
+            }
+        } else if (!guard.equals(other.guard)) {
             return false;
+        }
         if (guards == null) {
-            if (other.guards != null)
+            if (other.guards != null) {
                 return false;
-        } else if (!guards.equals(other.guards))
+            }
+        } else if (!guards.equals(other.guards)) {
             return false;
+        }
         return true;
     }
 
