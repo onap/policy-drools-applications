@@ -24,8 +24,6 @@ import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.features.PolicyControllerFeatureAPI;
 import org.onap.policy.drools.system.PolicyController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Feature that tracks Transactions by observing Notification Patterns.
@@ -35,7 +33,7 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
     /**
      * Feature Sequence Priority.
      */
-    public final static int FEATURE_SEQUENCE_PRIORITY = 100000;
+    public static final int FEATURE_SEQUENCE_PRIORITY = 100000;
 
     /**
      * Properties Configuration Name.
@@ -59,11 +57,6 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
     public boolean afterShutdown(PolicyController controller) {
         return false;
     }
-
-    /**
-     * Logger.
-     */
-    private static Logger logger = LoggerFactory.getLogger(ControlLoopMetricsFeature.class);
 
     /**
      * Intercept Control Loop Notifications.

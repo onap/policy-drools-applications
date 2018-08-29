@@ -32,26 +32,26 @@ public class TestResource {
     @Test
     public void testConstructors() {
         Resource res = new Resource();
-        assertEquals(null, res.getResourceUUID());
-        assertEquals(null, res.getResourceInvariantUUID());
+        assertEquals(null, res.getResourceUuid());
+        assertEquals(null, res.getResourceInvariantUuid());
         assertEquals(null, res.getResourceName());
         assertEquals(null, res.getResourceType());
         assertEquals(null, res.getResourceVersion());
 
         UUID uuid = UUID.randomUUID();
         res = new Resource(uuid);
-        assertEquals(uuid, res.getResourceUUID());
-        assertEquals(null, res.getResourceInvariantUUID());
+        assertEquals(uuid, res.getResourceUuid());
+        assertEquals(null, res.getResourceInvariantUuid());
         assertEquals(null, res.getResourceName());
         assertEquals(null, res.getResourceType());
         assertEquals(null, res.getResourceVersion());
 
         String name = "constTest";
         res = new Resource(name, ResourceType.CP);
-        assertEquals(null, res.getResourceUUID());
+        assertEquals(null, res.getResourceUuid());
         assertEquals(name, res.getResourceName());
         assertEquals(ResourceType.CP, res.getResourceType());
-        assertEquals(null, res.getResourceInvariantUUID());
+        assertEquals(null, res.getResourceInvariantUuid());
         assertEquals(null, res.getResourceVersion());
 
         uuid = UUID.randomUUID();
@@ -59,15 +59,15 @@ public class TestResource {
         name = "constTestUUID";
         String version = "0.0.1";
         res = new Resource(uuid, uuidInvariant, name, version, ResourceType.VF);
-        assertEquals(uuid, res.getResourceUUID());
-        assertEquals(uuidInvariant, res.getResourceInvariantUUID());
+        assertEquals(uuid, res.getResourceUuid());
+        assertEquals(uuidInvariant, res.getResourceInvariantUuid());
         assertEquals(name, res.getResourceName());
         assertEquals(ResourceType.VF, res.getResourceType());
         assertEquals(version, res.getResourceVersion());
 
         Resource r2 = new Resource(res);
-        assertEquals(uuid, r2.getResourceUUID());
-        assertEquals(uuidInvariant, r2.getResourceInvariantUUID());
+        assertEquals(uuid, r2.getResourceUuid());
+        assertEquals(uuidInvariant, r2.getResourceInvariantUuid());
         assertEquals(name, r2.getResourceName());
         assertEquals(ResourceType.VF, r2.getResourceType());
         assertEquals(version, r2.getResourceVersion());
@@ -77,16 +77,16 @@ public class TestResource {
     public void testUuid() {
         Resource res = new Resource();
         UUID uuid = UUID.randomUUID();
-        res.setResourceUUID(uuid);
-        assertEquals(uuid, res.getResourceUUID());
+        res.setResourceUuid(uuid);
+        assertEquals(uuid, res.getResourceUuid());
     }
 
     @Test
     public void testInvariantUuid() {
         Resource res = new Resource();
         UUID uuid = UUID.randomUUID();
-        res.setResourceInvariantUUID(uuid);
-        assertEquals(uuid, res.getResourceInvariantUUID());
+        res.setResourceInvariantUuid(uuid);
+        assertEquals(uuid, res.getResourceInvariantUuid());
     }
 
     @Test

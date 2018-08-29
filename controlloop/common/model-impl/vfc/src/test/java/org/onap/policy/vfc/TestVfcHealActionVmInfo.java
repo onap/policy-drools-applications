@@ -3,6 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,32 +21,28 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
-
-import java.util.UUID;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-public class TestVFCRequest {
+public class TestVfcHealActionVmInfo {
 
-	@Test
-	public void testVFCRequest() {
-		VFCRequest request = new VFCRequest();
-		assertNotNull(request);
-		assertNotEquals(0, request.hashCode());
-		
-		String nsInstanceId = "Dorothy";
-		request.setNSInstanceId(nsInstanceId);
-		assertEquals(nsInstanceId, request.getNSInstanceId());
-		
-		UUID requestId = UUID.randomUUID();
-		request.setRequestId(requestId);
-		assertEquals(requestId, request.getRequestId());
-		
-		VFCHealRequest healRequest = new VFCHealRequest();
-		request.setHealRequest(healRequest);
-		assertEquals(healRequest, request.getHealRequest());
-		
-		assertNotEquals(0, request.hashCode());
-	}
+    @Test
+    public void testVfcHealActionVmInfo() {
+        VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
+        assertNotNull(actionInfo);
+        assertNotEquals(0, actionInfo.hashCode());
+
+        String vmid = "ECity";
+        actionInfo.setVmid(vmid);
+        assertEquals(vmid, actionInfo.getVmid());
+
+        String vmName = "Emerald City";
+        actionInfo.setVmname(vmName);
+        assertEquals(vmName, actionInfo.getVmname());
+
+        assertNotEquals(0, actionInfo.hashCode());
+    }
 }

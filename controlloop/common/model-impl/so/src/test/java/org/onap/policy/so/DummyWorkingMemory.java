@@ -17,6 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.so;
 
 import java.util.Collection;
@@ -50,7 +51,23 @@ public class DummyWorkingMemory implements WorkingMemory {
     }
 
     @Override
+    public void addEventListener(AgendaEventListener listener) {
+    }
+
+    @Override
+    public void addEventListener(KieBaseEventListener listener) {
+    }
+
+    @Override
     public void removeEventListener(RuleRuntimeEventListener listener) {
+    }
+
+    @Override
+    public void removeEventListener(AgendaEventListener listener) {
+    }
+
+    @Override
+    public void removeEventListener(KieBaseEventListener listener) {
     }
 
     @Override
@@ -59,24 +76,8 @@ public class DummyWorkingMemory implements WorkingMemory {
     }
 
     @Override
-    public void addEventListener(AgendaEventListener listener) {
-    }
-
-    @Override
-    public void removeEventListener(AgendaEventListener listener) {
-    }
-
-    @Override
     public Collection<AgendaEventListener> getAgendaEventListeners() {
         return null;
-    }
-
-    @Override
-    public void addEventListener(KieBaseEventListener listener) {
-    }
-
-    @Override
-    public void removeEventListener(KieBaseEventListener listener) {
     }
 
     @Override
@@ -90,16 +91,16 @@ public class DummyWorkingMemory implements WorkingMemory {
     }
 
     @Override
+    public FactHandle insert(Object object) {
+        return null;
+    }
+
+    @Override
     public void dispose() {
     }
 
     @Override
     public String getEntryPointId() {
-        return null;
-    }
-
-    @Override
-    public FactHandle insert(Object object) {
         return null;
     }
 

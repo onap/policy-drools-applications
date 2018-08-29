@@ -3,6 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,30 +21,34 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.UUID;
 
 import org.junit.Test;
 
-public class TestVFCResponse {
+public class TestVfcRequest {
 
-	@Test
-	public void testVFCResponse() {
-		VFCResponse response = new VFCResponse();
-		assertNotNull(response);
-		assertNotEquals(0, response.hashCode());
+    @Test
+    public void testVfcRequest() {
+        VFCRequest request = new VFCRequest();
+        assertNotNull(request);
+        assertNotEquals(0, request.hashCode());
 
-		String jobId = "GetToOz";
-		response.setJobId(jobId);
-		assertEquals(jobId, response.getJobId());
-		
-		String requestId = "Get Home";
-		response.setRequestId(requestId);
-		assertEquals(requestId, response.getRequestId());
-		
-		VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
-		response.setResponseDescriptor(responseDescriptor);
-		assertEquals(responseDescriptor, response.getResponseDescriptor());
-		
-		assertNotEquals(0, response.hashCode());
-	}
+        String nsInstanceId = "Dorothy";
+        request.setNSInstanceId(nsInstanceId);
+        assertEquals(nsInstanceId, request.getNSInstanceId());
+
+        UUID requestId = UUID.randomUUID();
+        request.setRequestId(requestId);
+        assertEquals(requestId, request.getRequestId());
+
+        VFCHealRequest healRequest = new VFCHealRequest();
+        request.setHealRequest(healRequest);
+        assertEquals(healRequest, request.getHealRequest());
+
+        assertNotEquals(0, request.hashCode());
+    }
 }

@@ -62,7 +62,7 @@ import org.slf4j.LoggerFactory;
 
 public class ControlLoopFailureTest implements TopicListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(VCPEControlLoopTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControlLoopFailureTest.class);
 
     private static List<? extends TopicSink> noopTopics;
 
@@ -75,11 +75,14 @@ public class ControlLoopFailureTest implements TopicListener {
 
     static {
         /* Set environment properties */
-        Util.setAAIProps();
+        Util.setAaiProps();
         Util.setGuardProps();
-        Util.setPUProp();
+        Util.setPuProp();
     }
 
+    /**
+     * Setup simulator.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         PolicyEngine.manager.configure(new Properties());
@@ -112,7 +115,8 @@ public class ControlLoopFailureTest implements TopicListener {
          */
         try {
             kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
+                    + "/src/main/resources/__closedLoopControlName__.drl",
                     "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vCPE",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
@@ -123,6 +127,9 @@ public class ControlLoopFailureTest implements TopicListener {
         }
     }
 
+    /**
+     * Tear down simulator.
+     */
     @AfterClass
     public static void tearDownSimulator() {
         /*
@@ -176,12 +183,12 @@ public class ControlLoopFailureTest implements TopicListener {
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.a, requestId, ControlLoopEventStatus.ONSET, "vnf01");
+        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vnf01");
 
         /*
          * Send a second event requesting an action for a different target entity
          */
-        sendEvent(pair.a, requestId2, ControlLoopEventStatus.ONSET, "vnf02");
+        sendEvent(pair.first, requestId2, ControlLoopEventStatus.ONSET, "vnf02");
 
         /*
          * Send a second event for a different target to ensure there are no problems with obtaining
@@ -210,7 +217,7 @@ public class ControlLoopFailureTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException
+     * @throws IOException throws IO exception
      */
     private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
             String policyName, String policyVersion) throws IOException {
@@ -220,23 +227,24 @@ public class ControlLoopFailureTest implements TopicListener {
          */
         pair = Util.loadYaml(yamlFile);
         assertNotNull(pair);
-        assertNotNull(pair.a);
-        assertNotNull(pair.a.getControlLoop());
-        assertNotNull(pair.a.getControlLoop().getControlLoopName());
-        assertTrue(pair.a.getControlLoop().getControlLoopName().length() > 0);
+        assertNotNull(pair.first);
+        assertNotNull(pair.first.getControlLoop());
+        assertNotNull(pair.first.getControlLoop().getControlLoopName());
+        assertTrue(pair.first.getControlLoop().getControlLoopName().length() > 0);
 
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = Util.buildContainer(droolsTemplate, pair.a.getControlLoop().getControlLoopName(),
-                policyScope, policyName, policyVersion, URLEncoder.encode(pair.b, "UTF-8"));
+        final KieSession kieSession = Util.buildContainer(droolsTemplate, 
+                pair.first.getControlLoop().getControlLoopName(),
+                policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
 
         /*
          * Retrieve the Policy Engine
          */
 
         logger.debug("============");
-        logger.debug(URLEncoder.encode(pair.b, "UTF-8"));
+        logger.debug(URLEncoder.encode(pair.second, "UTF-8"));
         logger.debug("============");
 
         return kieSession;
@@ -294,9 +302,9 @@ public class ControlLoopFailureTest implements TopicListener {
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=APPC"));
                 if (requestId.equals(notification.getRequestId())) {
-                    sendEvent(pair.a, requestId, ControlLoopEventStatus.ABATED, "vnf01");
+                    sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED, "vnf01");
                 } else if (requestId2.equals(notification.getRequestId())) {
-                    sendEvent(pair.a, requestId2, ControlLoopEventStatus.ABATED, "vnf02");
+                    sendEvent(pair.first, requestId2, ControlLoopEventStatus.ABATED, "vnf02");
                 }
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
@@ -341,7 +349,7 @@ public class ControlLoopFailureTest implements TopicListener {
              * will be denied
              */
             if (requestId.equals(appcResponse.getCommonHeader().getRequestId())) {
-                sendEvent(pair.a, requestId3, ControlLoopEventStatus.ONSET, "vnf01");
+                sendEvent(pair.first, requestId3, ControlLoopEventStatus.ONSET, "vnf01");
             }
             kieSession.insert(dmaapResponse);
         }
@@ -354,12 +362,12 @@ public class ControlLoopFailureTest implements TopicListener {
      * @param policy the controlLoopName comes from the policy
      * @param requestID the requestId for this event
      * @param status could be onset or abated
-     * @param target, the target entity to take an action on
+     * @param target the target entity to take an action on
      */
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String target) {
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status, String target) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
-        event.setRequestId(requestID);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-id");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());

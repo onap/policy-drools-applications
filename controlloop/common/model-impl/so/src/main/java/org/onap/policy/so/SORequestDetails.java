@@ -20,11 +20,12 @@
 
 package org.onap.policy.so;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import com.google.gson.annotations.SerializedName;
 
 public class SORequestDetails implements Serializable {
 
@@ -55,6 +56,11 @@ public class SORequestDetails implements Serializable {
 
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param soRequestDetails copy object
+     */
     public SORequestDetails(SORequestDetails soRequestDetails) {
         this.modelInfo = soRequestDetails.modelInfo;
         this.cloudConfiguration = soRequestDetails.cloudConfiguration;
@@ -66,48 +72,65 @@ public class SORequestDetails implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         SORequestDetails other = (SORequestDetails) obj;
         if (cloudConfiguration == null) {
-            if (other.cloudConfiguration != null)
+            if (other.cloudConfiguration != null) {
                 return false;
-        } else if (!cloudConfiguration.equals(other.cloudConfiguration))
+            }
+        } else if (!cloudConfiguration.equals(other.cloudConfiguration)) {
             return false;
+        }
         if (configurationParameters == null) {
-            if (other.configurationParameters != null)
+            if (other.configurationParameters != null) {
                 return false;
-        } else if (!configurationParameters.equals(other.configurationParameters))
+            }
+        } else if (!configurationParameters.equals(other.configurationParameters)) {
             return false;
+        }
         if (modelInfo == null) {
-            if (other.modelInfo != null)
+            if (other.modelInfo != null) {
                 return false;
-        } else if (!modelInfo.equals(other.modelInfo))
+            }
+        } else if (!modelInfo.equals(other.modelInfo)) {
             return false;
+        }
         if (relatedInstanceList == null) {
-            if (other.relatedInstanceList != null)
+            if (other.relatedInstanceList != null) {
                 return false;
-        } else if (!relatedInstanceList.equals(other.relatedInstanceList))
+            }
+        } else if (!relatedInstanceList.equals(other.relatedInstanceList)) {
             return false;
+        }
         if (requestInfo == null) {
-            if (other.requestInfo != null)
+            if (other.requestInfo != null) {
                 return false;
-        } else if (!requestInfo.equals(other.requestInfo))
+            }
+        } else if (!requestInfo.equals(other.requestInfo)) {
             return false;
+        }
         if (requestParameters == null) {
-            if (other.requestParameters != null)
+            if (other.requestParameters != null) {
                 return false;
-        } else if (!requestParameters.equals(other.requestParameters))
+            }
+        } else if (!requestParameters.equals(other.requestParameters)) {
             return false;
+        }
         if (subscriberInfo == null) {
-            if (other.subscriberInfo != null)
+            if (other.subscriberInfo != null) {
                 return false;
-        } else if (!subscriberInfo.equals(other.subscriberInfo))
+            }
+        } else if (!subscriberInfo.equals(other.subscriberInfo)) {
             return false;
+        }
         return true;
     }
 

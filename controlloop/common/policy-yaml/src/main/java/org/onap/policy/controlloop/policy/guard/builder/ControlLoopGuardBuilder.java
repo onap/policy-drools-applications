@@ -31,64 +31,57 @@ import org.onap.policy.controlloop.policy.guard.builder.impl.ControlLoopGuardBui
 public interface ControlLoopGuardBuilder {
     
     /**
-     * Adds one or more guard policies to the Control Loop Guard
+     * Adds one or more guard policies to the Control Loop Guard.
      * 
-     * 
-     * @param policies
-     * @return 
-     * @throws BuilderException
+     * @param policies policies to add
+     * @return  builder object
+     * @throws BuilderException builder exception
      */
     public ControlLoopGuardBuilder  addGuardPolicy(GuardPolicy... policies) throws BuilderException;
     
     /**
-     * Removes one or more guard policies from the Control Loop Guard
+     * Removes one or more guard policies from the Control Loop Guard.
      * 
-     * 
-     * @param policies
-     * @return 
-     * @throws BuilderException
+     * @param policies policies to add
+     * @return  builder object
+     * @throws BuilderException builder exception
      */
     public ControlLoopGuardBuilder  removeGuardPolicy(GuardPolicy... policies) throws BuilderException;
     
     /**
-     * Removes all guard policies from the Control Loop Guard
+     * Removes all guard policies from the Control Loop Guard.
      * 
-     * 
-     * @param 
-     * @return 
-     * @throws BuilderException
+     * @return  builder object
+     * @throws BuilderException builder exception
      */
     public ControlLoopGuardBuilder  removeAllGuardPolicies() throws BuilderException;
     
     /**
-     * Adds one or more time limit constraints to the guard policy
-     * 
+     * Adds one or more time limit constraints to the guard policy.
      * 
      * @param id (guard policy id)
-     * @param constraints
-     * @return 
-     * @throws BuilderException
+     * @param constraints the constraints to add
+     * @return builder object
+     * @throws BuilderException builder exception
      */
     public ControlLoopGuardBuilder  addLimitConstraint(String id, Constraint... constraints) throws BuilderException;
     
     /**
-     * Removes one or more time limit constraints from the guard policy
-     * 
+     * Removes one or more time limit constraints from the guard policy.
      * 
      * @param id (guard policy id)
-     * @param constraints
-     * @return 
-     * @throws BuilderException
+     * @param constraints constraints to remove
+     * @return builder object
+     * @throws BuilderException builder exception
      */
     public ControlLoopGuardBuilder  removeLimitConstraint(String id, Constraint... constraints) throws BuilderException;
     
     /**
-     * Removes all time limit constraints from the guard policy
-     * 
+     * Removes all time limit constraints from the guard policy.
      * 
      * @param id (guard policy id)
-     * @return 
-     * @throws BuilderException
+     * @return builder object
+     * @throws BuilderException builder exception
      */
     public ControlLoopGuardBuilder  removeAllLimitConstraints(String id) throws BuilderException;
     

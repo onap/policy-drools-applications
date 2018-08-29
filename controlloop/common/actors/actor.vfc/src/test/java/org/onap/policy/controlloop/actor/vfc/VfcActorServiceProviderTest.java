@@ -3,6 +3,7 @@
  * TestVFCActorServiceProvider
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corp. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +41,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VFCRequest;
 
-public class TestVFCActorServiceProvider {
+public class VfcActorServiceProviderTest {
 
     /**
      * Set up for test class.

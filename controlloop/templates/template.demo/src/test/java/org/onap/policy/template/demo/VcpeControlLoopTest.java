@@ -38,9 +38,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
-import org.onap.policy.appc.Request;
-import org.onap.policy.appc.Response;
-import org.onap.policy.appc.ResponseCode;
+import org.onap.policy.appclcm.LcmRequest;
+import org.onap.policy.appclcm.LcmRequestWrapper;
+import org.onap.policy.appclcm.LcmResponse;
+import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
@@ -49,6 +50,7 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -60,33 +62,36 @@ import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VFWControlLoopTest implements TopicListener {
+public class VcpeControlLoopTest implements TopicListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(VFWControlLoopTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(VcpeControlLoopTest.class);
 
     private static List<? extends TopicSink> noopTopics;
 
     private static KieSession kieSession;
     private static Util.Pair<ControlLoopPolicy, String> pair;
-    private UUID requestID;
+    private UUID requestId;
 
     static {
         /* Set environment properties */
-        Util.setAAIProps();
+        Util.setAaiProps();
         Util.setGuardProps();
-        Util.setPUProp();
+        Util.setPuProp();
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
+    /**
+     * Setup the simulator.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         PolicyEngine.manager.configure(new Properties());
         assertTrue(PolicyEngine.manager.start());
         Properties noopSinkProperties = new Properties();
-        noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-CL,POLICY-CL-MGT");
-        noopSinkProperties.put("noop.sink.topics.APPC-CL.events", "org.onap.policy.appc.Response");
-        noopSinkProperties.put("noop.sink.topics.APPC-CL.events.custom.gson",
-                "org.onap.policy.appc.util.Serialization,gsonPretty");
+        noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-LCM-READ,POLICY-CL-MGT");
+        noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events", "org.onap.policy.appclcm.LcmRequestWrapper");
+        noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events.custom.gson",
+                "org.onap.policy.appclcm.util.Serialization,gson");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events",
                 "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
@@ -96,24 +101,23 @@ public class VFWControlLoopTest implements TopicListener {
         EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "POLICY-CL-MGT",
                 "org.onap.policy.controlloop.VirtualControlLoopNotification", new JsonProtocolFilter(), null, null,
                 1111);
-        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "APPC-CL",
-                "org.onap.policy.appc.Request", new JsonProtocolFilter(), null, null, 1111);
-
+        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "APPC-LCM-READ",
+                "org.onap.policy.appclcm.LcmRequestWrapper", new JsonProtocolFilter(), null, null, 1111);
         try {
             Util.buildAaiSim();
             Util.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
-
         /*
          * Start the kie session
          */
         try {
             kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_vFW.yaml",
-                    "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vFW",
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
+                    + "/src/main/resources/__closedLoopControlName__.drl",
+                    "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
+                    "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vCPE",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,6 +126,9 @@ public class VFWControlLoopTest implements TopicListener {
         }
     }
 
+    /**
+     * Tear down the simulator.
+     */
     @AfterClass
     public static void tearDownSimulator() {
         /*
@@ -150,22 +157,15 @@ public class VFWControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
+        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vCPEInfraVNF13", true);
 
-        try {
-            kieSession.fireUntilHalt();
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.warn(e.toString());
-            fail("fail");
-        }
-
+        kieSession.fireUntilHalt();
 
         /*
          * The only fact in memory should be Params
@@ -179,7 +179,7 @@ public class VFWControlLoopTest implements TopicListener {
     }
 
     @Test
-    public void aaiFailTests() {
+    public void aaiGetFailTest() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready
@@ -193,20 +193,16 @@ public class VFWControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "error");
-        try {
-            kieSession.fireUntilHalt();
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.warn(e.toString());
-            fail(e.getMessage());
-        }
+        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "getFail", false);
+
+
+        kieSession.fireUntilHalt();
 
         /*
          * The only fact in memory should be Params
@@ -218,35 +214,6 @@ public class VFWControlLoopTest implements TopicListener {
          */
         dumpFacts(kieSession);
 
-        /*
-         * Create a unique requestId
-         */
-        requestID = UUID.randomUUID();
-
-        /*
-         * Simulate an onset event the policy engine will receive from DCAE to kick off processing
-         * through the rules
-         */
-
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "getFail");
-
-        try {
-            kieSession.fireUntilHalt();
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.warn(e.toString());
-            fail(e.getMessage());
-        }
-
-        /*
-         * The only fact in memory should be Params
-         */
-        assertEquals(1, kieSession.getFactCount());
-
-        /*
-         * Print what's left in memory
-         */
-        dumpFacts(kieSession);
     }
 
     /**
@@ -258,7 +225,7 @@ public class VFWControlLoopTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException
+     * @throws IOException IO exception
      */
     private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
             String policyName, String policyVersion) throws IOException {
@@ -268,29 +235,32 @@ public class VFWControlLoopTest implements TopicListener {
          */
         pair = Util.loadYaml(yamlFile);
         assertNotNull(pair);
-        assertNotNull(pair.a);
-        assertNotNull(pair.a.getControlLoop());
-        assertNotNull(pair.a.getControlLoop().getControlLoopName());
-        assertTrue(pair.a.getControlLoop().getControlLoopName().length() > 0);
+        assertNotNull(pair.first);
+        assertNotNull(pair.first.getControlLoop());
+        assertNotNull(pair.first.getControlLoop().getControlLoopName());
+        assertTrue(pair.first.getControlLoop().getControlLoopName().length() > 0);
 
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = Util.buildContainer(droolsTemplate, pair.a.getControlLoop().getControlLoopName(),
-                policyScope, policyName, policyVersion, URLEncoder.encode(pair.b, "UTF-8"));
+        final KieSession kieSession = Util.buildContainer(droolsTemplate, 
+                pair.first.getControlLoop().getControlLoopName(),
+                policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
 
         /*
          * Retrieve the Policy Engine
          */
 
         logger.debug("============");
-        logger.debug(URLEncoder.encode(pair.b, "UTF-8"));
+        logger.debug(URLEncoder.encode(pair.second, "UTF-8"));
         logger.debug("============");
 
         return kieSession;
     }
 
     /*
+     * (non-Javadoc)
+     * 
      * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
      */
     @Override
@@ -303,9 +273,9 @@ public class VFWControlLoopTest implements TopicListener {
         if ("POLICY-CL-MGT".equals(topic)) {
             obj = org.onap.policy.controlloop.util.Serialization.gsonJunit.fromJson(event,
                     org.onap.policy.controlloop.VirtualControlLoopNotification.class);
-        } else if ("APPC-CL".equals(topic)) {
-            obj = org.onap.policy.appc.util.Serialization.gsonPretty.fromJson(event,
-                    org.onap.policy.appc.Request.class);
+        } else if ("APPC-LCM-READ".equals(topic)) {
+            obj = org.onap.policy.appclcm.util.Serialization.gsonJunit.fromJson(event,
+                    org.onap.policy.appclcm.LcmRequestWrapper.class);
         }
         assertNotNull(obj);
         if (obj instanceof VirtualControlLoopNotification) {
@@ -334,42 +304,47 @@ public class VFWControlLoopTest implements TopicListener {
                 kieSession.halt();
                 logger.debug("The operation timed out");
                 fail("Operation Timed Out");
-            } else if (policyName.endsWith("APPC.RESPONSE")) {
+            } else if (policyName.endsWith("APPC.LCM.RESPONSE")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=APPC"));
-                sendEvent(pair.a, requestID, ControlLoopEventStatus.ABATED);
+                sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED);
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
-                if ("error".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
+                if ("getFail".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
                     assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
-                    assertEquals("Target vnf-id could not be found", notification.getMessage());
-                } else if ("getFail".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
-                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
+                    kieSession.halt();
                 } else {
-                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
+                    assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, notification.getNotification());
+                    kieSession.halt();
                 }
-                kieSession.halt();
             } else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 kieSession.halt();
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
             }
-        } else if (obj instanceof Request) {
-            assertTrue(((Request) obj).getCommonHeader().getSubRequestId().equals("1"));
-            assertNotNull(((Request) obj).getPayload().get("generic-vnf.vnf-id"));
+        } else if (obj instanceof LcmRequestWrapper) {
+            /*
+             * The request should be of type LcmRequestWrapper and the subrequestid should be 1
+             */
+            LcmRequestWrapper dmaapRequest = (LcmRequestWrapper) obj;
+            LcmRequest appcRequest = dmaapRequest.getBody();
+            assertTrue(appcRequest.getCommonHeader().getSubRequestId().equals("1"));
+            assertNotNull(appcRequest.getActionIdentifiers().get("vnf-id"));
 
             logger.debug("\n============ APPC received the request!!! ===========\n");
 
             /*
              * Simulate a success response from APPC and insert the response into the working memory
              */
-            Response appcResponse = new Response((Request) obj);
-            appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
-            appcResponse.getStatus().setValue("SUCCESS");
-            kieSession.insert(appcResponse);
+            LcmResponseWrapper dmaapResponse = new LcmResponseWrapper();
+            LcmResponse appcResponse = new LcmResponse(appcRequest);
+            appcResponse.getStatus().setCode(400);
+            appcResponse.getStatus().setMessage("AppC success");
+            dmaapResponse.setBody(appcResponse);
+            kieSession.insert(dmaapResponse);
         }
     }
 
@@ -381,34 +356,38 @@ public class VFWControlLoopTest implements TopicListener {
      * @param requestID the requestId for this event
      * @param status could be onset or abated
      */
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status) {
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
-        event.setRequestId(requestID);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-name");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
-        event.getAai().put("generic-vnf.vnf-name", "testGenericVnfID");
+        event.getAai().put("generic-vnf.vnf-name", "testGenericVnfName");
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
 
-    /**
-     * This method is used to simulate event messages from DCAE that start the control loop (onset
-     * message) or end the control loop (abatement message).
-     * 
-     * @param policy the controlLoopName comes from the policy
-     * @param requestID the requestId for this event
-     * @param status could be onset or abated
-     */
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestID, ControlLoopEventStatus status, String vnfId) {
+    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status, String vnfName,
+            boolean isEnriched) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
-        event.setRequestId(requestID);
+        event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-name");
+        event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
-        event.getAai().put("generic-vnf.vnf-name", vnfId);
+        event.getAai().put("generic-vnf.vnf-name", vnfName);
+        if (isEnriched) {
+            event.getAai().put("generic-vnf.in-maint", "false");
+            event.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
+            event.getAai().put("generic-vnf.orchestration-status", "Created");
+            event.getAai().put("generic-vnf.prov-status", "ACTIVE");
+            event.getAai().put("generic-vnf.resource-version", "1");
+            event.getAai().put("generic-vnf.service-id", "e8cb8968-5411-478b-906a-f28747de72cd");
+            event.getAai().put("generic-vnf.vnf-id", "63b31229-9a3a-444f-9159-04ce2dca3be9");
+            event.getAai().put("generic-vnf.vnf-type", "vCPEInfraService10/vCPEInfraService10 0");
+        }
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
@@ -424,4 +403,5 @@ public class VFWControlLoopTest implements TopicListener {
             logger.debug("FACT: {}", handle);
         }
     }
+
 }

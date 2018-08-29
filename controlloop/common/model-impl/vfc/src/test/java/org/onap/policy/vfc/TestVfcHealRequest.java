@@ -3,6 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,30 +21,32 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-public class TestVFCHealRequest {
+public class TestVfcHealRequest {
 
-	@Test
-	public void testVFCHealRequest() {
-		VFCHealRequest request = new VFCHealRequest();
-		assertNotNull(request);
-		assertNotEquals(0, request.hashCode());
-		
-		String vnfInstanceId = "Go To Oz";
-		request.setVnfInstanceId(vnfInstanceId);
-		assertEquals(vnfInstanceId, request.getVnfInstanceId());
-		
-		String cause = "West Witch";
-		request.setCause(cause);
-		assertEquals(cause, request.getCause());
-		
-		VFCHealAdditionalParams additionalParams= new VFCHealAdditionalParams();
-		request.setAdditionalParams(additionalParams);
-		assertEquals(additionalParams, request.getAdditionalParams());
-		
-		assertNotEquals(0, request.hashCode());
-	}
+    @Test
+    public void testVfcHealRequest() {
+        VFCHealRequest request = new VFCHealRequest();
+        assertNotNull(request);
+        assertNotEquals(0, request.hashCode());
+
+        String vnfInstanceId = "Go To Oz";
+        request.setVnfInstanceId(vnfInstanceId);
+        assertEquals(vnfInstanceId, request.getVnfInstanceId());
+
+        String cause = "West Witch";
+        request.setCause(cause);
+        assertEquals(cause, request.getCause());
+
+        VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
+        request.setAdditionalParams(additionalParams);
+        assertEquals(additionalParams, request.getAdditionalParams());
+
+        assertNotEquals(0, request.hashCode());
+    }
 }

@@ -20,7 +20,9 @@
 
 package org.onap.policy.controlloop.compiler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -166,6 +168,14 @@ public class ControlLoopCompilerTest {
         return test(testFile, null);
     }
 
+    /**
+     * Does the actual test.
+     * 
+     * @param testFile test file
+     * @param controlLoopCompilerCallback callback method
+     * @return the policy object
+     * @throws Exception exception
+     */
     public ControlLoopPolicy test(String testFile, 
                     ControlLoopCompilerCallback controlLoopCompilerCallback) throws Exception {
         try (InputStream is = new FileInputStream(new File(testFile))) {

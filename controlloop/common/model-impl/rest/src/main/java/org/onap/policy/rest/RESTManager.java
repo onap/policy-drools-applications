@@ -51,6 +51,17 @@ public class RESTManager {
         }
     }
 
+    /**
+     * Perform REST Post.
+     * 
+     * @param url the url
+     * @param username the user name
+     * @param password the password
+     * @param headers any headers
+     * @param contentType what the content type is
+     * @param body body to send
+     * @return the response status code and the body
+     */
     public Pair<Integer, String> post(String url, String username, String password,
             Map<String, String> headers, String contentType, String body) {
 
@@ -77,7 +88,7 @@ public class RESTManager {
                 }
             }
             post.addHeader("Content-Type", contentType);            
-            if(authHeader != null) {
+            if (authHeader != null) {
                 post.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
             }
 
@@ -107,6 +118,15 @@ public class RESTManager {
         }
     }
 
+    /**
+     * Do a REST get.
+     * 
+     * @param url URL
+     * @param username user name
+     * @param password password
+     * @param headers any headers to add
+     * @return a Pair for the response status and the body
+     */
     public Pair<Integer, String> get(String url, String username, String password,
             Map<String, String> headers) {
 
@@ -124,7 +144,7 @@ public class RESTManager {
                     get.addHeader(entry.getKey(), headers.get(entry.getKey()));
                 }
             }           
-            if(authHeader != null) {
+            if (authHeader != null) {
                 get.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
             }
 
