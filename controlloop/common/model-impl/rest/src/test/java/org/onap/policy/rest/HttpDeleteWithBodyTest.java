@@ -1,15 +1,15 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * 
+ * Copyright (C) 2018 Amdocs. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,20 +23,14 @@ package org.onap.policy.rest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.onap.policy.rest.RESTManager.Pair;
 
-public class TestPair {
+public class HttpDeleteWithBodyTest {
 
     @Test
-    public void testPair() {
-        RESTManager mgr = new RESTManager();
-
-        Pair<Integer, Integer> pii = mgr.new Pair<>(1, 2);
-        assertEquals((Integer) 1, (Integer) pii.first);
-        assertEquals((Integer) 2, (Integer) pii.second);
-
-        Pair<Integer, String> pis = mgr.new Pair<>(1, "test");
-        assertEquals((Integer) 1, (Integer) pis.first);
-        assertEquals("test", pis.second);
+    public void getMethod() {
+        String url = "http://www.example.org";
+        HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(url);
+        assertEquals("DELETE", deleteWithBody.getMethod());
+        assertEquals(url, deleteWithBody.getURI().toString());
     }
 }
