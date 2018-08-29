@@ -108,14 +108,14 @@ public final class VFCManager implements Runnable {
             return;
         }
 
-        if (httpDetails.a != 202) {
+        if (httpDetails.first != 202) {
             logger.warn("VFC Heal Restcall failed");
             return;
         }
 
         try {
-            VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
-            netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, httpDetails.b);
+            VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VFCResponse.class);
+            netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, httpDetails.second);
             String body = Serialization.gsonPretty.toJson(response);
             logger.debug("Response to VFC Heal post:");
             logger.debug(body);
@@ -129,15 +129,15 @@ public final class VFCManager implements Runnable {
             while (attemptsLeft-- > 0) {
                 netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
                 Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
-                responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.b, VFCResponse.class);
-                netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, SYSTEM_LS, httpDetailsGet.b);
+                responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.second, VFCResponse.class);
+                netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, SYSTEM_LS, httpDetailsGet.second);
                 responseGet.setRequestId(vfcRequest.getRequestId().toString());
                 body = Serialization.gsonPretty.toJson(responseGet);
                 logger.debug("Response to VFC Heal get:");
                 logger.debug(body);
 
                 String responseStatus = responseGet.getResponseDescriptor().getStatus();
-                if (httpDetailsGet.a == 200
+                if (httpDetailsGet.first == 200
                         && ("finished".equalsIgnoreCase(responseStatus) || "error".equalsIgnoreCase(responseStatus))) {
                     logger.debug("VFC Heal Status {}", responseGet.getResponseDescriptor().getStatus());
                     workingMem.insert(responseGet);

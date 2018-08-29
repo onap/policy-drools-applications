@@ -1,15 +1,15 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * 
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,23 +20,33 @@
 
 package org.onap.policy.rest;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 
-import org.junit.Test;
-import org.onap.policy.rest.RESTManager.Pair;
+import java.net.URI;
 
-public class TestPair {
 
-    @Test
-    public void testPair() {
-        RESTManager mgr = new RESTManager();
+/**
+ * Allows for HTTP DELETE requests to contain a body, which the HttpDelete
+ * class does not support.
+ */
+public class HttpDeleteWithBody extends HttpEntityEnclosingRequestBase {
+    public static final String METHOD_NAME = "DELETE";
 
-        Pair<Integer, Integer> pii = mgr.new Pair<>(1, 2);
-        assertEquals((Integer) 1, (Integer) pii.first);
-        assertEquals((Integer) 2, (Integer) pii.second);
+    public String getMethod() {
+        return METHOD_NAME;
+    }
 
-        Pair<Integer, String> pis = mgr.new Pair<>(1, "test");
-        assertEquals((Integer) 1, (Integer) pis.first);
-        assertEquals("test", pis.second);
+    public HttpDeleteWithBody(final String uri) {
+        super();
+        setURI(URI.create(uri));
+    }
+
+    public HttpDeleteWithBody(final URI uri) {
+        super();
+        setURI(uri);
+    }
+
+    public HttpDeleteWithBody() {
+        super();
     }
 }
