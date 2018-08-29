@@ -36,15 +36,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.so.SOCloudConfiguration;
-import org.onap.policy.so.SOManager;
-import org.onap.policy.so.SOModelInfo;
-import org.onap.policy.so.SORelatedInstance;
-import org.onap.policy.so.SORelatedInstanceListElement;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestDetails;
-import org.onap.policy.so.SORequestInfo;
-import org.onap.policy.so.SORequestParameters;
+import org.onap.policy.so.*;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +52,13 @@ public class SOActorServiceProvider implements Actor {
 
     // Strings for recipes
     private static final String RECIPE_VF_MODULE_CREATE = "VF Module Create";
+    private static final String RECIPE_VF_MODULE_DELETE = "VF Module Delete";
 
-    private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_VF_MODULE_CREATE);
+    private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_VF_MODULE_CREATE,
+            RECIPE_VF_MODULE_DELETE);
     private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-                    .put(RECIPE_VF_MODULE_CREATE, ImmutableList.of(TARGET_VFC)).build();
+                    .put(RECIPE_VF_MODULE_CREATE, ImmutableList.of(TARGET_VFC))
+                    .put(RECIPE_VF_MODULE_DELETE, ImmutableList.of(TARGET_VFC)).build();
 
     // name of request parameters within policy payload
     public static final String REQ_PARAM_NM = "requestParameters";
@@ -71,14 +66,19 @@ public class SOActorServiceProvider implements Actor {
     // name of configuration parameters within policy payload
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
+    private static final String MODEL_NAME_PROPERTY_KEY = "model-ver.model-name";
+    private static final String MODEL_VERSION_PROPERTY_KEY = "model-ver.model-version";
+    private static final String MODEL_VERSION_ID_PROPERTY_KEY = "model-ver.model-version-id";
+
     // used to decode configuration parameters via gson
     public static Type CONFIG_TYPE = new TypeToken<List<Map<String, String>>>() {}.getType();
 
-    // Static variables required to hold the IDs of the last service item and VNF item.
+    // Static variables required to hold the IDs of the last service item, VNF item and VF Module.
     // Note that in
     // a multithreaded deployment this WILL break
     private static String lastVNFItemVnfId;
     private static String lastServiceItemServiceInstanceId;
+    private static String lastVfModuleItemVfModuleInstanceId;
 
     @Override
     public String actor() {
@@ -114,17 +114,11 @@ public class SOActorServiceProvider implements Actor {
      */
     public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy,
                     AaiNqResponseWrapper aaiResponseWrapper) {
-        String modelNamePropertyKey = "model-ver.model-name";
-        String modelVersionPropertyKey = "model-ver.model-version";
-        String modelVersionIdPropertyKey = "model-ver.model-version-id";
-
-
-        if (!SO_ACTOR.equals(policy.getActor()) || !RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
-            // for future extension
+        if (!SO_ACTOR.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
             return null;
         }
 
-        // Perform named query request and handle response
+        // A&AI named query should have been performed by now. If not, return null
         if (aaiResponseWrapper == null) {
             return null;
         }
@@ -170,56 +164,51 @@ public class SOActorServiceProvider implements Actor {
             return null;
         }
 
+        // Construct SO Request for a policy's recipe
+        if(RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
+            return constructCreateRequest(aaiResponseWrapper, policy, tenantItem, vnfItem, vnfServiceItem);
+        } else if(RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
+            return constructDeleteRequest(aaiResponseWrapper, tenantItem, vnfItem, vnfServiceItem);
+        } else {
+            return null;
+        }
+    }
 
-        // Construct SO Request
+    /**
+     * Construct SO request to delete vf-module
+     *
+     * @param aaiResponseWrapper the AAI response containing the VF modules
+     * @param policy
+     * @param tenantItem
+     * @param vnfItem
+     * @param vnfServiceItem
+     * @return SO create vf-module request
+     */
+    private SORequest constructCreateRequest(AaiNqResponseWrapper aaiResponseWrapper, Policy policy, AaiNqInventoryResponseItem
+            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem) {
+        AaiNqInventoryResponseItem vfModuleItem = findVfModule(aaiResponseWrapper, false);
         SORequest request = new SORequest();
+        request.setOperationType(SOOperationType.SCALE_OUT);
+        //
         //
         // Do NOT send So the requestId, they do not support this field
         //
         request.setRequestDetails(new SORequestDetails());
-        request.getRequestDetails().setModelInfo(new SOModelInfo());
-        request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
-        request.getRequestDetails().setRequestInfo(new SORequestInfo());
         request.getRequestDetails().setRequestParameters(new SORequestParameters());
         request.getRequestDetails().getRequestParameters().setUserParams(null);
 
-        //
         // cloudConfiguration
-        //
-        request.getRequestDetails().getCloudConfiguration().setTenantId(tenantItem.getTenant().getTenantId());
-        request.getRequestDetails().getCloudConfiguration().setLcpCloudRegionId(
-                        tenantItem.getItems().getInventoryResponseItems().get(0).getCloudRegion().getCloudRegionId());
-
-        //
+        request.getRequestDetails().setCloudConfiguration(constructCloudConfiguration(tenantItem));
         // modelInfo
-        //
-        request.getRequestDetails().getModelInfo().setModelType("vfModule");
-        request.getRequestDetails().getModelInfo()
-                        .setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
+        request.getRequestDetails().setModelInfo(constructVfModuleModelInfo(vfModuleItem));
         request.getRequestDetails().getModelInfo().setModelVersionId(vfModuleItem.getVfModule().getModelVersionId());
-        request.getRequestDetails().getModelInfo()
-                        .setModelCustomizationId(vfModuleItem.getVfModule().getModelCustomizationId());
 
-        for (AaiNqExtraProperty prop : vfModuleItem.getExtraProperties().getExtraProperty()) {
-            if (prop.getPropertyName().equals(modelNamePropertyKey)) {
-                request.getRequestDetails().getModelInfo().setModelName(prop.getPropertyValue());
-            } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
-                request.getRequestDetails().getModelInfo().setModelVersion(prop.getPropertyValue());
-            }
-        }
-
-        //
         // requestInfo
-        //
+        request.getRequestDetails().setRequestInfo(constructRequestInfo());
         String vfModuleName = aaiResponseWrapper.genVfModuleName();
         request.getRequestDetails().getRequestInfo().setInstanceName(vfModuleName);
-        request.getRequestDetails().getRequestInfo().setSource("POLICY");
-        request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
-        request.getRequestDetails().getRequestInfo().setRequestorId("policy");
 
-        //
         // relatedInstanceList
-        //
         SORelatedInstanceListElement relatedInstanceListElement0 = new SORelatedInstanceListElement();
         SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
         SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
@@ -235,20 +224,20 @@ public class SOActorServiceProvider implements Actor {
 
         // Service Item
         relatedInstanceListElement1.getRelatedInstance()
-                        .setInstanceId(vnfServiceItem.getServiceInstance().getServiceInstanceId());
+                .setInstanceId(vnfServiceItem.getServiceInstance().getServiceInstanceId());
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                        .setModelInvariantId(vnfServiceItem.getServiceInstance().getModelInvariantId());
+                .setModelInvariantId(vnfServiceItem.getServiceInstance().getModelInvariantId());
         for (AaiNqExtraProperty prop : vnfServiceItem.getExtraProperties().getExtraProperty()) {
-            if (prop.getPropertyName().equals(modelNamePropertyKey)) {
+            if (prop.getPropertyName().equals(MODEL_NAME_PROPERTY_KEY)) {
                 relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(prop.getPropertyValue());
-            } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
+            } else if (prop.getPropertyName().equals(MODEL_VERSION_PROPERTY_KEY)) {
                 relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                                .setModelVersion(prop.getPropertyValue());
-            } else if (prop.getPropertyName().equals(modelVersionIdPropertyKey)) {
+                        .setModelVersion(prop.getPropertyValue());
+            } else if (prop.getPropertyName().equals(MODEL_VERSION_ID_PROPERTY_KEY)) {
                 relatedInstanceListElement1.getRelatedInstance().getModelInfo()
-                                .setModelVersionId(prop.getPropertyValue());
+                        .setModelVersionId(prop.getPropertyValue());
             }
         }
 
@@ -257,23 +246,23 @@ public class SOActorServiceProvider implements Actor {
         relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelInvariantId(vnfItem.getGenericVnf().getModelInvariantId());
+                .setModelInvariantId(vnfItem.getGenericVnf().getModelInvariantId());
         for (AaiNqExtraProperty prop : vnfItem.getExtraProperties().getExtraProperty()) {
-            if (prop.getPropertyName().equals(modelNamePropertyKey)) {
+            if (prop.getPropertyName().equals(MODEL_NAME_PROPERTY_KEY)) {
                 relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(prop.getPropertyValue());
-            } else if (prop.getPropertyName().equals(modelVersionPropertyKey)) {
+            } else if (prop.getPropertyName().equals(MODEL_VERSION_PROPERTY_KEY)) {
                 relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                                .setModelVersion(prop.getPropertyValue());
-            } else if (prop.getPropertyName().equals(modelVersionIdPropertyKey)) {
+                        .setModelVersion(prop.getPropertyValue());
+            } else if (prop.getPropertyName().equals(MODEL_VERSION_ID_PROPERTY_KEY)) {
                 relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                                .setModelVersionId(prop.getPropertyValue());
+                        .setModelVersionId(prop.getPropertyValue());
             }
         }
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelCustomizationName(vnfItem.getGenericVnf().getVnfType()
-                                        .substring(vnfItem.getGenericVnf().getVnfType().lastIndexOf('/') + 1));
+                .setModelCustomizationName(vnfItem.getGenericVnf().getVnfType()
+                        .substring(vnfItem.getGenericVnf().getVnfType().lastIndexOf('/') + 1));
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
-                        .setModelCustomizationId(vnfItem.getGenericVnf().getModelCustomizationId());
+                .setModelCustomizationId(vnfItem.getGenericVnf().getModelCustomizationId());
 
         // Insert the Service Item and VNF Item
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement0);
@@ -285,16 +274,96 @@ public class SOActorServiceProvider implements Actor {
 
         // Configuration Parameters
         request.getRequestDetails().setConfigurationParameters(buildConfigurationParameters(policy));
-
         // Save the instance IDs for the VNF and service to static fields
-        preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(),
-                        vnfServiceItem.getServiceInstance().getServiceInstanceId());
+        // vfModuleId is not required for the create vf-module
+        preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(), vnfServiceItem.getServiceInstance()
+                .getServiceInstanceId(), null);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
+        }
+        return request;
+    }
+
+    /**
+     * Construct SO request to delete vf-module
+     *
+     * @param aaiResponseWrapper the AAI response containing the VF modules
+     * @param tenantItem
+     * @param vnfItem
+     * @param vnfServiceItem
+     * @return SO delete vf-module request
+     */
+    private SORequest constructDeleteRequest(AaiNqResponseWrapper aaiResponseWrapper, AaiNqInventoryResponseItem
+            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem) {
+        // find the last non-base vf-module to delete
+        AaiNqInventoryResponseItem vfModuleItem = findVfModuleToDelete(aaiResponseWrapper);
+
+        SORequest request = new SORequest();
+        request.setOperationType(SOOperationType.DELETE_VF_MODULE);
+        request.setRequestDetails(new SORequestDetails());
+        request.getRequestDetails().setRelatedInstanceList(null);
+        request.getRequestDetails().setConfigurationParameters(null);
+
+        // cloudConfiguration
+        request.getRequestDetails().setCloudConfiguration(constructCloudConfiguration(tenantItem));
+        // modelInfo
+        request.getRequestDetails().setModelInfo(constructVfModuleModelInfo(vfModuleItem));
+        // requestInfo
+        request.getRequestDetails().setRequestInfo(constructRequestInfo());
+        // Save the instance IDs for the VNF, service and vfModule to static fields
+        preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(), vnfServiceItem.getServiceInstance()
+                .getServiceInstanceId(), vfModuleItem.getVfModule().getVfModuleId());
 
         if (logger.isDebugEnabled()) {
-            logger.debug("SO request sent: {}", Serialization.gsonPretty.toJson(request));
+            logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
         }
-
         return request;
+    }
+
+    /**
+     * construct requestInfo for the SO requestDetails
+     * @return SO request information
+     */
+    private SORequestInfo constructRequestInfo() {
+        SORequestInfo soRequestInfo = new SORequestInfo();
+        soRequestInfo.setSource("POLICY");
+        soRequestInfo.setSuppressRollback(false);
+        soRequestInfo.setRequestorId("policy");
+        return soRequestInfo;
+    }
+
+    /**
+     * construct modelInfo of the vfModule for the SO requestDetails
+     * @param vfModuleItem
+     * @return SO Model info for the vfModule
+     */
+    private SOModelInfo constructVfModuleModelInfo(AaiNqInventoryResponseItem vfModuleItem) {
+        SOModelInfo soModelInfo = new SOModelInfo();
+        soModelInfo.setModelType("vfModule");
+        soModelInfo.setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
+        soModelInfo.setModelCustomizationId(vfModuleItem.getVfModule().getModelCustomizationId());
+
+        for (AaiNqExtraProperty prop : vfModuleItem.getExtraProperties().getExtraProperty()) {
+            if (prop.getPropertyName().equals(MODEL_NAME_PROPERTY_KEY)) {
+                soModelInfo.setModelName(prop.getPropertyValue());
+            } else if (prop.getPropertyName().equals(MODEL_VERSION_PROPERTY_KEY)) {
+                soModelInfo.setModelVersion(prop.getPropertyValue());
+            }
+        }
+        return soModelInfo;
+    }
+
+    /**
+     * construct cloudConfiguration for the SO requestDetails
+     * @param tenantItem
+     * @return SO cloud configuration
+     */
+    private SOCloudConfiguration constructCloudConfiguration(AaiNqInventoryResponseItem tenantItem) {
+        SOCloudConfiguration cloudConfiguration = new SOCloudConfiguration();
+        cloudConfiguration.setTenantId(tenantItem.getTenant().getTenantId());
+        cloudConfiguration.setLcpCloudRegionId(tenantItem.getItems().getInventoryResponseItems().get(0)
+                .getCloudRegion().getCloudRegionId());
+        return cloudConfiguration;
     }
 
     /**
@@ -308,7 +377,7 @@ public class SOActorServiceProvider implements Actor {
     public static void sendRequest(String requestId, WorkingMemory wm, Object request) {
         SOManager soManager = new SOManager();
         soManager.asyncSORestCall(requestId, wm, lastServiceItemServiceInstanceId, lastVNFItemVnfId,
-                        (SORequest) request);
+                lastVfModuleItemVfModuleInstanceId, (SORequest) request);
     }
 
     /**
@@ -323,6 +392,18 @@ public class SOActorServiceProvider implements Actor {
         List<AaiNqInventoryResponseItem> lst = aaiResponseWrapper.getVfModuleItems(baseFlag);
         return (lst == null || lst.isEmpty() ? null : lst.get(0));
     }
+
+    /**
+     * Find the VF module item to delete from AAI response.
+     *
+     * @param aaiResponseWrapper the AAI response containing the VF modules
+     * @return VF module item to delete or null if the non-base vfModule was not found
+     */
+    private AaiNqInventoryResponseItem findVfModuleToDelete(AaiNqResponseWrapper aaiResponseWrapper) {
+        List<AaiNqInventoryResponseItem> lst = aaiResponseWrapper.getVfModuleItems(false);
+        return (lst == null || lst.isEmpty() ? null : lst.get(lst.size() - 1));
+    }
+
 
     /**
      * Builds the request parameters from the policy payload.
@@ -364,14 +445,16 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * This method is called to remember the last service instance ID and VNF Item VNF ID.
+     * This method is called to remember the last service instance ID, VNF Item VNF ID and vf module ID.
      * Note these fields are static, beware for multithreaded deployments
      *
      * @param vnfInstanceId update the last VNF instance ID to this value
      * @param serviceInstanceId update the last service instance ID to this value
+     * @param vfModuleId update the vfModule instance ID to this value
      */
-    private static void preserveInstanceIds(final String vnfInstanceId, final String serviceInstanceId) {
+    private static void preserveInstanceIds(final String vnfInstanceId, final String serviceInstanceId, final String vfModuleId) {
         lastVNFItemVnfId = vnfInstanceId;
         lastServiceItemServiceInstanceId = serviceInstanceId;
+        lastVfModuleItemVfModuleInstanceId = vfModuleId;
     }
 }

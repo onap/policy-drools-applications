@@ -65,6 +65,9 @@ public class TestSoRequest {
         obj.setRequestType("requestType");
         assertEquals("requestType", obj.getRequestType());
 
+        obj.setOperationType(SOOperationType.DELETE_VF_MODULE);
+        assertEquals(SOOperationType.DELETE_VF_MODULE, obj.getOperationType());
+
         LocalDateTime startTime = LocalDateTime.now();
         obj.setStartTime(startTime.toString());
         assertEquals(startTime.toString(), obj.getStartTime());

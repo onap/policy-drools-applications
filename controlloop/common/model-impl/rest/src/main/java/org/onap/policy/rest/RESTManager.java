@@ -165,6 +165,59 @@ public class RESTManager {
         }
     }
 
+    public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers,
+                                        String contentType, String body) {
+        String authHeader = makeAuthHeader(username, password);
+
+        logger.debug("HTTP REQUEST: {} -> {} {} -> {}", url, username,
+                ((password != null) ? password.length() : "-"), contentType);
+        if (headers != null) {
+            logger.debug("Headers: ");
+            headers.forEach((name, value) -> logger.debug("{} -> {}", name, value));
+        }
+        logger.debug(body);
+
+        try (CloseableHttpClient client =
+                     HttpClientBuilder
+                             .create()
+                             .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                             .build()) {
+
+            HttpDeleteWithBody delete = new HttpDeleteWithBody(url);
+            if (headers != null) {
+                for (Entry<String, String> entry : headers.entrySet()) {
+                    delete.addHeader(entry.getKey(), headers.get(entry.getKey()));
+                }
+            }
+            delete.addHeader("Content-Type", contentType);
+            if (authHeader != null) {
+                delete.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
+            }
+
+            StringEntity input = new StringEntity(body);
+            input.setContentType(contentType);
+            delete.setEntity(input);
+
+            HttpResponse response = client.execute(delete);
+            if (response != null) {
+                String returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+                logger.debug("HTTP DELETE Response Status Code: {}",
+                        response.getStatusLine().getStatusCode());
+                logger.debug("HTTP DELETE Response Body:");
+                logger.debug(returnBody);
+
+                return new Pair<>(response.getStatusLine().getStatusCode(),
+                        returnBody);
+            } else {
+                logger.error("Response from {} is null", url);
+                return null;
+            }
+        } catch (Exception e) {
+            logger.error("Failed to DELETE to {}", url, e);
+            return null;
+        }
+    }
+
     private String makeAuthHeader(String username, String password) {
         if (username == null || username.isEmpty()) {
             return null;

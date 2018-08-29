@@ -98,19 +98,35 @@ public final class SOManager {
     }
 
     /**
+     * Works just like {@link SOManager#asyncSORestCall(String, WorkingMemory, String, String, String, SORequest)
+     * except the vfModuleInstanceId is always null
+     *
+     * @see SOManager#asyncSORestCall(String, WorkingMemory, String, String, String, SORequest)
+     */
+    public Future<SOResponse> asyncSORestCall(final String requestID, final WorkingMemory wm,
+                                              final String serviceInstanceId, final String vnfInstanceId,
+                                              final SORequest request) {
+        return asyncSORestCall(requestID, wm, serviceInstanceId, vnfInstanceId, null, request);
+    }
+
+    /**
      * This method makes an asynchronous Rest call to MSO and inserts the response into
      * Drools working memory.
-     * 
-     * @param requestID request id
-     * @param wm the Drools working memory
-     * @param serviceInstanceId service instance id
-     * @param vnfInstanceId vnf instance id
-     * @param request the SO request
+     *
+     * @param requestID
+     * @param wm                 the Drools working memory
+     * @param serviceInstanceId  service instance id to construct the request url
+     * @param vnfInstanceId      vnf instance id to construct the request url
+     * @param vfModuleInstanceId vfModule instance id to construct the request url (required in case of delete vf
+     *                           module)
+     * @param request            the SO request
      * @return a concurrent Future for the thread that handles the request
      */
     public Future<SOResponse> asyncSORestCall(final String requestID, final WorkingMemory wm,
-                    final String serviceInstanceId, final String vnfInstanceId, final SORequest request) {
-        return executors.submit(new AsyncSORestCallThread(requestID, wm, serviceInstanceId, vnfInstanceId, request));
+                                              final String serviceInstanceId, final String vnfInstanceId, final String vfModuleInstanceId, final
+                                              SORequest request) {
+        return executors.submit(new AsyncSORestCallThread(requestID, wm, serviceInstanceId, vnfInstanceId,
+                vfModuleInstanceId, request));
     }
 
     /**
@@ -121,23 +137,26 @@ public final class SOManager {
         final WorkingMemory wm;
         final String serviceInstanceId;
         final String vnfInstanceId;
+        final String vfModuleInstanceId;
         final SORequest request;
 
         /**
          * Constructor, sets the context of the request.
          *
-         * @param requestID The request ID
-         * @param wm reference to the Drools working memory
-         * @param serviceInstanceId the service instance in SO to use
-         * @param vnfInstanceId the VNF instance that is the subject of the request
-         * @param request the request itself
+         * @param requestID          The request ID
+         * @param wm                 reference to the Drools working memory
+         * @param serviceInstanceId  the service instance in SO to use
+         * @param vnfInstanceId      the VNF instance that is the subject of the request
+         * @param vfModuleInstanceId the vf module instance id (not null in case of delete vf module request)
+         * @param request            the request itself
          */
         private AsyncSORestCallThread(final String requestID, final WorkingMemory wm, final String serviceInstanceId,
-                        final String vnfInstanceId, final SORequest request) {
+                                      final String vnfInstanceId, final String vfModuleInstanceId, final SORequest request) {
             this.requestID = requestID;
             this.wm = wm;
             this.serviceInstanceId = serviceInstanceId;
             this.vnfInstanceId = vnfInstanceId;
+            this.vfModuleInstanceId = vfModuleInstanceId;
             this.request = request;
         }
 
@@ -150,16 +169,26 @@ public final class SOManager {
             String username = PolicyEngine.manager.getEnvironmentProperty("so.username");
             String password = PolicyEngine.manager.getEnvironmentProperty("so.password");
 
-            // The URL of the request we will POST
-            String url = urlBase + "/serviceInstantiation/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
-                            + "/vfModules/scaleOut";
-
             // Create a JSON representation of the request
             String soJson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(request);
+            String url = null;
+            Pair<Integer, String> httpResponse = null;
 
-            netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
-            Pair<Integer, String> httpResponse =
-                            restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
+            if (request.getOperationType() != null && request.getOperationType()
+                    .equals(SOOperationType.SCALE_OUT)) {
+                url = urlBase + "/serviceInstantiation/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
+                        + "/vfModules/scaleOut";
+                netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
+                httpResponse = restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
+            } else if (request.getOperationType() != null && request.getOperationType()
+                    .equals(SOOperationType.DELETE_VF_MODULE)) {
+                url = urlBase + "/serviceInstances/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
+                        + "/vfModules/" + vfModuleInstanceId;
+                netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
+                httpResponse = restManager.delete(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
+            } else {
+                return null;
+            }
 
             // Process the response from SO
             SOResponse response = waitForSOOperationCompletion(urlBase, username, password, url, httpResponse);
@@ -241,7 +270,7 @@ public final class SOManager {
      * Parse the response message from SO into a SOResponse object.
      *
      * @param requestURL The URL of the HTTP request
-     * @param httpDetails The HTTP message returned from SO
+     * @param httpResponse The HTTP message returned from SO
      * @return The parsed response
      */
     private SOResponse processSOResponse(final String requestURL, final Pair<Integer, String> httpResponse) {

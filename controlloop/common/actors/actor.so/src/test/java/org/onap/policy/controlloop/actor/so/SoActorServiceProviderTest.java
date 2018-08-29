@@ -40,6 +40,7 @@ import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.so.SOOperationType;
 import org.onap.policy.so.SORequest;
 import org.onap.policy.so.SORequestParameters;
 import org.onap.policy.so.util.Serialization;
@@ -92,6 +93,11 @@ public class SoActorServiceProviderTest {
         // response has no non-base VF modules (other than the "dummy")
         assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy,
                         loadAaiResponse(onset, "aai/AaiNqResponse-NoNonBase.json")));
+
+        policy.setRecipe("VF Module Delete");
+        SORequest deleteRequest = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        assertNotNull(deleteRequest);
+        assertEquals(SOOperationType.DELETE_VF_MODULE, deleteRequest.getOperationType());
     }
 
     @Test
@@ -108,8 +114,9 @@ public class SoActorServiceProviderTest {
         SOActorServiceProvider sp = new SOActorServiceProvider();
 
         assertEquals("SO", sp.actor());
-        assertEquals(1, sp.recipes().size());
+        assertEquals(2, sp.recipes().size());
         assertEquals("VF Module Create", sp.recipes().get(0));
+        assertEquals("VF Module Delete", sp.recipes().get(1));
         assertEquals(0, sp.recipePayloads("VF Module Create").size());
     }
 
