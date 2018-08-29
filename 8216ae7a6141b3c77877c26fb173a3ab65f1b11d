@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_69ae31e8",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/Util.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T16:01:47Z",
+      "side": 1,
+      "message": "how about \"first\" and \"second\"?  I believe that\u0027s typically used in other code",
+      "revId": "8216ae7a6141b3c77877c26fb173a3ab65f1b11d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
