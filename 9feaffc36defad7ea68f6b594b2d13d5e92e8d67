@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_066a0c81",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T14:27:10Z",
+      "side": 1,
+      "message": "this generates a new module name, which seems appropriate for create, but for delete case, should this be extracted from the vfModuleItem instead?  Or is this field ignored in the delete case?\n\nFor that matter, it seems like a lot of the request structure for the delete case would be different than for the create case.  For instance, does it really make sense to add a bunch of related instances, including volume group?  In fact, should the delete case have any request body at all?  Perhaps there should be two different methods for constructing the request, one for create and one for delete.",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c66094a7",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T14:27:10Z",
+      "side": 1,
+      "message": "what if there is more than one VF Module?  Really want to delete the first one?  Or maybe should return the last one?",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_86e5bcdd",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T14:27:10Z",
+      "side": 1,
+      "message": "is this really needed?  Do any of the DELETE operations actually need a body?",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c61414a2",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T14:27:10Z",
+      "side": 1,
+      "message": "missing comments",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_06476cbd",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T14:27:10Z",
+      "side": 1,
+      "message": "looks like some common functions could be extracted from \"get\" and \"delete\".  Or even better, they could both invoke a common method, passing it a partially populated HttpRequestBase object.",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a60f9887",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOOperationType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T14:27:10Z",
+      "side": 1,
+      "message": "comments?",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
