@@ -33,15 +33,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.so.SOCloudConfiguration;
-import org.onap.policy.so.SOManager;
-import org.onap.policy.so.SOModelInfo;
-import org.onap.policy.so.SORelatedInstance;
-import org.onap.policy.so.SORelatedInstanceListElement;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestDetails;
-import org.onap.policy.so.SORequestInfo;
-import org.onap.policy.so.SORequestParameters;
+import org.onap.policy.so.*;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +52,13 @@ public class SOActorServiceProvider implements Actor {
 
     // Strings for recipes
     private static final String RECIPE_VF_MODULE_CREATE = "VF Module Create";
+    private static final String RECIPE_VF_MODULE_DELETE = "VF Module Delete";
 
-    private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_VF_MODULE_CREATE);
+    private static final ImmutableList<String> recipes = ImmutableList.of(RECIPE_VF_MODULE_CREATE,
+            RECIPE_VF_MODULE_DELETE);
     private static final ImmutableMap<String, List<String>> targets = new ImmutableMap.Builder<String, List<String>>()
-                    .put(RECIPE_VF_MODULE_CREATE, ImmutableList.of(TARGET_VFC)).build();
+                    .put(RECIPE_VF_MODULE_CREATE, ImmutableList.of(TARGET_VFC))
+                    .put(RECIPE_VF_MODULE_DELETE, ImmutableList.of(TARGET_VFC)).build();
 
     // name of request parameters within policy payload
     public static final String REQ_PARAM_NM = "requestParameters";
@@ -74,11 +69,12 @@ public class SOActorServiceProvider implements Actor {
     // used to decode configuration parameters via gson
     public static Type CONFIG_TYPE = new TypeToken<List<Map<String, String>>>() {}.getType();
 
-    // Static variables required to hold the IDs of the last service item and VNF item.
+    // Static variables required to hold the IDs of the last service item, VNF item and VF Module.
     // Note that in
     // a multithreaded deployment this WILL break
     private static String lastVNFItemVnfId;
     private static String lastServiceItemServiceInstanceId;
+    private static String lastVfModuleItemVfModuleInstanceId;
 
     @Override
     public String actor() {
@@ -119,12 +115,11 @@ public class SOActorServiceProvider implements Actor {
         String modelVersionIdPropertyKey = "model-ver.model-version-id";
 
 
-        if (!SO_ACTOR.equals(policy.getActor()) || !RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
-            // for future extension
+        if (!SO_ACTOR.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
             return null;
         }
 
-        // Perform named query request and handle response
+        // A&AI named query should have been performed by now. If not, return null
         if (aaiResponseWrapper == null) {
             return null;
         }
@@ -171,8 +166,15 @@ public class SOActorServiceProvider implements Actor {
         }
 
 
-        // Construct SO Request
+        // Construct SO Request and map the recipe to the SOOperationType
+        // SOOperationType will be used to determine which SO API we need to send request to for a recipe
         SORequest request = new SORequest();
+        if(RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
+            request.setOperationType(SOOperationType.SCALE_OUT);
+        } else if(RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
+            request.setOperationType(SOOperationType.DELETE_VF_MODULE);
+        }
+        //
         //
         // Do NOT send So the requestId, they do not support this field
         //
@@ -286,9 +288,10 @@ public class SOActorServiceProvider implements Actor {
         // Configuration Parameters
         request.getRequestDetails().setConfigurationParameters(buildConfigurationParameters(policy));
 
-        // Save the instance IDs for the VNF and service to static fields
-        preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(),
-                        vnfServiceItem.getServiceInstance().getServiceInstanceId());
+        // Save the instance IDs for the VNF, service and vfModule to static fields
+        // vfModuleId will be used for delete vf module request url creation
+        preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(), vnfServiceItem.getServiceInstance()
+                .getServiceInstanceId(), vfModuleItem.getVfModule().getVfModuleId());
 
         if (logger.isDebugEnabled()) {
             logger.debug("SO request sent: {}", Serialization.gsonPretty.toJson(request));
@@ -308,7 +311,7 @@ public class SOActorServiceProvider implements Actor {
     public static void sendRequest(String requestId, WorkingMemory wm, Object request) {
         SOManager soManager = new SOManager();
         soManager.asyncSORestCall(requestId, wm, lastServiceItemServiceInstanceId, lastVNFItemVnfId,
-                        (SORequest) request);
+                lastVfModuleItemVfModuleInstanceId, (SORequest) request);
     }
 
     /**
@@ -364,14 +367,16 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * This method is called to remember the last service instance ID and VNF Item VNF ID.
+     * This method is called to remember the last service instance ID, VNF Item VNF ID and vf module ID.
      * Note these fields are static, beware for multithreaded deployments
      *
      * @param vnfInstanceId update the last VNF instance ID to this value
      * @param serviceInstanceId update the last service instance ID to this value
+     * @param vfModuleId update the vfModule instance ID to this value
      */
-    private static void preserveInstanceIds(final String vnfInstanceId, final String serviceInstanceId) {
+    private static void preserveInstanceIds(final String vnfInstanceId, final String serviceInstanceId, final String vfModuleId) {
         lastVNFItemVnfId = vnfInstanceId;
         lastServiceItemServiceInstanceId = serviceInstanceId;
+        lastVfModuleItemVfModuleInstanceId = vfModuleId;
     }
 }

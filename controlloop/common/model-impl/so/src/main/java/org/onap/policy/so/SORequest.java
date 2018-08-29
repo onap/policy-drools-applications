@@ -51,6 +51,8 @@ public class SORequest implements Serializable {
     @SerializedName("requestStatus")
     private SORequestStatus requestStatus;
 
+    private transient SOOperationType operationType;
+
     public SORequest() {
         // required by author
     }
@@ -111,4 +113,11 @@ public class SORequest implements Serializable {
         this.startTime = startTime;
     }
 
+    public SOOperationType getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(SOOperationType operationType) {
+        this.operationType = operationType;
+    }
 }
