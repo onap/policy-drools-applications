@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,9 @@ import java.io.Serializable;
 
 public class Target implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2180988443264988319L;
      
-    private String resourceID;
+    private String resourceId;
     private TargetType type;
 
     public Target() {
@@ -37,11 +34,11 @@ public class Target implements Serializable {
     }
     
     public String getResourceID() {
-        return resourceID;
+        return resourceId;
     }
 
-    public void setResourceID(String resourceID) {
-        this.resourceID = resourceID;
+    public void setResourceID(String resourceId) {
+        this.resourceId = resourceId;
     }
 
     public TargetType getType() {
@@ -56,23 +53,23 @@ public class Target implements Serializable {
         this.type = type;
     }
     
-    public Target(String resourceID) {
-        this.resourceID = resourceID;
+    public Target(String resourceId) {
+        this.resourceId = resourceId;
     }
     
-    public Target(TargetType type, String resourceID) {
+    public Target(TargetType type, String resourceId) {
         this.type = type;
-        this.resourceID = resourceID;
+        this.resourceId = resourceId;
     }
     
     public Target(Target target) {
         this.type = target.type;
-        this.resourceID = target.resourceID;
+        this.resourceId = target.resourceId;
     }
     
     @Override
     public String toString() {
-        return "Target [type=" + type + ", resourceID=" + resourceID + "]";
+        return "Target [type=" + type + ", resourceId=" + resourceId + "]";
     }
     
     @Override
@@ -80,28 +77,36 @@ public class Target implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + ((resourceID == null) ? 0 : resourceID.hashCode());
+        result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Target other = (Target) obj;
         if (type == null) {
-            if (other.type != null)
+            if (other.type != null) {
                 return false;
-        } else if (!type.equals(other.type))
+            }
+        } else if (!type.equals(other.type)) {
             return false;
-        if (resourceID == null) {
-            if (other.resourceID != null)
+        }
+        if (resourceId == null) {
+            if (other.resourceId != null) {
                 return false;
-        } else if (!resourceID.equals(other.resourceID))
+            }
+        } else if (!resourceId.equals(other.resourceId)) {
             return false;
+        }
         return true;
     }
 }

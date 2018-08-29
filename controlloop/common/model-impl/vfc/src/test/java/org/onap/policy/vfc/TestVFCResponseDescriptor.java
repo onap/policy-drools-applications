@@ -3,6 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,9 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,36 +32,36 @@ import org.junit.Test;
 
 public class TestVFCResponseDescriptor {
 
-	@Test
-	public void testVFCResponseDescriptor() {
-		VFCResponseDescriptor descriptor = new VFCResponseDescriptor();
-		assertNotNull(descriptor);
-		assertNotEquals(0, descriptor.hashCode());
+    @Test
+    public void testVFCResponseDescriptor() {
+        VFCResponseDescriptor descriptor = new VFCResponseDescriptor();
+        assertNotNull(descriptor);
+        assertNotEquals(0, descriptor.hashCode());
 
-		String errorCode = "WitchIsDead";
-		descriptor.setErrorCode(errorCode);
-		assertEquals(errorCode, descriptor.getErrorCode());
-		
-		String progress = "Visited Wizard";
-		descriptor.setProgress(progress);
-		assertEquals(progress, descriptor.getProgress());
-		
-		List<VFCResponseDescriptor> responseHistoryList = new ArrayList<>();
-		descriptor.setResponseHistoryList(responseHistoryList);
-		assertEquals(responseHistoryList, descriptor.getResponseHistoryList());
-		
-		String responseId = "WishHard";
-		descriptor.setResponseId(responseId);
-		assertEquals(responseId, descriptor.getResponseId());
-		
-		String status = "Back in Kansas";
-		descriptor.setStatus(status);
-		assertEquals(status, descriptor.getStatus());
-		
-		String statusDescription = "Back on the prairie";
-		descriptor.setStatusDescription(statusDescription);
-		assertEquals(statusDescription, descriptor.getStatusDescription());
-		
-		assertNotEquals(0, descriptor.hashCode());
-	}
+        String errorCode = "WitchIsDead";
+        descriptor.setErrorCode(errorCode);
+        assertEquals(errorCode, descriptor.getErrorCode());
+
+        String progress = "Visited Wizard";
+        descriptor.setProgress(progress);
+        assertEquals(progress, descriptor.getProgress());
+
+        List<VFCResponseDescriptor> responseHistoryList = new ArrayList<>();
+        descriptor.setResponseHistoryList(responseHistoryList);
+        assertEquals(responseHistoryList, descriptor.getResponseHistoryList());
+
+        String responseId = "WishHard";
+        descriptor.setResponseId(responseId);
+        assertEquals(responseId, descriptor.getResponseId());
+
+        String status = "Back in Kansas";
+        descriptor.setStatus(status);
+        assertEquals(status, descriptor.getStatus());
+
+        String statusDescription = "Back on the prairie";
+        descriptor.setStatusDescription(statusDescription);
+        assertEquals(statusDescription, descriptor.getStatusDescription());
+
+        assertNotEquals(0, descriptor.hashCode());
+    }
 }

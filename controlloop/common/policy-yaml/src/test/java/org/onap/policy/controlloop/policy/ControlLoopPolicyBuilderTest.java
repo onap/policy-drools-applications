@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml unit test
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,30 +69,30 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Test add services
             //
-            Service vSCP = new Service("vSCP");
-            Service vUSP = new Service("vUSP");
-            Service vTrinity = new Service("Trinity");
-            builder = builder.addService(vSCP, vUSP, vTrinity);
+            Service scp = new Service("vSCP");
+            Service usp = new Service("vUSP");
+            Service trinity = new Service("Trinity");
+            builder = builder.addService(scp, usp, trinity);
             assertTrue(builder.getControlLoop().getServices().size() == 3);
             //
             // Test remove services
             //
-            builder = builder.removeService(vSCP);
+            builder = builder.removeService(scp);
             assertTrue(builder.getControlLoop().getServices().size() == 2);
             builder = builder.removeAllServices();
             assertTrue(builder.getControlLoop().getServices().size() == 0);
             //
             // Test add resources
             //
-            Resource vCTS = new Resource("vCTS", ResourceType.VF);
-            Resource vCOM = new Resource("vCTS", ResourceType.VF);
-            Resource vRAR = new Resource("vCTS", ResourceType.VF);
-            builder = builder.addResource(vCTS, vCOM, vRAR);
+            Resource cts = new Resource("vCTS", ResourceType.VF);
+            Resource com = new Resource("vCTS", ResourceType.VF);
+            Resource rar = new Resource("vCTS", ResourceType.VF);
+            builder = builder.addResource(cts, com, rar);
             assertTrue(builder.getControlLoop().getResources().size() == 3);
             //
             // Test remove resources
             //
-            builder = builder.removeResource(vCTS);
+            builder = builder.removeResource(cts);
             assertTrue(builder.getControlLoop().getResources().size() == 2);
             builder = builder.removeAllResources();
             assertTrue(builder.getControlLoop().getResources().size() == 0);
@@ -120,12 +120,12 @@ public class ControlLoopPolicyBuilderTest {
     }
 
     @Test
-    public void testAddServiceWithUUID() throws BuilderException {
+    public void testAddServiceWithUuid() throws BuilderException {
         ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         UUID uuid = UUID.randomUUID();
-        Service serviceWithUUID = new Service(uuid);
-        builder.addService(serviceWithUUID);
+        Service serviceWithUuid = new Service(uuid);
+        builder.addService(serviceWithUuid);
         assertTrue(builder.getControlLoop().getServices().size() == 1);
     }
 
@@ -149,15 +149,15 @@ public class ControlLoopPolicyBuilderTest {
     }
 
     @Test
-    public void testAddAndRemoveResourceWithUUID() throws BuilderException {
+    public void testAddAndRemoveResourceWithUuid() throws BuilderException {
         ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         UUID uuid = UUID.randomUUID();
-        Resource resourceWithUUID = new Resource(uuid);
-        builder.addResource(resourceWithUUID);
+        Resource resourceWithUuid = new Resource(uuid);
+        builder.addResource(resourceWithUuid);
         assertTrue(builder.getControlLoop().getResources().size() == 1);
 
-        builder.removeResource(resourceWithUUID);
+        builder.removeResource(resourceWithUuid);
         assertTrue(builder.getControlLoop().getResources().size() == 0);
     }
 
@@ -207,11 +207,11 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testControlLoopWithInitialResourceAndServices() {
         try {
-            Resource vCTS = new Resource("vCTS", ResourceType.VF);
-            Service vSCP = new Service("vSCP");
-            Service vUSP = new Service("vUSP");
+            Resource cts = new Resource("vCTS", ResourceType.VF);
+            Service scp = new Service("vSCP");
+            Service usp = new Service("vUSP");
             ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory
-                    .buildControlLoop(UUID.randomUUID().toString(), 2400, vCTS, vSCP, vUSP);
+                    .buildControlLoop(UUID.randomUUID().toString(), 2400, cts, scp, usp);
             assertTrue(builder.getControlLoop().getResources().size() == 1);
             assertTrue(builder.getControlLoop().getServices().size() == 2);
         } catch (BuilderException e) {
@@ -222,11 +222,11 @@ public class ControlLoopPolicyBuilderTest {
     @Test
     public void testControlLoopWithInitialResourcesAndService() {
         try {
-            Resource vCTS = new Resource("vCTS", ResourceType.VF);
-            Resource vCOM = new Resource("vCTS", ResourceType.VF);
-            Service vSCP = new Service("vSCP");
+            Resource cts = new Resource("vCTS", ResourceType.VF);
+            Resource com = new Resource("vCTS", ResourceType.VF);
+            Service scp = new Service("vSCP");
             ControlLoopPolicyBuilder builder = ControlLoopPolicyBuilder.Factory
-                    .buildControlLoop(UUID.randomUUID().toString(), 2400, vSCP, vCTS, vCOM);
+                    .buildControlLoop(UUID.randomUUID().toString(), 2400, scp, cts, com);
             assertTrue(builder.getControlLoop().getServices().size() == 1);
             assertTrue(builder.getControlLoop().getResources().size() == 2);
         } catch (BuilderException e) {
@@ -459,7 +459,7 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Create another policy and chain it to the results of trigger policy
             //
-            Policy onRestartFailurePolicy2 =
+            final Policy onRestartFailurePolicy2 =
                     builder.setPolicyForPolicyResult("Rebuild VM", "If the restart fails, rebuild it.", "APPC",
                             new Target(TargetType.VM), "Rebuild", null, 2, 600, triggerPolicy.getId(),
                             PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
@@ -475,25 +475,25 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Test set the policy results to an existing operational policy
             //
-            onRestartFailurePolicy2 =
+            Policy onRestartFailurePolicy3 =
                     builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(), triggerPolicy.getId(),
                             PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
-            assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy2.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy3.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy3.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy3.getId()));
             //
             // Test set the policy result for success to an existing operational policy
             //
-            onRestartFailurePolicy2 =
+            Policy onRestartFailurePolicy4 =
                     builder.setPolicyForPolicyResult(onRestartFailurePolicy2.getId(), triggerPolicy.getId(),
                             PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION, PolicyResult.FAILURE_GUARD,
                             PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT, PolicyResult.SUCCESS);
-            assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy2.getId()));
-            assertTrue(builder.getTriggerPolicy().getSuccess().equals(onRestartFailurePolicy2.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy4.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy4.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure_guard().equals(onRestartFailurePolicy4.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure_retries().equals(onRestartFailurePolicy4.getId()));
+            assertTrue(builder.getTriggerPolicy().getFailure_timeout().equals(onRestartFailurePolicy4.getId()));
+            assertTrue(builder.getTriggerPolicy().getSuccess().equals(onRestartFailurePolicy4.getId()));
 
             //
             // Test remove all existing operational policies
@@ -588,30 +588,30 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Set the first invalid trigger policy
             //
-            Policy policy1 = builder.setTriggerPolicy("Restart the VM",
+            final Policy policy1 = builder.setTriggerPolicy("Restart the VM",
                     "Upon getting the trigger event, restart the VM", null, null, "Instantiate", null, 2, 300);
             Results results = builder.buildSpecification();
             //
             // Check that ERRORs are in results for invalid policy arguments
             //
-            boolean invalid_actor = false;
-            boolean invalid_recipe = false;
-            boolean invalid_target = false;
+            boolean invalidActor = false;
+            boolean invalidRecipe = false;
+            boolean invalidTarget = false;
             for (Message m : results.getMessages()) {
                 if (m.getMessage().equals("Policy actor is null") && m.getLevel() == MessageLevel.ERROR) {
-                    invalid_actor = true;
+                    invalidActor = true;
                 }
                 if (m.getMessage().equals("Policy recipe is invalid") && m.getLevel() == MessageLevel.ERROR) {
-                    invalid_recipe = true;
+                    invalidRecipe = true;
                 }
                 if (m.getMessage().equals("Policy target is null") && m.getLevel() == MessageLevel.ERROR) {
-                    invalid_target = true;
+                    invalidTarget = true;
                 }
             }
             //
-            assertTrue(invalid_actor);
-            assertTrue(invalid_recipe);
-            assertTrue(invalid_target);
+            assertTrue(invalidActor);
+            assertTrue(invalidRecipe);
+            assertTrue(invalidTarget);
             //
             // Remove the invalid policy
             //
@@ -622,12 +622,12 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Set a valid trigger policy
             //
-            policy1 = builder.setTriggerPolicy("Rebuild VM", "If the restart fails, rebuild it.", "APPC",
+            Policy policy1a = builder.setTriggerPolicy("Rebuild VM", "If the restart fails, rebuild it.", "APPC",
                     new Target(TargetType.VM), "Rebuild", null, 1, 600);
             //
             // Set a second valid trigger policy
             //
-            Policy policy2 =
+            final Policy policy2 =
                     builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
                             new Target(TargetType.VM), "Restart", null, 2, 300);
             //
@@ -636,7 +636,7 @@ public class ControlLoopPolicyBuilderTest {
             results = builder.buildSpecification();
             boolean unreachable = false;
             for (Message m : results.getMessages()) {
-                if (m.getMessage().equals("Policy " + policy1.getId() + " is not reachable.")
+                if (m.getMessage().equals("Policy " + policy1a.getId() + " is not reachable.")
                         && m.getLevel() == MessageLevel.WARNING) {
                     unreachable = true;
                     break;
@@ -644,21 +644,21 @@ public class ControlLoopPolicyBuilderTest {
             }
             assertTrue(unreachable);
             //
-            // Set policy1 for the failure results of policy2
+            // Set policy1a for the failure results of policy2
             //
-            policy1 = builder.setPolicyForPolicyResult(policy1.getId(), policy2.getId(), PolicyResult.FAILURE,
+            policy1a = builder.setPolicyForPolicyResult(policy1a.getId(), policy2.getId(), PolicyResult.FAILURE,
                     PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
             results = builder.buildSpecification();
-            boolean invalid_timeout = false;
+            boolean invalidTimeout = false;
             for (Message m : results.getMessages()) {
                 if (m.getMessage()
                         .equals("controlLoop overall timeout is less than the sum of operational policy timeouts.")
                         && m.getLevel() == MessageLevel.ERROR) {
-                    invalid_timeout = true;
+                    invalidTimeout = true;
                     break;
                 }
             }
-            assertTrue(invalid_timeout);
+            assertTrue(invalidTimeout);
             //
             // Remove policy2 (revert controlLoop back to open loop)
             //
@@ -684,7 +684,7 @@ public class ControlLoopPolicyBuilderTest {
 
 
     @Test
-    public void test() {
+    public void test1() {
         this.test("src/test/resources/v1.0.0/policy_Test.yaml");
     }
 
@@ -707,6 +707,11 @@ public class ControlLoopPolicyBuilderTest {
         }
     }
 
+    /**
+     * Does the actual test.
+     * 
+     * @param testFile input file
+     */
     public void test(String testFile) {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             //

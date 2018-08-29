@@ -3,6 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,26 +21,28 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 public class TestVFCHealActionVmInfo {
 
-	@Test
-	public void testVFCHealActionVmInfo() {
-		VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
-		assertNotNull(actionInfo);
-		assertNotEquals(0, actionInfo.hashCode());
-		
-		String vmid = "ECity";
-		actionInfo.setVmid(vmid);
-		assertEquals(vmid, actionInfo.getVmid());
-		
-		String vmName = "Emerald City";
-		actionInfo.setVmname(vmName);
-		assertEquals(vmName, actionInfo.getVmname());
-		
-		assertNotEquals(0, actionInfo.hashCode());
-	}
+    @Test
+    public void testVFCHealActionVmInfo() {
+        VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
+        assertNotNull(actionInfo);
+        assertNotEquals(0, actionInfo.hashCode());
+
+        String vmid = "ECity";
+        actionInfo.setVmid(vmid);
+        assertEquals(vmid, actionInfo.getVmid());
+
+        String vmName = "Emerald City";
+        actionInfo.setVmname(vmName);
+        assertEquals(vmName, actionInfo.getVmname());
+
+        assertNotEquals(0, actionInfo.hashCode());
+    }
 }

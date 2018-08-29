@@ -68,7 +68,7 @@ public class VFWControlLoopTest implements TopicListener {
 
     private static KieSession kieSession;
     private static Util.Pair<ControlLoopPolicy, String> pair;
-    private UUID requestID;
+    private UUID requestId;
 
     static {
         /* Set environment properties */
@@ -78,6 +78,9 @@ public class VFWControlLoopTest implements TopicListener {
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
+    /**
+     * Setup the simulator.
+     */
     @BeforeClass
     public static void setUpSimulator() {
         PolicyEngine.manager.configure(new Properties());
@@ -111,7 +114,8 @@ public class VFWControlLoopTest implements TopicListener {
          */
         try {
             kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/"
+                    + "main/resources/__closedLoopControlName__.drl",
                     "src/test/resources/yaml/policy_ControlLoop_vFW.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vFW",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
@@ -122,6 +126,9 @@ public class VFWControlLoopTest implements TopicListener {
         }
     }
 
+    /**
+     * Tear down the simulator.
+     */
     @AfterClass
     public static void tearDownSimulator() {
         /*
@@ -150,13 +157,13 @@ public class VFWControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET);
+        sendEvent(pair.a, requestId, ControlLoopEventStatus.ONSET);
 
         try {
             kieSession.fireUntilHalt();
@@ -193,13 +200,13 @@ public class VFWControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "error");
+        sendEvent(pair.a, requestId, ControlLoopEventStatus.ONSET, "error");
         try {
             kieSession.fireUntilHalt();
         } catch (Exception e) {
@@ -221,14 +228,14 @@ public class VFWControlLoopTest implements TopicListener {
         /*
          * Create a unique requestId
          */
-        requestID = UUID.randomUUID();
+        requestId = UUID.randomUUID();
 
         /*
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
 
-        sendEvent(pair.a, requestID, ControlLoopEventStatus.ONSET, "getFail");
+        sendEvent(pair.a, requestId, ControlLoopEventStatus.ONSET, "getFail");
 
         try {
             kieSession.fireUntilHalt();
@@ -258,7 +265,7 @@ public class VFWControlLoopTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException
+     * @throws IOException IO Exception
      */
     private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
             String policyName, String policyVersion) throws IOException {
@@ -339,7 +346,7 @@ public class VFWControlLoopTest implements TopicListener {
                 assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=APPC"));
-                sendEvent(pair.a, requestID, ControlLoopEventStatus.ABATED);
+                sendEvent(pair.a, requestId, ControlLoopEventStatus.ABATED);
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 if ("error".equals(notification.getAai().get("generic-vnf.vnf-name"))) {

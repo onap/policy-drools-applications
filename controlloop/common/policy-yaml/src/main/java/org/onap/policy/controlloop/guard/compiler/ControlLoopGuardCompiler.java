@@ -20,8 +20,8 @@
 
 package org.onap.policy.controlloop.guard.compiler;
 
-
 import java.io.InputStream;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,24 +43,40 @@ public class ControlLoopGuardCompiler {
         // Private Constructor 
     }
     
-    public static ControlLoopGuard compile(ControlLoopGuard cLGuard, 
+    /**
+     * Compile the control loop guard.
+     * 
+     * @param clGuard the guard
+     * @param callback callback routine
+     * @return the guard object
+     * @throws CompilerException compilation exception
+     */
+    public static ControlLoopGuard compile(ControlLoopGuard clGuard, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
         //
         // Ensure ControlLoopGuard has at least one guard policies
         //
-        validateControlLoopGuard(cLGuard, callback);
+        validateControlLoopGuard(clGuard, callback);
         //
         // Ensure each guard policy has at least one constraints and all guard policies are unique
         //
-        validateGuardPolicies(cLGuard.getGuards(), callback);
+        validateGuardPolicies(clGuard.getGuards(), callback);
         //
         // Ensure constraints for each guard policy are unique
         //
-        validateConstraints(cLGuard.getGuards(), callback);
+        validateConstraints(clGuard.getGuards(), callback);
         
-        return cLGuard;
+        return clGuard;
     }
     
+    /**
+     * Compile the control loop guard.
+     * 
+     * @param yamlSpecification yaml specification as a stream
+     * @param callback callback method
+     * @return guard object
+     * @throws CompilerException throws compile exception
+     */
     public static ControlLoopGuard  compile(InputStream yamlSpecification, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
         Yaml yaml = new Yaml(new Constructor(ControlLoopGuard.class));
@@ -74,22 +90,22 @@ public class ControlLoopGuardCompiler {
         return ControlLoopGuardCompiler.compile((ControlLoopGuard) obj, callback);
     }
     
-    private static void validateControlLoopGuard(ControlLoopGuard cLGuard, 
+    private static void validateControlLoopGuard(ControlLoopGuard clGuard, 
                     ControlLoopCompilerCallback callback) throws CompilerException {
-        if (cLGuard == null) {
+        if (clGuard == null) {
             if (callback != null) {
                 callback.onError("ControlLoop Guard cannot be null");
             }
             throw new CompilerException("ControlLoop Guard cannot be null");
         }
-        if (cLGuard.getGuard() == null && callback != null) {
+        if (clGuard.getGuard() == null && callback != null) {
             callback.onError("Guard version cannot be null");
         }
-        if (cLGuard.getGuards() == null) {
+        if (clGuard.getGuards() == null) {
             if (callback != null) {
                 callback.onError("ControlLoop Guard should have at least one guard policies");
             }
-        } else if (cLGuard.getGuards().isEmpty() && callback != null) {
+        } else if (clGuard.getGuards().isEmpty() && callback != null) {
             callback.onError("ControlLoop Guard should have at least one guard policies");
         }
     }

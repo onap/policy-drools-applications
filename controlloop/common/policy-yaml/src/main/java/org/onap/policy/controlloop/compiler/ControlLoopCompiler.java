@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ public class ControlLoopCompiler implements Serializable {
                             && callback != null) {
                 callback.onError("Missing controlLoopName");
             }
-            if ((!controlLoop.getVersion().contentEquals(ControlLoop.getVERSION())) && callback != null) {
+            if ((!controlLoop.getVersion().contentEquals(ControlLoop.getCompilerVersion())) && callback != null) {
                 callback.onError("Unsupported version for this compiler");
             }
             if (controlLoop.getTrigger_policy() == null || controlLoop.getTrigger_policy().length() < 1) {

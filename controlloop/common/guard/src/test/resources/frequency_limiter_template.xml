@@ -18,60 +18,110 @@
   limitations under the License.
   ============LICENSE_END=========================================================
   -->
-<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="urn:com:att:xacml:policy:id:25e12b06-11d5-4895-b2a2-6f6c594de069" Version="1" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-unless-deny">
-        <Description>Policy for frequency limiter.</Description>
-        <Target>
-            <AnyOf>
-                <AllOf>
-                
-                	<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+    PolicyId="urn:com:att:xacml:policy:id:25e12b06-11d5-4895-b2a2-6f6c594de069"
+    Version="1"
+    RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-unless-deny">
+    <Description>Policy for frequency limiter.</Description>
+    <Target>
+        <AnyOf>
+            <AllOf>
+
+                <Match
+                    MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
                         <!-- <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">.*</AttributeValue>-->
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${clname}</AttributeValue>
-                        <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:clname:clname-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
-                   	</Match>
+                    <AttributeValue
+                        DataType="http://www.w3.org/2001/XMLSchema#string">${clname}</AttributeValue>
+                    <AttributeDesignator
+                        Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                        AttributeId="urn:oasis:names:tc:xacml:1.0:clname:clname-id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"
+                        MustBePresent="false" />
+                </Match>
              
-                   	<!--  <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">-->
-                   	<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${actor}</AttributeValue>
-                        <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:actor:actor-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
-                    </Match>
-                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${recipe}</AttributeValue>
-                        <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" AttributeId="urn:oasis:names:tc:xacml:1.0:operation:operation-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
-                    </Match>
-                    
-                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">${targets}</AttributeValue>
-                        <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" AttributeId="urn:oasis:names:tc:xacml:1.0:target:target-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
-                    </Match>
-                    
-                </AllOf>
-            </AnyOf>
-        </Target>
-        <Rule RuleId="urn:com:att:xacml:rule:id:e1e8c5c0-e2ba-47d5-9289-6c015305ed21" Effect="Deny">
-            <Description>DENY - only if number of operations performed in the past is larger than the limit and the Guard is active.</Description>
-            <Condition>
-            	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
-            		<VariableReference VariableId="isGuardActive"/>
-                	<VariableReference VariableId="isHistoryGreaterThanLimit"/>
-                </Apply>
-            </Condition>
-        </Rule>
-        <VariableDefinition VariableId="isGuardActive">	
-        	<Apply FunctionId="urn:oasis:names:tc:xacml:2.0:function:time-in-range">
-        		<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
-	               	<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment" MustBePresent="false"/>
-				</Apply>
-				<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">${guardActiveStart}</AttributeValue>
-				<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">${guardActiveEnd}</AttributeValue>
-        	</Apply>
-        </VariableDefinition> 
-        <VariableDefinition VariableId="isHistoryGreaterThanLimit">     
-	    	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
-	        	<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
-	        		<AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" AttributeId="com:att:research:xacml:test:sql:resource:operations:count" DataType="http://www.w3.org/2001/XMLSchema#integer" Issuer="com:att:research:xacml:guard:historydb:tw:${twValue}:${twUnits}" MustBePresent="false"/>
-	        	</Apply>
-	        	<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">${limit}</AttributeValue>
-	        </Apply>        
-        </VariableDefinition>
+                <!--  <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">-->
+                <Match
+                    MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                    <AttributeValue
+                        DataType="http://www.w3.org/2001/XMLSchema#string">${actor}</AttributeValue>
+                    <AttributeDesignator
+                        Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                        AttributeId="urn:oasis:names:tc:xacml:1.0:actor:actor-id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"
+                        MustBePresent="false" />
+                </Match>
+                <Match
+                    MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                    <AttributeValue
+                        DataType="http://www.w3.org/2001/XMLSchema#string">${recipe}</AttributeValue>
+                    <AttributeDesignator
+                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                        AttributeId="urn:oasis:names:tc:xacml:1.0:operation:operation-id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"
+                        MustBePresent="false" />
+                </Match>
+
+                <Match
+                    MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+                    <AttributeValue
+                        DataType="http://www.w3.org/2001/XMLSchema#string">${targets}</AttributeValue>
+                    <AttributeDesignator
+                        Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                        AttributeId="urn:oasis:names:tc:xacml:1.0:target:target-id"
+                        DataType="http://www.w3.org/2001/XMLSchema#string"
+                        MustBePresent="false" />
+                </Match>
+
+            </AllOf>
+        </AnyOf>
+    </Target>
+    <Rule
+        RuleId="urn:com:att:xacml:rule:id:e1e8c5c0-e2ba-47d5-9289-6c015305ed21"
+        Effect="Deny">
+        <Description>DENY - only if number of operations performed in
+            the past is larger than the limit and the Guard is active.</Description>
+        <Condition>
+            <Apply
+                FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <VariableReference
+                    VariableId="isGuardActive" />
+                <VariableReference
+                    VariableId="isHistoryGreaterThanLimit" />
+            </Apply>
+        </Condition>
+    </Rule>
+    <VariableDefinition VariableId="isGuardActive">
+        <Apply
+            FunctionId="urn:oasis:names:tc:xacml:2.0:function:time-in-range">
+            <Apply
+                FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                <AttributeDesignator
+                    AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                    DataType="http://www.w3.org/2001/XMLSchema#time"
+                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment"
+                    MustBePresent="false" />
+            </Apply>
+            <AttributeValue
+                DataType="http://www.w3.org/2001/XMLSchema#time">${guardActiveStart}</AttributeValue>
+            <AttributeValue
+                DataType="http://www.w3.org/2001/XMLSchema#time">${guardActiveEnd}</AttributeValue>
+        </Apply>
+    </VariableDefinition>
+    <VariableDefinition
+        VariableId="isHistoryGreaterThanLimit">
+        <Apply
+            FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+            <Apply
+                FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-one-and-only">
+                <AttributeDesignator
+                    Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                    AttributeId="com:att:research:xacml:test:sql:resource:operations:count"
+                    DataType="http://www.w3.org/2001/XMLSchema#integer"
+                    Issuer="com:att:research:xacml:guard:historydb:tw:${twValue}:${twUnits}"
+                    MustBePresent="false" />
+            </Apply>
+            <AttributeValue
+                DataType="http://www.w3.org/2001/XMLSchema#integer">${limit}</AttributeValue>
+        </Apply>
+    </VariableDefinition>
 </Policy>

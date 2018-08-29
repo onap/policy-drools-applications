@@ -22,6 +22,7 @@
 
 package org.onap.policy.so;
 
+import com.google.gson.Gson;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.GET;
@@ -29,7 +30,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-import com.google.gson.Gson;
 
 @Path("/SO")
 public class TestSoDummyServer {
@@ -41,6 +41,11 @@ public class TestSoDummyServer {
 
     private static Map<String, SOResponse> ongoingRequestMap = new ConcurrentHashMap<>();
 
+    /**
+     * Stats method.
+     * 
+     * @return response
+     */
     @GET
     @Path("/Stats")
     public Response serviceGetStats() {
@@ -49,6 +54,12 @@ public class TestSoDummyServer {
                         + ",\"POST\": " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived + "}").build();
     }
 
+    /**
+     * Get stat type.
+     * 
+     * @param statType the stat type
+     * @return http response
+     */
     @GET
     @Path("/OneStat/{statType}")
     public Response serviceGetStat(@PathParam("statType") final String statType) {
@@ -56,6 +67,12 @@ public class TestSoDummyServer {
         return Response.status(200).entity("{\"TYPE\": " + statType + "}").build();
     }
 
+    /**
+     * Post to service instantiation.
+     * 
+     * @param jsonString string to send
+     * @return http response
+     */
     @POST
     @Path("/serviceInstantiation/v7")
     public Response servicePostRequest(final String jsonString) {
@@ -138,6 +155,14 @@ public class TestSoDummyServer {
         return null;
     }
 
+    /**
+     * Post.
+     * 
+     * @param serviceInstanceId service instance id
+     * @param vnfInstanceId vnf instance id
+     * @param jsonString json body
+     * @return http response
+     */
     @POST
     @Path("/serviceInstantiation/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
     public Response servicePostRequestVfModules(@PathParam("serviceInstanceId") final String serviceInstanceId,
@@ -221,6 +246,12 @@ public class TestSoDummyServer {
         return null;
     }
 
+    /**
+     * Get instance ID.
+     * 
+     * @param nsInstanceId node instance id
+     * @return http response
+     */
     @GET
     @Path("/orchestrationRequests/v5/{nsInstanceId}")
     public Response soRequestStatus(@PathParam("nsInstanceId") final String nsInstanceId) {

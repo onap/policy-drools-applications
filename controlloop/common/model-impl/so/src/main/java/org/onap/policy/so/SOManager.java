@@ -63,7 +63,7 @@ public final class SOManager {
     private long restGetTimeout = GET_REQUEST_WAIT_INTERVAL;
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public SOManager() {
         restManager = new RESTManager();
@@ -100,12 +100,11 @@ public final class SOManager {
     /**
      * This method makes an asynchronous Rest call to MSO and inserts the response into
      * Drools working memory.
-     *
+     * 
+     * @param requestID request id
      * @param wm the Drools working memory
-     * @param url the URL to use on the POST request
-     * @param urlBase the SO base URL
-     * @param username user name for SO requests
-     * @param password password for SO requests
+     * @param serviceInstanceId service instance id
+     * @param vnfInstanceId vnf instance id
      * @param request the SO request
      * @return a concurrent Future for the thread that handles the request
      */
