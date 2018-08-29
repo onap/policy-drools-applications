@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * sdc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,11 @@ public class ServiceInstance implements Serializable {
         //Empty Constructor
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param instance copy object
+     */
     public ServiceInstance(ServiceInstance instance) {
         if (instance == null) {
             return;
@@ -114,6 +119,7 @@ public class ServiceInstance implements Serializable {
                 + ", widgetModelVersion=" + widgetModelVersion + ", serviceName=" + serviceName
                 + ", serviceInstanceName=" + serviceInstanceName + "]";
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -127,50 +133,68 @@ public class ServiceInstance implements Serializable {
         result = prime * result + ((widgetModelVersion == null) ? 0 : widgetModelVersion.hashCode());
         return result;
     }
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ServiceInstance other = (ServiceInstance) obj;
         if (personaModelUUID == null) {
-            if (other.personaModelUUID != null)
+            if (other.personaModelUUID != null) {
                 return false;
-        } else if (!personaModelUUID.equals(other.personaModelUUID))
+            }
+        } else if (!personaModelUUID.equals(other.personaModelUUID)) {
             return false;
+        }
         if (serviceInstanceName == null) {
-            if (other.serviceInstanceName != null)
+            if (other.serviceInstanceName != null) {
                 return false;
-        } else if (!serviceInstanceName.equals(other.serviceInstanceName))
+            }
+        } else if (!serviceInstanceName.equals(other.serviceInstanceName)) {
             return false;
+        }
         if (serviceInstanceUUID == null) {
-            if (other.serviceInstanceUUID != null)
+            if (other.serviceInstanceUUID != null) {
                 return false;
-        } else if (!serviceInstanceUUID.equals(other.serviceInstanceUUID))
+            }
+        } else if (!serviceInstanceUUID.equals(other.serviceInstanceUUID)) {
             return false;
+        }
         if (serviceName == null) {
-            if (other.serviceName != null)
+            if (other.serviceName != null) {
                 return false;
-        } else if (!serviceName.equals(other.serviceName))
+            }
+        } else if (!serviceName.equals(other.serviceName)) {
             return false;
+        }
         if (serviceUUID == null) {
-            if (other.serviceUUID != null)
+            if (other.serviceUUID != null) {
                 return false;
-        } else if (!serviceUUID.equals(other.serviceUUID))
+            }
+        } else if (!serviceUUID.equals(other.serviceUUID)) {
             return false;
+        }
         if (widgetModelUUID == null) {
-            if (other.widgetModelUUID != null)
+            if (other.widgetModelUUID != null) {
                 return false;
-        } else if (!widgetModelUUID.equals(other.widgetModelUUID))
+            }
+        } else if (!widgetModelUUID.equals(other.widgetModelUUID)) {
             return false;
+        }
         if (widgetModelVersion == null) {
-            if (other.widgetModelVersion != null)
+            if (other.widgetModelVersion != null) {
                 return false;
-        } else if (!widgetModelVersion.equals(other.widgetModelVersion))
+            }
+        } else if (!widgetModelVersion.equals(other.widgetModelVersion)) {
             return false;
+        }
         return true;
     }
     

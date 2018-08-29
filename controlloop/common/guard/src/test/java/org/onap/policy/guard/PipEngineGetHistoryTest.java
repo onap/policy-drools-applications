@@ -66,7 +66,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
 
-public class PIPEngineGetHistoryTest {
+public class PipEngineGetHistoryTest {
     static PIPEngineGetHistory pegh;
     private static final String ISSUER = "issuerIntw:mid:end";
     

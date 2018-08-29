@@ -85,12 +85,27 @@ public class GuardPolicy {
         this.matchParameters = matchParameters;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param id id
+     * @param name name
+     * @param description description
+     * @param matchParameters match parameters
+     */
     public GuardPolicy(String id, String name, String description, MatchParameters matchParameters) {
         this(name, matchParameters);
         this.id = id;
         this.description = description;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param name name
+     * @param matchParameters match parameters
+     * @param limitConstraints limit constraints
+     */
     public GuardPolicy(String name, MatchParameters matchParameters, List<Constraint> limitConstraints) {
         this(name, matchParameters);
         if (limitConstraints != null) {
@@ -110,6 +125,11 @@ public class GuardPolicy {
         this.id = id;
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param policy copy object
+     */
     public GuardPolicy(GuardPolicy policy) {
         this.id = policy.id;
         this.name = policy.name;

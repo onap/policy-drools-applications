@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,20 +31,20 @@ public class PolicyGuardXacmlRequestAttributes {
     /**
      * Construct an instance.
      * 
-     * @param clnameID the control loop Id
-     * @param actorID the actor Id
-     * @param operationID the operation Id
-     * @param targetID the target Id
-     * @param requestID the request Id
+     * @param clnameId the control loop Id
+     * @param actorId the actor Id
+     * @param operationId the operation Id
+     * @param targetId the target Id
+     * @param requestId the request Id
      */
-    public PolicyGuardXacmlRequestAttributes(String clnameID, String actorID, String operationID, String targetID,
-            String requestID) {
+    public PolicyGuardXacmlRequestAttributes(String clnameId, String actorId, String operationId, String targetId,
+            String requestId) {
         super();
-        this.clnameID = clnameID;
-        this.actorID = actorID;
-        this.operationID = operationID;
-        this.targetID = targetID;
-        this.requestID = requestID;
+        this.clnameID = clnameId;
+        this.actorID = actorId;
+        this.operationID = operationId;
+        this.targetID = targetId;
+        this.requestID = requestId;
     }
 
     @Override

@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,9 +45,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
-import org.onap.policy.aai.AaiNqVServer;
 import org.onap.policy.aai.AaiNqRequestError;
 import org.onap.policy.aai.AaiNqResponseWrapper;
+import org.onap.policy.aai.AaiNqVServer;
 import org.onap.policy.aai.RelatedToProperty;
 import org.onap.policy.aai.Relationship;
 import org.onap.policy.aai.RelationshipData;
@@ -101,6 +102,9 @@ public class ControlLoopEventManagerTest {
         HttpServletServer.factory.destroy();
     }
 
+    /**
+     * Setup.
+     */
     @Before
     public void setUp() {
         onset = new VirtualControlLoopEvent();
@@ -368,7 +372,7 @@ public class ControlLoopEventManagerTest {
      */
     public static AaiGetVserverResponse getQueryByVserverName2(String urlGet, String username, String password,
             UUID requestId, String key) {
-        AaiGetVserverResponse response = new AaiGetVserverResponse();
+        final AaiGetVserverResponse response = new AaiGetVserverResponse();
 
         AaiNqVServer svr = new AaiNqVServer();
 
@@ -1049,7 +1053,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testProcessVNFResponse_Success() throws Exception {
+    public void testProcessVnfResponse_Success() throws Exception {
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
         resp.setIsClosedLoopDisabled(false);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
@@ -1057,7 +1061,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testProcessVNFResponse_NullResponse() throws Exception {
+    public void testProcessVnfResponse_NullResponse() throws Exception {
         thrown.expect(AaiException.class);
         thrown.expectMessage("AAI Response is null (query by vnf-id)");
 
@@ -1066,7 +1070,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testProcessVNFResponse_Error() throws Exception {
+    public void testProcessVnfResponse_Error() throws Exception {
         thrown.expect(AaiException.class);
         thrown.expectMessage("AAI Responded with a request error (query by vnf-name)");
 
@@ -1080,7 +1084,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testProcessVNFResponse_Disabled() throws Exception {
+    public void testProcessVnfResponse_Disabled() throws Exception {
         thrown.expect(AaiException.class);
         thrown.expectMessage("is-closed-loop-disabled is set to true (query by vnf-id)");
 
@@ -1091,7 +1095,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testProcessVNFResponse_Inactive() throws Exception {
+    public void testProcessVnfResponse_Inactive() throws Exception {
         thrown.expect(AaiException.class);
         thrown.expectMessage("prov-status is not ACTIVE (query by vnf-name)");
 

@@ -42,14 +42,14 @@ public class PNFTargetLock implements TargetLock, Serializable {
      * 
      * @param type the target type
      * @param target the target
-     * @param requestID the request Id
+     * @param requestId the request Id
      * @param callback the callback
      */
-    public PNFTargetLock(TargetType type, String target, UUID requestID, LockCallback callback) {
+    public PNFTargetLock(TargetType type, String target, UUID requestId, LockCallback callback) {
         this.lockId = UUID.randomUUID();
         this.targetType = type;
         this.target = target;
-        this.requestId = requestID;
+        this.requestId = requestId;
         this.callback = callback;
     }
 

@@ -3,6 +3,7 @@
  * TestSOManager
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.policy.so;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
@@ -43,7 +46,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
 
-public class TestSOManager {
+public class TestSoManager {
     private static final String BASE_URI = "http://localhost:46553/TestSOManager";
     private static final String BASE_SO_URI = BASE_URI + "/SO";
     private static HttpServer server;

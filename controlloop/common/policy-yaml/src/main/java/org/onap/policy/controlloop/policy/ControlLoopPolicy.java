@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,23 +60,30 @@ public class ControlLoopPolicy {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ControlLoopPolicy other = (ControlLoopPolicy) obj;
         if (controlLoop == null) {
-            if (other.controlLoop != null)
+            if (other.controlLoop != null) {
                 return false;
-        } else if (!controlLoop.equals(other.controlLoop))
+            }
+        } else if (!controlLoop.equals(other.controlLoop)) {
             return false;
+        }
         if (policies == null) {
-            if (other.policies != null)
+            if (other.policies != null) {
                 return false;
-        } else if (!policies.equals(other.policies))
+            }
+        } else if (!policies.equals(other.policies)) {
             return false;
+        }
         return true;
     }
 

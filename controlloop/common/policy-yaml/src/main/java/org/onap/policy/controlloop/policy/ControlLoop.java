@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * policy-yaml
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class ControlLoop {
         // Empty Constructor.
     }
 
-    public static String getVERSION() {
+    public static String getCompilerVersion() {
         return ControlLoop.COMPILER_VERSION;
     }
 
@@ -112,6 +112,11 @@ public class ControlLoop {
         this.pnf = pnf;
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param controlLoop copy object
+     */
     public ControlLoop(ControlLoop controlLoop) {
         this.controlLoopName = controlLoop.controlLoopName;
         this.services = new LinkedList<>();

@@ -791,7 +791,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     }
 
     /**
-     * Does provisioning status, for an event, have a value other than ACTIVE?
+     * Does provisioning status, for an event, have a value other than ACTIVE.
      *
      * @param event the event
      * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null},
@@ -829,11 +829,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         try {
             if (vserverName != null) {
-                String aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+                String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
                 String aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
                 String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
-                String url = aaiHostURL + aaiGetQueryByVserver;
+                String url = aaiHostUrl + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
                 response = new AaiManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
                         vserverName);
@@ -859,20 +859,20 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         String vnfName = event.getAai().get(GENERIC_VNF_VNF_NAME);
         String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
 
-        String aaiHostURL = PolicyEngine.manager.getEnvironmentProperty("aai.url");
+        String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
         String aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
         String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
 
         try {
             if (vnfName != null) {
                 String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                String url = aaiHostURL + aaiGetQueryByVnfName;
+                String url = aaiHostUrl + aaiGetQueryByVnfName;
                 logger.info("AAI Host URL by VNF name: {}", url);
                 response = new AaiManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
                         vnfName);
             } else if (vnfId != null) {
                 String aaiGetQueryByVnfId = "/aai/v11/network/generic-vnfs/generic-vnf/";
-                String url = aaiHostURL + aaiGetQueryByVnfId;
+                String url = aaiHostUrl + aaiGetQueryByVnfId;
                 logger.info("AAI Host URL by VNF ID: {}", url);
                 response =
                         new AaiManager(new RESTManager()).getQueryByVnfId(url, aaiUser, aaiPassword, requestId, vnfId);
@@ -890,13 +890,13 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @return output from the AAI vserver named-query
      */
     public AaiNqResponseWrapper getNqVserverFromAai() {
-        if(nqVserverResponse != null) {
+        if (nqVserverResponse != null) {
             // already queried
             return nqVserverResponse;
         }
 
         String vserverName = onset.getAai().get(VSERVER_VSERVER_NAME);
-        if(vserverName == null) {
+        if (vserverName == null) {
             logger.warn("Missing vserver-name for AAI request {}", onset.getRequestId());
             return null;
         }

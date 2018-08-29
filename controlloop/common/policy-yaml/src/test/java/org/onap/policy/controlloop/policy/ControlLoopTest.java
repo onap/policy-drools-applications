@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,18 +109,18 @@ public class ControlLoopTest {
         ControlLoop controlLoop2 = new ControlLoop();
         controlLoop2.setControlLoopName(controlLoopName);
         controlLoop2.setVersion(version);
-        Service controlLoop2_service1 = new Service("service1");
-        Service controlLoop2_service2 = new Service("service2");
-        List<Service> controlLoop2_services = new ArrayList<>();
-        controlLoop2_services.add(controlLoop2_service1);
-        controlLoop2_services.add(controlLoop2_service2);
-        controlLoop2.setServices(controlLoop2_services);
-        Resource controlLoop2_resource1 = new Resource("resource1", ResourceType.VF);
-        Resource controlLoop2_resource2 = new Resource("resource2", ResourceType.VFC);
-        List<Resource> controlLoop2_resources = new ArrayList<>();
-        controlLoop2_resources.add(controlLoop2_resource1);
-        controlLoop2_resources.add(controlLoop2_resource2);
-        controlLoop2.setResources(controlLoop2_resources);
+        Service controlLoop2Service1 = new Service("service1");
+        Service controlLoop2Service2 = new Service("service2");
+        List<Service> controlLoop2Services = new ArrayList<>();
+        controlLoop2Services.add(controlLoop2Service1);
+        controlLoop2Services.add(controlLoop2Service2);
+        controlLoop2.setServices(controlLoop2Services);
+        Resource controlLoop2Resource1 = new Resource("resource1", ResourceType.VF);
+        Resource controlLoop2Resource2 = new Resource("resource2", ResourceType.VFC);
+        List<Resource> controlLoop2Resources = new ArrayList<>();
+        controlLoop2Resources.add(controlLoop2Resource1);
+        controlLoop2Resources.add(controlLoop2Resource2);
+        controlLoop2.setResources(controlLoop2Resources);
         controlLoop2.setPnf(pnf);
         controlLoop2.setTrigger_policy(triggerPolicy);
         controlLoop2.setTimeout(timeout);

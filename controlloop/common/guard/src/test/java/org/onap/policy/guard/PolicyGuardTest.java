@@ -279,7 +279,7 @@ public class PolicyGuardTest {
     }
 
     @Test
-    public void testLockTargetTargetTypeStringUUIDLockCallbackInt() throws Exception {
+    public void testLockTargetTargetTypeStringUuidLockCallbackInt() throws Exception {
         TargetType type = TargetType.VM;
 
         LockResult<GuardResult, TargetLock> result;

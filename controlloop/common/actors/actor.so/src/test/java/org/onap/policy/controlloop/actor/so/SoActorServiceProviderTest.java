@@ -3,7 +3,6 @@
  * TestSOActorServiceProvider
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * ================================================================================
  * Modifications Copyright (C) 2018 AT&T. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
@@ -44,7 +44,7 @@ import org.onap.policy.so.SORequest;
 import org.onap.policy.so.SORequestParameters;
 import org.onap.policy.so.util.Serialization;
 
-public class TestSOActorServiceProvider {
+public class SoActorServiceProviderTest {
 
     @Test
     public void testConstructRequest() throws Exception {
