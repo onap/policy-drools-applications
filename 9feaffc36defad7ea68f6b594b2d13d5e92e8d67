@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_2946f94f",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-29T15:47:55Z",
+      "side": 1,
+      "message": "if this class is needed, then junit tests are needed, too",
+      "parentUuid": "1a76adc5_86e5bcdd",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_c61414a2",
         "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
         "patchSetId": 1
