@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_268b8869",
+        "filename": "controlloop/common/actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/TestSoActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-29T13:36:53Z",
+      "side": 1,
+      "message": "Sure",
+      "parentUuid": "1a76adc5_23493ab7",
+      "revId": "35c9f8894a388968c42e69c969020f19c28ac2e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e36a62ed",
         "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-29T13:15:06Z",
       "side": 1,
       "message": "seems like \"DNS\" is more appropriate.  why change this to all lower, but not change testvFirewall?",
+      "revId": "35c9f8894a388968c42e69c969020f19c28ac2e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_469804c0",
+        "filename": "controlloop/common/policy-yaml/src/test/java/org/onap/policy/controlloop/policy/ControlLoopPolicyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-29T13:36:53Z",
+      "side": 1,
+      "message": "Because the abbreviation fails - checkstyle doesn\u0027t more than one capital letter in a row. Since its a test, the name doesn\u0027t really matter.",
+      "parentUuid": "1a76adc5_e36a62ed",
       "revId": "35c9f8894a388968c42e69c969020f19c28ac2e3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
