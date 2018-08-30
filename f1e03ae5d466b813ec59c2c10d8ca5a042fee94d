@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_4c533e39",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-30T14:10:42Z",
+      "side": 1,
+      "message": "Interesting. No I actually didn\u0027t (went back and checked). But checkstyle wasn\u0027t flagging it - else the pom.xml would have failed the verify.",
+      "parentUuid": "1a76adc5_ccae6e98",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6c971a49",
         "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
         "patchSetId": 2
