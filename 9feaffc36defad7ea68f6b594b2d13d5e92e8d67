@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_78e6f516",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T11:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_066a0c81",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_c66094a7",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-29T14:27:10Z",
       "side": 1,
       "message": "what if there is more than one VF Module?  Really want to delete the first one?  Or maybe should return the last one?",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_18efc1ea",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T11:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_c66094a7",
       "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -71,6 +107,42 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_98b2f104",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T11:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_2946f94f",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_78f835c3",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T11:46:13Z",
+      "side": 1,
+      "message": "Yes, SO vf module delete request needs a body.",
+      "parentUuid": "1a76adc5_86e5bcdd",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_c61414a2",
         "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2018-08-29T14:27:10Z",
       "side": 1,
       "message": "missing comments",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_58e9b9e4",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T11:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_c61414a2",
       "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -116,6 +206,24 @@
       "writtenOn": "2018-08-29T14:27:10Z",
       "side": 1,
       "message": "comments?",
+      "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_781fd508",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOOperationType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T11:46:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_a60f9887",
       "revId": "9feaffc36defad7ea68f6b594b2d13d5e92e8d67",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
