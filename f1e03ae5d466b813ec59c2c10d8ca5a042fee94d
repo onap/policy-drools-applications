@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a5078517",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-30T18:58:38Z",
+      "side": 1,
+      "message": "I also thought of doing this initially. But later decided to keep the recipe independent of the SO operation that need to be performed for that recipe. For example recipe is create vf module and for this we invoke SO scale-out api. what\u0027s your thought on this ?",
+      "parentUuid": "1a76adc5_ccb3cee7",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ac0d32ea",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 2
