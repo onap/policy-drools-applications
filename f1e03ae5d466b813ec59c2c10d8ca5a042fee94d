@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_e59d7dbd",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T19:08:53Z",
+      "side": 1,
+      "message": "OK, maybe it\u0027s best the way it is.",
+      "parentUuid": "1a76adc5_a5078517",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ac0d32ea",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 2
