@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_6cd07a1f",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "nice job with the refactoring!",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ccb3cee7",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "perhaps remove these two RECIPE constants and use SoOperationType instead?  (Of course, the text for the latter would have to be modified to match the recipe text.)",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ac0d32ea",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "please make this \"private static final\" - to fix a sonar issue I introduced.",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_cc12ee08",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "parameter comments",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ec2eca42",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "parameter comments",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2cefe2ea",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "parameter comments",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4cec9ef3",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "parameter comments",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ccae6e98",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "I thought Pam had changed these fields to \"first\" and \"second\", but maybe that was in another file.  Please change them to satisfy checkstyle, as it doesn\u0027t like single-character variable names.",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6c971a49",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "seems like there is a lot of commonality with \"get\" \u0026 \"post\"",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0c90e648",
+        "filename": "controlloop/common/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "assertEquals(\"DELETE\", ...)",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6c7e3a1b",
+        "filename": "controlloop/common/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "maybe also assert that the request has the correct URL",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ac977239",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOOperationType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "rename to \"SoOperationType\" (sorry, didn\u0027t notice this before - checkstyle is still not second nature to me)",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4c1b3eca",
+        "filename": "controlloop/common/model-impl/so/src/test/java/org/onap/policy/so/TestSoDummyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T13:50:44Z",
+      "side": 1,
+      "message": "extract common methods, as this is so similar to \"get\" \u0026 \"post\"",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
