@@ -72,7 +72,7 @@ public class SOActorServiceProvider implements Actor {
     public static final String CONFIG_PARAM_NM = "configurationParameters";
 
     // used to decode configuration parameters via gson
-    public static Type CONFIG_TYPE = new TypeToken<List<Map<String, String>>>() {}.getType();
+    private static final Type CONFIG_TYPE = new TypeToken<List<Map<String, String>>>() {}.getType();
 
     // Static variables required to hold the IDs of the last service item and VNF item.
     // Note that in
