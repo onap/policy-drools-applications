@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_51018f04",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-31T17:06:30Z",
+      "side": 1,
+      "message": "I think Sonar will complain about wildcard imports.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "d44261ff4a2773728e99b22853265b11cca636c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d507ca16",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-31T17:06:30Z",
+      "side": 1,
+      "message": "I think SOnar will complain about this style as well. Perhaps use the ONAP checkstyle in your IDE.",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 168,
+        "endChar": 12
+      },
+      "revId": "d44261ff4a2773728e99b22853265b11cca636c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9515d241",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/HttpDeleteWithBody.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-31T17:06:30Z",
+      "side": 1,
+      "message": "Did all REST handling not move to policy common endpoints. @Michael Morris and @Pamela Dragosh would know.",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 1
+      },
+      "revId": "d44261ff4a2773728e99b22853265b11cca636c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1529c289",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SORequest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-31T17:06:30Z",
+      "side": 1,
+      "message": "Wondering why this is transient?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 52
+      },
+      "revId": "d44261ff4a2773728e99b22853265b11cca636c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
