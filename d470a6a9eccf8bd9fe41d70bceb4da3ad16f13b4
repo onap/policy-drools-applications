@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3807131b",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-31T19:31:04Z",
+      "side": 1,
+      "message": "Now that we are inheriting from policy/parent - this is unnecessary as we have the version declared already. Please remove.",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 1
+      },
+      "revId": "d470a6a9eccf8bd9fe41d70bceb4da3ad16f13b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f80c3b3d",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-31T19:31:04Z",
+      "side": 1,
+      "message": "Use try-with-resources for autocloseable",
+      "range": {
+        "startLine": 814,
+        "startChar": 8,
+        "endLine": 815,
+        "endChar": 79
+      },
+      "revId": "d470a6a9eccf8bd9fe41d70bceb4da3ad16f13b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_78182b75",
+        "filename": "controlloop/common/eventmanager/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-08-31T19:31:04Z",
+      "side": 1,
+      "message": "Moving from derby back to h2. Liam I think you changed it originally - do you have a problem with this?",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "d470a6a9eccf8bd9fe41d70bceb4da3ad16f13b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
