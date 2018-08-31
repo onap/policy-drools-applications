@@ -68,6 +68,30 @@
       "revId": "d470a6a9eccf8bd9fe41d70bceb4da3ad16f13b4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b8dc8374",
+        "filename": "controlloop/common/eventmanager/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-08-31T19:58:21Z",
+      "side": 1,
+      "message": "It\u0027s fine. I just used Derby because I was familiar with it.",
+      "parentUuid": "1a76adc5_78182b75",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "d470a6a9eccf8bd9fe41d70bceb4da3ad16f13b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
