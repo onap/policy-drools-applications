@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
+ * Modifications copyright (c) 2018 Nokia
+ * ================================================================================
  */
 
 package org.onap.policy.controlloop.actor.appclcm;
@@ -196,10 +198,12 @@ public class AppcLcmActorServiceProvider implements Actor {
          * The actual LCM request is placed in a wrapper used to send through dmaap. The current
          * version is 2.0 as of R1.
          */
+        AppcLcmRecipeFormatter lcmRecipeFormatter = new AppcLcmRecipeFormatter(policy.getRecipe());
+
         LcmRequestWrapper dmaapRequest = new LcmRequestWrapper();
         dmaapRequest.setVersion("2.0");
         dmaapRequest.setCorrelationId(onset.getRequestId() + "-" + operation.getSubRequestId());
-        dmaapRequest.setRpcName(policy.getRecipe().toLowerCase());
+        dmaapRequest.setRpcName(lcmRecipeFormatter.getURLRecipe());
         dmaapRequest.setType("request");
 
         /* This is the actual request that is placed in the dmaap wrapper. */
@@ -226,8 +230,7 @@ public class AppcLcmActorServiceProvider implements Actor {
          * An action is required for all APPC requests, this will be the recipe specified in the
          * policy.
          */
-        appcRequest.setAction(
-                policy.getRecipe().substring(0, 1).toUpperCase() + policy.getRecipe().substring(1).toLowerCase());
+        appcRequest.setAction(lcmRecipeFormatter.getBodyRecipe());
 
         /*
          * For R1, the payloads will not be required for the Restart, Rebuild, or Migrate recipes.
