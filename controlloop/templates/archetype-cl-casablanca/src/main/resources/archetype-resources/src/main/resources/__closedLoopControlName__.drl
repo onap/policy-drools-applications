@@ -33,6 +33,7 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
+import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
@@ -644,8 +645,11 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
                                                         $operation.policy.getActor().toString(),
                                                         $operation.policy.getRecipe(),
                                                         $operation.getTargetEntity(),
-                                                        $event.getRequestId().toString()
-                                                        ));
+                                                        $event.getRequestId().toString(),
+                                                        () -> {
+                                                            AaiNqResponseWrapper resp = $manager.getNqVserverFromAai();
+                                                            return(resp == null ? null : resp.countVfModules());
+                                                        }));
         t.start();
     }
     else{

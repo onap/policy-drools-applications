@@ -100,6 +100,9 @@ public class PolicyGuardXacmlHelper {
         if (xacmlReq.getClnameID() != null) {
             attributes.put("clname", xacmlReq.getClnameID());
         }
+        if (xacmlReq.getVfCount() != null) {
+            attributes.put("vfCount", xacmlReq.getVfCount());
+        }
         JSONObject jsonReq = new JSONObject();
         jsonReq.put("decisionAttributes", attributes);
         jsonReq.put("onapName", "PDPD");

@@ -36,15 +36,17 @@ public class PolicyGuardXacmlRequestAttributes {
      * @param operationId the operation Id
      * @param targetId the target Id
      * @param requestId the request Id
+     * @param vfCount the new number of VF Modules
      */
     public PolicyGuardXacmlRequestAttributes(String clnameId, String actorId, String operationId, String targetId,
-            String requestId) {
+            String requestId, Integer vfCount) {
         super();
         this.clnameID = clnameId;
         this.actorID = actorId;
         this.operationID = operationId;
         this.targetID = targetId;
         this.requestID = requestId;
+        this.vfCount = vfCount;
     }
 
     @Override
@@ -67,6 +69,9 @@ public class PolicyGuardXacmlRequestAttributes {
 
     @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:request-id")
     String requestID;
+
+    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:vf-count")
+    Integer vfCount;
 
     public String getActorID() {
         return actorID;
@@ -106,5 +111,13 @@ public class PolicyGuardXacmlRequestAttributes {
 
     public void setClnameID(String clnameID) {
         this.clnameID = clnameID;
+    }
+
+    public Integer getVfCount() {
+        return vfCount;
+    }
+
+    public void setVfCount(Integer vfCount) {
+        this.vfCount = vfCount;
     }
 }

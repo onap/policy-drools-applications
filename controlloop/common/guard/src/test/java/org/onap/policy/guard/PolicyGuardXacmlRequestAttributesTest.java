@@ -31,16 +31,16 @@ public class PolicyGuardXacmlRequestAttributesTest {
 
     @Test
     public void policyGuardXacmlRequestAttributesTest() {
-        assertNotNull(new PolicyGuardXacmlRequestAttributes(null, null, null, null, null));
+        PolicyGuardXacmlRequestAttributes attributes =
+                        new PolicyGuardXacmlRequestAttributes(null, null, null, null, null, null);
+        assertNotNull(attributes);
 
         UUID controlLoopId = UUID.randomUUID();
         UUID operationId = UUID.randomUUID();
         UUID requestId = UUID.randomUUID();
         UUID actorId = UUID.randomUUID();
         UUID targetId = UUID.randomUUID();
-
-        PolicyGuardXacmlRequestAttributes attributes = new PolicyGuardXacmlRequestAttributes(controlLoopId.toString(),
-                actorId.toString(), operationId.toString(), targetId.toString(), requestId.toString());
+        Integer vfCount = 20;
 
         attributes.setRequestID(requestId.toString());
         assertEquals(requestId.toString(), attributes.getRequestID());
@@ -59,6 +59,15 @@ public class PolicyGuardXacmlRequestAttributesTest {
 
         attributes.setClnameID(controlLoopId.toString());
         assertEquals(controlLoopId.toString(), attributes.getClnameID());
+
+        attributes.setClnameID(null);
+        assertEquals(null, attributes.getClnameID());
+        
+        attributes.setVfCount(vfCount);
+        assertEquals(vfCount, attributes.getVfCount());
+
+        attributes.setVfCount(null);
+        assertEquals(null, attributes.getVfCount());
 
         assertEquals("PolicyGuardXacmlRequestAttributes [actorID=", attributes.toString().substring(0, 43));
     }
