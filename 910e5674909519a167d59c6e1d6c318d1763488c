@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f665311e",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:20:40Z",
+      "side": 1,
+      "message": "missing period",
+      "revId": "910e5674909519a167d59c6e1d6c318d1763488c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_166b0df3",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:20:40Z",
+      "side": 1,
+      "message": "missing period",
+      "revId": "910e5674909519a167d59c6e1d6c318d1763488c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
