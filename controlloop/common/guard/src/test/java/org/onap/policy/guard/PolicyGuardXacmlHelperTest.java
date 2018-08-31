@@ -59,6 +59,8 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 
 public class PolicyGuardXacmlHelperTest {
+    
+    private static final Integer VF_COUNT = 100;
 
     /**
      * Set up test class.
@@ -88,7 +90,8 @@ public class PolicyGuardXacmlHelperTest {
 
         // Null/ Bad Connection Case
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
-                org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target", "requestId");
+                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
+                        "requestId", VF_COUNT);
         String rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(0, Util.INDETERMINATE.compareToIgnoreCase(rawDecision));
@@ -97,7 +100,7 @@ public class PolicyGuardXacmlHelperTest {
     @Test
     public void testSimulator() {
         PolicyGuardXacmlRequestAttributes request = new PolicyGuardXacmlRequestAttributes("clname_id", "actor_id",
-                "operation_id", "target_id", "request_id");
+                        "operation_id", "target_id", "request_id", VF_COUNT);
         String xacmlResponse = new PolicyGuardXacmlHelper().callPDP(request);
         assertNotNull(xacmlResponse);
     }
@@ -110,13 +113,14 @@ public class PolicyGuardXacmlHelperTest {
     public void testCallPdp() {
         // Deny Case
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
-                org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target", "requestId");
+                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
+                        "requestId", VF_COUNT);
         String rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
         assertNotNull(rawDecision);
         assertTrue(0 == Util.DENY.compareToIgnoreCase(rawDecision));
 
         // Permit Case
-        xacmlReq = new PolicyGuardXacmlRequestAttributes("clname", "actor", "recipe", "target", "requestId");
+        xacmlReq = new PolicyGuardXacmlRequestAttributes("clname", "actor", "recipe", "target", "requestId", VF_COUNT);
         rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(0, Util.PERMIT.compareToIgnoreCase(rawDecision));
@@ -130,7 +134,8 @@ public class PolicyGuardXacmlHelperTest {
      */
     public void testCallPdpExtra() {
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
-                org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target", "requestId");
+                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
+                        "requestId", VF_COUNT);
 
         xacmlReq.setClnameID(null);
         String rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);

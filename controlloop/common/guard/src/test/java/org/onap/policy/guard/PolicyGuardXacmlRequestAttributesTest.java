@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 AT&T. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,34 +33,42 @@ public class PolicyGuardXacmlRequestAttributesTest {
 
     @Test
     public void policyGuardXacmlRequestAttributesTest() {
-        assertNotNull(new PolicyGuardXacmlRequestAttributes(null, null, null, null, null));
+        PolicyGuardXacmlRequestAttributes attributes =
+                        new PolicyGuardXacmlRequestAttributes(null, null, null, null, null, null);
+        assertNotNull(attributes);
 
-        UUID controlLoopId = UUID.randomUUID();
-        UUID operationId = UUID.randomUUID();
         UUID requestId = UUID.randomUUID();
-        UUID actorId = UUID.randomUUID();
-        UUID targetId = UUID.randomUUID();
-
-        PolicyGuardXacmlRequestAttributes attributes = new PolicyGuardXacmlRequestAttributes(controlLoopId.toString(),
-                actorId.toString(), operationId.toString(), targetId.toString(), requestId.toString());
-
         attributes.setRequestID(requestId.toString());
         assertEquals(requestId.toString(), attributes.getRequestID());
 
+        UUID operationId = UUID.randomUUID();
         attributes.setOperationID(operationId.toString());
         assertEquals(operationId.toString(), attributes.getOperationID());
 
+        UUID actorId = UUID.randomUUID();
         attributes.setActorID(actorId.toString());
         assertEquals(actorId.toString(), attributes.getActorID());
 
+        UUID targetId = UUID.randomUUID();
         attributes.setTargetID(targetId.toString());
         assertEquals(targetId.toString(), attributes.getTargetID());
 
         attributes.setTargetID(targetId.toString());
         assertEquals(targetId.toString(), attributes.getTargetID());
 
+        UUID controlLoopId = UUID.randomUUID();
         attributes.setClnameID(controlLoopId.toString());
         assertEquals(controlLoopId.toString(), attributes.getClnameID());
+
+        attributes.setClnameID(null);
+        assertEquals(null, attributes.getClnameID());
+
+        Integer vfCount = 20;
+        attributes.setVfCount(vfCount);
+        assertEquals(vfCount, attributes.getVfCount());
+
+        attributes.setVfCount(null);
+        assertEquals(null, attributes.getVfCount());
 
         assertEquals("PolicyGuardXacmlRequestAttributes [actorID=", attributes.toString().substring(0, 43));
     }

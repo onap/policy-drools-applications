@@ -20,45 +20,99 @@
 
 package org.onap.policy.guard;
 
-import com.att.research.xacml.api.DataTypeException;
-import com.att.research.xacml.std.annotations.RequestParser;
-
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
-
+import java.util.function.Supplier;
 import org.drools.core.WorkingMemory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.att.research.xacml.api.DataTypeException;
+import com.att.research.xacml.std.annotations.RequestParser;
 
 public class CallGuardTask implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(CallGuardTask.class);
-    WorkingMemory workingMemory;
-    String restfulPdpUrl;
-    String clname;
-    String actor;
-    String recipe;
-    String target;
-    String requestId;
+
+    /**
+     * Actor/recipe pairs whose guard requests need a VF Module count. Each element is of
+     * the form "<actor>:<recipe>".
+     */
+    private static final Set<String> NEEDS_VF_COUNT = new HashSet<>();
+
+    /**
+     * Actor/recipe pairs whose guard requests need the VF Module count to be incremented
+     * (i.e., because a module is being added). Each element is of the form
+     * "<actor>:<recipe>".
+     */
+    private static final Set<String> INCR_VF_COUNT = new HashSet<>();
+
+    static {
+        INCR_VF_COUNT.add("SO:VF Module Create");
+        NEEDS_VF_COUNT.addAll(INCR_VF_COUNT);
+    }
+
+    private WorkingMemory workingMemory;
+    private String clname;
+    private String actor;
+    private String recipe;
+    private String target;
+    private String requestId;
+    private Integer vfCount;
+
+    /**
+     * Populated once the response has been determined, which may happen during the
+     * constructor or later, during {@link #run()}.
+     */
+    private PolicyGuardResponse guardResponse;
 
     /**
      * Guard url is grabbed from PolicyEngine.manager properties
      */
-    public CallGuardTask(WorkingMemory wm, String cl, String act, String rec, String tar, String reqId) {
+    public CallGuardTask(WorkingMemory wm, String cl, String act, String rec, String tar, String reqId, Supplier<Integer> vfcnt) {
         workingMemory = wm;
         clname = cl;
         actor = act;
         recipe = rec;
         requestId = reqId;
         target = tar;
+
+        vfCount = null;
+
+        String key = act + ":" + rec;
+
+        if (NEEDS_VF_COUNT.contains(key)) {
+            // this actor/recipe needs the count - get it
+            if ((vfCount = vfcnt.get()) == null) {
+                /*
+                 * The count is missing - create an artificial Deny, which will be
+                 * inserted into working memory when "run()" is called.
+                 */
+                guardResponse = new PolicyGuardResponse(Util.DENY, UUID.fromString(requestId), recipe);
+                logger.error("CallGuardTask.run missing VF Module count; requestId={}", requestId);
+                return;
+            }
+
+            if (INCR_VF_COUNT.contains(key)) {
+                // this actor/recipe needs the count to be incremented
+                ++vfCount;
+            }
+        }
     }
 
     @Override
     public void run() {
+        if (guardResponse != null) {
+            // already have a response - just insert it
+            workingMemory.insert(guardResponse);
+            return;
+        }
+        
         final long startTime = System.nanoTime();
         com.att.research.xacml.api.Request request = null;
 
         PolicyGuardXacmlRequestAttributes xacmlReq =
-                new PolicyGuardXacmlRequestAttributes(clname, actor, recipe, target, requestId);
+                        new PolicyGuardXacmlRequestAttributes(clname, actor, recipe, target, requestId, vfCount);
 
         try {
             request = RequestParser.parseRequest(xacmlReq);
@@ -90,8 +144,7 @@ public class CallGuardTask implements Runnable {
             guardDecision = Util.INDETERMINATE;
         }
 
-        PolicyGuardResponse guardResponse =
-                new PolicyGuardResponse(guardDecision, UUID.fromString(this.requestId), this.recipe);
+        guardResponse = new PolicyGuardResponse(guardDecision, UUID.fromString(this.requestId), this.recipe);
 
 
         //
