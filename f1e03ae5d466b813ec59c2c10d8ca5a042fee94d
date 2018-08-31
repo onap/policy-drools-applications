@@ -317,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_91f7278b",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T15:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_6c971a49",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_0c90e648",
         "filename": "controlloop/common/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
         "patchSetId": 2
@@ -433,6 +451,24 @@
       "writtenOn": "2018-08-30T13:50:44Z",
       "side": 1,
       "message": "extract common methods, as this is so similar to \"get\" \u0026 \"post\"",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_71fa8b76",
+        "filename": "controlloop/common/model-impl/so/src/test/java/org/onap/policy/so/TestSoDummyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T15:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4c1b3eca",
       "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
