@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_5bb9ae13",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ac0d32ea",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_cc12ee08",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 2
@@ -100,6 +118,24 @@
       "writtenOn": "2018-08-30T13:50:44Z",
       "side": 1,
       "message": "parameter comments",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fb399aa4",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_cc12ee08",
       "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -123,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_fb60baa6",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ec2eca42",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2cefe2ea",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 2
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_db5b7ef4",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_2cefe2ea",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_4cec9ef3",
         "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
         "patchSetId": 2
@@ -151,6 +223,24 @@
       "writtenOn": "2018-08-30T13:50:44Z",
       "side": 1,
       "message": "parameter comments",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7b74aa67",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4cec9ef3",
       "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -192,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_3b6ab281",
+        "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ccae6e98",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6c971a49",
         "filename": "controlloop/common/model-impl/rest/src/main/java/org/onap/policy/rest/RESTManager.java",
         "patchSetId": 2
@@ -226,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_fb075ac8",
+        "filename": "controlloop/common/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_0c90e648",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6c7e3a1b",
         "filename": "controlloop/common/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
         "patchSetId": 2
@@ -243,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_1b0d76e9",
+        "filename": "controlloop/common/model-impl/rest/src/test/java/org/onap/policy/rest/HttpDeleteWithBodyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_6c7e3a1b",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ac977239",
         "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOOperationType.java",
         "patchSetId": 2
@@ -254,6 +398,24 @@
       "writtenOn": "2018-08-30T13:50:44Z",
       "side": 1,
       "message": "rename to \"SoOperationType\" (sorry, didn\u0027t notice this before - checkstyle is still not second nature to me)",
+      "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_db129e08",
+        "filename": "controlloop/common/model-impl/so/src/main/java/org/onap/policy/so/SOOperationType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003
+      },
+      "writtenOn": "2018-08-31T06:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ac977239",
       "revId": "f1e03ae5d466b813ec59c2c10d8ca5a042fee94d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
