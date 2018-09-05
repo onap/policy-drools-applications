@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_831b4fc9",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-05T12:27:35Z",
+      "side": 1,
+      "message": "splitRecipe might be better as a variable name throughout this class if you have time to change it",
+      "range": {
+        "startLine": 34,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "097a2568ecde208d10af0767bc13a8353d71a0bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
