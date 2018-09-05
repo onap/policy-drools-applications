@@ -22,6 +22,30 @@
       "revId": "097a2568ecde208d10af0767bc13a8353d71a0bb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_03a3bf4f",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T12:47:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_831b4fc9",
+      "range": {
+        "startLine": 34,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "097a2568ecde208d10af0767bc13a8353d71a0bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
