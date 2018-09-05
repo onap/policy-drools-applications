@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e73b2ecf",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-05T13:02:53Z",
+      "side": 1,
+      "message": "code style require comments here?",
+      "revId": "09543cac5d1052d87adafaf55bd94475fd86ca68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
