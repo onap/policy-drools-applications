@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c8f884c5",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T08:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_fe7ade75",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_fe973e38",
         "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2018-09-04T13:10:54Z",
       "side": 1,
       "message": "missing comments",
+      "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_08e19cfd",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T08:52:04Z",
+      "side": 1,
+      "message": "What kind of comments do you think are needed here?",
+      "parentUuid": "1a76adc5_fe973e38",
       "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_88fe0cad",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T08:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_3e92964c",
+      "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7ec24e35",
         "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2018-09-04T13:10:54Z",
       "side": 1,
       "message": "URL -\u003e Url",
+      "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_282fb840",
+        "filename": "controlloop/common/actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T08:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_7ec24e35",
       "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_48347492",
+        "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T08:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_5ee512db",
+      "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_fee5fedb",
         "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatterTest.java",
         "patchSetId": 3
@@ -104,6 +200,24 @@
       "writtenOn": "2018-09-04T13:10:54Z",
       "side": 1,
       "message": "URL -\u003e Url",
+      "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e8246061",
+        "filename": "controlloop/common/actors/actor.appclcm/src/test/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmRecipeFormatterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-09-05T08:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_fee5fedb",
       "revId": "e1a938bceb9dcb392ab320c50f3280a78a85679e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
