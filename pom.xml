@@ -59,6 +59,8 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
         <!-- Project common dependency versions -->
+        <drools.version>7.9.0.Final</drools.version>
+        <eclipselink.version>2.7.0</eclipselink.version>
     </properties>
 
     <build>

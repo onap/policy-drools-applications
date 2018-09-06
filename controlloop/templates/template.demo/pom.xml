@@ -34,7 +34,7 @@
     <dependency>
       <groupId>org.eclipse.persistence</groupId>
       <artifactId>org.eclipse.persistence.jpa</artifactId>
-      <version>2.7.0</version>
+      <version>${eclipselink.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -46,13 +46,13 @@
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core</artifactId>
-      <version>6.5.0.Final</version>
+      <version>${drools.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-compiler</artifactId>
-      <version>6.5.0.Final</version>
+      <version>${drools.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
