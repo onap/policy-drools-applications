@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.net.URI;
@@ -165,7 +166,7 @@ public class TestSoManager {
         PolicyEngine.manager.setEnvironmentProperty("so.username", "sean");
         PolicyEngine.manager.setEnvironmentProperty("so.password", "citizen");
 
-        WorkingMemory wm = new DummyWorkingMemory();
+        WorkingMemory wm = mock(WorkingMemory.class);
 
         SORequest soRequest = new SORequest();
         soRequest.setOperationType(SoOperationType.SCALE_OUT);
@@ -288,7 +289,7 @@ public class TestSoManager {
         PolicyEngine.manager.setEnvironmentProperty("so.username", "sean");
         PolicyEngine.manager.setEnvironmentProperty("so.password", "citizen");
 
-        WorkingMemory wm = new DummyWorkingMemory();
+        WorkingMemory wm = mock(WorkingMemory.class);
 
         SORequest soRequest = new SORequest();
         soRequest.setOperationType(SoOperationType.DELETE_VF_MODULE);

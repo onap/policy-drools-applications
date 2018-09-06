@@ -514,7 +514,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId(), "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId(), guardApprovalStatus == "PERMIT" )
         $lock : TargetLock (requestID == $event.getRequestId())
         $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
     then
@@ -738,7 +738,7 @@ rule "${policyName}.GUARD.RESPONSE"
     
     if("Permit".equalsIgnoreCase($guardResponse.getResult())){
     
-        modify($operation){setGuardApprovalStatus($guardResponse.getResult())};
+        modify($operation){setGuardApprovalStatus("PERMIT")};
     }
     else {
         //This is the Deny case

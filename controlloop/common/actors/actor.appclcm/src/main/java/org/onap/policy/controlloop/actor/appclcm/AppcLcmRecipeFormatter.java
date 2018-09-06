@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 AT&T. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,7 +23,7 @@
 package org.onap.policy.controlloop.actor.appclcm;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.Collectors;
 

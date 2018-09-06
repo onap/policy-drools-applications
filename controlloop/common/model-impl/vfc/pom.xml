@@ -51,12 +51,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-core</artifactId>
-      <version>6.5.0.Final</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.onap.policy.common</groupId>
       <artifactId>policy-endpoints</artifactId>
       <version>${project.version}</version>
