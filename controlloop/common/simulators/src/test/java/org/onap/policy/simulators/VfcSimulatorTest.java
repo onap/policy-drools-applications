@@ -63,8 +63,8 @@ public class VfcSimulatorTest {
                 new RESTManager().post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password",
                         new HashMap<String, String>(), "application/json", "Some Request Here");
         assertNotNull(httpDetails);
-        assertTrue(httpDetails.a == 202);
-        final VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
+        assertTrue(httpDetails.first == 202);
+        final VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VFCResponse.class);
         assertNotNull(response);
     }
 
@@ -73,7 +73,7 @@ public class VfcSimulatorTest {
         final Pair<Integer, String> httpDetails = new RESTManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234",
                 "username", "password", new HashMap<String, String>());
         assertNotNull(httpDetails);
-        final VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, VFCResponse.class);
+        final VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VFCResponse.class);
         assertNotNull(response);
     }
 }

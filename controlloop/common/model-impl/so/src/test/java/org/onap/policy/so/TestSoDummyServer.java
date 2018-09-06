@@ -25,6 +25,7 @@ package org.onap.policy.so;
 import com.google.gson.Gson;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -38,6 +39,7 @@ public class TestSoDummyServer {
     private static int putMessagesReceived = 0;
     private static int statMessagesReceived = 0;
     private static int getMessagesReceived = 0;
+    private static int deleteMessagesReceived = 0;
 
     private static Map<String, SOResponse> ongoingRequestMap = new ConcurrentHashMap<>();
 
@@ -51,7 +53,9 @@ public class TestSoDummyServer {
     public Response serviceGetStats() {
         statMessagesReceived++;
         return Response.status(200).entity("{\"GET\": " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
-                        + ",\"POST\": " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived + "}").build();
+                + ",\"POST\": " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived
+                + ",\"DELETE\": " + deleteMessagesReceived + "}").build();
+
     }
 
     /**
@@ -77,82 +81,7 @@ public class TestSoDummyServer {
     @Path("/serviceInstantiation/v7")
     public Response servicePostRequest(final String jsonString) {
         postMessagesReceived++;
-
-        if (jsonString == null) {
-            return Response.status(400).build();
-        }
-
-        SORequest request = null;
-        try {
-            request = new Gson().fromJson(jsonString, SORequest.class);
-        } catch (Exception e) {
-            return Response.status(400).build();
-        }
-
-        if (request == null) {
-            return Response.status(400).build();
-        }
-
-        if (request.getRequestType() == null) {
-            return Response.status(400).build();
-        }
-
-        if ("ReturnBadJson".equals(request.getRequestType())) {
-            return Response.status(200)
-                            .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
-                                            + ",\"POST\": , " + postMessagesReceived + ",\"PUT\": "
-                                            + putMessagesReceived + "}")
-                            .build();
-        }
-
-        SOResponse response = new SOResponse();
-        response.setRequest(request);
-        response.setRequestReferences(new SORequestReferences());
-        response.getRequestReferences().setRequestId(request.getRequestId().toString());
-
-        if ("ReturnCompleted".equals(request.getRequestType())) {
-            response.getRequest().getRequestStatus().setRequestState("COMPLETE");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        if ("ReturnFailed".equals(request.getRequestType())) {
-            response.getRequest().getRequestStatus().setRequestState("FAILED");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        if ("ReturnOnging202".equals(request.getRequestType())) {
-            ongoingRequestMap.put(request.getRequestId().toString(), response);
-
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
-            response.setHttpResponseCode(202);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        if ("ReturnOnging200".equals(request.getRequestType())) {
-            ongoingRequestMap.put(request.getRequestId().toString(), response);
-
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-
-        if ("ReturnBadAfterWait".equals(request.getRequestType())) {
-            ongoingRequestMap.put(request.getRequestId().toString(), response);
-
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        return null;
+        return buildResponse(jsonString);
     }
 
     /**
@@ -168,82 +97,7 @@ public class TestSoDummyServer {
     public Response servicePostRequestVfModules(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId, final String jsonString) {
         postMessagesReceived++;
-
-        if (jsonString == null) {
-            return Response.status(400).build();
-        }
-
-        SORequest request = null;
-        try {
-            request = new Gson().fromJson(jsonString, SORequest.class);
-        } catch (Exception e) {
-            return Response.status(400).build();
-        }
-
-        if (request == null) {
-            return Response.status(400).build();
-        }
-
-        if (request.getRequestType() == null) {
-            return Response.status(400).build();
-        }
-
-        if ("ReturnBadJson".equals(request.getRequestType())) {
-            return Response.status(200)
-                            .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
-                                            + ",\"POST\": , " + postMessagesReceived + ",\"PUT\": "
-                                            + putMessagesReceived + "}")
-                            .build();
-        }
-
-        SOResponse response = new SOResponse();
-        response.setRequest(request);
-        response.setRequestReferences(new SORequestReferences());
-        response.getRequestReferences().setRequestId(request.getRequestId().toString());
-
-        if ("ReturnCompleted".equals(request.getRequestType())) {
-            response.getRequest().getRequestStatus().setRequestState("COMPLETE");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        if ("ReturnFailed".equals(request.getRequestType())) {
-            response.getRequest().getRequestStatus().setRequestState("FAILED");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        if ("ReturnOnging202".equals(request.getRequestType())) {
-            ongoingRequestMap.put(request.getRequestId().toString(), response);
-
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
-            response.setHttpResponseCode(202);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        if ("ReturnOnging200".equals(request.getRequestType())) {
-            ongoingRequestMap.put(request.getRequestId().toString(), response);
-
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-
-        if ("ReturnBadAfterWait".equals(request.getRequestType())) {
-            ongoingRequestMap.put(request.getRequestId().toString(), response);
-
-            response.getRequest().getRequestStatus().setRequestState("ONGOING");
-            response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
-            return Response.status(response.getHttpResponseCode()).entity(responseString).build();
-        }
-
-        return null;
+        return buildResponse(jsonString);
     }
 
     /**
@@ -276,5 +130,110 @@ public class TestSoDummyServer {
         response.setHttpResponseCode(200);
         String responseString = new Gson().toJson(response, SOResponse.class);
         return Response.status(response.getHttpResponseCode()).entity(responseString).build();
+    }
+
+    /**
+     * Delete.
+     *
+     * @param serviceInstanceId service instance id
+     * @param vnfInstanceId vnf instance id
+     * @param vfModuleInstanceId vf module instance id
+     * @param jsonString json body
+     * @return http response
+     */
+    @DELETE
+    @Path("/serviceInstances/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/{vfModuleInstanceId}")
+    public Response serviceDeleteRequestVfModules(
+            @PathParam("serviceInstanceId") final String serviceInstanceId,
+            @PathParam("vnfInstanceId") final String vnfInstanceId,
+            @PathParam("vfModuleInstanceId") final String vfModuleInstanceId,
+            final String jsonString) {
+        deleteMessagesReceived++;
+        return buildResponse(jsonString);
+    }
+
+    private Response buildResponse(String jsonString) {
+        if (jsonString == null) {
+            return Response.status(400).build();
+        }
+
+        SORequest request = null;
+        try {
+            request = new Gson().fromJson(jsonString, SORequest.class);
+        } catch (Exception e) {
+            return Response.status(400).build();
+        }
+
+        if (request == null) {
+            return Response.status(400).build();
+        }
+
+        if (request.getRequestType() == null) {
+            return Response.status(400).build();
+        }
+
+        if ("ReturnBadJson".equals(request.getRequestType())) {
+            return Response.status(200)
+                    .entity("{\"GET\": , " + getMessagesReceived + ",\"STAT\": " + statMessagesReceived
+                            + ",\"POST\":" + " , " + postMessagesReceived + ",\"PUT\": " + putMessagesReceived
+                            + ",\"DELETE\": " + deleteMessagesReceived + "}").build();
+        }
+
+        SOResponse response = new SOResponse();
+        response.setRequest(request);
+        response.setRequestReferences(new SORequestReferences());
+        response.getRequestReferences().setRequestId(request.getRequestId().toString());
+
+        if ("ReturnCompleted".equals(request.getRequestType())) {
+            response.getRequest().getRequestStatus().setRequestState("COMPLETE");
+            response.setHttpResponseCode(200);
+            String responseString = new Gson().toJson(response, SOResponse.class);
+            return Response.status(response.getHttpResponseCode())
+                    .entity(responseString)
+                    .build();
+        }
+
+        if ("ReturnFailed".equals(request.getRequestType())) {
+            response.getRequest().getRequestStatus().setRequestState("FAILED");
+            response.setHttpResponseCode(200);
+            String responseString = new Gson().toJson(response, SOResponse.class);
+            return Response.status(response.getHttpResponseCode())
+                    .entity(responseString)
+                    .build();
+        }
+
+        if ("ReturnOnging202".equals(request.getRequestType())) {
+            ongoingRequestMap.put(request.getRequestId().toString(), response);
+
+            response.getRequest().getRequestStatus().setRequestState("ONGOING");
+            response.setHttpResponseCode(202);
+            String responseString = new Gson().toJson(response, SOResponse.class);
+            return Response.status(response.getHttpResponseCode())
+                    .entity(responseString)
+                    .build();
+        }
+
+        if ("ReturnOnging200".equals(request.getRequestType())) {
+            ongoingRequestMap.put(request.getRequestId().toString(), response);
+
+            response.getRequest().getRequestStatus().setRequestState("ONGOING");
+            response.setHttpResponseCode(200);
+            String responseString = new Gson().toJson(response, SOResponse.class);
+            return Response.status(response.getHttpResponseCode())
+                    .entity(responseString)
+                    .build();
+        }
+
+        if ("ReturnBadAfterWait".equals(request.getRequestType())) {
+            ongoingRequestMap.put(request.getRequestId().toString(), response);
+
+            response.getRequest().getRequestStatus().setRequestState("ONGOING");
+            response.setHttpResponseCode(200);
+            String responseString = new Gson().toJson(response, SOResponse.class);
+            return Response.status(response.getHttpResponseCode())
+                    .entity(responseString)
+                    .build();
+        }
+        return null;
     }
 }

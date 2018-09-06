@@ -142,7 +142,7 @@ public class SoSimulatorTest {
                         "http://localhost:6667/serviceInstantiation/v7/12345/vnfs/12345/vfModules/scaleOut", "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        final SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.b, SOResponse.class);
+        final SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SOResponse.class);
         assertNotNull(response);
     }
 }
