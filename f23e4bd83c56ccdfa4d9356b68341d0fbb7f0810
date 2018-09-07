@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_b52eaf8a",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-07T19:44:42Z",
+      "side": 1,
+      "message": "I hadn\u0027t noticed, when this method was initially created, that  the \"findVfModule\" operation is now being done twice.  That should be eliminated.\n\nOne way to do that would be to add this same null check to constructCreateRequest and remove the look-up that\u0027s being done in constructRequest.\n\nOn the other hand, constructCreateRequest doesn\u0027t care whether the first or the last VF module is given to it.  So could combine the \"find\" methods into one and always return the last VF module.  Then the look-up can be done once in constructRequest and the result passed to the subordinate constructXxxRequest methods, eliminating the need for either of them to perform \"find\" or to perform a null check.",
+      "revId": "f23e4bd83c56ccdfa4d9356b68341d0fbb7f0810",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
