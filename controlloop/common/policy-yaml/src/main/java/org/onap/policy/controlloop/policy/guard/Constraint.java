@@ -30,6 +30,8 @@ public class Constraint {
     private Integer freqLimitPerTarget;
     private Map<String,String> timeWindow;
     private Map<String, String> activeTimeRange;
+    private Integer minVnfCount;
+    private Integer maxVnfCount;
     
     private List<String> blacklist;
     
@@ -66,28 +68,66 @@ public class Constraint {
         this.activeTimeRange = activeTimeRange;
     }
 
-
+    
     public List<String> getBlacklist() {
         return blacklist;
     }
 
+    
     public void setBlacklist(List<String> blacklist) {
         this.blacklist = blacklist;
     }
+    
+    
+    public Integer getMinVnfCount() {
+        return minVnfCount;
+    }
 
+    
+    public void setMinVnfCount(Integer minVnfCount) {
+        this.minVnfCount = minVnfCount;
+    }
+
+    
+    public Integer getMaxVnfCount() {
+        return maxVnfCount;
+    }
+
+    
+    public void setMaxVnfCount(Integer maxVnfCount) {
+        this.maxVnfCount = maxVnfCount;
+    }
+
+    
     /**
      * Constructor.
      * 
      * @param freqLimitPerTarget frequency limit
      * @param timeWindow time window
      */
-    public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow) {
+	public Constraint(Integer freqLimitPerTarget, Map<String, String> timeWindow) {
         this.freqLimitPerTarget = freqLimitPerTarget;
         if (timeWindow != null) {
             this.timeWindow = Collections.unmodifiableMap(timeWindow);
         }
-    }
-    
+	}
+	
+	/**
+     * Constructor.
+     * 
+     * @param minVNFLimit minimum VNF count
+     * @param maxVNFLimit maximum VNF count 
+     * @param activeTimeRange active time range
+     */
+	public Constraint(Integer minVnfCount, Integer maxVnfCount, Map<String, String> activeTimeRange) {
+		this.minVnfCount = minVnfCount;
+		this.maxVnfCount = maxVnfCount;
+		
+		if(activeTimeRange != null) {
+			this.activeTimeRange = Collections.unmodifiableMap(activeTimeRange);
+		}
+	}
+	
     public Constraint(List<String> blacklist) {
         this.blacklist = new LinkedList<>(blacklist);
     }
