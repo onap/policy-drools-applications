@@ -297,7 +297,10 @@ public class SOActorServiceProvider implements Actor {
             tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem) {
         // find the last non-base vf-module to delete
         AaiNqInventoryResponseItem vfModuleItem = findVfModuleToDelete(aaiResponseWrapper);
-
+        if (vfModuleItem == null) {
+            logger.error("Unable to find VF Module to be deleted from AAI response.");
+            return null;
+        }
         SORequest request = new SORequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
         request.setRequestDetails(new SORequestDetails());
