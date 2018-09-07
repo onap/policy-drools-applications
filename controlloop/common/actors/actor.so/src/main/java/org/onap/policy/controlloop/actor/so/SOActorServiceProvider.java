@@ -166,9 +166,9 @@ public class SOActorServiceProvider implements Actor {
 
         // Construct SO Request for a policy's recipe
         if (RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
-            return constructCreateRequest(aaiResponseWrapper, policy, tenantItem, vnfItem, vnfServiceItem);
+            return constructCreateRequest(aaiResponseWrapper, policy, tenantItem, vnfItem, vnfServiceItem, vfModuleItem);
         } else if (RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
-            return constructDeleteRequest(aaiResponseWrapper, tenantItem, vnfItem, vnfServiceItem);
+            return constructDeleteRequest(aaiResponseWrapper, tenantItem, vnfItem, vnfServiceItem, vfModuleItem);
         } else {
             return null;
         }
@@ -182,11 +182,11 @@ public class SOActorServiceProvider implements Actor {
      * @param tenantItem         tenant item from A&AI named-query response
      * @param vnfItem            vnf item from A&AI named-query response
      * @param vnfServiceItem     vnf service item from A&AI named-query response
+     * @param vfModuleItem       vf module item from A&AI named-query response
      * @return SO create vf-module request
      */
     private SORequest constructCreateRequest(AaiNqResponseWrapper aaiResponseWrapper, Policy policy, AaiNqInventoryResponseItem
-            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem) {
-        AaiNqInventoryResponseItem vfModuleItem = findVfModule(aaiResponseWrapper, false);
+            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem, AaiNqInventoryResponseItem vfModuleItem) {
         SORequest request = new SORequest();
         request.setOperationType(SoOperationType.SCALE_OUT);
         //
@@ -291,13 +291,11 @@ public class SOActorServiceProvider implements Actor {
      * @param tenantItem         tenant item from A&AI named-query response
      * @param vnfItem            vnf item from A&AI named-query response
      * @param vnfServiceItem     vnf service item from A&AI named-query response
+     * @param vfModuleItem       vf module item from A&AI named-query response
      * @return SO delete vf-module request
      */
     private SORequest constructDeleteRequest(AaiNqResponseWrapper aaiResponseWrapper, AaiNqInventoryResponseItem
-            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem) {
-        // find the last non-base vf-module to delete
-        AaiNqInventoryResponseItem vfModuleItem = findVfModuleToDelete(aaiResponseWrapper);
-
+            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem, AaiNqInventoryResponseItem vfModuleItem) {
         SORequest request = new SORequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
         request.setRequestDetails(new SORequestDetails());
@@ -393,20 +391,8 @@ public class SOActorServiceProvider implements Actor {
      */
     private AaiNqInventoryResponseItem findVfModule(AaiNqResponseWrapper aaiResponseWrapper, boolean baseFlag) {
         List<AaiNqInventoryResponseItem> lst = aaiResponseWrapper.getVfModuleItems(baseFlag);
-        return (lst == null || lst.isEmpty() ? null : lst.get(0));
-    }
-
-    /**
-     * Find the VF module item to delete from AAI response.
-     *
-     * @param aaiResponseWrapper the AAI response containing the VF modules
-     * @return VF module item to delete or null if the non-base vfModule was not found
-     */
-    private AaiNqInventoryResponseItem findVfModuleToDelete(AaiNqResponseWrapper aaiResponseWrapper) {
-        List<AaiNqInventoryResponseItem> lst = aaiResponseWrapper.getVfModuleItems(false);
         return (lst == null || lst.isEmpty() ? null : lst.get(lst.size() - 1));
     }
-
 
     /**
      * Builds the request parameters from the policy payload.
