@@ -30,51 +30,15 @@ public class Constraint {
     private Integer freqLimitPerTarget;
     private Map<String,String> timeWindow;
     private Map<String, String> activeTimeRange;
+    private Integer minVnfCount;
+    private Integer maxVnfCount;
     
     private List<String> blacklist;
     
     public Constraint() {
         // Do Nothing empty constructor. 
     }
-
-    public Integer getFreq_limit_per_target() {
-        return freqLimitPerTarget;
-    }
-
-
-    public void setFreq_limit_per_target(Integer freqLimitPerTarget) {
-        this.freqLimitPerTarget = freqLimitPerTarget;
-    }
-
-
-    public Map<String, String> getTime_window() {
-        return timeWindow;
-    }
-
-
-    public void setTime_window(Map<String, String> timeWindow) {
-        this.timeWindow = timeWindow;
-    }
-
-
-    public Map<String, String> getActive_time_range() {
-        return activeTimeRange;
-    }
-
-
-    public void setActive_time_range(Map<String, String> activeTimeRange) {
-        this.activeTimeRange = activeTimeRange;
-    }
-
-
-    public List<String> getBlacklist() {
-        return blacklist;
-    }
-
-    public void setBlacklist(List<String> blacklist) {
-        this.blacklist = blacklist;
-    }
-
+    
     /**
      * Constructor.
      * 
@@ -85,6 +49,22 @@ public class Constraint {
         this.freqLimitPerTarget = freqLimitPerTarget;
         if (timeWindow != null) {
             this.timeWindow = Collections.unmodifiableMap(timeWindow);
+        }
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param minVNFLimit minimum VNF count
+     * @param maxVNFLimit maximum VNF count
+     * @param activeTimeRange active time range
+     */
+    public Constraint(Integer minVnfCount, Integer maxVnfCount, Map<String, String> activeTimeRange) {
+        this.minVnfCount = minVnfCount;
+        this.maxVnfCount = maxVnfCount;
+
+        if (activeTimeRange != null) {
+            this.activeTimeRange = Collections.unmodifiableMap(activeTimeRange);
         }
     }
     
@@ -151,6 +131,66 @@ public class Constraint {
         }
         this.blacklist = new LinkedList<>(constraint.blacklist);
     }
+
+    public Integer getFreq_limit_per_target() {
+        return freqLimitPerTarget;
+    }
+
+
+    public void setFreq_limit_per_target(Integer freqLimitPerTarget) {
+        this.freqLimitPerTarget = freqLimitPerTarget;
+    }
+
+
+    public Map<String, String> getTime_window() {
+        return timeWindow;
+    }
+
+
+    public void setTime_window(Map<String, String> timeWindow) {
+        this.timeWindow = timeWindow;
+    }
+
+
+    public Map<String, String> getActive_time_range() {
+        return activeTimeRange;
+    }
+
+
+    public void setActive_time_range(Map<String, String> activeTimeRange) {
+        this.activeTimeRange = activeTimeRange;
+    }
+
+    
+    public List<String> getBlacklist() {
+        return blacklist;
+    }
+
+    
+    public void setBlacklist(List<String> blacklist) {
+        this.blacklist = blacklist;
+    }
+    
+    
+    public Integer getMinVnfCount() {
+        return minVnfCount;
+    }
+
+    
+    public void setMinVnfCount(Integer minVnfCount) {
+        this.minVnfCount = minVnfCount;
+    }
+
+    
+    public Integer getMaxVnfCount() {
+        return maxVnfCount;
+    }
+
+    
+    public void setMaxVnfCount(Integer maxVnfCount) {
+        this.maxVnfCount = maxVnfCount;
+    }
+
     
     public boolean isValid() {
         return ((freqLimitPerTarget == null && timeWindow != null)
