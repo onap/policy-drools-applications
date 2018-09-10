@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_28e9e1e5",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T15:50:50Z",
+      "side": 1,
+      "message": "spaces instead of tabs",
+      "revId": "771047089730539c4952ab41ecf098fd78fd3add",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_28fb21c2",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T15:50:50Z",
+      "side": 1,
+      "message": "I think checkstyle will require \"VNF\"-\u003e\"Vnf\"",
+      "revId": "771047089730539c4952ab41ecf098fd78fd3add",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6824b95f",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T15:50:50Z",
+      "side": 1,
+      "message": "I think sonar and/or checkstyle will require the constructors to be consecutive",
+      "revId": "771047089730539c4952ab41ecf098fd78fd3add",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
