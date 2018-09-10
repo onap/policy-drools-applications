@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f3743aff",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T19:12:21Z",
+      "side": 1,
+      "message": "still have some tabs here. :)",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 1
+      },
+      "revId": "1d3ce5dc5714fa7cbd75ed7b4f9715f22806826b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
