@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_f34bdaae",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T19:15:35Z",
+      "side": 1,
+      "message": "sonar: these constructors should all be moved to line ~41 (i.e.,before all other methods)",
+      "revId": "1d3ce5dc5714fa7cbd75ed7b4f9715f22806826b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_f3743aff",
         "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/guard/Constraint.java",
         "patchSetId": 3
