@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_733fca87",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T18:19:26Z",
+      "side": 1,
+      "message": "Can we just rename the class to Sdnr instead of using all caps? Right now the checkstyle isn\u0027t picking that up but it should fail on that.",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9344e61b",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T18:19:26Z",
+      "side": 1,
+      "message": "rename Sdnr",
+      "range": {
+        "startLine": 1,
+        "startChar": 40,
+        "endLine": 1,
+        "endChar": 43
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_33fb92c2",
+        "filename": "controlloop/common/model-impl/sdnr/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T18:19:26Z",
+      "side": 1,
+      "message": "2018 wipro",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_53f88ec2",
+        "filename": "controlloop/common/model-impl/sdnr/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T18:19:26Z",
+      "side": 1,
+      "message": "just remove this if it is commented out",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 10
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f3699a8c",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/resources/definitions.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T18:19:26Z",
+      "side": 1,
+      "message": "2018 wipro",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3374f266",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/create-cl-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T18:19:26Z",
+      "side": 1,
+      "message": "This is inconsistent with the push-policies script. Not sure this lock steps with the release. Jorge?",
+      "range": {
+        "startLine": 34,
+        "startChar": 22,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
