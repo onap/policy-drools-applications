@@ -20,10 +20,10 @@
 
 package org.onap.policy.controlloop;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.UUID;
+
+import com.google.gson.annotations.SerializedName;
 
 public abstract class ControlLoopEvent implements Serializable {
 
@@ -62,6 +62,9 @@ public abstract class ControlLoopEvent implements Serializable {
     @SerializedName("closedLoopEventStatus")
     private ControlLoopEventStatus closedLoopEventStatus;
 
+    @SerializedName("payload")
+    private String payload;
+    
     public ControlLoopEvent() {
 
     }
@@ -85,6 +88,7 @@ public abstract class ControlLoopEvent implements Serializable {
         this.policyName = event.policyName;
         this.policyVersion = event.policyVersion;
         this.closedLoopEventStatus = event.closedLoopEventStatus;
+        this.payload = event.payload;
     }
 
     public boolean isEventStatusValid() {
@@ -177,5 +181,13 @@ public abstract class ControlLoopEvent implements Serializable {
 
     public void setClosedLoopEventStatus(ControlLoopEventStatus closedLoopEventStatus) {
         this.closedLoopEventStatus = closedLoopEventStatus;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 }
