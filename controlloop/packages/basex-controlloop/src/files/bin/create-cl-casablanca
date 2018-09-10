@@ -31,7 +31,7 @@ echo
 
 GROUP_ID="org.onap.policy.rules.casablanca"
 ARTIFACT_ID="casablanca"
-VERSION="${version:-1.2.0}"
+VERSION="${version:-1.3.0-SNAPSHOT}"
 PACKAGE="org.onap.policy.rules.casablanca"
 
 # vCPE Policy Parameters
@@ -53,6 +53,11 @@ VDNS_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoo
 VOLTE_CONTROL_LOOP_NAME="ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b"
 VOLTE_POLICY_NAME="volte"
 VOLTE_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoopName%3A+ControlLoop-VOLTE-2179b738-fd36-4843-a71a-a8c24c70c55b%0D%0A++trigger_policy%3A+unique-policy-id-1-restart%0D%0A++timeout%3A+3600%0D%0A++abatement%3A+false%0D%0A+%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-1-restart%0D%0A++++name%3A+Restart+the+VM%0D%0A++++description%3A%0D%0A++++actor%3A+VFC%0D%0A++++recipe%3A+Restart%0D%0A++++target%3A%0D%0A++++++type%3A+VM%0D%0A++++retry%3A+3%0D%0A++++timeout%3A+1200%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
+
+# vPCI Policy Parameters
+VPCI_CONTROL_LOOP_NAME="ControlLoop-vPCI-fb41f388-a5f2-11e8-98d0-529269fb1459"
+VPCI_POLICY_NAME="vpci"
+VPCI_CONTROL_LOOP_YAML="controlLoop%3A%0D%0A++version%3A+3.0.0%0D%0A++controlLoopName%3A+ControlLoop-vPCI-fb41f388-a5f2-11e8-98d0-529269fb1459%0D%0A++trigger_policy%3A+unique-policy-id-123-modifyconfig%0D%0A++timeout%3A+1200%0D%0A++abatement%3A+false%0D%0A+%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-123-modifyconfig%0D%0A++++name%3A+modify+packet+gen+config%0D%0A++++description%3A%0D%0A++++actor%3A+SDNR%0D%0A++++recipe%3A+ModifyConfig%0D%0A++++target%3A%0D%0A++++++%23+TBD+-+Cannot+be+known+until+instantiation+is+done%0D%0A++++++resourceID%3A+Eace933104d443b496b8.nodes.heat.vpg%0D%0A++++++type%3A+VNF%0D%0A++++retry%3A+0%0D%0A++++timeout%3A+300%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
 
 # Generic Scope and Version
 POLICY_SCOPE="casablanca"
@@ -85,6 +90,10 @@ read -e -i "${VDNS_CONTROL_LOOP_YAML}" -p "VDNS Control Loop Yaml> " VDNS_CONTRO
 read -e -i "${VOLTE_CONTROL_LOOP_NAME}" -p "VOLTE Control Loop Name> " VOLTE_CONTROL_LOOP_NAME
 read -e -i "${VOLTE_POLICY_NAME}" -p "VOLTE Policy Name> " VOLTE_POLICY_NAME
 read -e -i "${VOLTE_CONTROL_LOOP_YAML}" -p "VOLTE Control Loop Yaml> " VOLTE_CONTROL_LOOP_YAML
+
+read -e -i "${VPCI_CONTROL_LOOP_NAME}" -p "VPCI Control Loop Name> " VPCI_CONTROL_LOOP_NAME
+read -e -i "${VPCI_POLICY_NAME}" -p "VPCI Policy Name> " VPCI_POLICY_NAME
+read -e -i "${VPCI_CONTROL_LOOP_YAML}" -p "VPCI Control Loop Yaml> " VPCI_CONTROL_LOOP_YAML
 
 read -e -i "${POLICY_SCOPE}" -p "Generic Policy Scope> " POLICY_SCOPE
 read -e -i "${POLICY_VERSION}" -p "Generic Policy Version> " POLICY_VERSION
@@ -120,6 +129,10 @@ if [ -z "${VOLTE_CONTROL_LOOP_NAME}" ]; then echo "Aborting: VOLTE Control Loop 
 if [ -z "${VOLTE_POLICY_NAME}" ]; then echo "Aborting: VOLTE Policy Name not provided"; exit 1; fi
 if [ -z "${VOLTE_CONTROL_LOOP_YAML}" ]; then echo "Aborting: VOLTE Control Loop Yaml not provided"; exit 1; fi
 
+if [ -z "${VPCI_CONTROL_LOOP_NAME}" ]; then echo "Aborting: VPCI Control Loop Name not provided"; exit 1; fi
+if [ -z "${VPCI_POLICY_NAME}" ]; then echo "Aborting: VPCI Policy Name not provided"; exit 1; fi
+if [ -z "${VPCI_CONTROL_LOOP_YAML}" ]; then echo "Aborting: VPCI Control Loop Yaml not provided"; exit 1; fi
+
 if [ -z "${POLICY_SCOPE}" ]; then echo "Aborting: Template Policy Scope not provided"; exit 1; fi
 if [ -z "${POLICY_VERSION}" ]; then echo "Aborting: Template Policy Version not provided"; exit 1; fi
 
@@ -132,7 +145,7 @@ if [ -z "${DCAE_SERVERS}" ]; then echo "Aborting: Configuration DCAE DMaaP Serve
 
 DEPENDENCIES_VERSION="${version}"
 
-read -e -i "${DEPENDENCIES_VERSION}" -p  "Control Loop Jar Dependencies Version (ie: 1.2.0-SNAPSHOT, or 1.2.0) > " DEPENDENCIES_VERSION
+read -e -i "${DEPENDENCIES_VERSION}" -p  "Control Loop Jar Dependencies Version (ie: 1.3.0-SNAPSHOT, or 1.3.0) > " DEPENDENCIES_VERSION
 if [ -z "${DEPENDENCIES_VERSION}" ]; then echo "Aborting: Control Loop Jar Dependencies Version not provided"; exit 1; fi
 
 echo "---------------------------------------------------------------------------------------"
@@ -161,6 +174,10 @@ echo
 echo "VOLTE Drools Fact Generation: VOLTE Control Loop Control Name: ${VOLTE_CONTROL_LOOP_NAME}"
 echo "VOLTE Drools Fact Generation: VOLTE Control Loop Policy Name: ${VOLTE_POLICY_NAME}"
 echo "VOLTE Drools Fact Generation: VOLTE Control Loop Yaml: ${VOLTE_CONTROL_LOOP_YAML}"
+echo
+echo "VPCI Drools Fact Generation: VPCI Control Loop Control Name: ${VPCI_CONTROL_LOOP_NAME}"
+echo "VPCI Drools Fact Generation: VPCI Control Loop Policy Name: ${VPCI_POLICY_NAME}"
+echo "VPCI Drools Fact Generation: VPCI Control Loop Yaml: ${VPCI_CONTROL_LOOP_YAML}"
 echo
 echo "Generic Drools Fact: Control Loop Policy Scope: ${POLICY_SCOPE}"
 echo "Generic: Control Loop Policy Version: ${POLICY_VERSION}"
@@ -252,6 +269,9 @@ mvn archetype:generate \
     -DvolteClosedLoopControlName="${VOLTE_CONTROL_LOOP_NAME}" \
     -DvoltePolicyName="${VOLTE_POLICY_NAME}" \
     -DvolteControlLoopYaml="${VOLTE_CONTROL_LOOP_YAML}" \
+    -DvpciClosedLoopControlName="${VPCI_CONTROL_LOOP_NAME}" \
+    -DvpciPolicyName="${VPCI_POLICY_NAME}" \
+    -DvpciControlLoopYaml="${VPCI_CONTROL_LOOP_YAML}" \
     -DpolicyScope="${POLICY_SCOPE}" \
     -DpolicyVersion="${POLICY_VERSION}" \
     -DbrmsgwTopic="${BRMSGW_TOPIC}" \

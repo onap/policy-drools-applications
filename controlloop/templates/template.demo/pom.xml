@@ -68,6 +68,12 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <artifactId>sdnr</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
       <artifactId>appclcm</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
@@ -161,6 +167,12 @@
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
       <artifactId>actor.appc</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <artifactId>actor.sdnr</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
