@@ -36,6 +36,7 @@
     <module>aai</module>
     <module>appc</module>
     <module>appclcm</module>
+    <module>sdnr</module>
     <module>events</module>
     <module>so</module>
     <module>rest</module>
