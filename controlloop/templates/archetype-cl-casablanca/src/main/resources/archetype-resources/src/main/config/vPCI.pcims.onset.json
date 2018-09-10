@@ -1,0 +1,18 @@
+{  
+   "closedLoopControlName":"ControlLoop-vPCI-fb41f388-a5f2-11e8-98d0-529269fb1459",
+   "closedLoopAlarmStart":1510187409180,
+   "closedLoopEventClient":"microservice.PCI",
+   "closedLoopEventStatus":"ONSET",
+   "requestID":"9d2d790e-a5f0-11e8-98d0-529269fb1459",
+   "target_type":"VNF",
+   "target":"generic-vnf.vnf-id",
+   "AAI":{  
+      "generic-vnf.is-closed-loop-disabled":"false",
+      "generic-vnf.prov-status":"ACTIVE",
+      "generic-vnf.vnf-id":"notused"
+   },
+   "from":"PCIMS",
+   "version":"1.0.2",
+   "Action":"ModifyConfig",
+   "payload":"{ \"Configurations\":[ { \"data\":{ \"FAPService\":{ \"alias\":\"Cell1\", \"X0005b9Lte\" : { \"PhyCellIdInUse\" : \"35\", \"PnfName\" : \"cu1\" }, \"CellConfig\":{ \"LTE\":{ \"RAN\":{ \"Common\":{ \"CellIdentity\":\"1\" } } } } } } } ] }"
+}
