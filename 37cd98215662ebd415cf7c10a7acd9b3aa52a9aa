@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_82e6d6ae",
+        "filename": "controlloop/common/actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SOActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T13:07:45Z",
+      "side": 1,
+      "message": "perhaps add a comment, \"If there is more than one item, then the \u003ci\u003elast\u003c/i\u003e item is returned\"",
+      "revId": "37cd98215662ebd415cf7c10a7acd9b3aa52a9aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
