@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_53888ec4",
+        "filename": "controlloop/common/controller-casablanca/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T19:47:06Z",
+      "side": 1,
+      "message": "Change to ${drools.version}",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 36
+      },
+      "revId": "4260db51c11fd2668bdd2bb9c2f6b8a133f6ba94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f390baee",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T19:47:06Z",
+      "side": 1,
+      "message": "${drools.version}",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "4260db51c11fd2668bdd2bb9c2f6b8a133f6ba94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_138e96d0",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-10T19:47:06Z",
+      "side": 1,
+      "message": "${drools.version}",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "4260db51c11fd2668bdd2bb9c2f6b8a133f6ba94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
