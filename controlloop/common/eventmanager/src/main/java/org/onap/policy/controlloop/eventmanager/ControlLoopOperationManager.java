@@ -26,8 +26,9 @@ import java.time.Instant;
 import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 import java.util.NoSuchElementException;
+import java.util.Properties;
+import javafx.util.Pair;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -43,12 +44,14 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
+import org.onap.policy.controlloop.actor.sdnr.SdnrActorServiceProvider;
 import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.Util;
+import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.so.SOResponseWrapper;
 import org.onap.policy.vfc.VFCResponse;
 import org.slf4j.Logger;
@@ -214,6 +217,8 @@ public class ControlLoopOperationManager implements Serializable {
                 break;
             case "SO":
                 break;
+            case "SDNR":
+                break;
             case "VFC":
                 break;
             default:
@@ -284,6 +289,21 @@ public class ControlLoopOperationManager implements Serializable {
                     this.policyResult = PolicyResult.FAILURE;
                 }
                 return operationRequest;
+            case "SDNR":
+                /*
+                 * If the recipe is ModifyConfig, a SDNR request is constructed.
+                 */
+                this.currentOperation = operation;
+                this.operationRequest = SdnrActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                            operation.clOperation, this.policy);
+                //
+                // Save the operation
+                //
+                if (this.operationRequest == null) {
+                    this.policyResult = PolicyResult.FAILURE;
+                }
+
+                return operationRequest;
             default:
                 throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
         }
@@ -309,6 +329,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast LCM response and handle it
             //
             return onResponse((LcmResponseWrapper) response);
+        } else if (response instanceof PciResponseWrapper) {
+            //
+            // Cast SDNR response and handle it
+            //
+            return onResponse((PciResponseWrapper) response);
         } else if (response instanceof SOResponseWrapper) {
             //
             // Cast SO response and handle it
@@ -439,6 +464,39 @@ public class ControlLoopOperationManager implements Serializable {
          */
         AbstractMap.SimpleEntry<PolicyResult, String> result =
                 AppcLcmActorServiceProvider.processResponse(dmaapResponse);
+
+        if (result.getKey() != null) {
+            this.completeOperation(operationAttempt, result.getValue(), result.getKey());
+            if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
+                return null;
+            }
+            return result.getKey();
+        }
+        return null;
+    }
+
+    /**
+     * This method handles operation responses from SDNR.
+     * 
+     * @param dmaapResponse the SDNR response
+     * @return the result of the response handling
+     */
+    private PolicyResult onResponse(PciResponseWrapper dmaapResponse) {
+        /*
+         * Parse out the operation attempt using the subrequestid
+         */
+        Integer operationAttempt = SdnrActorServiceProvider
+                .parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
+        if (operationAttempt == null) {
+            this.completeOperation(operationAttempt, "Policy was unable to parse SDNR SubRequestID.",
+                    PolicyResult.FAILURE_EXCEPTION);
+        }
+
+        /*
+         * Process the SDNR response to see what PolicyResult should be returned
+         */
+        Pair<PolicyResult, String> result =
+                SdnrActorServiceProvider.processResponse(dmaapResponse);
 
         if (result.getKey() != null) {
             this.completeOperation(operationAttempt, result.getValue(), result.getKey());
