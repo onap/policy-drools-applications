@@ -21,7 +21,7 @@
 package org.onap.policy.controlloop.actor.appclcm;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.Collectors;
 
