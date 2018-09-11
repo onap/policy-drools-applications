@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b1d7954a",
+        "filename": "controlloop/common/actors/actor.sdnr/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "1a76adc5_ce2dd596",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6e1e0161",
         "filename": "controlloop/common/actors/actor.sdnr/pom.xml",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_51c881a7",
+        "filename": "controlloop/common/actors/actor.sdnr/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "1a76adc5_6e1e0161",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_733fca87",
         "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2018-09-10T18:19:26Z",
       "side": 1,
       "message": "Can we just rename the class to Sdnr instead of using all caps? Right now the checkstyle isn\u0027t picking that up but it should fail on that.",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f18aed62",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Renamed. Also added checkstyle explicitly in pom.xml file to make sure no other coding style issues present in these new files.",
+      "parentUuid": "1a76adc5_733fca87",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f1c2ed51",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_d3381ef1",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 0
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_73390af1",
         "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
         "patchSetId": 1
@@ -87,6 +165,30 @@
       "writtenOn": "2018-09-10T20:18:53Z",
       "side": 1,
       "message": "tabs",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 6
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_314aa526",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_73390af1",
       "range": {
         "startLine": 64,
         "startChar": 4,
@@ -146,6 +248,54 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f14f4d32",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_2e15693f",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d15251dd",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Included checkstyle plugin in pom.xml file and addressed all style issues.\nThanks.",
+      "parentUuid": "1a76adc5_933e26d9",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_4e122558",
         "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
         "patchSetId": 1
@@ -157,6 +307,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "perhaps use Pair instead of SimpleEntry since the response isn\u0027t a key/value entry",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_916059a6",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4e122558",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_71cd7db6",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_9344e61b",
+      "range": {
+        "startLine": 1,
+        "startChar": 40,
+        "endLine": 1,
+        "endChar": 43
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ee1a116e",
         "filename": "controlloop/common/actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/SdnrActorServiceProviderTest.java",
         "patchSetId": 1
@@ -197,6 +389,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "vnf-name?",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d1bb310d",
+        "filename": "controlloop/common/actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/SdnrActorServiceProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Updated the comments properly.\nWe would like to keep AAI and VNF details in onset event since the policy code expects same.",
+      "parentUuid": "1a76adc5_ee1a116e",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -220,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b16555b6",
+        "filename": "controlloop/common/actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/SdnrActorServiceProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "We would like to keep the AAI and VNF fields, since policy is expecting those fields. Sometimes there may be a query needed to AAI to get PNF name.",
+      "parentUuid": "1a76adc5_ae289986",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ce54f500",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -231,6 +459,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "\"The\" -\u003e \"the\"",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f1b8ad12",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ce54f500",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -254,6 +500,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_913939a6",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_8e5a7d28",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ce7b958a",
         "filename": "controlloop/common/feature-controlloop-casablanca/src/main/feature/config/casablanca-controller.properties",
         "patchSetId": 1
@@ -271,6 +535,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b13eb58a",
+        "filename": "controlloop/common/feature-controlloop-casablanca/src/main/feature/config/casablanca-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ce7b958a",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_33fb92c2",
         "filename": "controlloop/common/model-impl/sdnr/pom.xml",
         "patchSetId": 1
@@ -282,6 +564,30 @@
       "writtenOn": "2018-09-10T18:19:26Z",
       "side": 1,
       "message": "2018 wipro",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_114d293e",
+        "filename": "controlloop/common/model-impl/sdnr/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_33fb92c2",
       "range": {
         "startLine": 5,
         "startChar": 16,
@@ -317,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_715b3df6",
+        "filename": "controlloop/common/model-impl/sdnr/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Enabled this and made sure no style issues exist.",
+      "parentUuid": "1a76adc5_53f88ec2",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 10
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ae9df9bd",
         "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/Results.java",
         "patchSetId": 1
@@ -328,6 +658,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "implements Serializable?  If not, then can remove @SerializedName annotation",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_71125d0a",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/Results.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "This file is not used. Removed.",
+      "parentUuid": "1a76adc5_ae9df9bd",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -351,6 +699,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_11fbe9c1",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/Results.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Removed the file.",
+      "parentUuid": "1a76adc5_8ea83ddc",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_0eb42d33",
         "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/Status.java",
         "patchSetId": 1
@@ -362,6 +728,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "constructors should appear before other methods",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_31f865c2",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_0eb42d33",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -391,6 +775,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_d10011ad",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/resources/definitions.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_f3699a8c",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 48
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ee8d317d",
         "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
         "patchSetId": 1
@@ -402,6 +810,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "just use \"\" instead of new String(\"\")",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f1fd0db2",
+        "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done\nDone this in some other places too.",
+      "parentUuid": "1a76adc5_ee8d317d",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -425,6 +851,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_912e1942",
+        "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_6ef12100",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2edfa96a",
         "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/SdnrTest.java",
         "patchSetId": 1
@@ -436,6 +880,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "variable name hides the static variable.  Once that\u0027s fixed, can then add: assertEquals(dmaapRequest, dmaapRequest2)",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5124015f",
+        "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/SdnrTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done for both request and response.",
+      "parentUuid": "1a76adc5_2edfa96a",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -459,6 +921,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_7129fd35",
+        "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/SdnrTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ced7154a",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ae3979a5",
         "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/TestPciResonseCode.java",
         "patchSetId": 1
@@ -476,6 +956,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_311f050a",
+        "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/TestPciResonseCode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ae3979a5",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ce3e358c",
         "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/TestPciStatus.java",
         "patchSetId": 1
@@ -487,6 +985,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "typo: \"Resonse\" -\u003e \"Response\".  Or maybe just \"testStatus\"?",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f1142dea",
+        "filename": "controlloop/common/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/TestPciStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ce3e358c",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -516,6 +1032,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b1da354a",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/create-cl-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "We have reverted back the version number changes in this file.",
+      "parentUuid": "1a76adc5_3374f266",
+      "range": {
+        "startLine": 34,
+        "startChar": 22,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_4e4a2527",
         "filename": "controlloop/packages/basex-controlloop/src/files/bin/create-cl-casablanca",
         "patchSetId": 1
@@ -527,6 +1067,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "is \"TBD\" still unknown?",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_31e62516",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/create-cl-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Changed the TBD comment to meaningful comment.",
+      "parentUuid": "1a76adc5_4e4a2527",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -550,6 +1108,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f1ebcdd9",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Changed the TBD comment to meaningful comment.",
+      "parentUuid": "1a76adc5_ae6099a5",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ee69b18c",
         "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/config/vPCI.sdnr.success.json",
         "patchSetId": 1
@@ -567,6 +1143,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_11d0c91d",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/config/vPCI.sdnr.success.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ee69b18c",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ce0cf5ef",
         "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -578,6 +1172,24 @@
       "writtenOn": "2018-09-10T21:42:16Z",
       "side": 1,
       "message": "missing period",
+      "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_31cdc585",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-11T14:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ce0cf5ef",
       "revId": "276551dd7dfa85689bbb133e4623f699796bc445",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
