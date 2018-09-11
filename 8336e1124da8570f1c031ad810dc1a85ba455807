@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d18d717d",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-11T14:27:25Z",
+      "side": 1,
+      "message": "Should this be deleted? Seems a duplicate since I asked to rename it.",
+      "revId": "8336e1124da8570f1c031ad810dc1a85ba455807",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
