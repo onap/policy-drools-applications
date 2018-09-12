@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3a8035bf",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SdnrActorServiceProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-12T14:47:58Z",
+      "side": 1,
+      "message": "no need to create a new \"Pair\", as there are others that would be preferable (drools.utils, in particular).  If we choose to stay with this nested class, instead, then probably rename the fields (and methods) to result \u0026 message, instead of key \u0026 value, respectively.",
+      "revId": "a29f33e7fa5565ad5bc89bb5d05498eaf0dc18d8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_da8261c7",
+        "filename": "controlloop/common/actors/actor.sdnr/src/test/java/org/onap/policy/controlloop/actor/sdnr/SdnrActorServiceProviderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-12T14:47:58Z",
+      "side": 1,
+      "message": "if we\u0027re keeping the aai simulator, then should probably keep the aai properties, too, unless they\u0027re already provided by something else?",
+      "revId": "a29f33e7fa5565ad5bc89bb5d05498eaf0dc18d8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
