@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3fda674c",
+        "filename": "controlloop/common/actors/actor.sdnr/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-12T12:25:51Z",
+      "side": 1,
+      "message": "Probably don\u0027t need this dependency",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 17
+      },
+      "revId": "a40d805d796a1eb12c3cdac91f2c6ca12390e0ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5f196320",
+        "filename": "controlloop/common/actors/actor.sdnr/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-12T12:25:51Z",
+      "side": 1,
+      "message": "Although we have been having issues with checkstyle not working in jenkins, we do have this declared at the top-level pom. So it should not be necessary. Or did you have to add this for checkstyle to work?",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 10
+      },
+      "revId": "a40d805d796a1eb12c3cdac91f2c6ca12390e0ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5ff083c8",
+        "filename": "controlloop/common/model-impl/sdnr/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-12T12:25:51Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 10
+      },
+      "revId": "a40d805d796a1eb12c3cdac91f2c6ca12390e0ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
