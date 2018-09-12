@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.processor;
 
+import java.io.Serializable;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -29,8 +30,9 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
-public class ControlLoopProcessor {
-
+public class ControlLoopProcessor implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private final String yaml;
     private final ControlLoopPolicy policy;
     private String currentNestedPolicyId = null;

@@ -20,9 +20,11 @@
 
 package org.onap.policy.controlloop.policy;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ControlLoopPolicy {
+public class ControlLoopPolicy implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     private ControlLoop controlLoop;
 

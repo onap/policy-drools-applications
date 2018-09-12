@@ -77,13 +77,13 @@ public class ControlLoopOperationManager implements Serializable {
     // for Drools Rule statements.
     //
     public final ControlLoopEvent onset;
-    public final transient Policy policy;
+    public final Policy policy;
 
     //
     // Properties used to track the Operation
     //
     private int attempts = 0;
-    private transient Operation currentOperation = null;
+    private Operation currentOperation = null;
     private LinkedList<Operation> operationHistory = new LinkedList<>();
     private PolicyResult policyResult = null;
     private ControlLoopEventManager eventManager = null;
@@ -104,7 +104,9 @@ public class ControlLoopOperationManager implements Serializable {
     //
     // Internal class used for tracking
     //
-    private class Operation {
+    private class Operation implements Serializable {
+        private static final long serialVersionUID = 1L;
+        
         private ControlLoopOperation clOperation = new ControlLoopOperation();
         private PolicyResult policyResult = null;
         private int attempt = 0;

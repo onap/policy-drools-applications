@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.policy;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,8 @@ import org.onap.policy.aai.Pnf;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.Service;
 
-public class ControlLoop {
+public class ControlLoop implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private static final String COMPILER_VERSION = "2.0.0";
 

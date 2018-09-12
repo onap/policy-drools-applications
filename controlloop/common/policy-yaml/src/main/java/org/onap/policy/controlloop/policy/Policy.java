@@ -20,11 +20,13 @@
 
 package org.onap.policy.controlloop.policy;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-public class Policy {
+public class Policy implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String id = UUID.randomUUID().toString();
     private String name;
@@ -264,7 +266,7 @@ public class Policy {
     }
 
     public boolean isValid() {
-        return id == null || name == null || actor == null || recipe == null || target == null;
+        return id != null && name != null && actor != null && recipe != null && target != null;
     }
 
     @Override

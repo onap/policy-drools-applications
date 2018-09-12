@@ -35,15 +35,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
-
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -59,6 +56,7 @@ import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -850,4 +848,63 @@ public class ControlLoopOperationManagerTest {
         
         assertEquals(1, numEventsAfter - numEventsBefore);        
     }    
+
+    @Test
+    public void testSerialization() throws Exception {
+        InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
+        onsetEvent.setClosedLoopControlName("TwoOnsetTest");
+        onsetEvent.setRequestId(requestId);
+        onsetEvent.setTarget("generic-vnf.vnf-id");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
+
+        ControlLoopEventManager manager =
+                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        Policy policy = manager.getProcessor().getCurrentPolicy();
+        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        assertNotNull(clom);
+
+        clom.startOperation(onsetEvent);
+        assertTrue(clom.isOperationRunning());
+        
+        clom = Serializer.roundTrip(clom);
+        assertNotNull(clom);
+        assertTrue(clom.isOperationRunning());
+
+        SOResponse soResponse = new SOResponse();
+        final SOResponseWrapper soRw = new SOResponseWrapper(soResponse, null);
+
+        PolicyEngine.manager.setEnvironmentProperty("guard.disabled", "false");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
+                "http://somewhere.over.the.rainbow");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "Dorothy");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
+
+        assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
+        assertFalse(clom.isOperationRunning());
+        assertEquals(1, clom.getHistory().size());
+        
+        clom = Serializer.roundTrip(clom);
+        assertNotNull(clom);
+        assertFalse(clom.isOperationRunning());
+        assertEquals(1, clom.getHistory().size());
+
+        System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
+        assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
+        
+        clom = Serializer.roundTrip(clom);
+        assertNotNull(clom);
+        assertFalse(clom.isOperationRunning());
+        assertEquals(1, clom.getHistory().size());
+    }
 }

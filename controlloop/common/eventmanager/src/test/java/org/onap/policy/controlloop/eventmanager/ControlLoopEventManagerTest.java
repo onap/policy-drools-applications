@@ -54,6 +54,7 @@ import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipList;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -212,7 +213,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void subsequentOnsetTest() {
+    public void subsequentOnsetTest() throws IOException {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName("TwoOnsetTest");
@@ -555,6 +556,9 @@ public class ControlLoopEventManagerTest {
 
         VirtualControlLoopNotification clfNotification = manager.isControlLoopFinal();
         assertNull(clfNotification);
+        
+        // serialize and de-serialize manager
+        manager = Serializer.roundTrip(manager);
 
         manager.getProcessor().nextPolicyForResult(PolicyResult.SUCCESS);
         clfNotification = manager.isControlLoopFinal();
@@ -626,6 +630,9 @@ public class ControlLoopEventManagerTest {
         ControlLoopOperationManager clom = manager.processControlLoop();
         assertNotNull(clom);
         assertNull(clom.getOperationResult());
+        
+        // serialize and de-serialize manager
+        manager = Serializer.roundTrip(manager);
 
         // Test operation in progress
         try {
@@ -715,6 +722,9 @@ public class ControlLoopEventManagerTest {
         }
 
         assertNull(manager.unlockCurrentOperation());
+        
+        // serialize and de-serialize manager
+        manager = Serializer.roundTrip(manager);
 
         ControlLoopOperationManager clom = manager.processControlLoop();
         assertNotNull(clom);

@@ -23,12 +23,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.policy.aai.Pnf;
+import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.ResourceType;
 import org.onap.policy.sdc.Service;
@@ -82,7 +84,7 @@ public class ControlLoopTest {
     }
 
     @Test
-    public void testEquals() {
+    public void testEquals() throws IOException {
         final Pnf pnf = new Pnf();
         pnf.setPnfName("pnf 1");
 
@@ -126,6 +128,10 @@ public class ControlLoopTest {
         controlLoop2.setTimeout(timeout);
         controlLoop1.setAbatement(abatement);
 
+        assertTrue(controlLoop1.equals(controlLoop2));
+        assertEquals(controlLoop1.hashCode(), controlLoop2.hashCode());
+        
+        controlLoop2 = Serializer.roundTrip(controlLoop1);
         assertTrue(controlLoop1.equals(controlLoop2));
         assertEquals(controlLoop1.hashCode(), controlLoop2.hashCode());
     }

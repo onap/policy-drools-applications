@@ -188,6 +188,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.onap.policy.common</groupId>
+      <artifactId>utils-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
       <artifactId>simulators</artifactId>
       <version>${project.version}</version>

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.onap.policy.common.utils.io.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
@@ -114,6 +115,12 @@ public class ControlLoopPolicyTest {
             // Seems we cannot use assertEquals here. Need advice.
             //
             //assertEquals(newObject, obj);
+            
+            // test serialization
+            ControlLoopPolicy policy = (ControlLoopPolicy) obj;
+            ControlLoopPolicy policy2 = Serializer.roundTrip(policy);
+            assertTrue(policy.equals(policy2));
+            
         } catch (FileNotFoundException e) {
             fail(e.getLocalizedMessage());
         } catch (IOException e) {

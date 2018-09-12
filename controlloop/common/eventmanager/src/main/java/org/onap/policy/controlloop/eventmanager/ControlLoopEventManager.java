@@ -90,7 +90,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     public final UUID requestID;
 
     private String controlLoopResult;
-    private transient ControlLoopProcessor processor = null;
+    private ControlLoopProcessor processor = null;
     private VirtualControlLoopEvent onset;
     private Integer numOnsets = 0;
     private Integer numAbatements = 0;
@@ -101,7 +101,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
     private ControlLoopOperationManager lastOperationManager = null;
-    private transient TargetLock targetLock = null;
+    private TargetLock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
 
