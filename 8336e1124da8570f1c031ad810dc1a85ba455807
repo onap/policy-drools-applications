@@ -16,6 +16,24 @@
       "revId": "8336e1124da8570f1c031ad810dc1a85ba455807",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_74a7a6a7",
+        "filename": "controlloop/common/actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SDNRActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2018-09-12T10:37:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_d18d717d",
+      "revId": "8336e1124da8570f1c031ad810dc1a85ba455807",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
