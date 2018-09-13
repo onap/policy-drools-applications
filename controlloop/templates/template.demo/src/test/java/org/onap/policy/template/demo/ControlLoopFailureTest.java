@@ -308,6 +308,11 @@ public class ControlLoopFailureTest implements TopicListener {
                 }
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
+                if (notification.getMessage().endsWith("Closing the control loop.")) {
+                    if (++eventCount == 2) {
+                        kieSession.halt();
+                    }
+                }
                 if (requestId3.equals(notification.getRequestId())) {
                     /*
                      * The event with the duplicate target should be rejected
@@ -315,9 +320,6 @@ public class ControlLoopFailureTest implements TopicListener {
                     assertTrue(ControlLoopNotificationType.REJECTED.equals(notification.getNotification()));
                 } else {
                     assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
-                }
-                if (++eventCount == 3) {
-                    kieSession.halt();
                 }
             } else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());

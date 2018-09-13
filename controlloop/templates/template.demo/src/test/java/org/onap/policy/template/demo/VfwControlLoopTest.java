@@ -350,6 +350,9 @@ public class VfwControlLoopTest implements TopicListener {
                 sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED);
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
+                if (notification.getMessage().equals("Waiting for abatement")) {
+                    return;
+                }
                 if ("error".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
                     assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
                     assertEquals("Target vnf-id could not be found", notification.getMessage());

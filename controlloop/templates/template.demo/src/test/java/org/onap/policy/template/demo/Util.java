@@ -309,6 +309,23 @@ public final class Util {
     }
 
     /**
+     *  Set the Guard properties to use embedded XACML PDPEngine.
+     */
+    public static void setGuardPropsEmbedded() {
+        /*
+         * Guard PDP-x connection Properties. No URL specified -> use embedded PDPEngine.
+         */
+        PolicyEngine.manager.setEnvironmentProperty("prop.guard.propfile",
+                                                    "src/test/resources/xacml/xacml_guard_clc.properties");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        "python");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        "test");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_USER, "python");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_PASS, "test");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV,         "TEST");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,    "false");
+    }
+
+    /**
      *  Set the VFC properties.
      */
     public static void setVfcProps() {

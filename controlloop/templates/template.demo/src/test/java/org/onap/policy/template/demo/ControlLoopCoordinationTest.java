@@ -25,7 +25,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.att.research.xacml.util.XACMLProperties;
+
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.lang.StringBuilder;
 import java.net.URLEncoder;
 import java.time.Instant;
 import java.util.HashMap;
@@ -36,8 +41,10 @@ import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
+
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
@@ -58,30 +65,31 @@ import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.drools.utils.logging.LoggerUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VcpeControlLoopTest implements TopicListener {
+public class ControlLoopCoordinationTest implements TopicListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(VcpeControlLoopTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControlLoopCoordinationTest.class);
 
     private static List<? extends TopicSink> noopTopics;
 
-    private static KieSession kieSession;
-    private static Util.Pair<ControlLoopPolicy, String> pair;
-    private UUID requestId;
+    private static KieSession kieSession1;
+    private static KieSession kieSession2;
+    private static StringBuilder controlLoopOneName = new StringBuilder();
+    private static StringBuilder controlLoopTwoName = new StringBuilder();
+    private static String expectedDecision;
 
     static {
         /* Set environment properties */
         Util.setAaiProps();
-        Util.setGuardProps();
+        Util.setGuardPropsEmbedded();
         Util.setPuProp();
-        LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
     /**
-     * Setup the simulator.
+     * Setup simulator.
      */
     @BeforeClass
     public static void setUpSimulator() {
@@ -105,19 +113,29 @@ public class VcpeControlLoopTest implements TopicListener {
                 "org.onap.policy.appclcm.LcmRequestWrapper", new JsonProtocolFilter(), null, null, 1111);
         try {
             Util.buildAaiSim();
-            Util.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
+
         /*
-         * Start the kie session
+         * Start the kie sessions
          */
         try {
-            kieSession = startSession(
+            kieSession1 = startSession(
+                    controlLoopOneName,
                     "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
                     + "/src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
-                    "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vCPE",
+                    "src/test/resources/yaml/policy_ControlLoop_SyntheticOne.yaml",
+                    "service=ServiceDemo;resource=Res1Demo;type=operational",
+                    "SyntheticControlLoopOnePolicy",
+                    "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
+            kieSession2 = startSession(
+                    controlLoopTwoName,                   
+                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
+                    + "/src/main/resources/__closedLoopControlName__.drl",
+                    "src/test/resources/yaml/policy_ControlLoop_SyntheticTwo.yaml",
+                    "service=ServiceDemo;resource=Res1Demo;type=operational",
+                    "SyntheticControlLoopTwoPolicy",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
         } catch (IOException e) {
             e.printStackTrace();
@@ -127,14 +145,15 @@ public class VcpeControlLoopTest implements TopicListener {
     }
 
     /**
-     * Tear down the simulator.
+     * Tear down simulator.
      */
     @AfterClass
     public static void tearDownSimulator() {
         /*
          * Gracefully shut down the kie session
          */
-        kieSession.dispose();
+        kieSession1.dispose();
+        kieSession2.dispose();
 
         PolicyEngine.manager.stop();
         HttpServletServer.factory.destroy();
@@ -142,80 +161,107 @@ public class VcpeControlLoopTest implements TopicListener {
         TopicEndpoint.manager.shutdown();
     }
 
-    @Test
-    public void successTest() {
-
-        /*
-         * Allows the PolicyEngine to callback to this object to notify that there is an event ready
-         * to be pulled from the queue
-         */
-        for (TopicSink sink : noopTopics) {
-            assertTrue(sink.start());
-            sink.register(this);
-        }
-
-        /*
-         * Create a unique requestId
-         */
-        requestId = UUID.randomUUID();
-
-        /*
-         * Simulate an onset event the policy engine will receive from DCAE to kick off processing
-         * through the rules
-         */
-        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vCPEInfraVNF13", true);
-
-        kieSession.fireUntilHalt();
-
-        /*
-         * The only fact in memory should be Params
-         */
-        assertEquals(1, kieSession.getFactCount());
-
-        /*
-         * Print what's left in memory
-         */
-        dumpFacts(kieSession);
+    /**
+     * Set expected decision.
+     * 
+     * @param ed the expected decision ("PERMIT" or "DENY")
+     */
+    public void expectedDecisionIs(String ed) {
+        expectedDecision = ed;
+        logger.info("Expected decision is {}", ed);
     }
 
-    @Test
-    public void aaiGetFailTest() {
+    /**
+     * This method is used to simulate event messages from DCAE
+     * that start the control loop (onset message) or end the
+     * control loop (abatement message).
+     * 
+     * @param controlLoopName the control loop name
+     * @param requestID the requestId for this event
+     * @param status could be onset or abated
+     * @param target the target name
+     * @param kieSession the kieSession to which this event is being sent
+     */
+    protected void sendEvent(String controlLoopName,
+                             UUID requestId, 
+                             ControlLoopEventStatus status,
+                             String target,
+                             KieSession kieSession) {
+        logger.debug("sendEvent controlLoopName={}", controlLoopName);
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.setClosedLoopControlName(controlLoopName);
+        event.setRequestId(requestId);
+        event.setTarget("generic-vnf.vnf-name");
+        event.setTargetType(ControlLoopTargetType.VNF);
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setAai(new HashMap<>());
+        event.getAai().put("generic-vnf.vnf-name", target);
+        event.setClosedLoopEventStatus(status);
 
-        /*
-         * Allows the PolicyEngine to callback to this object to notify that there is an event ready
-         * to be pulled from the queue
-         */
-        for (TopicSink sink : noopTopics) {
-            assertTrue(sink.start());
-            sink.register(this);
-        }
-
-        /*
-         * Create a unique requestId
-         */
-        requestId = UUID.randomUUID();
-
-        /*
-         * Simulate an onset event the policy engine will receive from DCAE to kick off processing
-         * through the rules
-         */
-        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "getFail", false);
-
-
-        kieSession.fireUntilHalt();
-
-        /*
-         * The only fact in memory should be Params
-         */
-        assertEquals(1, kieSession.getFactCount());
-
-        /*
-         * Print what's left in memory
-         */
-        dumpFacts(kieSession);
-
+        Gson gson = new Gson();
+        String json = gson.toJson(event);
+        logger.debug("sendEvent {}", json);
+        
+        kieSession.insert(event);
     }
 
+    
+    /**
+     * Simulate an event by inserting into kieSession and firing rules as needed.
+     * 
+     * @param cles the ControlLoopEventStatus
+     * @param rid the request ID
+     * @param controlLoopName the control loop name
+     * @param kieSession the kieSession to which this event is being sent
+     * @param expectedDecision the expected decision
+     */
+    protected void simulate_event(ControlLoopEventStatus cles,
+                               UUID rid,
+                               String controlLoopName,
+                               String target,
+                               KieSession kieSession,
+                               String expectedDecision) {
+        int waitMillis = 5000;
+        
+        if (cles == ControlLoopEventStatus.ONSET) {
+            expectedDecisionIs(expectedDecision);
+        }
+        
+        sendEvent(controlLoopName, rid, cles, target, kieSession);
+        kieSession.fireUntilHalt();
+        logger.info("simulate_event: done");
+    }
+
+    /**
+     * Simulate an onset event.
+     * 
+     * @param rid the request ID
+     * @param controlLoopName the control loop name
+     * @param kieSession the kieSession to which this event is being sent
+     * @param expectedDecision the expected decision 
+     */
+    public void simulate_onset(UUID rid,
+                               String controlLoopName,
+                               String target,
+                               KieSession kieSession,
+                               String expectedDecision) {
+        simulate_event(ControlLoopEventStatus.ONSET, rid, controlLoopName, target, kieSession, expectedDecision);
+    }
+
+    /**
+     * Simulate an abated event.
+     * 
+     * @param rid the request ID
+     * @param controlLoopName the control loop name
+     * @param kieSession the kieSession to which this event is being sent
+     */
+    public void simulate_abatement(UUID rid,
+                                   String controlLoopName,
+                                   String target,
+                                   KieSession kieSession) {
+        simulate_event(ControlLoopEventStatus.ABATED, rid, controlLoopName, target, kieSession, null);
+    }
+   
     /**
      * This method will start a kie session and instantiate the Policy Engine.
      * 
@@ -225,34 +271,44 @@ public class VcpeControlLoopTest implements TopicListener {
      * @param policyName name of the policy
      * @param policyVersion version of the policy
      * @return the kieSession to be used to insert facts
-     * @throws IOException IO exception
+     * @throws IOException throws IO exception
      */
-    private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
-            String policyName, String policyVersion) throws IOException {
+    private static KieSession startSession(StringBuilder controlLoopName,
+                                           String droolsTemplate,
+                                           String yamlFile,
+                                           String policyScope,
+                                           String policyName,
+                                           String policyVersion) throws IOException {
 
         /*
          * Load policies from yaml
          */
-        pair = Util.loadYaml(yamlFile);
+        Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml(yamlFile);
         assertNotNull(pair);
         assertNotNull(pair.first);
         assertNotNull(pair.first.getControlLoop());
         assertNotNull(pair.first.getControlLoop().getControlLoopName());
         assertTrue(pair.first.getControlLoop().getControlLoopName().length() > 0);
 
+        controlLoopName.append(pair.first.getControlLoop().getControlLoopName());
+        String yamlContents = pair.second;
+        
         /*
          * Construct a kie session
          */
         final KieSession kieSession = Util.buildContainer(droolsTemplate, 
-                pair.first.getControlLoop().getControlLoopName(),
-                policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
+                                                          controlLoopName.toString(),
+                                                          policyScope,
+                                                          policyName,
+                                                          policyVersion,
+                                                          URLEncoder.encode(yamlContents, "UTF-8"));
 
         /*
          * Retrieve the Policy Engine
          */
 
         logger.debug("============");
-        logger.debug(URLEncoder.encode(pair.second, "UTF-8"));
+        logger.debug(URLEncoder.encode(yamlContents, "UTF-8"));
         logger.debug("============");
 
         return kieSession;
@@ -293,7 +349,10 @@ public class VcpeControlLoopTest implements TopicListener {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
                 assertNotNull(notification.getMessage());
-                assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
+                // THESE ARE THE MOST CRITICAL ASSERTS
+                // TEST IF GUARD.RESPONSE IS CORRECT
+                logger.debug("Testing whether decision was {} as expected", expectedDecision);
+                assertTrue(notification.getMessage().toUpperCase().endsWith(expectedDecision));
             } else if (policyName.endsWith("GUARD_PERMITTED")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
@@ -301,7 +360,8 @@ public class VcpeControlLoopTest implements TopicListener {
                 assertTrue(notification.getMessage().startsWith("actor=APPC"));
             } else if (policyName.endsWith("OPERATION.TIMEOUT")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
-                kieSession.halt();
+                kieSession1.halt();
+                kieSession2.halt();
                 logger.debug("The operation timed out");
                 fail("Operation Timed Out");
             } else if (policyName.endsWith("APPC.LCM.RESPONSE")) {
@@ -309,33 +369,34 @@ public class VcpeControlLoopTest implements TopicListener {
                 assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=APPC"));
-                sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED);
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
-                if (notification.getMessage().equals("Waiting for abatement")) {
-                    return;
-                }
-                if ("getFail".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
-                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
-                    kieSession.halt();
-                } else {
-                    assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, notification.getNotification());
-                    kieSession.halt();
+                if (notification.getMessage().endsWith("Closing the control loop.")
+                    || notification.getMessage().equals("Waiting for abatement")) {
+                    if (policyName.startsWith(controlLoopOneName.toString())) {
+                        logger.debug("Halting kieSession1");
+                        kieSession1.halt();
+                    } else if (policyName.startsWith(controlLoopTwoName.toString())) {
+                        logger.debug("Halting kieSession2");
+                        kieSession2.halt();
+                    } else {
+                        fail("Unknown ControlLoop"); 
+                    }
                 }
             } else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
-                kieSession.halt();
+                kieSession1.halt();
+                kieSession2.halt();
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
             }
         } else if (obj instanceof LcmRequestWrapper) {
             /*
-             * The request should be of type LcmRequestWrapper and the subrequestid should be 1
+             * The request should be of type LCMRequestWrapper and the subrequestid should be 1
              */
             LcmRequestWrapper dmaapRequest = (LcmRequestWrapper) obj;
             LcmRequest appcRequest = dmaapRequest.getBody();
             assertTrue(appcRequest.getCommonHeader().getSubRequestId().equals("1"));
-            assertNotNull(appcRequest.getActionIdentifiers().get("vnf-id"));
 
             logger.debug("\n============ APPC received the request!!! ===========\n");
 
@@ -347,52 +408,9 @@ public class VcpeControlLoopTest implements TopicListener {
             appcResponse.getStatus().setCode(400);
             appcResponse.getStatus().setMessage("AppC success");
             dmaapResponse.setBody(appcResponse);
-            kieSession.insert(dmaapResponse);
+            kieSession1.insert(dmaapResponse);
+            kieSession2.insert(dmaapResponse);
         }
-    }
-
-    /**
-     * This method is used to simulate event messages from DCAE that start the control loop (onset
-     * message) or end the control loop (abatement message).
-     * 
-     * @param policy the controlLoopName comes from the policy
-     * @param requestID the requestId for this event
-     * @param status could be onset or abated
-     */
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status) {
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
-        event.setRequestId(requestId);
-        event.setTarget("generic-vnf.vnf-name");
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setAai(new HashMap<>());
-        event.getAai().put("generic-vnf.vnf-name", "testGenericVnfName");
-        event.setClosedLoopEventStatus(status);
-        kieSession.insert(event);
-    }
-
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status, String vnfName,
-            boolean isEnriched) {
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
-        event.setRequestId(requestId);
-        event.setTarget("generic-vnf.vnf-name");
-        event.setTargetType(ControlLoopTargetType.VNF);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setAai(new HashMap<>());
-        event.getAai().put("generic-vnf.vnf-name", vnfName);
-        if (isEnriched) {
-            event.getAai().put("generic-vnf.in-maint", "false");
-            event.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
-            event.getAai().put("generic-vnf.orchestration-status", "Created");
-            event.getAai().put("generic-vnf.prov-status", "ACTIVE");
-            event.getAai().put("generic-vnf.resource-version", "1");
-            event.getAai().put("generic-vnf.service-id", "e8cb8968-5411-478b-906a-f28747de72cd");
-            event.getAai().put("generic-vnf.vnf-id", "63b31229-9a3a-444f-9159-04ce2dca3be9");
-            event.getAai().put("generic-vnf.vnf-type", "vCPEInfraService10/vCPEInfraService10 0");
-        }
-        event.setClosedLoopEventStatus(status);
-        kieSession.insert(event);
     }
 
     /**
@@ -407,4 +425,60 @@ public class VcpeControlLoopTest implements TopicListener {
         }
     }
 
+    /**
+     * Test that SyntheticControlLoopOne blocks SyntheticControlLoopTwo
+     * is enforced correctly.
+     */
+    @Test
+    public void testSyntheticControlLoopOneBlocksSyntheticControlLoopTwo() throws InterruptedException {
+        logger.info("Beginning testSyntheticControlLoopOneBlocksSyntheticControlLoopTwo");
+        /*
+         * Allows the PolicyEngine to callback to this object to
+         * notify that there is an event ready to be pulled 
+         * from the queue
+         */
+        for (TopicSink sink : noopTopics) {
+            assertTrue(sink.start());
+            sink.register(this);
+        }
+                
+        /*
+         * Create unique requestIds
+         */
+        final UUID requestId1 = UUID.randomUUID();
+        final UUID requestId2 = UUID.randomUUID();
+        final UUID requestId3 = UUID.randomUUID();
+        final UUID requestId4 = UUID.randomUUID();
+        final UUID requestId5 = UUID.randomUUID();
+        final String cl1 = controlLoopOneName.toString();
+        final String cl2 = controlLoopTwoName.toString();
+        final String t1 = "TARGET_1";
+        final String t2 = "TARGET_2";
+
+        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@"); 
+        simulate_onset(requestId1, cl2, t1, kieSession2,"PERMIT");
+        logger.info("@@@@@@@@@@ cl1 ONSET t1 @@@@@@@@@@"); 
+        simulate_onset(requestId2, cl1, t1, kieSession1,"PERMIT");
+        logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@"); 
+        simulate_abatement(requestId1, cl2, t1, kieSession2);
+        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Fail) @@@@@@@@@@"); 
+        simulate_onset(requestId3, cl2, t1, kieSession2,"DENY");
+        logger.info("@@@@@@@@@@ cl2 ONSET t2 (Success) @@@@@@@@@@");
+        simulate_onset(requestId4, cl2, t2, kieSession2,"PERMIT");
+        logger.info("@@@@@@@@@@ cl2 ABATED t2 @@@@@@@@@@"); 
+        simulate_abatement(requestId4, cl2, t2, kieSession2);
+        logger.info("@@@@@@@@@@ cl1 ABATED t1  @@@@@@@@@@"); 
+        simulate_abatement(requestId2, cl1, t1, kieSession1);
+        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@"); 
+        simulate_onset(requestId5, cl2, t1, kieSession2,"PERMIT");
+        logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@"); 
+        simulate_abatement(requestId5, cl2, t1, kieSession2);
+        
+        /*
+         * Print what's left in memory
+         */
+        dumpFacts(kieSession1);
+        dumpFacts(kieSession2);
+    }
 }
+

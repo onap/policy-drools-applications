@@ -1,0 +1,44 @@
+# Copyright 2018 AT&T Intellectual Property. All rights reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+controlLoop:
+  version: 2.0.0
+  controlLoopName: SyntheticControlLoopOne
+  services: 
+    - serviceName: ServiceSimple
+  resources: 
+    - resourceName: res1
+      resourceType: VFC
+    - resourceName: res2
+      resourceType: VFC
+  trigger_policy: unique-policy-id-1
+  timeout: 2500
+  abatement: true
+  controlLoopCoordinator: true
+
+policies:
+  - id: unique-policy-id-1
+    name: SyntheticControlLoopOnePolicy
+    description:
+    actor: APPC
+    recipe: action_one
+    target:
+      type: VNF
+    retry: 3
+    timeout: 200
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_guard: final_failure_guard
+    failure_exception: final_failure_exception

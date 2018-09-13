@@ -24,10 +24,20 @@ import com.att.research.xacml.api.Attribute;
 import com.att.research.xacml.api.AttributeCategory;
 import com.att.research.xacml.api.AttributeValue;
 import com.att.research.xacml.api.Result;
+import com.att.research.xacml.api.pdp.PDPEngine;
+import com.att.research.xacml.api.pdp.PDPException;
+import com.att.research.xacml.api.pdp.PDPEngineFactory;
+import com.att.research.xacmlatt.pdp.ATTPDPEngineFactory;
+import com.att.research.xacml.std.annotations.RequestParser;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -53,7 +63,8 @@ public class PolicyGuardXacmlHelper {
 
     // Constant for the systme line separator
     private static final String SYSTEM_LS = System.lineSeparator();
-
+    private static String propfile;
+    
     public PolicyGuardXacmlHelper() {
         init(PolicyEngine.manager.getEnvironment());
     }
@@ -90,6 +101,10 @@ public class PolicyGuardXacmlHelper {
         //
         String response = null;
 
+        if ( propfile != null ) {
+            logger.debug("callEmbeddedPDP");
+            return callEmbeddedPDP(xacmlReq);
+        }
         //
         // Build the json request
         //
@@ -216,6 +231,63 @@ public class PolicyGuardXacmlHelper {
     }
 
     /**
+     * Call embedded PDP.
+     * 
+     * @param xacmlReq the XACML request
+     * @return the response
+     */
+	public static String callEmbeddedPDP(PolicyGuardXacmlRequestAttributes xacmlReq) {
+        Gson gson = new Gson();
+        String json = null;
+	 com.att.research.xacml.api.Response response = null;
+        try {
+            Properties props = new Properties();
+            InputStream is = null; 
+            InputStreamReader isr = null;
+            BufferedReader br = null;
+            is = new FileInputStream(propfile);
+            isr = new InputStreamReader(is);
+            br = new BufferedReader(isr);
+            props.load(br);
+            PDPEngineFactory factory = ATTPDPEngineFactory.newInstance();
+            PDPEngine xacmlPdpEngine = factory.newEngine(props);
+            
+            logger.debug("embedded Engine created");
+            //
+            // Embedded call to PDP
+            //
+            long lTimeStart = System.currentTimeMillis();
+            try {
+                json = gson.toJson(xacmlReq);
+                logger.debug("calling PDPEngine.decide {}", json);
+                if (xacmlReq.getVfCount() == null ) {
+                    xacmlReq.setVfCount(1);
+                }
+                response = xacmlPdpEngine.decide(RequestParser.parseRequest(xacmlReq));
+            } catch (PDPException e) {
+                logger.error(e.getMessage(), e);
+            }
+            long lTimeEnd = System.currentTimeMillis();
+            logger.debug("Elapsed Time: {} ms", (lTimeEnd - lTimeStart));
+            
+        } catch (Exception e1) {
+            logger.error(e1.getMessage(), e1);
+            e1.printStackTrace();
+        }
+        //
+        // Convert response to string
+        //
+        json = gson.toJson(response);
+        logger.debug("response {}",json);
+        logger.debug("converting response to string");
+        PolicyGuardResponse pgr = parseXACMLPDPResponse(response);
+        logger.debug("parsed XACMLPDPResponse {}", pgr);
+        String decision = pgr.getResult();
+        logger.debug("decision={}",decision);
+        return decision;
+    }
+
+    /**
      * Parse XACML PDP response.
      * 
      * @param xacmlResponse the XACML response
@@ -259,6 +331,8 @@ public class PolicyGuardXacmlHelper {
     }
 
     private void init(Properties properties) {
+        propfile = properties.getProperty("prop.guard.propfile");
+
         // used to store error messages
         StringBuilder sb = new StringBuilder();
 

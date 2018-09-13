@@ -332,27 +332,32 @@ rule "${policyName}.EVENT.MANAGER"
         //
         VirtualControlLoopNotification notification = $manager.isControlLoopFinal();
     
-    
         if (notification != null) {
+            //
+            // Set common notification fields
+            //
+            notification.setFrom("policy");
+            notification.setPolicyName(drools.getRule().getName());
+            notification.setPolicyScope("${policyScope}");
+            notification.setPolicyVersion("${policyVersion}");
             //
             // Its final, but are we waiting for abatement?
             //
             if ($manager.getNumAbatements() > 0) {
+                //
+                // We have received an abatement and are done
+                //
                 logger.info("{}: {}: abatement received for {}.  Closing the control loop", 
                             $params.getClosedLoopControlName(), drools.getRule().getName(), 
                             $event.getRequestId());
-                
+                //
+                // Set notification message
+                //
+                notification.setMessage("Abatement received. Closing the control loop.");
+                //
                 /// DB Write---end event processing for this RequestId()
+                //
                 $manager.commitAbatement("Event Abated","Closed");
-                
-                notification.setFrom("policy");
-                notification.setPolicyName(drools.getRule().getName());
-                notification.setPolicyScope("${policyScope}");
-                notification.setPolicyVersion("${policyVersion}");
-                //
-                // In this case, we are done
-                //
-                PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
                 //
                 // Unlock the target
                 //
@@ -381,22 +386,26 @@ rule "${policyName}.EVENT.MANAGER"
                 // Check whether we need to wait for abatement
                 //
                 if ($manager.getProcessor().getControlLoop().getAbatement() == true && notification.getNotification() == ControlLoopNotificationType.FINAL_SUCCESS) {
+                  //
+                  // We will wait
+                  //
                   logger.info("{}: {}: waiting for abatement ..", 
                               $params.getClosedLoopControlName(), drools.getRule().getName());
+                  //
+                  // Set notification message
+                  //
+                  notification.setMessage("Waiting for abatement");
                 } else {
-                  logger.info("{}: {}: no abatement expect for {}.  Closing the control loop", 
+                  //
+                  // We are done
+                  //
+                  logger.info("{}: {}: no abatement expected for {}.  Closing the control loop", 
                               $params.getClosedLoopControlName(), drools.getRule().getName(), 
                               $event.getRequestId());
-                  
-                  notification.setFrom("policy");
-                  notification.setPolicyName(drools.getRule().getName());
-                  notification.setPolicyScope("${policyScope}");
-                  notification.setPolicyVersion("${policyVersion}");
-                  
                   //
-                  // In this case, we are done
+                  // Set notification message
                   //
-                  PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+                  notification.setMessage("No abatement expected. Closing the control loop.");
                   //
                   // Unlock the target
                   //
@@ -417,6 +426,10 @@ rule "${policyName}.EVENT.MANAGER"
                   retract($clTimer);
                 }
             }
+            //
+            // Send the notification
+            //
+            PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
         } else {
             //
             // NOT final, so let's ask for the next operation
