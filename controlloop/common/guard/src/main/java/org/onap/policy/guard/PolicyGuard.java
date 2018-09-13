@@ -81,6 +81,39 @@ public class PolicyGuard {
     }
 
     /**
+     * Create a lock.
+     * 
+     * @param targetType the target type
+     * @param targetInstance the target instance
+     * @param requestID the request Id
+     * @return the TargetLock
+     * @throws IllegalArgumentException if an argument is null
+     */
+    public static TargetLock createTargetLock(TargetType targetType, String targetInstance,
+            UUID requestID, LockCallback callback) {
+        switch (targetType) {
+            case PNF:
+                //
+                // Create the Lock object
+                //
+                return new PNFTargetLock(targetType, targetInstance, requestID, callback);
+            case VM:
+                //
+                // Create the Lock object
+                //
+                return new VMTargetLock(targetType, targetInstance, requestID, callback);
+            case VNF:
+                //
+                // Create the Lock object
+                //
+                return new VNFTargetLock(targetType, targetInstance, requestID, callback);
+            default:
+                logger.error("invalid target type {} for lock on {}", targetType, targetInstance);
+                return null;
+        }
+    }
+
+    /**
      * Lock a target.
      * 
      * @param targetType the target type
@@ -93,48 +126,28 @@ public class PolicyGuard {
      */
     public static LockResult<GuardResult, TargetLock> lockTarget(TargetType targetType, String targetInstance,
             UUID requestID, LockCallback callback, int holdSec) {
-        
         String owner = makeOwner(targetType, requestID);
-
         boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
         if (!result) {
             return LockResult.createLockResult(GuardResult.LOCK_DENIED, null);
         }
-        
-        TargetLock lock = null;
-        switch (targetType) {
-            case PNF:
-                //
-                // Create the Lock object
-                //
-                lock = new PNFTargetLock(targetType, targetInstance, requestID, callback);
-                break;
-            case VM:
-                //
-                // Create the Lock object
-                //
-                lock = new VMTargetLock(targetType, targetInstance, requestID, callback);
-                break;
-            case VNF:
-                //
-                // Create the Lock object
-                //
-                lock = new VNFTargetLock(targetType, targetInstance, requestID, callback);
-                break;
 
-            default:
-                logger.error("invalid target type {} for lock on {}", targetType, targetInstance);
-                factory.getManager().unlock(targetInstance, owner);
-                return LockResult.createLockResult(GuardResult.LOCK_EXCEPTION, null);
+        TargetLock lock = createTargetLock(targetType, targetInstance, requestID, callback);
+        if (lock == null) {
+            //
+            // Bad lock type: unlock and return exception result
+            // 
+            factory.getManager().unlock(targetInstance, owner);
+            return LockResult.createLockResult(GuardResult.LOCK_EXCEPTION, null);
+        } else {
+            //
+            // Return result
+            //
+            logger.debug("Locked {}", lock);
+            return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
         }
-        
-        //
-        // Return result
-        //
-        logger.debug("Locked {}", lock);
-        return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
     }
-    
+        
     /**
      * Extends a lock on a target.
      * @param lock      current lock

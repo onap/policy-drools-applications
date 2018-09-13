@@ -39,6 +39,7 @@ public class ControlLoop {
     private String triggerPolicy = FinalResult.FINAL_OPENLOOP.toString();
     private Integer timeout;
     private Boolean abatement = false;
+    private Boolean controlLoopCoordinator = false;
 
     public ControlLoop() {
         // Empty Constructor.
@@ -96,6 +97,14 @@ public class ControlLoop {
         this.abatement = abatement;
     }
 
+    public Boolean getControlLoopCoordinator() {
+        return controlLoopCoordinator;
+    }
+
+    public void setControlLoopCoordinator(Boolean controlLoopCoordinator) {
+        this.controlLoopCoordinator = controlLoopCoordinator;
+    }
+
     public String getVersion() {
         return version;
     }
@@ -134,13 +143,15 @@ public class ControlLoop {
         this.triggerPolicy = controlLoop.triggerPolicy;
         this.timeout = controlLoop.timeout;
         this.abatement = controlLoop.abatement;
+        this.controlLoopCoordinator = controlLoop.controlLoopCoordinator;
     }
 
     @Override
     public String toString() {
         return "ControlLoop [controlLoopName=" + controlLoopName + ", version=" + version + ", services=" + services
                 + ", resources=" + resources + ", trigger_policy=" + triggerPolicy + ", timeout=" + timeout
-                + ", abatement=" + abatement + "]";
+                + ", abatement=" + abatement
+                + ", controlLoopCoordinator=" + controlLoopCoordinator + "]";
     }
 
     @Override

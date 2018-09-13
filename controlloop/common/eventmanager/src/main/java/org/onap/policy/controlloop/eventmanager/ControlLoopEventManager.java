@@ -88,6 +88,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private static final long serialVersionUID = -1216568161322872641L;
     public final String closedLoopControlName;
     public final UUID requestID;
+    public boolean controlLoopCoordinator;
 
     private String controlLoopResult;
     private transient ControlLoopProcessor processor = null;
@@ -268,7 +269,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             // Parse the YAML specification
             //
             this.processor = new ControlLoopProcessor(yamlSpecification);
-
+            //
+            // Set use of control loop coordination
+            //
+            this.controlLoopCoordinator = this.processor.getControlLoop().getControlLoopCoordinator();
             //
             // At this point we are good to go with this event
             //
@@ -480,6 +484,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             throw new ControlLoopException("Do not have a current operation.");
         }
         //
+        // Using CLC? Then create and return a lock w/o actually locking.
+        //
+        if (this.controlLoopCoordinator) {
+            TargetLock lock = PolicyGuard.createTargetLock(this.currentOperation.policy.getTarget().getType(),
+                                                           this.currentOperation.getTargetEntity(),
+                                                           this.onset.getRequestId(), this);
+            this.targetLock = lock;
+            LockResult<GuardResult, TargetLock> lockResult = LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
+            return lockResult;
+        }
+        //
         // Have we acquired it already?
         //
         if (this.targetLock != null) {
@@ -523,8 +538,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         TargetLock returnLock = this.targetLock;
         this.targetLock = null;
-
-        PolicyGuard.unlockTarget(returnLock);
+        //
+        // Unless using CLC, unlock before returning
+        //
+        if (!this.controlLoopCoordinator) {
+            PolicyGuard.unlockTarget(returnLock);
+        }
 
         // always return the old target lock so rules can retract it
         return returnLock;
