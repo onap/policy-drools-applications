@@ -104,6 +104,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private TargetLock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
+    private boolean useTargetLock = true;
 
     /**
      * Wrapper for AAI vserver named-query response. This is initialized in a lazy
@@ -159,6 +160,14 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     public void setActivated(boolean isActivated) {
         this.isActivated = isActivated;
+    }
+
+    public boolean useTargetLock() {
+        return useTargetLock();
+    }
+
+    public void setUseTargetLock(boolean useTargetLock) {
+        this.useTargetLock = useTargetLock;
     }
 
     public VirtualControlLoopEvent getOnsetEvent() {
@@ -268,7 +277,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             // Parse the YAML specification
             //
             this.processor = new ControlLoopProcessor(yamlSpecification);
-
             //
             // At this point we are good to go with this event
             //
@@ -480,6 +488,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             throw new ControlLoopException("Do not have a current operation.");
         }
         //
+        // Not using target locks? Create and return a lock w/o actually locking.
+        //
+        if (!this.useTargetLock) {
+            TargetLock lock = PolicyGuard.createTargetLock(this.currentOperation.policy.getTarget().getType(),
+                                                           this.currentOperation.getTargetEntity(),
+                                                           this.onset.getRequestId(), this);
+            this.targetLock = lock;
+            LockResult<GuardResult, TargetLock> lockResult = LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
+            return lockResult;
+        }
+        //
         // Have we acquired it already?
         //
         if (this.targetLock != null) {
@@ -523,8 +542,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         TargetLock returnLock = this.targetLock;
         this.targetLock = null;
-
-        PolicyGuard.unlockTarget(returnLock);
+        //
+        // if using target locking unlock before returning
+        //
+        if (this.useTargetLock) {
+            PolicyGuard.unlockTarget(returnLock);
+        }
 
         // always return the old target lock so rules can retract it
         return returnLock;
