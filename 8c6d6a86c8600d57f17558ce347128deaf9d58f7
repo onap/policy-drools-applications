@@ -48,6 +48,91 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_86e56a0a",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "rename to issuer?",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c6ada29c",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "remove this check",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_46999277",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "it isn\u0027t necessary to call toString()",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_66984e78",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "remove this check",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e68bfe1c",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "it isn\u0027t necessary to call toString()",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e6e0dece",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
         "patchSetId": 1
@@ -117,6 +202,40 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_06963a3f",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "resource leak - I believe the entity manager factory, itself, must be closed when all entity managers are no longer needed.\n\nhttps://openjpa.apache.org/builds/1.2.3/apache-openjpa/docs/jpa_overview_emfactory_close.html",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_86c80a56",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "could use Serialization.gsonPretty instead of creating a new Gson object",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_236b2886",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 1
@@ -134,6 +253,23 @@
         "endLine": 242,
         "endChar": 54
       },
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c637e24b",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "really want to re-read the property file on every call?",
       "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -163,6 +299,74 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a6e666e6",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "remove this printStackTrace line - it goes to stdout/err, which it should not.  In addition, it will be logged automatically as part of the preceding logger call",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a6fd0670",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "should this return a value?  If it falls through, then line 280 may generate an NPE",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_46ec32bb",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "need to catch any exception here?  or is it ok if any exception it throws is propagated out of this method?",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4643d2ae",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetHistoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "if any of these fail, then em \u0026 emf will be left open, though it may not be worth addressing since this is a test",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_030ceceb",
         "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
         "patchSetId": 1
@@ -180,6 +384,108 @@
         "endLine": 5,
         "endChar": 26
       },
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_86248a0d",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "if any of these fail, then em \u0026 emf will be left open, though it may not be worth addressing since this is a test",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e67c5eee",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "depending on which steps fail, em and emf may be left open",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2676d606",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "maybe remove try/catch wrapper?  test will fail automatically if an exception is thrown (same for subsequent cases)",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_06ce3a2e",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "could just use a mock instead of this class",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a6d0a6c9",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "could just use a mock instead of this class",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c6d362d3",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "could just use a mock instead of this class",
       "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -226,6 +532,74 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_e698de1d",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "remove printStackTrace and add \"e\" to end of logger.debug()",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8687aab4",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "use Serialization.gsonPretty instead?",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_86aeca2c",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "isEmpty() is preferrable",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_066abaed",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "use assertEquals instead",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6605ae44",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopCoordinationTest.java",
         "patchSetId": 1
@@ -237,6 +611,57 @@
       "writtenOn": "2018-09-14T15:10:13Z",
       "side": 1,
       "message": "there should be assertion to make sure facts left in memory are clean",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_66612e04",
+        "filename": "controlloop/templates/template.demo/src/test/resources/xacml/synthetic_control_loop_one_blocks_synthetic_control_loop_two.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e6345efd",
+        "filename": "controlloop/templates/template.demo/src/test/resources/xacml/xacml_guard.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "org:onap?",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4652f235",
+        "filename": "controlloop/templates/template.demo/src/test/resources/xacml/xacml_guard.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "org:onap?",
       "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -260,6 +685,40 @@
         "endLine": 5,
         "endChar": 26
       },
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_06387aed",
+        "filename": "controlloop/templates/template.demo/src/test/resources/xacml/xacml_guard_clc.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "org.onap? (et., al.)",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a63ae6e4",
+        "filename": "controlloop/templates/template.demo/src/test/resources/xacml/xacml_guard_clc.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-14T15:10:57Z",
+      "side": 1,
+      "message": "org:onap?",
       "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
