@@ -55,8 +55,8 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PIPEngineGetHistory extends StdConfigurableEngine {
-    private static final Logger logger = LoggerFactory.getLogger(PIPEngineGetHistory.class);
+public class PipEngineGetHistory extends StdConfigurableEngine {
+    private static final Logger logger = LoggerFactory.getLogger(PipEngineGetHistory.class);
 
     //
     // Base issuer string. The issuer in the policy will also contain time window information
@@ -91,7 +91,7 @@ public class PIPEngineGetHistory extends StdConfigurableEngine {
             new StdPIPRequest(new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_RESOURCE),
                     new IdentifierImpl(XACML_TARGET_TARGET_ID), new IdentifierImpl(XML_SCHEMA_STRING));
 
-    public PIPEngineGetHistory() {
+    public PipEngineGetHistory() {
         super();
     }
 
