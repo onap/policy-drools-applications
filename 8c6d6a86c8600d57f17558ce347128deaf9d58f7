@@ -299,6 +299,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_37a7dea8",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-14T22:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_436664bc",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 41
+      },
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a6e666e6",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
         "patchSetId": 1
@@ -367,6 +391,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f7d96657",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetHistoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-14T22:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4643d2ae",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_030ceceb",
         "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
         "patchSetId": 1
@@ -407,6 +449,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f731665a",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-14T22:41:52Z",
+      "side": 1,
+      "message": "given it is a test and code freeze is looming, I\u0027m going to leave out.",
+      "parentUuid": "1a76adc5_86248a0d",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e67c5eee",
         "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
         "patchSetId": 1
@@ -441,6 +501,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b7df6e39",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-14T22:41:52Z",
+      "side": 1,
+      "message": "Unfortunately, removing prevented code from building\n Compilation failure: Compilation failure:\n[ERROR] /home/jreich/policy/drools-applications/controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.jav\na:[155,75] unreported exception com.att.research.xacml.api.pip.PIPException; must be caught or declared to be thrown\n[ERROR] /home/jreich/policy/drools-applications/controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.jav\na:[160,75] unreported exception com.att.research.xacml.api.pip.PIPException; must be caught or declared to be thrown",
+      "parentUuid": "1a76adc5_2676d606",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_06ce3a2e",
         "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
         "patchSetId": 1
@@ -452,6 +530,24 @@
       "writtenOn": "2018-09-14T15:10:57Z",
       "side": 1,
       "message": "could just use a mock instead of this class",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9734b24a",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-14T22:41:52Z",
+      "side": 1,
+      "message": "I don\u0027t know how to do this and am short on time.  Will address after Casablanca.",
+      "parentUuid": "1a76adc5_06ce3a2e",
       "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
