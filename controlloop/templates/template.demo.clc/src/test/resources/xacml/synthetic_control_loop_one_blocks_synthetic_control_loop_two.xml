@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="urn:com:att:xacml:policy:id:son:guard:5" Version="1" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-unless-deny">
+<Description>Policy for first_blocks_second coordination (if first running and second requests to run, deny second).</Description>     
+<Target>
+  <AnyOf>
+    <AllOf>
+      <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SyntheticControlLoopTwo</AttributeValue>
+        <!-- value should be autofilled by yaml from a xacml template -->
+        <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:clname:clname-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+      </Match>
+    </AllOf>
+  </AnyOf>
+</Target>
+
+<Rule RuleId="urn:com:att:xacml:rule:id:1" Effect="Deny">
+  <Description>First Is Running</Description>
+  <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <VariableReference VariableId="clc_status"/>
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Success</AttributeValue>
+      </Apply>
+  </Condition>
+</Rule>
+
+<!-- 'action_one' should be autofilled by yaml from a xacml template -->
+<VariableDefinition VariableId="clc_status">
+  <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+    <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" AttributeId="com:att:research:xacml:test:sql:resource:operations:status" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="org:onap:policy:guard:getstatus:clname:SyntheticControlLoopOne" MustBePresent="false"/>
+  </Apply>
+</VariableDefinition>
+</Policy>

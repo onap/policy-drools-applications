@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,9 +66,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
 
-public class PipEngineGetHistoryTest {
-    static PIPEngineGetHistory pegh;
-    private static final String ISSUER = "issuerIntw:mid:end";
+public class PipEngineGetStatusTest {
+    static PIPEngineGetStatus pegs;
+    private static final String ISSUER = "issuer:clname:testclname";
     
     private static EntityManagerFactory emf;
     private static EntityManager em;
@@ -77,12 +77,12 @@ public class PipEngineGetHistoryTest {
      * Set up test class.
      */
     @BeforeClass
-    public static void testPipEngineGetHistory() {
-        pegh = null;
+    public static void testPipEngineGetStatus() {
+        pegs = null;
         try {
-            pegh = new PIPEngineGetHistory();
+            pegs = new PIPEngineGetStatus();
         } catch (Exception e) {
-            fail("PIPEngineGetHistory constructor failed");
+            fail("PIPEngineGetStatus constructor failed");
         }
 
         // Set PU
@@ -107,7 +107,7 @@ public class PipEngineGetHistoryTest {
         nq.executeUpdate();
         em.getTransaction().commit();
     }
-    
+
     /**
      * Clean up test class.
      */
@@ -137,12 +137,12 @@ public class PipEngineGetHistoryTest {
 
     @Test
     public void testAttributesRequired() {
-        assertTrue(pegh.attributesRequired().isEmpty());
+        assertTrue(pegs.attributesRequired().isEmpty());
     }
 
     @Test
     public void testAttributesProvided() {
-        assertTrue(pegh.attributesProvided().isEmpty());
+        assertTrue(pegs.attributesProvided().isEmpty());
     }
 
     @Test
@@ -153,145 +153,119 @@ public class PipEngineGetHistoryTest {
         // Test issuer null
         when(mockPipRequest.getIssuer()).thenReturn(null);
         try {
-            assertEquals(StdPIPResponse.PIP_RESPONSE_EMPTY, pegh.getAttributes(mockPipRequest, mockPipFinder));
+            assertEquals(StdPIPResponse.PIP_RESPONSE_EMPTY, pegs.getAttributes(mockPipRequest, mockPipFinder));
         } catch (Exception e) {
             fail("getAttributes failed");
         }
-
+        
         // Test issuer not equal to our issuer
-        pegh.setIssuer(ISSUER);
+        pegs.setIssuer(ISSUER);
         when(mockPipRequest.getIssuer()).thenReturn("something else");
         try {
-            assertEquals(StdPIPResponse.PIP_RESPONSE_EMPTY, pegh.getAttributes(mockPipRequest, mockPipFinder));
+            assertEquals(StdPIPResponse.PIP_RESPONSE_EMPTY, pegs.getAttributes(mockPipRequest, mockPipFinder));
         } catch (Exception e) {
             fail("getAttributes failed");
         }
-
+        
         // Test issuer equal to our issuer
         when(mockPipRequest.getIssuer()).thenReturn(ISSUER);
         try {
-            assertNotNull(pegh.getAttributes(mockPipRequest, mockPipFinder));
+            assertNotNull(pegs.getAttributes(mockPipRequest, mockPipFinder));
         } catch (Exception e) {
             // Normal to catch exception
         }
     }
 
     @Test
-    public void testGetCountFromDb() {
+    public void testGetStatusFromDb() {
 
-        // Use reflection to run getCountFromDB
+        // Use reflection to run getStatsFromDB
         Method method = null;
-        int count = -1;
+        String status = null;
+        String addEntry;
+        Query nq;
+        
+        // Add an entry
+        addEntry = "insert into operationshistory10 (outcome, CLNAME, actor, operation, target, endtime)"
+            + "values('1','testcl', 'actor', 'op', 'testtarget', CURRENT_TIMESTAMP())";
+        nq = em.createNativeQuery(addEntry);
+        em.getTransaction().begin();
+        nq.executeUpdate();
+        em.getTransaction().commit();
+
         try {
-            method = PIPEngineGetHistory.class.getDeclaredMethod("getCountFromDb", String.class, String.class,
-                    String.class, String.class);
+            method = PIPEngineGetStatus.class.getDeclaredMethod("getStatusFromDb", String.class, String.class);
             method.setAccessible(true);
-            count = (int) method.invoke(null, "actor", "op", "target", "1 MINUTE");
+            status = (String) method.invoke(null, "testcl", "testtarget");
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException e) {
             fail(e.getLocalizedMessage());
         }
-        // No entries yet
-        assertEquals(0, count);
 
-        // Add an entry
-        String addEntry = "insert into operationshistory10 (outcome, CLNAME, actor, operation, target, endtime)"
-                + "values('success','testcl', 'actor', 'op', 'target', CURRENT_TIMESTAMP())";
-        Query nq2 = em.createNativeQuery(addEntry);
+        // Status should be "success"
+        assertEquals("1", status);
+
+        // Add entries
+        addEntry = "insert into operationshistory10 (outcome, CLNAME, actor, operation, target, endtime)"
+            + "values('2','testcl', 'actor', 'op', 'testtarget', CURRENT_TIMESTAMP())";
+        nq = em.createNativeQuery(addEntry);
         em.getTransaction().begin();
-        nq2.executeUpdate();
+        nq.executeUpdate();
         em.getTransaction().commit();
 
+        addEntry = "insert into operationshistory10 (outcome, CLNAME, actor, operation, target, endtime)"
+            + "values('3','testcl', 'actor', 'op', 'testtarget2', CURRENT_TIMESTAMP())";
+        nq = em.createNativeQuery(addEntry);
+        em.getTransaction().begin();
+        nq.executeUpdate();
+        em.getTransaction().commit();
+
+        addEntry = "insert into operationshistory10 (outcome, CLNAME, actor, operation, target, endtime)"
+            + "values('4','testcl2', 'actor', 'op', 'testtarget2', CURRENT_TIMESTAMP())";
+        nq = em.createNativeQuery(addEntry);
+        em.getTransaction().begin();
+        nq.executeUpdate();
+        em.getTransaction().commit();
+        
         try {
-            count = (int) method.invoke(null, "actor", "op", "target", "1 MINUTE");
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            method = PIPEngineGetStatus.class.getDeclaredMethod("getStatusFromDb", String.class, String.class);
+            method.setAccessible(true);
+            status = (String) method.invoke(null, "testcl", "testtarget");
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException e) {
             fail(e.getLocalizedMessage());
         }
-        // Should count 1 entry now
-        assertEquals(1, count);
+        assertEquals("2", status);
+
+        try {
+            method = PIPEngineGetStatus.class.getDeclaredMethod("getStatusFromDb", String.class, String.class);
+            method.setAccessible(true);
+            status = (String) method.invoke(null, "testcl", "testtarget2");
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException e) {
+            fail(e.getLocalizedMessage());
+        }
+        assertEquals("3", status);
+
+        try {
+            method = PIPEngineGetStatus.class.getDeclaredMethod("getStatusFromDb", String.class, String.class);
+            method.setAccessible(true);
+            status = (String) method.invoke(null, "testcl2", "testtarget2");
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException e) {
+            fail(e.getLocalizedMessage());
+        }
+        assertEquals("4", status);
     }
 
     @Test
     public void testConfigure() throws PIPException {
-        PIPEngineGetHistory pegh = new PIPEngineGetHistory();
-        pegh.configure("Dorothy", new Properties());
+        PIPEngineGetStatus pegs = new PIPEngineGetStatus();
+        pegs.configure("Dorothy", new Properties());
 
-        pegh.setDescription(null);
-        pegh.setIssuer(null);
-        pegh.configure("Dorothy", new Properties());
-    }
-
-    @Test
-    public void getAttributesTest() throws URISyntaxException, PIPException, FactoryException {
-        PIPEngineGetHistory pegh = new PIPEngineGetHistory();
-        pegh.setIssuer("Dorothy");
-
-        Identifier identifierCategory = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));;
-        Identifier identifierAttribute = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/atrtribute"));;
-        Identifier identifierDataType = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/datatype"));;
-        PIPRequest pipRequest = new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType,
-                "Dorothy,tw:1000:SECOND");
-
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderPipException()));
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseStatusNok()));
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseEmptyAttrs()));
-    }
-
-    @Test
-    public void timeWindowTest() throws URISyntaxException, PIPException, FactoryException {
-        PIPEngineGetHistory pegh = new PIPEngineGetHistory();
-        pegh.setIssuer("Dorothy");
-
-        Identifier identifierCategory = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));;
-        Identifier identifierAttribute = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/atrtribute"));;
-        Identifier identifierDataType = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/datatype"));;
-
-        PIPRequest pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:SECOND");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:MINUTE");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:HOUR");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:DAY");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:WEEK");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:MONTH");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest = new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType,
-                "Dorothy,tw:100:QUARTER");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest =
-                new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType, "Dorothy,tw:100:YEAR");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest = new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType,
-                "Dorothy,tw:100:FORTNIGHT");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        pipRequest = new StdPIPRequest(identifierCategory, identifierAttribute, identifierDataType,
-                "Dorothy,tw:100:FORT NIGHT");
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinder()));
-
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderPipException()));
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseStatusNok()));
-        assertNotNull(pegh.getAttributes(pipRequest, new DummyPipFinderResponseEmptyAttrs()));
+        pegs.setDescription(null);
+        pegs.setIssuer(null);
+        pegs.configure("Dorothy", new Properties());
     }
 
     private class DummyPipFinder implements PIPFinder {
