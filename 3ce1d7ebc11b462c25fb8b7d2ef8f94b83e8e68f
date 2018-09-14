@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_06c15a53",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2018-09-14T14:37:47Z",
+      "side": 1,
+      "message": "I would recommend to use another field to indicate target lock specifically since coordinator could be much broader than lock. It can include other coordination patterns. But here lock is strictly tied to coordinator.",
+      "range": {
+        "startLine": 489,
+        "startChar": 17,
+        "endLine": 489,
+        "endChar": 39
+      },
+      "revId": "3ce1d7ebc11b462c25fb8b7d2ef8f94b83e8e68f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c684c20c",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2018-09-14T14:37:47Z",
+      "side": 1,
+      "message": "what if controlLoopCoordinator \u003d\u003d true, how does unlock happen through CLC? More code to be added here?",
+      "range": {
+        "startLine": 544,
+        "startChar": 8,
+        "endLine": 544,
+        "endChar": 41
+      },
+      "revId": "3ce1d7ebc11b462c25fb8b7d2ef8f94b83e8e68f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_86f7aad2",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/ControlLoop.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2018-09-14T14:37:47Z",
+      "side": 1,
+      "message": "Adding a field to its model is not sufficient to modify yaml specification. If this model changes, yaml SDK methods used to create and validate yaml needs to be updated as well. Also it will impact upstream component that uses yaml SDK.",
+      "range": {
+        "startLine": 42,
+        "startChar": 20,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "3ce1d7ebc11b462c25fb8b7d2ef8f94b83e8e68f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
