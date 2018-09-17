@@ -66,44 +66,34 @@ public class TestDemo {
                 new SORelatedInstanceListElement();
         SORelatedInstanceListElement relatedInstanceListElement2 =
                 new SORelatedInstanceListElement();
-        SORelatedInstanceListElement relatedInstanceListElement3 =
-                new SORelatedInstanceListElement();
         relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
         relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
-        relatedInstanceListElement3.setRelatedInstance(new SORelatedInstance());
 
-        relatedInstanceListElement1.getRelatedInstance().setInstanceId(
-                "17ef4658-bd1f-4ef0-9ca0-ea76e2bf122c");
-        relatedInstanceListElement1.getRelatedInstance().setInstanceName(
-                "SOTESTVOL103a-vSAMP12_base_module-0_vol");
+
+        relatedInstanceListElement1.getRelatedInstance().setInstanceId("serviceInstanceId");
         relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
-        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("volumeGroup");
-
-        relatedInstanceListElement2.getRelatedInstance().setInstanceId("serviceInstanceId");
-        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("service");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(
                 "ff3514e3-5a33-55df-13ab-12abad84e7ff");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersionId(
                 "fe6985cd-ea33-3346-ac12-ab121484a3fe");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName(
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelName(
                 "parent service model name");
-        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion("1.0");
+        relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion("1.0");
 
-        relatedInstanceListElement3.getRelatedInstance().setInstanceId("vnfInstanceId");
-        relatedInstanceListElement3.getRelatedInstance().setModelInfo(new SOModelInfo());
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelType("vnf");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelInvariantId(
+        relatedInstanceListElement2.getRelatedInstance().setInstanceId("vnfInstanceId");
+        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(
                 "ff5256d1-5a33-55df-13ab-12abad84e7ff");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelVersionId(
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersionId(
                 "fe6478e4-ea33-3346-ac12-ab121484a3fe");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelName("vSAMP12");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelVersion("1.0");
-        relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelCustomizationName("vSAMP12 1");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelName("vSAMP12");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion("1.0");
+        relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelCustomizationName("vSAMP12 1");
 
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement1);
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
-        request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement3);
 
         Map<String, String> userParam1 = new HashMap<>();
         userParam1.put("name1", "value1");
