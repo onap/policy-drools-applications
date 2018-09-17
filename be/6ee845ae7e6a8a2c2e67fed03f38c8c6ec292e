@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: libo zhu <libo.zhu@intel.com>
+Code-Review+1: Pamela Dragosh <pdragosh@research.att.com>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+2: Liam Fallon <liam.fallon@ericsson.com>
+Submitted-by: Liam Fallon <liam.fallon@ericsson.com>
+Submitted-at: Mon, 17 Sep 2018 13:16:20 +0000
+Reviewed-on: https://gerrit.onap.org/r/66863
+Project: policy/drools-applications
+Branch: refs/heads/master
