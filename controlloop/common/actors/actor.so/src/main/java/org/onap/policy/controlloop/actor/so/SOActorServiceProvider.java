@@ -169,7 +169,7 @@ public class SOActorServiceProvider implements Actor {
             return constructCreateRequest(aaiResponseWrapper, policy, tenantItem, vnfItem, vnfServiceItem,
                     vfModuleItem);
         } else if (RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
-            return constructDeleteRequest(aaiResponseWrapper, tenantItem, vnfItem, vnfServiceItem, vfModuleItem);
+            return constructDeleteRequest(tenantItem, vnfItem, vnfServiceItem, vfModuleItem);
         } else {
             return null;
         }
@@ -290,16 +290,14 @@ public class SOActorServiceProvider implements Actor {
     /**
      * Construct SO request to delete vf-module
      *
-     * @param aaiResponseWrapper the AAI response containing the VF modules
      * @param tenantItem         tenant item from A&AI named-query response
      * @param vnfItem            vnf item from A&AI named-query response
      * @param vnfServiceItem     vnf service item from A&AI named-query response
      * @param vfModuleItem       vf module item from A&AI named-query response
      * @return SO delete vf-module request
      */
-    private SORequest constructDeleteRequest(AaiNqResponseWrapper aaiResponseWrapper, AaiNqInventoryResponseItem
-            tenantItem, AaiNqInventoryResponseItem vnfItem, AaiNqInventoryResponseItem vnfServiceItem,
-                                             AaiNqInventoryResponseItem vfModuleItem) {
+    private SORequest constructDeleteRequest(AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem
+            vnfItem, AaiNqInventoryResponseItem vnfServiceItem, AaiNqInventoryResponseItem vfModuleItem) {
         SORequest request = new SORequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
         request.setRequestDetails(new SORequestDetails());
