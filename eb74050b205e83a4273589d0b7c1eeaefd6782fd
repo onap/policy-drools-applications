@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_1a6522b4",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: I THINK sonar prefers this \"if\" combined with the \"else\"",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9af7f2d2",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION FOR THE FUTURE: sure we want to create this on every call?  maybe in Dublin, look at caching this until the session is shut down (assuming there\u0027s a way to identify that) - maybe we need to add a facility, to the session object, for caching EMFs, in general. (Could potentially use this in other places, too.)",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_bf25005d",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
         "patchSetId": 1
@@ -42,6 +76,125 @@
         "endLine": 299,
         "endChar": 40
       },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_da11ea04",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PIPEngineGetStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "if this throws an exception, then emf.close() will not be invoked",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5aeb9adb",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: remove try/catch wrappers (and add \"throws Exception\" to the method) - et., al.",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7a7f7615",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: PowerMock provides a way to do this whole block in a single line (et., al.) using Whitebox.invokeMethod().  The class does not have to be instrumented to use Whitebox (i.e., no need to call @PrepareForTest, or @RunWith).",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1a96823f",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: make this a mock.\n\nAre these DummyXxx classes even used?",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_faa4e6ba",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: replace with:\nxxx \u003d mock(PIPFinder.class);\nwhen(xxx.getMatchingAttributes(any(), any()).thenThrow(new PIPException());",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_baaaee82",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: replace with mock",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_daad6a9c",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: replace with mock",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -94,6 +247,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_5abe3aaf",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: In Dublin, should probably just use the existing class and provide a hook to override the callPDP action during junit testing.",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5feb8cdb",
         "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
         "patchSetId": 1
@@ -111,6 +281,23 @@
         "endLine": 72,
         "endChar": 138
       },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3ada5e17",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION FOR FUTURE: Delete this class and add appropriate hooks to the real class for junit testing.",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -209,6 +396,40 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_9ad932f5",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "lines 489-505 can be replace by IOUtils.readFully() or IoUtils.readBytesAndClose()",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bae74eab",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "note: there is an archetype-cl-casablanca into which new use cases could be placed",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_3f4810cb",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -226,6 +447,40 @@
         "endLine": 5,
         "endChar": 26
       },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7a053644",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "fyi: timers have been re-structured in amsterdam \u0026 casablanca drl templates",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1a9c420e",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces (et., al.)",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -255,6 +510,91 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_9a87f2b4",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "remove printStackTrace",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5a8ddad1",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION: use Serialization.gsonPretty instead? (et., al.)",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bab50e7f",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "isEmpty() is preferrable",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dab80a77",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "use assertEquals instead",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7a7a16be",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "SUGGESTION FOR FUTURE: refactor common test classes into a template.utils project so that all of the template.demo.* projects can use them",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ff15b89b",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/Util.java",
         "patchSetId": 1
@@ -272,6 +612,57 @@
         "endLine": 5,
         "endChar": 26
       },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3aa9fe23",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "use multi-catch",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5aa4fa49",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "use multi-catch",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9a5cd24c",
+        "filename": "controlloop/templates/template.demo.clc/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T14:36:00Z",
+      "side": 1,
+      "message": "perhaps a more unique name - include \"template.demo.clc\"",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
