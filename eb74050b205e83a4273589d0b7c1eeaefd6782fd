@@ -48,6 +48,52 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_df00fc67",
+        "filename": "controlloop/templates/template.demo.clc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "Just 2018 as this is new",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9ff6048e",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5feb8cdb",
         "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
         "patchSetId": 1
@@ -65,6 +111,184 @@
         "endLine": 72,
         "endChar": 138
       },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3ff1f094",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5fececba",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "callPdp",
+      "range": {
+        "startLine": 101,
+        "startChar": 18,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bf34204a",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "callRestfulPdp",
+      "range": {
+        "startLine": 155,
+        "startChar": 19,
+        "endLine": 155,
+        "endChar": 33
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9f3da42d",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "callEmbeddedPdp",
+      "range": {
+        "startLine": 242,
+        "startChar": 25,
+        "endLine": 242,
+        "endChar": 40
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3f4810cb",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5f438cae",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ff15b89b",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1f1994d6",
+        "filename": "controlloop/templates/template.demo.clc/src/test/resources/xacml/synthetic_control_loop_one_blocks_synthetic_control_loop_two.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-17T12:20:58Z",
+      "side": 1,
+      "message": "Missing a license",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
