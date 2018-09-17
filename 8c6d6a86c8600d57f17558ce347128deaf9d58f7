@@ -519,6 +519,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_3ae6de44",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-17T13:17:12Z",
+      "side": 1,
+      "message": "just add \"throws Exception\" to \"testGetAttributes\"",
+      "parentUuid": "1a76adc5_b7df6e39",
+      "revId": "8c6d6a86c8600d57f17558ce347128deaf9d58f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_06ce3a2e",
         "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
         "patchSetId": 1
