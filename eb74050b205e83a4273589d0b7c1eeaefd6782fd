@@ -807,6 +807,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_83578ac9",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-18T13:00:33Z",
+      "side": 1,
+      "message": "ah, I hadn\u0027t read the comment very closely - there\u0027s another IOUtils/IoUtils method for reading an entire input stream when the length is unknown.",
+      "parentUuid": "1a76adc5_72d0fac8",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_bae74eab",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -836,6 +854,24 @@
       "side": 1,
       "message": "would it be appropriate for me to fold my modifications into the Casablanca archetype?  If so, I\u0027m happy to do that.",
       "parentUuid": "1a76adc5_bae74eab",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a35ac6ef",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-18T13:00:33Z",
+      "side": 1,
+      "message": "that\u0027s a good question - I have to defer to Pam for that one",
+      "parentUuid": "1a76adc5_52d93ef1",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -1277,6 +1313,24 @@
       "side": 1,
       "message": "I\u0027m unsure I understand this suggestion.  What name are you suggesting should be changed?",
       "parentUuid": "1a76adc5_9a5cd24c",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_03029ab3",
+        "filename": "controlloop/templates/template.demo.clc/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-18T13:00:33Z",
+      "side": 1,
+      "message": "\"mem:test\" \u003d\u003e \"mem:template.demo.clc\"",
+      "parentUuid": "1a76adc5_f2916af1",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
