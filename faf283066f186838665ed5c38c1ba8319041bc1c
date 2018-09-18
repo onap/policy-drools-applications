@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_7837744d",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PipEngineGetStatusTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-18T19:00:17Z",
+      "side": 1,
+      "message": "yup, have taken them as todos for post-M4/Dublin",
+      "parentUuid": "1a76adc5_234f9635",
+      "revId": "faf283066f186838665ed5c38c1ba8319041bc1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_43fc12b8",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-18T13:00:33Z",
       "side": 1,
       "message": "arguments are backwards",
+      "revId": "faf283066f186838665ed5c38c1ba8319041bc1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_580b987c",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-18T19:00:17Z",
+      "side": 1,
+      "message": "uy, will fix post-M4/Dublin",
+      "parentUuid": "1a76adc5_43fc12b8",
       "revId": "faf283066f186838665ed5c38c1ba8319041bc1c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
