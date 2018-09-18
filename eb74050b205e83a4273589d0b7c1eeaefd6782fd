@@ -825,6 +825,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_38249c0b",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-18T19:00:17Z",
+      "side": 1,
+      "message": "will look into that, thanks!",
+      "parentUuid": "1a76adc5_83578ac9",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_bae74eab",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -1331,6 +1349,24 @@
       "side": 1,
       "message": "\"mem:test\" \u003d\u003e \"mem:template.demo.clc\"",
       "parentUuid": "1a76adc5_f2916af1",
+      "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_38f6dc8f",
+        "filename": "controlloop/templates/template.demo.clc/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-18T19:00:17Z",
+      "side": 1,
+      "message": "ah, got it. Thanks, will put that in todos for post-M4/Dublin.",
+      "parentUuid": "1a76adc5_03029ab3",
       "revId": "eb74050b205e83a4273589d0b7c1eeaefd6782fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
