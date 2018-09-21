@@ -393,7 +393,7 @@ public class SOActorServiceProvider implements Actor {
      */
     private AaiNqInventoryResponseItem findVfModule(AaiNqResponseWrapper aaiResponseWrapper, boolean baseFlag) {
         List<AaiNqInventoryResponseItem> lst = aaiResponseWrapper.getVfModuleItems(baseFlag);
-        return (lst == null || lst.isEmpty() ? null : lst.get(lst.size() - 1));
+        return (lst.isEmpty() ? null : lst.get(lst.size() - 1));
     }
 
     /**

@@ -22,7 +22,7 @@ package org.onap.policy.aai;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -207,41 +207,38 @@ public class AaiNqResponseWrapperTest {
 
         // null item
         resp = new AaiNqResponseWrapper();
-        assertNull(resp.getVfModuleItems(true));
+        assertTrue(resp.getVfModuleItems(true).isEmpty());
 
         // missing item
         resp = new AaiNqResponseWrapper();
         resp.setAaiNqResponse(new AaiNqResponse());
-        assertNull(resp.getVfModuleItems(false));
+        assertTrue(resp.getVfModuleItems(false).isEmpty());
 
         // null item list
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoItems.json"));
         resp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0)
                         .getItems().setInventoryResponseItems(null);
-        assertNull(resp.getVfModuleItems(false));
+        assertTrue(resp.getVfModuleItems(false).isEmpty());
         
         // no modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoModules.json"));
-        assertNull(resp.getVfModuleItems(false));
+        assertTrue(resp.getVfModuleItems(false).isEmpty());
         
         // no names
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-NoNames.json"));
         List<AaiNqInventoryResponseItem> lst;
         lst = resp.getVfModuleItems(false);
-        assertNotNull(lst);
         assertEquals(0, lst.size());
 
         // base VF modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
         lst = resp.getVfModuleItems(true);
-        assertNotNull(lst);
         assertEquals(1, lst.size());
         assertEquals("Vfmodule_vLBMS-0809-1", lst.get(0).getVfModule().getVfModuleName());
         
         // non base VF modules
         resp.setAaiNqResponse(load("AaiNqResponseWrapper-Vserver.json"));
         lst = resp.getVfModuleItems(false);
-        assertNotNull(lst);
         assertEquals(3, lst.size());
         int index;
         index = 0;
