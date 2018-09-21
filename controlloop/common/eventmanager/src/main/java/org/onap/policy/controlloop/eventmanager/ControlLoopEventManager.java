@@ -499,9 +499,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                                                            this.currentOperation.getTargetEntity(),
                                                            this.onset.getRequestId(), this);
             this.targetLock = lock;
-            LockResult<GuardResult, TargetLock> lockResult = 
-                    LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
-            return lockResult;
+            return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
         }
         //
         // Have we acquired it already?

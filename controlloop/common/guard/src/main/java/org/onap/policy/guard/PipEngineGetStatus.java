@@ -148,7 +148,7 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         try {
             pipResponse = pipFinder.getMatchingAttributes(pipRequest, this);
         } catch (PIPException ex) {
-            logger.error("getAttribute threw:", ex);
+            logger.error("getAttribute threw", ex);
             return null;
         }
         if (pipResponse == null) {
@@ -197,16 +197,17 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         Set<String> setUids = new HashSet<>();
         for (Attribute attributeUid : listUids) {
             Iterator<AttributeValue<String>> iterAttributeValues = attributeUid.findValues(DataTypes.DT_STRING);
-            if (iterAttributeValues != null) {
-                while (iterAttributeValues.hasNext()) {
-                    String uid = iterAttributeValues.next().getValue();
-                    if (uid != null) {
-                        setUids.add(uid);
-                    }
+            if (iterAttributeValues == null) {
+                continue;
+            }
+            while (iterAttributeValues.hasNext()) {
+                String uid = iterAttributeValues.next().getValue();
+                if (uid == null) {
+                    continue;
                 }
+                setUids.add(uid);
             }
         }
-
         return setUids;
     }
 
@@ -220,13 +221,13 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
             props.put(Util.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER));
             props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
         } catch (NullPointerException e) {
-            logger.error("getStatusFromDB: {} when setting properties", e.getMessage());
+            logger.error("getStatusFromDb: when setting properties", e);
         }
         //
         // Set opsHistPu to the correct value and clear properties if necessary.
         //
         String opsHistPu = System.getProperty("OperationsHistoryPU");
-        if (opsHistPu == null || !opsHistPu.equals("TestOperationsHistoryPU")) {
+        if (!"TestOperationsHistoryPU".equals(opsHistPu)) {
             opsHistPu = "OperationsHistoryPU";
         } else {
             props.clear();
@@ -240,14 +241,14 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
             emf = Persistence.createEntityManagerFactory(opsHistPu, props);
         } catch (Exception ex) {
             logger.error("PIP thread got Exception. Can't connect to Operations History DB -- {}", opsHistPu);
-            logger.error("getStatusFromDb threw: ", ex);
+            logger.error("getStatusFromDb threw", ex);
             return null;
         }
         try {
             em = emf.createEntityManager();
         } catch (Exception ex) {
             logger.error("PIP thread got Exception. Problem creating EntityManager");
-            logger.error("getStatusFromDb threw: ", ex);
+            logger.error("getStatusFromDb threw", ex);
             emf.close();
             return null;
         } 
@@ -268,8 +269,8 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         String ret = null;
         try {
             ret = ((String)nq.getSingleResult());
-        } catch (NoResultException ex) {
-            logger.debug("NoResultException for getSingleResult()");
+        } catch(NoResultException ex) {
+            logger.debug("NoResultException for getSingleResult()", ex);
             ret = "NO_MATCHING_ENTRY";
         } catch (Exception ex) {
             logger.error("getStatusFromDB threw an exception", ex);
@@ -283,12 +284,12 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         try {
             em.close();
         } catch (Exception ex) {
-            logger.error("getStatusFromDB threw an exception ", ex);
+            logger.error("getStatusFromDB threw an exception", ex);
         }
         try {
             emf.close();
         } catch (Exception ex) {
-            logger.error("getStatusFromDB threw an exception ", ex);
+            logger.error("getStatusFromDB threw an exception", ex);
         }
         return ret;
     }
