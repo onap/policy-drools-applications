@@ -22,6 +22,7 @@ package org.onap.policy.aai;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -68,8 +69,7 @@ public class AaiNqResponseWrapper implements Serializable {
      * @return the number of VF modules, or {@code 0} if there are none
      */
     public int countVfModules() {
-        List<AaiNqInventoryResponseItem> lst = getVfModuleItems(false);
-        return (lst == null ? 0 : lst.size());
+        return getVfModuleItems(false).size();
     }
 
     /**
@@ -81,9 +81,6 @@ public class AaiNqResponseWrapper implements Serializable {
      */
     public String genVfModuleName() {
         List<AaiNqInventoryResponseItem> lst = getVfModuleItems(false);
-        if (lst == null) {
-            return null;
-        }
 
         /*
          * Loop through the VF modules, extracting the name prefix and the largest number
@@ -116,7 +113,7 @@ public class AaiNqResponseWrapper implements Serializable {
      *
      * @param wantBaseModule {@code true} if the the base VF module(s) is desired,
      *        {@code false} otherwise
-     * @return the list of VF module items, or {@code null} if there are no VF modules
+     * @return the list of VF module items
      */
     public List<AaiNqInventoryResponseItem> getVfModuleItems(boolean wantBaseModule) {
         // get the list of items
@@ -127,27 +124,23 @@ public class AaiNqResponseWrapper implements Serializable {
 
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             logger.debug("no VF modules in AAI response", e);
-            return null;
+            return Collections.emptyList();
         }
 
         if (itemList == null) {
-            return null;
+            return Collections.emptyList();
         }
 
         /*
          * Walk the items looking for VF modules, allocating the list only when an item is
          * found.
          */
-        List<AaiNqInventoryResponseItem> vfModuleItems = null;
+        List<AaiNqInventoryResponseItem> vfModuleItems = new ArrayList<>(itemList.size());;
 
         for (AaiNqInventoryResponseItem inventoryResponseItem : itemList) {
             AaiNqVfModule vfmod = inventoryResponseItem.getVfModule();
             if (vfmod == null) {
                 continue;
-            }
-
-            if (vfModuleItems == null) {
-                vfModuleItems = new ArrayList<>(itemList.size());
             }
 
             if (vfmod.getIsBaseVfModule() == wantBaseModule
