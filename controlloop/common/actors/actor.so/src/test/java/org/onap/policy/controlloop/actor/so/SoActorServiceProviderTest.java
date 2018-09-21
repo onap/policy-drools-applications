@@ -47,6 +47,8 @@ import org.onap.policy.so.util.Serialization;
 
 public class SoActorServiceProviderTest {
 
+    private static final String VF_MODULE_CREATE = "VF Module Create";
+
     @Test
     public void testConstructRequest() throws Exception {
         VirtualControlLoopEvent onset = new VirtualControlLoopEvent();
@@ -59,12 +61,13 @@ public class SoActorServiceProviderTest {
         Policy policy = new Policy();
         policy.setActor("Dorothy");
         policy.setRecipe("GoToOz");
+        
         assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setActor("SO");
         assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
-        policy.setRecipe("VF Module Create");
+        policy.setRecipe(VF_MODULE_CREATE);
 
         // empty policy payload
         SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
@@ -82,6 +85,22 @@ public class SoActorServiceProviderTest {
         assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
         assertEquals(1, request.getRequestDetails().getConfigurationParameters().size());
         assertEquals("cvalue", request.getRequestDetails().getConfigurationParameters().get(0).get("ckey"));
+        
+        // payload with config, but no request params
+        policy.setPayload(makePayload());
+        policy.getPayload().remove(SOActorServiceProvider.REQ_PARAM_NM);
+        request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        assertNotNull(request);
+        assertNull(request.getRequestDetails().getRequestParameters());
+        assertNotNull(request.getRequestDetails().getConfigurationParameters());
+        
+        // payload with request, but no config params
+        policy.setPayload(makePayload());
+        policy.getPayload().remove(SOActorServiceProvider.CONFIG_PARAM_NM);
+        request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        assertNotNull(request);
+        assertNotNull(request.getRequestDetails().getRequestParameters());
+        assertNull(request.getRequestDetails().getConfigurationParameters());
 
         // null response
         assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, null));
@@ -98,6 +117,26 @@ public class SoActorServiceProviderTest {
         SORequest deleteRequest = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(deleteRequest);
         assertEquals(SoOperationType.DELETE_VF_MODULE, deleteRequest.getOperationType());
+
+        /*
+         * NOTE: The remaining tests must be done in order
+         */
+
+        policy.setRecipe(VF_MODULE_CREATE);
+
+        // null tenant
+        aaiNqResp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems()
+                        .remove(1);
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+
+        // null service item
+        aaiNqResp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0)
+                        .setItems(null);
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+
+        // null response
+        aaiNqResp.setAaiNqResponse(null);
+        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
     }
 
     @Test
@@ -115,9 +154,11 @@ public class SoActorServiceProviderTest {
 
         assertEquals("SO", sp.actor());
         assertEquals(2, sp.recipes().size());
-        assertEquals("VF Module Create", sp.recipes().get(0));
+        assertEquals(VF_MODULE_CREATE, sp.recipes().get(0));
         assertEquals("VF Module Delete", sp.recipes().get(1));
-        assertEquals(0, sp.recipePayloads("VF Module Create").size());
+        assertEquals(0, sp.recipePayloads(VF_MODULE_CREATE).size());
+        assertEquals(0, sp.recipeTargets("unknown recipe").size());
+        assertEquals(1, sp.recipeTargets(VF_MODULE_CREATE).size());
     }
 
     /**
