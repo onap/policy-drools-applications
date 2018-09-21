@@ -272,10 +272,10 @@ public class SOActorServiceProvider implements Actor {
         request.getRequestDetails().getRelatedInstanceList().add(relatedInstanceListElement2);
 
         // Request Parameters
-        request.getRequestDetails().setRequestParameters(buildRequestParameters(policy));
+        buildRequestParameters(policy, request.getRequestDetails());
 
         // Configuration Parameters
-        request.getRequestDetails().setConfigurationParameters(buildConfigurationParameters(policy));
+        buildConfigurationParameters(policy, request.getRequestDetails());
         // Save the instance IDs for the VNF and service to static fields
         // vfModuleId is not required for the create vf-module
         preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(), vnfServiceItem.getServiceInstance()
@@ -400,39 +400,44 @@ public class SOActorServiceProvider implements Actor {
      * Builds the request parameters from the policy payload.
      *
      * @param policy the policy
-     * @return the request parameters, or {@code null} if the payload is {@code null}
+     * @param request request into which to stick the request parameters
      */
-    private SORequestParameters buildRequestParameters(Policy policy) {
+    private void buildRequestParameters(Policy policy, SORequestDetails request) {
+        // assume null until proven otherwise
+        request.setRequestParameters(null);
+        
         if (policy.getPayload() == null) {
-            return null;
+            return;
         }
 
         String json = policy.getPayload().get(REQ_PARAM_NM);
         if (json == null) {
-            return null;
+            return;
         }
 
-        return Serialization.gsonPretty.fromJson(json, SORequestParameters.class);
+        request.setRequestParameters(Serialization.gsonPretty.fromJson(json, SORequestParameters.class));
     }
 
     /**
      * Builds the configuration parameters from the policy payload.
      *
      * @param policy the policy
-     * @return the configuration parameters, or {@code null} if the payload is
-     *         {@code null}
+     * @param request request into which to stick the configuration parameters
      */
-    private List<Map<String, String>> buildConfigurationParameters(Policy policy) {
+    private void buildConfigurationParameters(Policy policy, SORequestDetails request) {
+        // assume null until proven otherwise
+        request.setConfigurationParameters(null);
+        
         if (policy.getPayload() == null) {
-            return null;
+            return;
         }
 
         String json = policy.getPayload().get(CONFIG_PARAM_NM);
         if (json == null) {
-            return null;
+            return;
         }
 
-        return Serialization.gsonPretty.fromJson(json, CONFIG_TYPE);
+        request.setConfigurationParameters(Serialization.gsonPretty.fromJson(json, CONFIG_TYPE));
     }
 
     /**
