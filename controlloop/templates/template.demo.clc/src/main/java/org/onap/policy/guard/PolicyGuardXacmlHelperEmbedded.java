@@ -25,12 +25,8 @@ import com.att.research.xacml.api.AttributeCategory;
 import com.att.research.xacml.api.AttributeValue;
 import com.att.research.xacml.api.Result;
 import com.att.research.xacml.api.pdp.PDPEngine;
-import com.att.research.xacml.api.pdp.PDPException;
-import com.att.research.xacml.api.pdp.PDPEngineFactory;
 import com.att.research.xacmlatt.pdp.ATTPDPEngineFactory;
 import com.att.research.xacml.std.annotations.RequestParser;
-
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -64,9 +60,14 @@ public class PolicyGuardXacmlHelperEmbedded {
     private static final Logger netLogger =
             LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
 
-    // Constant for the systme line separator
+    // Constant for the system line separator
     private static final String SYSTEM_LS = System.lineSeparator();
-    private static String propfile;
+    private String propfile;
+    private UrlEntry[] restUrls = null;
+    private int restUrlIndex = 0;
+
+    // REST timeout, initialized from 'pdpx.timeout' property
+    private int timeout = 20000;
     
     public PolicyGuardXacmlHelperEmbedded() {
         init(PolicyEngine.manager.getEnvironment());
@@ -85,12 +86,6 @@ public class PolicyGuardXacmlHelperEmbedded {
         String clientAuth = null;
         String environment = null;
     }
-
-    private UrlEntry[] restUrls = null;
-    private int restUrlIndex = 0;
-
-    // REST timeout, initialized from 'pdpx.timeout' property
-    private int timeout = 20000;
 
     /**
      * Call PDP.
@@ -239,7 +234,7 @@ public class PolicyGuardXacmlHelperEmbedded {
      * @param xacmlReq the XACML request
      * @return the response
      */
-    public static String callEmbeddedPdp(PolicyGuardXacmlRequestAttributes xacmlReq) {
+    public String callEmbeddedPdp(PolicyGuardXacmlRequestAttributes xacmlReq) {
         com.att.research.xacml.api.Response response = null;
         Properties props = new Properties();
         //
@@ -250,7 +245,7 @@ public class PolicyGuardXacmlHelperEmbedded {
               BufferedReader br = new BufferedReader(isr) ) {
             props.load(br);
         } catch (Exception e) {
-            logger.error("Unable to load properties file {} {}", propfile, e.getMessage());
+            logger.error("Unable to load properties file {} {}", propfile, e);
         }
         //
         // Create embedded PDPEngine
@@ -259,7 +254,7 @@ public class PolicyGuardXacmlHelperEmbedded {
         try {
             xacmlPdpEngine = ATTPDPEngineFactory.newInstance().newEngine(props);
         } catch (Exception e) {
-            logger.error("Failed to create new PDPEngine {}", e.getMessage());
+            logger.error("Failed to create new PDPEngine {}", e);
             return null;
         }
         logger.debug("embedded Engine created");
