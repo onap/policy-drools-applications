@@ -39,14 +39,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -77,14 +75,6 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
     private static final String XACML_TARGET_TARGET_ID = "urn:oasis:names:tc:xacml:1.0:target:target-id";
     private static final String XACML_TEST_SQL_RESOURCE_OPERATIONS_STATUS =
             "com:att:research:xacml:test:sql:resource:operations:status";
-
-    private static final PIPRequest PIP_REQUEST_ACTOR =
-            new StdPIPRequest(new IdentifierImpl(XACML_SUBJECT_CATEGORY_ACCESS_SUBJECT),
-                    new IdentifierImpl(XACML_ACTOR_ACTOR_ID), new IdentifierImpl(XML_SCHEMA_STRING));
-
-    private static final PIPRequest PIP_REQUEST_RECIPE =
-            new StdPIPRequest(new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_ACTION),
-                    new IdentifierImpl(XACML_OPERATION_OPERATION_ID), new IdentifierImpl(XML_SCHEMA_STRING));
 
     private static final PIPRequest PIP_REQUEST_TARGET =
             new StdPIPRequest(new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_RESOURCE),
@@ -213,16 +203,17 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         Set<String> setUids = new HashSet<>();
         for (Attribute attributeUid : listUids) {
             Iterator<AttributeValue<String>> iterAttributeValues = attributeUid.findValues(DataTypes.DT_STRING);
-            if (iterAttributeValues != null) {
-                while (iterAttributeValues.hasNext()) {
-                    String uid = iterAttributeValues.next().getValue();
-                    if (uid != null) {
-                        setUids.add(uid);
-                    }
+            if (iterAttributeValues == null) {
+                continue;
+            }
+            while (iterAttributeValues.hasNext()) {
+                String uid = iterAttributeValues.next().getValue();
+                if (uid == null) {
+                    continue;
                 }
+                setUids.add(uid);
             }
         }
-
         return setUids;
     }
 
@@ -236,13 +227,13 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
             props.put(Util.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER));
             props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
         } catch (NullPointerException e) {
-            logger.error("getStatusFromDB: {} when setting properties", e.getMessage());
+            logger.error("getStatusFromDb: {} when setting properties", e.getMessage());
         }
         //
         // Set opsHistPu to the correct value and clear properties if necessary.
         //
         String opsHistPu = System.getProperty("OperationsHistoryPU");
-        if (opsHistPu == null || !opsHistPu.equals("TestOperationsHistoryPU")) {
+        if (opsHistPu == null || !"TestOperationsHistoryPU".equals(opsHistPu)) {
             opsHistPu = "OperationsHistoryPU";
         } else {
             props.clear();
