@@ -42,6 +42,8 @@ import org.onap.policy.aai.util.Serialization;
 @Path("/aai")
 public class AaiSimulatorJaxRs {
 
+    private static final String VSERVER = "vserver";
+
     /**
      * A&AI get query.
      * 
@@ -72,12 +74,12 @@ public class AaiSimulatorJaxRs {
     public String aaiPostQuery(final String req) throws IOException {
         final AaiNqRequest request = Serialization.gsonPretty.fromJson(req, AaiNqRequest.class);
 
-        if (request.getInstanceFilters().getInstanceFilter().get(0).containsKey("vserver")) {
+        if (request.getInstanceFilters().getInstanceFilter().get(0).containsKey(VSERVER)) {
             final String vserverName =
-                    request.getInstanceFilters().getInstanceFilter().get(0).get("vserver").get("vserver-name");
+                    request.getInstanceFilters().getInstanceFilter().get(0).get(VSERVER).get("vserver-name");
             if ("error".equals(vserverName)) {
                 Map<String,String> params = new TreeMap<>();
-                params.put("type", "vserver");
+                params.put("type", VSERVER);
                 return load("aai/AaiNqResponse-Error.json", params);
             } else {
                 // vll format - new

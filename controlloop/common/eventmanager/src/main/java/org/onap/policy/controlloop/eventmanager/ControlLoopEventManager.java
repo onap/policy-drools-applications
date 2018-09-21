@@ -75,6 +75,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     public static final String GENERIC_VNF_PROV_STATUS = "generic-vnf.prov-status";
     public static final String VSERVER_PROV_STATUS = "vserver.prov-status";
 
+    private static final String AAI_URL = "aai.url";
+    private static final String AAI_USERNAME = "aai.username";
+    private static final String AAI_PASSWD = "aai.password";
+
     private static final String QUERY_AAI_ERROR_MSG = "Exception from queryAai: ";
 
     /**
@@ -101,7 +105,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
     private ControlLoopOperationManager lastOperationManager = null;
-    private TargetLock targetLock = null;
+    private transient TargetLock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
     private boolean useTargetLock = true;
@@ -876,9 +880,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         try {
             if (vserverName != null) {
-                String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-                String aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-                String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+                String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
+                String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME);
+                String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASSWD);
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostUrl + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
@@ -906,9 +910,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         String vnfName = event.getAai().get(GENERIC_VNF_VNF_NAME);
         String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
 
-        String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty("aai.url");
-        String aaiUser = PolicyEngine.manager.getEnvironmentProperty("aai.username");
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty("aai.password");
+        String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
+        String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME);
+        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASSWD);
 
         try {
             if (vnfName != null) {
@@ -955,7 +959,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
 
         // queryParameters
-        // TODO: UUID.fromString($params.getAaiNamedQueryUUID()) AaiNamedQueryUUID
         aaiNqNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
         aaiNqQueryParam.setNamedQuery(aaiNqNamedQuery);
         aaiNqRequest.setQueryParameters(aaiNqQueryParam);
@@ -973,8 +976,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aaiNqRequest));
         }
 
-        AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
-                getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiNqRequest,
+        AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty(AAI_URL),
+                getPeManagerEnvProperty(AAI_USERNAME), getPeManagerEnvProperty(AAI_PASSWD), aaiNqRequest,
                 onset.getRequestId());
 
         // Check AAI response

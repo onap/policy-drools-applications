@@ -189,9 +189,7 @@ public class TestVfcManager {
             anyString()))
             .thenThrow(new RuntimeException("OzException"));
 
-        while (managerThread.isAlive()) {
-            Thread.sleep(100);
-        }
+        managerThread.join();
 
         PolicyEngine.manager.getEnvironment().remove("vfc.password");
         PolicyEngine.manager.getEnvironment().remove("vfc.username");
@@ -214,9 +212,7 @@ public class TestVfcManager {
                 eq("Dorothy"), eq("Null"), anyMap(), anyString(), anyString()))
                 .thenReturn(null);
 
-        while (managerThread.isAlive()) {
-            Thread.sleep(100);
-        }
+        managerThread.join();
 
         PolicyEngine.manager.getEnvironment().remove("vfc.password");
         PolicyEngine.manager.getEnvironment().remove("vfc.username");
@@ -239,9 +235,7 @@ public class TestVfcManager {
                 eq("Dorothy"), eq("Error0"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseErr);
 
-        while (managerThread.isAlive()) {
-            Thread.sleep(100);
-        }
+        managerThread.join();
 
         PolicyEngine.manager.getEnvironment().remove("vfc.password");
         PolicyEngine.manager.getEnvironment().remove("vfc.username");
@@ -264,9 +258,7 @@ public class TestVfcManager {
                 eq("Dorothy"), eq("OK"), anyMap(), anyString(), anyString()))
                 .thenReturn(httpResponseBadResponse);
 
-        while (managerThread.isAlive()) {
-            Thread.sleep(100);
-        }
+        managerThread.join();
 
         PolicyEngine.manager.getEnvironment().remove("vfc.password");
         PolicyEngine.manager.getEnvironment().remove("vfc.username");
@@ -292,9 +284,7 @@ public class TestVfcManager {
         when(mockedRestManager.get(endsWith("1234"), eq("Dorothy"), eq("OK"), anyMap()))
             .thenReturn(httpResponseGetOk);
 
-        while (managerThread.isAlive()) {
-            Thread.sleep(100);
-        }
+        managerThread.join();
 
         PolicyEngine.manager.getEnvironment().remove("vfc.password");
         PolicyEngine.manager.getEnvironment().remove("vfc.username");

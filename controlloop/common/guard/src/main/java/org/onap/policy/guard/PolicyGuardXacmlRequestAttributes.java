@@ -28,6 +28,24 @@ import com.att.research.xacml.std.annotations.XACMLSubject;
 @XACMLRequest(ReturnPolicyIdList = true, CombinedDecision = true)
 public class PolicyGuardXacmlRequestAttributes {
 
+    @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:clname:clname-id")
+    String clnameID;
+
+    @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:actor:actor-id")
+    String actorID;
+
+    @XACMLAction(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:operation:operation-id")
+    String operationID;
+
+    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:target:target-id")
+    String targetID;
+
+    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:request-id")
+    String requestID;
+
+    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:vf-count")
+    Integer vfCount;
+
     /**
      * Construct an instance.
      * 
@@ -54,24 +72,6 @@ public class PolicyGuardXacmlRequestAttributes {
         return "PolicyGuardXacmlRequestAttributes [actorID=" + actorID + ", operationID=" + operationID + ", targetID="
                 + targetID + ", requestID=" + requestID + "]";
     }
-
-    @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:clname:clname-id")
-    String clnameID;
-
-    @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:actor:actor-id")
-    String actorID;
-
-    @XACMLAction(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:operation:operation-id")
-    String operationID;
-
-    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:target:target-id")
-    String targetID;
-
-    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:request-id")
-    String requestID;
-
-    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:vf-count")
-    Integer vfCount;
 
     public String getActorID() {
         return actorID;
