@@ -32,7 +32,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
-import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
+import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
@@ -577,12 +577,13 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   }
                   break;
               case "SO":
-                  // at this point the AAI named query request should have already been made, the response recieved and used
-                  // in the construction of the SO Request which is stored in operationRequest
+                  // at this point the AAI named query request should have already been made, the response received
+                  // and used in the construction of the SO Request which is stored in operationRequest
                   
                   if(request instanceof SORequest) {
                       // Call SO. The response will be inserted into memory once it's received 
-                      SOActorServiceProvider.sendRequest($event.getRequestId().toString(), drools.getWorkingMemory(), request);                        
+                      SoActorServiceProvider.sendRequest($event.getRequestId().toString(), drools.getWorkingMemory(), 
+                          request);                        
                   }
                   break;
               case "VFC":

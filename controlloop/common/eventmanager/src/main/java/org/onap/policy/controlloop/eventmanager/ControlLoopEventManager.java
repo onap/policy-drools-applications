@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
@@ -91,7 +91,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     private static final long serialVersionUID = -1216568161322872641L;
     public final String closedLoopControlName;
-    public final UUID requestID;
+    private final UUID requestId;
 
     private String controlLoopResult;
     private ControlLoopProcessor processor = null;
@@ -125,9 +125,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         requiredAAIKeys.add(VM_NAME);
     }
 
-    public ControlLoopEventManager(String closedLoopControlName, UUID requestID) {
+    public ControlLoopEventManager(String closedLoopControlName, UUID requestId) {
         this.closedLoopControlName = closedLoopControlName;
-        this.requestID = requestID;
+        this.requestId = requestId;
     }
 
     public String getClosedLoopControlName() {
@@ -187,7 +187,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     }
 
     public UUID getRequestID() {
-        return requestID;
+        return requestId;
     }
 
     /**
@@ -499,7 +499,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                                                            this.currentOperation.getTargetEntity(),
                                                            this.onset.getRequestId(), this);
             this.targetLock = lock;
-            LockResult<GuardResult, TargetLock> lockResult = LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
+            LockResult<GuardResult, TargetLock> lockResult = 
+                    LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
             return lockResult;
         }
         //
@@ -637,7 +638,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             logger.error("{}: commitAbatement: no operation manager", this);
             return;
         }
-        try{
+        try {
             this.lastOperationManager.commitAbatement(message,outcome);          
         } catch (NoSuchElementException e) {
             logger.error("{}: commitAbatement threw an exception ", this, e);
@@ -1027,7 +1028,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     @Override
     public String toString() {
-        return "ControlLoopEventManager [closedLoopControlName=" + closedLoopControlName + ", requestID=" + requestID
+        return "ControlLoopEventManager [closedLoopControlName=" + closedLoopControlName + ", requestId=" + requestId
                 + ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestId() : "null")
                 + ", numOnsets=" + numOnsets + ", numAbatements=" + numAbatements + ", isActivated=" + isActivated
                 + ", currentOperation=" + currentOperation + ", targetLock=" + targetLock + "]";

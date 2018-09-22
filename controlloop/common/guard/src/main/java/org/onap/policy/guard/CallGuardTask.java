@@ -20,6 +20,8 @@
 
 package org.onap.policy.guard;
 
+import com.att.research.xacml.api.DataTypeException;
+import com.att.research.xacml.std.annotations.RequestParser;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -27,8 +29,6 @@ import java.util.function.Supplier;
 import org.drools.core.WorkingMemory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.att.research.xacml.api.DataTypeException;
-import com.att.research.xacml.std.annotations.RequestParser;
 
 public class CallGuardTask implements Runnable {
 
@@ -36,14 +36,14 @@ public class CallGuardTask implements Runnable {
 
     /**
      * Actor/recipe pairs whose guard requests need a VF Module count. Each element is of
-     * the form "<actor>:<recipe>".
+     * the form "$lt;actor$gt:$ltrecipe$gt".
      */
     private static final Set<String> NEEDS_VF_COUNT = new HashSet<>();
 
     /**
      * Actor/recipe pairs whose guard requests need the VF Module count to be incremented
      * (i.e., because a module is being added). Each element is of the form
-     * "<actor>:<recipe>".
+     * "$ltactor$gt:$ltrecipe%gt".
      */
     private static final Set<String> INCR_VF_COUNT = new HashSet<>();
 
@@ -69,7 +69,8 @@ public class CallGuardTask implements Runnable {
     /**
      * Guard url is grabbed from PolicyEngine.manager properties
      */
-    public CallGuardTask(WorkingMemory wm, String cl, String act, String rec, String tar, String reqId, Supplier<Integer> vfcnt) {
+    public CallGuardTask(WorkingMemory wm, String cl, String act, 
+            String rec, String tar, String reqId, Supplier<Integer> vfcnt) {
         workingMemory = wm;
         clname = cl;
         actor = act;

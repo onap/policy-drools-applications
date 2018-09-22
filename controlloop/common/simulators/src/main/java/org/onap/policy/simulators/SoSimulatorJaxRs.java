@@ -20,6 +20,7 @@
 
 package org.onap.policy.simulators;
 
+import com.att.aft.dme2.internal.gson.Gson;
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -31,7 +32,6 @@ import org.onap.policy.so.SORequest;
 import org.onap.policy.so.SORequestReferences;
 import org.onap.policy.so.SORequestStatus;
 import org.onap.policy.so.SOResponse;
-import com.att.aft.dme2.internal.gson.Gson;
 
 @Path("/serviceInstantiation")
 public class SoSimulatorJaxRs {

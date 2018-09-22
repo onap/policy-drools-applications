@@ -41,11 +41,11 @@ import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.appc.APPCActorServiceProvider;
+import org.onap.policy.controlloop.actor.appc.AppcActorServiceProvider;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
 import org.onap.policy.controlloop.actor.sdnr.SdnrActorServiceProvider;
-import org.onap.policy.controlloop.actor.so.SOActorServiceProvider;
-import org.onap.policy.controlloop.actor.vfc.VFCActorServiceProvider;
+import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
+import org.onap.policy.controlloop.actor.vfc.VfcActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -258,7 +258,7 @@ public class ControlLoopOperationManager implements Serializable {
                  */
                 this.currentOperation = operation;
                 if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
-                    this.operationRequest = APPCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                    this.operationRequest = AppcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
                             operation.clOperation, this.policy, this.targetEntity);
                 } else {
                     this.operationRequest = AppcLcmActorServiceProvider.constructRequest(
@@ -270,7 +270,7 @@ public class ControlLoopOperationManager implements Serializable {
 
                 return operationRequest;
             case "SO":
-                SOActorServiceProvider soActorSp = new SOActorServiceProvider();
+                SoActorServiceProvider soActorSp = new SoActorServiceProvider();
                 this.operationRequest = soActorSp.constructRequest((VirtualControlLoopEvent) onset,
                                 operation.clOperation, this.policy, eventManager.getNqVserverFromAai());
 
@@ -283,7 +283,7 @@ public class ControlLoopOperationManager implements Serializable {
 
                 return operationRequest;
             case "VFC":
-                this.operationRequest = VFCActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
                         operation.clOperation, this.policy, this.eventManager.getVnfResponse());
                 this.currentOperation = operation;
                 if (this.operationRequest == null) {
@@ -935,5 +935,5 @@ public class ControlLoopOperationManager implements Serializable {
         // Clear the current operation field
         //
         this.currentOperation = null;
-     }
+    }
 }

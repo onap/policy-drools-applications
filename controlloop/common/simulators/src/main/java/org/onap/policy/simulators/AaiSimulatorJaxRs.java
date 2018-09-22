@@ -96,12 +96,13 @@ public class AaiSimulatorJaxRs {
             } else {
                 Map<String, String> params = new TreeMap<>();
                 params.put("vnfId", "" + vnfId);
-                params.put("vnfName", getUUIDValue(vnfId, "ZRDM2MMEX39"));
+                params.put("vnfName", getUuidValue(vnfId, "ZRDM2MMEX39"));
                 params.put("pnfVndName", "pnf-test-" + vnfId);
-                params.put("pnfVnfId", getUUIDValue(params.get("pnfVndName"), "jimmy-test"));
+                params.put("pnfVnfId", getUuidValue(params.get("pnfVndName"), "jimmy-test"));
 
                 params.put("serviceInstanceVnfName", "service-instance-test-" + vnfId);
-                params.put("serviceInstanceVnfId", getUUIDValue(params.get("serviceInstanceVnfName"), "jimmy-test-vnf2"));
+                params.put("serviceInstanceVnfId", 
+                        getUuidValue(params.get("serviceInstanceVnfName"), "jimmy-test-vnf2"));
 
                 return load("aai/AaiNqResponse-GenericVnf.json", params);
             }
@@ -132,7 +133,8 @@ public class AaiSimulatorJaxRs {
                     + "equipment-role\": \"UCPE\", \"orchestration-status\": \"created\", \"management-option\": \""
                     + "ATT\", \"ipv4-oam-address\": \"32.40.68.35\", \"ipv4-loopback0-address\": \"32.40.64.57\", \""
                     + "nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345\", \"management-v6-address\": \""
-                    + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", \"is-closed-loop-disabled\": " + isDisabled
+                    + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", "
+                    + "\"is-closed-loop-disabled\": " + isDisabled
                     + ", \"resource-version\": \"1493389458092\", \"relationship-list\": {\"relationship\":[{ \""
                     + "related-to\": \"service-instance\", \"related-link\": \"/aai/v11/business/customers/customer/"
                     + "1610_Func_Global_20160817084727/service-subscriptions/service-subscription/uCPE-VMS/"
@@ -154,13 +156,14 @@ public class AaiSimulatorJaxRs {
                     + "USUCP0PCOIL0110UJZZ01-vsrx\" }]} ]}}";
 
         }
-        final String vnfId = getUUIDValue(vnfName, "5e49ca06-2972-4532-9ed4-6d071588d792");
+        final String vnfId = getUuidValue(vnfName, "5e49ca06-2972-4532-9ed4-6d071588d792");
         return "{ \"vnf-id\": \"" + vnfId + "\", \"vnf-name\": \"" + vnfName
                 + "\", \"vnf-type\": \"RT\", \"service-id\": \"d7bb0a21-66f2-4e6d-87d9-9ef3ced63ae4\", \""
                 + "equipment-role\": \"UCPE\", \"orchestration-status\": \"created\", \"management-option\": \"ATT"
                 + "\", \"ipv4-oam-address\": \"32.40.68.35\", \"ipv4-loopback0-address\": \"32.40.64.57\", \""
                 + "nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345\", \"management-v6-address\": \""
-                + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", \"is-closed-loop-disabled\": " + isDisabled
+                + "2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", "
+                + "\"is-closed-loop-disabled\": " + isDisabled
                 + ", \"resource-version\": \"1493389458092\", \"relationship-list\": {\"relationship\":[{ \""
                 + "related-to\": \"service-instance\", \"related-link\": \"/aai/v11/business/customers/customer"
                 + "/1610_Func_Global_20160817084727/service-subscriptions/service-subscription/uCPE-VMS/"
@@ -199,13 +202,14 @@ public class AaiSimulatorJaxRs {
                     + "generic-vnfs/generic-vnf/getFail\",\"ERR.5.4.6114\"]}}}";
         }
         final boolean isDisabled = "disableClosedLoop".equals(vnfId);
-        final String vnfName = getUUIDValue(vnfId, "USUCP0PCOIL0110UJRT01");
+        final String vnfName = getUuidValue(vnfId, "USUCP0PCOIL0110UJRT01");
         return "{ \"vnf-id\": \"" + vnfId + "\", \"vnf-name\": \"" + vnfName
                 + "\", \"vnf-type\": \"RT\", \"service-id\": \""
                 + "d7bb0a21-66f2-4e6d-87d9-9ef3ced63ae4\", \"equipment-role\": \"UCPE\", \"orchestration-status"
                 + "\": \"created\", \"management-option\": \"ATT\", \"ipv4-oam-address\": \"32.40.68.35\", \""
                 + "ipv4-loopback0-address\": \"32.40.64.57\", \"nm-lan-v6-address\": \"2001:1890:e00e:fffe::1345"
-                + "\", \"management-v6-address\": \"2001:1890:e00e:fffd::36\", \"in-maint\": false, \"prov-status\":\"ACTIVE\", \"" + ""
+                + "\", \"management-v6-address\": \"2001:1890:e00e:fffd::36\", \"in-maint\": false, " 
+                + "\"prov-status\":\"ACTIVE\", \"" + ""
                 + "is-closed-loop-disabled\": " + isDisabled + ", \"resource-version\": \"1493389458092\", \""
                 + "relationship-list\": {\"relationship\":[{ \"related-to\": \"service-instance\", \"related-link"
                 + "\": \"/aai/v11/business/customers/customer/1610_Func_Global_20160817084727/service-subscriptions"
@@ -243,11 +247,12 @@ public class AaiSimulatorJaxRs {
                     + " Found:No Node of type generic-vnf found at nodes/vservers\",\"ERR.5.4.6114\"]}}}";
         }
         final boolean isDisabled = "disableClosedLoop".equals(vserverName);
-        final String vserverId = getUUIDValue(vserverName, "d0668d4f-c25e-4a1b-87c4-83845c01efd8");
+        final String vserverId = getUuidValue(vserverName, "d0668d4f-c25e-4a1b-87c4-83845c01efd8");
         return "{\"vserver\": [{ \"vserver-id\": \"" + vserverId + "\", \"vserver-name\": \"" + vserverName
                 + "\", \"vserver-name2\": \"vjunos0\", \"vserver-selflink\": \"https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8\", \"in-maint\": false, \"is-closed-loop-disabled\": "
                 + isDisabled
-                + ", \"prov-status\":\"ACTIVE\", \"resource-version\": \"1494001931513\", \"relationship-list\": {\"relationship\":[{ \"related-to"
+                + ", \"prov-status\":\"ACTIVE\", \"resource-version\": \"1494001931513\", " 
+                + "\"relationship-list\": {\"relationship\":[{ \"related-to"
                 + "\": \"generic-vnf\", \"related-link\": \"/aai/v11/network/generic-vnfs/generic-vnf/"
                 + "e1a41e99-4ede-409a-8f9d-b5e12984203a\", \"relationship-data\": [ {\"relationship-key\": \""
                 + "generic-vnf.vnf-id\",\"relationship-value\": \"e1a41e99-4ede-409a-8f9d-b5e12984203a\" }], \""
@@ -258,7 +263,7 @@ public class AaiSimulatorJaxRs {
                 + "related-to-property\": [{\"property-key\": \"pserver.pserver-name2\"}]} ]}}]}";
     }
 
-    private String getUUIDValue(final String value, final String defaultValue) {
+    private String getUuidValue(final String value, final String defaultValue) {
         return value != null ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : defaultValue;
     }
 
