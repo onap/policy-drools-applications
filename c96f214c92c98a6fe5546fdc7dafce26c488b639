@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_dcaea12f",
+        "filename": "controlloop/common/policy-yaml/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-22T00:15:51Z",
+      "side": 1,
+      "message": "This was something that really threw me off. Anyone have any ideas??",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 8
+      },
+      "revId": "c96f214c92c98a6fe5546fdc7dafce26c488b639",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
