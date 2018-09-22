@@ -22,6 +22,53 @@
       "revId": "c96f214c92c98a6fe5546fdc7dafce26c488b639",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e7ad0aec",
+        "filename": "controlloop/common/policy-yaml/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-22T07:14:22Z",
+      "side": 1,
+      "message": "No, i haven\u0027t come across this.",
+      "parentUuid": "1a76adc5_dcaea12f",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 8
+      },
+      "revId": "c96f214c92c98a6fe5546fdc7dafce26c488b639",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_47a95ede",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-22T07:14:22Z",
+      "side": 1,
+      "message": "I don\u0027t know if you\u0027re sticking to the 120 characters on a line rule in drools?",
+      "range": {
+        "startLine": 580,
+        "startChar": 1,
+        "endLine": 585,
+        "endChar": 151
+      },
+      "revId": "c96f214c92c98a6fe5546fdc7dafce26c488b639",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
