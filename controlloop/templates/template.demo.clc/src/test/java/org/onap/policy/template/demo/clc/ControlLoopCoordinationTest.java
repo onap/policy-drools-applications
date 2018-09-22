@@ -25,8 +25,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.att.research.xacml.util.XACMLProperties;
-
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -218,7 +216,6 @@ public class ControlLoopCoordinationTest implements TopicListener {
                                  String target,
                                  KieSession kieSession,
                                  String expectedDecision) {
-        int waitMillis = 5000;
         //
         // if onset, set expected decision
         //
@@ -233,7 +230,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
         //
         // get dump of database entries and log
         // 
-        List entries = Util.dumpDb();
+        List<?> entries = Util.dumpDb();
         assertNotNull(entries);
         logger.debug("dumpDB, {} entries", entries.size());
         for (Object entry : entries) {

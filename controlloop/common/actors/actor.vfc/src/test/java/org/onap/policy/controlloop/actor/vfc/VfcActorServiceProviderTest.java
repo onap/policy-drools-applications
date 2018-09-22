@@ -68,37 +68,37 @@ public class VfcActorServiceProviderTest {
         Policy policy = new Policy();
         policy.setRecipe("GoToOz");
 
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
         onset.getAai().put("generic-vnf.vnf-id", "dorothy.gale.1939");
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
         PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
         UUID requestId = UUID.randomUUID();
         onset.setRequestId(requestId);
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
         onset.getAai().put("generic-vnf.vnf-name", "Dorothy");
         PolicyEngine.manager.getEnvironment().remove("aai.password");
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
         PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
         onset.getAai().put("service-instance.service-instance-id", "");
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, null));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, null));
 
-        assertNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
+        assertNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
 
         policy.setRecipe("Restart");
-        assertNotNull(VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
+        assertNotNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
 
         VFCRequest request =
-                VFCActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse());
+                VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse());
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());
         assertEquals("dorothy.gale.1939", request.getHealRequest().getVnfInstanceId());
@@ -107,7 +107,7 @@ public class VfcActorServiceProviderTest {
 
     @Test
     public void testMethods() {
-        VFCActorServiceProvider sp = new VFCActorServiceProvider();
+        VfcActorServiceProvider sp = new VfcActorServiceProvider();
 
         assertEquals("VFC", sp.actor());
         assertEquals(1, sp.recipes().size());

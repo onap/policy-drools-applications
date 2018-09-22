@@ -27,34 +27,14 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.att.research.xacml.api.Attribute;
-import com.att.research.xacml.api.AttributeValue;
-import com.att.research.xacml.api.Identifier;
-import com.att.research.xacml.api.Status;
-import com.att.research.xacml.api.pip.PIPEngine;
 import com.att.research.xacml.api.pip.PIPException;
-import com.att.research.xacml.api.pip.PIPFinder;
-import com.att.research.xacml.api.pip.PIPRequest;
-import com.att.research.xacml.api.pip.PIPResponse;
-import com.att.research.xacml.std.IdentifierImpl;
-import com.att.research.xacml.std.StdAttribute;
-import com.att.research.xacml.std.StdAttributeValue;
-import com.att.research.xacml.std.StdStatus;
-import com.att.research.xacml.std.StdStatusCode;
 import com.att.research.xacml.std.pip.StdPIPRequest;
 import com.att.research.xacml.std.pip.StdPIPResponse;
 import com.att.research.xacml.std.pip.finders.EngineFinder;
-import com.att.research.xacml.util.FactoryException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -268,144 +248,4 @@ public class PipEngineGetStatusTest {
         pegs.configure("Dorothy", new Properties());
     }
 
-    private class DummyPipFinder implements PIPFinder {
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            try {
-                List<Attribute> attributeList = new ArrayList<>();
-                Identifier categoryIdIn = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));
-                Identifier dataTypeIdIn = new IdentifierImpl(new URI("http://www.w3.org/2001/XMLSchema#string"));
-
-                Identifier attributeIdIn0 = new IdentifierImpl(new URI(UUID.randomUUID().toString()));
-                AttributeValue<String> valueIn0 = new StdAttributeValue<String>(dataTypeIdIn, "ActorDorothy");
-                Attribute attribute0 = new StdAttribute(categoryIdIn, attributeIdIn0, valueIn0);
-                attributeList.add(attribute0);
-
-                Identifier attributeIdIn1 = new IdentifierImpl(new URI(UUID.randomUUID().toString()));
-                AttributeValue<String> valueIn1 = new StdAttributeValue<String>(dataTypeIdIn, "OperationHomeFromOZ");
-                Attribute attribute1 = new StdAttribute(categoryIdIn, attributeIdIn1, valueIn1);
-                attributeList.add(attribute1);
-
-                Identifier attributeIdIn2 = new IdentifierImpl(new URI(UUID.randomUUID().toString()));
-                AttributeValue<String> valueIn2 = new StdAttributeValue<String>(dataTypeIdIn, "TargetWickedWitch");
-                Attribute attribute2 = new StdAttribute(categoryIdIn, attributeIdIn2, valueIn2);
-                attributeList.add(attribute2);
-
-                return new StdPIPResponse(attributeList);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public Collection<PIPEngine> getPIPEngines() {
-            return null;
-        }
-    }
-
-    private class DummyPipFinderPipException implements PIPFinder {
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            throw new PIPException();
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public Collection<PIPEngine> getPIPEngines() {
-            return null;
-        }
-    }
-
-    private class DummyPipFinderResponseStatusNok implements PIPFinder {
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            Status status = new StdStatus(StdStatusCode.STATUS_CODE_PROCESSING_ERROR, "Processing Error");
-            return new StdPIPResponse(status);
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public Collection<PIPEngine> getPIPEngines() {
-            return null;
-        }
-    }
-
-    private class DummyPipFinderResponseEmptyAttrs implements PIPFinder {
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude) throws PIPException {
-            List<Attribute> attributeList = new ArrayList<>();
-            return new StdPIPResponse(attributeList);
-        }
-
-        @Override
-        public PIPResponse getMatchingAttributes(PIPRequest pipRequest, PIPEngine exclude, PIPFinder pipFinderParent)
-                throws PIPException {
-            return null;
-        }
-
-        @Override
-        public Collection<PIPEngine> getPIPEngines() {
-            return null;
-        }
-    }
 }

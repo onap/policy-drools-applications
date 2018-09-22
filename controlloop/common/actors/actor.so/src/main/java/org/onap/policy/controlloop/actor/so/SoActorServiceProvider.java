@@ -49,8 +49,8 @@ import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SOActorServiceProvider implements Actor {
-    private static final Logger logger = LoggerFactory.getLogger(SOActorServiceProvider.class);
+public class SoActorServiceProvider implements Actor {
+    private static final Logger logger = LoggerFactory.getLogger(SoActorServiceProvider.class);
 
     // Strings for SO Actor
     private static final String SO_ACTOR = "SO";
@@ -184,7 +184,7 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * Construct SO request to create vf-module
+     * Construct SO request to create vf-module.
      *
      * @param aaiResponseWrapper the AAI response containing the VF modules
      * @param policy             the policy
@@ -287,7 +287,7 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * Construct SO request to delete vf-module
+     * Construct SO request to delete vf-module.
      *
      * @param tenantItem         tenant item from A&AI named-query response
      * @param vnfItem            vnf item from A&AI named-query response
@@ -320,7 +320,7 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * construct requestInfo for the SO requestDetails
+     * Construct requestInfo for the SO requestDetails.
      *
      * @return SO request information
      */
@@ -333,7 +333,7 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * construct modelInfo of the vfModule for the SO requestDetails
+     * Construct modelInfo of the vfModule for the SO requestDetails.
      *
      * @param vfModuleItem vf module item from A&AI named-query response
      * @return SO Model info for the vfModule
@@ -355,7 +355,7 @@ public class SOActorServiceProvider implements Actor {
     }
 
     /**
-     * construct cloudConfiguration for the SO requestDetails
+     * Construct cloudConfiguration for the SO requestDetails.
      *
      * @param tenantItem tenant item from A&AI named-query response
      * @return SO cloud configuration

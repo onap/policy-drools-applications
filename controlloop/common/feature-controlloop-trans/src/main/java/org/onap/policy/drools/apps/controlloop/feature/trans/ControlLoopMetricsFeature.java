@@ -65,7 +65,7 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureAPI {
      * @param protocol - protocol
      * @param topic - topic
      * @param event - event object
-     * @return
+     * @return false do not take ownership else true
      */
     @Override
     public boolean beforeDeliver(PolicyController controller, CommInfrastructure protocol, String topic, Object event) {

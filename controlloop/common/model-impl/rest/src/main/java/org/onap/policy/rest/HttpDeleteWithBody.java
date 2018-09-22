@@ -3,6 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2018 Amdocs. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +21,8 @@
 
 package org.onap.policy.rest;
 
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-
 import java.net.URI;
-
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 
 /**
  * Allows for HTTP DELETE requests to contain a body, which the HttpDelete

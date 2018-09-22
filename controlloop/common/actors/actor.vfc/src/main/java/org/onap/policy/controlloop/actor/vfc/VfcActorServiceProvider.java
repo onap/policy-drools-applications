@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017-2018 Intel Corp. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,8 +41,8 @@ import org.onap.policy.vfc.VFCRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VFCActorServiceProvider implements Actor {
-    private static final Logger logger = LoggerFactory.getLogger(VFCActorServiceProvider.class);
+public class VfcActorServiceProvider implements Actor {
+    private static final Logger logger = LoggerFactory.getLogger(VfcActorServiceProvider.class);
 
     // Strings for VFC Actor
     private static final String VFC_ACTOR = "VFC";
