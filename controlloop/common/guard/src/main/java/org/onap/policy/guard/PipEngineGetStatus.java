@@ -39,14 +39,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -66,25 +64,11 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
 
     private static final String XML_SCHEMA_STRING = "http://www.w3.org/2001/XMLSchema#string";
 
-    private static final String XACML_SUBJECT_CATEGORY_ACCESS_SUBJECT =
-            "urn:oasis:names:tc:xacml:1.0:subject-category:access-subject";
-    private static final String XACML_ACTOR_ACTOR_ID = "urn:oasis:names:tc:xacml:1.0:actor:actor-id";
-    private static final String XACML_ATTRIBUTE_CATEGORY_ACTION =
-            "urn:oasis:names:tc:xacml:3.0:attribute-category:action";
-    private static final String XACML_OPERATION_OPERATION_ID = "urn:oasis:names:tc:xacml:1.0:operation:operation-id";
     private static final String XACML_ATTRIBUTE_CATEGORY_RESOURCE =
             "urn:oasis:names:tc:xacml:3.0:attribute-category:resource";
     private static final String XACML_TARGET_TARGET_ID = "urn:oasis:names:tc:xacml:1.0:target:target-id";
     private static final String XACML_TEST_SQL_RESOURCE_OPERATIONS_STATUS =
             "com:att:research:xacml:test:sql:resource:operations:status";
-
-    private static final PIPRequest PIP_REQUEST_ACTOR =
-            new StdPIPRequest(new IdentifierImpl(XACML_SUBJECT_CATEGORY_ACCESS_SUBJECT),
-                    new IdentifierImpl(XACML_ACTOR_ACTOR_ID), new IdentifierImpl(XML_SCHEMA_STRING));
-
-    private static final PIPRequest PIP_REQUEST_RECIPE =
-            new StdPIPRequest(new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_ACTION),
-                    new IdentifierImpl(XACML_OPERATION_OPERATION_ID), new IdentifierImpl(XML_SCHEMA_STRING));
 
     private static final PIPRequest PIP_REQUEST_TARGET =
             new StdPIPRequest(new IdentifierImpl(XACML_ATTRIBUTE_CATEGORY_RESOURCE),
@@ -121,7 +105,7 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         } else if (!issuer.contains(this.getIssuer())) {
             // Notice, we are checking here for the base issuer prefix.
             logger.debug("Requested issuer '{}' does not match {}", issuer, getIssuer());
-            logger.debug("Status PIP - Issuer {}  does not match with: ", issuer, this.getIssuer());
+            logger.debug("Status PIP - Issuer {}  does not match with: {}", issuer, this.getIssuer());
             return StdPIPResponse.PIP_RESPONSE_EMPTY;
         }
 
@@ -282,13 +266,13 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         // Run the query
         //
         String ret = null;
-        try{
+        try {
             ret = ((String)nq.getSingleResult());
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             logger.debug("NoResultException for getSingleResult()");
             ret = "NO_MATCHING_ENTRY";
-        } catch(Exception ex){
-            logger.error("getStatusFromDB threw: ", ex);
+        } catch (Exception ex) {
+            logger.error("getStatusFromDB threw: {}", ex);
         }
         if (ret != null) {
             logger.debug("SQL query result: {}", ret);
@@ -298,12 +282,12 @@ public class PipEngineGetStatus extends StdConfigurableEngine {
         //
         try {
             em.close();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             logger.error("getStatusFromDB threw: ", ex);
         }
         try {
             emf.close();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             logger.error("getStatusFromDB threw: ", ex);
         }
         return ret;

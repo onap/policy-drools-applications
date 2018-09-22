@@ -125,7 +125,7 @@ public class AppcServiceProviderTest {
     public void constructModifyConfigRequestTest() {
 
         Request appcRequest;
-        appcRequest = APPCActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
+        appcRequest = AppcActorServiceProvider.constructRequest(onsetEvent, operation, policy, "vnf01");
 
         /* The service provider must return a non null APPC request */
         assertNotNull(appcRequest);
@@ -168,7 +168,7 @@ public class AppcServiceProviderTest {
 
     @Test
     public void testMethods() {
-        APPCActorServiceProvider sp = new APPCActorServiceProvider();
+        AppcActorServiceProvider sp = new AppcActorServiceProvider();
 
         assertEquals("APPC", sp.actor());
         assertEquals(4, sp.recipes().size());

@@ -77,7 +77,7 @@ public final class SOManager {
      * @param username user name on SO
      * @param password password on SO
      * @param request the request to issue to SO
-     * @return
+     * @return the SO Response object
      */
     public SOResponse createModuleInstance(final String url, final String urlBase, final String username,
                     final String password, final SORequest request) {
@@ -89,7 +89,7 @@ public final class SOManager {
                         restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, requestJson);
 
         // Process the response from SO
-        SOResponse response = waitForSOOperationCompletion(urlBase, username, password, url, httpResponse);
+        SOResponse response = waitForSoOperationCompletion(urlBase, username, password, url, httpResponse);
         if (SO_RESPONSE_ERROR != response.getHttpResponseCode()) {
             return response;
         } else {
@@ -98,22 +98,21 @@ public final class SOManager {
     }
 
     /**
-     * Works just like {@link SOManager#asyncSORestCall(String, WorkingMemory, String, String, String, SORequest)
-     * except the vfModuleInstanceId is always null
+     * Works just like SOManager#asyncSORestCall(String, WorkingMemory, String, String, String, SORequest)
+     * except the vfModuleInstanceId is always null.
      *
-     * @see SOManager#asyncSORestCall(String, WorkingMemory, String, String, String, SORequest)
      */
-    public Future<SOResponse> asyncSORestCall(final String requestID, final WorkingMemory wm,
+    public Future<SOResponse> asyncSORestCall(final String requestId, final WorkingMemory wm,
                                               final String serviceInstanceId, final String vnfInstanceId,
                                               final SORequest request) {
-        return asyncSORestCall(requestID, wm, serviceInstanceId, vnfInstanceId, null, request);
+        return asyncSORestCall(requestId, wm, serviceInstanceId, vnfInstanceId, null, request);
     }
 
     /**
      * This method makes an asynchronous Rest call to MSO and inserts the response into
      * Drools working memory.
      *
-     * @param requestID
+     * @param requestId          the request id
      * @param wm                 the Drools working memory
      * @param serviceInstanceId  service instance id to construct the request url
      * @param vnfInstanceId      vnf instance id to construct the request url
@@ -122,18 +121,20 @@ public final class SOManager {
      * @param request            the SO request
      * @return a concurrent Future for the thread that handles the request
      */
-    public Future<SOResponse> asyncSORestCall(final String requestID, final WorkingMemory wm,
-                                              final String serviceInstanceId, final String vnfInstanceId, final String vfModuleInstanceId, final
-                                              SORequest request) {
-        return executors.submit(new AsyncSORestCallThread(requestID, wm, serviceInstanceId, vnfInstanceId,
+    public Future<SOResponse> asyncSORestCall(final String requestId, 
+            final WorkingMemory wm,
+            final String serviceInstanceId, 
+            final String vnfInstanceId, 
+            final String vfModuleInstanceId, final SORequest request) {
+        return executors.submit(new AsyncSoRestCallThread(requestId, wm, serviceInstanceId, vnfInstanceId,
                 vfModuleInstanceId, request));
     }
 
     /**
      * This class handles an asynchronous request to SO as a thread.
      */
-    private class AsyncSORestCallThread implements Callable<SOResponse> {
-        final String requestID;
+    private class AsyncSoRestCallThread implements Callable<SOResponse> {
+        final String requestId;
         final WorkingMemory wm;
         final String serviceInstanceId;
         final String vnfInstanceId;
@@ -150,9 +151,11 @@ public final class SOManager {
          * @param vfModuleInstanceId the vf module instance id (not null in case of delete vf module request)
          * @param request            the request itself
          */
-        private AsyncSORestCallThread(final String requestID, final WorkingMemory wm, final String serviceInstanceId,
-                                      final String vnfInstanceId, final String vfModuleInstanceId, final SORequest request) {
-            this.requestID = requestID;
+        private AsyncSoRestCallThread(final String requestId, 
+                final WorkingMemory wm, final String serviceInstanceId,
+                final String vnfInstanceId, final String vfModuleInstanceId, 
+                final SORequest request) {
+            this.requestId = requestId;
             this.wm = wm;
             this.serviceInstanceId = serviceInstanceId;
             this.vnfInstanceId = vnfInstanceId;
@@ -191,10 +194,10 @@ public final class SOManager {
             }
 
             // Process the response from SO
-            SOResponse response = waitForSOOperationCompletion(urlBase, username, password, url, httpResponse);
+            SOResponse response = waitForSoOperationCompletion(urlBase, username, password, url, httpResponse);
 
             // Return the response to Drools in its working memory
-            SOResponseWrapper soWrapper = new SOResponseWrapper(response, requestID);
+            SOResponseWrapper soWrapper = new SOResponseWrapper(response, requestId);
             wm.insert(soWrapper);
 
             return response;
@@ -211,11 +214,11 @@ public final class SOManager {
      * @param initialHTTPResponse The initial HTTP message returned from SO
      * @return The parsed final response of SO to the request
      */
-    private SOResponse waitForSOOperationCompletion(final String urlBaseSO, final String username,
+    private SOResponse waitForSoOperationCompletion(final String urlBaseSO, final String username,
                     final String password, final String initialRequestURL,
                     final Pair<Integer, String> initialHTTPResponse) {
         // Process the initial response from SO, the response to a post
-        SOResponse response = processSOResponse(initialRequestURL, initialHTTPResponse);
+        SOResponse response = processSoResponse(initialRequestURL, initialHTTPResponse);
         if (SO_RESPONSE_ERROR == response.getHttpResponseCode()) {
             return response;
         }
@@ -224,7 +227,7 @@ public final class SOManager {
         String urlGet = urlBaseSO + "/orchestrationRequests/v5/" + response.getRequestReferences().getRequestId();
 
         // The HTTP status code of the latest response
-        Pair<Integer, String> latestHTTPResponse = initialHTTPResponse;
+        Pair<Integer, String> latestHttpResponse = initialHTTPResponse;
 
         // Wait for the response from SO
         for (int attemptsLeft = GET_REQUESTS_BEFORE_TIMEOUT; attemptsLeft >= 0; attemptsLeft--) {
@@ -232,7 +235,7 @@ public final class SOManager {
             // response
             // here before
             // issuing any other requests
-            if (isRequestStateFinished(latestHTTPResponse, response)) {
+            if (isRequestStateFinished(latestHttpResponse, response)) {
                 return response;
             }
 
@@ -252,13 +255,13 @@ public final class SOManager {
             Pair<Integer, String> httpResponse = restManager.get(urlGet, username, password, createSimpleHeaders());
 
             // Get our response
-            response = processSOResponse(urlGet, httpResponse);
+            response = processSoResponse(urlGet, httpResponse);
             if (SO_RESPONSE_ERROR == response.getHttpResponseCode()) {
                 return response;
             }
 
             // Our latest HTTP response code
-            latestHTTPResponse = httpResponse;
+            latestHttpResponse = httpResponse;
         }
 
         // We have timed out on the SO request
@@ -273,7 +276,7 @@ public final class SOManager {
      * @param httpResponse The HTTP message returned from SO
      * @return The parsed response
      */
-    private SOResponse processSOResponse(final String requestURL, final Pair<Integer, String> httpResponse) {
+    private SOResponse processSoResponse(final String requestUrl, final Pair<Integer, String> httpResponse) {
         SOResponse response = new SOResponse();
 
         // A null httpDetails indicates a HTTP problem, a valid response from SO must be
@@ -299,10 +302,10 @@ public final class SOManager {
             response.setHttpResponseCode(httpResponse.first);
         }
 
-        netLogger.info("[IN|{}|{}|]{}{}", "SO", requestURL, LINE_SEPARATOR, httpResponse.second);
+        netLogger.info("[IN|{}|{}|]{}{}", "SO", requestUrl, LINE_SEPARATOR, httpResponse.second);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("***** Response to SO Request to URL {}:", requestURL);
+            logger.debug("***** Response to SO Request to URL {}:", requestUrl);
             logger.debug(httpResponse.second);
         }
 
@@ -332,12 +335,12 @@ public final class SOManager {
     /**
      * Check that the request state of a response is finished.
      *
-     * @param latestHTTPDetails the HTTP details of the response
+     * @param latestHttpDetails the HTTP details of the response
      * @param response The response to check
      * @return true if the request for the response is finished
      */
-    private boolean isRequestStateFinished(final Pair<Integer, String> latestHTTPDetails, final SOResponse response) {
-        if (latestHTTPDetails != null && 200 == latestHTTPDetails.first && isRequestStateDefined(response)) {
+    private boolean isRequestStateFinished(final Pair<Integer, String> latestHttpDetails, final SOResponse response) {
+        if (latestHttpDetails != null && 200 == latestHttpDetails.first && isRequestStateDefined(response)) {
             String requestState = response.getRequest().getRequestStatus().getRequestState();
             return "COMPLETE".equalsIgnoreCase(requestState) || "FAILED".equalsIgnoreCase(requestState);
         } else {
