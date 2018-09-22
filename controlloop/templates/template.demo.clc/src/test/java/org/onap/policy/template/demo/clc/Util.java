@@ -24,7 +24,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +33,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -55,7 +53,6 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.guard.PolicyGuardYamlToXacml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -261,7 +258,7 @@ public final class Util {
      *
      * @return a list of the database entries
      */
-    public static List dumpDb() {
+    public static List<?> dumpDb() {
         //
         // Connect to in-mem db
         //
@@ -272,7 +269,7 @@ public final class Util {
         //
         String sql = "select * from operationshistory10";
         Query nq = em.createNativeQuery(sql);
-        List results = null;
+        List<?> results = null;
         //
         // Execute query
         //

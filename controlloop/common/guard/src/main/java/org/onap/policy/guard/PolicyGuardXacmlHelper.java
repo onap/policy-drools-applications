@@ -115,7 +115,7 @@ public class PolicyGuardXacmlHelper {
             UrlEntry urlEntry = restUrls[restUrlIndex];
             String jsonRequestString = jsonReq.toString();
             netLogger.info("[OUT|{}|{}|]{}{}", "GUARD", urlEntry.restUrl, SYSTEM_LS, jsonRequestString);
-            response = callRESTfulPDP(new ByteArrayInputStream(jsonReq.toString().getBytes()), urlEntry.restUrl,
+            response = callRestfulPdp(new ByteArrayInputStream(jsonReq.toString().getBytes()), urlEntry.restUrl,
                     urlEntry.authorization, urlEntry.clientAuth, urlEntry.environment);
             netLogger.info("[IN|{}|{}|]{}{}", "GUARD", urlEntry.restUrl, SYSTEM_LS, response);
         } catch (Exception e) {
@@ -134,7 +134,7 @@ public class PolicyGuardXacmlHelper {
      * @param environment the Environment
      * @return response from guard which contains "Permit" or "Deny"
      */
-    private String callRESTfulPDP(InputStream is, URL restURL, String authorization, String clientauth,
+    private String callRestfulPdp(InputStream is, URL restUrl, String authorization, String clientauth,
             String environment) {
         HttpURLConnection connection = null;
 
@@ -142,7 +142,7 @@ public class PolicyGuardXacmlHelper {
             //
             // Open up the connection
             //
-            connection = (HttpURLConnection) restURL.openConnection();
+            connection = (HttpURLConnection) restUrl.openConnection();
             connection.setRequestProperty("Content-Type", "application/json");
             //
             // Setup our method and headers

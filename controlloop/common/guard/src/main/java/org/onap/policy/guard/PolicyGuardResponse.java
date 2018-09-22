@@ -49,8 +49,8 @@ public class PolicyGuardResponse {
         return requestId;
     }
 
-    public void setRequestID(UUID requestID) {
-        this.requestId = requestID;
+    public void setRequestID(UUID requestId) {
+        this.requestId = requestId;
     }
 
     public String getResult() {

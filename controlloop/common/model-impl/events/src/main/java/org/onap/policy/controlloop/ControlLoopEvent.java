@@ -20,10 +20,9 @@
 
 package org.onap.policy.controlloop;
 
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.UUID;
-
-import com.google.gson.annotations.SerializedName;
 
 public abstract class ControlLoopEvent implements Serializable {
 
