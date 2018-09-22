@@ -37,7 +37,7 @@ import org.onap.policy.vnf.trafficgenerator.PGStream;
 import org.onap.policy.vnf.trafficgenerator.PGStreams;
 
 
-public class APPCActorServiceProvider implements Actor {
+public class AppcActorServiceProvider implements Actor {
     // Strings for targets
     private static final String TARGET_VM = "VM";
     private static final String TARGET_VNF = "VNF";

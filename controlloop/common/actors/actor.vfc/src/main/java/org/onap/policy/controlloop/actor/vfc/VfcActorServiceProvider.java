@@ -40,8 +40,8 @@ import org.onap.policy.vfc.VFCRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VFCActorServiceProvider implements Actor {
-    private static final Logger logger = LoggerFactory.getLogger(VFCActorServiceProvider.class);
+public class VfcActorServiceProvider implements Actor {
+    private static final Logger logger = LoggerFactory.getLogger(VfcActorServiceProvider.class);
 
     // Strings for VFC Actor
     private static final String VFC_ACTOR = "VFC";

@@ -20,10 +20,8 @@
 
 package org.onap.policy.rest;
 
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-
 import java.net.URI;
-
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 
 /**
  * Allows for HTTP DELETE requests to contain a body, which the HttpDelete

@@ -21,7 +21,7 @@
 package org.onap.policy.so;
 
 /**
- * Enumeration of SO Operations type that can be performed by a policy
+ * Enumeration of SO Operations type that can be performed by a policy.
  */
 public enum SoOperationType {
     SCALE_OUT("Create Vf Module"),
