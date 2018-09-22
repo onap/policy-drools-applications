@@ -85,28 +85,28 @@ public class PolicyGuard {
      * 
      * @param targetType the target type
      * @param targetInstance the target instance
-     * @param requestID the request Id
+     * @param requestId the request Id
      * @return the TargetLock
      * @throws IllegalArgumentException if an argument is null
      */
     public static TargetLock createTargetLock(TargetType targetType, String targetInstance,
-            UUID requestID, LockCallback callback) {
+            UUID requestId, LockCallback callback) {
         switch (targetType) {
             case PNF:
                 //
                 // Create the Lock object
                 //
-                return new PNFTargetLock(targetType, targetInstance, requestID, callback);
+                return new PNFTargetLock(targetType, targetInstance, requestId, callback);
             case VM:
                 //
                 // Create the Lock object
                 //
-                return new VMTargetLock(targetType, targetInstance, requestID, callback);
+                return new VMTargetLock(targetType, targetInstance, requestId, callback);
             case VNF:
                 //
                 // Create the Lock object
                 //
-                return new VNFTargetLock(targetType, targetInstance, requestID, callback);
+                return new VNFTargetLock(targetType, targetInstance, requestId, callback);
             default:
                 logger.error("invalid target type {} for lock on {}", targetType, targetInstance);
                 return null;
@@ -118,21 +118,21 @@ public class PolicyGuard {
      * 
      * @param targetType the target type
      * @param targetInstance the target instance
-     * @param requestID the request Id
+     * @param requestId the request Id
      * @param callback the LockCallback
      * @param holdSec maximum number of seconds to hold the lock
      * @return the LockResult
      * @throws IllegalArgumentException if an argument is null
      */
     public static LockResult<GuardResult, TargetLock> lockTarget(TargetType targetType, String targetInstance,
-            UUID requestID, LockCallback callback, int holdSec) {
-        String owner = makeOwner(targetType, requestID);
+            UUID requestId, LockCallback callback, int holdSec) {
+        String owner = makeOwner(targetType, requestId);
         boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
         if (!result) {
             return LockResult.createLockResult(GuardResult.LOCK_DENIED, null);
         }
 
-        TargetLock lock = createTargetLock(targetType, targetInstance, requestID, callback);
+        TargetLock lock = createTargetLock(targetType, targetInstance, requestId, callback);
         if (lock == null) {
             //
             // Bad lock type: unlock and return exception result
@@ -188,12 +188,12 @@ public class PolicyGuard {
      * 
      * @param targetType the target type
      * @param targetInstance the target instance
-     * @param requestID the request Id
-     * @return <code>true</code> if the target is locked, <code>false</code> otherwise
+     * @param requestId the request Id
+     * @return \<code>true\</code> if the target is locked, \<code>false\</code> otherwise
      * @throws IllegalArgumentException if an argument is null
      */
-    public static boolean isLocked(TargetType targetType, String targetInstance, UUID requestID) {
-        String owner = makeOwner(targetType, requestID);
+    public static boolean isLocked(TargetType targetType, String targetInstance, UUID requestId) {
+        String owner = makeOwner(targetType, requestId);
         return factory.getManager().isLockedBy(targetInstance, owner);
     }
 
@@ -204,16 +204,16 @@ public class PolicyGuard {
      * @return the "owner" of a resource
      * @throws IllegalArgumentException if either argument is null
      */
-    private static String makeOwner(TargetType targetType, UUID requestID) {
+    private static String makeOwner(TargetType targetType, UUID requestId) {
         if (targetType == null) {
-            throw new IllegalArgumentException("null targetType for lock request id " + requestID);
+            throw new IllegalArgumentException("null targetType for lock request id " + requestId);
         }
 
-        if (requestID == null) {
+        if (requestId == null) {
             throw new IllegalArgumentException("null requestID for lock type " + targetType);
         }
         
-        return targetType + ":" + requestID;
+        return targetType + ":" + requestId;
     }
     
     /**
