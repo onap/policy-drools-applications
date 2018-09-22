@@ -63,15 +63,15 @@ public class SoActorServiceProviderTest {
         policy.setActor("Dorothy");
         policy.setRecipe("GoToOz");
         
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setActor("SO");
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         policy.setRecipe(VF_MODULE_CREATE);
 
         // empty policy payload
-        SORequest request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        SORequest request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
 
         assertEquals("my_module_3", request.getRequestDetails().getRequestInfo().getInstanceName());
@@ -80,7 +80,7 @@ public class SoActorServiceProviderTest {
 
         // non-empty policy payload
         policy.setPayload(makePayload());
-        request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
         assertEquals(true, request.getRequestDetails().getRequestParameters().isUsePreload());
         assertEquals("avalue", request.getRequestDetails().getRequestParameters().getUserParams().get(0).get("akey"));
@@ -89,33 +89,33 @@ public class SoActorServiceProviderTest {
         
         // payload with config, but no request params
         policy.setPayload(makePayload());
-        policy.getPayload().remove(SOActorServiceProvider.REQ_PARAM_NM);
-        request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        policy.getPayload().remove(SoActorServiceProvider.REQ_PARAM_NM);
+        request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
         assertNull(request.getRequestDetails().getRequestParameters());
         assertNotNull(request.getRequestDetails().getConfigurationParameters());
         
         // payload with request, but no config params
         policy.setPayload(makePayload());
-        policy.getPayload().remove(SOActorServiceProvider.CONFIG_PARAM_NM);
-        request = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        policy.getPayload().remove(SoActorServiceProvider.CONFIG_PARAM_NM);
+        request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
         assertNotNull(request.getRequestDetails().getRequestParameters());
         assertNull(request.getRequestDetails().getConfigurationParameters());
 
         // null response
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, null));
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, null));
 
         // response has no base VF module
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy,
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy,
                         loadAaiResponse(onset, "aai/AaiNqResponse-NoBase.json")));
 
         // response has no non-base VF modules (other than the "dummy")
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy,
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy,
                         loadAaiResponse(onset, "aai/AaiNqResponse-NoNonBase.json")));
 
         policy.setRecipe(VF_MODULE_DELETE);
-        SORequest deleteRequest = new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        SORequest deleteRequest = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(deleteRequest);
         assertEquals(SoOperationType.DELETE_VF_MODULE, deleteRequest.getOperationType());
 
@@ -128,22 +128,22 @@ public class SoActorServiceProviderTest {
         // null tenant
         aaiNqResp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems()
                         .remove(1);
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         // null service item
         aaiNqResp.getAaiNqResponse().getInventoryResponseItems().get(0).getItems().getInventoryResponseItems().get(0)
                         .setItems(null);
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
 
         // null response
         aaiNqResp.setAaiNqResponse(null);
-        assertNull(new SOActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
+        assertNull(new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp));
     }
 
     @Test
     public void testSendRequest() {
         try {
-            SOActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null);
+            SoActorServiceProvider.sendRequest(UUID.randomUUID().toString(), null, null);
         } catch (Exception e) {
             fail("Test should not throw an exception");
         }
@@ -151,7 +151,7 @@ public class SoActorServiceProviderTest {
 
     @Test
     public void testMethods() {
-        SOActorServiceProvider sp = new SOActorServiceProvider();
+        SoActorServiceProvider sp = new SoActorServiceProvider();
 
         assertEquals("SO", sp.actor());
         assertEquals(2, sp.recipes().size());
@@ -170,8 +170,8 @@ public class SoActorServiceProviderTest {
     private Map<String, String> makePayload() {
         Map<String, String> payload = new TreeMap<>();
 
-        payload.put(SOActorServiceProvider.REQ_PARAM_NM, makeReqParams());
-        payload.put(SOActorServiceProvider.CONFIG_PARAM_NM, makeConfigParams());
+        payload.put(SoActorServiceProvider.REQ_PARAM_NM, makeReqParams());
+        payload.put(SoActorServiceProvider.CONFIG_PARAM_NM, makeConfigParams());
 
         return payload;
     }

@@ -33,14 +33,14 @@ public class PolicyGuardRequest {
      * 
      * @param actor the actor
      * @param target the target
-     * @param requestID the request Id
+     * @param requestId the request Id
      * @param operation the operation
      */
-    public PolicyGuardRequest(String actor, String target, UUID requestID, String operation) {
+    public PolicyGuardRequest(String actor, String target, UUID requestId, String operation) {
         super();
         this.actor = actor;
         this.target = target;
-        this.requestId = requestID;
+        this.requestId = requestId;
         this.operation = operation;
     }
 
@@ -70,8 +70,8 @@ public class PolicyGuardRequest {
         return requestId;
     }
 
-    public void setRequestID(UUID requestID) {
-        this.requestId = requestID;
+    public void setRequestID(UUID requestId) {
+        this.requestId = requestId;
     }
 
     public String getOperation() {

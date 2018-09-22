@@ -25,12 +25,8 @@ import com.att.research.xacml.api.AttributeCategory;
 import com.att.research.xacml.api.AttributeValue;
 import com.att.research.xacml.api.Result;
 import com.att.research.xacml.api.pdp.PDPEngine;
-import com.att.research.xacml.api.pdp.PDPException;
-import com.att.research.xacml.api.pdp.PDPEngineFactory;
-import com.att.research.xacmlatt.pdp.ATTPDPEngineFactory;
 import com.att.research.xacml.std.annotations.RequestParser;
-
-import com.google.gson.Gson;
+import com.att.research.xacmlatt.pdp.ATTPDPEngineFactory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -52,8 +48,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
 import org.json.JSONObject;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
 import org.onap.policy.guard.PolicyGuardResponse;
+import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
 import org.onap.policy.guard.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,7 +148,7 @@ public class PolicyGuardXacmlHelperEmbedded {
      * @param environment the Environment
      * @return response from guard which contains "Permit" or "Deny"
      */
-    private String callRestfulPdp(InputStream is, URL restURL, String authorization, String clientauth,
+    private String callRestfulPdp(InputStream is, URL restUrl, String authorization, String clientauth,
             String environment) {
         HttpURLConnection connection = null;
 
@@ -160,7 +156,7 @@ public class PolicyGuardXacmlHelperEmbedded {
             //
             // Open up the connection
             //
-            connection = (HttpURLConnection) restURL.openConnection();
+            connection = (HttpURLConnection) restUrl.openConnection();
             connection.setRequestProperty("Content-Type", "application/json");
             //
             // Setup our method and headers
@@ -202,7 +198,7 @@ public class PolicyGuardXacmlHelperEmbedded {
             connection.connect();
 
             if (connection.getResponseCode() != 200) {
-                logger.error(connection.getResponseCode() + " " + connection.getResponseMessage());
+                logger.error("{} {}", connection.getResponseCode(), connection.getResponseMessage());
                 return Util.INDETERMINATE;
             }
         } catch (Exception e) {
@@ -266,7 +262,7 @@ public class PolicyGuardXacmlHelperEmbedded {
         //
         // Embedded call to PDP
         //
-        long lTimeStart = System.currentTimeMillis();
+        long timeStart = System.currentTimeMillis();
         if (xacmlReq.getVfCount() == null ) {
             xacmlReq.setVfCount(1);
         }
@@ -275,8 +271,8 @@ public class PolicyGuardXacmlHelperEmbedded {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        long lTimeEnd = System.currentTimeMillis();
-        logger.debug("Elapsed Time: {} ms", (lTimeEnd - lTimeStart));
+        long timeEnd = System.currentTimeMillis();
+        logger.debug("Elapsed Time: {} ms", (timeEnd - timeStart));
         //
         // Convert response to string
         //
