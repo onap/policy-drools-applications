@@ -52,6 +52,143 @@
       "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4d489d87",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 15
+      },
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ed5c094f",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "tabs push this \u003e 120",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2d43e16d",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "Tabs push this \u003e 120",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ad561129",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "\u003e120",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 524,
+        "endChar": 124
+      },
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0d5aa550",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "\u003e120",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_cd534d38",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "\u003e120",
+      "range": {
+        "startLine": 580,
+        "startChar": 74,
+        "endLine": 580,
+        "endChar": 75
+      },
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6d30f907",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 4
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-09-24T13:40:17Z",
+      "side": 1,
+      "message": "\u003e120",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
