@@ -34,6 +34,24 @@
       "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_cda58d48",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-09-24T13:32:16Z",
+      "side": 1,
+      "message": "yeah, existing issue with original code so I +1\u0027d earlier, nothing to do with this review, only fyi.",
+      "parentUuid": "1a76adc5_edae492f",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
