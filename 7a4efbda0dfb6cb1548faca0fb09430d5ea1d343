@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2dd0c1c8",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-09-24T13:20:35Z",
+      "side": 1,
+      "message": "This is an existing issue.  It seems the dme2 library that we don\u0027t use embedded the google\u0027s gson classes in their jar.   I don\u0027t know which version of the gson libraries would have gotten included, I suspect and old one.   Ideally this should be changed to the desired google one.   Not sure what dependency gives access to this class.",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
