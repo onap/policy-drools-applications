@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_7ffe5a07",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T19:24:57Z",
+      "side": 1,
+      "message": "oh, sorry, just noticed that these are still missing the trailing semicolons: \"\u0026lt;actor\u0026gt;:\u0026lt;recipe\u0026gt;\".  When hovering over \"NEEDS_VF_COUNT\", it should appear as \"\u003cactor\u003e:\u003crecipe\u003e\"",
+      "revId": "a936975e92ae1d10f0231401f088118fb5b2232b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9f03360d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T19:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a936975e92ae1d10f0231401f088118fb5b2232b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3f08e227",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T19:24:57Z",
+      "side": 1,
+      "message": "missed this before. change to: \"\u0026lt;actor\u0026gt;:\u0026lt;recipe\u0026gt;\"",
+      "revId": "a936975e92ae1d10f0231401f088118fb5b2232b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5f0d9e36",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T19:24:57Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a936975e92ae1d10f0231401f088118fb5b2232b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
