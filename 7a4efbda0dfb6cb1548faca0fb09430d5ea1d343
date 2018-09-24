@@ -2,6 +2,125 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_6836a7b6",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "I assume this was left unchanged so it didn\u0027t break the rules.",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c8501bd7",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be \"\u0026lt;\" and \"\u0026gt;\" instead of \"/\u003c\" and \"/\u003e\"?  Or could use another format (e.g., \"{actor}:{recipe}\") which doesn\u0027t have html mark-up.  (BTW: you can blame me for doing this wrong in the first place.)",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_886223ac",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_48e16bfd",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "change the text to: \"getStatusFromDB threw an exception\" (i.e., remove trailing \"{}\") as the logging framework will automatically log the exception and the stack trace any time the final argument is an Exception object.",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_48b88be5",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "probably change text to \"getStatusFromDB threw an exception\"",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_08ca936e",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "probably change text to \"getStatusFromDB threw an exception\"",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_88a543b7",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "SUGGESTION: my preference is to leave keywords like, true, false, and null, highlighted as \"code\".  Can do that with the \"\u003ccode\u003exxx\u003c/code\u003e\" construct or the \"{@code xxx}\" construct.  Does checkstyle complain about these constructs?",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2dd0c1c8",
         "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
         "patchSetId": 4
@@ -49,6 +168,24 @@
       "side": 1,
       "message": "yeah, existing issue with original code so I +1\u0027d earlier, nothing to do with this review, only fyi.",
       "parentUuid": "1a76adc5_edae492f",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_28c98fac",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this can be changed to point to a different Gson class (i.e., com.google.gson.Gson) and things will still work fine.  May have to change the pom artifact, though (maybe).",
+      "parentUuid": "1a76adc5_cda58d48",
       "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -146,6 +283,40 @@
       "writtenOn": "2018-09-24T13:40:17Z",
       "side": 1,
       "message": "\u003e120",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e87ab724",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "preference would be \"{actor}\" or \"\u0026lt;actor\u0026rt;recipe\"",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0878532a",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CallGuardTaskEmbedded.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:36:14Z",
+      "side": 1,
+      "message": "preference would be \"{actor}\" or \"\u0026lt;actor\u0026rt;recipe\"",
       "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
