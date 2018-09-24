@@ -22,6 +22,91 @@
       "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_485bab2e",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:00:59Z",
+      "side": 1,
+      "message": "preference would be to remove \"{}\".  Otherwise, change to: log.error(\"some message {}\", e.getMessage(), e).  The logging framework treats a final \"Exception\" object special and knows to log it and print a stack trace.  All other arguments are used to fill in \"{}\" place-holders while formatting the message.  In this case, I\u0027m not sure what it puts there, but it\u0027s probably redundant.",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_083db3bb",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:00:59Z",
+      "side": 1,
+      "message": "SUGGESTION: technically, could remove the \"\u003d\u003d null\" check now",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c846db4f",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:00:59Z",
+      "side": 1,
+      "message": "remove trailing \"{}\"",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8878e390",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:00:59Z",
+      "side": 1,
+      "message": "remove second \"{}\"",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_286d0fcd",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelperEmbedded.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:00:59Z",
+      "side": 1,
+      "message": "remove trailing \"{}\"",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
