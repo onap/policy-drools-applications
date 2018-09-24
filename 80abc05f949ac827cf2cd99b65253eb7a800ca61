@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_48808b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:08:54Z",
+      "side": 1,
+      "message": "Ah, hadn\u0027t thought about the verb issue.  However, these had all been lowercase up until recently, I thought - in fact, I purposely changed some of them to lower case to match the convention.  Guess the convention has now changed - learn something new every day!",
+      "parentUuid": "1a76adc5_9c56e929",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_485bab2e",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2018-09-24T14:00:59Z",
       "side": 1,
       "message": "preference would be to remove \"{}\".  Otherwise, change to: log.error(\"some message {}\", e.getMessage(), e).  The logging framework treats a final \"Exception\" object special and knows to log it and print a stack trace.  All other arguments are used to fill in \"{}\" place-holders while formatting the message.  In this case, I\u0027m not sure what it puts there, but it\u0027s probably redundant.",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6881c74c",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-24T14:08:54Z",
+      "side": 1,
+      "message": "I just tried a test and found that it doesn\u0027t replace the trailing \"{}\" at all - it just leaves \"{}\" in the message that is logged, so this should be removed or an additional argument added with which to populate it.  (Again, the preference is to remove it as the logger framework will already log the exception.)",
+      "parentUuid": "1a76adc5_485bab2e",
       "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
