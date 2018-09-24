@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_88cb031e",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-24T15:07:30Z",
+      "side": 1,
+      "message": "I left some because I thought they may indirectly mess up the .drl files. I didn\u0027t want to go there. I opened appropriate JIRA\u0027s to go back and fix remove these suppressions.",
+      "parentUuid": "1a76adc5_6836a7b6",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_c8501bd7",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
         "patchSetId": 4
