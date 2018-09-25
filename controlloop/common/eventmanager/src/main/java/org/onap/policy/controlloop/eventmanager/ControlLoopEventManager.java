@@ -76,8 +76,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     public static final String VSERVER_PROV_STATUS = "vserver.prov-status";
 
     private static final String AAI_URL = "aai.url";
-    private static final String AAI_USERNAME = "aai.username";
-    private static final String AAI_PASSWD = "aai.password";
+    private static final String AAI_USERNAME_PROPERTY = "aai.username";
+    private static final String AAI_PASS_PROPERTY = "aai.password";
 
     private static final String QUERY_AAI_ERROR_MSG = "Exception from queryAai: ";
 
@@ -882,8 +882,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         try {
             if (vserverName != null) {
                 String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
-                String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME);
-                String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASSWD);
+                String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+                String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASS_PROPERTY);
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostUrl + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
@@ -912,8 +912,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
 
         String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
-        String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME);
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASSWD);
+        String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASS_PROPERTY);
 
         try {
             if (vnfName != null) {
@@ -978,8 +978,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         }
 
         AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty(AAI_URL),
-                getPeManagerEnvProperty(AAI_USERNAME), getPeManagerEnvProperty(AAI_PASSWD), aaiNqRequest,
-                onset.getRequestId());
+                getPeManagerEnvProperty(AAI_USERNAME_PROPERTY), getPeManagerEnvProperty(AAI_PASS_PROPERTY), 
+                aaiNqRequest, onset.getRequestId());
 
         // Check AAI response
         if (aaiNqResponse == null) {
