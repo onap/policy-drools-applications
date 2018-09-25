@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_3c43106e",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-25T00:50:58Z",
+      "side": 1,
+      "message": "Cannot parse them. Just a matter of getting the \u0027\\\u0027 in the right spot.",
+      "parentUuid": "1a76adc5_88a543b7",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2dd0c1c8",
         "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
         "patchSetId": 4
@@ -222,6 +240,24 @@
       "side": 1,
       "message": "I\u0027m pretty sure this can be changed to point to a different Gson class (i.e., com.google.gson.Gson) and things will still work fine.  May have to change the pom artifact, though (maybe).",
       "parentUuid": "1a76adc5_cda58d48",
+      "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5c484c87",
+        "filename": "controlloop/common/simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-25T00:50:58Z",
+      "side": 1,
+      "message": "Let\u0027s address in a different review, this is about checkstyle.",
+      "parentUuid": "1a76adc5_28c98fac",
       "revId": "7a4efbda0dfb6cb1548faca0fb09430d5ea1d343",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
