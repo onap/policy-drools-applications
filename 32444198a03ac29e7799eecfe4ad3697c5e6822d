@@ -34,6 +34,24 @@
       "revId": "32444198a03ac29e7799eecfe4ad3697c5e6822d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_79ec2d90",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-26T21:45:15Z",
+      "side": 1,
+      "message": "I believe it actually logs it on the next line, followed by its stack trace",
+      "parentUuid": "1a76adc5_f9e03d98",
+      "revId": "32444198a03ac29e7799eecfe4ad3697c5e6822d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
