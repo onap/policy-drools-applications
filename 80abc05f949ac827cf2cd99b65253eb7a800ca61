@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_99b909ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-26T18:27:27Z",
+      "side": 1,
+      "message": "I hear you.  Am wondering what the convention is documented.  I think on some of my previous commits, I received comments to end the first line comment with a period, but looking at other commit messages, it seems the first line starts with a capital letter but ends without a punctuation mark... which seems slightly odd.",
+      "parentUuid": "1a76adc5_48808b46",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_485bab2e",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
         "patchSetId": 2
@@ -84,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b9be45d3",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-26T18:27:27Z",
+      "side": 1,
+      "message": "Thanks for checking on this!",
+      "parentUuid": "1a76adc5_6881c74c",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_083db3bb",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
         "patchSetId": 2
@@ -95,6 +137,24 @@
       "writtenOn": "2018-09-24T14:00:59Z",
       "side": 1,
       "message": "SUGGESTION: technically, could remove the \"\u003d\u003d null\" check now",
+      "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d9c6a168",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-09-26T18:27:27Z",
+      "side": 1,
+      "message": "Thanks!  I hadn\u0027t known that Jave 7 introduced equality checking on potentially null values---this comment prompted me to investigate and learn that.",
+      "parentUuid": "1a76adc5_083db3bb",
       "revId": "80abc05f949ac827cf2cd99b65253eb7a800ca61",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
