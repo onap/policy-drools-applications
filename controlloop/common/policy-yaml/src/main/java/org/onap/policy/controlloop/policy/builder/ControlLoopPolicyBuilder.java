@@ -235,7 +235,7 @@ public interface ControlLoopPolicyBuilder {
     /**
      * Removes all existing Operational Policies and reverts back to an Open Loop.
      * 
-     * @return
+     * @return Policy builder object
      */
     public ControlLoopPolicyBuilder removeAllPolicies();
 

@@ -74,8 +74,7 @@ public class ControlLoopCompiler implements Serializable {
      * 
      * @param yamlSpecification the yaml input stream
      * @param callback method to callback during compilation
-     * @return
-     * 
+     * @return Control Loop object
      * @throws CompilerException throws any compile exception found
      */
     public static ControlLoopPolicy compile(InputStream yamlSpecification, 
