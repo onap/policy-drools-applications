@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_b9ede527",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-26T17:57:28Z",
+      "side": 1,
+      "message": "This was the culprit. The extra line below.",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 34
+      },
+      "revId": "1e62522479823bd282534d6f2a1f86357ff8913b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
