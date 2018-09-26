@@ -55,8 +55,8 @@ public class Constraint {
     /**
      * Constructor.
      * 
-     * @param minVNFLimit minimum VNF count
-     * @param maxVNFLimit maximum VNF count
+     * @param minVnfCount minimum VNF count
+     * @param maxVnfCount maximum VNF count
      * @param activeTimeRange active time range
      */
     public Constraint(Integer minVnfCount, Integer maxVnfCount, Map<String, String> activeTimeRange) {

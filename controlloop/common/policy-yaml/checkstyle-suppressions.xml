@@ -25,6 +25,6 @@
  
 <suppressions>
   <suppress checks="AbbreviationAsWordInName"
-    files="PNFTargetLock.java|VNFTargetLock.java|VMTargetLock.java|PolicyGuardRequest.java|PolicyGuardResponse.java|PolicyGuardXacmlHelper.java|TargetLock.java|PolicyGuardXacmlRequestAttributes.java"
+    files="ControlLoopCompiler.java|Target.java|ControlLoopPolicyBuilder.java"
     lines="1-9999"/>
 </suppressions>
