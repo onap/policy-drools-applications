@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_11e62d45",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PipEngineGetStatus.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-27T14:16:49Z",
+      "side": 1,
+      "message": "Add a space right here.",
+      "range": {
+        "startLine": 272,
+        "startChar": 14,
+        "endLine": 272,
+        "endChar": 16
+      },
+      "revId": "d78cc7117849ae32e33b6309b440f6826c3c0e57",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
