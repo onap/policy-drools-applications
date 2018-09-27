@@ -85,6 +85,11 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <artifactId>sdnr</artifactId>
+      <version>${dependenciesVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
       <artifactId>trafficgenerator</artifactId>
       <version>${dependenciesVersion}</version>
     </dependency>
@@ -116,6 +121,11 @@
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
       <artifactId>actor.so</artifactId>
+      <version>${dependenciesVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <artifactId>actor.sdnr</artifactId>
       <version>${dependenciesVersion}</version>
     </dependency>
     <dependency>
