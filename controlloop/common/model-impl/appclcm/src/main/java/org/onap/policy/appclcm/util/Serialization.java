@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,16 @@ import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmResponse;
 
 public final class Serialization {
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+
+    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(LcmRequest.class, new RequestAdapter())
+            .registerTypeAdapter(LcmResponse.class, new ResponseAdapter()).create();
+
+    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
+
     private Serialization() {}
 
     public static class RequestAdapter implements JsonSerializer<LcmRequest>, JsonDeserializer<LcmRequest> {
@@ -99,15 +109,5 @@ public final class Serialization {
         }
 
     }
-
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
-
-    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(LcmRequest.class, new RequestAdapter())
-            .registerTypeAdapter(LcmResponse.class, new ResponseAdapter()).create();
-
-    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
 }

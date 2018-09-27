@@ -40,6 +40,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class Serialization {
+    public static final Gson gson =
+            new GsonBuilder().disableHtmlEscaping().registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
+                    .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+                    .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
+                    .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
+
+
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
+            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+            .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
+            .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
+
+    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
+            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+            .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
+
     private Serialization() {}
 
     public static class NotificationTypeAdapter
@@ -103,23 +121,5 @@ public final class Serialization {
         }
 
     }
-
-    public static final Gson gson =
-            new GsonBuilder().disableHtmlEscaping().registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-                    .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-                    .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
-                    .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
-
-
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-            .registerTypeAdapter(ControlLoopNotificationType.class, new NotificationTypeAdapter())
-            .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
-
-    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-            .registerTypeAdapter(ControlLoopTargetType.class, new TargetTypeAdapter()).create();
 
 }

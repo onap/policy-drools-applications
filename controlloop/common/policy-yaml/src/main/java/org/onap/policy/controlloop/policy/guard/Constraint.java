@@ -191,10 +191,24 @@ public class Constraint {
         this.maxVnfCount = maxVnfCount;
     }
 
-    
+    /**
+     * Check if these constraint values are valid.
+     * 
+     * @return true if valid
+     */
     public boolean isValid() {
-        return ((freqLimitPerTarget == null && timeWindow != null)
-                        || (timeWindow == null && freqLimitPerTarget != null)) ? false : true;
+        //
+        // Sonar likes these statements combined as well as not use
+        // boolean literals.
+        //
+        // If the freqLimitPerTarget is null AND the timeWindow is NOT null
+        // OR
+        // timeWindow is null AND the freqLimitPerTarget is NOT null
+        //
+        // then we want to return false (hence the preceding !)
+        //
+        return ! ((freqLimitPerTarget == null && timeWindow != null)
+                        || (timeWindow == null && freqLimitPerTarget != null));
     }
     
     @Override
