@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_671c8314",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-27T18:36:56Z",
+      "side": 1,
+      "message": "not sure why i added that there",
+      "range": {
+        "startLine": 914,
+        "startChar": 40,
+        "endLine": 914,
+        "endChar": 41
+      },
+      "revId": "6fd8f4c399560b15d1371d8ef81e2bf7cba3b8d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c7d23734",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-27T18:36:56Z",
+      "side": 1,
+      "message": "Sonar complains this is unused - should this method be removed?? Or does creating this object log something??",
+      "range": {
+        "startLine": 316,
+        "startChar": 3,
+        "endLine": 321,
+        "endChar": 100
+      },
+      "revId": "6fd8f4c399560b15d1371d8ef81e2bf7cba3b8d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
