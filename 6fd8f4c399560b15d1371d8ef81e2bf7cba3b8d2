@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_6236b1e9",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-09-27T19:44:06Z",
+      "side": 1,
+      "message": "I believe that I\u0027ve seen these records in actual logs, note that is a callback from the underlying library (line 203).  I think this class wouldn\u0027t compile if method removed.",
+      "parentUuid": "1a76adc5_c7d23734",
+      "range": {
+        "startLine": 316,
+        "startChar": 3,
+        "endLine": 321,
+        "endChar": 100
+      },
+      "revId": "6fd8f4c399560b15d1371d8ef81e2bf7cba3b8d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a20da939",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
         "patchSetId": 1
