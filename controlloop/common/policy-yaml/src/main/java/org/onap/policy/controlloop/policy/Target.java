@@ -33,22 +33,6 @@ public class Target implements Serializable {
         //Does Nothing Empty Constructor
     }
     
-    public String getResourceID() {
-        return resourceId;
-    }
-
-    public void setResourceID(String resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public TargetType getType() {
-        return type;
-    }
-
-    public void setType(TargetType type) {
-        this.type = type;
-    }
-
     public Target(TargetType type) {
         this.type = type;
     }
@@ -67,6 +51,22 @@ public class Target implements Serializable {
         this.resourceId = target.resourceId;
     }
     
+    public String getResourceID() {
+        return resourceId;
+    }
+
+    public void setResourceID(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public TargetType getType() {
+        return type;
+    }
+
+    public void setType(TargetType type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Target [type=" + type + ", resourceId=" + resourceId + "]";

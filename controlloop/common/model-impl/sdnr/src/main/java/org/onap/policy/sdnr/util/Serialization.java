@@ -3,6 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +39,16 @@ import org.onap.policy.sdnr.PciResponse;
 
 
 public final class Serialization {
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+
+    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(PciRequest.class, new RequestAdapter())
+            .registerTypeAdapter(PciResponse.class, new ResponseAdapter()).create();
+
+    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
+
     private Serialization() {}
 
     public static class RequestAdapter implements JsonSerializer<PciRequest>, JsonDeserializer<PciRequest> {
@@ -100,15 +111,5 @@ public final class Serialization {
         }
 
     }
-
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
-
-    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(PciRequest.class, new RequestAdapter())
-            .registerTypeAdapter(PciResponse.class, new ResponseAdapter()).create();
-
-    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
 }

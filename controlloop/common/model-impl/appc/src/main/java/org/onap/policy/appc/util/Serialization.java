@@ -40,6 +40,13 @@ import org.slf4j.LoggerFactory;
 public final class Serialization {
     public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
+            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
+            // .registerTypeAdapter(CommonHeader1607.class, new gsonCommonHeaderInstance())
+            // .registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
+            .create();
+
     private Serialization() {}
 
     public static class GsonUtcAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
@@ -74,12 +81,5 @@ public final class Serialization {
         }
 
     }
-
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(ZonedDateTime.class, new GsonUtcAdapter())
-            .registerTypeAdapter(Instant.class, new GsonInstantAdapter())
-            // .registerTypeAdapter(CommonHeader1607.class, new gsonCommonHeaderInstance())
-            // .registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
-            .create();
 
 }

@@ -235,7 +235,7 @@ public class ControlLoopGuardBuilderImpl implements ControlLoopGuardBuilder {
         try {
             ControlLoopGuardCompiler.compile(clGuard, callback);
         } catch (CompilerException e) {
-            logger.error(e.getMessage() + e);
+            logger.error("Build specification threw ", e);
             callback.results.addMessage(new MessageImpl(e.getMessage(), MessageLevel.EXCEPTION));
         }
         //

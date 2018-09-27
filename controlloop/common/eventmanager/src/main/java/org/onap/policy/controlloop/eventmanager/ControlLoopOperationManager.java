@@ -64,14 +64,6 @@ public class ControlLoopOperationManager implements Serializable {
     private static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
     private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
 
-    @Override
-    public String toString() {
-        return "ControlLoopOperationManager [onset=" + (onset != null ? onset.getRequestId() : "null") + ", policy="
-                + (policy != null ? policy.getId() : "null") + ", attempts=" + attempts + ", policyResult="
-                + policyResult + ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
-                + "]";
-    }
-
     //
     // These properties are not changeable, but accessible
     // for Drools Rule statements.
@@ -88,6 +80,51 @@ public class ControlLoopOperationManager implements Serializable {
     private PolicyResult policyResult = null;
     private ControlLoopEventManager eventManager = null;
     private String targetEntity;
+    private String guardApprovalStatus = "NONE";// "NONE", "PERMIT", "DENY"
+    private transient Object operationRequest;
+
+    /**
+     * Construct an instance.
+     * 
+     * @param onset the onset event
+     * @param policy the policy
+     * @param em the event manager
+     * @throws ControlLoopException if an error occurs
+     * @throws AaiException if an error occurs retrieving information from A&AI
+     */
+    public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em)
+            throws ControlLoopException, AaiException {
+        this.onset = onset;
+        this.policy = policy;
+        this.guardApprovalStatus = "NONE";
+        this.eventManager = em;
+        this.targetEntity = getTarget(policy);
+
+        //
+        // Let's make a sanity check
+        //
+        switch (policy.getActor()) {
+            case "APPC":
+                if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
+                    /*
+                     * The target vnf-id may not be the same as the source vnf-id specified in the
+                     * yaml, the target vnf-id is retrieved by a named query to A&AI.
+                     */
+                    String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
+                            this.targetEntity);
+                    this.targetEntity = targetVnf;
+                }
+                break;
+            case "SO":
+                break;
+            case "SDNR":
+                break;
+            case "VFC":
+                break;
+            default:
+                throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
+        }
+    }
 
     public ControlLoopEventManager getEventManager() {
         return eventManager;
@@ -99,6 +136,14 @@ public class ControlLoopOperationManager implements Serializable {
 
     public String getTargetEntity() {
         return this.targetEntity;
+    }
+
+    @Override
+    public String toString() {
+        return "ControlLoopOperationManager [onset=" + (onset != null ? onset.getRequestId() : "null") + ", policy="
+                + (policy != null ? policy.getId() : "null") + ", attempts=" + attempts + ", policyResult="
+                + policyResult + ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
+                + "]";
     }
 
     //
@@ -117,9 +162,6 @@ public class ControlLoopOperationManager implements Serializable {
                     + "]";
         }
     }
-
-    private String guardApprovalStatus = "NONE";// "NONE", "PERMIT", "DENY"
-    private transient Object operationRequest;
 
     public Object getOperationRequest() {
         return operationRequest;
@@ -181,49 +223,6 @@ public class ControlLoopOperationManager implements Serializable {
                 throw new ControlLoopException("Target does not match target type");
             default:
                 throw new ControlLoopException("The target type is not supported");
-        }
-    }
-
-    /**
-     * Construct an instance.
-     * 
-     * @param onset the onset event
-     * @param policy the policy
-     * @param em the event manager
-     * @throws ControlLoopException if an error occurs
-     * @throws AaiException if an error occurs retrieving information from A&AI
-     */
-    public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em)
-            throws ControlLoopException, AaiException {
-        this.onset = onset;
-        this.policy = policy;
-        this.guardApprovalStatus = "NONE";
-        this.eventManager = em;
-        this.targetEntity = getTarget(policy);
-
-        //
-        // Let's make a sanity check
-        //
-        switch (policy.getActor()) {
-            case "APPC":
-                if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
-                    /*
-                     * The target vnf-id may not be the same as the source vnf-id specified in the
-                     * yaml, the target vnf-id is retrieved by a named query to A&AI.
-                     */
-                    String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
-                            this.targetEntity);
-                    this.targetEntity = targetVnf;
-                }
-                break;
-            case "SO":
-                break;
-            case "SDNR":
-                break;
-            case "VFC":
-                break;
-            default:
-                throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
         }
     }
 
@@ -548,7 +547,7 @@ public class ControlLoopOperationManager implements Serializable {
      * @return The result of the response handling
      */
     private PolicyResult onResponse(VFCResponse vfcResponse) {
-        if (vfcResponse.getResponseDescriptor().getStatus().equalsIgnoreCase("finished")) {
+        if ("finished".equalsIgnoreCase(vfcResponse.getResponseDescriptor().getStatus())) {
             //
             // Consider it as success
             //
@@ -797,8 +796,6 @@ public class ControlLoopOperationManager implements Serializable {
                 throw new ControlLoopException("current oepration has failed after " + this.attempts + " retries");
             }
         }
-
-        return;
     }
 
     private boolean isRetriesMaxedOut() {
@@ -833,7 +830,7 @@ public class ControlLoopOperationManager implements Serializable {
 
 
         String opsHistPu = System.getProperty("OperationsHistoryPU");
-        if (opsHistPu == null || !opsHistPu.equals("TestOperationsHistoryPU")) {
+        if (!"TestOperationsHistoryPU".equals(opsHistPu)) {
             opsHistPu = "OperationsHistoryPU";
         } else {
             props.clear();
@@ -914,7 +911,7 @@ public class ControlLoopOperationManager implements Serializable {
      * @param outcome the abatement outcome
      */
     public void commitAbatement(String message, String outcome) {
-        logger.info("commitAbatement: " + message + ", " + outcome);
+        logger.info("commitAbatement: {}. {}", message, outcome);
         
         if (this.currentOperation == null) {
             try {

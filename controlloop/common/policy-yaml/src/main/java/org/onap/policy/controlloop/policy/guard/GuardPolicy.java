@@ -36,46 +36,6 @@ public class GuardPolicy {
         //Do Nothing Empty Constructor. 
     }
     
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public MatchParameters getMatch_parameters() {
-        return matchParameters;
-    }
-
-    public void setMatch_parameters(MatchParameters matchParameters) {
-        this.matchParameters = matchParameters;
-    }
-
-    public LinkedList<Constraint> getLimit_constraints() {
-        return  limitConstraints;
-    }
-
-    public void setLimit_constraints(LinkedList<Constraint> limitConstraints) {
-        this.limitConstraints = limitConstraints;
-    }
-
     public GuardPolicy(String id) {
         this.id = id;
     }
@@ -140,6 +100,46 @@ public class GuardPolicy {
         }
     }
     
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public MatchParameters getMatch_parameters() {
+        return matchParameters;
+    }
+
+    public void setMatch_parameters(MatchParameters matchParameters) {
+        this.matchParameters = matchParameters;
+    }
+
+    public LinkedList<Constraint> getLimit_constraints() {
+        return  limitConstraints;
+    }
+
+    public void setLimit_constraints(LinkedList<Constraint> limitConstraints) {
+        this.limitConstraints = limitConstraints;
+    }
+
     public boolean isValid() {
         return (id == null || name == null) ? false : true;
     }
