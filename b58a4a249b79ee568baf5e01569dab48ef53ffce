@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_02bd7d02",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/util/Serialization.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-27T19:49:18Z",
+      "side": 1,
+      "message": "remove 2018 from Intel and add 2018 for AT\u0026T",
+      "revId": "b58a4a249b79ee568baf5e01569dab48ef53ffce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
