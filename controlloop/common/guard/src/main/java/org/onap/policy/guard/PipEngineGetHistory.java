@@ -122,7 +122,7 @@ public class PipEngineGetHistory extends StdConfigurableEngine {
             // Notice, we are checking here for the base issuer prefix.
             if (!string.contains(this.getIssuer())) {
                 logger.debug("Requested issuer '{}' does not match {}", string, getIssuer());
-                logger.debug("FeqLimiter PIP - Issuer {}  does not match with: ", string, this.getIssuer());
+                logger.debug("FeqLimiter PIP - Issuer {}  does not match with: {}", string, this.getIssuer());
                 return StdPIPResponse.PIP_RESPONSE_EMPTY;
             }
         }
@@ -184,14 +184,14 @@ public class PipEngineGetHistory extends StdConfigurableEngine {
         if (pipResponse.getStatus() != null && !pipResponse.getStatus().isOk()) {
             if (logger.isWarnEnabled()) {
                 logger.warn("PIP response error {}: {}", pipRequest.getAttributeId().stringValue(),
-                        pipResponse.getStatus().toString());
+                        pipResponse.getStatus());
             }
             return null;
         }
         if (pipResponse.getAttributes() != null && pipResponse.getAttributes().isEmpty()) {
             if (logger.isWarnEnabled()) {
                 logger.warn("No attributes in POP response {}: {}", pipRequest.getAttributeId().stringValue(),
-                        pipResponse.getStatus().toString());
+                        pipResponse.getStatus());
             }
             return null;
         }
@@ -309,7 +309,7 @@ public class PipEngineGetHistory extends StdConfigurableEngine {
 
         EntityManager em = null;
         String opsHistPu = System.getProperty("OperationsHistoryPU");
-        if (opsHistPu == null || !opsHistPu.equals("TestOperationsHistoryPU")) {
+        if (!"TestOperationsHistoryPU".equals(opsHistPu)) {
             opsHistPu = "OperationsHistoryPU";
         } else {
             props.clear();
@@ -328,7 +328,7 @@ public class PipEngineGetHistory extends StdConfigurableEngine {
         try {
             diff = now - getMsFromTimeWindow(timeWindow);
         } catch (Exception ex) {
-            logger.error("PIP thread got Exception " + ex);
+            logger.error("PIP thread got Exception ", ex);
             return -1;
         }
 

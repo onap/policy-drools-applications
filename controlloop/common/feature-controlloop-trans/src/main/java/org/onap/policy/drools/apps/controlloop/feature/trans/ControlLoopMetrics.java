@@ -313,8 +313,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void evicted(VirtualControlLoopNotification notification) {
-        // transaction(notification, ZonedDateTime.now());
-        MDCTransaction trans = MDCTransaction
+        @SuppressWarnings("unused")
+    MDCTransaction trans = MDCTransaction
                 .newTransaction(notification.getRequestId().toString(), notification.getFrom())
                 .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
                 .setStartTime(notification.getNotificationTime().toInstant()).setEndTime(Instant.now())
@@ -439,7 +439,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             default:
                 /* unexpected */
                 logger.warn("unexpected notification type {} in notification {}",
-                        notification.getNotification().toString(), notification);
+                        notification.getNotification(), notification);
                 break;
         }
 
@@ -448,7 +448,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("CacheBasedControlLoopMetricsManager{");
+        final StringBuilder sb = new StringBuilder();
+        sb.append("CacheBasedControlLoopMetricsManager{");
         sb.append("cacheSize=").append(cacheSize);
         sb.append(", transactionTimeout=").append(transactionTimeout);
         sb.append('}');

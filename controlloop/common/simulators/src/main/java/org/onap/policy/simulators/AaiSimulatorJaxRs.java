@@ -43,6 +43,9 @@ import org.onap.policy.aai.util.Serialization;
 public class AaiSimulatorJaxRs {
 
     private static final String VSERVER = "vserver";
+    private static final String DISABLE_CLOSEDLOOP = "disableClosedLoop";
+    private static final String ERROR = "error";
+    private static final String GETFAIL = "getFail";
 
     /**
      * A&AI get query.
@@ -77,7 +80,7 @@ public class AaiSimulatorJaxRs {
         if (request.getInstanceFilters().getInstanceFilter().get(0).containsKey(VSERVER)) {
             final String vserverName =
                     request.getInstanceFilters().getInstanceFilter().get(0).get(VSERVER).get("vserver-name");
-            if ("error".equals(vserverName)) {
+            if (ERROR.equals(vserverName)) {
                 Map<String,String> params = new TreeMap<>();
                 params.put("type", VSERVER);
                 return load("aai/AaiNqResponse-Error.json", params);
@@ -89,7 +92,7 @@ public class AaiSimulatorJaxRs {
         } else {
             final String vnfId =
                     request.getInstanceFilters().getInstanceFilter().get(0).get("generic-vnf").get("vnf-id");
-            if ("error".equals(vnfId)) {
+            if (ERROR.equals(vnfId)) {
                 Map<String,String> params = new TreeMap<>();
                 params.put("type", "generic-vnf");
                 return load("aai/AaiNqResponse-Error.json", params);
@@ -120,14 +123,14 @@ public class AaiSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String getByVnfName(@QueryParam("vnf-name") final String vnfName) {
-        if ("getFail".equals(vnfName)) {
+        if (GETFAIL.equals(vnfName)) {
             return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found"
                     + " for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"GET\",\"network/generic-vnfs/"
                     + "generic-vnf\",\"Node Not Found:No Node of type generic-vnf found at network/generic-vnfs"
                     + "/generic-vnf\",\"ERR.5.4.6114\"]}}}";
         }
-        final boolean isDisabled = "disableClosedLoop".equals(vnfName);
-        if ("error".equals(vnfName)) {
+        final boolean isDisabled = DISABLE_CLOSEDLOOP.equals(vnfName);
+        if (ERROR.equals(vnfName)) {
             return "{ \"vnf-id\": \"error\", \"vnf-name\": \"" + vnfName
                     + "\", \"vnf-type\": \"RT\", \"service-id\": \"d7bb0a21-66f2-4e6d-87d9-9ef3ced63ae4\", \""
                     + "equipment-role\": \"UCPE\", \"orchestration-status\": \"created\", \"management-option\": \""
@@ -195,13 +198,13 @@ public class AaiSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String getByVnfId(@PathParam("vnfId") final String vnfId) {
-        if ("getFail".equals(vnfId)) {
+        if (GETFAIL.equals(vnfId)) {
             return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found"
                     + " for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"GET\",\"network/generic-vnfs/"
                     + "generic-vnf/getFail\",\"Node Not Found:No Node of type generic-vnf found at network/"
                     + "generic-vnfs/generic-vnf/getFail\",\"ERR.5.4.6114\"]}}}";
         }
-        final boolean isDisabled = "disableClosedLoop".equals(vnfId);
+        final boolean isDisabled = DISABLE_CLOSEDLOOP.equals(vnfId);
         final String vnfName = getUuidValue(vnfId, "USUCP0PCOIL0110UJRT01");
         return "{ \"vnf-id\": \"" + vnfId + "\", \"vnf-name\": \"" + vnfName
                 + "\", \"vnf-type\": \"RT\", \"service-id\": \""
@@ -241,12 +244,12 @@ public class AaiSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String getByVserverName(@QueryParam("vserver-name") final String vserverName) {
-        if ("getFail".equals(vserverName)) {
+        if (GETFAIL.equals(vserverName)) {
             return "{\"requestError\":{\"serviceException\":{\"messageId\":\"SVC3001\",\"text\":\"Resource not found"
                     + " for %1 using id %2 (msg=%3) (ec=%4)\",\"variables\":[\"GET\",\"nodes/vservers\",\"Node Not"
                     + " Found:No Node of type generic-vnf found at nodes/vservers\",\"ERR.5.4.6114\"]}}}";
         }
-        final boolean isDisabled = "disableClosedLoop".equals(vserverName);
+        final boolean isDisabled = DISABLE_CLOSEDLOOP.equals(vserverName);
         final String vserverId = getUuidValue(vserverName, "d0668d4f-c25e-4a1b-87c4-83845c01efd8");
         return "{\"vserver\": [{ \"vserver-id\": \"" + vserverId + "\", \"vserver-name\": \"" + vserverName
                 + "\", \"vserver-name2\": \"vjunos0\", \"vserver-selflink\": \"https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8\", \"in-maint\": false, \"is-closed-loop-disabled\": "

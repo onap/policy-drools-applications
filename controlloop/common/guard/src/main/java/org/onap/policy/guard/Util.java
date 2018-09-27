@@ -36,10 +36,6 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public final class Util {
-    private Util() {
-        // This static class cannot be instantiated
-    }
-
     /*
      * Keys for guard properties
      */
@@ -85,6 +81,10 @@ public final class Util {
             this.parameterA = parameterA;
             this.parameterB = parameterB;
         }
+    }
+
+    private Util() {
+        // This static class cannot be instantiated
     }
 
     /**

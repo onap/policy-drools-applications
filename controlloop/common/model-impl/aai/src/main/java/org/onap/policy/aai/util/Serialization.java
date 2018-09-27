@@ -25,9 +25,9 @@ import com.google.gson.GsonBuilder;
 
 public final class Serialization {
 
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .create();
+
     private Serialization() {}
 
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            // .registerTypeAdapter(AAIQueryParameters.class, new notificationTypeAdapter())
-            .create();
 }

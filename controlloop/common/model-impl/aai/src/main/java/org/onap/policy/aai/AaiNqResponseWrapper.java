@@ -133,7 +133,7 @@ public class AaiNqResponseWrapper implements Serializable {
          * Walk the items looking for VF modules, allocating the list only when an item is
          * found.
          */
-        List<AaiNqInventoryResponseItem> vfModuleItems = new ArrayList<>(itemList.size());;
+        List<AaiNqInventoryResponseItem> vfModuleItems = new ArrayList<>(itemList.size());
 
         for (AaiNqInventoryResponseItem inventoryResponseItem : itemList) {
             AaiNqVfModule vfmod = inventoryResponseItem.getVfModule();

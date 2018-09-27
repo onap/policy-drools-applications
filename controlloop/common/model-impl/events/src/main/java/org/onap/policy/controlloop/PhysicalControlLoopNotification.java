@@ -32,9 +32,6 @@ public class PhysicalControlLoopNotification extends ControlLoopNotification {
      */
     public PhysicalControlLoopNotification(PhysicalControlLoopEvent event) {
         super(event);
-        if (event == null) {
-            return;
-        }
     }
 
 }

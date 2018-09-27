@@ -38,6 +38,16 @@ import org.onap.policy.sdnr.PciResponse;
 
 
 public final class Serialization {
+    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
+
+    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(PciRequest.class, new RequestAdapter())
+            .registerTypeAdapter(PciResponse.class, new ResponseAdapter()).create();
+
+    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
+
     private Serialization() {}
 
     public static class RequestAdapter implements JsonSerializer<PciRequest>, JsonDeserializer<PciRequest> {
@@ -100,15 +110,5 @@ public final class Serialization {
         }
 
     }
-
-    public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(Instant.class, new InstantAdapter()).create();
-
-    public static final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(PciRequest.class, new RequestAdapter())
-            .registerTypeAdapter(PciResponse.class, new ResponseAdapter()).create();
-
-    public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
-            .registerTypeAdapter(Instant.class, new InstantJunitAdapter()).create();
 
 }
