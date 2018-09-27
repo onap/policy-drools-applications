@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_e2be41d4",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-09-27T20:03:33Z",
+      "side": 1,
+      "message": "Ok let me try that.",
+      "parentUuid": "1a76adc5_82566d05",
+      "range": {
+        "startLine": 316,
+        "startChar": 3,
+        "endLine": 321,
+        "endChar": 100
+      },
+      "revId": "6fd8f4c399560b15d1371d8ef81e2bf7cba3b8d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a20da939",
         "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/Util.java",
         "patchSetId": 1
