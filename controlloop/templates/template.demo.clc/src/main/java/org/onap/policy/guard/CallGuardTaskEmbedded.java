@@ -151,7 +151,7 @@ public class CallGuardTaskEmbedded implements Runnable {
         //
         // Create an artificial Guard response in case we didn't get a clear Permit or Deny
         //
-        if (guardResponse.getResult().equals("Indeterminate")) {
+        if ("Indeterminate".equals(guardResponse.getResult())) {
             guardResponse.setOperation(recipe);
             guardResponse.setRequestID(UUID.fromString(requestId));
         }
