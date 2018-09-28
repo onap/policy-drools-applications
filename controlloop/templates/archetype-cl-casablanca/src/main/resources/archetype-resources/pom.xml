@@ -60,11 +60,6 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-      <artifactId>sdnr</artifactId>
-      <version>${dependenciesVersion}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
       <artifactId>appclcm</artifactId>
       <version>${dependenciesVersion}</version>
     </dependency>
@@ -86,6 +81,11 @@
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
       <artifactId>sdc</artifactId>
+      <version>${dependenciesVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <artifactId>sdnr</artifactId>
       <version>${dependenciesVersion}</version>
     </dependency>
     <dependency>
@@ -115,17 +115,17 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-      <artifactId>actor.sdnr</artifactId>
-      <version>${dependenciesVersion}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
       <artifactId>actor.appclcm</artifactId>
       <version>${dependenciesVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
       <artifactId>actor.so</artifactId>
+      <version>${dependenciesVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <artifactId>actor.sdnr</artifactId>
       <version>${dependenciesVersion}</version>
     </dependency>
     <dependency>
