@@ -50,6 +50,93 @@ public class Policy implements Serializable {
         //Does Nothing Empty Constructor
     }
     
+    public Policy(String id) {
+        this.id = id;
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param name name
+     * @param actor actor
+     * @param recipe recipe
+     * @param payload payload
+     * @param target target
+     */
+    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target) {
+        this.name = name;
+        this.actor = actor;
+        this.recipe = recipe;
+        this.target = target;
+        if (payload != null) {
+            this.payload = Collections.unmodifiableMap(payload);
+        }
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param name name
+     * @param actor actor
+     * @param recipe recipe
+     * @param payload payload
+     * @param target target
+     * @param retries retries
+     * @param timeout timeout
+     */
+    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target, 
+                    Integer retries, Integer timeout) {
+        this(name, actor, recipe, payload, target);
+        this.retry = retries;
+        this.timeout = timeout;
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param id id
+     * @param name name
+     * @param description description
+     * @param actor actor
+     * @param payload payload
+     * @param target target
+     * @param recipe recipe
+     * @param retries retries
+     * @param timeout timeout
+     */
+    public Policy(String id, String name, String description, String actor, Map<String, String> payload, 
+                    Target target, String recipe, Integer retries, Integer timeout) {
+        this(name, actor, recipe, payload, target, retries, timeout);
+        this.id = id;
+        this.description = description;
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param policy copy object
+     */
+    public Policy(Policy policy) {
+        this.id = policy.id;
+        this.name = policy.name;
+        this.description = policy.description;
+        this.actor = policy.actor;
+        this.recipe = policy.recipe;
+        if (policy.payload != null) {
+            this.payload = Collections.unmodifiableMap(policy.payload);
+        }
+        this.target = policy.target;
+        this.operationsAccumulateParams = policy.operationsAccumulateParams;
+        this.retry = policy.retry;
+        this.timeout = policy.timeout;
+        this.success = policy.success;
+        this.failure = policy.failure;
+        this.failureException = policy.failureException;
+        this.failureGuard = policy.failureGuard;
+        this.failureRetries = policy.failureRetries;
+        this.failureTimeout = policy.failureTimeout;
+    }
+
     public String getId() {
         return id;
     }
@@ -176,93 +263,6 @@ public class Policy implements Serializable {
 
     public void setFailure_guard(String failureGuard) {
         this.failureGuard = failureGuard;
-    }
-
-    public Policy(String id) {
-        this.id = id;
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param name name
-     * @param actor actor
-     * @param recipe recipe
-     * @param payload payload
-     * @param target target
-     */
-    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target) {
-        this.name = name;
-        this.actor = actor;
-        this.recipe = recipe;
-        this.target = target;
-        if (payload != null) {
-            this.payload = Collections.unmodifiableMap(payload);
-        }
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param name name
-     * @param actor actor
-     * @param recipe recipe
-     * @param payload payload
-     * @param target target
-     * @param retries retries
-     * @param timeout timeout
-     */
-    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target, 
-                    Integer retries, Integer timeout) {
-        this(name, actor, recipe, payload, target);
-        this.retry = retries;
-        this.timeout = timeout;
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param id id
-     * @param name name
-     * @param description description
-     * @param actor actor
-     * @param payload payload
-     * @param target target
-     * @param recipe recipe
-     * @param retries retries
-     * @param timeout timeout
-     */
-    public Policy(String id, String name, String description, String actor, Map<String, String> payload, 
-                    Target target, String recipe, Integer retries, Integer timeout) {
-        this(name, actor, recipe, payload, target, retries, timeout);
-        this.id = id;
-        this.description = description;
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param policy copy object
-     */
-    public Policy(Policy policy) {
-        this.id = policy.id;
-        this.name = policy.name;
-        this.description = policy.description;
-        this.actor = policy.actor;
-        this.recipe = policy.recipe;
-        if (policy.payload != null) {
-            this.payload = Collections.unmodifiableMap(policy.payload);
-        }
-        this.target = policy.target;
-        this.operationsAccumulateParams = policy.operationsAccumulateParams;
-        this.retry = policy.retry;
-        this.timeout = policy.timeout;
-        this.success = policy.success;
-        this.failure = policy.failure;
-        this.failureException = policy.failureException;
-        this.failureGuard = policy.failureGuard;
-        this.failureRetries = policy.failureRetries;
-        this.failureTimeout = policy.failureTimeout;
     }
 
     public boolean isValid() {

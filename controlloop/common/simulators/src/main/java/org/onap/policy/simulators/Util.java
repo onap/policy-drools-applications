@@ -26,10 +26,6 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.utils.network.NetworkUtil;
 
 public class Util {
-    private Util() {
-        // Prevent instantiation of thic class
-    }
-
     public static final String AAISIM_SERVER_NAME = "aaiSim";
     public static final String SOSIM_SERVER_NAME = "soSim";
     public static final String VFCSIM_SERVER_NAME = "vfcSim";
@@ -39,6 +35,13 @@ public class Util {
     public static final int SOSIM_SERVER_PORT = 6667;
     public static final int VFCSIM_SERVER_PORT = 6668;
     public static final int GUARDSIM_SERVER_PORT = 6669;
+    
+    private static final String CANNOT_CONNECT = "cannot connect to port ";
+    private static final String LOCALHOST = "localhost";
+
+    private Util() {
+        // Prevent instantiation of thic class
+    }
 
     /**
      * Build an A&AI simulator.
@@ -49,11 +52,11 @@ public class Util {
      */
     public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
         final HttpServletServer testServer =
-                HttpServletServer.factory.build(AAISIM_SERVER_NAME, "localhost", AAISIM_SERVER_PORT, "/", false, true);
+                HttpServletServer.factory.build(AAISIM_SERVER_NAME, LOCALHOST, AAISIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
+            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
         }
         return testServer;
     }
@@ -67,11 +70,11 @@ public class Util {
      */
     public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
         final HttpServletServer testServer =
-                HttpServletServer.factory.build(SOSIM_SERVER_NAME, "localhost", SOSIM_SERVER_PORT, "/", false, true);
+                HttpServletServer.factory.build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
+            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
         }
         return testServer;
     }
@@ -85,11 +88,11 @@ public class Util {
      */
     public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
         final HttpServletServer testServer =
-                HttpServletServer.factory.build(VFCSIM_SERVER_NAME, "localhost", VFCSIM_SERVER_PORT, "/", false, true);
+                HttpServletServer.factory.build(VFCSIM_SERVER_NAME,LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
+            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
         }
         return testServer;
     }
@@ -102,12 +105,12 @@ public class Util {
      * @throws IOException if an IO errror occurs
      */
     public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
-        HttpServletServer testServer = HttpServletServer.factory.build(GUARDSIM_SERVER_NAME, "localhost",
+        HttpServletServer testServer = HttpServletServer.factory.build(GUARDSIM_SERVER_NAME, LOCALHOST,
                 GUARDSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
-        if (!NetworkUtil.isTcpPortOpen("localhost", testServer.getPort(), 5, 10000L)) {
-            throw new IllegalStateException("cannot connect to port " + testServer.getPort());
+        if (!NetworkUtil.isTcpPortOpen(LOCALHOST, testServer.getPort(), 5, 10000L)) {
+            throw new IllegalStateException(CANNOT_CONNECT + testServer.getPort());
         }
         return testServer;
     }

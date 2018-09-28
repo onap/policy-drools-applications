@@ -34,38 +34,6 @@ public class MatchParameters {
         // Do Nothing Empty Constructor.
     }   
     
-    public String getControlLoopName() {
-        return controlLoopName;
-    }
-
-    public void setControlLoopName(String controlLoopName) {
-        this.controlLoopName = controlLoopName;
-    }
-
-    public String getActor() {
-        return actor;
-    }
-
-    public void setActor(String actor) {
-        this.actor = actor;
-    }
-
-    public String getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(String recipe) {
-        this.recipe = recipe;
-    }
-
-    public List<String> getTargets() {
-        return targets;
-    }
-
-    public void setTargets(List<String> targets) {
-        this.targets = targets;
-    }
-
     public MatchParameters(String actor, String recipe) {
         this.actor = actor;
         this.recipe = recipe;
@@ -103,6 +71,38 @@ public class MatchParameters {
         if (matchParameters.targets != null) {
             this.targets = new LinkedList<>(matchParameters.targets);
         }
+    }
+
+    public String getControlLoopName() {
+        return controlLoopName;
+    }
+
+    public void setControlLoopName(String controlLoopName) {
+        this.controlLoopName = controlLoopName;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public String getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
+    }
+
+    public List<String> getTargets() {
+        return targets;
+    }
+
+    public void setTargets(List<String> targets) {
+        this.targets = targets;
     }
 
     @Override

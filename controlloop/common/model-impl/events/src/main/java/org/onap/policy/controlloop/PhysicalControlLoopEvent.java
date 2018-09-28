@@ -32,8 +32,5 @@ public class PhysicalControlLoopEvent extends ControlLoopEvent {
      */
     public PhysicalControlLoopEvent(PhysicalControlLoopEvent event) {
         super(event);
-        if (event == null) {
-            return;
-        }
     }
 }

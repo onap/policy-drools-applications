@@ -268,7 +268,7 @@ public class ControlLoopCompiler implements Serializable {
                     String policyId, String connectedPolicy, 
                     FinalResultNodeWrapper finalResultNodeWrapper, 
                     PolicyResult policyResult, NodeWrapper node) throws CompilerException {
-        FinalResult finalResult = FinalResult.toResult(finalResultNodeWrapper.getID());
+        FinalResult finalResult = FinalResult.toResult(finalResultNodeWrapper.getId());
         if (FinalResult.isResult(connectedPolicy, finalResult)) {
             graph.addEdge(node, finalResultNodeWrapper, new LabeledEdge(node, finalResultNodeWrapper, 
                             new FinalResultEdgeWrapper(finalResult)));
@@ -294,7 +294,7 @@ public class ControlLoopCompiler implements Serializable {
                 validatePolicyNodeWrapper(graph, node, callback);
             }
             for (LabeledEdge edge : graph.outgoingEdgesOf(node)) {
-                LOGGER.info(edge.from.getID() + " invokes " + edge.to.getID() + " upon " + edge.edge.getID());
+                LOGGER.info("{} invokes {} upon {}", edge.from.getId(), edge.to.getId(), edge.edge.getId());
             }
         }
     }
@@ -302,7 +302,7 @@ public class ControlLoopCompiler implements Serializable {
     private static void validateTriggerNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
                     NodeWrapper node) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.info("Trigger Node {}", node.toString());
+            LOGGER.info("Trigger Node {}", node);
         }
         if (graph.inDegreeOf(node) > 0 ) {
             //
@@ -321,7 +321,7 @@ public class ControlLoopCompiler implements Serializable {
     private static void validateFinalResultNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
                     NodeWrapper node) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.info("FinalResult Node {}", node.toString());
+            LOGGER.info("FinalResult Node {}", node);
         }
         //
         // FinalResult nodes should NEVER have an out edge
@@ -334,7 +334,7 @@ public class ControlLoopCompiler implements Serializable {
     private static void validatePolicyNodeWrapper(DirectedGraph<NodeWrapper, LabeledEdge> graph, 
                     NodeWrapper node, ControlLoopCompilerCallback callback) throws CompilerException {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.info("Policy Node {}", node.toString());
+            LOGGER.info("Policy Node {}", node);
         }
         //
         // All Policy Nodes should have the 5 out degrees defined.
@@ -346,16 +346,24 @@ public class ControlLoopCompiler implements Serializable {
         // All Policy Nodes should have at least 1 in degrees 
         // 
         if (graph.inDegreeOf(node) == 0 && callback != null) {
-            callback.onWarning("Policy " + node.getID() + " is not reachable.");
+            callback.onWarning("Policy " + node.getId() + " is not reachable.");
         }
     }
     
     private static boolean okToAdd(Policy operPolicy, ControlLoopCompilerCallback callback) {
         boolean isOk = isPolicyIdOk(operPolicy, callback);
-        isOk = isActorOk(operPolicy, callback) ? isOk : false;
-        isOk = isRecipeOk(operPolicy, callback) ? isOk : false;
-        isOk = isTargetOk(operPolicy, callback) ? isOk : false;
-        isOk = arePolicyResultsOk(operPolicy, callback) ? isOk : false;
+        if (! isActorOk(operPolicy, callback)) {
+            isOk = false;
+        }
+        if (! isRecipeOk(operPolicy, callback)) {
+            isOk = false;
+        }
+        if (! isTargetOk(operPolicy, callback) ) {
+            isOk = false;
+        }
+        if (! arePolicyResultsOk(operPolicy, callback) ) {
+            isOk = false;
+        }
         return isOk;
     }
     
@@ -471,11 +479,21 @@ public class ControlLoopCompiler implements Serializable {
         // Check that policy results are connected to either default final * or another policy
         //
         boolean isOk = isSuccessPolicyResultOk(operPolicy, callback);
-        isOk = isFailurePolicyResultOk(operPolicy, callback) ? isOk : false;
-        isOk = isFailureRetriesPolicyResultOk(operPolicy, callback) ? isOk : false;
-        isOk = isFailureTimeoutPolicyResultOk(operPolicy, callback) ? isOk : false;
-        isOk = isFailureExceptionPolicyResultOk(operPolicy, callback) ? isOk : false;
-        isOk = isFailureGuardPolicyResultOk(operPolicy, callback) ? isOk : false;
+        if (! isFailurePolicyResultOk(operPolicy, callback) ) {
+            isOk = false;
+        }
+        if (! isFailureRetriesPolicyResultOk(operPolicy, callback) ) {
+            isOk = false;
+        }
+        if (! isFailureTimeoutPolicyResultOk(operPolicy, callback) ) {
+            isOk = false;
+        }
+        if (! isFailureExceptionPolicyResultOk(operPolicy, callback) ) {
+            isOk = false;
+        }
+        if (! isFailureGuardPolicyResultOk(operPolicy, callback) ) {
+            isOk = false;
+        }
         return isOk;
     }
     
@@ -562,7 +580,7 @@ public class ControlLoopCompiler implements Serializable {
     
     @FunctionalInterface
     private interface NodeWrapper extends Serializable {
-        public String   getID();
+        public String   getId();
     }
     
     private static class TriggerNodeWrapper implements NodeWrapper {
@@ -579,7 +597,7 @@ public class ControlLoopCompiler implements Serializable {
         }
 
         @Override
-        public String getID() {
+        public String getId() {
             return closedLoopControlName;
         }
         
@@ -599,7 +617,7 @@ public class ControlLoopCompiler implements Serializable {
         }
 
         @Override
-        public String getID() {
+        public String getId() {
             return result.toString();
         }
     }
@@ -618,14 +636,14 @@ public class ControlLoopCompiler implements Serializable {
         }
 
         @Override
-        public String getID() {
+        public String getId() {
             return policy.getId();
         }
     }
     
     @FunctionalInterface
     private interface EdgeWrapper extends Serializable {
-        public String getID();
+        public String getId();
         
     }
     
@@ -638,7 +656,7 @@ public class ControlLoopCompiler implements Serializable {
         }
 
         @Override
-        public String getID() {
+        public String getId() {
             return trigger;
         }
 
@@ -664,7 +682,7 @@ public class ControlLoopCompiler implements Serializable {
         }
 
         @Override
-        public String getID() {
+        public String getId() {
             return policyResult.toString();
         }
         
@@ -685,7 +703,7 @@ public class ControlLoopCompiler implements Serializable {
         }
         
         @Override
-        public String getID() {
+        public String getId() {
             return finalResult.toString();
         }
     }
