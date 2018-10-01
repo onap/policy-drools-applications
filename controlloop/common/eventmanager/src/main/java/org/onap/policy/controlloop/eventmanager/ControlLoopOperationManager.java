@@ -43,6 +43,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appc.AppcActorServiceProvider;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
+import org.onap.policy.controlloop.actor.sdnc.SdncActorServiceProvider;
 import org.onap.policy.controlloop.actor.sdnr.SdnrActorServiceProvider;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VfcActorServiceProvider;
@@ -50,6 +51,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.Util;
+import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.so.SOResponseWrapper;
 import org.onap.policy.vfc.VFCResponse;
@@ -120,6 +122,8 @@ public class ControlLoopOperationManager implements Serializable {
             case "SDNR":
                 break;
             case "VFC":
+                break;
+            case "SDNC":
                 break;
             default:
                 throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
@@ -304,6 +308,14 @@ public class ControlLoopOperationManager implements Serializable {
                 }
 
                 return operationRequest;
+            case "SDNC":
+                this.operationRequest = SdncActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                        operation.clOperation, this.policy);
+                this.currentOperation = operation;
+                if (this.operationRequest == null) {
+                    this.policyResult = PolicyResult.FAILURE;
+                }
+                return operationRequest;                
             default:
                 throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
         }
