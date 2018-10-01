@@ -61,6 +61,9 @@ import org.onap.policy.so.SORelatedInstanceListElement;
 import org.onap.policy.so.SORelatedInstance;
 import org.onap.policy.so.SOResponse;
 import org.onap.policy.so.SOResponseWrapper;
+import org.onap.policy.sdnc.SdncRequest;
+import org.onap.policy.sdnc.SdncManager;
+import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
@@ -550,6 +553,14 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                       PolicyEngine.manager.deliver("SDNR-CL", request);
                   }
                   break;
+              
+              case "SDNC":
+                  if (request instanceof SdncRequest) {
+                     // Start SDNC thread
+                     Thread t = new Thread(new SdncManager(drools.getWorkingMemory(), (SdncRequest)request));
+                     t.start();
+                  }
+                  break;                 
           }
         } else {
           //
@@ -1132,6 +1143,78 @@ rule "VFC.RESPONSE"
         // We are going to retract these objects from memory
         //
         retract($response);
+
+end
+
+/*
+*
+* This rule responds to SDNC Response Events
+*
+*/
+rule "SDNC.RESPONSE"
+	when
+		$params : ControlLoopParams( $clName : getClosedLoopControlName() )
+        $event : VirtualControlLoopEvent( closedLoopControlName == $clName, closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+		$manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId() )
+		$operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
+		$opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
+        $lock : TargetLock (requestID == $event.getRequestId())
+		$response : SdncResponse( requestId.toString() == $event.getRequestId().toString() )
+	then
+		Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    	logger.info("{}: {}", $clName, $params.getPolicyName() + "." + drools.getRule().getName());
+    	logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}",
+                	$clName, $params.getPolicyName() + "." + drools.getRule().getName(),
+                	$event, $manager, $operation, $lock, $operation, $opTimer, $response);
+
+		// Get the result of the operation
+		//
+		PolicyResult policyResult = $operation.onResponse($response);
+		if (policyResult != null) {
+			//
+			// This Operation has completed, construct a notification showing our results
+			//
+			VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+			notification.setFrom("policy");
+			notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+            notification.setPolicyScope($params.getPolicyScope());
+            notification.setPolicyVersion($params.getPolicyVersion());
+			notification.setMessage($operation.getOperationHistory());
+			notification.setHistory($operation.getHistory());
+			//
+			// Ensure the operation is complete
+			//
+			if ($operation.isOperationComplete() == true) {
+				//
+				// It is complete, remove it from memory
+				//
+				retract($operation);
+				//
+				// We must also retract the timer object
+				// NOTE: We could write a Rule to do this
+				//
+				retract($opTimer);
+				//
+				// Complete the operation
+				//
+				modify($manager) {finishOperation($operation)};
+			} else {
+				//
+				// Just doing this will kick off the LOCKED rule again
+				//
+				modify($operation) {};
+			}
+		} else {
+			//
+			// Its not finished yet (i.e. expecting more Response objects)
+			//
+			// Or possibly it is a leftover response that we timed the request out previously
+			//
+		}
+		//
+		// We are going to retract these objects from memory
+		//
+		retract($response);
 
 end
 

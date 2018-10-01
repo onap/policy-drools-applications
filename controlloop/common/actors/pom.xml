@@ -35,6 +35,7 @@
     <module>actorServiceProvider</module>
     <module>actor.appc</module>
     <module>actor.vfc</module>
+    <module>actor.sdnc</module>
     <module>actor.appclcm</module>
     <module>actor.sdnr</module>
     <module>actor.so</module>

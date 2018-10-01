@@ -37,7 +37,7 @@ public class MsbServiceManager implements Serializable {
     /**
      * Get the IP and port of the components registered in the MSB.
      * 
-     * @param actor AAI or SO or VFC
+     * @param actor AAI or SO or VFC or SNDC
      * @return the node
      */
     public Node getNode(String actor) {
