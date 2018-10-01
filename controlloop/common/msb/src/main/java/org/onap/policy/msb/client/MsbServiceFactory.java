@@ -99,6 +99,9 @@ public class MsbServiceFactory implements Serializable {
             case "VFC":
                 node = this.build("nfvo-nslcm", "v1");
                 return node;
+            case "SDNC":
+                node = this.build("sdnc-nslcm", "v10");      //... ???
+                return node;                
             default:
                 logger.info("MSBServiceManager: policy has an unknown actor.");
         }
