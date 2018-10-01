@@ -100,6 +100,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+            <artifactId>sdnc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
             <artifactId>so</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -156,6 +161,11 @@
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
             <artifactId>actor.vfc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+            <artifactId>actor.sdnc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

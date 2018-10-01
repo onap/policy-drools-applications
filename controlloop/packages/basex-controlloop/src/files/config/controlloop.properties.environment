@@ -48,3 +48,7 @@ pdpx.client.password=${{PDP_CLIENT_PASSWORD}}
 guard.url=http://${{PDP_HOST}}:8081/pdp/api/getDecision
 guard.jdbc.url=mariadb://${{SQL_HOST}}:3306/operationshistory10
 guard.disabled=true
+
+sdnc.url=http://c1.vm1.sdnc.simpledemo.openecomp.org:8282/restconf/operations
+sdnc.username=admin
+sdnc.password=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U
