@@ -46,6 +46,30 @@ public class ControlLoop implements Serializable {
         // Empty Constructor.
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param controlLoop copy object
+     */
+    public ControlLoop(ControlLoop controlLoop) {
+        this.controlLoopName = controlLoop.controlLoopName;
+        this.services = new LinkedList<>();
+        if (controlLoop.services != null) {
+            for (Service service : controlLoop.services) {
+                this.services.add(service);
+            }
+        }
+        this.resources = new LinkedList<>();
+        if (controlLoop.resources != null) {
+            for (Resource resource : controlLoop.resources) {
+                this.resources.add(resource);
+            }
+        }
+        this.triggerPolicy = controlLoop.triggerPolicy;
+        this.timeout = controlLoop.timeout;
+        this.abatement = controlLoop.abatement;
+    }
+
     public static String getCompilerVersion() {
         return ControlLoop.COMPILER_VERSION;
     }
@@ -112,30 +136,6 @@ public class ControlLoop implements Serializable {
 
     public void setPnf(Pnf pnf) {
         this.pnf = pnf;
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param controlLoop copy object
-     */
-    public ControlLoop(ControlLoop controlLoop) {
-        this.controlLoopName = controlLoop.controlLoopName;
-        this.services = new LinkedList<>();
-        if (controlLoop.services != null) {
-            for (Service service : controlLoop.services) {
-                this.services.add(service);
-            }
-        }
-        this.resources = new LinkedList<>();
-        if (controlLoop.resources != null) {
-            for (Resource resource : controlLoop.resources) {
-                this.resources.add(resource);
-            }
-        }
-        this.triggerPolicy = controlLoop.triggerPolicy;
-        this.timeout = controlLoop.timeout;
-        this.abatement = controlLoop.abatement;
     }
 
     @Override
