@@ -48,6 +48,11 @@ import org.slf4j.LoggerFactory;
 public interface ControlLoopMetrics {
 
     /**
+     * Singleton manager object.
+     */
+    ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
+
+    /**
      * Gets all transaction identifiers being monitored.
      *
      * @return transaction id list
@@ -131,11 +136,6 @@ public interface ControlLoopMetrics {
      * Refresh underlying transaction management.
      */
     void refresh();
-
-    /**
-     * Singleton manager object.
-     */
-    ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
 }
 
 

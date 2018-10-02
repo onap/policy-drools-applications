@@ -30,9 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PolicyGuard {
-    private PolicyGuard() {
-        // Cannot instantiate this static class
-    }
 
     private static final Logger logger = LoggerFactory.getLogger(PolicyGuard.class);
     
@@ -44,10 +41,6 @@ public class PolicyGuard {
     public static class LockResult<A, B> {
         private A parameterA;
         private B parameterB;
-
-        public static <A, B> LockResult<A, B> createLockResult(A parameterA, B parameterB) {
-            return new LockResult<>(parameterA, parameterB);
-        }
 
         public LockResult(A parameterA, B parameterB) {
             this.parameterA = parameterA;
@@ -61,8 +54,16 @@ public class PolicyGuard {
         public B getB() {
             return parameterB;
         }
+        
+        public static <A, B> LockResult<A, B> createLockResult(A parameterA, B parameterB) {
+            return new LockResult<>(parameterA, parameterB);
+        }
     }
     
+    private PolicyGuard() {
+        // Cannot instantiate this static class
+    }
+
     /**
      * Get the factory.
      * 
