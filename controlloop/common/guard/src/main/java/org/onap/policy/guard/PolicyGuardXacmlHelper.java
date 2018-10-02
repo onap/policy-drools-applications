@@ -54,6 +54,12 @@ public class PolicyGuardXacmlHelper {
     // Constant for the systme line separator
     private static final String SYSTEM_LS = System.lineSeparator();
 
+    private UrlEntry[] restUrls = null;
+    private int restUrlIndex = 0;
+
+    // REST timeout, initialized from 'pdpx.timeout' property
+    private int timeout = 20000;
+
     public PolicyGuardXacmlHelper() {
         init(PolicyEngine.manager.getEnvironment());
     }
@@ -71,12 +77,6 @@ public class PolicyGuardXacmlHelper {
         String clientAuth = null;
         String environment = null;
     }
-
-    private UrlEntry[] restUrls = null;
-    private int restUrlIndex = 0;
-
-    // REST timeout, initialized from 'pdpx.timeout' property
-    private int timeout = 20000;
 
     /**
      * Call PDP.

@@ -32,6 +32,11 @@ public class ControlLoopGuard {
         //DO Nothing Empty Constructor
     }
     
+    public ControlLoopGuard(ControlLoopGuard clGuard) {
+        this.guard = new Guard();
+        this.guards = new LinkedList<>(clGuard.guards);
+    }
+    
     public Guard getGuard() {
         return guard;
     }
@@ -48,11 +53,6 @@ public class ControlLoopGuard {
         this.guards = guards;
     }
 
-    public ControlLoopGuard(ControlLoopGuard clGuard) {
-        this.guard = new Guard();
-        this.guards = new LinkedList<>(clGuard.guards);
-    }
-    
     @Override
     public String toString() {
         return "Guard [guard=" + guard + ", GuardPolicies=" + guards + "]";
