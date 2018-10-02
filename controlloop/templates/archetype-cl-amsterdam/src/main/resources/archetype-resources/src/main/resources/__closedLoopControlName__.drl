@@ -41,6 +41,10 @@ import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.sdnr.PciRequestWrapper;
+import org.onap.policy.sdnr.PciResponseWrapper;
+import org.onap.policy.sdnr.PciRequest;
+import org.onap.policy.sdnr.PciResponse;
 import org.onap.policy.vfc.VFCRequest;
 import org.onap.policy.vfc.VFCResponse;
 import org.onap.policy.vfc.VFCManager;
@@ -580,6 +584,11 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                       t.start();
                   }          
                   break;
+              case "SDNR":
+                  if (request instanceof PciRequestWrapper) {
+                      PolicyEngine.manager.deliver("SDNR-CL", request);
+                  }
+                  break;
           }
         } else {
           //
@@ -993,6 +1002,115 @@ rule "${policyName}.APPC.LCM.RESPONSE.CLEANUP"
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
     logger.debug("{}: {}: orphan appc response={}", 
+                $params.getClosedLoopControlName(), drools.getRule().getName(), $id);
+    //
+    // Retract it
+    //
+    retract($response);
+end
+
+/*
+*
+* This rule responds to SDNR Response Events using the new interface provided by SDNR
+*
+*/
+rule "${policyName}.SDNR.RESPONSE"
+    when
+        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
+            closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+            requestID == $event.getRequestId() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+            onset.getRequestId() == $event.getRequestId() )
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+            requestID == $event.getRequestId().toString(), timerType == "Operation", !expired )
+        $lock : TargetLock (requestID == $event.getRequestId())
+        $response : PciResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestId() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
+    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+                $params.getClosedLoopControlName(), drools.getRule().getName(),
+                $event, $manager, $operation, $lock, $operation, $opTimer, $response);
+    
+    //
+    // Get the result of the operation
+    //
+    PolicyResult policyResult = $operation.onResponse($response);
+    if (policyResult != null) {
+      logger.debug("{}: {}: operation finished - result={}", 
+                  $params.getClosedLoopControlName(), drools.getRule().getName(),
+                  policyResult);
+      
+      //
+      // This Operation has completed, construct a notification showing our results. (DB write - end operation)
+      //
+      VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+      notification.setFrom("policy");
+      notification.setPolicyName(drools.getRule().getName());
+      notification.setPolicyScope("${policyScope}");
+      notification.setPolicyVersion("${policyVersion}");
+      notification.setMessage($operation.getOperationHistory());
+      notification.setHistory($operation.getHistory());
+      if (policyResult.equals(PolicyResult.SUCCESS)) {
+          notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
+      } else {
+          notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
+      }
+      PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+      //
+      // Ensure the operation is complete
+      //
+      if ($operation.isOperationComplete()) {
+          //
+          // It is complete, remove it from memory
+          //
+          retract($operation);
+          //
+          // We must also retract the timer object
+          // NOTE: We could write a Rule to do this
+          //
+          retract($opTimer);
+          //
+          // Complete the operation
+          //
+          modify($manager) {finishOperation($operation)};
+      } else {
+          //
+          // Just doing this will kick off the LOCKED rule again
+          //
+          modify($operation) {};
+      }
+    } else {
+        //
+        // Its not finished yet (i.e. expecting more Response objects)
+        //
+        // Or possibly it is a leftover response that we timed the request out previously
+        //
+    }
+    //
+    // We are going to retract these objects from memory
+    //
+    retract($response);
+end
+
+/*
+*
+* Clean Up any lingering SDNR reponses
+*
+*/
+rule "${policyName}.SDNR.RESPONSE.CLEANUP"
+    when
+        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+        $response : PciResponseWrapper($id : getBody().getCommonHeader().getRequestId )
+        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+    then
+    
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
+    logger.debug("{}: {}: orphan SDNR response={}", 
                 $params.getClosedLoopControlName(), drools.getRule().getName(), $id);
     //
     // Retract it
@@ -1449,3 +1567,4 @@ rule "${policyName}.CLEANER.CLEANUP"
     
     retract($cleaner);
 end
+
