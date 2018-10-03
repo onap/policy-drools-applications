@@ -71,6 +71,57 @@
     },
     {
       "key": {
+        "uuid": "bada0100_9abb2ac4",
+        "filename": "controlloop/common/actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "toLowerCase() is not needed with equalsIgnoreCase()",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_10ce395b",
+        "filename": "controlloop/common/actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "should verify that this isn\u0027t null or blank",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b0dacd15",
+        "filename": "controlloop/common/actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "verify that this isn\u0027t null or blank?",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_daba120a",
         "filename": "controlloop/common/actors/actor.sdnc/src/main/resources/META-INF/services/org.onap.policy.controlloop.actorServiceProvider.spi.Actor",
         "patchSetId": 1
@@ -111,6 +162,23 @@
         "endLine": 7,
         "endChar": 1
       },
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_d0d751ec",
+        "filename": "controlloop/common/actors/actor.sdnc/src/test/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "could remove these two methods - I don\u0027t think this uses the AAI simulator",
       "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -203,6 +271,295 @@
     },
     {
       "key": {
+        "uuid": "bada0100_b0f16d97",
+        "filename": "controlloop/common/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "need class comment",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b0488dcd",
+        "filename": "controlloop/common/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "should user name and password come from env properties, too?",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_300c9d94",
+        "filename": "controlloop/common/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use username \u0026 password fields",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_508841e7",
+        "filename": "controlloop/common/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "remove trailing \" a \" from the message?",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_90654947",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "maybe also decode the body and verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b04dedc6",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "why do this again?",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_50d601c7",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "maybe add some assertEquals() calls to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_90f30973",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncHealAdditionalParams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use Serializer.roundTrip() to serialize and deserialize and then add assertEquals() to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_30e81d7c",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncHealRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use Serializer.roundTrip() to serialize and deserialize and then add assertEquals() to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_50eda18a",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncHealServiceInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use Serializer.roundTrip() to serialize and deserialize and then add assertEquals() to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_10ff1936",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "move these lines to @After method so they don\u0027t have to be repeated in every method",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b0fbad46",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use managerThread.join(nnn) instead of while/sleep (this comment applies to all occurrences)",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_709545e3",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "is there anything that can be asserted or verified here? (this comment applies to all occurrences)",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_50a4c156",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use Serializer.roundTrip() to serialize and deserialize and then add assertEquals() to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_f08855c8",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use Serializer.roundTrip() to serialize and deserialize and then add assertEquals() to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_108639ba",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncResponseDescriptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "use Serializer.roundTrip() to serialize and deserialize and then add assertEquals() to verify that the getXxx() methods return the original values",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_70bc656d",
+        "filename": "controlloop/common/msb/src/main/java/org/onap/policy/msb/client/MsbServiceManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "maybe just change this to: (e.g., AAI, SO)",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_1a489a2c",
         "filename": "controlloop/packages/basex-controlloop/src/files/config/controlloop.properties.environment",
         "patchSetId": 1
@@ -220,6 +577,40 @@
         "endLine": 54,
         "endChar": 57
       },
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_50bb6172",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "for opTimer, include the following to match the other rules: timerType \u003d\u003d \"Operation\", !expired",
+      "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b0a96d26",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-03T14:07:19Z",
+      "side": 1,
+      "message": "remove \"\u003d\u003d true\"",
       "revId": "51638e7a672ea4bf6f83e197b5c92065a45fc349",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
