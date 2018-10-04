@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_88175d51",
+        "filename": "controlloop/common/actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "use isEmpty() instead of comparing to \"\" (et. al.)",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_48097530",
+        "filename": "controlloop/common/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "sorry, missed this before: use \"{}\" place-holders instead of string concatenation",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_e805c914",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "remove commented block",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_08036d10",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "remove try/catch wrapper.  Is 100ms long enough to wait for ithe thread to complete?  (same for other occurrences)",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_6b09d32b",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "is it ok to just do this once at the end of all of the tests, or should this be done after EACH test case?  If the latter is true, then it should be @After instead of @AfterClass.\n\nAlso, the convention is that @AfterXxx methods should appear immediately following @BeforeXxx methods.",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_8b0e7733",
+        "filename": "controlloop/packages/basex-controlloop/src/files/config/controlloop.properties.environment",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "is \"$\" needed here? e.g., ${{SNDC_URL}}",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_4b108f4e",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-04T23:22:46Z",
+      "side": 1,
+      "message": "remove \"\u003d\u003d true\"",
+      "revId": "dde4c063df859462a7963dd4acff2626b1130c8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
