@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_b1a648c0",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/TestSdncManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T14:42:13Z",
+      "side": 1,
+      "message": "this is fine, but in the future, this entire block (and those like it) could be done with:\n\nassertEquals(\"the parameters...\", assertThrows(IllegalArgumentException.class, () -\u003e new SdncManager(null, null)).getMessage());",
+      "revId": "225d459123133363d6aafdc2a516dc5107d279b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
