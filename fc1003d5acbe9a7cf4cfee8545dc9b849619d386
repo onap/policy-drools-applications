@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_bc529f11",
+        "filename": "controlloop/common/feature-controlloop-amsterdam/src/main/feature/config/amsterdam-controller.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "maybe move these up to keep all dmaap.sink properties in order and all dmaap.source topics in order",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_3c3eafb9",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "maybe move these up to keep sinks \u0026 sources grouped together",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_9c747b9d",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/__artifactId__-controller.rest.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "maybe move these up to keep sinks \u0026 sources grouped together",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7c73d7b1",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "move this rule up before the SO.RESPONSE rule",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_1c688bb9",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "remove \"\u003d\u003d true\"",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_dc61a3d4",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "earlier code invokes .toString() for the response id and the event request id - perhaps should do the same here?",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_bca05ff5",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VpciControlLoopTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-05T17:16:21Z",
+      "side": 1,
+      "message": "sonar will complain - should use a constant instead of \"Rule Fired: \"",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
