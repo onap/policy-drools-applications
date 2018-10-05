@@ -16,6 +16,57 @@
       "revId": "225d459123133363d6aafdc2a516dc5107d279b1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_11a3949f",
+        "filename": "controlloop/packages/basex-controlloop/src/files/config/controlloop.properties.environment",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-10-05T15:07:39Z",
+      "side": 1,
+      "message": "Need up to go to policy/docker repo and come up with appropriate values (or defaulted to blank if you don\u0027t know them):  https://git.onap.org/policy/docker/tree/config/drools/base.conf\n\nSee VFC as a reference",
+      "revId": "225d459123133363d6aafdc2a516dc5107d279b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b1bba8c3",
+        "filename": "controlloop/packages/basex-controlloop/src/files/config/controlloop.properties.environment",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-10-05T15:07:39Z",
+      "side": 1,
+      "message": "We also need equivalent values as in previous comment for OOM here:   https://git.onap.org/oom/tree/kubernetes/policy/charts/drools/resources/config/opt/policy/config/drools/base.conf",
+      "revId": "225d459123133363d6aafdc2a516dc5107d279b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b1940838",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-10-05T15:07:39Z",
+      "side": 1,
+      "message": "These new dependency entries (unfortunately) need to be duplicated in the policy/engine repo.   See this file, and add them there:  https://git.onap.org/policy/engine/tree/packages/base/src/files/install/servers/brmsgw/dependency.json.\nWe will need them to be done previous to merging this code.",
+      "revId": "225d459123133363d6aafdc2a516dc5107d279b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
