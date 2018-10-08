@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_ff0256b3",
+        "filename": "controlloop/common/model-impl/events/src/test/java/org/onap/policy/controlloop/params/ControlLoopParamsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-08T13:57:06Z",
+      "side": 1,
+      "message": "use assertEquals instead of assertTrue/equals()",
+      "revId": "abd71734dca491e9bf906a0829b3723b2e436cb5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_bf2cce4b",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/ControlLoop.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-08T13:57:06Z",
+      "side": 1,
+      "message": "use services.addAll() instead of for-loop",
+      "revId": "abd71734dca491e9bf906a0829b3723b2e436cb5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7f26666a",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/policy/ControlLoop.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-08T13:57:06Z",
+      "side": 1,
+      "message": "use resources.addAll() instead of for-loop",
+      "revId": "abd71734dca491e9bf906a0829b3723b2e436cb5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
