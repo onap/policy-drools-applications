@@ -53,6 +53,52 @@
     },
     {
       "key": {
+        "uuid": "bada0100_2c1d1ebe",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/vPCI.pcims.onset.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-10-08T12:22:38Z",
+      "side": 1,
+      "message": "Opening a JIRA for cleanup of this. We need a way to distinguish from VNF vs VM vs PNF.\nPOLICY-1187 was created",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_6c6a461c",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/vPCI.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-10-08T12:22:38Z",
+      "side": 1,
+      "message": "You could remove this line as it makes no sense - I believe the other is required so the template doesn\u0027t break. For the moment until we work on POLICY-1187.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_7c73d7b1",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 2
@@ -98,6 +144,24 @@
       "writtenOn": "2018-10-05T17:16:21Z",
       "side": 1,
       "message": "earlier code invokes .toString() for the response id and the event request id - perhaps should do the same here?",
+      "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_8c352a48",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-10-08T12:22:38Z",
+      "side": 1,
+      "message": "If the code is the same as in the casablanca archetype then we can leave this. Adding the template.demo test should have uncovered if this is a problem.",
+      "parentUuid": "bada0100_dc61a3d4",
       "revId": "fc1003d5acbe9a7cf4cfee8545dc9b849619d386",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
