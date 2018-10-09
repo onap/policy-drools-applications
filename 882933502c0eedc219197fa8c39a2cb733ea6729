@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_ee8f0674",
+        "filename": "controlloop/common/feature-controlloop-amsterdam/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-10-09T14:44:22Z",
+      "side": 1,
+      "message": "Looks ok to me Saravanan, but need you to do a couple things previous to merging:\n\n1.\nAdd equivalent pom.xml entries in policy/engine repo.   File:  policy/engine / packages/base/src/files/install/servers/brmsgw/dependency.json\n\nActually, I also seem missing entries for sdnc in the dependency.json above.   We need to open a ticket for it, or if you don\u0027t mind, if you can you add equivalent for both of them while you are touching the file?\n\n2.\nAlong the same lines, although not critical, it\u0027s better to have an entry here in this file, for \"sdnc\", and \"actor.sdnc\" that are missing, if you don\u0027t mind to add them?",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
