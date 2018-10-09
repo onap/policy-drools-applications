@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_ce9a4214",
+        "filename": "controlloop/common/feature-controlloop-amsterdam/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 805
+      },
+      "writtenOn": "2018-10-09T16:10:33Z",
+      "side": 1,
+      "message": "The correct file that needs to be updated for deployment is packages/base/src/files/install/servers/brmsgw/dependency.json, which it seems Pam already updated.\n\nPam is correct, https://git.onap.org/policy/engine/plain/BRMSGateway/dependency.json is used for local testing.",
+      "parentUuid": "bada0100_8eb0baf5",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_ae881e23",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VpciControlLoopTest.java",
         "patchSetId": 1
