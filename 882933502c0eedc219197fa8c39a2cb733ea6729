@@ -34,6 +34,24 @@
       "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_8eb99aeb",
+        "filename": "controlloop/common/feature-controlloop-amsterdam/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-10-09T15:04:32Z",
+      "side": 1,
+      "message": "Oh I see, I thought so, but I found this file in the policy/engine repo that doesn\u0027t have those entries:\n\nhttps://git.onap.org/policy/engine/plain/BRMSGateway/dependency.json\n\nSo, there are two divergent copies of the same file, and probably, the one I pointed out above is useless and may be ok not to keep in sync with packages/base/src/files/install/servers/brmsgw/dependency.json ..    Messy repo.",
+      "parentUuid": "bada0100_0e004aa9",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
