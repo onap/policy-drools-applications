@@ -70,6 +70,57 @@
       "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_ae881e23",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VpciControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-09T15:10:48Z",
+      "side": 1,
+      "message": "use assertEquals instead of assertTrue/equals() (same comment below)",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_6e823602",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VpciControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-09T15:10:48Z",
+      "side": 1,
+      "message": "this is ok, but not sure the purpose of using a StringBuilder here instead of just a plain String",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_8e875a0f",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VpciControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-09T15:10:48Z",
+      "side": 1,
+      "message": "this is ok, but not sure the purpose of using a StringBuilder here instead of just a plain String",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
