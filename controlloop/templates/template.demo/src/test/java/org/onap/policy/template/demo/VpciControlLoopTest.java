@@ -3,6 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -293,17 +294,17 @@ public class VpciControlLoopTest implements TopicListener {
             String policyName = notification.getPolicyName();
             logger.debug("Rule Fired: {}", policyName);
             if (policyName.endsWith("EVENT")) {
-                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.getNotification()));
+                assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
             } else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertEquals(ControlLoopNotificationType.OPERATION, notification.getNotification());
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("Sending guard query"));
             } else if (policyName.endsWith("GUARD.RESPONSE")) {
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertEquals(ControlLoopNotificationType.OPERATION, notification.getNotification());
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
             } else if (policyName.endsWith("GUARD_PERMITTED")) {
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
+                assertEquals(ControlLoopNotificationType.OPERATION, notification.getNotification());
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=SDNR"));
             } else if (policyName.endsWith("OPERATION.TIMEOUT")) {
@@ -311,7 +312,7 @@ public class VpciControlLoopTest implements TopicListener {
                 logger.debug("The operation timed out");
                 fail("Operation Timed Out");
             } else if (policyName.endsWith("SDNR.RESPONSE")) {
-                assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
+                assertEquals(ControlLoopNotificationType.OPERATION_SUCCESS, notification.getNotification());
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=SDNR"));
             } else if (policyName.endsWith("EVENT.MANAGER")) {
@@ -334,7 +335,7 @@ public class VpciControlLoopTest implements TopicListener {
              */
             PciRequestWrapper dmaapRequest = (PciRequestWrapper) obj;
             PciRequest pciRequest = dmaapRequest.getBody();
-            assertTrue(pciRequest.getCommonHeader().getSubRequestId().equals("1"));
+            assertEquals("1", pciRequest.getCommonHeader().getSubRequestId());
 
             logger.debug("\n============ SDNR received the request!!! ===========\n");
             logger.debug("\n============ dmaapRequest ===========\n {} ", dmaapRequest);
