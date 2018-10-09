@@ -16,6 +16,24 @@
       "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_0e004aa9",
+        "filename": "controlloop/common/feature-controlloop-amsterdam/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-10-09T14:58:30Z",
+      "side": 1,
+      "message": "I already updated that for them:\nhttps://gerrit.onap.org/r/#/c/69919/\nThey don\u0027t need sdnc or actor.sdnc for their use case",
+      "parentUuid": "bada0100_ee8f0674",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
