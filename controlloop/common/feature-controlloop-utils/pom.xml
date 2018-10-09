@@ -106,12 +106,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-pdp</groupId>
-      <artifactId>policy-endpoints</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
       <artifactId>simulators</artifactId>
       <version>${project.version}</version>
