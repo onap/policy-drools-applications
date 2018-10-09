@@ -1,7 +1,7 @@
 {
 	"controller.name": "${artifactId}",
 	
-	"ueb.source.topics": "${dcaeTopic},APPC-CL,APPC-LCM-WRITE",
+	"ueb.source.topics": "${dcaeTopic},APPC-CL,APPC-LCM-WRITE,SDNR-CL-RSP",
 
 	"ueb.source.topics.${dcaeTopic}.servers": "${dcaeServers}",
 	"ueb.source.topics.${dcaeTopic}.events": "org.onap.policy.controlloop.VirtualControlLoopEvent",
@@ -18,7 +18,12 @@
 	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "type=response",
 	"ueb.source.topics.APPC-LCM-WRITE.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
 	
-	"noop.sink.topics": "APPC-CL,APPC-LCM-READ,POLICY-CL-MGT",
+	"ueb.source.topics.SDNR-CL-RSP.servers": "${dmaapServers}",
+	"ueb.source.topics.SDNR-CL-RSP.events": "org.onap.policy.sdnr.PciResponseWrapper",
+	"ueb.source.topics.SDNR-CL-RSP.events.org.onap.policy.sdnr.PciResponseWrapper.filter": "type=response",
+	"ueb.source.topics.SDNR-CL-RSP.events.custom.gson": "org.onap.policy.sdnr.util.Serialization,gson",
+	
+	"noop.sink.topics": "APPC-CL,APPC-LCM-READ,POLICY-CL-MGT,SDNR-CL",
 
 	"noop.sink.topics.APPC-CL.servers": "${dmaapServers}",
 	"noop.sink.topics.APPC-CL.events": "org.onap.policy.appc.Request",
@@ -32,7 +37,12 @@
 	"noop.sink.topics.POLICY-CL-MGT.events": "org.onap.policy.controlloop.VirtualControlLoopNotification",
 	"noop.sink.topics.POLICY-CL-MGT.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gson",
 	
+	"noop.sink.topics.SDNR-CL.servers": "${dmaapServers}",
+	"noop.sink.topics.SDNR-CL.events": "org.onap.policy.sdnr.PciRequestWrapper",
+	"noop.sink.topics.SDNR-CL.events.custom.gson": "org.onap.policy.sdnr.util.Serialization,gson",
+	
 	"rules.groupId": "${groupId}",
 	"rules.artifactId": "${artifactId}",
 	"rules.version": "${version}"
+
 }
