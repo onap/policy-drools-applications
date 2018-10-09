@@ -52,6 +52,24 @@
       "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_8eb0baf5",
+        "filename": "controlloop/common/feature-controlloop-amsterdam/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-10-09T15:07:22Z",
+      "side": 1,
+      "message": "Can you please go to Mike Mokry and ask which is the source of truth and if it can be cleaned up? I doubt it - as it seems one is for local testing while the other is for production release. 2 different environments.\nLet\u0027s let this review go through.",
+      "parentUuid": "bada0100_8eb99aeb",
+      "revId": "882933502c0eedc219197fa8c39a2cb733ea6729",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
