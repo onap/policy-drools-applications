@@ -75,6 +75,11 @@ public class ControlLoopPolicyTest {
     }
 
     @Test 
+    public void testvpci() {
+        this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vPCI.yaml");
+    }
+
+    @Test 
     public void testvolte() {
         this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
     }
