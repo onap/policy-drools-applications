@@ -137,6 +137,10 @@ public final class Util {
         return org.onap.policy.simulators.Util.buildGuardSim();
     }
 
+    public static HttpServletServer buildSdncSim() throws InterruptedException, IOException {
+        return org.onap.policy.simulators.Util.buildSdncSim();
+    }
+
     private static String generatePolicy(String ruleContents, 
             String closedLoopControlName, 
             String policyScope, 
@@ -290,6 +294,15 @@ public final class Util {
         PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
         PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
         PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
+    }
+
+    /**
+     *  Set the SDNC properties.
+     */
+    public static void setSdncProps() {
+        PolicyEngine.manager.setEnvironmentProperty("sdnc.url", "http://localhost:6670/restconf/operations");
+        PolicyEngine.manager.setEnvironmentProperty("sdnc.username", "sdnc");
+        PolicyEngine.manager.setEnvironmentProperty("sdnc.password", "sdnc");
     }
 
     /**
