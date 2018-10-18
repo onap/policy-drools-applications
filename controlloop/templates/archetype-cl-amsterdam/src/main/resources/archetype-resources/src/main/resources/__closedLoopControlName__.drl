@@ -618,6 +618,11 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                 retract($operation);
                 modify($manager) {finishOperation($operation)};
             }
+            else if ("sdnc".equalsIgnoreCase($operation.policy.getActor())) {
+                retract($opTimer);
+                retract($operation);
+                modify($manager) {finishOperation($operation)};
+            }
         }
         
     } catch (Exception e) {

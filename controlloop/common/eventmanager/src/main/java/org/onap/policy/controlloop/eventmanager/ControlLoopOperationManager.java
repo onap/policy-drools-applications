@@ -356,6 +356,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast VFC response and handle it
             //
             return onResponse((VFCResponse) response);
+        } else if (response instanceof SdncResponse) {
+            //
+            // Cast SDNC response and handle it
+            //
+            return onResponse((SdncResponse) response);
         } else {
             return null;
         }
@@ -560,6 +565,36 @@ public class ControlLoopOperationManager implements Serializable {
      */
     private PolicyResult onResponse(VFCResponse vfcResponse) {
         if ("finished".equalsIgnoreCase(vfcResponse.getResponseDescriptor().getStatus())) {
+            //
+            // Consider it as success
+            //
+            this.completeOperation(this.attempts, " Success", PolicyResult.SUCCESS);
+            if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+                return null;
+            }
+            return PolicyResult.SUCCESS;
+        } else {
+            //
+            // Consider it as failure
+            //
+            this.completeOperation(this.attempts, " Failed", PolicyResult.FAILURE);
+            if (this.policyResult != null && this.policyResult.equals(PolicyResult.FAILURE_TIMEOUT)) {
+                return null;
+            }
+            // increment operation attempts for retries
+            this.attempts += 1;
+            return PolicyResult.FAILURE;
+        }
+    }
+
+    /**
+     * This method handles operation responses from SDNC.
+     *
+     * @param sdncResponse the VFC response
+     * @return The result of the response handling
+     */
+    private PolicyResult onResponse(SdncResponse sdncResponse) {
+        if (sdncResponse.getResponseOutput().getResponseCode().equals("200")) {
             //
             // Consider it as success
             //
