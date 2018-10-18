@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_91c8b623",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/create-cl-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-10-18T21:05:33Z",
+      "side": 1,
+      "message": "These names should be used somewhere in the archetype, in this case archetype-cl-casablanca.   I think you need these in new file \"*.brmsgw.params.json\" under https://git.onap.org/policy/drools-applications/tree/controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/config.   If you want it to be of use for testing ..",
+      "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
