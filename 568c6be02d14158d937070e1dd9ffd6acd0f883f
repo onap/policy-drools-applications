@@ -16,6 +16,40 @@
       "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_f7bfb2a8",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-19T13:45:51Z",
+      "side": 1,
+      "message": "add \"-k\"",
+      "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_97de6610",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-19T13:45:51Z",
+      "side": 1,
+      "message": "http \u003d\u003e https",
+      "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
