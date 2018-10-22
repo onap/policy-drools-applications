@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_3226a5cf",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/create-cl-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-22T13:09:08Z",
+      "side": 1,
+      "message": "Thanks for the review. I have added test case.",
+      "parentUuid": "bada0100_91c8b623",
+      "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_f7bfb2a8",
         "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_72450d6f",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-22T13:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_f7bfb2a8",
+      "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_97de6610",
         "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2018-10-19T13:45:51Z",
       "side": 1,
       "message": "http \u003d\u003e https",
+      "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_9248b188",
+        "filename": "controlloop/packages/basex-controlloop/src/files/bin/push-policies-casablanca",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-22T13:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_97de6610",
       "revId": "568c6be02d14158d937070e1dd9ffd6acd0f883f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
