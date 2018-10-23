@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_f4b9e52e",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-23T13:29:14Z",
+      "side": 1,
+      "message": "the others in this file are all lowercase",
+      "revId": "b9007182f9a8fa0dea48fc970e38fb6761bf6c24",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
