@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_b919188a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_927191e2",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_726e6d03",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-22T13:26:54Z",
       "side": 1,
       "message": "no retry in case of timeout?",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_5436b1e8",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:13:12Z",
+      "side": 1,
+      "message": "it is handled in rule \"${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT\". Please correct me if I am wrong",
+      "parentUuid": "bada0100_726e6d03",
       "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_7913b066",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/dcae.ccvpn.onset.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_320d453f",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_e534d9df",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 2
@@ -98,6 +152,24 @@
       "writtenOn": "2018-10-22T13:26:54Z",
       "side": 1,
       "message": "volte \u003d\u003e ccvpn",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_390d283f",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_923f51d6",
       "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -138,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_59082c2d",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/config/dcae.ccvpn.onset.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_5208092d",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_0530fde6",
         "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 2
@@ -166,6 +256,30 @@
       "writtenOn": "2018-10-22T15:43:26Z",
       "side": 1,
       "message": "Probably just want 2018 Huawei",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_1902a40b",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/CcvpnControlLoopTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_083014e7",
       "range": {
         "startLine": 5,
         "startChar": 1,
