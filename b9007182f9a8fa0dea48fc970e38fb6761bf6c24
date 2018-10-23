@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bada0100_7a62bfae",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-10-23T16:56:52Z",
+      "side": 1,
+      "message": "good question.\n\nBTW: PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult) could be used in lieu of the entire null/equals check.  Same comment on line 611",
+      "parentUuid": "bada0100_1a6ff3c6",
+      "range": {
+        "startLine": 602,
+        "startChar": 3,
+        "endLine": 604,
+        "endChar": 13
+      },
+      "revId": "b9007182f9a8fa0dea48fc970e38fb6761bf6c24",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_f4b9e52e",
         "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/META-INF/maven/archetype-metadata.xml",
         "patchSetId": 3
