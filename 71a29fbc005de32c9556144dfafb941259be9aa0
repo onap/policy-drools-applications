@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_9472d9ab",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/ccvpn.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:20:13Z",
+      "side": 1,
+      "message": "I have changed it to CCVPN.yaml",
+      "parentUuid": "bada0100_850dcd39",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_320d453f",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/config/dcae.ccvpn.onset.json",
         "patchSetId": 2
@@ -187,6 +205,24 @@
       "writtenOn": "2018-10-22T13:26:54Z",
       "side": 1,
       "message": "same comment as before: this file name is OK with me, but the other yaml files use mixed case.  Should this?",
+      "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_546471e4",
+        "filename": "controlloop/templates/archetype-cl-casablanca/src/main/resources/archetype-resources/src/main/config/ccvpn.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1943
+      },
+      "writtenOn": "2018-10-23T13:20:13Z",
+      "side": 1,
+      "message": "I have changed it to CCVPN.yaml",
+      "parentUuid": "bada0100_25142143",
       "revId": "71a29fbc005de32c9556144dfafb941259be9aa0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
