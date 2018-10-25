@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
     <artifactId>common</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>simulators</artifactId>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>org.onap.policy.common</groupId>
       <artifactId>policy-endpoints</artifactId>
-      <version>${project.version}</version>
+      <version>${version.policy.common}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -60,7 +60,7 @@
     <dependency>
       <groupId>org.onap.policy.drools-pdp</groupId>
       <artifactId>policy-management</artifactId>
-      <version>${project.version}</version>
+      <version>${version.policy.drools-pdp}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

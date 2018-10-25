@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.onap.policy.drools-applications.controlloop.templates</groupId>
     <artifactId>templates</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>template.demo</artifactId>
@@ -219,7 +219,7 @@
     <dependency>
         <groupId>org.onap.policy.common</groupId>
         <artifactId>policy-endpoints</artifactId>
-        <version>${project.version}</version>
+        <version>${version.policy.common}</version>
         <scope>provided</scope>
     </dependency>
     <dependency>
@@ -231,7 +231,7 @@
     <dependency>
       <groupId>org.onap.policy.drools-pdp</groupId>
       <artifactId>policy-management</artifactId>
-      <version>${project.version}</version>
+      <version>${version.policy.drools-pdp}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
