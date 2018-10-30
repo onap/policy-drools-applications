@@ -241,50 +241,6 @@
         <module>testsuites</module>
     </modules>
 
-    <repositories>
-        <!-- LF repositories -->
-        <repository>
-            <id>ecomp-releases</id>
-            <name>Release Repository</name>
-            <url>${nexusproxy}/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>ecomp-staging</id>
-            <name>Staging Repository</name>
-            <url>${nexusproxy}/content/repositories/staging/</url>
-        </repository>
-        <repository>
-            <id>ecomp-snapshots</id>
-            <name>Snapshots Repository</name>
-            <url>${nexusproxy}/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>ecomp-public</id>
-            <name>Public Repository</name>
-            <url>${nexusproxy}/content/repositories/public/</url>
-        </repository>
-        <!-- LF repositories END -->
-    </repositories>
-
-
-    <distributionManagement>
-        <repository>
-            <id>ecomp-releases</id>
-            <name>OpenECOMP Release Repository</name>
-            <url>${nexusproxy}/${releases.path}</url>
-        </repository>
-        <snapshotRepository>
-            <id>ecomp-snapshots</id>
-            <name>OpenECOMP Snapshot Repository</name>
-            <url>${nexusproxy}/${snapshots.path}</url>
-        </snapshotRepository>
-        <site>
-            <id>ecomp-site</id>
-            <url>dav:${nexusproxy}${sitePath}</url>
-        </site>
-
-    </distributionManagement>
-
     <reporting>
         <plugins>
             <plugin>
