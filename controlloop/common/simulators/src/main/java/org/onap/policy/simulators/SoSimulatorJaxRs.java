@@ -44,7 +44,7 @@ public class SoSimulatorJaxRs {
      * @return the response
      */
     @POST
-    @Path("/v7/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
+    @Path("/v7/serviceInstances/{serviceInstanceId}/vnfs/{vnfInstanceId}/vfModules/scaleOut")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
