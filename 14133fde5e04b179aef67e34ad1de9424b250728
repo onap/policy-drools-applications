@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_d50bcc29",
+        "filename": "controlloop/common/policy-yaml/src/main/java/org/onap/policy/controlloop/compiler/ControlLoopCompiler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-11-01T15:03:21Z",
+      "side": 1,
+      "message": "Sorry - I am brain dead this morning. We midaswell add the new actors: VFC, SDNC.",
+      "range": {
+        "startLine": 408,
+        "startChar": 55,
+        "endLine": 408,
+        "endChar": 85
+      },
+      "revId": "14133fde5e04b179aef67e34ad1de9424b250728",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
