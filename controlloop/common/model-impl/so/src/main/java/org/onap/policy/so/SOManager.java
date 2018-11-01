@@ -179,8 +179,8 @@ public final class SOManager {
 
             if (request.getOperationType() != null && request.getOperationType()
                     .equals(SoOperationType.SCALE_OUT)) {
-                url = urlBase + "/serviceInstantiation/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
-                        + "/vfModules/scaleOut";
+                url = urlBase + "/serviceInstantiation/v7/serviceInstances/" + serviceInstanceId + "/vnfs/"
+                                + vnfInstanceId + "/vfModules/scaleOut";
                 netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
                 httpResponse = restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
             } else if (request.getOperationType() != null && request.getOperationType()
