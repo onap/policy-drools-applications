@@ -405,7 +405,7 @@ public class ControlLoopCompiler implements Serializable {
         //
         // Construct a list for all valid actors
         //
-        ImmutableList<String> actors = ImmutableList.of("APPC", "AOTS", "MSO", "SDNO", "SDNR", "AAI");
+        ImmutableList<String> actors = ImmutableList.of("APPC", "SDNC", "SDNR", "SO", "VFC");
         //
         if (operPolicy.getActor() != null && (!actors.contains(operPolicy.getActor())) ) {
             if (callback != null) {
@@ -429,18 +429,10 @@ public class ControlLoopCompiler implements Serializable {
         // 
         ImmutableMap<String, List<String>> recipes = new ImmutableMap.Builder<String, List<String>>()
                 .put("APPC", ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig"))
-                .put("AOTS", ImmutableList.of("checkMaintenanceWindow", 
-                                "checkENodeBTicketHours", 
-                                "checkEquipmentStatus", 
-                                "checkEimStatus", 
-                                "checkEquipmentMaintenance"))
-                .put("MSO", ImmutableList.of("VF Module Create"))
-                .put("SDNO", ImmutableList.of("health-diagnostic-type", 
-                                "health-diagnostic", 
-                                "health-diagnostic-history", 
-                                "health-diagnostic-commands", 
-                                "health-diagnostic-aes"))
-                .put("SDNR", ImmutableList.of("Restart", "Reboot"))
+                .put("SDNC", ImmutableList.of("Reroute"))
+                .put("SDNR", ImmutableList.of("ModifyConfig"))
+                .put("SO", ImmutableList.of("VF Module Create", "VF Module Delete"))
+                .put("VFC", ImmutableList.of("Restart"))
                 .build();
         //
         if (operPolicy.getRecipe() != null 
