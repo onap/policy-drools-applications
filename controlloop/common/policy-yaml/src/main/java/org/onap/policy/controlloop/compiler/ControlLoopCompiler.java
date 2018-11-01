@@ -405,7 +405,7 @@ public class ControlLoopCompiler implements Serializable {
         //
         // Construct a list for all valid actors
         //
-        ImmutableList<String> actors = ImmutableList.of("APPC", "AOTS", "MSO", "SDNO", "SDNR", "AAI");
+        ImmutableList<String> actors = ImmutableList.of("APPC", "AOTS", "SO", "SDNO", "SDNR", "AAI");
         //
         if (operPolicy.getActor() != null && (!actors.contains(operPolicy.getActor())) ) {
             if (callback != null) {
@@ -434,7 +434,7 @@ public class ControlLoopCompiler implements Serializable {
                                 "checkEquipmentStatus", 
                                 "checkEimStatus", 
                                 "checkEquipmentMaintenance"))
-                .put("MSO", ImmutableList.of("VF Module Create"))
+                .put("SO", ImmutableList.of("VF Module Create"))
                 .put("SDNO", ImmutableList.of("health-diagnostic-type", 
                                 "health-diagnostic", 
                                 "health-diagnostic-history", 
