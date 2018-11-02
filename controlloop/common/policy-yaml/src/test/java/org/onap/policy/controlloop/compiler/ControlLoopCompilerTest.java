@@ -68,9 +68,9 @@ public class ControlLoopCompilerTest {
 
         TestControlLoopCompilerCallback testControlLoopCompilerCallback = 
                         new TestControlLoopCompilerCallback(expectedOnErrorMessages);
-        ControlLoopPolicy controlLoopPolicy = this.test("src/test/resources/v1.0.0/test.yaml", 
+        ControlLoopPolicy controlLoopPolicy = this.test("src/test/resources/v1.0.0/test2.yaml", 
                         testControlLoopCompilerCallback);
-        assertEquals(22, controlLoopPolicy.getPolicies().size());
+        assertEquals(1, controlLoopPolicy.getPolicies().size());
         assertTrue(testControlLoopCompilerCallback.areAllExpectedOnErrorsReceived());
     }
 
