@@ -322,12 +322,9 @@ policies:
 controlLoop:
   version: 2.0.0
   controlLoopName: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
-  services: 
-    - serviceName: d4738992-6497-4dca-9db9
-      serviceInvariantUUID: dc112d6e-7e73-4777-9c6f-1a7fb5fd1b6f
-      serviceUUID: 2eea06c6-e1d3-4c3a-b9c4-478c506eeedf
   trigger_policy: unique-policy-id-1-scale-up
   timeout: 1200
+  abatement: false
 
 policies:
   - id: unique-policy-id-1-scale-up
@@ -336,7 +333,10 @@ policies:
     actor: SO
     recipe: VF Module Create
     target:
-      resourceID: 59a2ee3fB58045feB5a1.nodes.heat.vdns
+      type: VNF
+    payload:
+      requestParameters: '{"usePreload":true,"userParams":[]}'
+      configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[9]","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[16]","enabled":"$.vf-module-topology.vf-module-parameters.param[23]"}]'
     retry: 0
     timeout: 1200
     success: final_success
