@@ -140,7 +140,7 @@
     <dependency>
       <groupId>com.att.research.xacml</groupId>
       <artifactId>xacml</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
       <scope>test</scope>
       <exclusions>
         <!-- The LDAP PIP uses velocity which pulls this insecure jar in. We
@@ -155,7 +155,7 @@
     <dependency>
       <groupId>com.att.research.xacml</groupId>
       <artifactId>xacml-pdp</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
