@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,6 @@ package org.onap.policy.template.demo;
 import static org.junit.Assert.fail;
 
 import com.att.research.xacml.util.XACMLProperties;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,7 +34,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.io.IOUtils;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -43,7 +41,6 @@ import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.Message;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.builder.Results;
-import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
@@ -72,9 +69,14 @@ public final class Util {
         }
     }
 
+    // values from the last call to buildConter()
+
+    private static KieServices kieServices;
+    private static KieContainer keyContainer;
+
     /**
      * Load YAML.
-     * 
+     *
      * @param testFile test file to load
      * @return the Pair of a policy and the yaml contents
      */
@@ -100,7 +102,7 @@ public final class Util {
 
     /**
      * Load the YAML guard policy.
-     * 
+     *
      * @param testFile the test file to load
      * @return return the guard object
      */
@@ -141,39 +143,9 @@ public final class Util {
         return org.onap.policy.simulators.Util.buildSdncSim();
     }
 
-    private static String generatePolicy(String ruleContents, 
-            String closedLoopControlName, 
-            String policyScope, 
-            String policyName, 
-            String policyVersion, 
-            String controlLoopYaml) {
-
-        Pattern pattern = Pattern.compile("\\$\\{closedLoopControlName\\}");
-        Matcher matcher = pattern.matcher(ruleContents);
-        ruleContents = matcher.replaceAll(closedLoopControlName);
-
-        pattern = Pattern.compile("\\$\\{policyScope\\}");
-        matcher = pattern.matcher(ruleContents);
-        ruleContents = matcher.replaceAll(policyScope);
-
-        pattern = Pattern.compile("\\$\\{policyName\\}");
-        matcher = pattern.matcher(ruleContents);
-        ruleContents = matcher.replaceAll(policyName);
-
-        pattern = Pattern.compile("\\$\\{policyVersion\\}");
-        matcher = pattern.matcher(ruleContents);
-        ruleContents = matcher.replaceAll(policyVersion);
-
-        pattern = Pattern.compile("\\$\\{controlLoopYaml\\}");
-        matcher = pattern.matcher(ruleContents);
-        ruleContents = matcher.replaceAll(controlLoopYaml);
-
-        return ruleContents;
-    }
-
     /**
-     * Build the container.
-     * 
+     * Build a container containing a single set of rules.
+     *
      * @param droolsTemplate template
      * @param closedLoopControlName control loop id
      * @param policyScope policy scope
@@ -183,41 +155,82 @@ public final class Util {
      * @return the Kie session
      * @throws IOException if the container cannot be built
      */
-    public static KieSession buildContainer(String droolsTemplate, String closedLoopControlName, 
-            String policyScope, String policyName, String policyVersion, 
-            String yamlSpecification) throws IOException {
+    public static KieSession buildContainer(String droolsTemplate, String closedLoopControlName, String policyScope,
+                    String policyName, String policyVersion, String yamlSpecification) throws IOException {
+
+        RuleSpec spec = new RuleSpec(droolsTemplate, closedLoopControlName, policyScope, policyName, policyVersion,
+                        yamlSpecification);
+
+        return buildContainer(policyVersion, new RuleSpec[] {spec});
+    }
+
+    /**
+     * Build a container containing all of the specified rules.
+     *
+     * @param policyVersion policy version
+     * @param specifications rule specifications
+     * @return the Kie session
+     * @throws IOException if the container cannot be built
+     */
+    public static KieSession buildContainer(String policyVersion, RuleSpec[] specifications) throws IOException {
         //
         // Get our Drools Kie factory
         //
-        KieServices ks = KieServices.Factory.get();
+        kieServices = KieServices.Factory.get();
 
-        KieModuleModel kieModule = ks.newKieModuleModel();
+        ReleaseId releaseId = buildPolicy(policyVersion, specifications);
+        logger.debug(releaseId.toString());
 
-        logger.debug("KMODULE:" + System.lineSeparator() + kieModule.toXML());
+        //
+        // Create our kie Session and container
+        //
+        keyContainer = kieServices.newKieContainer(releaseId);
 
+        return setupSession(keyContainer.newKieSession());
+    }
+
+    /**
+     * Update the container with new rules.
+     *
+     * @param policyVersion new policy version
+     * @param specifications new rule specifications
+     * @throws IOException if the container cannot be built
+     */
+    public static void updateContainer(String policyVersion, RuleSpec[] specifications) throws IOException {
+        ReleaseId releaseId = buildPolicy(policyVersion, specifications);
+        logger.debug(releaseId.toString());
+
+        keyContainer.updateToVersion(releaseId);
+    }
+
+    /**
+     * Build the Policy so it can be loaded into a KIE container.
+     *
+     * @param policyVersion policy version
+     * @param specifications rule specifications
+     * @return the release
+     * @throws IOException if the container cannot be built
+     */
+    private static ReleaseId buildPolicy(String policyVersion, RuleSpec[] specifications) throws IOException {
         //
         // Generate our drools rule from our template
         //
-        KieFileSystem kfs = ks.newKieFileSystem();
+        KieFileSystem kfs = kieServices.newKieFileSystem();
+        ReleaseId releaseId = kieServices.getRepository().getDefaultReleaseId();
+        releaseId = kieServices.newReleaseId(releaseId.getGroupId(), releaseId.getArtifactId(), policyVersion);
 
-        kfs.writeKModuleXML(kieModule.toXML());
-        {
-            Path rule = Paths.get(droolsTemplate);
-            String ruleTemplate = new String(Files.readAllBytes(rule));
-            String drlContents = generatePolicy(ruleTemplate,
-                    closedLoopControlName,
-                    policyScope,
-                    policyName,
-                    policyVersion,
-                    yamlSpecification);
+        kfs.generateAndWritePomXML(releaseId);
 
-            kfs.write("src/main/resources/" + policyName + ".drl", 
-                    ks.getResources().newByteArrayResource(drlContents.getBytes()));
+        for (RuleSpec spec : specifications) {
+            String drlContents = spec.generateRules();
+            kfs.write("src/main/resources/" + spec.policyName + ".drl",
+                            kieServices.getResources().newByteArrayResource(drlContents.getBytes()));
         }
+
         //
         // Compile the rule
         //
-        KieBuilder builder = ks.newKieBuilder(kfs).buildAll();
+        KieBuilder builder = kieServices.newKieBuilder(kfs).buildAll();
         Results results = builder.getResults();
         if (results.hasMessages(Message.Level.ERROR)) {
             for (Message msg : results.getMessages()) {
@@ -228,14 +241,8 @@ public final class Util {
         for (Message msg : results.getMessages()) {
             logger.debug(msg.toString());
         }
-        //
-        // Create our kie Session and container
-        //
-        ReleaseId releaseId = ks.getRepository().getDefaultReleaseId();
-        logger.debug(releaseId.toString());
-        KieContainer keyContainer = ks.newKieContainer(releaseId);
 
-        return setupSession(keyContainer.newKieSession());
+        return releaseId;
     }
 
     private static KieSession setupSession(KieSession kieSession) {
@@ -245,29 +252,29 @@ public final class Util {
         // Create XACML Guard policy from YAML
         // We prepare 4 Guards. Notice that Rebuilds recipe has two Guards (for checking policy combining algorithm)
         //
-        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_restart.yaml", 
-                "src/main/resources/frequency_limiter_template.xml", 
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_restart.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
                 "src/test/resources/xacml/autogenerated_frequency_limiter_restart.xml");
 
-        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_rebuild.yaml", 
-                "src/main/resources/frequency_limiter_template.xml", 
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_rebuild.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
                 "src/test/resources/xacml/autogenerated_frequency_limiter_rebuild.xml");
 
-        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_rebuild_1.yaml", 
-                "src/main/resources/frequency_limiter_template.xml", 
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_rebuild_1.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
                 "src/test/resources/xacml/autogenerated_frequency_limiter_rebuild_1.xml");
 
-        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_migrate.yaml", 
-                "src/main/resources/frequency_limiter_template.xml", 
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_migrate.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
                 "src/test/resources/xacml/autogenerated_frequency_limiter_migrate.xml");
 
-        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_modifyconfig.yaml", 
-                "src/main/resources/frequency_limiter_template.xml", 
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_modifyconfig.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
                 "src/test/resources/xacml/autogenerated_frequency_limiter_modifyconfig.xml");
 
         PolicyGuardYamlToXacml.fromYamlToXacmlBlacklist(
-                "src/test/resources/yaml/policy_guard_appc_restart_blacklist.yaml", 
-                "src/main/resources/blacklist_template.xml", 
+                "src/test/resources/yaml/policy_guard_appc_restart_blacklist.yaml",
+                "src/main/resources/blacklist_template.xml",
                 "src/test/resources/xacml/autogenerated_blacklist.xml");
 
         //
@@ -329,7 +336,7 @@ public final class Util {
         PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
         PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
     }
-    
+
     /**
      *  Set the operation history properties.
      */
@@ -337,4 +344,69 @@ public final class Util {
         System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
     }
 
+    /**
+     * Rule specification.
+     */
+    public static class RuleSpec {
+        private String droolsTemplate;
+        private String closedLoopControlName;
+        private String policyScope;
+        private String policyName;
+        private String policyVersion;
+        private String yamlSpecification;
+
+        /**
+         * Constructs the object.
+         *
+         * @param droolsTemplate template
+         * @param closedLoopControlName control loop id
+         * @param policyScope policy scope
+         * @param policyName policy name
+         * @param policyVersion policy version
+         * @param yamlSpecification incoming yaml specification
+         */
+        public RuleSpec(String droolsTemplate, String closedLoopControlName, String policyScope, String policyName,
+                        String policyVersion, String yamlSpecification) {
+
+            this.droolsTemplate = droolsTemplate;
+            this.closedLoopControlName = closedLoopControlName;
+            this.policyScope = policyScope;
+            this.policyName = policyName;
+            this.policyVersion = policyVersion;
+            this.yamlSpecification = yamlSpecification;
+        }
+
+        /**
+         * Generates the rules by reading the template and making variable substitutions.
+         *
+         * @return the rules
+         * @throws IOException if an error occurs
+         */
+        private String generateRules() throws IOException {
+            Path rule = Paths.get(droolsTemplate);
+            String ruleTemplate = new String(Files.readAllBytes(rule));
+
+            Pattern pattern = Pattern.compile("\\$\\{closedLoopControlName\\}");
+            Matcher matcher = pattern.matcher(ruleTemplate);
+            ruleTemplate = matcher.replaceAll(closedLoopControlName);
+
+            pattern = Pattern.compile("\\$\\{policyScope\\}");
+            matcher = pattern.matcher(ruleTemplate);
+            ruleTemplate = matcher.replaceAll(policyScope);
+
+            pattern = Pattern.compile("\\$\\{policyName\\}");
+            matcher = pattern.matcher(ruleTemplate);
+            ruleTemplate = matcher.replaceAll(policyName);
+
+            pattern = Pattern.compile("\\$\\{policyVersion\\}");
+            matcher = pattern.matcher(ruleTemplate);
+            ruleTemplate = matcher.replaceAll(policyVersion);
+
+            pattern = Pattern.compile("\\$\\{controlLoopYaml\\}");
+            matcher = pattern.matcher(ruleTemplate);
+            ruleTemplate = matcher.replaceAll(yamlSpecification);
+
+            return ruleTemplate;
+        }
+    }
 }
