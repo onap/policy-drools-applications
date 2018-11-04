@@ -166,6 +166,9 @@ public class VcpeControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vCPEInfraVNF13", true);
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
@@ -203,6 +206,9 @@ public class VcpeControlLoopTest implements TopicListener {
 
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
