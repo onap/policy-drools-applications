@@ -152,6 +152,9 @@ public class CcvpnControlLoopTest implements TopicListener {
         sendEvent(pair.first);
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
@@ -195,6 +198,9 @@ public class CcvpnControlLoopTest implements TopicListener {
         kieSession.insert(event);
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
