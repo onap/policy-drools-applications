@@ -337,8 +337,9 @@ rule "EVENT.MANAGER"
                             $clName, $params.getPolicyName() + "." + drools.getRule().getName());
 
                 retract($manager.getOnsetEvent());
-                retract($manager);
-                retract($clTimer);
+                
+                // don't retract manager, etc. - a clean-up rule will do that
+                
                 //
                 // TODO - what if we get subsequent Events for this RequestID?
                 // By default, it will all start over again. May be confusing for Ruby.
@@ -381,8 +382,8 @@ rule "EVENT.MANAGER"
                               $clName, $params.getPolicyName() + "." + drools.getRule().getName());
 
                   retract($manager.getOnsetEvent());
-                  retract($manager);
-                  retract($clTimer);
+                
+                  // don't retract manager, etc. - a clean-up rule will do that
                 }
             }
         } else {
@@ -434,8 +435,8 @@ rule "EVENT.MANAGER"
                   PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
 
                   retract($event);
-                  retract($manager);
-                  retract($clTimer);
+                
+                  // don't retract manager, etc. - a clean-up rule will do that
 
                 if(result.getB() != null) {
                   retract(result.getB());
@@ -468,8 +469,8 @@ rule "EVENT.MANAGER"
         PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
 
         retract($event);
-        retract($manager);
-        retract($clTimer);
+                
+        // don't retract manager, etc. - a clean-up rule will do that
     }
 
 end

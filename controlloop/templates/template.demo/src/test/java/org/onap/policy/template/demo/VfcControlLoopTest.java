@@ -163,6 +163,9 @@ public class VfcControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET);
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
@@ -211,6 +214,9 @@ public class VfcControlLoopTest implements TopicListener {
         kieSession.insert(event);
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params

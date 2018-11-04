@@ -160,6 +160,9 @@ public class VdnsControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET);
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
@@ -196,6 +199,9 @@ public class VdnsControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "error");
 
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
@@ -233,6 +239,10 @@ public class VdnsControlLoopTest implements TopicListener {
 
         try {
             kieSession.fireUntilHalt();
+            
+            // allow object clean-up
+            kieSession.fireAllRules();
+            
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn(e.toString());
