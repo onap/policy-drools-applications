@@ -195,6 +195,9 @@ public class ControlLoopFailureTest implements TopicListener {
          * a lock for a different
          */
         kieSession.fireUntilHalt();
+        
+        // allow object clean-up
+        kieSession.fireAllRules();
 
         /*
          * The only fact in memory should be Params
