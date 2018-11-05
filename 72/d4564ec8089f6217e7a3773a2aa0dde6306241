@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Liam Fallon <liam.fallon@ericsson.com>
+Submitted-by: Liam Fallon <liam.fallon@ericsson.com>
+Submitted-at: Mon, 05 Nov 2018 14:12:08 +0000
+Reviewed-on: https://gerrit.onap.org/r/71778
+Project: policy/drools-applications
+Branch: refs/heads/master
