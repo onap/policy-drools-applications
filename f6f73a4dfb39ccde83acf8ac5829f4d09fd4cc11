@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_e7a65d53",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-05T22:05:54Z",
+      "side": 1,
+      "message": "The $newPolicy.SETUP is only triggered when $newPolicy is added or its YAML is modified, thus it will only generate a cleaner for the new or modified policies.  Once that happens, the $eachActivePolicy.PARAMS.ACTIVE rule will fire, for each active policy, and it will fire against every cleaner, thus all cleaners will contain every active policy.\n\nThe test adds two control loops and then updates one.  It verifies that the Params for the first control loop is replaced, and that the Params for the second control loop is not replaced.  However, I did just realize that there\u0027s a hole in the test in that it compares string representations rather than the objects themselves.  I\u0027ll update that.",
+      "parentUuid": "9adffdf1_c776b906",
+      "range": {
+        "startLine": 1624,
+        "startChar": 17,
+        "endLine": 1624,
+        "endChar": 26
+      },
+      "revId": "f6f73a4dfb39ccde83acf8ac5829f4d09fd4cc11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_67ecadc8",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopParamsCleanupTest.java",
         "patchSetId": 1
