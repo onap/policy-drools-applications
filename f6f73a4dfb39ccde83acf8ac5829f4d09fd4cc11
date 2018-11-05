@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_c776b906",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2018-11-05T20:23:30Z",
+      "side": 1,
+      "message": "What\u0027s still confusing me is that based on my reading of the code, there will be one ParamsCleaner generated for each closed loop, each time the SETUP rule is triggered. So won\u0027t a the instance of this rule for a given closed loop have an active list that only includes the (hopefully a single) up-to-date param entry for that same closed loop and nothing else? As a consequence, wouldn\u0027t all of the parameters for other closed loops be retracted? \n\nI agree the test is passing, but if I\u0027m understanding your test correctly, what you are testing is \"that only the Params object associated with the control loop is modified\" not \"that only the Params object associated with that control loop is replaced\" (what I believe is happening is that the Params object associated with the other control loops have been deleted and replaced by identical Params objects---does that make sense?).",
+      "parentUuid": "9adffdf1_67034d74",
+      "range": {
+        "startLine": 1624,
+        "startChar": 17,
+        "endLine": 1624,
+        "endChar": 26
+      },
+      "revId": "f6f73a4dfb39ccde83acf8ac5829f4d09fd4cc11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_67ecadc8",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopParamsCleanupTest.java",
         "patchSetId": 1
