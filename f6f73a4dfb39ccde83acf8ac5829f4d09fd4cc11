@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_673a6d38",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-05T20:03:37Z",
+      "side": 1,
+      "message": "done (in master branch) - will cherry pick to casablanca afterward",
+      "parentUuid": "9adffdf1_c7ac798f",
+      "revId": "f6f73a4dfb39ccde83acf8ac5829f4d09fd4cc11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_c7c31937",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_67034d74",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-05T20:03:37Z",
+      "side": 1,
+      "message": "The intent is, indeed, to collect param objects for all closed loops.  However, the PARAMS.ACTIVE rule in the other closed loops will see to it that their respective Params objects are added to the ParamsCleaner.active set.  Consequently, line 1625 will be false and thus PARAMS.DELETE will not fire for those Params objects.\nThe clean-up rules are purposely intended to operate on Params objects across all closed loops.\nBTW: The junit test specifically inserts rules for two different control loops and then verifies that when the rules for the first control loop are updated, only the Params object associated with that control loop is replaced.",
+      "parentUuid": "9adffdf1_c7c31937",
+      "range": {
+        "startLine": 1624,
+        "startChar": 17,
+        "endLine": 1624,
+        "endChar": 26
+      },
+      "revId": "f6f73a4dfb39ccde83acf8ac5829f4d09fd4cc11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_67ecadc8",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopParamsCleanupTest.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2018-11-05T19:38:01Z",
       "side": 1,
       "message": "move below line 71",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "f6f73a4dfb39ccde83acf8ac5829f4d09fd4cc11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c7f1d996",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopParamsCleanupTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-05T20:03:37Z",
+      "side": 1,
+      "message": "done (in master branch) - will cherry pick to casablanca afterward",
+      "parentUuid": "9adffdf1_67ecadc8",
       "range": {
         "startLine": 62,
         "startChar": 3,
