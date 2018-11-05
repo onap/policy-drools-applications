@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_a2528311",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-05T22:06:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "9adffdf1_e7a65d53",
+      "range": {
+        "startLine": 1624,
+        "startChar": 17,
+        "endLine": 1624,
+        "endChar": 26
+      },
+      "revId": "f6f73a4dfb39ccde83acf8ac5829f4d09fd4cc11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_67ecadc8",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopParamsCleanupTest.java",
         "patchSetId": 1
