@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+1: Joshua Reich <jreich@research.att.com>
+Code-Review+1: Liam Fallon <liam.fallon@ericsson.com>
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-by: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-at: Tue, 06 Nov 2018 18:05:18 +0000
+Reviewed-on: https://gerrit.onap.org/r/71801
+Project: policy/drools-applications
+Branch: refs/heads/master
