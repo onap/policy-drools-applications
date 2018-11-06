@@ -167,6 +167,10 @@ public class VfwControlLoopTest implements TopicListener {
 
         try {
             kieSession.fireUntilHalt();
+            
+            // allow object clean-up
+            kieSession.fireAllRules();
+            
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn(e.toString());
@@ -209,6 +213,10 @@ public class VfwControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "error");
         try {
             kieSession.fireUntilHalt();
+            
+            // allow object clean-up
+            kieSession.fireAllRules();
+            
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn(e.toString());
@@ -239,6 +247,10 @@ public class VfwControlLoopTest implements TopicListener {
 
         try {
             kieSession.fireUntilHalt();
+            
+            // allow object clean-up
+            kieSession.fireAllRules();
+            
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn(e.toString());
