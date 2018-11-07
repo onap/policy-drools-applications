@@ -161,7 +161,17 @@ public class PolicyTest {
         Target target = new Target();
         target.setResourceID("myresourceD");
 
-        policy = new Policy("idD", "nameD", "descD", "actorD", payload, target, "recipeD", 301, 302);
+        policy = new Policy(
+                PolicyParam.builder().id("idD")
+                .name("nameD")
+                .description("descD")
+                .actor("actorD")
+                .payload(payload)
+                .target(target)
+                .recipe("recipeD")
+                .retries(301)
+                .timeout(302)
+                .build());
         assertEquals("idD", policy.getId());
         assertEquals("nameD", policy.getName());
         assertEquals("descD", policy.getDescription());
