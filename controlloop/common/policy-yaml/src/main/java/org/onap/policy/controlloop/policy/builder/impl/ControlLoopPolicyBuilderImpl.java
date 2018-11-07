@@ -21,11 +21,6 @@
 package org.onap.policy.controlloop.policy.builder.impl;
 
 import com.google.common.base.Strings;
-
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.UUID;
-
 import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompiler;
@@ -35,6 +30,7 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.policy.PolicyParam;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.builder.BuilderException;
@@ -48,6 +44,10 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
+
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.UUID;
 
 public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     private static final String UNKNOWN_POLICY = "Unknown policy ";
@@ -201,10 +201,19 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     @Override
     public Policy setTriggerPolicy(String name, String description, String actor, Target target, String recipe,
-            Map<String, String> payload, Integer retries, Integer timeout) throws BuilderException {
+                                   Map<String, String> payload, Integer retries, Integer timeout) throws BuilderException {
 
-        Policy trigger = new Policy(UUID.randomUUID().toString(), name, description, actor, payload, target, recipe,
-                retries, timeout);
+        Policy trigger = new Policy(PolicyParam.builder()
+                .id(UUID.randomUUID().toString())
+                .name(name)
+                .description(description)
+                .actor(actor)
+                .payload(payload)
+                .target(target)
+                .recipe(recipe)
+                .retries(retries)
+                .timeout(timeout)
+                .build());
 
         controlLoopPolicy.getControlLoop().setTrigger_policy(trigger.getId());
 
@@ -231,7 +240,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
 
     @Override
     public Policy setPolicyForPolicyResult(String name, String description, String actor, Target target, String recipe,
-            Map<String, String> payload, Integer retries, Integer timeout, String policyId, PolicyResult... results)
+                                           Map<String, String> payload, Integer retries, Integer timeout, String policyId, PolicyResult... results)
             throws BuilderException {
         //
         // Find the existing policy
@@ -243,8 +252,17 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
         //
         // Create the new Policy
         //
-        Policy newPolicy = new Policy(UUID.randomUUID().toString(), name, description, actor, payload, target, recipe,
-                retries, timeout);
+        Policy newPolicy = new Policy(
+                PolicyParam.builder().id(UUID.randomUUID().toString())
+                .name(name)
+                .description(description)
+                .actor(actor)
+                .payload(payload)
+                .target(target)
+                .recipe(recipe)
+                .retries(retries)
+                .timeout(timeout)
+                .build());
         //
         // Connect the results
         //

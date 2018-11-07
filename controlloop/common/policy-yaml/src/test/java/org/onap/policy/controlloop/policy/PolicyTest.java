@@ -20,17 +20,18 @@
 
 package org.onap.policy.controlloop.policy;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+import org.onap.policy.common.utils.io.Serializer;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Before;
-import org.junit.Test;
-import org.onap.policy.common.utils.io.Serializer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class PolicyTest {
     private Policy policy;
@@ -161,7 +162,17 @@ public class PolicyTest {
         Target target = new Target();
         target.setResourceID("myresourceD");
 
-        policy = new Policy("idD", "nameD", "descD", "actorD", payload, target, "recipeD", 301, 302);
+        policy = new Policy(
+                PolicyParam.builder().id("idD")
+                .name("nameD")
+                .description("descD")
+                .actor("actorD")
+                .payload(payload)
+                .target(target)
+                .recipe("recipeD")
+                .retries(301)
+                .timeout(302)
+                .build());
         assertEquals("idD", policy.getId());
         assertEquals("nameD", policy.getName());
         assertEquals("descD", policy.getDescription());

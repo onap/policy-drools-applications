@@ -84,8 +84,8 @@ public class Policy implements Serializable {
      * @param retries retries
      * @param timeout timeout
      */
-    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target, 
-                    Integer retries, Integer timeout) {
+    public Policy(String name, String actor, String recipe, Map<String, String> payload, Target target,
+                  Integer retries, Integer timeout) {
         this(name, actor, recipe, payload, target);
         this.retry = retries;
         this.timeout = timeout;
@@ -93,22 +93,14 @@ public class Policy implements Serializable {
     
     /**
      * Constructor.
-     * 
-     * @param id id
-     * @param name name
-     * @param description description
-     * @param actor actor
-     * @param payload payload
-     * @param target target
-     * @param recipe recipe
-     * @param retries retries
-     * @param timeout timeout
+     *
+     * @param policyParam
      */
-    public Policy(String id, String name, String description, String actor, Map<String, String> payload, 
-                    Target target, String recipe, Integer retries, Integer timeout) {
-        this(name, actor, recipe, payload, target, retries, timeout);
-        this.id = id;
-        this.description = description;
+    public Policy(PolicyParam policyParam) {
+        this(policyParam.getName(), policyParam.getActor(), policyParam.getRecipe(), policyParam.getPayload(),
+                policyParam.getTarget(), policyParam.getRetries(), policyParam.getTimeout());
+        this.id = policyParam.getId();
+        this.description = policyParam.getDescription();
     }
     
     /**
@@ -341,5 +333,4 @@ public class Policy implements Serializable {
         }
         return obj1.equals(obj2);
     }
-    
 }
