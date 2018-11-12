@@ -75,8 +75,6 @@ import org.slf4j.Logger;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Iterator;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.onap.policy.drools.system.PolicyEngine;
 
@@ -101,12 +99,18 @@ declare Params
 end
 
 /*
+ * Used to trigger clean up Params that no longer have associated rules.
+ */
+declare ParamsInitCleaner
+  closedLoopControlName : String    // only used when logging
+end
+
+/*
  * Used to clean up Params that no longer have associated rules.
  */
 declare ParamsCleaner
   closedLoopControlName : String
-  identified : boolean              // true if all active Params have been identified
-  active : Set                      // Params that are still active
+  controlLoopYaml : String
 end
 
 
@@ -147,11 +151,9 @@ rule "${policyName}.SETUP"
     params.setControlLoopYaml("${controlLoopYaml}");
     insert(params);
     
-    ParamsCleaner cleaner = new ParamsCleaner();
-    cleaner.setClosedLoopControlName("${closedLoopControlName}");
-    cleaner.setIdentified(false);
-    cleaner.setActive(new HashSet());
-    insert(cleaner);
+    ParamsInitCleaner initCleaner = new ParamsInitCleaner();
+    initCleaner.setClosedLoopControlName("${closedLoopControlName}");
+    insert(initCleaner);
 
     // Note: globals have bad behavior when persistence is used,
     //       hence explicitly getting the logger vs using a global
@@ -1334,52 +1336,74 @@ rule "${policyName}.EVENT.CLEANUP"
 end
 
 /*
-* Indicates to the cleaner that this Params object is still active.
-* This has a higher salience so that it is fired before processing any events.
+* Creates a cleaner for every Params object.
+* This has a higher salience so that it is fired before PARAMS.FINISHED in ANY policy.
 */
-rule "${policyName}.PARAMS.ACTIVE"
-    salience 4
+rule "${policyName}.PARAMS.CLEANING"
+    salience 2
     when
-        $params: Params( getClosedLoopControlName() == "${closedLoopControlName}",
-                            getControlLoopYaml() == "${controlLoopYaml}" )
-        ParamsCleaner( !identified, $active: active )
+        $params: Params( )
+        ParamsInitCleaner( )
     then
  
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(),
         $params.getControlLoopYaml());
         
-    $active.add($params);
-    
-    // do NOT update anything at this point
+    ParamsCleaner cleaner = new ParamsCleaner();
+    cleaner.setClosedLoopControlName($params.getClosedLoopControlName());
+    cleaner.setControlLoopYaml($params.getControlLoopYaml());
+    insert(cleaner);
 end
 
 /*
-* Finished identifying active Params objects.  Begin deleting inactive Params.
+* Finished creating cleaner objects, so remove the trigger.
 * This has a higher salience so that it is fired before processing any events.
 */
-rule "${policyName}.PARAMS.IDENTIFIED"
-    salience 3
+rule "${policyName}.PARAMS.FINISHED"
+    salience 1
     when
-        $cleaner: ParamsCleaner( !identified )
+        $initCleaner: ParamsInitCleaner( )
     then
  
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {}", $cleaner.getClosedLoopControlName(), drools.getRule().getName());
+    logger.info("{}: {}", $initCleaner.getClosedLoopControlName(), drools.getRule().getName());
     
-    $cleaner.setIdentified(true);
-    update($cleaner);
+    retract($initCleaner);
 end
 
 /*
-* Delete Params objects that have not been identified as being active.
-* This has a higher salience so that it is fired before processing any events.
+* Identifies Params objects that are still active, removing their associated cleaners.
+* This should only leave one active Params object for each policy.
+* This has a higher salience so that it is fired before PARAMS.DELETE in ANY policy.
+*/
+rule "${policyName}.PARAMS.ACTIVE"
+    salience 3
+    when
+        $params: Params( getClosedLoopControlName() == "${closedLoopControlName}",
+                            getControlLoopYaml() == "${controlLoopYaml}" )
+        $cleaner: ParamsCleaner( getClosedLoopControlName() == "${closedLoopControlName}",
+                            getControlLoopYaml() == "${controlLoopYaml}"  )
+    then
+ 
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(),
+        $params.getControlLoopYaml());
+        
+    retract($cleaner);
+end
+
+/*
+* Delete Params objects that are not active (i.e., those that still have an associated
+* cleaner object).
+* This has a higher salience so that it is fired before PARAMS.CLEANED in ANY policy.
 */
 rule "${policyName}.PARAMS.DELETE"
     salience 2
     when
         $params: Params( )
-        ParamsCleaner( identified, !active.contains($params) )
+        $cleaner: ParamsCleaner( getClosedLoopControlName() == $params.getClosedLoopControlName(),
+                            getControlLoopYaml() == $params.getControlLoopYaml()  )
     then
  
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1387,22 +1411,21 @@ rule "${policyName}.PARAMS.DELETE"
         $params.getControlLoopYaml());
         
     retract($params);
-    
-    // do NOT update anything at this point
 end
 
 /*
-* Finished deleting inactive Params objects, so remove the cleaner.
+* Finished clean-up, so delete the cleaner objects.
 * This has a higher salience so that it is fired before processing any events.
 */
 rule "${policyName}.PARAMS.CLEANED"
     salience 1
     when
-        $cleaner: ParamsCleaner( identified )
+        $cleaner: ParamsCleaner( )
     then
  
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {}", $cleaner.getClosedLoopControlName(), drools.getRule().getName());
-    
+    logger.info("{}: {} : YAML=[{}]", $cleaner.getClosedLoopControlName(), drools.getRule().getName(),
+        $cleaner.getControlLoopYaml());
+        
     retract($cleaner);
 end

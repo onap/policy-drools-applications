@@ -179,6 +179,29 @@ public class ControlLoopParamsCleanupTest {
         iter = facts.iterator();
         assertTrue(iter.next() == fact3);
         assertTrue(iter.next() == fact1b);
+        
+        /*
+         * Now we'll delete the first rule set.  That won't actually have any immediate
+         * effect, so then we'll update the second rule set, which should trigger a
+         * clean-up of both.
+         */
+        Util.RuleSpec[] specs = new Util.RuleSpec[1];
+        specs[0] = specifications[1];
+
+        logger.info("UPDATING VERSION TO v5.0 - DELETED RULE SET");
+        Util.updateContainer("v5.0", specs);
+
+        specs[0] = new Util.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME_B, POLICY_SCOPE, POLICY_NAME_B,
+                        POLICY_VERSION, loadYaml(YAML));
+        
+        logger.info("UPDATING VERSION TO v6.0 - UPDATED SECOND RULE SET");
+        Util.updateContainer("v6.0", specs);
+        
+        kieSession.fireAllRules();
+        facts = getSessionObjects();
+        assertEquals(specs.length, facts.size());
+        iter = facts.iterator();
+        assertTrue(iter.next().toString().contains(CONTROL_LOOP_NAME_B));
     }
 
     /**
