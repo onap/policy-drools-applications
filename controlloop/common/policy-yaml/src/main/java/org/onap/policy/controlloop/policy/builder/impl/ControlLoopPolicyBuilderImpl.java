@@ -199,21 +199,10 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy setTriggerPolicy(String name, String description, String actor, Target target,
-                                   String recipe, Map<String, String> payload, Integer retries, Integer timeout)
+    public Policy setTriggerPolicy(PolicyParam policyParam)
             throws BuilderException {
 
-        Policy trigger = new Policy(PolicyParam.builder()
-                .id(UUID.randomUUID().toString())
-                .name(name)
-                .description(description)
-                .actor(actor)
-                .payload(payload)
-                .target(target)
-                .recipe(recipe)
-                .retries(retries)
-                .timeout(timeout)
-                .build());
+        Policy trigger = new Policy(policyParam);
 
         controlLoopPolicy.getControlLoop().setTrigger_policy(trigger.getId());
 
@@ -225,7 +214,7 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public ControlLoop setTriggerPolicy(String id) throws BuilderException {
+    public ControlLoop setExistingTriggerPolicy(String id) throws BuilderException {
         if (id == null) {
             throw new BuilderException("Id must not be null");
         }

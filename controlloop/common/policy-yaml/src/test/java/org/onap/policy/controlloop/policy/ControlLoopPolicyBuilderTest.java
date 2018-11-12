@@ -329,8 +329,15 @@ public class ControlLoopPolicyBuilderTest {
             // Test calculateTimeout
             //
             Policy trigger =
-                    builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                            new Target(TargetType.VM), "Restart", null, 2, 300);
+                    builder.setTriggerPolicy(PolicyParam.builder().id(UUID.randomUUID().toString())
+                            .name("Restart the VM")
+                            .description("Upon getting the trigger event, restart the VM")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Restart")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(300).build());
             @SuppressWarnings("unused")
             Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult("Rebuild VM",
                     "If the restart fails, rebuild it", "APPC", new Target(TargetType.VM), "Rebuild", null, 1, 600,
@@ -355,8 +362,16 @@ public class ControlLoopPolicyBuilderTest {
             // Test set initial trigger policy
             //
             Policy triggerPolicy1 =
-                    builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                            new Target(TargetType.VM), "Restart", null, 2, 300);
+                    builder.setTriggerPolicy(
+                            PolicyParam.builder().id(UUID.randomUUID().toString())
+                            .name("Restart the VM")
+                            .description("Upon getting the trigger event, restart the VM")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Restart")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(300).build());
             assertTrue(builder.isOpenLoop() == false);
             assertTrue(builder.getControlLoop().getTrigger_policy().equals(triggerPolicy1.getId()));
             //
@@ -364,13 +379,22 @@ public class ControlLoopPolicyBuilderTest {
             //
             @SuppressWarnings("unused")
             Policy triggerPolicy2 =
-                    builder.setTriggerPolicy("Rebuild the VM", "Upon getting the trigger event, rebuild the VM", "APPC",
-                            new Target(TargetType.VM), "Rebuild", null, 2, 300);
+                    builder.setTriggerPolicy(
+                            PolicyParam.builder()
+                            .id(UUID.randomUUID().toString())
+                            .name("Rebuild the VM")
+                            .description("Upon getting the trigger event, rebuild the VM")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Rebuild")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(300).build());
             //
             // Test set trigger policy to another existing policy
             //
             @SuppressWarnings("unused")
-            ControlLoop cl = builder.setTriggerPolicy(triggerPolicy1.getId());
+            ControlLoop cl = builder.setExistingTriggerPolicy(triggerPolicy1.getId());
             assertTrue(builder.getControlLoop().getTrigger_policy().equals(triggerPolicy1.getId()));
             //
             // Test get trigger policy
@@ -388,7 +412,7 @@ public class ControlLoopPolicyBuilderTest {
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("Id must not be null");
-        builder.setTriggerPolicy(null);
+        builder.setExistingTriggerPolicy(null);
     }
 
     @Test
@@ -398,19 +422,28 @@ public class ControlLoopPolicyBuilderTest {
         final String unknownPolicyId = "100";
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("Unknown policy " + unknownPolicyId);
-        builder.setTriggerPolicy(unknownPolicyId);
+        builder.setExistingTriggerPolicy(unknownPolicyId);
     }
 
     @Test
     public void testSetTriggerPolicyUnknownPolicy() throws BuilderException {
         ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
-        builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                new Target(TargetType.VM), "Restart", null, 2, 300);
+        builder.setTriggerPolicy(
+                PolicyParam.builder()
+                .id(UUID.randomUUID().toString())
+                .name("Restart the VM")
+                .description("Upon getting the trigger event, restart the VM")
+                .actor("APPC")
+                .target(new Target(TargetType.VM))
+                .recipe("Restart")
+                .payload(null)
+                .retries(2)
+                .timeout(300).build());
         final String unknownPolicyId = "100";
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("Unknown policy " + unknownPolicyId);
-        builder.setTriggerPolicy(unknownPolicyId);
+        builder.setExistingTriggerPolicy(unknownPolicyId);
     }
 
     @Test
@@ -419,8 +452,17 @@ public class ControlLoopPolicyBuilderTest {
             ControlLoopPolicyBuilder builder =
                     ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
             Policy triggerPolicy =
-                    builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                            new Target(TargetType.VM), "Restart", null, 2, 300);
+                    builder.setTriggerPolicy(
+                            PolicyParam.builder()
+                            .id(UUID.randomUUID().toString())
+                            .name("Restart the VM")
+                            .description("Upon getting the trigger event, restart the VM")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Restart")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(300).build());
             //
             // Test create a policy and chain it to the results of trigger policy
             //
@@ -524,8 +566,17 @@ public class ControlLoopPolicyBuilderTest {
         ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         Policy triggerPolicy =
-                builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                        new Target(TargetType.VM), "Restart", null, 2, 300);
+                builder.setTriggerPolicy(
+                        PolicyParam.builder()
+                        .id(UUID.randomUUID().toString())
+                        .name("Restart the VM")
+                        .description("Upon getting the trigger event, restart the VM")
+                        .actor("APPC")
+                        .target(new Target(TargetType.VM))
+                        .recipe("Restart")
+                        .payload(null)
+                        .retries(2)
+                        .timeout(300).build());
 
 
         Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult("Rebuild VM",
@@ -544,8 +595,17 @@ public class ControlLoopPolicyBuilderTest {
         ControlLoopPolicyBuilder builder =
                 ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
         Policy triggerPolicy =
-                builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                        new Target(TargetType.VM), "Restart", null, 2, 300);
+                builder.setTriggerPolicy(
+                        PolicyParam.builder()
+                        .id(UUID.randomUUID().toString())
+                        .name("Restart the VM")
+                        .description("Upon getting the trigger event, restart the VM")
+                        .actor("APPC")
+                        .target(new Target(TargetType.VM))
+                        .recipe("Restart")
+                        .payload(null)
+                        .retries(2)
+                        .timeout(300).build());
 
         final String unknownPolicyId = "100";
         expectedException.expect(BuilderException.class);
@@ -560,8 +620,17 @@ public class ControlLoopPolicyBuilderTest {
             ControlLoopPolicyBuilder builder =
                     ControlLoopPolicyBuilder.Factory.buildControlLoop(UUID.randomUUID().toString(), 2400);
             Policy triggerPolicy =
-                    builder.setTriggerPolicy("Restart the eNodeB", "Upon getting the trigger event, restart the eNodeB",
-                            "RANController", new Target(TargetType.PNF), "Restart", null, 2, 300);
+                    builder.setTriggerPolicy(
+                            PolicyParam.builder()
+                            .id(UUID.randomUUID().toString())
+                            .name("Restart the eNodeB")
+                            .description("Upon getting the trigger event, restart the eNodeB")
+                            .actor("RANController")
+                            .target(new Target(TargetType.PNF))
+                            .recipe("Restart")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(300).build());
             //
             // Add the operationsAccumulateParams
             //
@@ -588,8 +657,17 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Set the first invalid trigger policy
             //
-            final Policy policy1 = builder.setTriggerPolicy("Restart the VM",
-                    "Upon getting the trigger event, restart the VM", null, null, "Instantiate", null, 2, 300);
+            final Policy policy1 = builder.setTriggerPolicy(
+                    PolicyParam.builder()
+                    .id(UUID.randomUUID().toString())
+                    .name("Restart the VM")
+                    .description("Upon getting the trigger event, restart the VM")
+                    .actor(null)
+                    .target(null)
+                    .recipe("Instantiate")
+                    .payload(null)
+                    .retries(2)
+                    .timeout(300).build());
             Results results = builder.buildSpecification();
             //
             // Check that ERRORs are in results for invalid policy arguments
@@ -622,14 +700,32 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Set a valid trigger policy
             //
-            Policy policy1a = builder.setTriggerPolicy("Rebuild VM", "If the restart fails, rebuild it.", "APPC",
-                    new Target(TargetType.VM), "Rebuild", null, 1, 600);
+            Policy policy1a = builder.setTriggerPolicy(
+                    PolicyParam.builder()
+                    .id(UUID.randomUUID().toString())
+                    .name("Rebuild VM")
+                    .description("If the restart fails, rebuild it.")
+                    .actor("APPC")
+                    .target(new Target(TargetType.VM))
+                    .recipe("Rebuild")
+                    .payload(null)
+                    .retries(1)
+                    .timeout(600).build());
             //
             // Set a second valid trigger policy
             //
             final Policy policy2 =
-                    builder.setTriggerPolicy("Restart the VM", "Upon getting the trigger event, restart the VM", "APPC",
-                            new Target(TargetType.VM), "Restart", null, 2, 300);
+                    builder.setTriggerPolicy(
+                            PolicyParam.builder()
+                            .id(UUID.randomUUID().toString())
+                            .name("Restart the VM")
+                            .description("Upon getting the trigger event, restart the VM")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Restart")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(300).build());
             //
             // Now, we have policy1 unreachable
             //
@@ -753,8 +849,17 @@ public class ControlLoopPolicyBuilderTest {
             if (policyTobuild.getPolicies() != null) {
                 for (Policy policy : policyTobuild.getPolicies()) {
                     if (policy.getId() == policyTobuild.getControlLoop().getTrigger_policy()) {
-                        builder.setTriggerPolicy(policy.getName(), policy.getDescription(), policy.getActor(),
-                                policy.getTarget(), policy.getRecipe(), null, policy.getRetry(), policy.getTimeout());
+                        builder.setTriggerPolicy(
+                                PolicyParam.builder()
+                                .id(UUID.randomUUID().toString())
+                                .name(policy.getName())
+                                .description(policy.getDescription())
+                                .actor(policy.getActor())
+                                .target(policy.getTarget())
+                                .recipe(policy.getRecipe())
+                                .payload(null)
+                                .retries(policy.getRetry())
+                                .timeout(policy.getTimeout()).build());
                     }
                 }
             }

@@ -26,6 +26,7 @@ import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.policy.PolicyParam;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.builder.impl.ControlLoopPolicyBuilderImpl;
@@ -135,18 +136,11 @@ public interface ControlLoopPolicyBuilder {
      * Platform.
      * 
      * 
-     * @param name name
-     * @param description description
-     * @param actor actor
-     * @param target target
-     * @param recipe recipe
-     * @param retries retries
-     * @param timeout timeout
+     * @param policy Policy parameters object
      * @return Policy object
      * @throws BuilderException builder exception
      */
-    public Policy setTriggerPolicy(String name, String description, String actor, Target target, String recipe,
-            Map<String, String> payload, Integer retries, Integer timeout) throws BuilderException;
+    public Policy setTriggerPolicy(PolicyParam policy) throws BuilderException;
 
     /**
      * Changes the trigger policy to point to another existing Policy.
@@ -155,7 +149,7 @@ public interface ControlLoopPolicyBuilder {
      * @return ControlLoop object
      * @throws BuilderException build exception
      */
-    public ControlLoop setTriggerPolicy(String id) throws BuilderException;
+    public ControlLoop setExistingTriggerPolicy(String id) throws BuilderException;
 
     /**
      * Is an open loop.
