@@ -339,9 +339,20 @@ public class ControlLoopPolicyBuilderTest {
                             .retries(2)
                             .timeout(300).build());
             @SuppressWarnings("unused")
-            Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult("Rebuild VM",
-                    "If the restart fails, rebuild it", "APPC", new Target(TargetType.VM), "Rebuild", null, 1, 600,
-                    trigger.getId(), PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
+            Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult(
+                    PolicyParam.builder()
+                            .name("Rebuild VM")
+                            .description("If the restart fails, rebuild it")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Rebuild")
+                            .payload(null)
+                            .retries(1)
+                            .timeout(600)
+                            .id(trigger.getId()).build(),
+                            PolicyResult.FAILURE,
+                            PolicyResult.FAILURE_RETRIES,
+                            PolicyResult.FAILURE_TIMEOUT);
             assertTrue(builder.calculateTimeout().equals(new Integer(300 + 600)));
             //
         } catch (BuilderException e) {
@@ -466,10 +477,22 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Test create a policy and chain it to the results of trigger policy
             //
-            Policy onRestartFailurePolicy1 = builder.setPolicyForPolicyResult("Rebuild VM",
-                    "If the restart fails, rebuild it.", "APPC", new Target(TargetType.VM), "Rebuild", null, 1, 600,
-                    triggerPolicy.getId(), PolicyResult.FAILURE, PolicyResult.FAILURE_EXCEPTION,
-                    PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT, PolicyResult.FAILURE_GUARD);
+            Policy onRestartFailurePolicy1 = builder.setPolicyForPolicyResult(
+                    PolicyParam.builder()
+                    .name("Rebuild VM")
+                    .description("If the restart fails, rebuild it.")
+                    .actor("APPC")
+                    .target(new Target(TargetType.VM))
+                    .recipe("Rebuild")
+                    .payload(null)
+                    .retries(1)
+                    .timeout(600)
+                    .id(triggerPolicy.getId()).build(),
+                    PolicyResult.FAILURE,
+                    PolicyResult.FAILURE_EXCEPTION,
+                    PolicyResult.FAILURE_RETRIES,
+                    PolicyResult.FAILURE_TIMEOUT,
+                    PolicyResult.FAILURE_GUARD);
             //
             assertTrue(builder.getTriggerPolicy().getFailure().equals(onRestartFailurePolicy1.getId()));
             assertTrue(builder.getTriggerPolicy().getFailure_exception().equals(onRestartFailurePolicy1.getId()));
@@ -480,9 +503,18 @@ public class ControlLoopPolicyBuilderTest {
             //
             // Test create a policy and chain it to the results of trigger policy success
             //
-            Policy onSuccessPolicy1 = builder.setPolicyForPolicyResult("Do something",
-                    "If the restart succeeds, do something else.", "APPC", new Target(TargetType.VM), "SomethingElse",
-                    null, 1, 600, triggerPolicy.getId(), PolicyResult.SUCCESS);
+            Policy onSuccessPolicy1 = builder.setPolicyForPolicyResult(
+                    PolicyParam.builder()
+                    .name("Do something")
+                    .description("If the restart succeeds, do something else.")
+                    .actor("APPC")
+                    .target(new Target(TargetType.VM))
+                    .recipe("SomethingElse")
+                    .payload(null)
+                    .retries(1)
+                    .timeout(600)
+                    .id(triggerPolicy.getId()).build(),
+                    PolicyResult.SUCCESS);
             //
             assertTrue(builder.getTriggerPolicy().getSuccess().equals(onSuccessPolicy1.getId()));
 
@@ -502,9 +534,20 @@ public class ControlLoopPolicyBuilderTest {
             // Create another policy and chain it to the results of trigger policy
             //
             final Policy onRestartFailurePolicy2 =
-                    builder.setPolicyForPolicyResult("Rebuild VM", "If the restart fails, rebuild it.", "APPC",
-                            new Target(TargetType.VM), "Rebuild", null, 2, 600, triggerPolicy.getId(),
-                            PolicyResult.FAILURE, PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT);
+                    builder.setPolicyForPolicyResult(
+                            PolicyParam.builder()
+                            .name("Rebuild VM")
+                            .description("If the restart fails, rebuild it.")
+                            .actor("APPC")
+                            .target(new Target(TargetType.VM))
+                            .recipe("Rebuild")
+                            .payload(null)
+                            .retries(2)
+                            .timeout(600)
+                            .id(triggerPolicy.getId()).build(),
+                            PolicyResult.FAILURE,
+                            PolicyResult.FAILURE_RETRIES,
+                            PolicyResult.FAILURE_TIMEOUT);
             //
             // Test reset policy results
             //
@@ -556,9 +599,21 @@ public class ControlLoopPolicyBuilderTest {
         expectedException.expect(BuilderException.class);
         expectedException.expectMessage("Unknown policy " + policyId);
 
-        builder.setPolicyForPolicyResult("Rebuild VM", "If the restart fails, rebuild it.", "APPC",
-                new Target(TargetType.VM), "Rebuild", null, 1, 600, policyId, PolicyResult.FAILURE,
-                PolicyResult.FAILURE_RETRIES, PolicyResult.FAILURE_TIMEOUT, PolicyResult.FAILURE_GUARD);
+        builder.setPolicyForPolicyResult(
+                PolicyParam.builder()
+                .name("Rebuild VM")
+                .description("If the restart fails, rebuild it.")
+                .actor("APPC")
+                .target(new Target(TargetType.VM))
+                .recipe("Rebuild")
+                .payload(null)
+                .retries(1)
+                .timeout(600)
+                .id(policyId).build(),
+                PolicyResult.FAILURE,
+                PolicyResult.FAILURE_RETRIES,
+                PolicyResult.FAILURE_TIMEOUT,
+                PolicyResult.FAILURE_GUARD);
     }
 
     @Test
@@ -579,9 +634,18 @@ public class ControlLoopPolicyBuilderTest {
                         .timeout(300).build());
 
 
-        Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult("Rebuild VM",
-                "If the restart fails, rebuild it.", "APPC", new Target(TargetType.VM), "Rebuild", null, 1, 600,
-                triggerPolicy.getId(), PolicyResult.FAILURE);
+        Policy onRestartFailurePolicy = builder.setPolicyForPolicyResult(
+                PolicyParam.builder()
+                .name("Rebuild VM")
+                .description("If the restart fails, rebuild it.")
+                .actor("APPC")
+                .target(new Target(TargetType.VM))
+                .recipe("Rebuild")
+                .payload(null)
+                .retries(1)
+                .timeout(600)
+                .id(triggerPolicy.getId()).build(),
+                PolicyResult.FAILURE);
 
         final String unknownPolicyId = "100";
         expectedException.expect(BuilderException.class);
