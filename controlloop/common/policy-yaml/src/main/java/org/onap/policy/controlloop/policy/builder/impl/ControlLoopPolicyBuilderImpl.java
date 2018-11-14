@@ -228,30 +228,28 @@ public class ControlLoopPolicyBuilderImpl implements ControlLoopPolicyBuilder {
     }
 
     @Override
-    public Policy setPolicyForPolicyResult(String name, String description, String actor, Target target, String recipe,
-                                           Map<String, String> payload, Integer retries, Integer timeout,
-                                           String policyId, PolicyResult... results)
+    public Policy setPolicyForPolicyResult(PolicyParam policyParam, PolicyResult... results)
             throws BuilderException {
         //
         // Find the existing policy
         //
-        Policy existingPolicy = this.findPolicy(policyId);
+        Policy existingPolicy = this.findPolicy(policyParam.getId());
         if (existingPolicy == null) {
-            throw new BuilderException(UNKNOWN_POLICY + policyId);
+            throw new BuilderException(UNKNOWN_POLICY + policyParam.getId());
         }
         //
         // Create the new Policy
         //
         Policy newPolicy = new Policy(
                 PolicyParam.builder().id(UUID.randomUUID().toString())
-                .name(name)
-                .description(description)
-                .actor(actor)
-                .payload(payload)
-                .target(target)
-                .recipe(recipe)
-                .retries(retries)
-                .timeout(timeout)
+                .name(policyParam.getName())
+                .description(policyParam.getDescription())
+                .actor(policyParam.getActor())
+                .payload(policyParam.getPayload())
+                .target(policyParam.getTarget())
+                .recipe(policyParam.getRecipe())
+                .retries(policyParam.getRetries())
+                .timeout(policyParam.getTimeout())
                 .build());
         //
         // Connect the results

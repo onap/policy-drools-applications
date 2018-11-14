@@ -177,20 +177,12 @@ public interface ControlLoopPolicyBuilder {
     /**
      * Creates a policy that is chained to the result of another Policy.
      * 
-     * @param name name
-     * @param description description
-     * @param actor actor
-     * @param target target
-     * @param recipe recipe
-     * @param retries retries
-     * @param timeout timeout
-     * @param policyId id
+     * @param policyParam policy parameters object
      * @param results results
      * @return Policy that was set
      * @throws BuilderException builder exception
      */
-    public Policy setPolicyForPolicyResult(String name, String description, String actor, Target target, String recipe,
-            Map<String, String> payload, Integer retries, Integer timeout, String policyId, PolicyResult... results)
+    public Policy setPolicyForPolicyResult(PolicyParam policyParam, PolicyResult... results)
             throws BuilderException;
 
 
