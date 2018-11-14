@@ -45,9 +45,9 @@ pdpx.environment=${{PDP_ENVIRONMENT}}
 pdpx.client.username=${{PDP_CLIENT_USERNAME}}
 pdpx.client.password=${{PDP_CLIENT_PASSWORD}}
 
-guard.url=http://${{PDP_HOST}}:8081/pdp/api/getDecision
-guard.jdbc.url=mariadb://${{SQL_HOST}}:3306/operationshistory10
-guard.disabled=true
+guard.url=https://${{PDP_HOST}}:8081/pdp/api/getDecision
+guard.jdbc.url=jdbc:mariadb://${{SQL_HOST}}:3306/onap_sdk
+guard.disabled=false
 
 sdnc.url=${{SDNC_URL}}
 sdnc.username=${{SDNC_USERNAME}}
