@@ -50,6 +50,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
+import org.onap.policy.drools.protocol.coders.EventProtocolParams;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -92,9 +93,15 @@ public class VdnsControlLoopTest implements TopicListener {
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
         noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
 
-        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "POLICY-CL-MGT",
-                "org.onap.policy.controlloop.VirtualControlLoopNotification", new JsonProtocolFilter(), null, null,
-                1111);
+        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+                .groupId("junit.groupId")
+                .artifactId("junit.artifactId")
+                .topic("POLICY-CL-MGT")
+                .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
+                .protocolFilter(new JsonProtocolFilter())
+                .customGsonCoder(null)
+                .customJacksonCoder(null)
+                .modelClassLoaderHash(1111));
 
         try {
             Util.buildAaiSim();
@@ -377,7 +384,7 @@ public class VdnsControlLoopTest implements TopicListener {
      * message) or end the control loop (abatement message).
      * 
      * @param policy the controlLoopName comes from the policy
-     * @param requestID the requestId for this event
+     * @param requestId the requestId for this event
      * @param status could be onset or abated
      */
     protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status) {

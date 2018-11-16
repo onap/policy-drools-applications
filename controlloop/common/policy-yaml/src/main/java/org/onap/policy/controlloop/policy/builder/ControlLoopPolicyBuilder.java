@@ -20,15 +20,12 @@
 
 package org.onap.policy.controlloop.policy.builder;
 
-import java.util.Map;
-
 import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyParam;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.builder.impl.ControlLoopPolicyBuilderImpl;
 import org.onap.policy.sdc.Resource;
 import org.onap.policy.sdc.Service;
