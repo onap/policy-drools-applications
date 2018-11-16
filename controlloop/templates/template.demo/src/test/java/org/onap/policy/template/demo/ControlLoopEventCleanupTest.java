@@ -47,6 +47,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
+import org.onap.policy.drools.protocol.coders.EventProtocolParams;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -124,11 +125,24 @@ public class ControlLoopEventCleanupTest {
                         "org.onap.policy.controlloop.util.Serialization,gsonPretty");
         final List<TopicSink> noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
 
-        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "POLICY-CL-MGT",
-                        "org.onap.policy.controlloop.VirtualControlLoopNotification", new JsonProtocolFilter(), null,
-                        null, 1111);
-        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "APPC-CL",
-                        "org.onap.policy.appc.Request", new JsonProtocolFilter(), null, null, 1111);
+        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+                .groupId("junit.groupId")
+                .artifactId("junit.artifactId")
+                .topic("POLICY-CL-MGT")
+                .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
+                .protocolFilter(new JsonProtocolFilter())
+                .customGsonCoder(null)
+                .customJacksonCoder(null)
+                .modelClassLoaderHash(1111));
+        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+                .groupId("junit.groupId")
+                .artifactId("junit.artifactId")
+                .topic("APPC-CL")
+                .eventClass("org.onap.policy.appc.Request")
+                .protocolFilter(new JsonProtocolFilter())
+                .customGsonCoder(null)
+                .customJacksonCoder(null)
+                .modelClassLoaderHash(1111));
 
         try {
             Util.buildAaiSim();

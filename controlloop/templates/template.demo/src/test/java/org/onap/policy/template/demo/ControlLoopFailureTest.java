@@ -54,6 +54,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
+import org.onap.policy.drools.protocol.coders.EventProtocolParams;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -98,11 +99,24 @@ public class ControlLoopFailureTest implements TopicListener {
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
         noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
 
-        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "POLICY-CL-MGT",
-                "org.onap.policy.controlloop.VirtualControlLoopNotification", new JsonProtocolFilter(), null, null,
-                1111);
-        EventProtocolCoder.manager.addEncoder("junit.groupId", "junit.artifactId", "APPC-LCM-READ",
-                "org.onap.policy.appclcm.LcmRequestWrapper", new JsonProtocolFilter(), null, null, 1111);
+        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+                .groupId("junit.groupId")
+                .artifactId("junit.artifactId")
+                .topic("POLICY-CL-MGT")
+                .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
+                .protocolFilter(new JsonProtocolFilter())
+                .customGsonCoder(null)
+                .customJacksonCoder(null)
+                .modelClassLoaderHash(1111));
+        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+                .groupId("junit.groupId")
+                .artifactId("junit.artifactId")
+                .topic("APPC-LCM-READ")
+                .eventClass("org.onap.policy.appclcm.LcmRequestWrapper")
+                .protocolFilter(new JsonProtocolFilter())
+                .customGsonCoder(null)
+                .customJacksonCoder(null)
+                .modelClassLoaderHash(1111));
         try {
             Util.buildAaiSim();
             Util.buildGuardSim();
@@ -363,7 +377,7 @@ public class ControlLoopFailureTest implements TopicListener {
      * message) or end the control loop (abatement message).
      * 
      * @param policy the controlLoopName comes from the policy
-     * @param requestID the requestId for this event
+     * @param requestId the requestId for this event
      * @param status could be onset or abated
      * @param target the target entity to take an action on
      */

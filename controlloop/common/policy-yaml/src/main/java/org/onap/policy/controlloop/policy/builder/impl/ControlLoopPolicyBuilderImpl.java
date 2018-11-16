@@ -22,8 +22,8 @@ package org.onap.policy.controlloop.policy.builder.impl;
 
 import com.google.common.base.Strings;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.UUID;
+
 import org.onap.policy.aai.Pnf;
 import org.onap.policy.controlloop.compiler.CompilerException;
 import org.onap.policy.controlloop.compiler.ControlLoopCompiler;
@@ -35,7 +35,6 @@ import org.onap.policy.controlloop.policy.OperationsAccumulateParams;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyParam;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.builder.BuilderException;
 import org.onap.policy.controlloop.policy.builder.ControlLoopPolicyBuilder;
 import org.onap.policy.controlloop.policy.builder.MessageLevel;
