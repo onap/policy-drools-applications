@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_ffc53d3d",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 2543
+      },
+      "writtenOn": "2018-11-25T23:07:31Z",
+      "side": 1,
+      "message": "Hello All, I kept this same as previous., \nbut I wonder why 200 is Error for LCM resp code.",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 28
+      },
+      "revId": "c90c32f17194457098d0389d8633ddb61ca941f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_22216e9f",
         "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
         "patchSetId": 1
