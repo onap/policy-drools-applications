@@ -3,13 +3,14 @@
  * appclcm
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018 Samsung Electronics Co., Ltd. Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +21,10 @@
 
 package org.onap.policy.appclcm;
 
-public class LcmResponseCode {
+import java.io.Serializable;
+import org.onap.policy.appclcm.util.StatusCodeEnum;
+
+public class LcmResponseCode implements Serializable {
 
     /* These fields define the key to the response code value. */
     public static final String ACCEPTED = "ACCEPTED";
@@ -48,27 +52,12 @@ public class LcmResponseCode {
 
     /**
      * Translates the code to a string value that represents the meaning of the code.
-     * 
-     * @param code the numeric value that is returned by APPC based on success, failure, etc. of the
-     *        action requested
+     *
+     * @param code the numeric value that is returned by APPC based on success, failure, etc. of the action requested
      * @return the string value equivalent of the APPC response code
      */
     public static String toResponseValue(int code) {
-        if (code == 100) {
-            return ACCEPTED;
-        } else if (code == 200) {
-            return ERROR;
-        } else if (code >= 300 && code <= 313) {
-            return REJECT;
-        } else if (code == 400) {
-            return SUCCESS;
-        } else if (code == 450 || (code >= 401 && code <= 406)) {
-            return FAILURE;
-        } else if (code == 500) {
-            return PARTIAL_SUCCESS;
-        } else if (code >= 501 && code <= 599) {
-            return PARTIAL_FAILURE;
-        }
-        return null;
+        StatusCodeEnum statusCodeEnum = StatusCodeEnum.fromStatusCode(code);
+        return (statusCodeEnum != null) ? statusCodeEnum.toString() : null;
     }
 }
