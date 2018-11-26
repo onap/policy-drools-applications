@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_2daf1f96",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-11-26T12:14:40Z",
+      "side": 1,
+      "message": "I don\u0027t think you need these any more unless they are used in some other class, they are public.",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "eadb7f0ab357dc5199bd7a43b891cce3bbd31496",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4d894325",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciResponseCode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-11-26T12:14:40Z",
+      "side": 1,
+      "message": "I don\u0027t think you need these any more unless they are used in some other class, they are public.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "eadb7f0ab357dc5199bd7a43b891cce3bbd31496",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
