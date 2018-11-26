@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8d1deb68",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-11-26T09:59:45Z",
+      "side": 1,
+      "message": "I don\u0027t think you need these string constants, you can return the string value of the enum.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 67
+      },
+      "revId": "7726e959695b32110deaf6f0e2a24abd373fda15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0d7d7b6e",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-11-26T09:59:45Z",
+      "side": 1,
+      "message": "Have a look at my main comment.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 20
+      },
+      "revId": "7726e959695b32110deaf6f0e2a24abd373fda15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2d807f45",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciResponseCode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2018-11-26T09:59:45Z",
+      "side": 1,
+      "message": "I don\u0027t think you need these.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 67
+      },
+      "revId": "7726e959695b32110deaf6f0e2a24abd373fda15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
