@@ -52,7 +52,7 @@ import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.template.demo.Util.Pair;
+import org.onap.policy.template.demo.SupportUtil.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,7 +98,7 @@ public class ControlLoopEventCleanupTest {
     private static String saveGuardFlag;
 
     private static KieSession kieSession;
-    private static Util.RuleSpec[] specifications;
+    private static SupportUtil.RuleSpec[] specifications;
 
     /**
      * Setup the simulator.
@@ -110,7 +110,7 @@ public class ControlLoopEventCleanupTest {
         saveGuardFlag = PolicyEngine.manager.getEnvironmentProperty(GUARD_DISABLED);
         PolicyEngine.manager.getEnvironment().setProperty(GUARD_DISABLED, "true");
 
-        Util.setAaiProps();
+        SupportUtil.setAaiProps();
 
         PolicyEngine.manager.configure(new Properties());
         assertTrue(PolicyEngine.manager.start());
@@ -145,7 +145,7 @@ public class ControlLoopEventCleanupTest {
                 .modelClassLoaderHash(1111));
 
         try {
-            Util.buildAaiSim();
+            SupportUtil.buildAaiSim();
 
         } catch (Exception e) {
             logger.error("Could not create simulator", e);
@@ -157,15 +157,15 @@ public class ControlLoopEventCleanupTest {
         }
 
         try {
-            specifications = new Util.RuleSpec[2];
+            specifications = new SupportUtil.RuleSpec[2];
 
-            specifications[0] = new Util.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME, POLICY_SCOPE, POLICY_NAME,
+            specifications[0] = new SupportUtil.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME, POLICY_SCOPE, POLICY_NAME,
                             POLICY_VERSION, loadYaml(YAML));
 
-            specifications[1] = new Util.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME_B, POLICY_SCOPE, POLICY_NAME_B,
-                            POLICY_VERSION, loadYaml(YAML_B));
+            specifications[1] = new SupportUtil.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME_B, POLICY_SCOPE,
+                            POLICY_NAME_B, POLICY_VERSION, loadYaml(YAML_B));
 
-            kieSession = Util.buildContainer(POLICY_VERSION, specifications);
+            kieSession = SupportUtil.buildContainer(POLICY_VERSION, specifications);
 
         } catch (IOException e) {
             logger.error("Could not create kieSession", e);
@@ -270,17 +270,17 @@ public class ControlLoopEventCleanupTest {
          * effect, so then we'll update the second rule set, which should trigger a
          * clean-up of both.
          */
-        Util.RuleSpec[] specs = new Util.RuleSpec[1];
+        SupportUtil.RuleSpec[] specs = new SupportUtil.RuleSpec[1];
         specs[0] = specifications[1];
 
         logger.info("UPDATING VERSION TO v5.0 - DELETED RULE SET");
-        Util.updateContainer("v5.0", specs);
+        SupportUtil.updateContainer("v5.0", specs);
 
-        specs[0] = new Util.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME_B, POLICY_SCOPE, POLICY_NAME_B, POLICY_VERSION,
-                        loadYaml(YAML));
+        specs[0] = new SupportUtil.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME_B, POLICY_SCOPE, POLICY_NAME_B,
+                POLICY_VERSION, loadYaml(YAML));
 
         logger.info("UPDATING VERSION TO v6.0 - UPDATED SECOND RULE SET");
-        Util.updateContainer("v6.0", specs);
+        SupportUtil.updateContainer("v6.0", specs);
 
         kieSession.fireAllRules();
         facts = getSessionObjects();
@@ -299,13 +299,13 @@ public class ControlLoopEventCleanupTest {
      */
     private static void updatePolicy(String yamlFile, String policyVersion) throws IOException {
 
-        specifications[0] = new Util.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME, POLICY_SCOPE, POLICY_NAME,
+        specifications[0] = new SupportUtil.RuleSpec(DROOLS_TEMPLATE, CONTROL_LOOP_NAME, POLICY_SCOPE, POLICY_NAME,
                         policyVersion, loadYaml(yamlFile));
 
         /*
          * Update the policy within the container.
          */
-        Util.updateContainer(policyVersion, specifications);
+        SupportUtil.updateContainer(policyVersion, specifications);
     }
 
     /**
@@ -316,7 +316,7 @@ public class ControlLoopEventCleanupTest {
      * @throws UnsupportedEncodingException if an error occurs
      */
     private static String loadYaml(String yamlFile) throws UnsupportedEncodingException {
-        Pair<ControlLoopPolicy, String> pair = Util.loadYaml(yamlFile);
+        Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(yamlFile);
         assertNotNull(pair);
         assertNotNull(pair.first);
         assertNotNull(pair.first.getControlLoop());

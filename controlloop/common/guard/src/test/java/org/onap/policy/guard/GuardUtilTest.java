@@ -45,7 +45,7 @@ public class GuardUtilTest {
         Yaml clYaml = new Yaml(new Constructor(ControlLoopPolicy.class));
         String clYamlString = clYaml.dump(clPolicy);
 
-        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+        SupportTextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
 
         Pair<ControlLoopPolicy, String> result = Util.loadYaml(tempYamlFile.getCanonicalPath());
 
@@ -74,7 +74,7 @@ public class GuardUtilTest {
         Yaml clYaml = new Yaml(new Constructor(ControlLoopPolicy.class));
         String clYamlString = clYaml.dump(clGuardPolicy);
 
-        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+        SupportTextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
 
         ControlLoopGuard result = Util.loadYamlGuard(tempYamlFile.getCanonicalPath());
 

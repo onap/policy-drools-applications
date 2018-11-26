@@ -82,9 +82,9 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
     static {
         /* Set environment properties */
-        Util.setAaiProps();
-        Util.setGuardPropsEmbedded();
-        Util.setPuProp();
+        SupportUtil.setAaiProps();
+        SupportUtil.setGuardPropsEmbedded();
+        SupportUtil.setPuProp();
     }
 
     /**
@@ -124,7 +124,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
                 .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
         try {
-            Util.buildAaiSim();
+            SupportUtil.buildAaiSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -244,7 +244,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
         //
         // get dump of database entries and log
         // 
-        List<?> entries = Util.dumpDb();
+        List<?> entries = SupportUtil.dumpDb();
         assertNotNull(entries);
         logger.debug("dumpDB, {} entries", entries.size());
         for (Object entry : entries) {
@@ -307,7 +307,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
         /*
          * Load policies from yaml
          */
-        Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml(yamlFile);
+        SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(yamlFile);
         assertNotNull(pair);
         assertNotNull(pair.first);
         assertNotNull(pair.first.getControlLoop());
@@ -320,7 +320,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = Util.buildContainer(droolsTemplate, 
+        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate, 
                                                           controlLoopName.toString(),
                                                           policyScope,
                                                           policyName,

@@ -31,7 +31,7 @@ import java.io.IOException;
  *
  * @author Liam Fallon (liam.fallon@ericsson.com)
  */
-public abstract class TextFileUtils {
+public abstract class SupportTextFileUtils {
     /**
      * Method to return the contents of a text file as a string.
      *

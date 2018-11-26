@@ -69,15 +69,15 @@ public class VfcControlLoopTest implements TopicListener {
     private static List<? extends TopicSink> noopTopics;
 
     private static KieSession kieSession;
-    private static Util.Pair<ControlLoopPolicy, String> pair;
+    private static SupportUtil.Pair<ControlLoopPolicy, String> pair;
     private UUID requestId;
 
     static {
         /* Set environment properties */
-        Util.setAaiProps();
-        Util.setVfcProps();
-        Util.setGuardProps();
-        Util.setPuProp();
+        SupportUtil.setAaiProps();
+        SupportUtil.setVfcProps();
+        SupportUtil.setGuardProps();
+        SupportUtil.setPuProp();
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
@@ -107,9 +107,9 @@ public class VfcControlLoopTest implements TopicListener {
                 .modelClassLoaderHash(1111));
 
         try {
-            Util.buildAaiSim();
-            Util.buildVfcSim();
-            Util.buildGuardSim();
+            SupportUtil.buildAaiSim();
+            SupportUtil.buildVfcSim();
+            SupportUtil.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -253,7 +253,7 @@ public class VfcControlLoopTest implements TopicListener {
         /*
          * Load policies from yaml
          */
-        pair = Util.loadYaml(yamlFile);
+        pair = SupportUtil.loadYaml(yamlFile);
         assertNotNull(pair);
         assertNotNull(pair.first);
         assertNotNull(pair.first.getControlLoop());
@@ -263,7 +263,7 @@ public class VfcControlLoopTest implements TopicListener {
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = Util.buildContainer(droolsTemplate, 
+        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate, 
                 pair.first.getControlLoop().getControlLoopName(),
                 policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
 

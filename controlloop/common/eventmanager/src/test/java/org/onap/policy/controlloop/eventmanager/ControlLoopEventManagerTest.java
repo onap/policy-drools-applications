@@ -58,7 +58,7 @@ import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
-import org.onap.policy.controlloop.Util;
+import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
@@ -124,7 +124,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testAaiVnfInfo() {
-        final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
             AaiGetVnfResponse response = getQueryByVnfId2(
@@ -143,7 +143,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testAaiVnfInfo2() {
-        final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
             AaiGetVnfResponse response = getQueryByVnfName2(
@@ -161,7 +161,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testAaiVserver() {
-        final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
             AaiGetVserverResponse response = getQueryByVserverName2(

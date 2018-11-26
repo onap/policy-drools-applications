@@ -61,7 +61,7 @@ import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopTargetType;
-import org.onap.policy.controlloop.Util;
+import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -161,7 +161,7 @@ public class ControlLoopOperationManagerTest {
         //
         // Load up the policy
         //
-        final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
             //
@@ -292,7 +292,7 @@ public class ControlLoopOperationManagerTest {
         //
         // Load up the policy
         //
-        final Util.Pair<ControlLoopPolicy, String> pair = Util.loadYaml("src/test/resources/test.yaml");
+        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml("src/test/resources/test.yaml");
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
         try {
             //

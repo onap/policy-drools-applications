@@ -86,11 +86,11 @@ public class PolicyGuardYamlToXacmlTest {
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
 
-        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+        SupportTextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
         PolicyGuardYamlToXacml.fromYamlToXacml(tempYamlFile.getCanonicalPath(),
                 tempXacmlTemplateFile.getCanonicalPath(), tempXacmlOutputFile.getCanonicalPath());
 
-        String result = TextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
+        String result = SupportTextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
 
         // Assert no mote "${}" are left
         assertFalse(result.contains("${"));
@@ -124,11 +124,11 @@ public class PolicyGuardYamlToXacmlTest {
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
 
-        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+        SupportTextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
         PolicyGuardYamlToXacml.fromYamlToXacml(tempYamlFile.getCanonicalPath(),
                 tempXacmlTemplateFile.getCanonicalPath(), tempXacmlOutputFile.getCanonicalPath());
 
-        String result = TextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
+        String result = SupportTextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
 
         // Assert no mote "${}" are left
         assertFalse(result.contains("${"));
@@ -184,11 +184,11 @@ public class PolicyGuardYamlToXacmlTest {
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
 
-        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+        SupportTextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
         PolicyGuardYamlToXacml.fromYamlToXacmlBlacklist(tempYamlFile.getCanonicalPath(),
                 tempXacmlTemplateFile.getCanonicalPath(), tempXacmlOutputFile.getCanonicalPath());
 
-        String result = TextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
+        String result = SupportTextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
         System.err.println(result);
         // Assert no mote "${}" are left
         assertFalse(result.contains("${"));
@@ -220,11 +220,11 @@ public class PolicyGuardYamlToXacmlTest {
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
 
-        TextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
+        SupportTextFileUtils.putStringAsFile(clYamlString, tempYamlFile);
         PolicyGuardYamlToXacml.fromYamlToXacmlBlacklist(tempYamlFile.getCanonicalPath(),
                 tempXacmlTemplateFile.getCanonicalPath(), tempXacmlOutputFile.getCanonicalPath());
 
-        String result = TextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
+        String result = SupportTextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
         System.err.println(result);
         // Assert no mote "${}" are left
         assertFalse(result.contains("${"));

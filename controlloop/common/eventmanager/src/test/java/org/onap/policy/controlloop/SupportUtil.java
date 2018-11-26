@@ -33,7 +33,7 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-public final class Util {
+public final class SupportUtil {
 
     public static class Pair<A, B> {
         public final A key;

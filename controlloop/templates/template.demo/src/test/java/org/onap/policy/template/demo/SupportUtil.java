@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * demo
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,25 +18,22 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.template.demo.clc;
+package org.onap.policy.template.demo;
 
 import static org.junit.Assert.fail;
 
+import com.att.research.xacml.util.XACMLProperties;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import org.apache.commons.io.IOUtils;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -50,21 +47,17 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.guard.PolicyGuardYamlToXacml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 
-public final class Util {
+public final class SupportUtil {
 
     private static final String OPSHISTPUPROP = "OperationsHistoryPU";
-    private static final Logger logger = LoggerFactory.getLogger(Util.class);
-
-    // values from the last call to buildContainer()
-
-    private static KieServices kieServices;
-    private static KieContainer keyContainer;
+    private static final Logger logger = LoggerFactory.getLogger(SupportUtil.class);
 
     public static class Pair<A, B> {
         public final A first;
@@ -76,9 +69,14 @@ public final class Util {
         }
     }
 
+    // values from the last call to buildContainer()
+
+    private static KieServices kieServices;
+    private static KieContainer keyContainer;
+
     /**
      * Load YAML.
-     * 
+     *
      * @param testFile test file to load
      * @return the Pair of a policy and the yaml contents
      */
@@ -94,6 +92,8 @@ public final class Util {
             logger.debug(contents);
 
             return new Pair<ControlLoopPolicy, String>((ControlLoopPolicy) obj, contents);
+        } catch (FileNotFoundException e) {
+            fail(e.getLocalizedMessage());
         } catch (IOException e) {
             fail(e.getLocalizedMessage());
         }
@@ -102,7 +102,7 @@ public final class Util {
 
     /**
      * Load the YAML guard policy.
-     * 
+     *
      * @param testFile the test file to load
      * @return return the guard object
      */
@@ -115,6 +115,8 @@ public final class Util {
             Yaml yaml = new Yaml(new Constructor(ControlLoopGuard.class));
             Object obj = yaml.load(contents);
             return (ControlLoopGuard) obj;
+        } catch (FileNotFoundException e) {
+            fail(e.getLocalizedMessage());
         } catch (IOException e) {
             fail(e.getLocalizedMessage());
         }
@@ -123,6 +125,22 @@ public final class Util {
 
     public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
         return org.onap.policy.simulators.Util.buildAaiSim();
+    }
+
+    public static HttpServletServer buildSoSim() throws InterruptedException, IOException {
+        return org.onap.policy.simulators.Util.buildSoSim();
+    }
+
+    public static HttpServletServer buildVfcSim() throws InterruptedException, IOException {
+        return org.onap.policy.simulators.Util.buildVfcSim();
+    }
+
+    public static HttpServletServer buildGuardSim() throws InterruptedException, IOException {
+        return org.onap.policy.simulators.Util.buildGuardSim();
+    }
+
+    public static HttpServletServer buildSdncSim() throws InterruptedException, IOException {
+        return org.onap.policy.simulators.Util.buildSdncSim();
     }
 
     /**
@@ -168,7 +186,7 @@ public final class Util {
         //
         keyContainer = kieServices.newKieContainer(releaseId);
 
-        return keyContainer.newKieSession();
+        return setupSession(keyContainer.newKieSession());
     }
 
     /**
@@ -227,6 +245,46 @@ public final class Util {
         return releaseId;
     }
 
+    private static KieSession setupSession(KieSession kieSession) {
+
+
+        //
+        // Create XACML Guard policy from YAML
+        // We prepare 4 Guards. Notice that Rebuilds recipe has two Guards (for checking policy combining algorithm)
+        //
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_restart.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
+                "src/test/resources/xacml/autogenerated_frequency_limiter_restart.xml");
+
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_rebuild.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
+                "src/test/resources/xacml/autogenerated_frequency_limiter_rebuild.xml");
+
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_rebuild_1.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
+                "src/test/resources/xacml/autogenerated_frequency_limiter_rebuild_1.xml");
+
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_migrate.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
+                "src/test/resources/xacml/autogenerated_frequency_limiter_migrate.xml");
+
+        PolicyGuardYamlToXacml.fromYamlToXacml("src/test/resources/yaml/policy_guard_appc_modifyconfig.yaml",
+                "src/main/resources/frequency_limiter_template.xml",
+                "src/test/resources/xacml/autogenerated_frequency_limiter_modifyconfig.xml");
+
+        PolicyGuardYamlToXacml.fromYamlToXacmlBlacklist(
+                "src/test/resources/yaml/policy_guard_appc_restart_blacklist.yaml",
+                "src/main/resources/blacklist_template.xml",
+                "src/test/resources/xacml/autogenerated_blacklist.xml");
+
+        //
+        // Creating an embedded XACML PDP
+        //
+        System.setProperty(XACMLProperties.XACML_PROPERTIES_NAME, "src/test/resources/xacml/xacml_guard.properties");
+
+        return kieSession;
+    }
+
     /**
      *  Set the A&AI properties.
      */
@@ -237,14 +295,31 @@ public final class Util {
     }
 
     /**
-     *  Set the Guard properties to use embedded XACML PDPEngine.
+     *  Set the SO properties.
      */
-    public static void setGuardPropsEmbedded() {
+    public static void setSoProps() {
+        PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
+        PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
+        PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
+    }
+
+    /**
+     *  Set the SDNC properties.
+     */
+    public static void setSdncProps() {
+        PolicyEngine.manager.setEnvironmentProperty("sdnc.url", "http://localhost:6670/restconf/operations");
+        PolicyEngine.manager.setEnvironmentProperty("sdnc.username", "sdnc");
+        PolicyEngine.manager.setEnvironmentProperty("sdnc.password", "sdnc");
+    }
+
+    /**
+     *  Set the Guard properties.
+     */
+    public static void setGuardProps() {
         /*
-         * Guard PDP-x connection Properties. No URL specified -> use embedded PDPEngine.
+         * Guard PDP-x connection Properties
          */
-        PolicyEngine.manager.setEnvironmentProperty("prop.guard.propfile",
-                                                    "src/test/resources/xacml/xacml_guard_clc.properties");
+        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL,         "http://localhost:6669/pdp/api/getDecision");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        "python");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        "test");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_USER, "python");
@@ -252,51 +327,21 @@ public final class Util {
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV,         "TEST");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,    "false");
     }
-    
+
+    /**
+     *  Set the VFC properties.
+     */
+    public static void setVfcProps() {
+        PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
+    }
+
     /**
      *  Set the operation history properties.
      */
     public static void setPuProp() {
         System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
-    }
-
-    /**
-     * Dump the contents of the History database.
-     *
-     * @return a list of the database entries
-     */
-    public static List<?> dumpDb() {
-        //
-        // Connect to in-mem db
-        //
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestOperationsHistoryPU");
-        EntityManager em = emf.createEntityManager();
-        //
-        // Create query
-        //
-        String sql = "select * from operationshistory10";
-        Query nq = em.createNativeQuery(sql);
-        List<?> results = null;
-        //
-        // Execute query
-        //
-        try {
-            results = nq.getResultList();
-        } catch (Exception ex) {
-            logger.error("getStatusFromDB threw: ", ex);
-            //
-            // Clean up and return null
-            //
-            em.close();
-            emf.close();
-            return null;
-        }
-        //
-        // Clean up and return results
-        //
-        em.close();
-        emf.close();
-        return results;
     }
 
     /**

@@ -38,16 +38,16 @@ public class ActorServiceProviderTest {
         actorService = ActorService.getInstance();
         assertNotNull(actorService);
 
-        Actor testActor = ActorService.getInstance().actors().get(0);
-        assertNotNull(testActor);
+        Actor dummyActor = ActorService.getInstance().actors().get(0);
+        assertNotNull(dummyActor);
 
-        assertEquals("TestActor", testActor.actor());
+        assertEquals("DummyActor", dummyActor.actor());
 
-        assertEquals(2, testActor.recipes().size());
-        assertEquals("Dorothy", testActor.recipes().get(0));
-        assertEquals("Wizard", testActor.recipes().get(1));
+        assertEquals(2, dummyActor.recipes().size());
+        assertEquals("Dorothy", dummyActor.recipes().get(0));
+        assertEquals("Wizard", dummyActor.recipes().get(1));
 
-        assertEquals(2, testActor.recipeTargets("Dorothy").size());
-        assertEquals(2, testActor.recipePayloads("Dorothy").size());
+        assertEquals(2, dummyActor.recipeTargets("Dorothy").size());
+        assertEquals(2, dummyActor.recipePayloads("Dorothy").size());
     }
 }

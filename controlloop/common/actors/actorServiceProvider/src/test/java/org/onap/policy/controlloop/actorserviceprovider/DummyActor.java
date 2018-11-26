@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
-public class TestActor implements Actor {
+public class DummyActor implements Actor {
     @Override
     public String actor() {
         return this.getClass().getSimpleName();
