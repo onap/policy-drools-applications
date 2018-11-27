@@ -22,6 +22,47 @@
       "revId": "0089794b7eae47cea901679fc86a5c5314cd7ab0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_bb5580c7",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-27T15:05:09Z",
+      "side": 1,
+      "message": "or make it a one-liner using \"? :\" construct",
+      "parentUuid": "9adffdf1_98676225",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 14
+      },
+      "revId": "0089794b7eae47cea901679fc86a5c5314cd7ab0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_db5084d6",
+        "filename": "controlloop/common/model-impl/sdnr/src/main/java/org/onap/policy/sdnr/PciResponseCode.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-27T15:05:09Z",
+      "side": 1,
+      "message": "turn this into a one-liner using \"? :\" construct?",
+      "revId": "0089794b7eae47cea901679fc86a5c5314cd7ab0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
