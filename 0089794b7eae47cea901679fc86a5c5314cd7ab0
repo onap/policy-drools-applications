@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_bb2fc0a0",
+        "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-11-27T16:39:07Z",
+      "side": 1,
+      "message": "I think this class was missed to be made Serializable, wondering if you end up touching this file for other review comments.",
+      "revId": "0089794b7eae47cea901679fc86a5c5314cd7ab0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_98676225",
         "filename": "controlloop/common/model-impl/appclcm/src/main/java/org/onap/policy/appclcm/LcmResponseCode.java",
         "patchSetId": 7
