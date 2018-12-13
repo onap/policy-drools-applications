@@ -36,6 +36,15 @@ public class ControlLoopParams implements Serializable {
         super();
     }
 
+    public ControlLoopParams(String controlLoopName, String policyYaml,
+            String policyName, String policyScope, String policyVersion) {
+        this.setClosedLoopControlName(controlLoopName);
+        this.setControlLoopYaml(policyYaml);
+        this.setPolicyName(policyName);
+        this.setPolicyScope(policyScope);
+        this.setPolicyVersion(policyVersion);
+    }
+
     /**
      * Construct an instance from an existing instance.
      * 
