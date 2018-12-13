@@ -41,6 +41,7 @@
     <module>controller-casablanca</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>
+    <module>feature-controlloop-management</module>
     <module>feature-controlloop-amsterdam</module>
     <module>feature-controlloop-casablanca</module>
     <module>msb</module>
