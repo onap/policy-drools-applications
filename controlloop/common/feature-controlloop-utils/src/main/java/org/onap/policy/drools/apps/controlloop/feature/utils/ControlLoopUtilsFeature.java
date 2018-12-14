@@ -29,8 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * PDP-D feature for lab environments that provides Server simulation capabilities for AAI, SO, and
- * VFC.
+ * PDP-D feature for lab environments that provides Server simulation capabilities for AAI, SO, SDNC
+ * and VFC.
  *
  */
 public class ControlLoopUtilsFeature implements PolicyEngineFeatureAPI {
@@ -44,6 +44,7 @@ public class ControlLoopUtilsFeature implements PolicyEngineFeatureAPI {
             Util.buildSoSim();
             Util.buildVfcSim();
             Util.buildGuardSim();
+            Util.buildSdncSim();
         } catch (final InterruptedException e) {
             logger.error("{}: initialization aborted", ControlLoopUtilsFeature.class.getName(), e);
             Thread.currentThread().interrupt();
