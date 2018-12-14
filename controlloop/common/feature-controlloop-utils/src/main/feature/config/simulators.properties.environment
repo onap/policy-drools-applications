@@ -35,3 +35,7 @@ vfc.password=policy
 guard.url=http://localhost:6669/pdp/api/getDecision
 guard.disabled=true
 
+sdnc.url=http://localhost:6670
+sdnc.username=policy
+sdnc.password=policy
+
