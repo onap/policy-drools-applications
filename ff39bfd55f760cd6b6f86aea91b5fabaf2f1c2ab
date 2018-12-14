@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_be81c0c4",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/apps/controlloop/feature/management/ControlLoopManagementFeatureTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-14T13:47:51Z",
+      "side": 1,
+      "message": "what\u0027s the code coverage on the class under test once RestControlLoopManagerTest executes?  Is it sufficient, or need to provide more thorough tests here with mocks?",
+      "revId": "ff39bfd55f760cd6b6f86aea91b5fabaf2f1c2ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_3e1e30bc",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/apps/controlloop/feature/management/ControlLoopManagementFeatureTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-14T13:47:51Z",
+      "side": 1,
+      "message": "swap arguments for assertEquals().\n\ncould also make these constants public and them use them instead of hard-coding in the test case",
+      "revId": "ff39bfd55f760cd6b6f86aea91b5fabaf2f1c2ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5e1bf4c9",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/apps/controlloop/feature/management/ControlLoopManagementFeatureTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-14T13:47:51Z",
+      "side": 1,
+      "message": "swap arguments for assertEquals().\n\ncould also make these constants public and them use them instead of hard-coding in the test case",
+      "revId": "ff39bfd55f760cd6b6f86aea91b5fabaf2f1c2ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_3e75d0f9",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-14T13:47:51Z",
+      "side": 1,
+      "message": "what\u0027s the coverage of the class under test?  need to force any of the other error paths?",
+      "revId": "ff39bfd55f760cd6b6f86aea91b5fabaf2f1c2ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_7e6fd82b",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-14T13:47:51Z",
+      "side": 1,
+      "message": "swap arguments to assertEquals() (through-out)",
+      "revId": "ff39bfd55f760cd6b6f86aea91b5fabaf2f1c2ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
