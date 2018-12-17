@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_bc01c839",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/config/simulators.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-12-17T13:12:27Z",
+      "side": 1,
+      "message": "Need to add 2018 Modifications Copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 69
+      },
+      "revId": "94a509f420aca88172cf80303e528e7b5f977462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
