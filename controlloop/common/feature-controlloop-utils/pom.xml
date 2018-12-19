@@ -121,6 +121,11 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <artifactId>sdnc</artifactId>
+      <version>${project.version}</version>
+  </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
       <artifactId>rest</artifactId>
       <version>${project.version}</version>
     </dependency>
