@@ -1,0 +1,1 @@
+APPS_CONTROLLOOP_VERSION=${project.version}

@@ -41,10 +41,20 @@
 		</fileSet>
 		<fileSet>
 			<directory>target/assembly/lib</directory>
+			<outputDirectory>artifacts</outputDirectory>
+			<includes>
+				<include>controller-casablanca-${project.version}.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>target/assembly/lib</directory>
 			<outputDirectory>lib/dependencies</outputDirectory>
 			<includes>
 				<include>*.jar</include>
 			</includes>
+			<excludes>
+				<exclude>controller-casablanca-${project.version}.jar</exclude>
+			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>target/classes/config</directory>

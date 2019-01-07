@@ -50,7 +50,7 @@
 		<defaultValue>vm1.mr.simpledemo.openecomp.org</defaultValue>
      </requiredProperty>
      <requiredProperty key="dependenciesVersion">
-     	<defaultValue>1.1.1</defaultValue>
+     	<defaultValue>1.3.4</defaultValue>
      </requiredProperty>
   </requiredProperties>
       

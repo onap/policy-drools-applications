@@ -31,6 +31,13 @@
 			<fileMode>755</fileMode>
 			<directoryMode>700</directoryMode>
 		</fileSet>
+		<fileSet>
+            <directory>target</directory>
+            <outputDirectory>etc/apps</outputDirectory>
+            <includes>
+                <include>apps-controlloop-version</include>
+            </includes>
+        </fileSet>
 	</fileSets>
 </assembly>
 
