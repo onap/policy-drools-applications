@@ -1,8 +1,8 @@
-#! /bin/bash
+#!/bin/bash
 
 ###
 # ============LICENSE_START=======================================================
-# PDP-D APPS Base Package
+# ONAP
 # ================================================================================
 # Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 # ================================================================================
@@ -31,7 +31,7 @@ echo
 
 GROUP_ID="org.onap.policy.rules.casablanca"
 ARTIFACT_ID="casablanca"
-VERSION="${version:-1.2.0}"
+VERSION="${version:-1.3.4}"
 PACKAGE="org.onap.policy.rules.casablanca"
 
 # vCPE Policy Parameters
