@@ -112,17 +112,17 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+            <artifactId>sdnc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
             <artifactId>sdnr</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
             <artifactId>vfc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>sdnc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -287,7 +287,6 @@
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
