@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP
   ================================================================================
-  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -112,17 +112,17 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+            <artifactId>sdnc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
             <artifactId>sdnr</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
             <artifactId>vfc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>sdnc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -287,7 +287,6 @@
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

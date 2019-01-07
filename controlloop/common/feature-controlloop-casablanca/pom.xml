@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP
   ================================================================================
-  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@
                             <addParentPoms>false</addParentPoms>
                             <copyPom>false</copyPom>
                             <includeScope>runtime</includeScope>
-                            <excludeTransitive>false</excludeTransitive>
+                            <excludeTransitive>true</excludeTransitive>
                         </configuration>
                     </execution>
                 </executions>
@@ -96,198 +96,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>events</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>appc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>appclcm</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>sdnr</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>vfc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>sdnc</artifactId>
-            <version>${project.version}</version>
-        </dependency>        
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>so</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>aai</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>sdc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
-            <artifactId>trafficgenerator</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-            <artifactId>eventmanager</artifactId>
+            <artifactId>controller-casablanca</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-            <artifactId>guard</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actorServiceProvider</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actor.appc</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actor.appclcm</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actor.sdnr</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actor.so</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actor.vfc</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
-            <artifactId>actor.sdnc</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>        
-        <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-            <artifactId>policy-yaml</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>snakeyaml</artifactId>
-                    <groupId>org.yaml</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.att.research.xacml</groupId>
-            <artifactId>xacml-pdp</artifactId>
-            <version>1.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-codec</artifactId>
-                    <groupId>commons-codec</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-lang3</artifactId>
-                    <groupId>org.apache.commons</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jackson-databind</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-collections</artifactId>
-                    <groupId>commons-collections</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-lang</artifactId>
-                    <groupId>commons-lang</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-pdp</groupId>
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
