@@ -30,7 +30,7 @@
 
     <groupId>org.onap.policy.drools-applications</groupId>
     <artifactId>drools-applications</artifactId>
-    <version>1.3.4-SNAPSHOT</version>
+    <version>1.3.5-SNAPSHOT</version>
 
     <name>policy-drools-applications</name>
     <packaging>pom</packaging>
@@ -58,8 +58,8 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>1.3.3</version.policy.common>
-        <version.policy.drools-pdp>1.3.4</version.policy.drools-pdp>
+        <version.policy.common>1.3.4</version.policy.common>
+        <version.policy.drools-pdp>1.3.5</version.policy.drools-pdp>
     </properties>
 
     <build>
