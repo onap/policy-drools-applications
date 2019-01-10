@@ -1,0 +1,8 @@
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-at: Thu, 10 Jan 2019 11:19:25 +0000
+Reviewed-on: https://gerrit.onap.org/r/75574
+Project: policy/drools-applications
+Branch: refs/heads/casablanca
