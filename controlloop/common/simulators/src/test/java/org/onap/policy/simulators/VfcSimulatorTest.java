@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
-import org.onap.policy.vfc.VFCResponse;
+import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.util.Serialization;
 
 public class VfcSimulatorTest {
@@ -64,7 +64,7 @@ public class VfcSimulatorTest {
                         new HashMap<String, String>(), "application/json", "Some Request Here");
         assertNotNull(httpDetails);
         assertTrue(httpDetails.first == 202);
-        final VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VFCResponse.class);
+        final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
         assertNotNull(response);
     }
 
@@ -73,7 +73,7 @@ public class VfcSimulatorTest {
         final Pair<Integer, String> httpDetails = new RESTManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234",
                 "username", "password", new HashMap<String, String>());
         assertNotNull(httpDetails);
-        final VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VFCResponse.class);
+        final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
         assertNotNull(response);
     }
 }

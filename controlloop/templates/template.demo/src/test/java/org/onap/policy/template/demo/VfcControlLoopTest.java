@@ -3,7 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2017-2018 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.vfc.VFCRequest;
+import org.onap.policy.vfc.VfcRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -340,7 +340,7 @@ public class VfcControlLoopTest implements TopicListener {
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
             }
-        } else if (obj instanceof VFCRequest) {
+        } else if (obj instanceof VfcRequest) {
             logger.debug("\n============ VFC received the request!!! ===========\n");
         }
     }

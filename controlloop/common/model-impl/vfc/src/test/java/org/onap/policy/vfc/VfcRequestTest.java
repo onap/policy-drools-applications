@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,19 +33,19 @@ public class VfcRequestTest {
 
     @Test
     public void testVfcRequest() {
-        VFCRequest request = new VFCRequest();
+        VfcRequest request = new VfcRequest();
         assertNotNull(request);
         assertNotEquals(0, request.hashCode());
 
         String nsInstanceId = "Dorothy";
-        request.setNSInstanceId(nsInstanceId);
-        assertEquals(nsInstanceId, request.getNSInstanceId());
+        request.setNsInstanceId(nsInstanceId);
+        assertEquals(nsInstanceId, request.getNsInstanceId());
 
         UUID requestId = UUID.randomUUID();
         request.setRequestId(requestId);
         assertEquals(requestId, request.getRequestId());
 
-        VFCHealRequest healRequest = new VFCHealRequest();
+        VfcHealRequest healRequest = new VfcHealRequest();
         request.setHealRequest(healRequest);
         assertEquals(healRequest, request.getHealRequest());
 

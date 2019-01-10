@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,33 +23,43 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class VFCHealActionVmInfo implements Serializable {
+public class VfcResponse implements Serializable {
 
-    private static final long serialVersionUID = 3208673205100673119L;
+    private static final long serialVersionUID = 9151443891238218455L;
 
-    @SerializedName("vmid")
-    private String vmid;
+    @SerializedName("jobId")
+    private String jobId;
 
-    @SerializedName("vmname")
-    private String vmname;
+    @SerializedName("responseDescriptor")
+    private VfcResponseDescriptor responseDescriptor;
 
-    public VFCHealActionVmInfo() {
-        // Default constructor for VFCHealActionVmInfo
+    private transient String requestId;
+
+    public VfcResponse() {
+        // Default constructor
     }
 
-    public String getVmid() {
-        return vmid;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setVmid(String vmid) {
-        this.vmid = vmid;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
-    public String getVmname() {
-        return vmname;
+    public VfcResponseDescriptor getResponseDescriptor() {
+        return responseDescriptor;
     }
 
-    public void setVmname(String vmname) {
-        this.vmname = vmname;
+    public void setResponseDescriptor(VfcResponseDescriptor responseDescriptor) {
+        this.responseDescriptor = responseDescriptor;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }

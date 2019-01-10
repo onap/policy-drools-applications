@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * unit test
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,8 +73,8 @@ import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.so.SOResponse;
 import org.onap.policy.so.SOResponseWrapper;
-import org.onap.policy.vfc.VFCResponse;
-import org.onap.policy.vfc.VFCResponseDescriptor;
+import org.onap.policy.vfc.VfcResponse;
+import org.onap.policy.vfc.VfcResponseDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -753,8 +753,8 @@ public class ControlLoopOperationManagerTest {
         soResponse.setHttpResponseCode(500);
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
 
-        VFCResponse vfcResponse = new VFCResponse();
-        VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
+        VfcResponse vfcResponse = new VfcResponse();
+        VfcResponseDescriptor responseDescriptor = new VfcResponseDescriptor();
         vfcResponse.setResponseDescriptor(responseDescriptor);
 
         responseDescriptor.setStatus("finished");

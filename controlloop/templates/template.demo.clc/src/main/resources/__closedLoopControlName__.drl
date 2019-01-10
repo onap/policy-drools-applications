@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,9 @@ import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmCommonHeader;
-import org.onap.policy.vfc.VFCRequest;
-import org.onap.policy.vfc.VFCResponse;
-import org.onap.policy.vfc.VFCManager;
+import org.onap.policy.vfc.VfcRequest;
+import org.onap.policy.vfc.VfcResponse;
+import org.onap.policy.vfc.VfcManager;
 import org.onap.policy.so.SOManager;
 import org.onap.policy.so.SORequest;
 import org.onap.policy.so.SORequestStatus;
@@ -599,9 +599,9 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   }
                   break;
               case "VFC":
-                  if (request instanceof VFCRequest) {
+                  if (request instanceof VfcRequest) {
                       // Start VFC thread
-                      Thread t = new Thread(new VFCManager(drools.getWorkingMemory(), (VFCRequest)request));
+                      Thread t = new Thread(new VfcManager(drools.getWorkingMemory(), (VfcRequest)request));
                       t.start();
                   }          
                   break;
@@ -1103,7 +1103,7 @@ rule "${policyName}.VFC.RESPONSE"
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
         $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
         $lock : TargetLock (requestID == $event.getRequestId())
-        $response : VFCResponse( requestId.toString() == $event.getRequestId().toString() ) 
+        $response : VfcResponse( requestId.toString() == $event.getRequestId().toString() ) 
     then
         Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
         logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());

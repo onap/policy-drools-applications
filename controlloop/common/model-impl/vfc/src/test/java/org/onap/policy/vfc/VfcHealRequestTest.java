@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class VfcHealRequestTest {
 
     @Test
     public void testVfcHealRequest() {
-        VFCHealRequest request = new VFCHealRequest();
+        VfcHealRequest request = new VfcHealRequest();
         assertNotNull(request);
         assertNotEquals(0, request.hashCode());
 
@@ -43,7 +43,7 @@ public class VfcHealRequestTest {
         request.setCause(cause);
         assertEquals(cause, request.getCause());
 
-        VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
+        VfcHealAdditionalParams additionalParams = new VfcHealAdditionalParams();
         request.setAdditionalParams(additionalParams);
         assertEquals(additionalParams, request.getAdditionalParams());
 
