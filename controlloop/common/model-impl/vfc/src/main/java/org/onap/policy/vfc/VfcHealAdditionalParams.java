@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,43 +23,33 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class VFCResponse implements Serializable {
+public class VfcHealAdditionalParams implements Serializable {
 
-    private static final long serialVersionUID = 9151443891238218455L;
+    private static final long serialVersionUID = 2656694137285096191L;
 
-    @SerializedName("jobId")
-    private String jobId;
+    @SerializedName("action")
+    private String action;
 
-    @SerializedName("responseDescriptor")
-    private VFCResponseDescriptor responseDescriptor;
+    @SerializedName("actionvminfo")
+    private VfcHealActionVmInfo actionInfo;
 
-    private transient String requestId;
-
-    public VFCResponse() {
-        // Default constructor for VFCResponse
+    public VfcHealAdditionalParams() {
+        // Default constructor
     }
 
-    public String getJobId() {
-        return jobId;
+    public String getAction() {
+        return action;
     }
 
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
+    public void setAction(String action) {
+        this.action = action;
     }
 
-    public VFCResponseDescriptor getResponseDescriptor() {
-        return responseDescriptor;
+    public VfcHealActionVmInfo getActionInfo() {
+        return actionInfo;
     }
 
-    public void setResponseDescriptor(VFCResponseDescriptor responseDescriptor) {
-        this.responseDescriptor = responseDescriptor;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
+    public void setActionInfo(VfcHealActionVmInfo actionInfo) {
+        this.actionInfo = actionInfo;
     }
 }

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,43 +22,34 @@ package org.onap.policy.vfc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.UUID;
 
-public class VFCRequest implements Serializable {
+public class VfcHealActionVmInfo implements Serializable {
 
-    private static final long serialVersionUID = 3736300970326332512L;
-    // These fields are not serialized and not part of JSON
-    private transient String nsInstanceId;
-    private transient UUID requestId;
+    private static final long serialVersionUID = 3208673205100673119L;
 
-    @SerializedName("healVnfData")
-    private VFCHealRequest healRequest;
+    @SerializedName("vmid")
+    private String vmid;
 
-    public VFCRequest() {
-        // Default constructor for VFCRequest
+    @SerializedName("vmname")
+    private String vmname;
+
+    public VfcHealActionVmInfo() {
+        // Default constructor
     }
 
-    public String getNSInstanceId() {
-        return nsInstanceId;
+    public String getVmid() {
+        return vmid;
     }
 
-    public void setNSInstanceId(String nsInstanceId) {
-        this.nsInstanceId = nsInstanceId;
+    public void setVmid(String vmid) {
+        this.vmid = vmid;
     }
 
-    public UUID getRequestId() {
-        return requestId;
+    public String getVmname() {
+        return vmname;
     }
 
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public VFCHealRequest getHealRequest() {
-        return healRequest;
-    }
-
-    public void setHealRequest(VFCHealRequest healRequest) {
-        this.healRequest = healRequest;
+    public void setVmname(String vmname) {
+        this.vmname = vmname;
     }
 }

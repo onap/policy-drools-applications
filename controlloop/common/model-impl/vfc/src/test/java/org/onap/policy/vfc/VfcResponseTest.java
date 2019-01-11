@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class VfcResponseTest {
 
     @Test
     public void testVfcResponse() {
-        VFCResponse response = new VFCResponse();
+        VfcResponse response = new VfcResponse();
         assertNotNull(response);
         assertNotEquals(0, response.hashCode());
 
@@ -43,7 +43,7 @@ public class VfcResponseTest {
         response.setRequestId(requestId);
         assertEquals(requestId, response.getRequestId());
 
-        VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
+        VfcResponseDescriptor responseDescriptor = new VfcResponseDescriptor();
         response.setResponseDescriptor(responseDescriptor);
         assertEquals(responseDescriptor, response.getResponseDescriptor());
 

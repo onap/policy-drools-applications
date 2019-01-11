@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson, AT&T. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,8 +56,8 @@ public class VfcManagerTest {
     private Pair<Integer, String> httpResponseBadResponse;
     private Pair<Integer, String> httpResponseErr;
 
-    private VFCRequest  request;
-    private VFCResponse response;
+    private VfcRequest  request;
+    private VfcResponse response;
 
     @BeforeClass
     public static void beforeTestVfcManager() {
@@ -82,28 +82,28 @@ public class VfcManagerTest {
      */
     @Before
     public void createRequestAndResponse() {
-        VFCHealActionVmInfo actionInfo = new VFCHealActionVmInfo();
+        VfcHealActionVmInfo actionInfo = new VfcHealActionVmInfo();
         actionInfo.setVmid("TheWizard");
         actionInfo.setVmname("The Wizard of Oz");
 
-        VFCHealAdditionalParams additionalParams = new VFCHealAdditionalParams();
+        VfcHealAdditionalParams additionalParams = new VfcHealAdditionalParams();
         additionalParams.setAction("Go Home");
         additionalParams.setActionInfo(actionInfo);
 
-        VFCHealRequest healRequest = new VFCHealRequest();
+        VfcHealRequest healRequest = new VfcHealRequest();
         healRequest.setAdditionalParams(additionalParams);
         healRequest.setCause("WestWitch");
         healRequest.setVnfInstanceId("EmeraldCity");
 
         final UUID requestId = UUID.randomUUID();
-        request = new VFCRequest();
+        request = new VfcRequest();
         request.setHealRequest(healRequest);
-        request.setNSInstanceId("Dorothy");
+        request.setNsInstanceId("Dorothy");
         request.setRequestId(requestId);
 
-        List<VFCResponseDescriptor> responseHistoryList = new ArrayList<>();;
+        List<VfcResponseDescriptor> responseHistoryList = new ArrayList<>();;
 
-        VFCResponseDescriptor responseDescriptor = new VFCResponseDescriptor();
+        VfcResponseDescriptor responseDescriptor = new VfcResponseDescriptor();
         responseDescriptor.setErrorCode("1234");
         responseDescriptor.setProgress("Follow The Yellow Brick Road");
         responseDescriptor.setResponseHistoryList(responseHistoryList);
@@ -111,7 +111,7 @@ public class VfcManagerTest {
         responseDescriptor.setStatus("finished");
         responseDescriptor.setStatusDescription("There's no place like home");
 
-        response = new VFCResponse();
+        response = new VfcResponse();
         response.setJobId("1234");
         response.setRequestId(request.getRequestId().toString());
         response.setResponseDescriptor(responseDescriptor);
@@ -130,25 +130,25 @@ public class VfcManagerTest {
     @Test
     public void testVfcInitiation() {
         try {
-            new VFCManager(null, null);
+            new VfcManager(null, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
-            assertEquals("the parameters \"wm\" and \"request\" on the VFCManager constructor may not be null", 
+            assertEquals("the parameters \"wm\" and \"request\" on the VfcManager constructor may not be null", 
                     e.getMessage());
         }
 
         try {
-            new VFCManager(mockedWorkingMemory, null);
+            new VfcManager(mockedWorkingMemory, null);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
-            assertEquals("the parameters \"wm\" and \"request\" on the VFCManager constructor may not be null", 
+            assertEquals("the parameters \"wm\" and \"request\" on the VfcManager constructor may not be null", 
                     e.getMessage());
         }
 
         try {
-            new VFCManager(mockedWorkingMemory, request);
+            new VfcManager(mockedWorkingMemory, request);
             fail("test should throw an exception here");
         }
         catch (IllegalArgumentException e) {
@@ -158,14 +158,14 @@ public class VfcManagerTest {
 
         // add url; username & password are not required
         PolicyEngine.manager.getEnvironment().put("vfc.url", "http://somewhere.over.the.rainbow");
-        new VFCManager(mockedWorkingMemory, request);
+        new VfcManager(mockedWorkingMemory, request);
 
         // url & username, but no password
         PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
 
         // url, username, and password
         PolicyEngine.manager.getEnvironment().put("vfc.password", "Toto");
-        new VFCManager(mockedWorkingMemory, request);
+        new VfcManager(mockedWorkingMemory, request);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class VfcManagerTest {
         PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
         PolicyEngine.manager.getEnvironment().put("vfc.password", "Exception");
 
-        VFCManager manager = new VFCManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -202,7 +202,7 @@ public class VfcManagerTest {
         PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
         PolicyEngine.manager.getEnvironment().put("vfc.password", "Null");
 
-        VFCManager manager = new VFCManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -225,7 +225,7 @@ public class VfcManagerTest {
         PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
         PolicyEngine.manager.getEnvironment().put("vfc.password", "Error0");
 
-        VFCManager manager = new VFCManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -248,7 +248,7 @@ public class VfcManagerTest {
         PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
         PolicyEngine.manager.getEnvironment().put("vfc.password", "BadResponse");
 
-        VFCManager manager = new VFCManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);
@@ -271,7 +271,7 @@ public class VfcManagerTest {
         PolicyEngine.manager.getEnvironment().put("vfc.username", "Dorothy");
         PolicyEngine.manager.getEnvironment().put("vfc.password", "OK");
 
-        VFCManager manager = new VFCManager(mockedWorkingMemory, request);
+        VfcManager manager = new VfcManager(mockedWorkingMemory, request);
         manager.setRestManager(mockedRestManager);
 
         Thread managerThread = new Thread(manager);

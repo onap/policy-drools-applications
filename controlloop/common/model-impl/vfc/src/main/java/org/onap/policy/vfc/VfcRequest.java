@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,45 +22,43 @@ package org.onap.policy.vfc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-public class VFCHealRequest implements Serializable {
+public class VfcRequest implements Serializable {
 
-    private static final long serialVersionUID = -7341931593089709247L;
+    private static final long serialVersionUID = 3736300970326332512L;
+    // These fields are not serialized and not part of JSON
+    private transient String nsInstanceId;
+    private transient UUID requestId;
 
-    @SerializedName("vnfInstanceId")
-    private String vnfInstanceId;
+    @SerializedName("healVnfData")
+    private VfcHealRequest healRequest;
 
-    @SerializedName("cause")
-    private String cause;
-
-    @SerializedName("additionalParams")
-    private VFCHealAdditionalParams additionalParams;
-
-    public VFCHealRequest() {
-        // Default constructor for VFCHealRequest
+    public VfcRequest() {
+        // Default constructor
     }
 
-    public String getVnfInstanceId() {
-        return vnfInstanceId;
+    public String getNsInstanceId() {
+        return nsInstanceId;
     }
 
-    public void setVnfInstanceId(String vnfInstanceId) {
-        this.vnfInstanceId = vnfInstanceId;
+    public void setNsInstanceId(String nsInstanceId) {
+        this.nsInstanceId = nsInstanceId;
     }
 
-    public String getCause() {
-        return cause;
+    public UUID getRequestId() {
+        return requestId;
     }
 
-    public void setCause(String cause) {
-        this.cause = cause;
+    public void setRequestId(UUID requestId) {
+        this.requestId = requestId;
     }
 
-    public VFCHealAdditionalParams getAdditionalParams() {
-        return additionalParams;
+    public VfcHealRequest getHealRequest() {
+        return healRequest;
     }
 
-    public void setAdditionalParams(VFCHealAdditionalParams additionalParams) {
-        this.additionalParams = additionalParams;
+    public void setHealRequest(VfcHealRequest healRequest) {
+        this.healRequest = healRequest;
     }
 }

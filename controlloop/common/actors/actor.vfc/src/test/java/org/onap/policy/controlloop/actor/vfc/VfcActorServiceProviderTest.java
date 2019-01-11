@@ -1,9 +1,9 @@
 /*-
  * ============LICENSE_START=======================================================
- * TestVFCActorServiceProvider
+ * ONAP - Policy Drools Applications
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corp. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corp. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
-import org.onap.policy.vfc.VFCRequest;
+import org.onap.policy.vfc.VfcRequest;
 
 public class VfcActorServiceProviderTest {
 
@@ -97,7 +97,7 @@ public class VfcActorServiceProviderTest {
         policy.setRecipe("Restart");
         assertNotNull(VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse()));
 
-        VFCRequest request =
+        VfcRequest request =
                 VfcActorServiceProvider.constructRequest(onset, operation, policy, new AaiGetVnfResponse());
 
         assertEquals(requestId, Objects.requireNonNull(request).getRequestId());

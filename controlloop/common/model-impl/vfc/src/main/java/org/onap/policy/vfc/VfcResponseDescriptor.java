@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class VFCResponseDescriptor implements Serializable {
+public class VfcResponseDescriptor implements Serializable {
 
     private static final long serialVersionUID = 6827782899144150158L;
 
@@ -44,10 +44,10 @@ public class VFCResponseDescriptor implements Serializable {
     private String responseId;
 
     @SerializedName("responseHistoryList")
-    private List<VFCResponseDescriptor> responseHistoryList;
+    private List<VfcResponseDescriptor> responseHistoryList;
 
-    public VFCResponseDescriptor() {
-        // Default constructor for VFCResponseDescriptor
+    public VfcResponseDescriptor() {
+        // Default constructor
     }
 
     public String getStatus() {
@@ -86,11 +86,11 @@ public class VFCResponseDescriptor implements Serializable {
         this.responseId = responseId;
     }
 
-    public List<VFCResponseDescriptor> getResponseHistoryList() {
+    public List<VfcResponseDescriptor> getResponseHistoryList() {
         return responseHistoryList;
     }
 
-    public void setResponseHistoryList(List<VFCResponseDescriptor> responseHistoryList) {
+    public void setResponseHistoryList(List<VfcResponseDescriptor> responseHistoryList) {
         this.responseHistoryList = responseHistoryList;
     }
 

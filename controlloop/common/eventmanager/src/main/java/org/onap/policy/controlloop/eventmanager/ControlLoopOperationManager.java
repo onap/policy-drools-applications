@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop operation manager
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ import org.onap.policy.guard.Util;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.so.SOResponseWrapper;
-import org.onap.policy.vfc.VFCResponse;
+import org.onap.policy.vfc.VfcResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -351,11 +351,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast SO response and handle it
             //
             return onResponse((SOResponseWrapper) response);
-        } else if (response instanceof VFCResponse) {
+        } else if (response instanceof VfcResponse) {
             //
             // Cast VFC response and handle it
             //
-            return onResponse((VFCResponse) response);
+            return onResponse((VfcResponse) response);
         } else if (response instanceof SdncResponse) {
             //
             // Cast SDNC response and handle it
@@ -563,7 +563,7 @@ public class ControlLoopOperationManager implements Serializable {
      * @param vfcResponse the VFC response
      * @return The result of the response handling
      */
-    private PolicyResult onResponse(VFCResponse vfcResponse) {
+    private PolicyResult onResponse(VfcResponse vfcResponse) {
         if ("finished".equalsIgnoreCase(vfcResponse.getResponseDescriptor().getStatus())) {
             //
             // Consider it as success

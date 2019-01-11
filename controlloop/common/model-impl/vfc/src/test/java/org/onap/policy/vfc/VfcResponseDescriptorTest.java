@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class VfcResponseDescriptorTest {
 
     @Test
     public void testVfcResponseDescriptor() {
-        VFCResponseDescriptor descriptor = new VFCResponseDescriptor();
+        VfcResponseDescriptor descriptor = new VfcResponseDescriptor();
         assertNotNull(descriptor);
         assertNotEquals(0, descriptor.hashCode());
 
@@ -46,7 +46,7 @@ public class VfcResponseDescriptorTest {
         descriptor.setProgress(progress);
         assertEquals(progress, descriptor.getProgress());
 
-        List<VFCResponseDescriptor> responseHistoryList = new ArrayList<>();
+        List<VfcResponseDescriptor> responseHistoryList = new ArrayList<>();
         descriptor.setResponseHistoryList(responseHistoryList);
         assertEquals(responseHistoryList, descriptor.getResponseHistoryList());
 

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017-2018 Intel Corp, AT&T. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,15 +32,15 @@ import org.onap.policy.vfc.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class VFCManager implements Runnable {
+public final class VfcManager implements Runnable {
     private static final String SYSTEM_LS = System.lineSeparator();
 
     private String vfcUrlBase;
     private String username;
     private String password;
-    private VFCRequest vfcRequest;
+    private VfcRequest vfcRequest;
     private WorkingMemory workingMem;
-    private static final Logger logger = LoggerFactory.getLogger(VFCManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(VfcManager.class);
     private static final Logger netLogger =
             LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
 
@@ -53,10 +53,10 @@ public final class VFCManager implements Runnable {
      * @param wm Drools working memory
      * @param request request
      */
-    public VFCManager(WorkingMemory wm, VFCRequest request) {
+    public VfcManager(WorkingMemory wm, VfcRequest request) {
         if (wm == null || request == null) {
             throw new IllegalArgumentException(
-                    "the parameters \"wm\" and \"request\" on the VFCManager constructor may not be null");
+                    "the parameters \"wm\" and \"request\" on the VfcManager constructor may not be null");
         }
         workingMem = wm;
         vfcRequest = request;
@@ -64,7 +64,7 @@ public final class VFCManager implements Runnable {
         restManager = new RESTManager();
 
         // use getPEManagerEnvProperty() for required properties; others are optional
-        setVFCParams(getPEManagerEnvProperty("vfc.url"), PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
+        setVfcParams(getPeManagerEnvProperty("vfc.url"), PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
                 PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
     }
 
@@ -75,7 +75,7 @@ public final class VFCManager implements Runnable {
      * @param name username
      * @param pwd password
      */
-    public void setVFCParams(String baseUrl, String name, String pwd) {
+    public void setVfcParams(String baseUrl, String name, String pwd) {
         vfcUrlBase = baseUrl + "/api/nslcm/v1";
         username = name;
         password = pwd;
@@ -86,12 +86,12 @@ public final class VFCManager implements Runnable {
         Map<String, String> headers = new HashMap<>();
         Pair<Integer, String> httpDetails;
 
-        VFCResponse responseError = new VFCResponse();
-        responseError.setResponseDescriptor(new VFCResponseDescriptor());
+        VfcResponse responseError = new VfcResponse();
+        responseError.setResponseDescriptor(new VfcResponseDescriptor());
         responseError.getResponseDescriptor().setStatus("error");
 
         headers.put("Accept", "application/json");
-        String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.getNSInstanceId() + "/heal";
+        String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.getNsInstanceId() + "/heal";
         try {
             String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
             netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, vfcRequestJson);
@@ -114,7 +114,7 @@ public final class VFCManager implements Runnable {
         }
 
         try {
-            VFCResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VFCResponse.class);
+            VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
             netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, httpDetails.second);
             String body = Serialization.gsonPretty.toJson(response);
             logger.debug("Response to VFC Heal post:");
@@ -124,12 +124,12 @@ public final class VFCManager implements Runnable {
             int attemptsLeft = 20;
 
             String urlGet = vfcUrlBase + "/jobs/" + jobId;
-            VFCResponse responseGet = null;
+            VfcResponse responseGet = null;
 
             while (attemptsLeft-- > 0) {
                 netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
                 Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
-                responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.second, VFCResponse.class);
+                responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.second, VfcResponse.class);
                 netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, SYSTEM_LS, httpDetailsGet.second);
                 responseGet.setRequestId(vfcRequest.getRequestId().toString());
                 body = Serialization.gsonPretty.toJson(responseGet);
@@ -152,12 +152,12 @@ public final class VFCManager implements Runnable {
                 workingMem.insert(responseGet);
             }
         } catch (JsonSyntaxException e) {
-            logger.error("Failed to deserialize into VFCResponse {}", e.getLocalizedMessage(), e);
+            logger.error("Failed to deserialize into VfcResponse {}", e.getLocalizedMessage(), e);
         } catch (InterruptedException e) {
             logger.error("Interrupted exception: {}", e.getLocalizedMessage(), e);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            logger.error("Unknown error deserializing into VFCResponse {}", e.getLocalizedMessage(), e);
+            logger.error("Unknown error deserializing into VfcResponse {}", e.getLocalizedMessage(), e);
         }
     }
 
@@ -178,7 +178,7 @@ public final class VFCManager implements Runnable {
      * @return the property value
      */
 
-    private String getPEManagerEnvProperty(String enginePropertyName) {
+    private String getPeManagerEnvProperty(String enginePropertyName) {
         String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
         if (enginePropertyValue == null) {
             throw new IllegalArgumentException("The value of policy engine manager environment property \""

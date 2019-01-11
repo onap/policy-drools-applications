@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,33 +23,44 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class VFCHealAdditionalParams implements Serializable {
+public class VfcHealRequest implements Serializable {
 
-    private static final long serialVersionUID = 2656694137285096191L;
+    private static final long serialVersionUID = -7341931593089709247L;
 
-    @SerializedName("action")
-    private String action;
+    @SerializedName("vnfInstanceId")
+    private String vnfInstanceId;
 
-    @SerializedName("actionvminfo")
-    private VFCHealActionVmInfo actionInfo;
+    @SerializedName("cause")
+    private String cause;
 
-    public VFCHealAdditionalParams() {
-        // Default constructor for VFCHealAdditionalParams
+    @SerializedName("additionalParams")
+    private VfcHealAdditionalParams additionalParams;
+
+    public VfcHealRequest() {
+        // Default constructor
     }
 
-    public String getAction() {
-        return action;
+    public String getVnfInstanceId() {
+        return vnfInstanceId;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setVnfInstanceId(String vnfInstanceId) {
+        this.vnfInstanceId = vnfInstanceId;
     }
 
-    public VFCHealActionVmInfo getActionInfo() {
-        return actionInfo;
+    public String getCause() {
+        return cause;
     }
 
-    public void setActionInfo(VFCHealActionVmInfo actionInfo) {
-        this.actionInfo = actionInfo;
+    public void setCause(String cause) {
+        this.cause = cause;
+    }
+
+    public VfcHealAdditionalParams getAdditionalParams() {
+        return additionalParams;
+    }
+
+    public void setAdditionalParams(VfcHealAdditionalParams additionalParams) {
+        this.additionalParams = additionalParams;
     }
 }

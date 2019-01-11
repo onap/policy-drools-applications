@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017-2018 Intel Corp. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RESTManager;
-import org.onap.policy.vfc.VFCHealActionVmInfo;
-import org.onap.policy.vfc.VFCHealAdditionalParams;
-import org.onap.policy.vfc.VFCHealRequest;
-import org.onap.policy.vfc.VFCRequest;
+import org.onap.policy.vfc.VfcHealActionVmInfo;
+import org.onap.policy.vfc.VfcHealAdditionalParams;
+import org.onap.policy.vfc.VfcHealRequest;
+import org.onap.policy.vfc.VfcRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,11 +86,11 @@ public class VfcActorServiceProvider implements Actor {
      * @param vnfResponse the VNF response
      * @return the constructed request
      */
-    public static VFCRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
+    public static VfcRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation,
             Policy policy, AaiGetVnfResponse vnfResponse) {
 
         // Construct an VFC request
-        VFCRequest request = new VFCRequest();
+        VfcRequest request = new VfcRequest();
         String serviceInstance = onset.getAai().get("service-instance.service-instance-id");
         if (serviceInstance == null || "".equals(serviceInstance)) {
             AaiGetVnfResponse tempVnfResp = vnfResponse;
@@ -103,16 +103,16 @@ public class VfcActorServiceProvider implements Actor {
             }
             serviceInstance = tempVnfResp.getServiceId();
         }
-        request.setNSInstanceId(serviceInstance);
+        request.setNsInstanceId(serviceInstance);
         request.setRequestId(onset.getRequestId());
-        request.setHealRequest(new VFCHealRequest());
+        request.setHealRequest(new VfcHealRequest());
         request.getHealRequest().setVnfInstanceId(onset.getAai().get("generic-vnf.vnf-id"));
         request.getHealRequest().setCause(operation.getMessage());
-        request.getHealRequest().setAdditionalParams(new VFCHealAdditionalParams());
+        request.getHealRequest().setAdditionalParams(new VfcHealAdditionalParams());
 
         if (policy.getRecipe().toLowerCase().equalsIgnoreCase(RECIPE_RESTART)) {
             request.getHealRequest().getAdditionalParams().setAction("restartvm");
-            request.getHealRequest().getAdditionalParams().setActionInfo(new VFCHealActionVmInfo());
+            request.getHealRequest().getAdditionalParams().setActionInfo(new VfcHealActionVmInfo());
             request.getHealRequest().getAdditionalParams().getActionInfo()
                     .setVmid(onset.getAai().get("vserver.vserver-id"));
             request.getHealRequest().getAdditionalParams().getActionInfo()
