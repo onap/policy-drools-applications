@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * trafficgenerator
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ package org.onap.policy.vnf.trafficgenerator;
 
 import org.junit.Test;
 
-import org.onap.policy.vnf.trafficgenerator.PGRequest;
-import org.onap.policy.vnf.trafficgenerator.PGStream;
-import org.onap.policy.vnf.trafficgenerator.PGStreams;
+import org.onap.policy.vnf.trafficgenerator.PgRequest;
+import org.onap.policy.vnf.trafficgenerator.PgStream;
+import org.onap.policy.vnf.trafficgenerator.PgStreams;
 import org.onap.policy.vnf.trafficgenerator.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +34,12 @@ public class DemoTest {
 
     @Test
     public void test() {
-        PGRequest request = new PGRequest();
-        request.pgStreams = new PGStreams();
+        PgRequest request = new PgRequest();
+        request.pgStreams = new PgStreams();
 
-        PGStream pgStream;
+        PgStream pgStream;
         for (int i = 0; i < 5; i++) {
-            pgStream = new PGStream();
+            pgStream = new PgStream();
             pgStream.streamId = "fw_udp" + (i + 1);
             pgStream.isEnabled = "true";
             request.pgStreams.pgStream.add(pgStream);

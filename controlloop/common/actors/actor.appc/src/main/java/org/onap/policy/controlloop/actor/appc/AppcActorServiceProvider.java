@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * APPCActorServiceProvider
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.vnf.trafficgenerator.PGRequest;
-import org.onap.policy.vnf.trafficgenerator.PGStream;
-import org.onap.policy.vnf.trafficgenerator.PGStreams;
+import org.onap.policy.vnf.trafficgenerator.PgRequest;
+import org.onap.policy.vnf.trafficgenerator.PgStream;
+import org.onap.policy.vnf.trafficgenerator.PgStreams;
 
 
 public class AppcActorServiceProvider implements Actor {
@@ -103,12 +103,12 @@ public class AppcActorServiceProvider implements Actor {
          */
         request.getPayload().put("generic-vnf.vnf-id", targetVnf);
 
-        PGRequest pgRequest = new PGRequest();
-        pgRequest.pgStreams = new PGStreams();
+        PgRequest pgRequest = new PgRequest();
+        pgRequest.pgStreams = new PgStreams();
 
-        PGStream pgStream;
+        PgStream pgStream;
         for (int i = 0; i < 5; i++) {
-            pgStream = new PGStream();
+            pgStream = new PgStream();
             pgStream.streamId = "fw_udp" + (i + 1);
             pgStream.isEnabled = "true";
             pgRequest.pgStreams.pgStream.add(pgStream);
