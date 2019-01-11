@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoModelInfoTest {
 
     @Test
     public void testConstructor() {
-        SOModelInfo obj = new SOModelInfo();
+        SoModelInfo obj = new SoModelInfo();
 
         assertTrue(obj.getModelCustomizationId() == null);
         assertTrue(obj.getModelCustomizationName() == null);
@@ -42,7 +43,7 @@ public class SoModelInfoTest {
 
     @Test
     public void testSetGet() {
-        SOModelInfo obj = new SOModelInfo();
+        SoModelInfo obj = new SoModelInfo();
 
         obj.setModelCustomizationId("modelCustomizationId");
         assertEquals("modelCustomizationId", obj.getModelCustomizationId());

@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ public class SoAsyncRequestStatusTest {
 
     @Test
     public void testConstructor() {
-        SOAsyncRequestStatus obj = new SOAsyncRequestStatus();
+        SoAsyncRequestStatus obj = new SoAsyncRequestStatus();
 
         assertTrue(obj.getCorrelator() == null);
         assertTrue(obj.getFinishTime() == null);
@@ -44,7 +45,7 @@ public class SoAsyncRequestStatusTest {
 
     @Test
     public void testSetGet() {
-        SOAsyncRequestStatus obj = new SOAsyncRequestStatus();
+        SoAsyncRequestStatus obj = new SoAsyncRequestStatus();
 
         obj.setCorrelator("correlator");
         assertEquals("correlator", obj.getCorrelator());
@@ -53,7 +54,7 @@ public class SoAsyncRequestStatusTest {
         obj.setFinishTime(finishTime);
         assertEquals(finishTime, obj.getFinishTime());
 
-        SOInstanceReferences instanceReferences = new SOInstanceReferences();
+        SoInstanceReferences instanceReferences = new SoInstanceReferences();
         obj.setInstanceReferences(instanceReferences);
         assertEquals(instanceReferences, obj.getInstanceReferences());
 
@@ -63,7 +64,7 @@ public class SoAsyncRequestStatusTest {
         obj.setRequestScope("requestScope");
         assertEquals("requestScope", obj.getRequestScope());
 
-        SORequestStatus requestStatus = new SORequestStatus();
+        SoRequestStatus requestStatus = new SoRequestStatus();
         obj.setRequestStatus(requestStatus);
         assertEquals(requestStatus, obj.getRequestStatus());
 

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * SOActorServiceProvider
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,16 +35,16 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.so.SOCloudConfiguration;
-import org.onap.policy.so.SOManager;
-import org.onap.policy.so.SOModelInfo;
-import org.onap.policy.so.SORelatedInstance;
-import org.onap.policy.so.SORelatedInstanceListElement;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestDetails;
-import org.onap.policy.so.SORequestInfo;
-import org.onap.policy.so.SORequestParameters;
+import org.onap.policy.so.SoCloudConfiguration;
+import org.onap.policy.so.SoManager;
+import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoOperationType;
+import org.onap.policy.so.SoRelatedInstance;
+import org.onap.policy.so.SoRelatedInstanceListElement;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequestDetails;
+import org.onap.policy.so.SoRequestInfo;
+import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +120,7 @@ public class SoActorServiceProvider implements Actor {
      * @param aaiResponseWrapper wrapper for AAI vserver named-query response
      * @return a SO request conforming to the lcm API using the DMAAP wrapper
      */
-    public SORequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy,
+    public SoRequest constructRequest(VirtualControlLoopEvent onset, ControlLoopOperation operation, Policy policy,
                     AaiNqResponseWrapper aaiResponseWrapper) {
         if (!SO_ACTOR.equals(policy.getActor()) || !recipes().contains(policy.getRecipe())) {
             return null;
@@ -194,18 +194,18 @@ public class SoActorServiceProvider implements Actor {
      * @param vfModuleItem       vf module item from A&AI named-query response
      * @return SO create vf-module request
      */
-    private SORequest constructCreateRequest(AaiNqResponseWrapper aaiResponseWrapper, Policy policy,
+    private SoRequest constructCreateRequest(AaiNqResponseWrapper aaiResponseWrapper, Policy policy,
                                              AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem vnfItem,
                                              AaiNqInventoryResponseItem vnfServiceItem,
                                              AaiNqInventoryResponseItem vfModuleItem) {
-        SORequest request = new SORequest();
+        SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.SCALE_OUT);
         //
         //
         // Do NOT send So the requestId, they do not support this field
         //
-        request.setRequestDetails(new SORequestDetails());
-        request.getRequestDetails().setRequestParameters(new SORequestParameters());
+        request.setRequestDetails(new SoRequestDetails());
+        request.getRequestDetails().setRequestParameters(new SoRequestParameters());
         request.getRequestDetails().getRequestParameters().setUserParams(null);
 
         // cloudConfiguration
@@ -220,15 +220,15 @@ public class SoActorServiceProvider implements Actor {
         request.getRequestDetails().getRequestInfo().setInstanceName(vfModuleName);
 
         // relatedInstanceList
-        SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
-        SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
-        relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
-        relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
+        SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement2 = new SoRelatedInstanceListElement();
+        relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
+        relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
 
         // Service Item
         relatedInstanceListElement1.getRelatedInstance()
                 .setInstanceId(vnfServiceItem.getServiceInstance().getServiceInstanceId());
-        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
                 .setModelInvariantId(vnfServiceItem.getServiceInstance().getModelInvariantId());
@@ -246,7 +246,7 @@ public class SoActorServiceProvider implements Actor {
 
         // VNF Item
         relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfItem.getGenericVnf().getVnfId());
-        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                 .setModelInvariantId(vnfItem.getGenericVnf().getModelInvariantId());
@@ -295,11 +295,11 @@ public class SoActorServiceProvider implements Actor {
      * @param vfModuleItem       vf module item from A&AI named-query response
      * @return SO delete vf-module request
      */
-    private SORequest constructDeleteRequest(AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem
+    private SoRequest constructDeleteRequest(AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem
             vnfItem, AaiNqInventoryResponseItem vnfServiceItem, AaiNqInventoryResponseItem vfModuleItem) {
-        SORequest request = new SORequest();
+        SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
-        request.setRequestDetails(new SORequestDetails());
+        request.setRequestDetails(new SoRequestDetails());
         request.getRequestDetails().setRelatedInstanceList(null);
         request.getRequestDetails().setConfigurationParameters(null);
 
@@ -324,8 +324,8 @@ public class SoActorServiceProvider implements Actor {
      *
      * @return SO request information
      */
-    private SORequestInfo constructRequestInfo() {
-        SORequestInfo soRequestInfo = new SORequestInfo();
+    private SoRequestInfo constructRequestInfo() {
+        SoRequestInfo soRequestInfo = new SoRequestInfo();
         soRequestInfo.setSource("POLICY");
         soRequestInfo.setSuppressRollback(false);
         soRequestInfo.setRequestorId("policy");
@@ -338,8 +338,8 @@ public class SoActorServiceProvider implements Actor {
      * @param vfModuleItem vf module item from A&AI named-query response
      * @return SO Model info for the vfModule
      */
-    private SOModelInfo constructVfModuleModelInfo(AaiNqInventoryResponseItem vfModuleItem) {
-        SOModelInfo soModelInfo = new SOModelInfo();
+    private SoModelInfo constructVfModuleModelInfo(AaiNqInventoryResponseItem vfModuleItem) {
+        SoModelInfo soModelInfo = new SoModelInfo();
         soModelInfo.setModelType("vfModule");
         soModelInfo.setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
         soModelInfo.setModelCustomizationId(vfModuleItem.getVfModule().getModelCustomizationId());
@@ -360,8 +360,8 @@ public class SoActorServiceProvider implements Actor {
      * @param tenantItem tenant item from A&AI named-query response
      * @return SO cloud configuration
      */
-    private SOCloudConfiguration constructCloudConfiguration(AaiNqInventoryResponseItem tenantItem) {
-        SOCloudConfiguration cloudConfiguration = new SOCloudConfiguration();
+    private SoCloudConfiguration constructCloudConfiguration(AaiNqInventoryResponseItem tenantItem) {
+        SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
         cloudConfiguration.setTenantId(tenantItem.getTenant().getTenantId());
         cloudConfiguration.setLcpCloudRegionId(tenantItem.getItems().getInventoryResponseItems().get(0)
                 .getCloudRegion().getCloudRegionId());
@@ -377,9 +377,9 @@ public class SoActorServiceProvider implements Actor {
      * @param request the request
      */
     public static void sendRequest(String requestId, WorkingMemory wm, Object request) {
-        SOManager soManager = new SOManager();
-        soManager.asyncSORestCall(requestId, wm, lastServiceItemServiceInstanceId, lastVNFItemVnfId,
-                lastVfModuleItemVfModuleInstanceId, (SORequest) request);
+        SoManager soManager = new SoManager();
+        soManager.asyncSoRestCall(requestId, wm, lastServiceItemServiceInstanceId, lastVNFItemVnfId,
+                lastVfModuleItemVfModuleInstanceId, (SoRequest) request);
     }
 
     /**
@@ -402,7 +402,7 @@ public class SoActorServiceProvider implements Actor {
      * @param policy the policy
      * @param request request into which to stick the request parameters
      */
-    private void buildRequestParameters(Policy policy, SORequestDetails request) {
+    private void buildRequestParameters(Policy policy, SoRequestDetails request) {
         // assume null until proven otherwise
         request.setRequestParameters(null);
         
@@ -415,7 +415,7 @@ public class SoActorServiceProvider implements Actor {
             return;
         }
 
-        request.setRequestParameters(Serialization.gsonPretty.fromJson(json, SORequestParameters.class));
+        request.setRequestParameters(Serialization.gsonPretty.fromJson(json, SoRequestParameters.class));
     }
 
     /**
@@ -424,7 +424,7 @@ public class SoActorServiceProvider implements Actor {
      * @param policy the policy
      * @param request request into which to stick the configuration parameters
      */
-    private void buildConfigurationParameters(Policy policy, SORequestDetails request) {
+    private void buildConfigurationParameters(Policy policy, SoRequestDetails request) {
         // assume null until proven otherwise
         request.setConfigurationParameters(null);
         

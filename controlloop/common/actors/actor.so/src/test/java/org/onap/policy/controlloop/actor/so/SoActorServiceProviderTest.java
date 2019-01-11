@@ -1,9 +1,10 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * TestSOActorServiceProvider
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2018-2019 AT&T. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,9 +41,9 @@ import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestParameters;
 import org.onap.policy.so.SoOperationType;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 
 public class SoActorServiceProviderTest {
@@ -71,7 +72,7 @@ public class SoActorServiceProviderTest {
         policy.setRecipe(VF_MODULE_CREATE);
 
         // empty policy payload
-        SORequest request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        SoRequest request = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(request);
 
         assertEquals("my_module_3", request.getRequestDetails().getRequestInfo().getInstanceName());
@@ -115,7 +116,7 @@ public class SoActorServiceProviderTest {
                         loadAaiResponse(onset, "aai/AaiNqResponse-NoNonBase.json")));
 
         policy.setRecipe(VF_MODULE_DELETE);
-        SORequest deleteRequest = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
+        SoRequest deleteRequest = new SoActorServiceProvider().constructRequest(onset, operation, policy, aaiNqResp);
         assertNotNull(deleteRequest);
         assertEquals(SoOperationType.DELETE_VF_MODULE, deleteRequest.getOperationType());
 
@@ -182,7 +183,7 @@ public class SoActorServiceProviderTest {
      * @return request parameters, encoded as JSON
      */
     private String makeReqParams() {
-        SORequestParameters params = new SORequestParameters();
+        SoRequestParameters params = new SoRequestParameters();
 
         params.setUsePreload(true);
 

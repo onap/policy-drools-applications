@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoRequestReferencesTest {
 
     @Test
     public void testConstructor() {
-        SORequestReferences obj = new SORequestReferences();
+        SoRequestReferences obj = new SoRequestReferences();
 
         assertTrue(obj.getInstanceId() == null);
         assertTrue(obj.getRequestId() == null);
@@ -37,7 +38,7 @@ public class SoRequestReferencesTest {
 
     @Test
     public void testSetGet() {
-        SORequestReferences obj = new SORequestReferences();
+        SoRequestReferences obj = new SoRequestReferences();
 
         obj.setInstanceId("instanceId");
         assertEquals("instanceId", obj.getInstanceId());

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,32 +27,32 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class SORequestDetails implements Serializable {
+public class SoRequestDetails implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
     @SerializedName("modelInfo")
-    private SOModelInfo modelInfo;
+    private SoModelInfo modelInfo;
 
     @SerializedName("cloudConfiguration")
-    private SOCloudConfiguration cloudConfiguration;
+    private SoCloudConfiguration cloudConfiguration;
 
     @SerializedName("requestInfo")
-    private SORequestInfo requestInfo;
+    private SoRequestInfo requestInfo;
 
     @SerializedName("subscriberInfo")
-    private SOSubscriberInfo subscriberInfo;
+    private SoSubscriberInfo subscriberInfo;
 
     @SerializedName("relatedInstanceList")
-    private List<SORelatedInstanceListElement> relatedInstanceList = new LinkedList<>();
+    private List<SoRelatedInstanceListElement> relatedInstanceList = new LinkedList<>();
 
     @SerializedName("requestParameters")
-    private SORequestParameters requestParameters;
+    private SoRequestParameters requestParameters;
 
     @SerializedName("configurationParameters")
     private List<Map<String, String>> configurationParameters = new LinkedList<>();
 
-    public SORequestDetails() {
+    public SoRequestDetails() {
 
     }
 
@@ -61,7 +61,7 @@ public class SORequestDetails implements Serializable {
      * 
      * @param soRequestDetails copy object
      */
-    public SORequestDetails(SORequestDetails soRequestDetails) {
+    public SoRequestDetails(SoRequestDetails soRequestDetails) {
         this.modelInfo = soRequestDetails.modelInfo;
         this.cloudConfiguration = soRequestDetails.cloudConfiguration;
         this.requestInfo = soRequestDetails.requestInfo;
@@ -81,7 +81,7 @@ public class SORequestDetails implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SORequestDetails other = (SORequestDetails) obj;
+        SoRequestDetails other = (SoRequestDetails) obj;
         if (cloudConfiguration == null) {
             if (other.cloudConfiguration != null) {
                 return false;
@@ -134,23 +134,23 @@ public class SORequestDetails implements Serializable {
         return true;
     }
 
-    public SOCloudConfiguration getCloudConfiguration() {
+    public SoCloudConfiguration getCloudConfiguration() {
         return cloudConfiguration;
     }
 
-    public SOModelInfo getModelInfo() {
+    public SoModelInfo getModelInfo() {
         return modelInfo;
     }
 
-    public List<SORelatedInstanceListElement> getRelatedInstanceList() {
+    public List<SoRelatedInstanceListElement> getRelatedInstanceList() {
         return relatedInstanceList;
     }
 
-    public SORequestInfo getRequestInfo() {
+    public SoRequestInfo getRequestInfo() {
         return requestInfo;
     }
 
-    public SORequestParameters getRequestParameters() {
+    public SoRequestParameters getRequestParameters() {
         return requestParameters;
     }
 
@@ -158,7 +158,7 @@ public class SORequestDetails implements Serializable {
         return configurationParameters;
     }
 
-    public SOSubscriberInfo getSubscriberInfo() {
+    public SoSubscriberInfo getSubscriberInfo() {
         return subscriberInfo;
     }
 
@@ -176,19 +176,19 @@ public class SORequestDetails implements Serializable {
         return result;
     }
 
-    public void setCloudConfiguration(SOCloudConfiguration cloudConfiguration) {
+    public void setCloudConfiguration(SoCloudConfiguration cloudConfiguration) {
         this.cloudConfiguration = cloudConfiguration;
     }
 
-    public void setModelInfo(SOModelInfo modelInfo) {
+    public void setModelInfo(SoModelInfo modelInfo) {
         this.modelInfo = modelInfo;
     }
 
-    public void setRequestInfo(SORequestInfo requestInfo) {
+    public void setRequestInfo(SoRequestInfo requestInfo) {
         this.requestInfo = requestInfo;
     }
 
-    public void setRequestParameters(SORequestParameters requestParameters) {
+    public void setRequestParameters(SoRequestParameters requestParameters) {
         this.requestParameters = requestParameters;
     }
 
@@ -196,11 +196,11 @@ public class SORequestDetails implements Serializable {
         this.configurationParameters = configurationParameters;
     }
 
-    public void setSubscriberInfo(SOSubscriberInfo subscriberInfo) {
+    public void setSubscriberInfo(SoSubscriberInfo subscriberInfo) {
         this.subscriberInfo = subscriberInfo;
     }
 
-    public void setRelatedInstanceList(List<SORelatedInstanceListElement> relatedInstanceList) {
+    public void setRelatedInstanceList(List<SoRelatedInstanceListElement> relatedInstanceList) {
         this.relatedInstanceList = relatedInstanceList;
     }
 

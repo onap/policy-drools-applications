@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,18 +24,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SOResponseWrapper implements Serializable {
+public class SoResponseWrapper implements Serializable {
 
     private static final long serialVersionUID = 7673023687132889069L;
 
     @SerializedName("SoResponse")
-    private SOResponse soResponse;
+    private SoResponse soResponse;
 
-    private transient String requestID;
+    private transient String requestId;
 
-    public SOResponseWrapper(SOResponse response, String reqID) {
+    public SoResponseWrapper(SoResponse response, String reqId) {
         this.soResponse = response;
-        this.requestID = reqID;
+        this.requestId = reqId;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SOResponseWrapper implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SOResponseWrapper other = (SOResponseWrapper) obj;
+        SoResponseWrapper other = (SoResponseWrapper) obj;
         if (soResponse == null) {
             if (other.soResponse != null) {
                 return false;
@@ -58,22 +58,22 @@ public class SOResponseWrapper implements Serializable {
         else if (!soResponse.equals(other.soResponse)) {
             return false;
         }
-        if (requestID == null) {
-            if (other.requestID != null) {
+        if (requestId == null) {
+            if (other.requestId != null) {
                 return false;
             }
         }
-        else if (!requestID.equals(other.requestID)) {
+        else if (!requestId.equals(other.requestId)) {
             return false;
         }
         return true;
     }
 
-    public String getRequestID() {
-        return requestID;
+    public String getRequestId() {
+        return requestId;
     }
 
-    public SOResponse getSoResponse() {
+    public SoResponse getSoResponse() {
         return soResponse;
     }
 
@@ -82,21 +82,21 @@ public class SOResponseWrapper implements Serializable {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((soResponse == null) ? 0 : soResponse.hashCode());
-        result = prime * result + ((requestID == null) ? 0 : requestID.hashCode());
+        result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
         return result;
     }
 
-    public void setRequestID(String requestId) {
-        this.requestID = requestId;
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 
-    public void setSoResponse(SOResponse response) {
+    public void setSoResponse(SoResponse response) {
         soResponse = response;
     }
 
     @Override
     public String toString() {
-        return "SOResponseWrapper [SOResponse=" + soResponse + ", RequestID=" + requestID + "]";
+        return "SOResponseWrapper [SOResponse=" + soResponse + ", RequestID=" + requestId + "]";
     }
 
 }

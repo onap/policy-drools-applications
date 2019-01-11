@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2018 AT&T. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class SoDummyServerTest {
     private static int getMessagesReceived = 0;
     private static int deleteMessagesReceived = 0;
 
-    private static Map<String, SOResponse> ongoingRequestMap = new ConcurrentHashMap<>();
+    private static Map<String, SoResponse> ongoingRequestMap = new ConcurrentHashMap<>();
 
     /**
      * Stats method.
@@ -110,12 +110,12 @@ public class SoDummyServerTest {
     @Path("/orchestrationRequests/v5/{nsInstanceId}")
     public Response soRequestStatus(@PathParam("nsInstanceId") final String nsInstanceId) {
 
-        SOResponse response = ongoingRequestMap.get(nsInstanceId);
+        SoResponse response = ongoingRequestMap.get(nsInstanceId);
 
         int iterationsLeft = Integer.valueOf(response.getRequest().getRequestScope());
         if (--iterationsLeft > 0) {
             response.getRequest().setRequestScope(new Integer(iterationsLeft).toString());
-            String responseString = new Gson().toJson(response, SOResponse.class);
+            String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode()).entity(responseString).build();
         }
 
@@ -128,7 +128,7 @@ public class SoDummyServerTest {
         response.getRequest().getRequestStatus().setRequestState("COMPLETE");
         response.getRequest().setRequestScope("0");
         response.setHttpResponseCode(200);
-        String responseString = new Gson().toJson(response, SOResponse.class);
+        String responseString = new Gson().toJson(response, SoResponse.class);
         return Response.status(response.getHttpResponseCode()).entity(responseString).build();
     }
 
@@ -157,9 +157,9 @@ public class SoDummyServerTest {
             return Response.status(400).build();
         }
 
-        SORequest request = null;
+        SoRequest request = null;
         try {
-            request = new Gson().fromJson(jsonString, SORequest.class);
+            request = new Gson().fromJson(jsonString, SoRequest.class);
         } catch (Exception e) {
             return Response.status(400).build();
         }
@@ -179,15 +179,15 @@ public class SoDummyServerTest {
                             + ",\"DELETE\": " + deleteMessagesReceived + "}").build();
         }
 
-        SOResponse response = new SOResponse();
+        SoResponse response = new SoResponse();
         response.setRequest(request);
-        response.setRequestReferences(new SORequestReferences());
+        response.setRequestReferences(new SoRequestReferences());
         response.getRequestReferences().setRequestId(request.getRequestId().toString());
 
         if ("ReturnCompleted".equals(request.getRequestType())) {
             response.getRequest().getRequestStatus().setRequestState("COMPLETE");
             response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
+            String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
                     .entity(responseString)
                     .build();
@@ -196,7 +196,7 @@ public class SoDummyServerTest {
         if ("ReturnFailed".equals(request.getRequestType())) {
             response.getRequest().getRequestStatus().setRequestState("FAILED");
             response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
+            String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
                     .entity(responseString)
                     .build();
@@ -207,7 +207,7 @@ public class SoDummyServerTest {
 
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(202);
-            String responseString = new Gson().toJson(response, SOResponse.class);
+            String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
                     .entity(responseString)
                     .build();
@@ -218,7 +218,7 @@ public class SoDummyServerTest {
 
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
+            String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
                     .entity(responseString)
                     .build();
@@ -229,7 +229,7 @@ public class SoDummyServerTest {
 
             response.getRequest().getRequestStatus().setRequestState("ONGOING");
             response.setHttpResponseCode(200);
-            String responseString = new Gson().toJson(response, SOResponse.class);
+            String responseString = new Gson().toJson(response, SoResponse.class);
             return Response.status(response.getHttpResponseCode())
                     .entity(responseString)
                     .build();

@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoRequestParametersTest {
 
     @Test
     public void testConstructor() {
-        SORequestParameters obj = new SORequestParameters();
+        SoRequestParameters obj = new SoRequestParameters();
 
         assertTrue(obj.getSubscriptionServiceType() == null);
         assertTrue(obj.getUserParams() != null);
@@ -38,7 +39,7 @@ public class SoRequestParametersTest {
 
     @Test
     public void testSetGet() {
-        SORequestParameters obj = new SORequestParameters();
+        SoRequestParameters obj = new SoRequestParameters();
 
         obj.setSubscriptionServiceType("subscriptionServiceType");
         assertEquals("subscriptionServiceType", obj.getSubscriptionServiceType());

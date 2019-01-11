@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoResponseTest {
 
     @Test
     public void testConstructor() {
-        SOResponse obj = new SOResponse();
+        SoResponse obj = new SoResponse();
 
         assertEquals(0, obj.getHttpResponseCode());
         assertTrue(obj.getRequest() == null);
@@ -39,20 +40,20 @@ public class SoResponseTest {
 
     @Test
     public void testSetGet() {
-        SOResponse obj = new SOResponse();
+        SoResponse obj = new SoResponse();
 
         obj.setHttpResponseCode(2008);
         assertEquals(2008, obj.getHttpResponseCode());
 
-        SORequest request = new SORequest();
+        SoRequest request = new SoRequest();
         obj.setRequest(request);
         assertEquals(request, obj.getRequest());
 
-        SORequestError requestError = new SORequestError();
+        SoRequestError requestError = new SoRequestError();
         obj.setRequestError(requestError);
         assertEquals(requestError, obj.getRequestError());
 
-        SORequestReferences requestReferences = new SORequestReferences();
+        SoRequestReferences requestReferences = new SoRequestReferences();
         obj.setRequestReferences(requestReferences);
         assertEquals(requestReferences, obj.getRequestReferences());
     }

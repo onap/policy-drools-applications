@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,47 +24,23 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SORelatedInstance implements Serializable {
-
+public class SoRelatedInstanceListElement implements Serializable {
+ 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("instanceId")
-    private String instanceId;
+    @SerializedName("relatedInstance")
+    private SoRelatedInstance relatedInstance;
 
-    @SerializedName("instanceName")
-    private String instanceName;
-
-    @SerializedName("modelInfo")
-    private SOModelInfo modelInfo;
-
-    public SORelatedInstance() {
+    public SoRelatedInstanceListElement() {
       //required by author
     }
 
-    public String getInstanceId() {
-        return instanceId;
+    public SoRelatedInstance getRelatedInstance() {
+        return relatedInstance;
     }
 
-
-    public String getInstanceName() {
-        return instanceName;
-    }
-
-    public SOModelInfo getModelInfo() {
-        return modelInfo;
-    }
-
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
-
-    public void setInstanceName(String instanceName) {
-        this.instanceName = instanceName;
-    }
-
-
-    public void setModelInfo(SOModelInfo modelInfo) {
-        this.modelInfo = modelInfo;
+    public void setRelatedInstance(SoRelatedInstance relatedInstance) {
+        this.relatedInstance = relatedInstance;
     }
 
 }

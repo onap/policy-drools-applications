@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,7 +37,7 @@ public class SoRequestDetailsTest {
 
     @Test
     public void testConstructor() {
-        SORequestDetails obj = new SORequestDetails();
+        SoRequestDetails obj = new SoRequestDetails();
 
         assertTrue(obj.getCloudConfiguration() == null);
         assertTrue(obj.getModelInfo() == null);
@@ -49,68 +51,68 @@ public class SoRequestDetailsTest {
 
     @Test
     public void testSetGet() {
-        SORequestDetails obj = new SORequestDetails();
+        SoRequestDetails obj = new SoRequestDetails();
 
-        SOCloudConfiguration cloudConfiguration = new SOCloudConfiguration();
+        SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
         obj.setCloudConfiguration(cloudConfiguration);
         assertEquals(cloudConfiguration, obj.getCloudConfiguration());
 
-        SOModelInfo modelInfo = new SOModelInfo();
+        SoModelInfo modelInfo = new SoModelInfo();
         obj.setModelInfo(modelInfo);
         assertEquals(modelInfo, obj.getModelInfo());
 
-        SORequestInfo requestInfo = new SORequestInfo();
+        SoRequestInfo requestInfo = new SoRequestInfo();
         obj.setRequestInfo(requestInfo);
         assertEquals(requestInfo, obj.getRequestInfo());
 
-        SORequestParameters requestParameters = new SORequestParameters();
+        SoRequestParameters requestParameters = new SoRequestParameters();
         obj.setRequestParameters(requestParameters);
         assertEquals(requestParameters, obj.getRequestParameters());
 
-        SOSubscriberInfo subscriberInfo = new SOSubscriberInfo();
+        SoSubscriberInfo subscriberInfo = new SoSubscriberInfo();
         obj.setSubscriberInfo(subscriberInfo);
         assertEquals(subscriberInfo, obj.getSubscriberInfo());
     }
     
     @Test
     public void testSoMRequestDetailsMethods() {
-        SORequestDetails details = new SORequestDetails();
+        SoRequestDetails details = new SoRequestDetails();
         assertNotNull(details);
         assertNotEquals(0, details.hashCode());
 
-        SOCloudConfiguration cloudConfiguration = new SOCloudConfiguration();
+        SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
         details.setCloudConfiguration(cloudConfiguration);
         assertEquals(cloudConfiguration, details.getCloudConfiguration());
         assertNotEquals(0, details.hashCode());
 
-        SOModelInfo modelInfo = new SOModelInfo();
+        SoModelInfo modelInfo = new SoModelInfo();
         details.setModelInfo(modelInfo);
         assertEquals(modelInfo, details.getModelInfo());
         assertNotEquals(0, details.hashCode());
 
-        List<SORelatedInstanceListElement> relatedInstanceList = new ArrayList<>();
+        List<SoRelatedInstanceListElement> relatedInstanceList = new ArrayList<>();
         details.setRelatedInstanceList(relatedInstanceList);
         assertEquals(relatedInstanceList, details.getRelatedInstanceList());
         assertNotEquals(0, details.hashCode());
 
-        SORequestInfo requestInfo = new SORequestInfo();
+        SoRequestInfo requestInfo = new SoRequestInfo();
         details.setRequestInfo(requestInfo);
         assertEquals(requestInfo, details.getRequestInfo());
         assertNotEquals(0, details.hashCode());
 
-        SORequestParameters requestParameters = new SORequestParameters();
+        SoRequestParameters requestParameters = new SoRequestParameters();
         details.setRequestParameters(requestParameters);
         assertEquals(requestParameters, details.getRequestParameters());
         assertNotEquals(0, details.hashCode());
 
-        SOSubscriberInfo subscriberInfo = new SOSubscriberInfo();
+        SoSubscriberInfo subscriberInfo = new SoSubscriberInfo();
         details.setSubscriberInfo(subscriberInfo);
         assertEquals(subscriberInfo, details.getSubscriberInfo());
         assertNotEquals(0, details.hashCode());
 
         assertEquals("SORequestDetails [modelInfo=org.onap.policy.so", details.toString().substring(0,  46));
 
-        SORequestDetails copiedDetails = new SORequestDetails(details);
+        SoRequestDetails copiedDetails = new SoRequestDetails(details);
 
         assertTrue(details.equals(details));
         assertTrue(details.equals(copiedDetails));

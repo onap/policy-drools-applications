@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,22 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public class SORequest implements Serializable {
+public class SoAsyncRequestStatus implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
+    @SerializedName("correlator")
+    private String correlator;
+
     @SerializedName("requestId")
-    private UUID requestId;
+    private String requestId;
+
+    @SerializedName("instanceReferences")
+    private SoInstanceReferences instanceReferences;
 
     @SerializedName("startTime")
-    private String startTime;
+    private LocalDateTime startTime;
 
     @SerializedName("finishTime")
     private LocalDateTime finishTime;
@@ -45,27 +50,27 @@ public class SORequest implements Serializable {
     @SerializedName("requestType")
     private String requestType;
 
-    @SerializedName("requestDetails")
-    private SORequestDetails requestDetails;
-
     @SerializedName("requestStatus")
-    private SORequestStatus requestStatus;
+    private SoRequestStatus requestStatus;
 
-    private transient SoOperationType operationType;
-
-    public SORequest() {
+    public SoAsyncRequestStatus() {
         // required by author
     }
+
+    public String getCorrelator() {
+        return correlator;
+    }
+
 
     public LocalDateTime getFinishTime() {
         return finishTime;
     }
 
-    public SORequestDetails getRequestDetails() {
-        return requestDetails;
+    public SoInstanceReferences getInstanceReferences() {
+        return instanceReferences;
     }
 
-    public UUID getRequestId() {
+    public String getRequestId() {
         return requestId;
     }
 
@@ -73,7 +78,7 @@ public class SORequest implements Serializable {
         return requestScope;
     }
 
-    public SORequestStatus getRequestStatus() {
+    public SoRequestStatus getRequestStatus() {
         return requestStatus;
     }
 
@@ -81,19 +86,23 @@ public class SORequest implements Serializable {
         return requestType;
     }
 
-    public String getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
+    }
+
+    public void setCorrelator(String correlator) {
+        this.correlator = correlator;
     }
 
     public void setFinishTime(LocalDateTime finishTime) {
         this.finishTime = finishTime;
     }
 
-    public void setRequestDetails(SORequestDetails requestDetails) {
-        this.requestDetails = requestDetails;
+    public void setInstanceReferences(SoInstanceReferences instanceReferences) {
+        this.instanceReferences = instanceReferences;
     }
 
-    public void setRequestId(UUID requestId) {
+    public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
 
@@ -101,7 +110,7 @@ public class SORequest implements Serializable {
         this.requestScope = requestScope;
     }
 
-    public void setRequestStatus(SORequestStatus requestStatus) {
+    public void setRequestStatus(SoRequestStatus requestStatus) {
         this.requestStatus = requestStatus;
     }
 
@@ -109,15 +118,8 @@ public class SORequest implements Serializable {
         this.requestType = requestType;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public SoOperationType getOperationType() {
-        return operationType;
-    }
-
-    public void setOperationType(SoOperationType operationType) {
-        this.operationType = operationType;
-    }
 }

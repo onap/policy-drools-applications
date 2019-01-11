@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,33 +33,33 @@ public class SoResponseWrapperTest {
 
     @Test
     public void testConstructor() {
-        SOResponse response = new SOResponse();
-        SOResponseWrapper obj = new SOResponseWrapper(response, "reqID");
+        SoResponse response = new SoResponse();
+        SoResponseWrapper obj = new SoResponseWrapper(response, "reqID");
 
         assertEquals(response, obj.getSoResponse());
-        assertEquals("reqID", obj.getRequestID());
+        assertEquals("reqID", obj.getRequestId());
     }
 
     @Test
     public void testSetGet() {
-        SOResponse response = new SOResponse();
-        SOResponseWrapper obj = new SOResponseWrapper(response, "reqID");
+        SoResponse response = new SoResponse();
+        SoResponseWrapper obj = new SoResponseWrapper(response, "reqID");
 
-        SOResponse response2 = new SOResponse();
+        SoResponse response2 = new SoResponse();
         response2.setHttpResponseCode(2008);
         obj.setSoResponse(response2);
         assertEquals(response2, obj.getSoResponse());
 
-        obj.setRequestID("id2");
-        assertEquals("id2", obj.getRequestID());
+        obj.setRequestId("id2");
+        assertEquals("id2", obj.getRequestId());
     }
 
     @Test
     public void testSoResponseWrapperMethods() {
         String requestId = UUID.randomUUID().toString();
-        SOResponse response = new SOResponse();
+        SoResponse response = new SoResponse();
 
-        SOResponseWrapper responseWrapper = new SOResponseWrapper(response, requestId);
+        SoResponseWrapper responseWrapper = new SoResponseWrapper(response, requestId);
         assertNotNull(responseWrapper);
         assertNotEquals(0, responseWrapper.hashCode());
 
@@ -69,7 +69,7 @@ public class SoResponseWrapperTest {
 
         assertEquals("SOResponseWrapper [SOResponse=org.onap.policy.", responseWrapper.toString().substring(0,  46));
 
-        SOResponseWrapper identicalResponseWrapper = new SOResponseWrapper(response, requestId);
+        SoResponseWrapper identicalResponseWrapper = new SoResponseWrapper(response, requestId);
 
         assertEquals(responseWrapper,  responseWrapper);
         assertEquals(responseWrapper,  identicalResponseWrapper);
@@ -78,28 +78,28 @@ public class SoResponseWrapperTest {
         assertFalse(responseWrapper.equals(null));
         assertFalse(responseWrapper.equals("AString"));
         
-        assertEquals(new SOResponseWrapper(null, null), new SOResponseWrapper(null, null));
-        assertNotEquals(new SOResponseWrapper(null, null), identicalResponseWrapper);
+        assertEquals(new SoResponseWrapper(null, null), new SoResponseWrapper(null, null));
+        assertNotEquals(new SoResponseWrapper(null, null), identicalResponseWrapper);
         
-        assertNotEquals(0, new SOResponseWrapper(null, null).hashCode());
+        assertNotEquals(0, new SoResponseWrapper(null, null).hashCode());
 
-        identicalResponseWrapper.setSoResponse(new SOResponse());
+        identicalResponseWrapper.setSoResponse(new SoResponse());
         assertNotEquals(responseWrapper,  identicalResponseWrapper);
         identicalResponseWrapper.setSoResponse(response);
         assertEquals(responseWrapper,  identicalResponseWrapper);
         
-        identicalResponseWrapper.setRequestID(UUID.randomUUID().toString());
+        identicalResponseWrapper.setRequestId(UUID.randomUUID().toString());
         assertNotEquals(responseWrapper,  identicalResponseWrapper);
-        identicalResponseWrapper.setRequestID(requestId);
+        identicalResponseWrapper.setRequestId(requestId);
         assertEquals(responseWrapper,  identicalResponseWrapper);
         
-        responseWrapper.setRequestID(null);
+        responseWrapper.setRequestId(null);
         assertNotEquals(responseWrapper,  identicalResponseWrapper);
-        identicalResponseWrapper.setRequestID(null);
+        identicalResponseWrapper.setRequestId(null);
         assertEquals(responseWrapper,  identicalResponseWrapper);
-        responseWrapper.setRequestID(requestId);
+        responseWrapper.setRequestId(requestId);
         assertNotEquals(responseWrapper,  identicalResponseWrapper);
-        identicalResponseWrapper.setRequestID(requestId);
+        identicalResponseWrapper.setRequestId(requestId);
         assertEquals(responseWrapper,  identicalResponseWrapper);
     }
 }

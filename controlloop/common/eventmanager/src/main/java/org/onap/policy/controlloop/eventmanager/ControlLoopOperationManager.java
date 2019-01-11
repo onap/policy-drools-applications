@@ -53,7 +53,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.Util;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnr.PciResponseWrapper;
-import org.onap.policy.so.SOResponseWrapper;
+import org.onap.policy.so.SoResponseWrapper;
 import org.onap.policy.vfc.VfcResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -346,11 +346,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast SDNR response and handle it
             //
             return onResponse((PciResponseWrapper) response);
-        } else if (response instanceof SOResponseWrapper) {
+        } else if (response instanceof SoResponseWrapper) {
             //
             // Cast SO response and handle it
             //
-            return onResponse((SOResponseWrapper) response);
+            return onResponse((SoResponseWrapper) response);
         } else if (response instanceof VfcResponse) {
             //
             // Cast VFC response and handle it
@@ -531,7 +531,7 @@ public class ControlLoopOperationManager implements Serializable {
      * @param msoResponse the SO response
      * @return The result of the response handling
      */
-    private PolicyResult onResponse(SOResponseWrapper msoResponse) {
+    private PolicyResult onResponse(SoResponseWrapper msoResponse) {
         switch (msoResponse.getSoResponse().getHttpResponseCode()) {
             case 200:
             case 202:

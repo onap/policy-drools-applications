@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +31,7 @@ public class SoRequestStatusTest {
 
     @Test
     public void testConstructor() {
-        SORequestStatus obj = new SORequestStatus();
+        SoRequestStatus obj = new SoRequestStatus();
 
         assertEquals(0, obj.getPercentProgress());
         assertTrue(obj.getRequestState() == null);
@@ -40,7 +41,7 @@ public class SoRequestStatusTest {
 
     @Test
     public void testSetGet() {
-        SORequestStatus obj = new SORequestStatus();
+        SoRequestStatus obj = new SoRequestStatus();
 
         obj.setPercentProgress(2008);
         assertEquals(2008, obj.getPercentProgress());

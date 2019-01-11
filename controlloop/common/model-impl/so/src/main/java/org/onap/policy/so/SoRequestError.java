@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,23 +24,34 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SORelatedInstanceListElement implements Serializable {
- 
+public class SoRequestError implements Serializable {
+
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("relatedInstance")
-    private SORelatedInstance relatedInstance;
+    @SerializedName("policyException")
+    private SoPolicyExceptionHolder policyException;
 
-    public SORelatedInstanceListElement() {
-      //required by author
+    @SerializedName("serviceException")
+    private SoServiceExceptionHolder serviceException;
+
+    public SoRequestError() {
+        // required by author
     }
 
-    public SORelatedInstance getRelatedInstance() {
-        return relatedInstance;
+    public SoPolicyExceptionHolder getPolicyException() {
+        return policyException;
     }
 
-    public void setRelatedInstance(SORelatedInstance relatedInstance) {
-        this.relatedInstance = relatedInstance;
+    public SoServiceExceptionHolder getServiceException() {
+        return serviceException;
+    }
+
+    public void setPolicyException(SoPolicyExceptionHolder policyException) {
+        this.policyException = policyException;
+    }
+
+    public void setServiceException(SoServiceExceptionHolder serviceException) {
+        this.serviceException = serviceException;
     }
 
 }

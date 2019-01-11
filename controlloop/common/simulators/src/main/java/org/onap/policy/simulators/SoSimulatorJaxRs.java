@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestReferences;
-import org.onap.policy.so.SORequestStatus;
-import org.onap.policy.so.SOResponse;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequestReferences;
+import org.onap.policy.so.SoRequestStatus;
+import org.onap.policy.so.SoResponse;
 
 @Path("/serviceInstantiation")
 public class SoSimulatorJaxRs {
@@ -49,15 +49,15 @@ public class SoSimulatorJaxRs {
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId) {
-        final SORequest request = new SORequest();
-        final SORequestStatus requestStatus = new SORequestStatus();
+        final SoRequest request = new SoRequest();
+        final SoRequestStatus requestStatus = new SoRequestStatus();
         requestStatus.setRequestState("COMPLETE");
         request.setRequestStatus(requestStatus);
         request.setRequestId(UUID.randomUUID());
 
-        final SOResponse response = new SOResponse();
+        final SoResponse response = new SoResponse();
 
-        final SORequestReferences requestReferences = new SORequestReferences();
+        final SoRequestReferences requestReferences = new SoRequestReferences();
         final String requestId = UUID.randomUUID().toString();
         requestReferences.setRequestId(requestId);
         response.setRequestReferences(requestReferences);

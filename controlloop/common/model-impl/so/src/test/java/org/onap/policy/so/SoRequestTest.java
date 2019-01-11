@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +33,7 @@ public class SoRequestTest {
 
     @Test
     public void testConstructor() {
-        SORequest obj = new SORequest();
+        SoRequest obj = new SoRequest();
 
         assertTrue(obj.getFinishTime() == null);
         assertTrue(obj.getRequestDetails() == null);
@@ -45,7 +46,7 @@ public class SoRequestTest {
 
     @Test
     public void testSetGet() {
-        SORequest obj = new SORequest();
+        SoRequest obj = new SoRequest();
 
         LocalDateTime finishTime = LocalDateTime.now();
         obj.setFinishTime(finishTime);
@@ -58,7 +59,7 @@ public class SoRequestTest {
         obj.setRequestScope("requestScope");
         assertEquals("requestScope", obj.getRequestScope());
 
-        SORequestStatus requestStatus = new SORequestStatus();
+        SoRequestStatus requestStatus = new SoRequestStatus();
         obj.setRequestStatus(requestStatus);
         assertEquals(requestStatus, obj.getRequestStatus());
 

@@ -71,8 +71,8 @@ import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.so.SOResponse;
-import org.onap.policy.so.SOResponseWrapper;
+import org.onap.policy.so.SoResponse;
+import org.onap.policy.so.SoResponseWrapper;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.VfcResponseDescriptor;
 import org.slf4j.Logger;
@@ -741,8 +741,8 @@ public class ControlLoopOperationManagerTest {
         lcmCh.setSubRequestId("12345");
         assertEquals(PolicyResult.FAILURE_EXCEPTION, clom.onResponse(lrw));
 
-        SOResponse soResponse = new SOResponse();
-        SOResponseWrapper soRw = new SOResponseWrapper(soResponse, null);
+        SoResponse soResponse = new SoResponse();
+        SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
         soResponse.setHttpResponseCode(200);
         assertEquals(PolicyResult.SUCCESS, clom.onResponse(soRw));
@@ -791,8 +791,8 @@ public class ControlLoopOperationManagerTest {
 
         clom.startOperation(onsetEvent);
 
-        SOResponse soResponse = new SOResponse();
-        final SOResponseWrapper soRw = new SOResponseWrapper(soResponse, null);
+        SoResponse soResponse = new SoResponse();
+        final SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
         PolicyEngine.manager.setEnvironmentProperty("guard.disabled", "false");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
@@ -881,8 +881,8 @@ public class ControlLoopOperationManagerTest {
         assertNotNull(clom);
         assertTrue(clom.isOperationRunning());
 
-        SOResponse soResponse = new SOResponse();
-        final SOResponseWrapper soRw = new SOResponseWrapper(soResponse, null);
+        SoResponse soResponse = new SoResponse();
+        final SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
         PolicyEngine.manager.setEnvironmentProperty("guard.disabled", "false");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,

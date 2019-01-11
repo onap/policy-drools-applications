@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoRequestInfoTest {
 
     @Test
     public void testConstructor() {
-        SORequestInfo obj = new SORequestInfo();
+        SoRequestInfo obj = new SoRequestInfo();
 
         assertTrue(obj.getBillingAccountNumber() == null);
         assertTrue(obj.getCallbackUrl() == null);
@@ -45,7 +46,7 @@ public class SoRequestInfoTest {
 
     @Test
     public void testSetGet() {
-        SORequestInfo obj = new SORequestInfo();
+        SoRequestInfo obj = new SoRequestInfo();
 
         obj.setBillingAccountNumber("billingAccountNumber");
         assertEquals("billingAccountNumber", obj.getBillingAccountNumber());

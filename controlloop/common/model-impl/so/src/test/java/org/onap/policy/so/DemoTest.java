@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * mso
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017, 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.onap.policy.so.SOCloudConfiguration;
-import org.onap.policy.so.SOModelInfo;
-import org.onap.policy.so.SORelatedInstance;
-import org.onap.policy.so.SORelatedInstanceListElement;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestDetails;
-import org.onap.policy.so.SORequestInfo;
-import org.onap.policy.so.SORequestParameters;
+import org.onap.policy.so.SoCloudConfiguration;
+import org.onap.policy.so.SoModelInfo;
+import org.onap.policy.so.SoRelatedInstance;
+import org.onap.policy.so.SoRelatedInstanceListElement;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequestDetails;
+import org.onap.policy.so.SoRequestInfo;
+import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,12 +42,12 @@ public class DemoTest {
     @Test
     public void test() {
 
-        SORequest request = new SORequest();
-        request.setRequestDetails(new SORequestDetails());
-        request.getRequestDetails().setModelInfo(new SOModelInfo());
-        request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
-        request.getRequestDetails().setRequestInfo(new SORequestInfo());
-        request.getRequestDetails().setRequestParameters(new SORequestParameters());
+        SoRequest request = new SoRequest();
+        request.setRequestDetails(new SoRequestDetails());
+        request.getRequestDetails().setModelInfo(new SoModelInfo());
+        request.getRequestDetails().setCloudConfiguration(new SoCloudConfiguration());
+        request.getRequestDetails().setRequestInfo(new SoRequestInfo());
+        request.getRequestDetails().setRequestParameters(new SoRequestParameters());
 
         request.getRequestDetails().getModelInfo().setModelType("vfModule");
         request.getRequestDetails().getModelInfo().setModelInvariantId("ff5256d2-5a33-55df-13ab-12abad84e7ff");
@@ -62,25 +62,25 @@ public class DemoTest {
         request.getRequestDetails().getRequestInfo().setSource("VID");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(true);
 
-        SORelatedInstanceListElement relatedInstanceListElement1 =
-                new SORelatedInstanceListElement();
-        SORelatedInstanceListElement relatedInstanceListElement2 =
-                new SORelatedInstanceListElement();
-        SORelatedInstanceListElement relatedInstanceListElement3 =
-                new SORelatedInstanceListElement();
-        relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
-        relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
-        relatedInstanceListElement3.setRelatedInstance(new SORelatedInstance());
+        SoRelatedInstanceListElement relatedInstanceListElement1 =
+                new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement2 =
+                new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement3 =
+                new SoRelatedInstanceListElement();
+        relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
+        relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
+        relatedInstanceListElement3.setRelatedInstance(new SoRelatedInstance());
 
         relatedInstanceListElement1.getRelatedInstance().setInstanceId(
                 "17ef4658-bd1f-4ef0-9ca0-ea76e2bf122c");
         relatedInstanceListElement1.getRelatedInstance().setInstanceName(
                 "SOTESTVOL103a-vSAMP12_base_module-0_vol");
-        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("volumeGroup");
 
         relatedInstanceListElement2.getRelatedInstance().setInstanceId("serviceInstanceId");
-        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(
                 "ff3514e3-5a33-55df-13ab-12abad84e7ff");
@@ -91,7 +91,7 @@ public class DemoTest {
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelVersion("1.0");
 
         relatedInstanceListElement3.getRelatedInstance().setInstanceId("vnfInstanceId");
-        relatedInstanceListElement3.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement3.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement3.getRelatedInstance().getModelInfo().setModelInvariantId(
                 "ff5256d1-5a33-55df-13ab-12abad84e7ff");
@@ -123,13 +123,13 @@ public class DemoTest {
 
         logger.debug("**  HACK  **");
 
-        SORequest request = new SORequest();
+        SoRequest request = new SoRequest();
 
-        request.setRequestDetails(new SORequestDetails());
-        request.getRequestDetails().setModelInfo(new SOModelInfo());
-        request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
-        request.getRequestDetails().setRequestInfo(new SORequestInfo());
-        request.getRequestDetails().setRequestParameters(new SORequestParameters());
+        request.setRequestDetails(new SoRequestDetails());
+        request.getRequestDetails().setModelInfo(new SoModelInfo());
+        request.getRequestDetails().setCloudConfiguration(new SoCloudConfiguration());
+        request.getRequestDetails().setRequestInfo(new SoRequestInfo());
+        request.getRequestDetails().setRequestParameters(new SoRequestParameters());
         request.getRequestDetails().getRequestParameters().setUserParams(null);
 
         request.getRequestDetails().getModelInfo().setModelType("vfModule");
@@ -146,16 +146,16 @@ public class DemoTest {
         request.getRequestDetails().getRequestInfo().setSource("POLICY");
         request.getRequestDetails().getRequestInfo().setSuppressRollback(false);
 
-        SORelatedInstanceListElement relatedInstanceListElement1 =
-                new SORelatedInstanceListElement();
-        SORelatedInstanceListElement relatedInstanceListElement2 =
-                new SORelatedInstanceListElement();
-        relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
-        relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
+        SoRelatedInstanceListElement relatedInstanceListElement1 =
+                new SoRelatedInstanceListElement();
+        SoRelatedInstanceListElement relatedInstanceListElement2 =
+                new SoRelatedInstanceListElement();
+        relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
+        relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
 
         String serviceInstanceId = "98af39ce-6408-466b-921f-c2c7a8f59ed6";
         relatedInstanceListElement1.getRelatedInstance().setInstanceId(serviceInstanceId);
-        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelInvariantId(
                 "24329a0c-1d57-4210-b1af-a65df64e9d59");
@@ -166,7 +166,7 @@ public class DemoTest {
 
         String vnfInstanceId = "8eb411b8-a936-412f-b01f-9a9a435c0e93";
         relatedInstanceListElement2.getRelatedInstance().setInstanceId(vnfInstanceId);
-        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelInvariantId(
                 "09fd971e-db5f-475d-997c-cf6704b6b8fe");

@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,16 +30,16 @@ public class SoRelatedInstanceListElementTest {
 
     @Test
     public void testConstructor() {
-        SORelatedInstanceListElement obj = new SORelatedInstanceListElement();
+        SoRelatedInstanceListElement obj = new SoRelatedInstanceListElement();
 
         assertTrue(obj.getRelatedInstance() == null);
     }
 
     @Test
     public void testSetGet() {
-        SORelatedInstanceListElement obj = new SORelatedInstanceListElement();
+        SoRelatedInstanceListElement obj = new SoRelatedInstanceListElement();
 
-        SORelatedInstance relatedInstance = new SORelatedInstance();
+        SoRelatedInstance relatedInstance = new SoRelatedInstance();
         obj.setRelatedInstance(relatedInstance);
         assertEquals(relatedInstance, obj.getRelatedInstance());
     }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,30 +24,34 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SORequestReferences implements Serializable {
+public class SoCloudConfiguration implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("instanceId")
-    private String instanceId;
+    @SerializedName("lcpCloudRegionId")
+    private String lcpCloudRegionId;
 
-    @SerializedName("requestId")
-    private String requestId;
+    @SerializedName("tenantId")
+    private String tenantId;
 
-    public String getInstanceId() {
-        return instanceId;
+    public SoCloudConfiguration() {
+        //required by author
     }
 
-    public String getRequestId() {
-        return requestId;
+    public String getLcpCloudRegionId() {
+        return lcpCloudRegionId;
     }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
+    public String getTenantId() {
+        return tenantId;
     }
 
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
+    public void setLcpCloudRegionId(String lcpCloudRegionId) {
+        this.lcpCloudRegionId = lcpCloudRegionId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
 }

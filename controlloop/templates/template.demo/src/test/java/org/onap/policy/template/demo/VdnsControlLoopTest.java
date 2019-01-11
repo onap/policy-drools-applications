@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * demo
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.so.SORequest;
+import org.onap.policy.so.SoRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -374,7 +374,7 @@ public class VdnsControlLoopTest implements TopicListener {
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
             }
-        } else if (obj instanceof SORequest) {
+        } else if (obj instanceof SoRequest) {
             logger.debug("\n============ SO received the request!!! ===========\n");
         }
     }

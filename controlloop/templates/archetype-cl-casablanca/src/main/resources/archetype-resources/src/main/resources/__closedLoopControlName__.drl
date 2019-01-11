@@ -49,18 +49,8 @@ import org.onap.policy.sdnr.PciResponse;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.VfcManager;
-import org.onap.policy.so.SOManager;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestStatus;
-import org.onap.policy.so.SORequestDetails;
-import org.onap.policy.so.SOModelInfo;
-import org.onap.policy.so.SOCloudConfiguration;
-import org.onap.policy.so.SORequestInfo;
-import org.onap.policy.so.SORequestParameters;
-import org.onap.policy.so.SORelatedInstanceListElement;
-import org.onap.policy.so.SORelatedInstance;
-import org.onap.policy.so.SOResponse;
-import org.onap.policy.so.SOResponseWrapper;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoResponseWrapper;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncManager;
 import org.onap.policy.sdnc.SdncResponse;
@@ -537,7 +527,7 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   // at this point the AAI named query request should have already been made, the response 
                   // recieved and used in the construction of the SO Request which is stored in operationRequest
 
-                  if(request instanceof SORequest) {
+                  if(request instanceof SoRequest) {
                       // Call SO. The response will be inserted into memory once it's received
                       SoActorServiceProvider.sendRequest($event.getRequestId().toString(), drools.getWorkingMemory(), request);
                   }
@@ -1005,7 +995,7 @@ rule "SO.RESPONSE"
         $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
             requestID == $event.getRequestId().toString(), timerType == "Operation", !expired )
         $lock : TargetLock (requestID == $event.getRequestId())
-        $response : SOResponseWrapper(requestID.toString() == $event.getRequestId().toString() )
+        $response : SoResponseWrapper(requestId.toString() == $event.getRequestId().toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());

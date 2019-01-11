@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoCloudConfigurationTest {
 
     @Test
     public void testConstructor() {
-        SOCloudConfiguration obj = new SOCloudConfiguration();
+        SoCloudConfiguration obj = new SoCloudConfiguration();
 
         assertTrue(obj.getLcpCloudRegionId() == null);
         assertTrue(obj.getTenantId() == null);
@@ -37,7 +38,7 @@ public class SoCloudConfigurationTest {
 
     @Test
     public void testSetGet() {
-        SOCloudConfiguration obj = new SOCloudConfiguration();
+        SoCloudConfiguration obj = new SoCloudConfiguration();
 
         obj.setLcpCloudRegionId("lcpCloudRegionId");
         assertEquals("lcpCloudRegionId", obj.getLcpCloudRegionId());

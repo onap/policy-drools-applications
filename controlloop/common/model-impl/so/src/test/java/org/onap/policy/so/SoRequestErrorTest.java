@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoRequestErrorTest {
 
     @Test
     public void testConstructor() {
-        SORequestError obj = new SORequestError();
+        SoRequestError obj = new SoRequestError();
 
         assertTrue(obj.getPolicyException() == null);
         assertTrue(obj.getServiceException() == null);
@@ -37,13 +38,13 @@ public class SoRequestErrorTest {
 
     @Test
     public void testSetGet() {
-        SORequestError obj = new SORequestError();
+        SoRequestError obj = new SoRequestError();
 
-        SOPolicyExceptionHolder policyException = new SOPolicyExceptionHolder();
+        SoPolicyExceptionHolder policyException = new SoPolicyExceptionHolder();
         obj.setPolicyException(policyException);
         assertEquals(policyException, obj.getPolicyException());
 
-        SOServiceExceptionHolder serviceException = new SOServiceExceptionHolder();
+        SoServiceExceptionHolder serviceException = new SoServiceExceptionHolder();
         obj.setServiceException(serviceException);
         assertEquals(serviceException, obj.getServiceException());
     }

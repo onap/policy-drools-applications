@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public class SoSubscriberInfoTest {
 
     @Test
     public void testConstructor() {
-        SOSubscriberInfo obj = new SOSubscriberInfo();
+        SoSubscriberInfo obj = new SoSubscriberInfo();
 
         assertTrue(obj.getGlobalSubscriberId() == null);
         assertTrue(obj.getSubscriberCommonSiteId() == null);
@@ -38,7 +39,7 @@ public class SoSubscriberInfoTest {
 
     @Test
     public void testSetGet() {
-        SOSubscriberInfo obj = new SOSubscriberInfo();
+        SoSubscriberInfo obj = new SoSubscriberInfo();
 
         obj.setGlobalSubscriberId("globalSubscriberId");
         assertEquals("globalSubscriberId", obj.getGlobalSubscriberId());

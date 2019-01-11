@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,15 +32,15 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.rest.RESTManager;
 import org.onap.policy.rest.RESTManager.Pair;
-import org.onap.policy.so.SOCloudConfiguration;
-import org.onap.policy.so.SOModelInfo;
-import org.onap.policy.so.SORelatedInstance;
-import org.onap.policy.so.SORelatedInstanceListElement;
-import org.onap.policy.so.SORequest;
-import org.onap.policy.so.SORequestDetails;
-import org.onap.policy.so.SORequestInfo;
-import org.onap.policy.so.SORequestParameters;
-import org.onap.policy.so.SOResponse;
+import org.onap.policy.so.SoCloudConfiguration;
+import org.onap.policy.so.SoModelInfo;
+import org.onap.policy.so.SoRelatedInstance;
+import org.onap.policy.so.SoRelatedInstanceListElement;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoRequestDetails;
+import org.onap.policy.so.SoRequestInfo;
+import org.onap.policy.so.SoRequestParameters;
+import org.onap.policy.so.SoResponse;
 import org.onap.policy.so.util.Serialization;
 
 public class SoSimulatorTest {
@@ -67,16 +67,16 @@ public class SoSimulatorTest {
     /**
      * Create dummy SO request for TestResponse() junit.
      */
-    private SORequest createTestRequest() {
+    private SoRequest createTestRequest() {
 
         // Construct SO Request
-        final SORequest request = new SORequest();
+        final SoRequest request = new SoRequest();
         request.setRequestId(UUID.randomUUID());
-        request.setRequestDetails(new SORequestDetails());
-        request.getRequestDetails().setModelInfo(new SOModelInfo());
-        request.getRequestDetails().setCloudConfiguration(new SOCloudConfiguration());
-        request.getRequestDetails().setRequestInfo(new SORequestInfo());
-        request.getRequestDetails().setRequestParameters(new SORequestParameters());
+        request.setRequestDetails(new SoRequestDetails());
+        request.getRequestDetails().setModelInfo(new SoModelInfo());
+        request.getRequestDetails().setCloudConfiguration(new SoCloudConfiguration());
+        request.getRequestDetails().setRequestInfo(new SoRequestInfo());
+        request.getRequestDetails().setRequestParameters(new SoRequestParameters());
         request.getRequestDetails().getRequestParameters().setUserParams(null);
         //
         // cloudConfiguration
@@ -102,13 +102,13 @@ public class SoSimulatorTest {
         //
         // relatedInstanceList
         //
-        final SORelatedInstanceListElement relatedInstanceListElement1 = new SORelatedInstanceListElement();
-        final SORelatedInstanceListElement relatedInstanceListElement2 = new SORelatedInstanceListElement();
-        relatedInstanceListElement1.setRelatedInstance(new SORelatedInstance());
-        relatedInstanceListElement2.setRelatedInstance(new SORelatedInstance());
+        final SoRelatedInstanceListElement relatedInstanceListElement1 = new SoRelatedInstanceListElement();
+        final SoRelatedInstanceListElement relatedInstanceListElement2 = new SoRelatedInstanceListElement();
+        relatedInstanceListElement1.setRelatedInstance(new SoRelatedInstance());
+        relatedInstanceListElement2.setRelatedInstance(new SoRelatedInstance());
         //
         relatedInstanceListElement1.getRelatedInstance().setInstanceId("cf8426a6-0b53-4e3d-bfa6-4b2f4d5913a5");
-        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement1.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelType("service");
         relatedInstanceListElement1.getRelatedInstance().getModelInfo()
                         .setModelInvariantId("4fcbc1c0-7793-46d8-8aa1-fa1c2ed9ec7b");
@@ -118,7 +118,7 @@ public class SoSimulatorTest {
         relatedInstanceListElement1.getRelatedInstance().getModelInfo().setModelVersion("1.0");
         //
         relatedInstanceListElement2.getRelatedInstance().setInstanceId("594e2fe0-48b8-41ff-82e2-3d4bab69b192");
-        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SOModelInfo());
+        relatedInstanceListElement2.getRelatedInstance().setModelInfo(new SoModelInfo());
         relatedInstanceListElement2.getRelatedInstance().getModelInfo().setModelType("vnf");
         relatedInstanceListElement2.getRelatedInstance().getModelInfo()
                         .setModelInvariantId("033a32ed-aa65-4764-a736-36f2942f1aa0");
@@ -143,7 +143,7 @@ public class SoSimulatorTest {
                         "username",
                         "password", new HashMap<>(), "application/json", request);
         assertNotNull(httpDetails);
-        final SOResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SOResponse.class);
+        final SoResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SoResponse.class);
         assertNotNull(response);
     }
 }

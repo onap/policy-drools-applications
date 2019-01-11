@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,34 +24,45 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SOInstanceReferences implements Serializable {
+public class SoSubscriberInfo implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("requestId")
-    private String requestId;
+    @SerializedName("globalSubscriberId")
+    private String globalSubscriberId;
 
-    @SerializedName("instanceId")
-    private String instanceId;
+    @SerializedName("subscriberCommonSiteId")
+    private String subscriberCommonSiteId;
 
-    public SOInstanceReferences() {
-        //requried by author
+    @SerializedName("subscriberName")
+    private String subscriberName;
+
+    public SoSubscriberInfo() {
+        //required by author
     }
 
-    public String getInstanceId() {
-        return instanceId;
+    public String getGlobalSubscriberId() {
+        return globalSubscriberId;
     }
 
-    public String getRequestId() {
-        return requestId;
+    public String getSubscriberCommonSiteId() {
+        return subscriberCommonSiteId;
     }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
+    public String getSubscriberName() {
+        return subscriberName;
     }
 
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
+    public void setGlobalSubscriberId(String globalSubscriberId) {
+        this.globalSubscriberId = globalSubscriberId;
+    }
+
+    public void setSubscriberCommonSiteId(String subscriberCommonSiteId) {
+        this.subscriberCommonSiteId = subscriberCommonSiteId;
+    }
+
+    public void setSubscriberName(String subscriberName) {
+        this.subscriberName = subscriberName;
     }
 
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,44 +23,56 @@ package org.onap.policy.so;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
-public class SOServiceExceptionHolder implements Serializable {
+public class SoResponse implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
 
-    @SerializedName("messageId")
-    private String messageId;
+    @SerializedName("requestReferences")
+    private SoRequestReferences requestReferences;
 
-    @SerializedName("text")
-    private String text;
+    @SerializedName("requestError")
+    private SoRequestError requestError;
 
-    @SerializedName("variables")
-    private List<String> variables = new LinkedList<>();
+    @SerializedName("request")
+    private SoRequest request;
 
-    public SOServiceExceptionHolder() {
+    private int httpResponseCode;
+
+    public SoResponse() {
         // required by author
     }
 
-    public String getMessageId() {
-        return messageId;
+    public int getHttpResponseCode() {
+        return httpResponseCode;
     }
 
-    public String getText() {
-        return text;
+    public SoRequest getRequest() {
+        return request;
     }
 
-    public List<String> getVariables() {
-        return variables;
+    public SoRequestError getRequestError() {
+        return requestError;
     }
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+    public SoRequestReferences getRequestReferences() {
+        return requestReferences;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setHttpResponseCode(int httpResponseCode) {
+        this.httpResponseCode = httpResponseCode;
+    }
+
+    public void setRequest(SoRequest request) {
+        this.request = request;
+    }
+
+    public void setRequestError(SoRequestError requestError) {
+        this.requestError = requestError;
+    }
+
+    public void setRequestReferences(SoRequestReferences requestReferences) {
+        this.requestReferences = requestReferences;
     }
 
 }
