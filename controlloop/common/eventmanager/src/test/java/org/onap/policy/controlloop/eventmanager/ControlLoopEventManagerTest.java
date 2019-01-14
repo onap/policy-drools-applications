@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * unit test
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NEW_EVENT_STATUS;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -74,6 +74,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ControlLoopEventManagerTest {
+    private static final String PROCESS_VNF_RESPONSE_METHOD_NAME = "processVnfResponse";
+
     private static final String INVALID_URL = "http://localhost:9999";
 
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManagerTest.class);
@@ -230,7 +232,7 @@ public class ControlLoopEventManagerTest {
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
-        ControlLoopEventManager.NEW_EVENT_STATUS status = null;
+        ControlLoopEventManager.NewEventStatus status = null;
         try {
             status = manager.onNewEvent(event);
         } catch (AaiException e) {
@@ -238,7 +240,7 @@ public class ControlLoopEventManagerTest {
             fail("A&AI Query Failed");
         }
         assertNotNull(status);
-        assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.FIRST_ONSET, status);
+        assertEquals(ControlLoopEventManager.NewEventStatus.FIRST_ONSET, status);
 
         AaiGetVnfResponse response = manager.getVnfResponse();
         assertNotNull(response);
@@ -260,7 +262,7 @@ public class ControlLoopEventManagerTest {
             logger.warn(e.toString());
             fail("A&AI Query Failed");
         }
-        assertEquals(ControlLoopEventManager.NEW_EVENT_STATUS.SUBSEQUENT_ONSET, status);
+        assertEquals(ControlLoopEventManager.NewEventStatus.SUBSEQUENT_ONSET, status);
         AaiGetVnfResponse response2 = manager.getVnfResponse();
         assertNotNull(response2);
         // We should not have queried AAI, so the stored response should be the same
@@ -427,7 +429,7 @@ public class ControlLoopEventManagerTest {
         ControlLoopEventManager clem = new ControlLoopEventManager("MyClosedLoopName", requestId);
 
         assertEquals("MyClosedLoopName", clem.getClosedLoopControlName());
-        assertEquals(requestId, clem.getRequestID());
+        assertEquals(requestId, clem.getRequestId());
 
         clem.setActivated(true);
         assertEquals(true, clem.isActivated());
@@ -793,9 +795,9 @@ public class ControlLoopEventManagerTest {
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
-        assertEquals(NEW_EVENT_STATUS.FIRST_ONSET, manager.onNewEvent(onsetEvent));
-        assertEquals(NEW_EVENT_STATUS.FIRST_ABATEMENT, manager.onNewEvent(abatedEvent));
-        assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
+        assertEquals(NewEventStatus.FIRST_ONSET, manager.onNewEvent(onsetEvent));
+        assertEquals(NewEventStatus.FIRST_ABATEMENT, manager.onNewEvent(abatedEvent));
+        assertEquals(NewEventStatus.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
 
         VirtualControlLoopEvent checkSyntaxEvent = new VirtualControlLoopEvent();
         checkSyntaxEvent.setAai(null);
@@ -813,73 +815,73 @@ public class ControlLoopEventManagerTest {
         checkSyntaxEvent.setTargetType(null);
         checkSyntaxEvent.setVersion(null);
 
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setClosedLoopControlName(null);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setClosedLoopControlName("");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setClosedLoopControlName("TwoOnsetTest");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setRequestId(null);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setRequestId(requestId);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setAai(null);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setAai(new HashMap<>());
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget(null);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("OZ");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("VM_NAME");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("VNF_NAME");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("vserver.vserver-name");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("generic-vnf.vnf-id");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setTarget("generic-vnf.vnf-name");
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setAai(null);
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.setAai(new HashMap<>());
-        assertEquals(NEW_EVENT_STATUS.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
         checkSyntaxEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
-        assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
+        assertEquals(NewEventStatus.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
 
         checkSyntaxEvent.getAai().put("vserver.vserver-name", "onsetOne");
-        assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
+        assertEquals(NewEventStatus.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
 
         checkSyntaxEvent.getAai().put("generic-vnf.vnf-id", "onsetOne");
-        assertEquals(NEW_EVENT_STATUS.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
+        assertEquals(NewEventStatus.SUBSEQUENT_ABATEMENT, manager.onNewEvent(abatedEvent));
     }
 
     @Test
@@ -1067,7 +1069,7 @@ public class ControlLoopEventManagerTest {
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
         resp.setIsClosedLoopDisabled(false);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, true);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
     }
 
     @Test
@@ -1076,7 +1078,7 @@ public class ControlLoopEventManagerTest {
         thrown.expectMessage("AAI Response is null (query by vnf-id)");
 
         AaiGetVnfResponse resp = null;
-        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, true);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
     }
 
     @Test
@@ -1090,7 +1092,7 @@ public class ControlLoopEventManagerTest {
 
         resp.setIsClosedLoopDisabled(false);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, false);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, false);
     }
 
     @Test
@@ -1101,7 +1103,7 @@ public class ControlLoopEventManagerTest {
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
         resp.setIsClosedLoopDisabled(true);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, true);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
     }
 
     @Test
@@ -1112,7 +1114,7 @@ public class ControlLoopEventManagerTest {
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
         resp.setIsClosedLoopDisabled(false);
         resp.setProvStatus("inactive1");
-        Whitebox.invokeMethod(ControlLoopEventManager.class, "processVNFResponse", resp, false);
+        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, false);
     }
 
     @Test
