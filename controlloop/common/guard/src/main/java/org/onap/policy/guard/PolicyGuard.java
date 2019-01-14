@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ package org.onap.policy.guard;
 import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
-import org.onap.policy.guard.impl.PNFTargetLock;
-import org.onap.policy.guard.impl.VMTargetLock;
-import org.onap.policy.guard.impl.VNFTargetLock;
+import org.onap.policy.guard.impl.PnfTargetLock;
+import org.onap.policy.guard.impl.VmTargetLock;
+import org.onap.policy.guard.impl.VnfTargetLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,17 +97,17 @@ public class PolicyGuard {
                 //
                 // Create the Lock object
                 //
-                return new PNFTargetLock(targetType, targetInstance, requestId, callback);
+                return new PnfTargetLock(targetType, targetInstance, requestId, callback);
             case VM:
                 //
                 // Create the Lock object
                 //
-                return new VMTargetLock(targetType, targetInstance, requestId, callback);
+                return new VmTargetLock(targetType, targetInstance, requestId, callback);
             case VNF:
                 //
                 // Create the Lock object
                 //
-                return new VNFTargetLock(targetType, targetInstance, requestId, callback);
+                return new VnfTargetLock(targetType, targetInstance, requestId, callback);
             default:
                 logger.error("invalid target type {} for lock on {}", targetType, targetInstance);
                 return null;
@@ -156,7 +156,7 @@ public class PolicyGuard {
      * @return the result: acquired or denied
      */
     public static GuardResult lockTarget(TargetLock lock, int holdSec) {
-        String owner = makeOwner(lock.getTargetType(), lock.getRequestID());
+        String owner = makeOwner(lock.getTargetType(), lock.getRequestId());
         
         boolean result = factory.getManager().refresh(lock.getTargetInstance(), owner, holdSec);
         
@@ -173,7 +173,7 @@ public class PolicyGuard {
      * @throws IllegalArgumentException if an argument is null
      */
     public static boolean unlockTarget(TargetLock lock) {
-        String owner = makeOwner(lock.getTargetType(), lock.getRequestID());
+        String owner = makeOwner(lock.getTargetType(), lock.getRequestId());
         boolean result = factory.getManager().unlock(lock.getTargetInstance(), owner);
         
         if (result) {

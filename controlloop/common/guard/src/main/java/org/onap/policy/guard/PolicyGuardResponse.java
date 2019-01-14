@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,14 +42,14 @@ public class PolicyGuardResponse {
 
     @Override
     public String toString() {
-        return "PolicyGuardResponse [requestID=" + requestId + ", operation=" + operation + ", result=" + result + "]";
+        return "PolicyGuardResponse [requestId=" + requestId + ", operation=" + operation + ", result=" + result + "]";
     }
 
-    public UUID getRequestID() {
+    public UUID getRequestId() {
         return requestId;
     }
 
-    public void setRequestID(UUID requestId) {
+    public void setRequestId(UUID requestId) {
         this.requestId = requestId;
     }
 

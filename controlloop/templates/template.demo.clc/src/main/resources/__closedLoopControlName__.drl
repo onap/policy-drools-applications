@@ -109,7 +109,7 @@ end
  */
 declare OperationTimer
   closedLoopControlName : String
-  requestID : String
+  requestId : String
   delay : String
 end
 
@@ -118,7 +118,7 @@ end
  */
 declare ControlLoopTimer
   closedLoopControlName : String
-  requestID : String
+  requestId : String
   delay : String
 end
 
@@ -229,7 +229,7 @@ rule "${policyName}.EVENT"
                 //
                 ControlLoopTimer clTimer = new ControlLoopTimer();
                 clTimer.setClosedLoopControlName($event.getClosedLoopControlName());
-                clTimer.setRequestID($event.getRequestId().toString());
+                clTimer.setRequestId($event.getRequestId().toString());
                 clTimer.setDelay(manager.getControlLoopTimeout(1500) + "s");
                 //
                 // Insert it
@@ -283,7 +283,7 @@ rule "${policyName}.EVENT.MANAGER"
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
-        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
+        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -461,7 +461,7 @@ rule "${policyName}.EVENT.MANAGER"
                 //
                 OperationTimer opTimer = new OperationTimer();
                 opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
-                opTimer.setRequestID($event.getRequestId().toString());
+                opTimer.setRequestId($event.getRequestId().toString());
                 opTimer.setDelay(operation.getOperationTimeout().toString() + "s");
                 insert(opTimer);
               
@@ -535,8 +535,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId(), "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
-        $lock : TargetLock (requestID == $event.getRequestId())
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
+        $lock : TargetLock (requestId == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -662,7 +662,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId(), getGuardApprovalStatus() == "NONE" )
-        $lock : TargetLock (requestID == $event.getRequestId())
+        $lock : TargetLock (requestId == $event.getRequestId())
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -724,9 +724,9 @@ rule "${policyName}.GUARD.RESPONSE"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() ) 
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
-        $lock : TargetLock (requestID == $event.getRequestId())
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
-        $guardResponse : PolicyGuardResponse(requestID == $event.getRequestId(), $operation.policy.recipe == operation)
+        $lock : TargetLock (requestId == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
+        $guardResponse : PolicyGuardResponse(requestId == $event.getRequestId(), $operation.policy.recipe == operation)
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -788,8 +788,8 @@ rule "${policyName}.APPC.RESPONSE"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
-        $lock : TargetLock (requestID == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
+        $lock : TargetLock (requestId == $event.getRequestId())
         $response : Response( getCommonHeader().RequestId == $event.getRequestId() )
     then
 
@@ -902,8 +902,8 @@ rule "${policyName}.APPC.LCM.RESPONSE"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
-        $lock : TargetLock (requestID == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
+        $lock : TargetLock (requestId == $event.getRequestId())
         $response : LcmResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestId() )
     then
 
@@ -1007,8 +1007,8 @@ rule "${policyName}.SO.RESPONSE"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
-        $lock : TargetLock (requestID == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
+        $lock : TargetLock (requestId == $event.getRequestId())
         $response : SoResponseWrapper(requestId.toString() == $event.getRequestId().toString() )
     then
                 
@@ -1091,8 +1091,8 @@ rule "${policyName}.VFC.RESPONSE"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), closedLoopEventStatus == ControlLoopEventStatus.ONSET )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString() )
-        $lock : TargetLock (requestID == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString() )
+        $lock : TargetLock (requestId == $event.getRequestId())
         $response : VfcResponse( requestId.toString() == $event.getRequestId().toString() ) 
     then
         Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1164,8 +1164,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
-        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString(), $to : getDelay() )
-        $lock : TargetLock (requestID == $event.getRequestId())
+        $opTimer : OperationTimer( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString(), $to : getDelay() )
+        $lock : TargetLock (requestId == $event.getRequestId())
     then
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1228,7 +1228,7 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
-        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestID == $event.getRequestId().toString(), $to : getDelay() )
+        $clTimer : ControlLoopTimer ( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId().toString(), $to : getDelay() )
     then
     
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1266,13 +1266,13 @@ end
 rule "${policyName}.EVENT.MANAGER.CLEANUP"
     when
         $manager : ControlLoopEventManager( $clName : getClosedLoopControlName(), $requestId : getRequestId() )
-        $clTimer : ControlLoopTimer ( closedLoopControlName == $clName, requestID == $requestId.toString() )
+        $clTimer : ControlLoopTimer ( closedLoopControlName == $clName, requestId == $requestId.toString() )
         $operations : LinkedList()
                         from collect( ControlLoopOperationManager( onset.closedLoopControlName == $clName, onset.getRequestId() == $requestId ) )
         $opTimers : LinkedList()
-                        from collect( OperationTimer( closedLoopControlName == $clName, requestID == $requestId.toString() ) )
+                        from collect( OperationTimer( closedLoopControlName == $clName, requestId == $requestId.toString() ) )
         $locks : LinkedList()
-                        from collect( TargetLock (requestID == $requestId) )
+                        from collect( TargetLock (requestId == $requestId) )
         not( VirtualControlLoopEvent( closedLoopControlName == $clName, requestId == $requestId ) )
     then
     

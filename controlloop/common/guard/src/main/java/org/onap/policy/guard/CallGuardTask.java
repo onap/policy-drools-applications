@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -131,7 +131,7 @@ public class CallGuardTask implements Runnable {
         //
         // Make guard request
         //
-        guardDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
+        guardDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
 
         logger.debug("\n********** XACML RESPONSE START ********");
         logger.debug("{}", guardDecision);
@@ -153,7 +153,7 @@ public class CallGuardTask implements Runnable {
         //
         if ("Indeterminate".equals(guardResponse.getResult())) {
             guardResponse.setOperation(recipe);
-            guardResponse.setRequestID(UUID.fromString(requestId));
+            guardResponse.setRequestId(UUID.fromString(requestId));
         }
 
         long estimatedTime = System.nanoTime() - startTime;

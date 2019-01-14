@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * sdc
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,8 +105,8 @@ public class ResourceInstance implements Serializable {
     @Override
     public String toString() {
         return "ResourceInstance [resourceInstanceName=" + resourceInstanceName + ", resourceName=" + resourceName
-                + ", resourceInvariantUUID=" + resourceInvariantUuid + ", resourceVersion=" + resourceVersion
-                + ", resourceType=" + resourceType + ", resourceUUID=" + resourceUuid + "]";
+                + ", resourceInvariantUuid=" + resourceInvariantUuid + ", resourceVersion=" + resourceVersion
+                + ", resourceType=" + resourceType + ", resourceUuid=" + resourceUuid + "]";
     }
     
     @Override

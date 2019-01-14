@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,11 +107,11 @@ public class PolicyGuardXacmlHelperEmbedded {
         // Build the json request
         //
         JSONObject attributes = new JSONObject();
-        attributes.put("actor", xacmlReq.getActorID());
-        attributes.put("recipe", xacmlReq.getOperationID());
-        attributes.put("target", xacmlReq.getTargetID());
-        if (xacmlReq.getClnameID() != null) {
-            attributes.put("clname", xacmlReq.getClnameID());
+        attributes.put("actor", xacmlReq.getActorId());
+        attributes.put("recipe", xacmlReq.getOperationId());
+        attributes.put("target", xacmlReq.getTargetId());
+        if (xacmlReq.getClnameId() != null) {
+            attributes.put("clname", xacmlReq.getClnameId());
         }
         if (xacmlReq.getVfCount() != null) {
             attributes.put("vfCount", xacmlReq.getVfCount());
