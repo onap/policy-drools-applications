@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,9 +39,9 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
 import org.onap.policy.guard.PolicyGuard.Factory;
 import org.onap.policy.guard.PolicyGuard.LockResult;
-import org.onap.policy.guard.impl.PNFTargetLock;
-import org.onap.policy.guard.impl.VMTargetLock;
-import org.onap.policy.guard.impl.VNFTargetLock;
+import org.onap.policy.guard.impl.PnfTargetLock;
+import org.onap.policy.guard.impl.VmTargetLock;
+import org.onap.policy.guard.impl.VnfTargetLock;
 
 public class PolicyGuardTest {
     private static final String INSTANCENAME = "targetInstance";
@@ -76,7 +76,7 @@ public class PolicyGuardTest {
         }
         
         @Override
-        public UUID getLockID() {
+        public UUID getLockId() {
             return null;
         }
 
@@ -91,7 +91,7 @@ public class PolicyGuardTest {
         }
 
         @Override
-        public UUID getRequestID() {
+        public UUID getRequestId() {
             return reqid;
         }
     }
@@ -137,13 +137,13 @@ public class PolicyGuardTest {
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(VMTargetLock.class, result.getB().getClass());
+        assertEquals(VmTargetLock.class, result.getB().getClass());
 
-        VMTargetLock vtl = (VMTargetLock) result.getB();
-        assertNotNull(vtl.getLockID());
+        VmTargetLock vtl = (VmTargetLock) result.getB();
+        assertNotNull(vtl.getLockId());
         assertEquals(INSTANCENAME, vtl.getTargetInstance());
         assertEquals(TargetType.VM, vtl.getTargetType());
-        assertNotNull(vtl.getRequestID());
+        assertNotNull(vtl.getRequestId());
         assertEquals(dlcb, vtl.getCallback());
 
         // Test isLocked after lock removed
@@ -161,13 +161,13 @@ public class PolicyGuardTest {
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(PNFTargetLock.class, result.getB().getClass());
+        assertEquals(PnfTargetLock.class, result.getB().getClass());
 
-        PNFTargetLock ptl = (PNFTargetLock) result.getB();
-        assertNotNull(ptl.getLockID());
+        PnfTargetLock ptl = (PnfTargetLock) result.getB();
+        assertNotNull(ptl.getLockId());
         assertEquals(INSTANCENAME, ptl.getTargetInstance());
         assertEquals(TargetType.PNF, ptl.getTargetType());
-        assertNotNull(ptl.getRequestID());
+        assertNotNull(ptl.getRequestId());
         assertEquals(dlcb, ptl.getCallback());
 
         // Test isLocked after lock removed
@@ -186,13 +186,13 @@ public class PolicyGuardTest {
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(VNFTargetLock.class, result.getB().getClass());
+        assertEquals(VnfTargetLock.class, result.getB().getClass());
 
-        VNFTargetLock vtl = (VNFTargetLock) result.getB();
-        assertNotNull(vtl.getLockID());
+        VnfTargetLock vtl = (VnfTargetLock) result.getB();
+        assertNotNull(vtl.getLockId());
         assertEquals(INSTANCENAME, vtl.getTargetInstance());
         assertEquals(TargetType.VNF, vtl.getTargetType());
-        assertNotNull(vtl.getRequestID());
+        assertNotNull(vtl.getRequestId());
         assertEquals(dlcb, vtl.getCallback());
 
         // Test isLocked after lock removed
@@ -227,7 +227,7 @@ public class PolicyGuardTest {
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(VMTargetLock.class, result.getB().getClass());
+        assertEquals(VmTargetLock.class, result.getB().getClass());
 
         // Test isLocked after lock removed
         PolicyGuard.unlockTarget(new DummyTargetLock(type, uuid));
@@ -248,7 +248,7 @@ public class PolicyGuardTest {
         assertTrue(PolicyGuard.isLocked(type, INSTANCENAME, uuid));
 
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(VMTargetLock.class, result.getB().getClass());
+        assertEquals(VmTargetLock.class, result.getB().getClass());
 
         UUID uuid2 = UUID.randomUUID();
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid2, dlcb, LOCK_SEC);
@@ -272,8 +272,8 @@ public class PolicyGuardTest {
         assertFalse(dlcb.releaseLock());
 
         DummyTargetLock dtl = new DummyTargetLock(type, uuid);
-        assertNull(dtl.getLockID());
-        assertEquals(uuid, dtl.getRequestID());
+        assertNull(dtl.getLockId());
+        assertEquals(uuid, dtl.getRequestId());
         assertEquals(INSTANCENAME, dtl.getTargetInstance());
         assertEquals(type, dtl.getTargetType());
     }
@@ -288,7 +288,7 @@ public class PolicyGuardTest {
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         verify(mgr).lock(INSTANCENAME, type + ":" + uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(VMTargetLock.class, result.getB().getClass());
+        assertEquals(VmTargetLock.class, result.getB().getClass());
 
         // diff owner - denied
         UUID uuid2 = UUID.randomUUID();
@@ -308,7 +308,7 @@ public class PolicyGuardTest {
         result = PolicyGuard.lockTarget(type, INSTANCENAME, uuid, dlcb, LOCK_SEC);
         verify(mgr).lock(INSTANCENAME, type + ":" + uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
-        assertEquals(VMTargetLock.class, result.getB().getClass());
+        assertEquals(VmTargetLock.class, result.getB().getClass());
         
         TargetLock lock = result.getB();
         

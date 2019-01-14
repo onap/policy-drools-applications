@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,8 +130,8 @@ public class CommonHeader implements Serializable {
 
     @Override
     public String toString() {
-        return "CommonHeader [TimeStamp=" + timeStamp + ", APIver=" + apiVer + ", OriginatorID=" + originatorId
-                + ", RequestID=" + requestId + ", SubrequestID=" + subRequestId + ", RequestTrack=" + requestTrack
+        return "CommonHeader [TimeStamp=" + timeStamp + ", APIver=" + apiVer + ", OriginatorId=" + originatorId
+                + ", RequestId=" + requestId + ", SubrequestId=" + subRequestId + ", RequestTrack=" + requestTrack
                 + ", Flags=" + flags + "]";
     }
 

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.guard.LockCallback;
 import org.onap.policy.guard.TargetLock;
 
-public class VMTargetLock implements TargetLock, Serializable {
+public class VmTargetLock implements TargetLock, Serializable {
 
     private static final long serialVersionUID = -8795145054334409724L;
     private final UUID lockId;
@@ -44,7 +44,7 @@ public class VMTargetLock implements TargetLock, Serializable {
      * @param requestId the request Id
      * @param callback the callback
      */
-    public VMTargetLock(TargetType targetType, String target, UUID requestId, LockCallback callback) {
+    public VmTargetLock(TargetType targetType, String target, UUID requestId, LockCallback callback) {
         this.lockId = UUID.randomUUID();
         this.targetType = targetType;
         this.target = target;
@@ -53,7 +53,7 @@ public class VMTargetLock implements TargetLock, Serializable {
     }
 
     @Override
-    public UUID getLockID() {
+    public UUID getLockId() {
         return this.lockId;
     }
 
@@ -68,7 +68,7 @@ public class VMTargetLock implements TargetLock, Serializable {
     }
 
     @Override
-    public UUID getRequestID() {
+    public UUID getRequestId() {
         return this.requestId;
     }
 
@@ -78,7 +78,7 @@ public class VMTargetLock implements TargetLock, Serializable {
 
     @Override
     public String toString() {
-        return "VMTargetLock [lockID=" + lockId + ", targetType=" + targetType + ", target=" + target + ", requestID="
+        return "VmTargetLock [lockId=" + lockId + ", targetType=" + targetType + ", target=" + target + ", requestId="
                 + requestId + "]";
     }
 

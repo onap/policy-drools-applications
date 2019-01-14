@@ -96,7 +96,7 @@ public class SoResponseWrapper implements Serializable {
 
     @Override
     public String toString() {
-        return "SOResponseWrapper [SOResponse=" + soResponse + ", RequestID=" + requestId + "]";
+        return "SOResponseWrapper [SOResponse=" + soResponse + ", RequestId=" + requestId + "]";
     }
 
 }

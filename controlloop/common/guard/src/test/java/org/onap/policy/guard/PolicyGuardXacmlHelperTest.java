@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ public class PolicyGuardXacmlHelperTest {
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
                         org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
                         "requestId", VF_COUNT);
-        String rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
+        String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(0, Util.INDETERMINATE.compareToIgnoreCase(rawDecision));
     }
@@ -101,13 +101,13 @@ public class PolicyGuardXacmlHelperTest {
     public void testSimulator() {
         PolicyGuardXacmlRequestAttributes request = new PolicyGuardXacmlRequestAttributes("clname_id", "actor_id",
                         "operation_id", "target_id", "request_id", VF_COUNT);
-        String xacmlResponse = new PolicyGuardXacmlHelper().callPDP(request);
+        String xacmlResponse = new PolicyGuardXacmlHelper().callPdp(request);
         assertNotNull(xacmlResponse);
     }
 
     @Test
     /**
-     * Tests PolicyGuardXacmlHelper.callPDP method to determine if it returns DENY, PERMIT, or
+     * Tests PolicyGuardXacmlHelper.callPdp method to determine if it returns DENY, PERMIT, or
      * INDETERMINATE as expected.
      */
     public void testCallPdp() {
@@ -115,13 +115,13 @@ public class PolicyGuardXacmlHelperTest {
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
                         org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
                         "requestId", VF_COUNT);
-        String rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
+        String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertTrue(0 == Util.DENY.compareToIgnoreCase(rawDecision));
 
         // Permit Case
         xacmlReq = new PolicyGuardXacmlRequestAttributes("clname", "actor", "recipe", "target", "requestId", VF_COUNT);
-        rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
+        rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(0, Util.PERMIT.compareToIgnoreCase(rawDecision));
 
@@ -130,21 +130,21 @@ public class PolicyGuardXacmlHelperTest {
 
     @Test
     /**
-     * Tests PolicyGuardXacmlHelper.callPDP method to exercise all branches
+     * Tests PolicyGuardXacmlHelper.callPdp method to exercise all branches
      */
     public void testCallPdpExtra() {
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
                         org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
                         "requestId", VF_COUNT);
 
-        xacmlReq.setClnameID(null);
-        String rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
+        xacmlReq.setClnameId(null);
+        String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(-5, Util.DENY.compareToIgnoreCase(rawDecision));
 
         org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", "", "", "", "", "");
 
-        rawDecision = new PolicyGuardXacmlHelper().callPDP(xacmlReq);
+        rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
 
         org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", "python", "test",
@@ -154,14 +154,14 @@ public class PolicyGuardXacmlHelperTest {
 
     @Test
     public void testParseXacmlPdpResponse() throws URISyntaxException {
-        PolicyGuardResponse pgResponse = PolicyGuardXacmlHelper.parseXACMLPDPResponse(null);
+        PolicyGuardResponse pgResponse = PolicyGuardXacmlHelper.parseXacmlPdpResponse(null);
         assertEquals("Indeterminate", pgResponse.getResult());
 
         Decision decision = Decision.PERMIT;
         Status status = new StdStatus(StdStatus.STATUS_OK);
         Result result = new StdResult(decision, status);
         Response xacmlResponse = new StdResponse(result);
-        pgResponse = PolicyGuardXacmlHelper.parseXACMLPDPResponse(xacmlResponse);
+        pgResponse = PolicyGuardXacmlHelper.parseXacmlPdpResponse(xacmlResponse);
         assertEquals("Permit", pgResponse.getResult());
 
 
@@ -193,7 +193,7 @@ public class PolicyGuardXacmlHelperTest {
         Result fullResult = new StdResult(Decision.DENY, obligationsIn, adviceIn, attributesIn, policyIdentifiersIn,
                 policySetIdentifiersIn);
         Response fullXacmlResponse = new StdResponse(fullResult);
-        PolicyGuardResponse fullPgResponse = PolicyGuardXacmlHelper.parseXACMLPDPResponse(fullXacmlResponse);
+        PolicyGuardResponse fullPgResponse = PolicyGuardXacmlHelper.parseXacmlPdpResponse(fullXacmlResponse);
         assertEquals("Deny", fullPgResponse.getResult());
     }
 

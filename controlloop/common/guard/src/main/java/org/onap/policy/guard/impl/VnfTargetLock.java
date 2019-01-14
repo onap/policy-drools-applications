@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.guard.LockCallback;
 import org.onap.policy.guard.TargetLock;
 
-public class VNFTargetLock implements TargetLock, Serializable {
+public class VnfTargetLock implements TargetLock, Serializable {
 
     private static final long serialVersionUID = 2335897394577202732L;
 
@@ -45,7 +45,7 @@ public class VNFTargetLock implements TargetLock, Serializable {
      * @param requestId the request Id
      * @param callback the callback
      */
-    public VNFTargetLock(TargetType type, String target, UUID requestId, LockCallback callback) {
+    public VnfTargetLock(TargetType type, String target, UUID requestId, LockCallback callback) {
         this.lockId = UUID.randomUUID();
         this.targetType = type;
         this.target = target;
@@ -54,7 +54,7 @@ public class VNFTargetLock implements TargetLock, Serializable {
     }
 
     @Override
-    public UUID getLockID() {
+    public UUID getLockId() {
         return this.lockId;
     }
 
@@ -70,7 +70,7 @@ public class VNFTargetLock implements TargetLock, Serializable {
     }
 
     @Override
-    public UUID getRequestID() {
+    public UUID getRequestId() {
         return this.requestId;
     }
 
@@ -80,7 +80,7 @@ public class VNFTargetLock implements TargetLock, Serializable {
 
     @Override
     public String toString() {
-        return "VNFTargetLock [lockID=" + lockId + ", targetType=" + targetType + ", target=" + target + ", requestID="
+        return "VnfTargetLock [lockId=" + lockId + ", targetType=" + targetType + ", target=" + target + ", requestId="
                 + requestId + "]";
     }
 

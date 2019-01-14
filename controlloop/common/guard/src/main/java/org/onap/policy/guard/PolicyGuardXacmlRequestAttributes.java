@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,19 +29,19 @@ import com.att.research.xacml.std.annotations.XACMLSubject;
 public class PolicyGuardXacmlRequestAttributes {
 
     @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:clname:clname-id")
-    String clnameID;
+    String clnameId;
 
     @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:actor:actor-id")
-    String actorID;
+    String actorId;
 
     @XACMLAction(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:operation:operation-id")
-    String operationID;
+    String operationId;
 
     @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:target:target-id")
-    String targetID;
+    String targetId;
 
     @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:request-id")
-    String requestID;
+    String requestId;
 
     @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:vf-count")
     Integer vfCount;
@@ -59,58 +59,58 @@ public class PolicyGuardXacmlRequestAttributes {
     public PolicyGuardXacmlRequestAttributes(String clnameId, String actorId, String operationId, String targetId,
             String requestId, Integer vfCount) {
         super();
-        this.clnameID = clnameId;
-        this.actorID = actorId;
-        this.operationID = operationId;
-        this.targetID = targetId;
-        this.requestID = requestId;
+        this.clnameId = clnameId;
+        this.actorId = actorId;
+        this.operationId = operationId;
+        this.targetId = targetId;
+        this.requestId = requestId;
         this.vfCount = vfCount;
     }
 
     @Override
     public String toString() {
-        return "PolicyGuardXacmlRequestAttributes [actorID=" + actorID + ", operationID=" + operationID + ", targetID="
-                + targetID + ", requestID=" + requestID + "]";
+        return "PolicyGuardXacmlRequestAttributes [actorId=" + actorId + ", operationId=" + operationId + ", targetId="
+                + targetId + ", requestId=" + requestId + "]";
     }
 
-    public String getActorID() {
-        return actorID;
+    public String getActorId() {
+        return actorId;
     }
 
-    public void setActorID(String actorID) {
-        this.actorID = actorID;
+    public void setActorId(String actorId) {
+        this.actorId = actorId;
     }
 
-    public String getOperationID() {
-        return operationID;
+    public String getOperationId() {
+        return operationId;
     }
 
-    public void setOperationID(String operationID) {
-        this.operationID = operationID;
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 
-    public String getTargetID() {
-        return targetID;
+    public String getTargetId() {
+        return targetId;
     }
 
-    public void setTargetID(String targetID) {
-        this.targetID = targetID;
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
     }
 
-    public String getRequestID() {
-        return requestID;
+    public String getRequestId() {
+        return requestId;
     }
 
-    public void setRequestID(String requestID) {
-        this.requestID = requestID;
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 
-    public String getClnameID() {
-        return clnameID;
+    public String getClnameId() {
+        return clnameId;
     }
 
-    public void setClnameID(String clnameID) {
-        this.clnameID = clnameID;
+    public void setClnameId(String clnameId) {
+        this.clnameId = clnameId;
     }
 
     public Integer getVfCount() {

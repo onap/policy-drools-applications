@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,8 +39,8 @@ public class PolicyGuardRequestTest {
 
         PolicyGuardRequest request = new PolicyGuardRequest("Dorothy", "Kansas", requestId, "GetBackHome");
 
-        request.setRequestID(requestId);
-        assertEquals(requestId, request.getRequestID());
+        request.setRequestId(requestId);
+        assertEquals(requestId, request.getRequestId());
 
         request.setActor("Dorothy");
         assertEquals("Dorothy", request.getActor());
