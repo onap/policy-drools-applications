@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,11 +37,11 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.aai.util.Serialization;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 
 public class AaiManagerTest {
-    RESTManager restManagerMock;
+    RestManager restManagerMock;
     UUID aaiNqRequestUuid = UUID.randomUUID();
     Pair<Integer, String> httpResponseOk;
     Pair<Integer, String> httpResponseErr0;
@@ -53,7 +53,7 @@ public class AaiManagerTest {
      */
     @Before
     public void beforeTestAaiManager() {
-        restManagerMock = mock(RESTManager.class);
+        restManagerMock = mock(RestManager.class);
 
         Map<String, String> expectedHeaders = new HashMap<>();
         expectedHeaders.put("X-FromAppId", "POLICY");

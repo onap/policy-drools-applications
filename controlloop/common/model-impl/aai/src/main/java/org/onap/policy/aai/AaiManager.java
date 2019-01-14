@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * aai
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017, 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.onap.policy.aai.util.Serialization;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,14 +49,14 @@ public final class AaiManager {
 
     /** The rest manager. */
     // The REST manager used for processing REST calls for this AAI manager
-    private final RESTManager restManager;
+    private final RestManager restManager;
 
     /**
      * Constructor, create the AAI manager with the specified REST manager.
      *
      * @param restManager the rest manager to use for REST calls
      */
-    public AaiManager(final RESTManager restManager) {
+    public AaiManager(final RestManager restManager) {
         this.restManager = restManager;
     }
 
@@ -76,12 +76,12 @@ public final class AaiManager {
 
         url = url + "/aai/search/named-query";
 
-        logger.debug("RESTManager.post before");
+        logger.debug("RestManager.post before");
         String requestJson = Serialization.gsonPretty.toJson(request);
         netLogger.info("[OUT|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, requestJson);
         Pair<Integer, String> httpDetails =
                 restManager.post(url, username, password, headers, "application/json", requestJson);
-        logger.debug("RESTManager.post after");
+        logger.debug("RestManager.post after");
 
         if (httpDetails == null) {
             logger.info("AAI POST Null Response to {}", url);

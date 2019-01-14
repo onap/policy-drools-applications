@@ -42,14 +42,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.util.Serialization;
 
 public class VfcManagerTest {
     private static WorkingMemory mockedWorkingMemory;
 
-    private RESTManager   mockedRestManager;
+    private RestManager   mockedRestManager;
 
     private Pair<Integer, String> httpResponsePutOk;
     private Pair<Integer, String> httpResponseGetOk;
@@ -69,7 +69,7 @@ public class VfcManagerTest {
      */
     @Before
     public void setupMockedRest() {
-        mockedRestManager   = mock(RESTManager.class);
+        mockedRestManager   = mock(RestManager.class);
 
         httpResponsePutOk       = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
         httpResponseGetOk       = mockedRestManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));

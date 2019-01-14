@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 
 public class GuardSimulatorTest {
 
@@ -58,14 +58,14 @@ public class GuardSimulatorTest {
         String request = makeRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
         String url = "http://localhost:" + Util.GUARDSIM_SERVER_PORT + "/pdp/api/getDecision";
         Pair<Integer, String> response =
-                new RESTManager().post(url, "testUname", "testPass", null, "application/json", request);
+                new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
         assertNotNull(response.first);
         assertNotNull(response.second);
         assertEquals("{\"decision\": \"PERMIT\", \"details\": \"Decision Permit. OK!\"}", response.second);
 
         request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
-        response = new RESTManager().post(url, "testUname", "testPass", null, "application/json", request);
+        response = new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);
         assertNotNull(response.first);
         assertNotNull(response.second);

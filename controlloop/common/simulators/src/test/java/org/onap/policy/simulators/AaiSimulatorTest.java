@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ import org.onap.policy.aai.AaiNqRequest;
 import org.onap.policy.aai.AaiNqResponse;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.rest.RESTManager;
+import org.onap.policy.rest.RestManager;
 
 public class AaiSimulatorTest {
 
@@ -68,7 +68,7 @@ public class AaiSimulatorTest {
 
     @Test
     public void testGet() {
-        final AaiGetVnfResponse response = new AaiManager(new RESTManager()).getQueryByVnfId(
+        final AaiGetVnfResponse response = new AaiManager(new RestManager()).getQueryByVnfId(
                 "http://localhost:6666/aai/v11/network/generic-vnfs/generic-vnf/", "testUser", "testPass",
                 UUID.randomUUID(), "5e49ca06-2972-4532-9ed4-6d071588d792");
         assertNotNull(response);
@@ -94,7 +94,7 @@ public class AaiSimulatorTest {
         tempInstanceFilters.setInstanceFilter(tempInstanceFilter);
         request.setInstanceFilters(tempInstanceFilters);
 
-        AaiNqResponse response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser",
+        AaiNqResponse response = new AaiManager(new RestManager()).postQuery("http://localhost:6666", "testUser",
                 "testPass", request, UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
@@ -102,7 +102,7 @@ public class AaiSimulatorTest {
         // check error response for vserver query
         tempInnerMap.put("vserver-name", "error");
 
-        response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
+        response = new AaiManager(new RestManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
                 UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getRequestError());
@@ -122,7 +122,7 @@ public class AaiSimulatorTest {
         tempInstanceFilters.setInstanceFilter(tempInstanceFilter);
         request.setInstanceFilters(tempInstanceFilters);
 
-        response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
+        response = new AaiManager(new RestManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
                 UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getInventoryResponseItems());
@@ -131,7 +131,7 @@ public class AaiSimulatorTest {
         // check error response for generic-vnf query
         tempInnerMap.put("vnf-id", "error");
 
-        response = new AaiManager(new RESTManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
+        response = new AaiManager(new RestManager()).postQuery("http://localhost:6666", "testUser", "testPass", request,
                 UUID.randomUUID());
         assertNotNull(response);
         assertNotNull(response.getRequestError());

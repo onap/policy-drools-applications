@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -43,14 +45,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.sdnc.util.Serialization;
 
 public class SdncManagerTest {
     private static WorkingMemory mockedWorkingMemory;
 
-    private RESTManager   mockedRestManager;
+    private RestManager   mockedRestManager;
 
     private Pair<Integer, String> httpResponsePutOk;
     private Pair<Integer, String> httpResponseGetOk;
@@ -70,7 +72,7 @@ public class SdncManagerTest {
      */
     @Before
     public void setupMockedRest() {
-        mockedRestManager   = mock(RESTManager.class);
+        mockedRestManager   = mock(RestManager.class);
         
         httpResponsePutOk       = mockedRestManager.new Pair<>(202, Serialization.gsonPretty.toJson(response));
         httpResponseGetOk       = mockedRestManager.new Pair<>(200, Serialization.gsonPretty.toJson(response));

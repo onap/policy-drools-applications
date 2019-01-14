@@ -30,8 +30,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.so.SoCloudConfiguration;
 import org.onap.policy.so.SoModelInfo;
 import org.onap.policy.so.SoRelatedInstance;
@@ -138,7 +138,7 @@ public class SoSimulatorTest {
     @Test
     public void testResponse() {
         final String request = Serialization.gsonPretty.toJson(this.createTestRequest());
-        final Pair<Integer, String> httpDetails = new RESTManager().post(
+        final Pair<Integer, String> httpDetails = new RestManager().post(
                         "http://localhost:6667/serviceInstantiation/v7/serviceInstances/12345/vnfs/12345/vfModules/scaleOut",
                         "username",
                         "password", new HashMap<>(), "application/json", request);

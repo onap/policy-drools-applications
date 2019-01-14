@@ -1,8 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * rest
  * ================================================================================
- * 
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,13 @@ package org.onap.policy.rest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager.Pair;
 
 public class PairTest {
 
     @Test
     public void testPair() {
-        RESTManager mgr = new RESTManager();
+        RestManager mgr = new RestManager();
 
         Pair<Integer, Integer> pii = mgr.new Pair<>(1, 2);
         assertEquals((Integer) 1, (Integer) pii.first);

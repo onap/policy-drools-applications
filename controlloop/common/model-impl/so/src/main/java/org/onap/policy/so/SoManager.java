@@ -30,8 +30,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.drools.core.WorkingMemory;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public final class SoManager {
     private static final long GET_REQUEST_WAIT_INTERVAL = 20000;
 
     // The REST manager used for processing REST calls for this VFC manager
-    private RESTManager restManager;
+    private RestManager restManager;
 
     private long restGetTimeout = GET_REQUEST_WAIT_INTERVAL;
 
@@ -66,7 +66,7 @@ public final class SoManager {
      * Default constructor.
      */
     public SoManager() {
-        restManager = new RESTManager();
+        restManager = new RestManager();
     }
 
     /**
