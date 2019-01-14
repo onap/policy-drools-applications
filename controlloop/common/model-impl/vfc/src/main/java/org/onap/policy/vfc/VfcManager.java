@@ -26,8 +26,8 @@ import java.util.Map;
 
 import org.drools.core.WorkingMemory;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public final class VfcManager implements Runnable {
             LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
 
     // The REST manager used for processing REST calls for this VFC manager
-    private RESTManager restManager;
+    private RestManager restManager;
 
     /**
      * Constructor.
@@ -61,7 +61,7 @@ public final class VfcManager implements Runnable {
         workingMem = wm;
         vfcRequest = request;
 
-        restManager = new RESTManager();
+        restManager = new RestManager();
 
         // use getPEManagerEnvProperty() for required properties; others are optional
         setVfcParams(getPeManagerEnvProperty("vfc.url"), PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
@@ -166,7 +166,7 @@ public final class VfcManager implements Runnable {
      * 
      * @param restManager the test REST manager
      */
-    protected void setRestManager(final RESTManager restManager) {
+    protected void setRestManager(final RestManager restManager) {
         this.restManager = restManager;
     }
 

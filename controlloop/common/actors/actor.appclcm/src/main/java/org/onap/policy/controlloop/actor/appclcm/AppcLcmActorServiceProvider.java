@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * AppcLcmActorServiceProvider
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications copyright (c) 2018 Nokia
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
+import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,7 +162,7 @@ public class AppcLcmActorServiceProvider implements Actor {
         aaiRequest.setInstanceFilters(new AaiNqInstanceFilters());
         aaiRequest.getInstanceFilters().getInstanceFilter().add(filter);
 
-        AaiNqResponse aaiResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty("aai.url"),
+        AaiNqResponse aaiResponse = new AaiManager(new RestManager()).postQuery(getPeManagerEnvProperty("aai.url"),
                 getPeManagerEnvProperty("aai.username"), getPeManagerEnvProperty("aai.password"), aaiRequest,
                 requestId);
 

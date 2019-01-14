@@ -33,7 +33,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
+import org.onap.policy.rest.RestManager;
 import org.onap.policy.vfc.VfcHealActionVmInfo;
 import org.onap.policy.vfc.VfcHealAdditionalParams;
 import org.onap.policy.vfc.VfcHealRequest;
@@ -134,11 +134,11 @@ public class VfcActorServiceProvider implements Actor {
         try {
             if (vnfName != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                response = new AaiManager(new RESTManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestId,
+                response = new AaiManager(new RestManager()).getQueryByVnfName(url, aaiUsername, aaiPassword, requestId,
                         vnfName);
             } else if (vnfId != null) {
                 String url = aaiUrl + "/aai/v11/network/generic-vnfs/generic-vnf/";
-                response = new AaiManager(new RESTManager()).getQueryByVnfId(url, aaiUsername, aaiPassword, requestId,
+                response = new AaiManager(new RestManager()).getQueryByVnfId(url, aaiUsername, aaiPassword, requestId,
                         vnfId);
             } else {
                 logger.error("getAAIServiceInstance failed");

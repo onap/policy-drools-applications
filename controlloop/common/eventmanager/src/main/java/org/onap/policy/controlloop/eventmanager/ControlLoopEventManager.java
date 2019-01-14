@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop event manager
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ import org.onap.policy.guard.LockCallback;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
 import org.onap.policy.guard.TargetLock;
-import org.onap.policy.rest.RESTManager;
+import org.onap.policy.rest.RestManager;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -885,7 +885,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostUrl + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
-                response = new AaiManager(new RESTManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
+                response = new AaiManager(new RestManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
                         vserverName);
             }
         } catch (Exception e) {
@@ -918,14 +918,14 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
                 String url = aaiHostUrl + aaiGetQueryByVnfName;
                 logger.info("AAI Host URL by VNF name: {}", url);
-                response = new AaiManager(new RESTManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
+                response = new AaiManager(new RestManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
                         vnfName);
             } else if (vnfId != null) {
                 String aaiGetQueryByVnfId = "/aai/v11/network/generic-vnfs/generic-vnf/";
                 String url = aaiHostUrl + aaiGetQueryByVnfId;
                 logger.info("AAI Host URL by VNF ID: {}", url);
                 response =
-                        new AaiManager(new RESTManager()).getQueryByVnfId(url, aaiUser, aaiPassword, requestId, vnfId);
+                        new AaiManager(new RestManager()).getQueryByVnfId(url, aaiUser, aaiPassword, requestId, vnfId);
             }
         } catch (Exception e) {
             logger.error("getAAIVnfInfo exception: ", e);
@@ -975,7 +975,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aaiNqRequest));
         }
 
-        AaiNqResponse aaiNqResponse = new AaiManager(new RESTManager()).postQuery(getPeManagerEnvProperty(AAI_URL),
+        AaiNqResponse aaiNqResponse = new AaiManager(new RestManager()).postQuery(getPeManagerEnvProperty(AAI_URL),
                 getPeManagerEnvProperty(AAI_USERNAME_PROPERTY), getPeManagerEnvProperty(AAI_PASS_PROPERTY), 
                 aaiNqRequest, onset.getRequestId());
 

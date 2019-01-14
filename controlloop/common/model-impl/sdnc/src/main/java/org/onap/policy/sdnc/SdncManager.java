@@ -1,6 +1,8 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +28,8 @@ import java.util.Map;
 
 import org.drools.core.WorkingMemory;
 import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.sdnc.util.Serialization;
 
 import org.slf4j.Logger;
@@ -46,7 +48,7 @@ public final class SdncManager implements Runnable {
             LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
 
     // The REST manager used for processing REST calls for this Sdnc manager
-    private RESTManager restManager;
+    private RestManager restManager;
     
     /**
      * Constructor.
@@ -63,7 +65,7 @@ public final class SdncManager implements Runnable {
         workingMem = wm;
         sdncRequest = request;
 
-        restManager = new RESTManager();
+        restManager = new RestManager();
 
         setSdncParams(getPeManagerEnvProperty("sdnc.url"), getPeManagerEnvProperty("sdnc.username"), 
             getPeManagerEnvProperty("sdnc.password"));
@@ -140,7 +142,7 @@ public final class SdncManager implements Runnable {
      * Protected setter for rest manager to allow mocked rest manager to be used for testing.
      * @param restManager the test REST manager
      */
-    protected void setRestManager(final RESTManager restManager) {
+    protected void setRestManager(final RestManager restManager) {
         this.restManager = restManager;
     }
 

@@ -31,8 +31,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.onap.policy.rest.RESTManager;
-import org.onap.policy.rest.RESTManager.Pair;
+import org.onap.policy.rest.RestManager;
+import org.onap.policy.rest.RestManager.Pair;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.util.Serialization;
 
@@ -60,7 +60,7 @@ public class VfcSimulatorTest {
     @Test
     public void testPost() {
         final Pair<Integer, String> httpDetails =
-                new RESTManager().post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password",
+                new RestManager().post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password",
                         new HashMap<String, String>(), "application/json", "Some Request Here");
         assertNotNull(httpDetails);
         assertTrue(httpDetails.first == 202);
@@ -70,7 +70,7 @@ public class VfcSimulatorTest {
 
     @Test
     public void testGet() {
-        final Pair<Integer, String> httpDetails = new RESTManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234",
+        final Pair<Integer, String> httpDetails = new RestManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234",
                 "username", "password", new HashMap<String, String>());
         assertNotNull(httpDetails);
         final VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
