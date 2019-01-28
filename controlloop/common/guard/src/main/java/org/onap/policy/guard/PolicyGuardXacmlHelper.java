@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,7 @@ import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
 import org.json.JSONObject;
+import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +49,7 @@ import org.slf4j.LoggerFactory;
 
 public class PolicyGuardXacmlHelper {
     private static final Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
-    private static final Logger netLogger =
-            LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
+    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
 
     // Constant for the systme line separator
     private static final String SYSTEM_LS = System.lineSeparator();
@@ -80,7 +80,7 @@ public class PolicyGuardXacmlHelper {
 
     /**
      * Call PDP.
-     * 
+     *
      * @param xacmlReq the XACML request
      * @return the response
      */
@@ -127,7 +127,7 @@ public class PolicyGuardXacmlHelper {
 
     /**
      * This makes an HTTP POST call to a running PDP RESTful servlet to get a decision.
-     * 
+     *
      * @param is the InputStream
      * @param authorization the Authorization
      * @param clientauth the ClientAuth
@@ -217,7 +217,7 @@ public class PolicyGuardXacmlHelper {
 
     /**
      * Parse XACML PDP response.
-     * 
+     *
      * @param xacmlResponse the XACML response
      * @return the PolicyGuardResponse
      */
