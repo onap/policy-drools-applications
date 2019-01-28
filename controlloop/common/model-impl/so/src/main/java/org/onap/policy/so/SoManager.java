@@ -3,6 +3,7 @@
  * so
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.drools.core.WorkingMemory;
+import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
@@ -45,8 +47,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class SoManager {
     private static final Logger logger = LoggerFactory.getLogger(SoManager.class);
-    private static final Logger netLogger =
-                    LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
+    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
+
     private static ExecutorService executors = Executors.newCachedThreadPool();
 
     private static final int SO_RESPONSE_ERROR = 999;
@@ -121,10 +123,10 @@ public final class SoManager {
      * @param request            the SO request
      * @return a concurrent Future for the thread that handles the request
      */
-    public Future<SoResponse> asyncSoRestCall(final String requestId, 
+    public Future<SoResponse> asyncSoRestCall(final String requestId,
             final WorkingMemory wm,
-            final String serviceInstanceId, 
-            final String vnfInstanceId, 
+            final String serviceInstanceId,
+            final String vnfInstanceId,
             final String vfModuleInstanceId, final SoRequest request) {
         return executors.submit(new AsyncSoRestCallThread(requestId, wm, serviceInstanceId, vnfInstanceId,
                 vfModuleInstanceId, request));
@@ -151,9 +153,9 @@ public final class SoManager {
          * @param vfModuleInstanceId the vf module instance id (not null in case of delete vf module request)
          * @param request            the request itself
          */
-        private AsyncSoRestCallThread(final String requestId, 
+        private AsyncSoRestCallThread(final String requestId,
                 final WorkingMemory wm, final String serviceInstanceId,
-                final String vnfInstanceId, final String vfModuleInstanceId, 
+                final String vnfInstanceId, final String vfModuleInstanceId,
                 final SoRequest request) {
             this.requestId = requestId;
             this.wm = wm;

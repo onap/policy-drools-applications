@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2017-2018 Intel Corp, AT&T. All rights reserved.
  * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
+ * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.drools.core.WorkingMemory;
+import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
@@ -41,15 +43,14 @@ public final class VfcManager implements Runnable {
     private VfcRequest vfcRequest;
     private WorkingMemory workingMem;
     private static final Logger logger = LoggerFactory.getLogger(VfcManager.class);
-    private static final Logger netLogger =
-            LoggerFactory.getLogger(org.onap.policy.common.endpoints.event.comm.Topic.NETWORK_LOGGER);
+    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
 
     // The REST manager used for processing REST calls for this VFC manager
     private RestManager restManager;
 
     /**
      * Constructor.
-     * 
+     *
      * @param wm Drools working memory
      * @param request request
      */
@@ -70,7 +71,7 @@ public final class VfcManager implements Runnable {
 
     /**
      * Set the parameters.
-     * 
+     *
      * @param baseUrl base URL
      * @param name username
      * @param pwd password
@@ -163,7 +164,7 @@ public final class VfcManager implements Runnable {
 
     /**
      * Protected setter for rest manager to allow mocked rest manager to be used for testing.
-     * 
+     *
      * @param restManager the test REST manager
      */
     protected void setRestManager(final RestManager restManager) {
@@ -173,7 +174,7 @@ public final class VfcManager implements Runnable {
     /**
      * This method reads and validates environmental properties coming from the policy engine. Null
      * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
-     * 
+     *
      * @param string the name of the parameter to retrieve
      * @return the property value
      */
