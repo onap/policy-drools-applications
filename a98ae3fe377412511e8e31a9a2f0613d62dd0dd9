@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f5b7d98_75f27215",
+        "filename": "controlloop/common/model-impl/vfc/src/main/java/org/onap/policy/vfc/VfcManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:41:47Z",
+      "side": 1,
+      "message": "change 2018 to 2019",
+      "revId": "a98ae3fe377412511e8e31a9a2f0613d62dd0dd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
