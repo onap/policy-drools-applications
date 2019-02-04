@@ -19,7 +19,7 @@
   ============LICENSE_END=========================================================
   -->
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
-    <kbase name="rules">
+    <kbase name="onap.policies.controlloop.operational">
         <ksession name="casablanca"/>
     </kbase>
 </kmodule>
