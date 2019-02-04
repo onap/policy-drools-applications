@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed1d1124_106a14e9",
+        "filename": "controlloop/common/controller-casablanca/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-04T18:26:52Z",
+      "side": 1,
+      "message": "Capital O",
+      "range": {
+        "startLine": 22,
+        "startChar": 43,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "f5f73fdb3777155752a274a9ae398706e3b35ae7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "781b033d_9479eae9",
+        "filename": "controlloop/common/controller-casablanca/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-04T18:26:52Z",
+      "side": 1,
+      "message": "Dublin ?",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "f5f73fdb3777155752a274a9ae398706e3b35ae7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
