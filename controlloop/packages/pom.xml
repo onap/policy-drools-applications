@@ -38,5 +38,6 @@
     <module>basex-controlloop</module>
     <module>artifacts-controlloop</module>
     <module>apps-controlloop</module>
+    <module>docker-controlloop</module>
   </modules>
 </project>
