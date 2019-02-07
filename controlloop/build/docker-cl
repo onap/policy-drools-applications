@@ -1,0 +1,254 @@
+#!/usr/bin/env bash
+
+# ########################################################################
+#
+# Copyright 2019 AT&T Intellectual Property. All rights reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ########################################################################
+
+function usage {
+    if [[ ${DEBUG} == y ]]; then
+	    echo "-- $0 --"
+    	set -x
+    fi
+
+    echo
+    echo "SYNTAX:"
+    echo -e "\t$(basename "$0") "
+	echo -e "\t\t[--help|-h] [--build|-b <repo:tag>] [--push|-p <repo:tag>]"
+	echo -e "\t\t[--verify|-v] [--merge|-m] [--release|-r] "
+	echo -e "\t\t[--run <volume-full-path>] [--cmd <volume-full-path> <cmd>]"
+	echo
+	echo
+}
+
+function build {
+	if [[ ${DEBUG} == y ]]; then
+		echo "-- ${FUNCNAME[0]} $* --"
+		set -x
+	fi
+
+	local tag tags
+
+	for tag in "$@"; do
+	    tags="${tags} --tag ${tag}"
+	done
+
+	(set -x; docker build ${BUILD_ARGS} ${tags} ${IMAGE_PATH})
+
+    if [[ $? != 0 ]]; then
+        echo -e "\nERROR: docker build\n"
+        return 1
+    fi
+
+    docker image ls | egrep "TAG|${IMAGE}"
+
+    return 0
+}
+
+function push {
+	if [[ ${DEBUG} == y ]]; then
+		echo "-- ${FUNCNAME[0]} $* --"
+		set -x
+	fi
+
+	local tag="${1}"
+
+	if [[ -z ${tag} ]]; then
+        echo -e "\nERROR: no <repo:tag> provided\n"
+	    return 1
+	fi
+
+    (set -x; docker push ${tag})
+
+    if [[ $? != 0 ]]; then
+        echo -e "\nERROR: docker push\n"
+        return 2
+    fi
+
+	return 0
+}
+
+function release {
+	if [[ ${DEBUG} == y ]]; then
+		echo "-- ${FUNCNAME[0]} --"
+		set -x
+	fi
+
+	build ${RELEASE_BUILD_TAGS} && push ${RELEASE_PUSH_TAGS}
+	return $?
+}
+
+function merge {
+	if [[ ${DEBUG} == y ]]; then
+		echo "-- ${FUNCNAME[0]} --"
+		set -x
+	fi
+
+	build ${MERGE_BUILD_TAGS} && push ${MERGE_PUSH_TAGS}
+	return $?
+}
+
+function verify {
+	if [[ ${DEBUG} == y ]]; then
+		echo "-- ${FUNCNAME[0]} --"
+		set -x
+	fi
+
+	build ${VERIFY_BUILD_TAGS}
+
+	return $?
+}
+
+function run {
+    local debugEnv
+
+	if [[ ${DEBUG} == y ]]; then
+		echo "-- ${FUNCNAME[0]} $* --"
+		set -x
+		debugEnv='-e "DEBUG=y"'
+	fi
+
+    local volume="$1"
+    local cmd="$2"
+
+    if [[ ! -d ${volume} ]]; then
+        echo -e "\nERROR: an absolute path to a volume must be provided: ${volume}\n"
+        return 1
+    fi
+
+    (
+    set -x
+	docker run --rm ${debugEnv} -it -v "${volume}":/tmp/policy-install/config -p 9696:9696 \
+	    --name pdpd-cl onap/policy-pdpd-cl ${cmd}
+	)
+
+	return $?
+}
+
+(
+if [[ ${DEBUG} == y ]]; then
+	echo "-- $0 $* --"
+	set -x
+fi
+
+VERSION_PATH="controlloop/packages/docker-controlloop/target/version"
+if [[ ! -f "${VERSION_PATH}" ]]; then
+    cd  "$(dirname "$0")"/../..
+    if [[ ! -f "${VERSION_PATH}" ]]; then
+        echo -e "\nERROR: ${VERSION_PATH} cannot be found\n"
+        usage
+        exit 1
+    fi
+fi
+
+DOCKER_REPOSITORY="nexus3.onap.org:10003"
+IMAGE=policy-pdpd-cl
+IMAGE_PATH="controlloop/packages/docker-controlloop/target/${IMAGE}"
+
+VERSION="$(cat "${VERSION_PATH}")"
+MAJOR_MINOR_VERSION="$(cut -f 1,2 -d . "${VERSION_PATH}")"
+TIMESTAMP="$(date -u +%Y%m%dT%H%M%S)"
+
+if [[ -z "${VERSION}" ]]; then
+    echo -e "\nERROR: no version\n"
+    usage
+    exit 1
+fi
+
+if [[ -z "${MAJOR_MINOR_VERSION}" ]]; then
+    echo "\nERROR: no major/minor version: ${VERSION}\n"
+    usage
+    exit 1
+fi
+
+if [[ ${VERSION} == *"SNAPSHOT"* ]]; then
+    MAJOR_MINOR_VERSION="${MAJOR_MINOR_VERSION}-SNAPSHOT"
+else
+    MAJOR_MINOR_VERSION="${MAJOR_MINOR_VERSION}-STAGING"
+fi
+
+BUILD_ARGS="--build-arg BUILD_VERSION_APP_CL=${VERSION}"
+
+echo
+echo -e "BUILD INFO:"
+echo -e "\timage: ${IMAGE}"
+echo -e "\timage-path: ${IMAGE_PATH}"
+echo -e "\timage: ${IMAGE}"
+echo -e "\tregistry: ${DOCKER_REPOSITORY}"
+echo -e "\tpatch: ${VERSION}"
+echo -e "\tversion: ${MAJOR_MINOR_VERSION}"
+echo -e "\ttimestamp: ${TIMESTAMP}"
+echo
+
+TAG_LATEST="onap/${IMAGE}:latest"
+TAG_REPO_LATEST="${DOCKER_REPOSITORY}/onap/${IMAGE}:latest"
+TAG_REPO_VERSION_LATEST="${DOCKER_REPOSITORY}/onap/${IMAGE}:${MAJOR_MINOR_VERSION}-latest"
+TAG_REPO_VERSION_TIMESTAMP="${DOCKER_REPOSITORY}/onap/${IMAGE}:${VERSION}-${TIMESTAMP}Z"
+TAG_REPO_VERSION_STAGING_TIMESTAMP="${DOCKER_REPOSITORY}/onap/${IMAGE}:${VERSION}-STAGING-${TIMESTAMP}Z"
+
+VERIFY_BUILD_TAGS="${TAG_LATEST} ${TAG_REPO_VERSION_LATEST} ${TAG_REPO_VERSION_TIMESTAMP}"
+
+MERGE_BUILD_TAGS="${TAG_LATEST} ${TAG_REPO_VERSION_LATEST} ${TAG_REPO_VERSION_TIMESTAMP}"
+RELEASE_BUILD_TAGS="${TAG_LATEST} ${TAG_REPO_LATEST} ${TAG_REPO_VERSION_LATEST} ${TAG_REPO_VERSION_STAGING_TIMESTAMP}"
+
+MERGE_PUSH_TAGS="${TAG_REPO_VERSION_LATEST} ${TAG_REPO_VERSION_TIMESTAMP}"
+RELEASE_PUSH_TAGS="${TAG_REPO_VERSION_LATEST} ${TAG_REPO_VERSION_STAGING_TIMESTAMP}"
+
+echo
+echo -e "TAGS:"
+echo -e "\tBUILD:"
+echo -e "\t\tverify:\n\t\t\t${VERIFY_BUILD_TAGS// /$'\n\t\t\t'}"
+echo -e "\t\tmerge:\n\t\t\t${MERGE_BUILD_TAGS// /$'\n\t\t\t'}"
+echo -e "\t\trelease:\n\t\t\t${RELEASE_BUILD_TAGS// /$'\n\t\t\t'}"
+echo -e "\tPUSH:"
+echo -e "\t\tverify: "
+echo -e "\t\tmerge:\n\t\t\t${MERGE_PUSH_TAGS// /$'\n\t\t\t'}"
+echo -e "\t\trelease:\n\t\t\t${RELEASE_PUSH_TAGS// /$'\n\t\t\t'}"
+echo
+echo
+
+until [[ -z "$1" ]]; do
+    case "$1" in
+        -h|--help)      usage
+                        ;;
+        -b|--build)     shift
+                        build "$1"
+                        ;;
+        -p|--push)      shift
+                        push "$1"
+                        ;;
+        -r|--release)   release
+                        ;;
+        -m|--merge)     merge
+                        ;;
+        -v|--verify)    verify
+                        ;;
+        --run)          shift
+                        volumeArg="$1"
+                        run "${volumeArg}"
+                        ;;
+        --cmd)          shift
+                        volumeArg="$1"
+                        shift
+                        cmdArg="$1"
+                        run "${volumeArg}" "${cmdArg}"
+                        ;;
+        *)              usage
+                        exit 1
+                        ;;
+    esac
+    shift
+done
+)
