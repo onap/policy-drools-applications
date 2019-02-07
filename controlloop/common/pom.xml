@@ -44,7 +44,6 @@
     <module>feature-controlloop-management</module>
     <module>feature-controlloop-amsterdam</module>
     <module>feature-controlloop-casablanca</module>
-    <module>msb</module>
   </modules>
 
 
