@@ -37,7 +37,7 @@
             <fileMode>755</fileMode>
             <directoryMode>700</directoryMode>
             <includes>
-                <include>apps-controlloop-version</include>
+                <include>controlloop.version</include>
             </includes>
         </fileSet>
     </fileSets>
