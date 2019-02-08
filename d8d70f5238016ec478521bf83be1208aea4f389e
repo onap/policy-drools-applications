@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b4b59b_62c4226d",
+        "filename": "controlloop/packages/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-08T13:52:22Z",
+      "side": 1,
+      "message": "update license date",
+      "revId": "d8d70f5238016ec478521bf83be1208aea4f389e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
