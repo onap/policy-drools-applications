@@ -42,25 +42,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.att.research.xacml</groupId>
-      <artifactId>xacml</artifactId>
-      <version>1.0.2</version>
-      <scope>provided</scope>
-      <exclusions>
-        <!-- The LDAP PIP uses velocity which pulls this insecure jar in. We
-        are not using that PIP and can safely exclude this jar to resolve CLM issue.
-         -->
-        <exclusion>
-          <groupId>commons-collections</groupId>
-          <artifactId>commons-collections</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
       <artifactId>actorServiceProvider</artifactId>
       <version>${project.version}</version>

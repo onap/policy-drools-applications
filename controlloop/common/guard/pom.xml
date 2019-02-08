@@ -36,18 +36,39 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.att.research.xacml</groupId>
-      <artifactId>xacml-pdp</artifactId>
-      <version>1.0.2</version>
-      <exclusions>
-        <!-- The LDAP PIP uses velocity which pulls this insecure jar in. We
-        are not using that PIP and can safely exclude this jar to resolve CLM issue.
-         -->
-        <exclusion>
-          <groupId>commons-collections</groupId>
-          <artifactId>commons-collections</artifactId>
-        </exclusion>
-      </exclusions>
+        <groupId>com.att.research.xacml</groupId>
+        <artifactId>xacml-pdp</artifactId>
+        <version>1.0.2</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>commons-codec</artifactId>
+                <groupId>commons-codec</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-logging</artifactId>
+                <groupId>commons-logging</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>guava</artifactId>
+                <groupId>com.google.guava</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-lang3</artifactId>
+                <groupId>org.apache.commons</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>jackson-databind</artifactId>
+                <groupId>com.fasterxml.jackson.core</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-collections</artifactId>
+                <groupId>commons-collections</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-lang</artifactId>
+                <groupId>commons-lang</groupId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
