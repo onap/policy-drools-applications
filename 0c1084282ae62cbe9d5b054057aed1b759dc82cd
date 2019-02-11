@@ -16,6 +16,24 @@
       "revId": "0c1084282ae62cbe9d5b054057aed1b759dc82cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3d4dc72_383edb14",
+        "filename": "controlloop/common/feature-controlloop-management/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T16:37:31Z",
+      "side": 0,
+      "message": "yes, it contains the xacml-pdp jar",
+      "parentUuid": "70391ccf_ae9ac7c8",
+      "revId": "0c1084282ae62cbe9d5b054057aed1b759dc82cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
