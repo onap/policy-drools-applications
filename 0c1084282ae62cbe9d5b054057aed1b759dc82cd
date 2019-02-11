@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70391ccf_ae9ac7c8",
+        "filename": "controlloop/common/feature-controlloop-management/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-11T16:14:47Z",
+      "side": 0,
+      "message": "I think it will based on what I see in the pom.xml. but can you doublecheck that the feature-controlloop-management.zip contains the xacml-pdp jar?",
+      "revId": "0c1084282ae62cbe9d5b054057aed1b759dc82cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
