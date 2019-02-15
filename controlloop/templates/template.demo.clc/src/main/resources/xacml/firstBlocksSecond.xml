@@ -18,14 +18,23 @@
   limitations under the License.
   ============LICENSE_END=========================================================
   -->
-<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="urn:com:att:xacml:policy:id:son:guard:5" Version="1" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-unless-deny">
+
+<!--
+# PIP Engine Definition
+#
+xacml.pip.engines=getstatus
+getstatus.classname=org.onap.policy.guard.PipEngineGetStatus
+getstatus.issuer=org:onap:policy:guard:getstatus
+-->
+
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="urn:com:att:xacml:policy:id:son:guard:UNIQUE_ID" Version="1" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-unless-deny">
 <Description>Policy for first_blocks_second coordination (if first running and second requests to run, deny second).</Description>     
 <Target>
   <AnyOf>
     <AllOf>
       <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
-        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SyntheticControlLoopTwo</AttributeValue>
-        <!-- value should be autofilled by yaml from a xacml template -->
+	<!-- value to be autofilled by yaml from a xacml template -->
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">CONTROL_LOOP_TWO</AttributeValue>
         <AttributeDesignator Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" AttributeId="urn:oasis:names:tc:xacml:1.0:clname:clname-id" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
       </Match>
     </AllOf>
@@ -42,10 +51,10 @@
   </Condition>
 </Rule>
 
-<!-- 'action_one' should be autofilled by yaml from a xacml template -->
 <VariableDefinition VariableId="clc_status">
   <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
-    <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" AttributeId="com:att:research:xacml:test:sql:resource:operations:status" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="org:onap:policy:guard:getstatus:clname:SyntheticControlLoopOne" MustBePresent="false"/>
+    <!-- to be autofilled by yaml from a xacml template -->
+    <AttributeDesignator Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" AttributeId="com:att:research:xacml:test:sql:resource:operations:status" DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="org:onap:policy:guard:getstatus:clname:CONTROL_LOOP_ONE" MustBePresent="false"/>
   </Apply>
 </VariableDefinition>
 </Policy>

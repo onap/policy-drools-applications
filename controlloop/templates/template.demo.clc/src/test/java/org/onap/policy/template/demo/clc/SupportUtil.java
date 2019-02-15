@@ -22,17 +22,22 @@ package org.onap.policy.template.demo.clc;
 
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -49,7 +54,9 @@ import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
+import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.guard.CoordinationDirective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -121,6 +128,138 @@ public final class SupportUtil {
         return null;
     }
 
+    /**
+     * Load YAML coordination directive.
+     * 
+     * @param yamlDirectiveFile yaml directive file to load
+     * @return the CoordinationDirective 
+     */
+    public static CoordinationDirective loadYamlCoordinationDirective(String yamlDirectiveFile) {
+        try (InputStream is = new FileInputStream(new File(yamlDirectiveFile))) {
+            String contents = IOUtils.toString(is, StandardCharsets.UTF_8);
+            //
+            // Read the yaml into our Java Object
+            //
+            Yaml yaml = new Yaml(new Constructor(CoordinationDirective.class));
+            Object obj = yaml.load(contents);
+            logger.debug(contents);
+            
+            return (CoordinationDirective) obj;
+        } catch (IOException e) {
+            fail(e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Generate Xacml rule implementing specified CoordinationDirective.
+     * 
+     * @param cd the CoordinationDirective
+     * @param xacmlProtoDir the directory containing Xacml implementation prototypes
+     * @param xacmlDir the directory to which the Xacml rule should be output
+     * @return the generated Xacml policy file's path
+     */
+    public static String generateXacmlFromCoordinationDirective(CoordinationDirective cd,
+                                                                String xacmlProtoDir,
+                                                                String xacmlDir) {
+        /*
+         * Determine file names
+         */
+        String xacmlProtoFilename = xacmlProtoDir + "/" + cd.getCoordinationDirective() + ".xml";
+        String xacmlFilename      = xacmlDir + "/"
+            + cd.getCoordinationDirective()
+            + cd.getControlLoopOne() 
+            + cd.getControlLoopTwo() 
+            + ".xml";
+
+        logger.debug("xacmlProtoFilename={}", xacmlProtoFilename);
+        logger.debug("xacmlFilename={}", xacmlFilename);
+        
+        /*
+         * Values to be used for placeholders
+         */
+        final String uniqueId = "144"; // eventually will need a facility to generate uniqueIds
+        final String cLOne = cd.getControlLoopOne();
+        final String cLTwo = cd.getControlLoopTwo();
+
+        /*
+         * Create directory for output file, if necessary
+         */ 
+        File xacmlFile = new File(xacmlFilename);
+        try {
+            xacmlFile.getParentFile().mkdirs();  
+        }
+        catch (SecurityException e) {
+            fail(e.getMessage());
+        }
+
+        /*
+         * Replace prototype placeholders with appropriate values
+         */
+        try (Stream<String> stream = Files.lines(Paths.get(xacmlProtoFilename));
+             PrintWriter output = new PrintWriter(xacmlFilename)) {
+            stream.map(s -> s.replaceAll("UNIQUE_ID", uniqueId))
+                .map(s -> s.replaceAll("CONTROL_LOOP_ONE", cLOne))
+                .map(s -> s.replaceAll("CONTROL_LOOP_TWO", cLTwo))
+                .forEach(output::println);
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        return xacmlFilename;
+    }
+
+    /**
+     * Insert the Xacml policy into the PDP.
+     * Acheived by configuring the properties file to load the Xacml policy and required PIP(s).
+     * 
+     * @param xacmlFile the Xacml policy file's path
+     * @param xacmlProtoDir the directory containing Xacml implementation prototypes
+     * @param xacmlDir the directory to which the Xacml rule should be output
+     */
+    public static void insertXacmlPolicy(String xacmlFile,
+                                               String xacmlProtoDir,
+                                               String xacmlDir) {
+        String propName = "xacml_guard_clc";
+        String propProtoFile = xacmlProtoDir + "/" + propName + ".properties";
+        String propFile = xacmlDir + "/" + propName + ".properties";
+        
+        String addXacmlFileToRoot = "# Policies to load\n"
+            + "xacml.rootPolicies=p1\n" 
+            + "p1.file=" + xacmlFile + "\n";
+        
+        try (Stream<String> stream = Files.lines(Paths.get(propProtoFile));
+             PrintWriter output = new PrintWriter(new File(propFile)) ) {
+            /*
+             * Copy the property prototype 
+             */
+            stream.forEach(output::println);
+            /*
+             * Add the Xacml policy to the set of root policies
+             */
+            output.println(addXacmlFileToRoot);
+            /*
+             * Obtain PIP Engine definitions from Xacml policy 
+             * and insert into property file.
+             */
+            try (BufferedReader br = new BufferedReader(new FileReader(xacmlFile))) {
+                boolean select = false;
+                for (String line; (line = br.readLine()) != null; ) {
+                    if (line.contains("PIP Engine Definition")) {
+                        select = true;
+                    }
+                    if (line.contains("-->")) {
+                        select = false;
+                    }
+                    if (select) {
+                        output.println(line);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
     public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
         return org.onap.policy.simulators.Util.buildAaiSim();
     }

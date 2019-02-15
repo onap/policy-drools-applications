@@ -64,6 +64,7 @@ import org.onap.policy.drools.protocol.coders.EventProtocolParams;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.guard.CoordinationDirective;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +126,29 @@ public class ControlLoopCoordinationTest implements TopicListener {
             fail(e.getMessage());
         }
 
+        
+        /*
+         * Apply coordination directive
+         */        
+        String yamlDir = "src/test/resources/yaml";
+
+        String xacmlProtoDir = "src/main/resources/xacml";
+        String xacmlDir      = "src/test/resources/xacml";
+
+        String yamlDirectiveName = "synthetic_control_loop_one_blocks_synthetic_control_loop_two";
+        String yamlDirectiveFile = yamlDir + "/" + yamlDirectiveName + ".yaml";
+        
+        try {
+            CoordinationDirective cd = SupportUtil.loadYamlCoordinationDirective(yamlDirectiveFile);
+            logger.info("CoordinationDirective={}", cd.toString());
+            String xacmlFile = SupportUtil.generateXacmlFromCoordinationDirective(cd,
+                                                                                  xacmlProtoDir,
+                                                                                  xacmlDir);
+            SupportUtil.insertXacmlPolicy(xacmlFile, xacmlProtoDir, xacmlDir);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        
         /*
          * Start the kie sessions
          */
@@ -132,14 +156,14 @@ public class ControlLoopCoordinationTest implements TopicListener {
             kieSession1 = startSession(
                     controlLoopOneName,
                     "src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_SyntheticOne.yaml",
+                    yamlDir + "/policy_ControlLoop_SyntheticOne.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational",
                     "SyntheticControlLoopOnePolicy",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
             kieSession2 = startSession(
                     controlLoopTwoName,
                     "src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_SyntheticTwo.yaml",
+                    yamlDir + "/policy_ControlLoop_SyntheticTwo.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational",
                     "SyntheticControlLoopTwoPolicy",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
@@ -477,20 +501,28 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
         logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@"); 
         simulateOnset(requestId1, cl2, t1, kieSession2,"PERMIT");
+
         logger.info("@@@@@@@@@@ cl1 ONSET t1 @@@@@@@@@@"); 
         simulateOnset(requestId2, cl1, t1, kieSession1,"PERMIT");
+
         logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@"); 
         simulateAbatement(requestId1, cl2, t1, kieSession2);
+
         logger.info("@@@@@@@@@@ cl2 ONSET t1 (Fail) @@@@@@@@@@"); 
         simulateOnset(requestId3, cl2, t1, kieSession2,"DENY");
+
         logger.info("@@@@@@@@@@ cl2 ONSET t2 (Success) @@@@@@@@@@");
         simulateOnset(requestId4, cl2, t2, kieSession2,"PERMIT");
+
         logger.info("@@@@@@@@@@ cl2 ABATED t2 @@@@@@@@@@"); 
         simulateAbatement(requestId4, cl2, t2, kieSession2);
+
         logger.info("@@@@@@@@@@ cl1 ABATED t1  @@@@@@@@@@"); 
         simulateAbatement(requestId2, cl1, t1, kieSession1);
+
         logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@"); 
         simulateOnset(requestId5, cl2, t1, kieSession2,"PERMIT");
+
         logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@"); 
         simulateAbatement(requestId5, cl2, t1, kieSession2);
         
