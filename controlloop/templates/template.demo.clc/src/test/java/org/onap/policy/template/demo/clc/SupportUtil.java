@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * demo
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,17 +22,23 @@ package org.onap.policy.template.demo.clc;
 
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -49,6 +55,8 @@ import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
+import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
+import org.onap.policy.coordination.CoordinationDirective;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +86,7 @@ public final class SupportUtil {
 
     /**
      * Load YAML.
-     * 
+     *
      * @param testFile test file to load
      * @return the Pair of a policy and the yaml contents
      */
@@ -95,6 +103,7 @@ public final class SupportUtil {
 
             return new Pair<ControlLoopPolicy, String>((ControlLoopPolicy) obj, contents);
         } catch (IOException e) {
+            logger.error("Error while loading YAML", e);
             fail(e.getLocalizedMessage());
         }
         return null;
@@ -102,7 +111,7 @@ public final class SupportUtil {
 
     /**
      * Load the YAML guard policy.
-     * 
+     *
      * @param testFile the test file to load
      * @return return the guard object
      */
@@ -116,9 +125,68 @@ public final class SupportUtil {
             Object obj = yaml.load(contents);
             return (ControlLoopGuard) obj;
         } catch (IOException e) {
+            logger.error("Error while loading YAML guard", e);
             fail(e.getLocalizedMessage());
         }
         return null;
+    }
+
+    /**
+     * Insert the Xacml policy into the PDP.
+     * Achieved by configuring the properties file to load the Xacml policy and required PIP(s).
+     *
+     * @param xacmlFile the Xacml policy file's path
+     * @param propProtoDir the directory containing Xacml implementation prototypes
+     * @param propDir the directory to which the Xacml rule should be output
+     */
+    public static void insertXacmlPolicy(String xacmlFile,
+                                         String propProtoDir,
+                                         String propDir) {
+        String propName = "xacml_guard_clc";
+        String propProtoFile = propProtoDir + File.separator + propName + ".properties";
+        String propFilename = propDir + File.separator + propName + ".properties";
+
+        String addXacmlFileToRoot = "# Policies to load\n"
+            + "xacml.rootPolicies=p1\n"
+            + "p1.file=" + xacmlFile + "\n";
+
+        File propFile = new File(propFilename);
+        try (Stream<String> stream = Files.lines(Paths.get(propProtoFile));
+             PrintWriter output = new PrintWriter(propFile)) {
+            /*
+             * Remove file after test
+             */
+            propFile.deleteOnExit();
+            /*
+             * Copy the property prototype
+             */
+            stream.forEach(output::println);
+            /*
+             * Add the Xacml policy to the set of root policies
+             */
+            output.println(addXacmlFileToRoot);
+            /*
+             * Obtain PIP Engine definitions from Xacml policy
+             * and insert into property file.
+             */
+            try (BufferedReader br = new BufferedReader(new FileReader(xacmlFile))) {
+                boolean select = false;
+                for (String line; (line = br.readLine()) != null; ) {
+                    if (line.contains("PIP Engine Definition")) {
+                        select = true;
+                    }
+                    if (line.contains("-->")) {
+                        select = false;
+                    }
+                    if (select) {
+                        output.println(line);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Error when trying to create test propery file", e);
+            fail(e.getMessage());
+        }
     }
 
     public static HttpServletServer buildAaiSim() throws InterruptedException, IOException {
@@ -244,7 +312,7 @@ public final class SupportUtil {
          * Guard PDP-x connection Properties. No URL specified -> use embedded PDPEngine.
          */
         PolicyEngine.manager.setEnvironmentProperty("prop.guard.propfile",
-                                                    "src/test/resources/xacml/xacml_guard_clc.properties");
+                                                    "src/test/resources/properties/xacml_guard_clc.properties");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        "python");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        "test");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_USER, "python");
@@ -252,7 +320,7 @@ public final class SupportUtil {
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV,         "TEST");
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,    "false");
     }
-    
+
     /**
      *  Set the operation history properties.
      */
