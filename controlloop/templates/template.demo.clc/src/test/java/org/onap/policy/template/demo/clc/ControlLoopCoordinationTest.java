@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,13 @@ import static org.junit.Assert.fail;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.StringBuilder;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +63,8 @@ import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.coordination.CoordinationDirective;
+import org.onap.policy.coordination.Util;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
 import org.onap.policy.drools.protocol.coders.EventProtocolParams;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
@@ -89,9 +95,11 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
     /**
      * Setup simulator.
+     *
+     * @throws IOException when thrown by buildAaiSim
      */
     @BeforeClass
-    public static void setUpSimulator() {
+    public static void setUpSimulator()  throws Exception {
         PolicyEngine.manager.configure(new Properties());
         assertTrue(PolicyEngine.manager.start());
         Properties noopSinkProperties = new Properties();
@@ -119,34 +127,69 @@ public class ControlLoopCoordinationTest implements TopicListener {
                 .eventClass("org.onap.policy.appclcm.LcmRequestWrapper")
                 .protocolFilter(new JsonProtocolFilter())
                 .modelClassLoaderHash(1111));
-        try {
-            SupportUtil.buildAaiSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        SupportUtil.buildAaiSim();
+        /*
+         * Apply the coordination directive
+         */
+        final String coordinationDir = "src/test/resources/coordination";
+        final String coordinationProtoDir = "src/main/resources/coordination/prototype";
+        final String coordinationDirectiveName = "synthetic_control_loop_one_blocks_synthetic_control_loop_two";
+        final String propertiesDir = "src/test/resources/properties";
+        final String propertiesProtoDir = "src/test/resources/properties/prototype";
+        final String xacmlDir      = "src/test/resources/xacml";
+        final String yamlDir = "src/test/resources/yaml";
 
+        String coordinationDirectiveFile = coordinationDir + File.separator + coordinationDirectiveName + ".yaml";
+        /*
+         * Load the coordination directive from the Yaml encoding
+         */
+        CoordinationDirective cd = Util.loadCoordinationDirectiveFromFile(coordinationDirectiveFile);
+        logger.info("CoordinationDirective={}", cd.toString());
+        /*
+         * Generate the Xacml policy from the coordination directive
+         */
+        String xacmlPolicy = Util.generateXacmlFromCoordinationDirective(cd, coordinationProtoDir);
+        /*
+         * Create directory for Xacml output file, if necessary
+         */
+        Files.createDirectories(Paths.get(xacmlDir));
+        /*
+         * Write Xacml policy to file
+         */
+        String xacmlFilename      = xacmlDir + File.separator
+            + cd.getCoordinationFunction()
+            + cd.getControlLoop(1)
+            + cd.getControlLoop(2)
+            + ".xml";
+        File xacmlFile = new File(xacmlFilename);
+        PrintWriter xacmlFileWriter = new PrintWriter(xacmlFile);
+        xacmlFileWriter.println(xacmlPolicy);
+        xacmlFileWriter.flush();
+        /*
+         * Remove Xacml file after test
+         */
+        xacmlFile.deleteOnExit();
+        /*
+         * Insert the Xacml policy file into the PDP
+         */
+        SupportUtil.insertXacmlPolicy(xacmlFilename, propertiesProtoDir, propertiesDir);
         /*
          * Start the kie sessions
          */
-        try {
-            kieSession1 = startSession(
+        kieSession1 = startSession(
                     controlLoopOneName,
                     "src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_SyntheticOne.yaml",
+                    yamlDir + "/policy_ControlLoop_SyntheticOne.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational",
                     "SyntheticControlLoopOnePolicy",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
-            kieSession2 = startSession(
+        kieSession2 = startSession(
                     controlLoopTwoName,
                     "src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_SyntheticTwo.yaml",
+                    yamlDir + "/policy_ControlLoop_SyntheticTwo.yaml",
                     "service=ServiceDemo;resource=Res1Demo;type=operational",
                     "SyntheticControlLoopTwoPolicy",
                     "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
-        } catch (IOException e) {
-            logger.debug("Could not create kieSession, exception {}", e.getMessage());
-            fail("Could not create kieSession");
-        }
     }
 
     /**
@@ -168,7 +211,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
     /**
      * Set expected decision.
-     * 
+     *
      * @param ed the expected decision ("PERMIT" or "DENY")
      */
     public void expectedDecisionIs(String ed) {
@@ -180,7 +223,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
      * This method is used to simulate event messages from DCAE
      * that start the control loop (onset message) or end the
      * control loop (abatement message).
-     * 
+     *
      * @param controlLoopName the control loop name
      * @param requestId the requestId for this event
      * @param status could be onset or abated
@@ -188,7 +231,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
      * @param kieSession the kieSession to which this event is being sent
      */
     protected void sendEvent(String controlLoopName,
-                             UUID requestId, 
+                             UUID requestId,
                              ControlLoopEventStatus status,
                              String target,
                              KieSession kieSession) {
@@ -206,14 +249,14 @@ public class ControlLoopCoordinationTest implements TopicListener {
         Gson gson = new Gson();
         String json = gson.toJson(event);
         logger.debug("sendEvent {}", json);
-        
+
         kieSession.insert(event);
     }
 
-    
+
     /**
      * Simulate an event by inserting into kieSession and firing rules as needed.
-     * 
+     *
      * @param cles the ControlLoopEventStatus
      * @param rid the request ID
      * @param controlLoopName the control loop name
@@ -234,12 +277,12 @@ public class ControlLoopCoordinationTest implements TopicListener {
         }
         //
         // simulate sending event
-        // 
+        //
         sendEvent(controlLoopName, rid, cles, target, kieSession);
         kieSession.fireUntilHalt();
         //
         // get dump of database entries and log
-        // 
+        //
         List<?> entries = SupportUtil.dumpDb();
         assertNotNull(entries);
         logger.debug("dumpDB, {} entries", entries.size());
@@ -248,17 +291,17 @@ public class ControlLoopCoordinationTest implements TopicListener {
         }
         //
         // we are done
-        // 
+        //
         logger.info("simulateEvent: done");
     }
 
     /**
      * Simulate an onset event.
-     * 
+     *
      * @param rid the request ID
      * @param controlLoopName the control loop name
      * @param kieSession the kieSession to which this event is being sent
-     * @param expectedDecision the expected decision 
+     * @param expectedDecision the expected decision
      */
     public void simulateOnset(UUID rid,
                               String controlLoopName,
@@ -270,7 +313,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
     /**
      * Simulate an abated event.
-     * 
+     *
      * @param rid the request ID
      * @param controlLoopName the control loop name
      * @param kieSession the kieSession to which this event is being sent
@@ -281,10 +324,10 @@ public class ControlLoopCoordinationTest implements TopicListener {
                                   KieSession kieSession) {
         simulateEvent(ControlLoopEventStatus.ABATED, rid, controlLoopName, target, kieSession, null);
     }
-   
+
     /**
      * This method will start a kie session and instantiate the Policy Engine.
-     * 
+     *
      * @param droolsTemplate the DRL rules file
      * @param yamlFile the yaml file containing the policies
      * @param policyScope scope for policy
@@ -312,11 +355,11 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
         controlLoopName.append(pair.first.getControlLoop().getControlLoopName());
         String yamlContents = pair.second;
-        
+
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate, 
+        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate,
                                                           controlLoopName.toString(),
                                                           policyScope,
                                                           policyName,
@@ -336,7 +379,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
      */
     @Override
@@ -400,7 +443,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
                         logger.debug("Halting kieSession2");
                         kieSession2.halt();
                     } else {
-                        fail("Unknown ControlLoop"); 
+                        fail("Unknown ControlLoop");
                     }
                 }
             } else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
@@ -435,7 +478,7 @@ public class ControlLoopCoordinationTest implements TopicListener {
 
     /**
      * This method will dump all the facts in the working memory.
-     * 
+     *
      * @param kieSession the session containing the facts
      */
     public void dumpFacts(KieSession kieSession) {
@@ -454,14 +497,14 @@ public class ControlLoopCoordinationTest implements TopicListener {
         logger.info("Beginning testSyntheticControlLoopOneBlocksSyntheticControlLoopTwo");
         /*
          * Allows the PolicyEngine to callback to this object to
-         * notify that there is an event ready to be pulled 
+         * notify that there is an event ready to be pulled
          * from the queue
          */
         for (TopicSink sink : noopTopics) {
             assertTrue(sink.start());
             sink.register(this);
         }
-                
+
         /*
          * Create unique requestIds
          */
@@ -475,25 +518,33 @@ public class ControlLoopCoordinationTest implements TopicListener {
         final String t1 = "TARGET_1";
         final String t2 = "TARGET_2";
 
-        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@"); 
+        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@");
         simulateOnset(requestId1, cl2, t1, kieSession2,"PERMIT");
-        logger.info("@@@@@@@@@@ cl1 ONSET t1 @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl1 ONSET t1 @@@@@@@@@@");
         simulateOnset(requestId2, cl1, t1, kieSession1,"PERMIT");
-        logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@");
         simulateAbatement(requestId1, cl2, t1, kieSession2);
-        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Fail) @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Fail) @@@@@@@@@@");
         simulateOnset(requestId3, cl2, t1, kieSession2,"DENY");
+
         logger.info("@@@@@@@@@@ cl2 ONSET t2 (Success) @@@@@@@@@@");
         simulateOnset(requestId4, cl2, t2, kieSession2,"PERMIT");
-        logger.info("@@@@@@@@@@ cl2 ABATED t2 @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl2 ABATED t2 @@@@@@@@@@");
         simulateAbatement(requestId4, cl2, t2, kieSession2);
-        logger.info("@@@@@@@@@@ cl1 ABATED t1  @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl1 ABATED t1  @@@@@@@@@@");
         simulateAbatement(requestId2, cl1, t1, kieSession1);
-        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl2 ONSET t1 (Success) @@@@@@@@@@");
         simulateOnset(requestId5, cl2, t1, kieSession2,"PERMIT");
-        logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@"); 
+
+        logger.info("@@@@@@@@@@ cl2 ABATED t1 @@@@@@@@@@");
         simulateAbatement(requestId5, cl2, t1, kieSession2);
-        
+
         /*
          * Print what's left in memory
          */
@@ -501,4 +552,3 @@ public class ControlLoopCoordinationTest implements TopicListener {
         dumpFacts(kieSession2);
     }
 }
-
