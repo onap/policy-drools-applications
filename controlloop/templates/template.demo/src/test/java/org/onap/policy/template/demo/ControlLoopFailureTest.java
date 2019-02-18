@@ -105,8 +105,6 @@ public class ControlLoopFailureTest implements TopicListener {
                 .topic("POLICY-CL-MGT")
                 .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -114,8 +112,6 @@ public class ControlLoopFailureTest implements TopicListener {
                 .topic("APPC-LCM-READ")
                 .eventClass("org.onap.policy.appclcm.LcmRequestWrapper")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
         try {
             SupportUtil.buildAaiSim();

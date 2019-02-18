@@ -95,8 +95,6 @@ public class CcvpnControlLoopTest implements TopicListener {
                 .topic("POLICY-CL-MGT")
                 .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
 
         try {
