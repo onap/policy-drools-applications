@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * demo
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,8 +103,6 @@ public class VfwControlLoopTest implements TopicListener {
                 .topic("POLICY-CL-MGT")
                 .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -112,8 +110,6 @@ public class VfwControlLoopTest implements TopicListener {
                 .topic("APPC-CL")
                 .eventClass("org.onap.policy.appc.Request")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
 
         try {

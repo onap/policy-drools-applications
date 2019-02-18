@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,8 +96,6 @@ public class CcvpnControlLoopTest implements TopicListener {
                 .topic("POLICY-CL-MGT")
                 .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
 
         try {

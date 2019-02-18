@@ -3,7 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,8 +106,6 @@ public class VpciControlLoopTest implements TopicListener {
                 .topic("POLICY-CL-MGT")
                 .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -115,8 +113,6 @@ public class VpciControlLoopTest implements TopicListener {
                 .topic("SDNR-CL")
                 .eventClass("org.onap.policy.sdnr.PciRequestWrapper")
                 .protocolFilter(new JsonProtocolFilter())
-                .customGsonCoder(null)
-                .customJacksonCoder(null)
                 .modelClassLoaderHash(1111));
         try {
             SupportUtil.buildAaiSim();
