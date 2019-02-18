@@ -5,21 +5,21 @@
 	
 	"ueb.source.topics.${brmsgwTopic}.servers": "${brmsgwServers}",
 	"ueb.source.topics.${brmsgwTopic}.events": "org.onap.policy.controlloop.params.ControlLoopParams",
-	"ueb.source.topics.${brmsgwTopic}.events.org.onap.policy.controlloop.params.ControlLoopParams.filter": "closedLoopControlName=.*,controlLoopYaml=.*",
+	"ueb.source.topics.${brmsgwTopic}.events.org.onap.policy.controlloop.params.ControlLoopParams.filter": "[?($.closedLoopControlName =~ /.*/ && $.controlLoopYaml =~ /.*/)]",
 
 	"ueb.source.topics.${dcaeTopic}.servers": "${dcaeServers}",
 	"ueb.source.topics.${dcaeTopic}.events": "org.onap.policy.controlloop.VirtualControlLoopEvent",
-	"ueb.source.topics.${dcaeTopic}.events.org.onap.policy.controlloop.VirtualControlLoopEvent.filter": "closedLoopEventStatus=.*",
+	"ueb.source.topics.${dcaeTopic}.events.org.onap.policy.controlloop.VirtualControlLoopEvent.filter": "[?($.closedLoopEventStatus =~ /.*/)]",
 	"ueb.source.topics.${dcaeTopic}.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gson",
 	
 	"ueb.source.topics.APPC-CL.servers": "${dmaapServers}",
 	"ueb.source.topics.APPC-CL.events": "org.onap.policy.appc.Response",
-	"ueb.source.topics.APPC-CL.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "CommonHeader=.*,Status=.*",
+	"ueb.source.topics.APPC-CL.events.org.onap.policy.appc.Response.filter": "[?($.CommonHeader =~ /.*/ && $.Status =~ /.*/)]",
 	"ueb.source.topics.APPC-CL.events.custom.gson": "org.onap.policy.appc.util.Serialization,gsonPretty",
 	
 	"ueb.source.topics.APPC-LCM-WRITE.servers": "${dmaapServers}",
 	"ueb.source.topics.APPC-LCM-WRITE.events": "org.onap.policy.appclcm.LcmResponseWrapper",
-	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "type=response",
+	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "[?($.type == 'response')]",
 	"ueb.source.topics.APPC-LCM-WRITE.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
 	
 	"noop.sink.topics": "APPC-CL,APPC-LCM-READ,POLICY-CL-MGT",

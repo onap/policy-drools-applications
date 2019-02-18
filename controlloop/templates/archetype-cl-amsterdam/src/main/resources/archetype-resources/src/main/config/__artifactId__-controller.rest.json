@@ -5,22 +5,22 @@
 
 	"ueb.source.topics.${dcaeTopic}.servers": "${dcaeServers}",
 	"ueb.source.topics.${dcaeTopic}.events": "org.onap.policy.controlloop.VirtualControlLoopEvent",
-	"ueb.source.topics.${dcaeTopic}.events.org.onap.policy.controlloop.VirtualControlLoopEvent.filter": "closedLoopEventStatus=.*",
+	"ueb.source.topics.${dcaeTopic}.events.org.onap.policy.controlloop.VirtualControlLoopEvent.filter": "[?($.closedLoopEventStatus =~ /.*/)]",
 	"ueb.source.topics.${dcaeTopic}.events.custom.gson": "org.onap.policy.controlloop.util.Serialization,gson",
 	
 	"ueb.source.topics.APPC-CL.servers": "${dmaapServers}",
 	"ueb.source.topics.APPC-CL.events": "org.onap.policy.appc.Response",
-	"ueb.source.topics.APPC-CL.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "CommonHeader=.*,Status=.*",
+	"ueb.source.topics.APPC-CL.events.org.onap.policy.appc.Response.filter": "[?($.CommonHeader =~ /.*/ && $.Status =~ /.*/)]",
 	"ueb.source.topics.APPC-CL.events.custom.gson": "org.onap.policy.appc.util.Serialization,gsonPretty",
 	
 	"ueb.source.topics.APPC-LCM-WRITE.servers": "${dmaapServers}",
 	"ueb.source.topics.APPC-LCM-WRITE.events": "org.onap.policy.appclcm.LcmResponseWrapper",
-	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "type=response",
+	"ueb.source.topics.APPC-LCM-WRITE.events.org.onap.policy.appclcm.LcmResponseWrapper.filter": "[?($.type == 'response')]",
 	"ueb.source.topics.APPC-LCM-WRITE.events.custom.gson": "org.onap.policy.appclcm.util.Serialization,gson",
 	
 	"ueb.source.topics.SDNR-CL-RSP.servers": "${dmaapServers}",
 	"ueb.source.topics.SDNR-CL-RSP.events": "org.onap.policy.sdnr.PciResponseWrapper",
-	"ueb.source.topics.SDNR-CL-RSP.events.org.onap.policy.sdnr.PciResponseWrapper.filter": "type=response",
+	"ueb.source.topics.SDNR-CL-RSP.events.org.onap.policy.sdnr.PciResponseWrapper.filter": "[?($.type == 'response')]",
 	"ueb.source.topics.SDNR-CL-RSP.events.custom.gson": "org.onap.policy.sdnr.util.Serialization,gson",
 	
 	"noop.sink.topics": "APPC-CL,APPC-LCM-READ,POLICY-CL-MGT,SDNR-CL",
