@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67f946e4_9cfbcc29",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-20T16:11:09Z",
+      "side": 1,
+      "message": "I think this is try with resources syntax.",
+      "parentUuid": "a16be90b_639594e3",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0ab39c_07376c14",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-02-20T11:15:54Z",
       "side": 1,
       "message": "Better to use File.Separator here rather than the \"/\" character.\n\nThere are other instances later in the class as well.",
+      "range": {
+        "startLine": 168,
+        "startChar": 52,
+        "endLine": 168,
+        "endChar": 56
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5915ec0a_fc0b0ea0",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-20T16:11:09Z",
+      "side": 1,
+      "message": "Agree - System object has this. Or use Files. static to formulate paths.",
+      "parentUuid": "0d0ab39c_07376c14",
       "range": {
         "startLine": 168,
         "startChar": 52,
