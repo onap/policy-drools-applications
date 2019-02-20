@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a16be90b_639594e3",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-20T11:15:54Z",
+      "side": 1,
+      "message": "We should use a try with resources here.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0ab39c_07376c14",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-20T11:15:54Z",
+      "side": 1,
+      "message": "Better to use File.Separator here rather than the \"/\" character.\n\nThere are other instances later in the class as well.",
+      "range": {
+        "startLine": 168,
+        "startChar": 52,
+        "endLine": 168,
+        "endChar": 56
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87fc58cb_a4ec09d4",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-20T11:15:54Z",
+      "side": 1,
+      "message": "Could you use UUID.randomUUID() ?",
+      "range": {
+        "startLine": 181,
+        "startChar": 32,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
