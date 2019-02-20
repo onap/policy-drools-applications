@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "ebd41262_a113a96d",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-20T17:37:08Z",
+      "side": 1,
+      "message": "Will this new development be placed under controlloop/common/ instead of controlloop/templates at some point?",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1af2e93_5433594c",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-20T17:37:08Z",
+      "side": 1,
+      "message": "If this is used in a kie session, should be made Serializable.",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a0a7ebd_9d0f9fc2",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-20T17:37:08Z",
+      "side": 1,
+      "message": "Is this a resource that should go under src/main/resources/ or under test/main/resources instead?   The hardcoded names seem to indicate that may be for testing.",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5a1cd51_41fabbdb",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/xacml_guard_clc.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-20T17:37:08Z",
+      "side": 1,
+      "message": "Same question, this seems a resource related to testing? as pdp-d does not run an embedded pdp-x.",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a16be90b_639594e3",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
