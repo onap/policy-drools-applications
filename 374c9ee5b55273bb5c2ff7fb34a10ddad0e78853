@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d0202fcc_1fddc8f9",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "I would say controlloop/common/coordination. It is different  from guard. Basically, the guard policy will evaluate only one cl action (can it be executed or not). Coordination will evaluate two or more cl actions (which one should go first).",
+      "parentUuid": "f7602018_9feccb70",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1af2e93_5433594c",
         "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
         "patchSetId": 1
@@ -66,6 +84,70 @@
       "side": 1,
       "message": "Good catch, will fix.",
       "parentUuid": "f1af2e93_5433594c",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "941975bd_2b617236",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "I don\u0027t see why this will be in kie session. This will go to xacml, right?",
+      "parentUuid": "f1af2e93_5433594c",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6592a08c_d7b0a9c4",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3f1ca66_5f7f0e19",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "unnecessary spaces?",
+      "range": {
+        "startLine": 31,
+        "startChar": 130,
+        "endLine": 31,
+        "endChar": 135
+      },
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -107,6 +189,47 @@
     },
     {
       "key": {
+        "uuid": "d6203f5e_4973577a",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "Jorge, I don\u0027t think this file should go under src/test/. This file is a xacml policy template to me actually (or you can take it as a PolicyTypeImpl according to Liam\u0027s definition). The \"CONTROL_LOOP_TWO\" and \"CONTROL_LOOP_ONE\" will be substituted by actual values coming from yaml, which is in SupportUtil.java.",
+      "parentUuid": "1a0a7ebd_9d0f9fc2",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03160729_f2b77297",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/xacml_guard_clc.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5a1cd51_41fabbdb",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/xacml_guard_clc.properties",
         "patchSetId": 1
@@ -136,6 +259,29 @@
       "side": 1,
       "message": "if by \"resource\" you mean this entire file, then I think I agree and will fix. If you meant something else, and I\u0027m misunderstanding, please let me know.",
       "parentUuid": "a5a1cd51_41fabbdb",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8512cbfc_aa519e9d",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "also check for other license 2018-2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 21
+      },
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -206,6 +352,29 @@
         "startChar": 0,
         "endLine": 138,
         "endChar": 81
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c8f02e6_aea46e90",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-21T02:44:31Z",
+      "side": 1,
+      "message": "I think these new function methods should not be in src/test/ as they provides the actual functions to generate xacml policy using yaml values. According to our new api design, the coordination yaml here is the \"policy\" provided by client, analogous to operational policy yaml, and firstBlocksSecond.xml is the \"PolicyTypeImpl\", analogous to drools template. The new functions added here are typically for generating a \"PolicyImpl\" from a \"Policy\" and a \"PolicyTypeImpl\" according to the top figure https://wiki.onap.org/display/DW/Policy+Design+and+API+Flow+for+Model+Driven+Control+Loop+-+Draft \n\nPam, Liam, do I understand correctly?",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 63
       },
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
