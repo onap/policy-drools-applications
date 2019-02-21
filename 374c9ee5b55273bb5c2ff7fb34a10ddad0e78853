@@ -406,6 +406,30 @@
     },
     {
       "key": {
+        "uuid": "bd4512a8_f6a93164",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-21T12:04:32Z",
+      "side": 1,
+      "message": "Yes, that would be my interpretation although I\u0027m not so familiar with the Drools PDP",
+      "parentUuid": "8c8f02e6_aea46e90",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 63
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0ab39c_07376c14",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
@@ -512,6 +536,30 @@
       "side": 1,
       "message": "Probably, though there is a (very very low) chance of collision. The safest option I\u0027m aware of is Log4j 2\u0027s Uuid.getTimeBasedUuid(), though I\u0027m unsure we want another dependency. Thoughts?",
       "parentUuid": "87fc58cb_a4ec09d4",
+      "range": {
+        "startLine": 181,
+        "startChar": 32,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aba1cde_3c2bddf3",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-21T12:04:32Z",
+      "side": 1,
+      "message": "We\u0027re using Log4j 1.2.17. If this is only a test it hardly matters.",
+      "parentUuid": "c8accb90_4a6fed10",
       "range": {
         "startLine": 181,
         "startChar": 32,
