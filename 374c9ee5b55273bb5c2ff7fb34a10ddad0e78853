@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f7602018_9feccb70",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "That\u0027s my expectation. I\u0027d say this should happen for the Dublin release. Do we think this should be under controlloop/common/guard or a new directory for coordination?",
+      "parentUuid": "ebd41262_a113a96d",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1af2e93_5433594c",
         "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-02-20T17:37:08Z",
       "side": 1,
       "message": "If this is used in a kie session, should be made Serializable.",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddab307a_fba8d849",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "Good catch, will fix.",
+      "parentUuid": "f1af2e93_5433594c",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5ac0b4a6_50fc8eb2",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "Unsure I understand, to which hardcoded name are you referring?",
+      "parentUuid": "1a0a7ebd_9d0f9fc2",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5a1cd51_41fabbdb",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/xacml_guard_clc.properties",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-02-20T17:37:08Z",
       "side": 1,
       "message": "Same question, this seems a resource related to testing? as pdp-d does not run an embedded pdp-x.",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "757b3305_a752d02e",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/xacml_guard_clc.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "if by \"resource\" you mean this entire file, then I think I agree and will fix. If you meant something else, and I\u0027m misunderstanding, please let me know.",
+      "parentUuid": "a5a1cd51_41fabbdb",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -105,6 +177,30 @@
       "side": 1,
       "message": "I think this is try with resources syntax.",
       "parentUuid": "a16be90b_639594e3",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a85ee32d_162f9b91",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "That was what I understood as well. Liam, can you give an example of what you had in mind?",
+      "parentUuid": "67f946e4_9cfbcc29",
       "range": {
         "startLine": 138,
         "startChar": 0,
@@ -164,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "83376fb6_a13b0d4c",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "Agree, will fix.",
+      "parentUuid": "5915ec0a_fc0b0ea0",
+      "range": {
+        "startLine": 168,
+        "startChar": 52,
+        "endLine": 168,
+        "endChar": 56
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87fc58cb_a4ec09d4",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
@@ -175,6 +295,30 @@
       "writtenOn": "2019-02-20T11:15:54Z",
       "side": 1,
       "message": "Could you use UUID.randomUUID() ?",
+      "range": {
+        "startLine": 181,
+        "startChar": 32,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8accb90_4a6fed10",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T01:10:42Z",
+      "side": 1,
+      "message": "Probably, though there is a (very very low) chance of collision. The safest option I\u0027m aware of is Log4j 2\u0027s Uuid.getTimeBasedUuid(), though I\u0027m unsure we want another dependency. Thoughts?",
+      "parentUuid": "87fc58cb_a4ec09d4",
       "range": {
         "startLine": 181,
         "startChar": 32,
