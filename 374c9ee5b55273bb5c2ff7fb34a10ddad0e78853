@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "41c588f4_51dfc939",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "okay, I\u0027ll use controlloop/common/coordination",
+      "parentUuid": "d0202fcc_1fddc8f9",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1af2e93_5433594c",
         "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
         "patchSetId": 1
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "I don\u0027t see why this will be in kie session. This will go to xacml, right?",
       "parentUuid": "f1af2e93_5433594c",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cbc43f6_e73abc08",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "Objects of this class will be used within drools to convert yaml to xacml. However, these objects won\u0027t be inserted into memory, so I think you are correct Chenfei.",
+      "parentUuid": "941975bd_2b617236",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -333,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9c512c00_6e312858",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "I\u0027m fine removing",
+      "parentUuid": "57c64c80_0f13fa1e",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "696b4c5d_3922f2d2",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
         "patchSetId": 1
@@ -344,6 +398,24 @@
       "writtenOn": "2019-02-21T16:13:11Z",
       "side": 1,
       "message": "suggestion: remove trailing spaces\n\nsame comment applies elsewhere",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76daa3c_61fa7729",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "696b4c5d_3922f2d2",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -468,6 +540,30 @@
     },
     {
       "key": {
+        "uuid": "aed8b98c_87752659",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "okay, great",
+      "parentUuid": "ac4c35c2_04cbfe26",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b299456_2226352b",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
@@ -479,6 +575,24 @@
       "writtenOn": "2019-02-21T16:13:11Z",
       "side": 1,
       "message": "either propagate the exception up or log the exception so a stack trace is generated\n\nsame comment applies elsewhere",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16b3a213_6feab481",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "good catch, will do",
+      "parentUuid": "8b299456_2226352b",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -520,6 +634,30 @@
       "side": 1,
       "message": "Yes, that would be my interpretation although I\u0027m not so familiar with the Drools PDP",
       "parentUuid": "8c8f02e6_aea46e90",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 63
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3bc5a49_e62932ba",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "agreed, will move",
+      "parentUuid": "bd4512a8_f6a93164",
       "range": {
         "startLine": 162,
         "startChar": 25,
@@ -674,6 +812,30 @@
     },
     {
       "key": {
+        "uuid": "3ffe528e_1b4d0715",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "as per Chenfei\u0027s comment, this is going to be moved out of test, so I\u0027ll go with the log4j option.",
+      "parentUuid": "7aba1cde_3c2bddf3",
+      "range": {
+        "startLine": 181,
+        "startChar": 32,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44f09ac2_6157c7bd",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
@@ -691,6 +853,24 @@
     },
     {
       "key": {
+        "uuid": "21d70c04_d680a62a",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "sounds reasonable",
+      "parentUuid": "44f09ac2_6157c7bd",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "904a8055_2c4b8621",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
@@ -702,6 +882,24 @@
       "writtenOn": "2019-02-21T16:13:11Z",
       "side": 1,
       "message": "Acheived \u003d\u003e Achieved",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e01dde5c_30099530",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-21T19:15:39Z",
+      "side": 1,
+      "message": "good catch",
+      "parentUuid": "904a8055_2c4b8621",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
