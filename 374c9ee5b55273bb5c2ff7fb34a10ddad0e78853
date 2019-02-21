@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c0b12e5_0ae704e4",
+        "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "just 2019?",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebd41262_a113a96d",
         "filename": "controlloop/templates/template.demo.clc/src/main/java/org/onap/policy/guard/CoordinationDirective.java",
         "patchSetId": 1
@@ -131,6 +148,23 @@
     },
     {
       "key": {
+        "uuid": "f6a2ad5c_839dfc40",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "looks like all lines inside of \"\u003cPolicy\u003e\" should be indented",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3f1ca66_5f7f0e19",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
         "patchSetId": 1
@@ -207,6 +241,23 @@
     },
     {
       "key": {
+        "uuid": "fb058964_9a9c5b64",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/firstBlocksSecond.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03160729_f2b77297",
         "filename": "controlloop/templates/template.demo.clc/src/main/resources/xacml/xacml_guard_clc.properties",
         "patchSetId": 1
@@ -259,6 +310,40 @@
       "side": 1,
       "message": "if by \"resource\" you mean this entire file, then I think I agree and will fix. If you meant something else, and I\u0027m misunderstanding, please let me know.",
       "parentUuid": "a5a1cd51_41fabbdb",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57c64c80_0f13fa1e",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "I personally prefer not to catch these exceptions.  That way eclipse will automatically show the error and a stacktrace if something goes wrong.  If the try/catch is left in, then perhaps log a message with \"e\" as the last parameter so that the logger will provide a stack trace\n\nsame comment applies elsewhere",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "696b4c5d_3922f2d2",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "suggestion: remove trailing spaces\n\nsame comment applies elsewhere",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -377,6 +462,23 @@
         "endLine": 138,
         "endChar": 81
       },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b299456_2226352b",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "either propagate the exception up or log the exception so a stack trace is generated\n\nsame comment applies elsewhere",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -566,6 +668,57 @@
         "endLine": 181,
         "endChar": 37
       },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44f09ac2_6157c7bd",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "suggestion: use deleteOnExit() or provide hooks to delete the temp files and temp directories when the test completes\n\nsame comment applies elsewhere",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "904a8055_2c4b8621",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "Acheived \u003d\u003e Achieved",
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16e3d041_65ce06a5",
+        "filename": "controlloop/templates/template.demo.clc/src/test/resources/yaml/synthetic_control_loop_one_blocks_synthetic_control_loop_two.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T16:13:11Z",
+      "side": 1,
+      "message": "2019",
       "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
