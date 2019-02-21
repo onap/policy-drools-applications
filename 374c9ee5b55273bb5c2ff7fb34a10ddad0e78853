@@ -359,6 +359,30 @@
     },
     {
       "key": {
+        "uuid": "ac4c35c2_04cbfe26",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-21T11:56:56Z",
+      "side": 1,
+      "message": "Oops, ignore my comment. I need to get back coding, too much architecture!",
+      "parentUuid": "a85ee32d_162f9b91",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "374c9ee5b55273bb5c2ff7fb34a10ddad0e78853",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c8f02e6_aea46e90",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 1
