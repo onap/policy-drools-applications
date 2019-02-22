@@ -45,7 +45,12 @@ function build {
         tags="${tags} --tag ${tag}"
     done
 
-    (set -x; docker build ${BUILD_ARGS} ${tags} ${IMAGE_PATH})
+    (
+    set -x;
+    docker pull "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools
+    docker tag "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools onap/policy-drools
+    docker build ${BUILD_ARGS} ${tags} ${IMAGE_PATH}
+    )
 
     if [[ $? != 0 ]]; then
         echo -e "\nERROR: docker build\n"
@@ -131,7 +136,7 @@ function run {
     (
     set -x
     docker run --rm ${debugEnv} -it -v "${volume}":/tmp/policy-install/config -p 9696:9696 \
-        --name pdpd-cl onap/policy-pdpd-cl ${cmd}
+        --name pdpd-cl onap/"${IMAGE}" ${cmd}
     )
 
     return $?
@@ -153,7 +158,8 @@ if [[ ! -f "${VERSION_PATH}" ]]; then
     fi
 fi
 
-DOCKER_REPOSITORY="nexus3.onap.org:10003"
+DOCKER_PULL_REPOSITORY="nexus3.onap.org:10001"
+DOCKER_PUSH_REPOSITORY="nexus3.onap.org:10003"
 IMAGE=policy-pdpd-cl
 IMAGE_PATH="controlloop/packages/docker-controlloop/target/${IMAGE}"
 
@@ -186,17 +192,17 @@ echo -e "BUILD INFO:"
 echo -e "\timage: ${IMAGE}"
 echo -e "\timage-path: ${IMAGE_PATH}"
 echo -e "\timage: ${IMAGE}"
-echo -e "\tregistry: ${DOCKER_REPOSITORY}"
+echo -e "\tregistry: ${DOCKER_PUSH_REPOSITORY}"
 echo -e "\tpatch: ${VERSION}"
 echo -e "\tversion: ${MAJOR_MINOR_VERSION}"
 echo -e "\ttimestamp: ${TIMESTAMP}"
 echo
 
 TAG_LATEST="onap/${IMAGE}:latest"
-TAG_REPO_LATEST="${DOCKER_REPOSITORY}/onap/${IMAGE}:latest"
-TAG_REPO_VERSION_LATEST="${DOCKER_REPOSITORY}/onap/${IMAGE}:${MAJOR_MINOR_VERSION}-latest"
-TAG_REPO_VERSION_TIMESTAMP="${DOCKER_REPOSITORY}/onap/${IMAGE}:${VERSION}-${TIMESTAMP}Z"
-TAG_REPO_VERSION_STAGING_TIMESTAMP="${DOCKER_REPOSITORY}/onap/${IMAGE}:${VERSION}-STAGING-${TIMESTAMP}Z"
+TAG_REPO_LATEST="${DOCKER_PUSH_REPOSITORY}/onap/${IMAGE}:latest"
+TAG_REPO_VERSION_LATEST="${DOCKER_PUSH_REPOSITORY}/onap/${IMAGE}:${MAJOR_MINOR_VERSION}-latest"
+TAG_REPO_VERSION_TIMESTAMP="${DOCKER_PUSH_REPOSITORY}/onap/${IMAGE}:${VERSION}-${TIMESTAMP}Z"
+TAG_REPO_VERSION_STAGING_TIMESTAMP="${DOCKER_PUSH_REPOSITORY}/onap/${IMAGE}:${VERSION}-STAGING-${TIMESTAMP}Z"
 
 VERIFY_BUILD_TAGS="${TAG_LATEST} ${TAG_REPO_VERSION_LATEST} ${TAG_REPO_VERSION_TIMESTAMP}"
 
