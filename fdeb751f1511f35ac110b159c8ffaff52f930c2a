@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ceedb2a_1b1d43f2",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T21:32:58Z",
+      "side": 1,
+      "message": "is this used anywhere outside of src/test?",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a4a4af1_521b519a",
+        "filename": "controlloop/common/coordination/src/test/java/org/onap/policy/coordination/UtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T21:32:58Z",
+      "side": 1,
+      "message": "use one of assertj\u0027s assertThatXxx() methods instead of this try/catch block",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7e23d95_856d2e82",
+        "filename": "controlloop/common/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T21:32:58Z",
+      "side": 1,
+      "message": "2017, 2019",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91128743_5197673e",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/coordination/prototype/firstBlocksSecond.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T21:32:58Z",
+      "side": 1,
+      "message": "is the date correct?  Or is this a new file?",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e9a9fa2_05b5b26e",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T21:32:58Z",
+      "side": 1,
+      "message": "sonar doesn\u0027t like it when public methods throw more than one exception type.  Could just change this to \"throws Exception\".",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "744e3e28_0660651c",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T21:32:58Z",
+      "side": 1,
+      "message": "looks like this could be moved to Util and Util\u0027s existing method could wrap this and return pair.first()",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
