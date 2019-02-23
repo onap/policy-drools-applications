@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9cdef1c1_f130fbab",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-23T01:57:41Z",
+      "side": 1,
+      "message": "yes in template.demo.clc",
+      "parentUuid": "3ceedb2a_1b1d43f2",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a4a4af1_521b519a",
         "filename": "controlloop/common/coordination/src/test/java/org/onap/policy/coordination/UtilTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-02-22T21:32:58Z",
       "side": 1,
       "message": "use one of assertj\u0027s assertThatXxx() methods instead of this try/catch block",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ffe0af5_c235c16a",
+        "filename": "controlloop/common/coordination/src/test/java/org/onap/policy/coordination/UtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-23T01:57:41Z",
+      "side": 1,
+      "message": "I had looked in Junit for the appropriate assert, but was unable to find one. Is assertj something else?",
+      "parentUuid": "2a4a4af1_521b519a",
       "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "9cadf6fd_180acf3b",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/coordination/prototype/firstBlocksSecond.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-23T01:57:41Z",
+      "side": 1,
+      "message": "Sort of, I moved and modified a file from 2018. Should I treat that as a new file?",
+      "parentUuid": "91128743_5197673e",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e9a9fa2_05b5b26e",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
         "patchSetId": 2
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "cc9ee550_9b2d12de",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/ControlLoopCoordinationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-23T01:57:41Z",
+      "side": 1,
+      "message": "will change",
+      "parentUuid": "6e9a9fa2_05b5b26e",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "744e3e28_0660651c",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 2
@@ -98,6 +170,24 @@
       "writtenOn": "2019-02-22T21:32:58Z",
       "side": 1,
       "message": "looks like this could be moved to Util and Util\u0027s existing method could wrap this and return pair.first()",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ff87bec_e9a31a22",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-23T01:57:41Z",
+      "side": 1,
+      "message": "which Util are you referring to? This file had previously been named Util and was changed to SupportUtil...",
+      "parentUuid": "744e3e28_0660651c",
       "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
