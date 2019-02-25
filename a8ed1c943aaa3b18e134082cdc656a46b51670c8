@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9978db8_9f512089",
+        "filename": "controlloop/common/coordination/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-02-25T12:37:53Z",
+      "side": 1,
+      "message": "Jim Hahn - can you check this? I think you moved these dependency declarations.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 17
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
