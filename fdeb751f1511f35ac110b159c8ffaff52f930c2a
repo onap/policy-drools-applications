@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9d1bd29f_c599ebba",
+        "filename": "controlloop/common/coordination/src/test/java/org/onap/policy/coordination/UtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-25T14:50:21Z",
+      "side": 1,
+      "message": "FYI: junit has ExpectedException/@Rule which is also a reasonable way to do this, but assertj is more comprehensive and allows you to check multiple exceptions in a single test.",
+      "parentUuid": "4ffe0af5_c235c16a",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7e23d95_856d2e82",
         "filename": "controlloop/common/pom.xml",
         "patchSetId": 2
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "Sort of, I moved and modified a file from 2018. Should I treat that as a new file?",
       "parentUuid": "91128743_5197673e",
+      "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee274af6_b703e59c",
+        "filename": "controlloop/templates/template.demo.clc/src/main/resources/coordination/prototype/firstBlocksSecond.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-25T14:50:21Z",
+      "side": 1,
+      "message": "Oh, if it\u0027s moved, then yes, keep the original date, too.",
+      "parentUuid": "9cadf6fd_180acf3b",
       "revId": "fdeb751f1511f35ac110b159c8ffaff52f930c2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
