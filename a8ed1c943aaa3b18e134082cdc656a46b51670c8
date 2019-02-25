@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a01aee82_fdae84cf",
+        "filename": "controlloop/common/coordination/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-25T14:50:21Z",
+      "side": 1,
+      "message": "Replace the \"xacml\" dependency with \"guard\" (if it\u0027s not already included indirectly).  That is the \"common\" place where \"xacml\" is included so that other places don\u0027t have to maintain the exclusion list.",
+      "parentUuid": "a9978db8_9f512089",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 17
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90019dbd_d7bb8b70",
         "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/CoordinationDirective.java",
         "patchSetId": 3
