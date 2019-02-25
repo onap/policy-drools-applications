@@ -91,6 +91,29 @@
       "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "644e9b6a_b78a865f",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1441
+      },
+      "writtenOn": "2019-02-25T13:59:11Z",
+      "side": 1,
+      "message": "The function methods in this class are more like platform features, generating executable xacml policies atop coordination yaml. Are we sure we want it to be under src/test?",
+      "range": {
+        "startLine": 67,
+        "startChar": 19,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
