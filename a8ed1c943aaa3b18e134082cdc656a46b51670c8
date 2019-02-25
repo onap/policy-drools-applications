@@ -22,6 +22,75 @@
       "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90019dbd_d7bb8b70",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/CoordinationDirective.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T13:14:50Z",
+      "side": 1,
+      "message": "I don\u0027t know the domain here but if we ever think we may need to go beyond two control loops then we probably should implement this using a set or list or map.",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "182503e1_98731311",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T13:14:50Z",
+      "side": 1,
+      "message": "mkdirs() returns false if it doesn\u0027t create directories, I wonder what happens in the case where the parent of the xacml file is read only and you try and make directories there. Might be worth checking with a simple program.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b5cc11_bb4c4167",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-02-25T13:14:50Z",
+      "side": 1,
+      "message": "2 spaces!",
+      "range": {
+        "startLine": 106,
+        "startChar": 72,
+        "endLine": 106,
+        "endChar": 74
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
