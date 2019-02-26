@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e625510_f4067f45",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/CoordinationDirective.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T20:49:28Z",
+      "side": 1,
+      "message": "why is this a one-based index?  doesn\u0027t seem like the norm",
+      "revId": "4df22b78ee9ce0810d02e342203259d9634e878d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
