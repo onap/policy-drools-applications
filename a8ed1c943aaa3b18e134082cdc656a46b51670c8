@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b0713cf3_2a9919bc",
+        "filename": "controlloop/common/coordination/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-26T08:43:18Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "a01aee82_fdae84cf",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 17
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90019dbd_d7bb8b70",
         "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/CoordinationDirective.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2019-02-25T13:14:50Z",
       "side": 1,
       "message": "I don\u0027t know the domain here but if we ever think we may need to go beyond two control loops then we probably should implement this using a set or list or map.",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f106af15_63ddd656",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/CoordinationDirective.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-26T08:43:18Z",
+      "side": 1,
+      "message": "That\u0027s a good thought",
+      "parentUuid": "90019dbd_d7bb8b70",
       "range": {
         "startLine": 25,
         "startChar": 1,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "26dacac2_d491656b",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-26T08:43:18Z",
+      "side": 1,
+      "message": "good thought. https://stackoverflow.com/questions/12202766/file-mkdir-or-mkdirs-return-false-reason gives the answer. I will switch to using https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createDirectories(java.nio.file.Path,%20java.nio.file.attribute.FileAttribute...) which will throw an IOException in this case.",
+      "parentUuid": "182503e1_98731311",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81b5cc11_bb4c4167",
         "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
         "patchSetId": 3
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "553665c9_a3dcf1a4",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-26T08:43:18Z",
+      "side": 1,
+      "message": "thanks",
+      "parentUuid": "81b5cc11_bb4c4167",
+      "range": {
+        "startLine": 106,
+        "startChar": 72,
+        "endLine": 106,
+        "endChar": 74
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "644e9b6a_b78a865f",
         "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
         "patchSetId": 3
@@ -129,6 +225,30 @@
       "writtenOn": "2019-02-25T13:59:11Z",
       "side": 1,
       "message": "The function methods in this class are more like platform features, generating executable xacml policies atop coordination yaml. Are we sure we want it to be under src/test?",
+      "range": {
+        "startLine": 67,
+        "startChar": 19,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "a8ed1c943aaa3b18e134082cdc656a46b51670c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6878682_e7271e1b",
+        "filename": "controlloop/templates/template.demo.clc/src/test/java/org/onap/policy/template/demo/clc/SupportUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-26T08:43:18Z",
+      "side": 1,
+      "message": "I think insertXacmlPolicy belongs here as it is only used to insert a Xacml policy during a junit test. I believe we will be using a different mechanism to insert Xacml policy into the PDP in general. The rest of the methods here were copied from SupportUtil in template.demo.",
+      "parentUuid": "644e9b6a_b78a865f",
       "range": {
         "startLine": 67,
         "startChar": 19,
