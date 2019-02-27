@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "471ee518_8a59b5a6",
+        "filename": "controlloop/common/coordination/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-27T14:53:37Z",
+      "side": 1,
+      "message": "we need to run-clm to check after merge for this dependency",
+      "revId": "766bbf92ae2bae1623e65d32d214ab98c892058c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a0e922_0b8e827d",
+        "filename": "controlloop/common/coordination/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-02-27T14:53:37Z",
+      "side": 1,
+      "message": "Not sure why all these dependencies are included here. \n Many of them don\u0027t seem to be used.",
+      "revId": "766bbf92ae2bae1623e65d32d214ab98c892058c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
