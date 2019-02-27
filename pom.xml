@@ -30,7 +30,7 @@
 
     <groupId>org.onap.policy.drools-applications</groupId>
     <artifactId>drools-applications</artifactId>
-    <version>1.3.5-SNAPSHOT</version>
+    <version>1.3.6-SNAPSHOT</version>
 
     <name>policy-drools-applications</name>
     <packaging>pom</packaging>
