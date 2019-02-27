@@ -16,6 +16,24 @@
       "revId": "4df22b78ee9ce0810d02e342203259d9634e878d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2b8d54_938a42aa",
+        "filename": "controlloop/common/coordination/src/main/java/org/onap/policy/coordination/CoordinationDirective.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 423
+      },
+      "writtenOn": "2019-02-27T05:28:30Z",
+      "side": 1,
+      "message": "I liked the idea of first control loop, second, and so on. That said, I\u0027ll make this a zero based index.",
+      "parentUuid": "8e625510_f4067f45",
+      "revId": "4df22b78ee9ce0810d02e342203259d9634e878d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
