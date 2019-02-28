@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "297f85a0_4f43f791",
+        "filename": "controlloop/common/coordination/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T03:22:06Z",
+      "side": 1,
+      "message": "I think you can leave the version out - it\u0027s already in the parent/integration pom",
+      "revId": "fdf03b18084a5511e9fe32c8a16e659c4e4fe0f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
