@@ -22,33 +22,33 @@
 # directory, it will be automatically loaded by PDP-D, after being expanded
 # by installation scripts.
 
-sql.db.host=${{SQL_HOST}}
-sql.db.username=${{SQL_USER}}
-sql.db.password=${{SQL_PASSWORD}}
+sql.db.host=${env:SQL_HOST}
+sql.db.username=${env:SQL_USER}
+sql.db.password=${env:SQL_PASSWORD}
 
-aai.url=${{AAI_URL}}
-aai.username=${{AAI_USERNAME}}
-aai.password=${{AAI_PASSWORD}}
+aai.url=${env:AAI_URL}
+aai.username=${env:AAI_USERNAME}
+aai.password=${env:AAI_PASSWORD}
 
-so.url=${{SO_URL}}
-so.username=${{SO_USERNAME}}
-so.password=${{SO_PASSWORD}}
+so.url=${env:SO_URL}
+so.username=${env:SO_USERNAME}
+so.password=${env:SO_PASSWORD}
 
-vfc.url=${{VFC_URL}}
-vfc.username=${{VFC_USERNAME}}
-vfc.password=${{VFC_PASSWORD}}
+vfc.url=${env:VFC_URL}
+vfc.username=${env:VFC_USERNAME}
+vfc.password=${env:VFC_PASSWORD}
 
-pdpx.host=${{PDP_HOST}}
-pdpx.username=${{PDP_USERNAME}}
-pdpx.password=${{PDP_PASSWORD}}
-pdpx.environment=${{PDP_ENVIRONMENT}}
-pdpx.client.username=${{PDP_CLIENT_USERNAME}}
-pdpx.client.password=${{PDP_CLIENT_PASSWORD}}
+pdpx.host=${env:PDP_HOST}
+pdpx.username=${env:PDP_USERNAME}
+pdpx.password=${env:PDP_PASSWORD}
+pdpx.environment=${env:PDP_ENVIRONMENT}
+pdpx.client.username=${env:PDP_CLIENT_USERNAME}
+pdpx.client.password=${env:PDP_CLIENT_PASSWORD}
 
-guard.url=https://${{PDP_HOST}}:8081/pdp/api/getDecision
-guard.jdbc.url=jdbc:mariadb://${{SQL_HOST}}:3306/onap_sdk
+guard.url=https://${env:PDP_HOST}:8081/pdp/api/getDecision
+guard.jdbc.url=jdbc:mariadb://${env:SQL_HOST}:3306/onap_sdk
 guard.disabled=false
 
-sdnc.url=${{SDNC_URL}}
-sdnc.username=${{SDNC_USERNAME}}
-sdnc.password=${{SDNC_PASSWORD}}
+sdnc.url=${env:SDNC_URL}
+sdnc.username=${env:SDNC_USERNAME}
+sdnc.password=${env:SDNC_PASSWORD}
