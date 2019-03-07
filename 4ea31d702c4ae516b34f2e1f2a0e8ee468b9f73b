@@ -16,6 +16,24 @@
       "revId": "4ea31d702c4ae516b34f2e1f2a0e8ee468b9f73b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fc48be_5eac9710",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-03-07T14:35:36Z",
+      "side": 1,
+      "message": "they are different, note the operation: \"install\" vs. \"enable\".",
+      "parentUuid": "643982ae_13753dbf",
+      "revId": "4ea31d702c4ae516b34f2e1f2a0e8ee468b9f73b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
