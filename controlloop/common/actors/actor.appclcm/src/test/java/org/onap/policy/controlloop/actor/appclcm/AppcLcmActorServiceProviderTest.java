@@ -54,14 +54,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class AppcLcmServiceProviderTest {
+public class AppcLcmActorServiceProviderTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppcLcmServiceProviderTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppcLcmActorServiceProviderTest.class);
 
     private static final VirtualControlLoopEvent onsetEvent;
     private static final ControlLoopOperation operation;
     private static final Policy policy;
     private static final LcmResponseWrapper dmaapResponse;
+
+    private static final String RECIPE_RESTART = "Restart";
+    private static final String RECIPE_REBUILD = "Rebuild";
+    private static final String RECIPE_MIGRATE = "Migrate";
 
     static {
         /*
@@ -332,5 +336,97 @@ public class AppcLcmServiceProviderTest {
         assertEquals(4, sp.recipes().size());
         assertEquals("VM", sp.recipeTargets("Restart").get(0));
         assertEquals("vm-id", sp.recipePayloads("Restart").get(0));
+    }
+
+    @Test
+    public void payloadNotPassedWhenNotSupportedByRecipe(){
+        //given
+        Policy migratePolicy = constructPolicyWithRecipe(RECIPE_MIGRATE);
+        Policy rebuildPolicy = constructPolicyWithRecipe(RECIPE_REBUILD);
+        Policy restartPolicy = constructPolicyWithRecipe(RECIPE_RESTART);
+
+        // when
+        LcmRequestWrapper migrateRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, migratePolicy, "vnf01");
+        LcmRequestWrapper rebuildRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, rebuildPolicy, "vnf01");
+        LcmRequestWrapper restartRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, restartPolicy, "vnf01");
+
+        // then
+        assertNull(migrateRequest.getBody().getPayload());
+        assertNull(rebuildRequest.getBody().getPayload());
+        assertNull(restartRequest.getBody().getPayload());
+    }
+
+    @Test
+    public void payloadNotPassedWhenNotSuppliedOrEmpty(){
+        //given
+        Policy noPayloadPolicy = constructHealthCheckPolicyWithPayload(null);
+        Policy emptyPayloadPolicy = constructHealthCheckPolicyWithPayload(new HashMap<>());
+
+        // when
+        LcmRequestWrapper noPayloadRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, noPayloadPolicy, "vnf01");
+        LcmRequestWrapper emptyPayloadRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, emptyPayloadPolicy, "vnf01");
+
+
+        // then
+        assertNull(noPayloadRequest.getBody().getPayload());
+        assertNull(emptyPayloadRequest.getBody().getPayload());
+    }
+
+    @Test
+    public void payloadParsedProperlyForSinglePayloadParameter(){
+        // given
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("requestParameters", "{\"host-ip-address\":\"10.183.37.25\"}");
+        Policy otherPolicy = constructHealthCheckPolicyWithPayload(payload);
+
+        // when
+        LcmRequestWrapper dmaapRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, "vnf01");
+
+        // then
+        assertEquals(dmaapRequest.getBody().getPayload(), "{\"requestParameters\": {\"host-ip-address\":\"10.183.37.25\"}}");
+    }
+
+
+    @Test
+    public void payloadParsedProperlyForMultiplePayloadParameters(){
+        // given
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("requestParameters", "{\"host-ip-address\":\"10.183.37.25\"}");
+        payload.put("configurationParameters", "[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[9]\",\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\",\"enabled\":\"$.vf-module-topology.vf-module-parameters.param[23]\"}]");
+        Policy otherPolicy = constructHealthCheckPolicyWithPayload(payload);
+
+        // when
+        LcmRequestWrapper dmaapRequest =
+            AppcLcmActorServiceProvider.constructRequest(onsetEvent, operation, otherPolicy, "vnf01");
+
+        // then
+        assertEquals(dmaapRequest.getBody().getPayload(), "{\"requestParameters\": {\"host-ip-address\":\"10.183.37.25\"},\"configurationParameters\": [{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[9]\",\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\",\"enabled\":\"$.vf-module-topology.vf-module-parameters.param[23]\"}]}");
+    }
+
+    private Policy constructHealthCheckPolicyWithPayload(HashMap<String, String> payload) {
+        return constructHealthCheckPolicyWithCustomPayloadAndRecipe(payload, "Health-Check");
+    }
+
+    private Policy constructPolicyWithRecipe(String recipe) {
+        return constructHealthCheckPolicyWithCustomPayloadAndRecipe(null, recipe);
+    }
+
+    private Policy constructHealthCheckPolicyWithCustomPayloadAndRecipe(HashMap<String, String> payload, String recipe) {
+        Policy otherPolicy = new Policy();
+        otherPolicy.setName("Perform health check");
+        otherPolicy.setDescription("Upon getting the trigger event, perform health check");
+        otherPolicy.setActor("APPC");
+        otherPolicy.setTarget(new Target(TargetType.VNF));
+        otherPolicy.setRecipe(recipe);
+        otherPolicy.setPayload(payload);
+        otherPolicy.setRetry(2);
+        otherPolicy.setTimeout(300);
+        return otherPolicy;
     }
 }
