@@ -47,8 +47,8 @@ function build {
 
     (
     set -x;
-    docker pull "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools
-    docker tag "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools onap/policy-drools
+    docker pull "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest
+    docker tag "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest
     docker build ${BUILD_ARGS} ${tags} ${IMAGE_PATH}
     )
 
