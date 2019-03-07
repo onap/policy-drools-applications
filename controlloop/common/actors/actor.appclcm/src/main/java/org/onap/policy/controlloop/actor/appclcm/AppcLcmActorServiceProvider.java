@@ -236,8 +236,9 @@ public class AppcLcmActorServiceProvider implements Actor {
          * APPC will populate the payload based on A&AI look up of the vnd-id provided in the action
          * identifiers.
          */
-        if (RECIPE_RESTART.equalsIgnoreCase(policy.getRecipe()) || RECIPE_REBUILD.equalsIgnoreCase(policy.getRecipe())
-                || RECIPE_MIGRATE.equalsIgnoreCase(policy.getRecipe())) {
+        if (recipeSupportsPayload(policy.getRecipe()) && payloadSupplied(policy.getPayload())) {
+            appcRequest.setPayload(parsePayload(policy.getPayload()));
+        } else {
             appcRequest.setPayload(null);
         }
 
@@ -248,6 +249,22 @@ public class AppcLcmActorServiceProvider implements Actor {
 
         /* Return the request to be sent through dmaap. */
         return dmaapRequest;
+    }
+
+    private static boolean payloadSupplied(Map<String, String> payload) {
+        return payload != null && !payload.isEmpty();
+    }
+
+    private static boolean recipeSupportsPayload(String recipe) {
+        return !RECIPE_RESTART.equalsIgnoreCase(recipe) && !RECIPE_REBUILD.equalsIgnoreCase(recipe)
+                && !RECIPE_MIGRATE.equalsIgnoreCase(recipe);
+    }
+
+    private static String parsePayload(Map<String, String> payload) {
+        StringBuilder payloadString = new StringBuilder("{");
+        payload
+            .forEach((key, value) -> payloadString.append("\"").append(key).append("\": ").append(value).append(","));
+        return payloadString.substring(0, payloadString.length() - 1) + "}";
     }
 
     /**
