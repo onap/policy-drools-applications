@@ -1,0 +1,12 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Zlatko Murgoski <zlatko.murgoski@nokia.com>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Code-Review+1: Bogumil Zebek <bogumil.zebek@nokia.com>
+Code-Review+1: Adam Krysiak <adam.krysiak@nokia.com>
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-by: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-at: Fri, 08 Mar 2019 12:58:40 +0000
+Reviewed-on: https://gerrit.onap.org/r/79928
+Project: policy/drools-applications
+Branch: refs/heads/casablanca
