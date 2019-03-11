@@ -28,7 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.drools.core.WorkingMemory;
-import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
@@ -38,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class SdncManager implements Runnable {
-    private static final String SYSTEM_LS = System.lineSeparator();
 
     private String sdncUrlBase;
     private String username;
@@ -46,7 +47,6 @@ public final class SdncManager implements Runnable {
     private SdncRequest sdncRequest;
     private WorkingMemory workingMem;
     private static final Logger logger = LoggerFactory.getLogger(SdncManager.class);
-    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
 
     // The REST manager used for processing REST calls for this Sdnc manager
     private RestManager restManager;
@@ -100,8 +100,8 @@ public final class SdncManager implements Runnable {
 
         try {
             String sdncRequestJson = Serialization.gsonPretty.toJson(sdncRequest);
-            netLogger.info("[OUT|{}|{}|]{}{}", "Sdnc", sdncUrl, SYSTEM_LS, sdncRequestJson);
-            logger.info("[OUT|{}|{}|]{}{}", "Sdnc", sdncUrl, SYSTEM_LS, sdncRequestJson);
+            NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, sdncUrl, sdncRequestJson);
+            logger.info("[OUT|{}|{}|]{}{}", CommInfrastructure.REST, sdncUrl, NetLoggerUtil.SYSTEM_LS, sdncRequestJson);
 
             httpDetails = restManager.post(sdncUrl, username, password, headers, "application/json",
                                            sdncRequestJson);
@@ -118,8 +118,8 @@ public final class SdncManager implements Runnable {
 
         try {
             SdncResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, SdncResponse.class);
-            netLogger.info("[IN|{}|{}|]{}{}", "Sdnc", sdncUrl, SYSTEM_LS, httpDetails.second);
-            logger.info("[IN|{}|{}|]{}{}", "Sdnc", sdncUrl, SYSTEM_LS, httpDetails.second);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, sdncUrl, httpDetails.second);
+            logger.info("[IN|{}|{}|]{}{}", "Sdnc", sdncUrl, NetLoggerUtil.SYSTEM_LS, httpDetails.second);
             String body = Serialization.gsonPretty.toJson(response);
             logger.info("Response to Sdnc Heal post:");
             logger.info(body);

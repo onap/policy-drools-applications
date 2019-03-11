@@ -42,7 +42,9 @@ import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
 import org.json.JSONObject;
-import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,10 +52,6 @@ import org.slf4j.LoggerFactory;
 
 public class PolicyGuardXacmlHelper {
     private static final Logger logger = LoggerFactory.getLogger(PolicyGuardXacmlHelper.class);
-    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
-
-    // Constant for the systme line separator
-    private static final String SYSTEM_LS = System.lineSeparator();
 
     private UrlEntry[] restUrls = null;
     private int restUrlIndex = 0;
@@ -115,10 +113,10 @@ public class PolicyGuardXacmlHelper {
             //
             UrlEntry urlEntry = restUrls[restUrlIndex];
             String jsonRequestString = jsonReq.toString();
-            netLogger.info("[OUT|{}|{}|]{}{}", "GUARD", urlEntry.restUrl, SYSTEM_LS, jsonRequestString);
+            NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, urlEntry.restUrl.toString(), jsonRequestString);
             response = callRestfulPdp(new ByteArrayInputStream(jsonReq.toString().getBytes()), urlEntry.restUrl,
                     urlEntry.authorization, urlEntry.clientAuth, urlEntry.environment);
-            netLogger.info("[IN|{}|{}|]{}{}", "GUARD", urlEntry.restUrl, SYSTEM_LS, response);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, urlEntry.restUrl.toString(), response);
         } catch (Exception e) {
             logger.error("Error in sending RESTful request: ", e);
         }
