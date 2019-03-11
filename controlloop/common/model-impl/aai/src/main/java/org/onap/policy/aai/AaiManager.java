@@ -28,7 +28,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.onap.policy.aai.util.Serialization;
-import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
 import org.slf4j.Logger;
@@ -39,14 +41,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class AaiManager {
 
-    /** The Constant LINE_SEPARATOR. */
-    private static final String LINE_SEPARATOR = System.lineSeparator();
-
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AaiManager.class);
-
-    /** The Constant netLogger. */
-    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
 
     /** The rest manager. */
     // The REST manager used for processing REST calls for this AAI manager
@@ -79,7 +75,7 @@ public final class AaiManager {
 
         logger.debug("RestManager.post before");
         String requestJson = Serialization.gsonPretty.toJson(request);
-        netLogger.info("[OUT|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, requestJson);
+        NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, requestJson);
         Pair<Integer, String> httpDetails =
                 restManager.post(url, username, password, headers, "application/json", requestJson);
         logger.debug("RestManager.post after");
@@ -168,7 +164,7 @@ public final class AaiManager {
         int attemptsLeft = 3;
 
         while (attemptsLeft-- > 0) {
-            netLogger.info("[OUT|{}|{}|]", "AAI", urlGet);
+            NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|]", CommInfrastructure.REST, urlGet);
             Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
             if (httpDetailsGet == null) {
                 logger.info("AAI GET Null Response to {}", urlGet);
@@ -228,7 +224,7 @@ public final class AaiManager {
             final Class<T> classOfResponse) {
         try {
             T response = Serialization.gsonPretty.fromJson(httpDetails.second, classOfResponse);
-            netLogger.info("[IN|{}|{}|]{}{}", "AAI", url, LINE_SEPARATOR, httpDetails.second);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, httpDetails.second);
             return response;
         } catch (JsonSyntaxException e) {
             logger.error("postQuery threw: ", e);

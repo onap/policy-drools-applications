@@ -26,7 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.drools.core.WorkingMemory;
-import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
@@ -35,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class VfcManager implements Runnable {
-    private static final String SYSTEM_LS = System.lineSeparator();
 
     private String vfcUrlBase;
     private String username;
@@ -43,7 +44,6 @@ public final class VfcManager implements Runnable {
     private VfcRequest vfcRequest;
     private WorkingMemory workingMem;
     private static final Logger logger = LoggerFactory.getLogger(VfcManager.class);
-    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
 
     // The REST manager used for processing REST calls for this VFC manager
     private RestManager restManager;
@@ -95,7 +95,7 @@ public final class VfcManager implements Runnable {
         String vfcUrl = vfcUrlBase + "/ns/" + vfcRequest.getNsInstanceId() + "/heal";
         try {
             String vfcRequestJson = Serialization.gsonPretty.toJson(vfcRequest);
-            netLogger.info("[OUT|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, vfcRequestJson);
+            NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, vfcUrl, vfcRequestJson);
 
             httpDetails = restManager.post(vfcUrl, username, password, headers, "application/json", vfcRequestJson);
         } catch (Exception e) {
@@ -116,7 +116,7 @@ public final class VfcManager implements Runnable {
 
         try {
             VfcResponse response = Serialization.gsonPretty.fromJson(httpDetails.second, VfcResponse.class);
-            netLogger.info("[IN|{}|{}|]{}{}", "VFC", vfcUrl, SYSTEM_LS, httpDetails.second);
+            NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, vfcUrl, httpDetails.second);
             String body = Serialization.gsonPretty.toJson(response);
             logger.debug("Response to VFC Heal post:");
             logger.debug(body);
@@ -128,10 +128,10 @@ public final class VfcManager implements Runnable {
             VfcResponse responseGet = null;
 
             while (attemptsLeft-- > 0) {
-                netLogger.info("[OUT|{}|{}|]", "VFC", urlGet);
+                NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|]", "VFC", urlGet);
                 Pair<Integer, String> httpDetailsGet = restManager.get(urlGet, username, password, headers);
                 responseGet = Serialization.gsonPretty.fromJson(httpDetailsGet.second, VfcResponse.class);
-                netLogger.info("[IN|{}|{}|]{}{}", "VFC", urlGet, SYSTEM_LS, httpDetailsGet.second);
+                NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, vfcUrl, httpDetailsGet.second);
                 responseGet.setRequestId(vfcRequest.getRequestId().toString());
                 body = Serialization.gsonPretty.toJson(responseGet);
                 logger.debug("Response to VFC Heal get:");
