@@ -30,7 +30,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.drools.core.WorkingMemory;
-import org.onap.policy.common.utils.slf4j.LoggerFactoryWrapper;
+import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
+import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.rest.RestManager.Pair;
@@ -47,7 +49,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class SoManager {
     private static final Logger logger = LoggerFactory.getLogger(SoManager.class);
-    private static final Logger netLogger = LoggerFactoryWrapper.getNetworkLogger();
 
     private static ExecutorService executors = Executors.newCachedThreadPool();
 
@@ -85,8 +86,8 @@ public final class SoManager {
                     final String password, final SoRequest request) {
         // Issue the HTTP POST request to SO to create the service instance
         String requestJson = Serialization.gsonPretty.toJson(request);
-        netLogger.info("[OUT|{}|{}|{}|{}|{}|{}|]{}{}", "SO", url, username, password, createSimpleHeaders(), MEDIA_TYPE,
-                        LINE_SEPARATOR, requestJson);
+        NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|{}|{}|{}|{}|]{}{}", "SO", url, username, password,
+                        createSimpleHeaders(), MEDIA_TYPE, LINE_SEPARATOR, requestJson);
         Pair<Integer, String> httpResponse =
                         restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, requestJson);
 
@@ -183,13 +184,13 @@ public final class SoManager {
                     .equals(SoOperationType.SCALE_OUT)) {
                 url = urlBase + "/serviceInstantiation/v7/serviceInstances/" + serviceInstanceId + "/vnfs/"
                                 + vnfInstanceId + "/vfModules/scaleOut";
-                netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
+                NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, soJson);
                 httpResponse = restManager.post(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
             } else if (request.getOperationType() != null && request.getOperationType()
                     .equals(SoOperationType.DELETE_VF_MODULE)) {
                 url = urlBase + "/serviceInstances/v7/" + serviceInstanceId + "/vnfs/" + vnfInstanceId
                         + "/vfModules/" + vfModuleInstanceId;
-                netLogger.info("[OUT|{}|{}|]{}{}", "SO", url, LINE_SEPARATOR, soJson);
+                NetLoggerUtil.log(EventType.OUT, CommInfrastructure.REST, url, soJson);
                 httpResponse = restManager.delete(url, username, password, createSimpleHeaders(), MEDIA_TYPE, soJson);
             } else {
                 return null;
@@ -252,8 +253,8 @@ public final class SoManager {
             }
 
             // Issue a GET to find the current status of our request
-            netLogger.info("[OUT|{}|{}|{}|{}|{}|{}|]{}", "SO", urlGet, username, password, createSimpleHeaders(),
-                            MEDIA_TYPE, LINE_SEPARATOR);
+            NetLoggerUtil.getNetworkLogger().info("[OUT|{}|{}|{}|{}|{}|{}|]{}", "SO", urlGet, username, password,
+                            createSimpleHeaders(), MEDIA_TYPE, LINE_SEPARATOR);
             Pair<Integer, String> httpResponse = restManager.get(urlGet, username, password, createSimpleHeaders());
 
             // Get our response
@@ -304,7 +305,7 @@ public final class SoManager {
             response.setHttpResponseCode(httpResponse.first);
         }
 
-        netLogger.info("[IN|{}|{}|]{}{}", "SO", requestUrl, LINE_SEPARATOR, httpResponse.second);
+        NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, requestUrl, httpResponse.second);
 
         if (logger.isDebugEnabled()) {
             logger.debug("***** Response to SO Request to URL {}:", requestUrl);
