@@ -45,6 +45,8 @@ function build {
         tags="${tags} --tag ${tag}"
     done
 
+    chmod 755 "${IMAGE_PATH}"/*.sh
+
     (
     set -x;
     docker pull "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest
@@ -75,7 +77,12 @@ function push {
         return 1
     fi
 
-    (set -x; docker push ${tag})
+    (
+    set -x;
+    for tag in "$@"; do
+        docker push "${tag}"
+    done
+    )
 
     if [[ $? != 0 ]]; then
         echo -e "\nERROR: docker push\n"
