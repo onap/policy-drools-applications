@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34eaca5a_ceace31a",
+        "filename": "controlloop/common/model-impl/sdnc/src/test/java/org/onap/policy/sdnc/SdncResponseNetworkInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-18T12:47:28Z",
+      "side": 1,
+      "message": "You have a checkstyle problem:\n\n[WARNING] src/test/java/org/onap/policy/sdnc/SdncResponseNetworkInfoTest.java:[20] (whitespace) EmptyLineSeparator: \u0027package\u0027 should be separated from previous statement.\n\nPlease be sure to setup your developer environment in accordance to ONAP. Info is on the wiki.onap.org",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "f5179b04dee766f82ee07d983d8e2cea3ea46b52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
