@@ -1,0 +1,16 @@
+{
+    "cloud-owner": "co-16197-01-as988q",
+    "cloud-region-id": "cr-16197-01-as988q",
+    "resource-version": "1550769792672",
+    "orchestration-disabled": false,
+    "in-maint": false,
+    "tenants": {
+        "tenant": [
+            {
+                "tenant-id": "tenant1-16197-as988q",
+                "tenant-name": "tenant-name-16197-as988q",
+                "resource-version": "1550769793637"
+                  }
+               ]
+    }
+}
