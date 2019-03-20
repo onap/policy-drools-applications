@@ -1,0 +1,218 @@
+ {
+     "vnf-id": "7b202620-2936-4b0d-b09c-60b411f10f64",
+     "vnf-name": "vLoadBalancerMS-Vnf-0211-1",
+     "vnf-type": "vLoadBalancerMS/vLoadBalancerMS 0",
+     "prov-status": "ACTIVE",
+     "equipment-role": "vLB",
+     "orchestration-status": "Active",
+     "ipv4-oam-address": "10.0.150.1",
+     "in-maint": true,
+     "is-closed-loop-disabled": false,
+     "resource-version": "1552311656338",
+     "model-invariant-id": "724ab1cf-6120-49e8-b909-849963bed1d6",
+     "model-version-id": "9d5944d8-2267-4799-824a-0f824e9a978d",
+     "model-customization-id": "efcd576d-a05e-4798-bb68-79e7d9c80f4c",
+     "nf-type": "ONAP-LOADBALANCER",
+     "nf-function": "LOADBALANCER",
+     "nf-role": "vLB",
+     "nf-naming-code": "vlb",
+     "selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/101b8fc1-1796-4db1-a4e7-fe39c6a51558/service-data/vnfs/vnf/7b202620-2936-4b0d-b09c-60b411f10f64/vnf-data/vnf-topology/",
+     "relationship-list": {
+         "relationship": [
+             {
+                 "related-to": "service-instance",
+                 "related-link": "/aai/v11/business/customers/customer/Demonstration/service-subscriptions/service-subscription/vLB/service-instances/service-instance/101b8fc1-1796-4db1-a4e7-fe39c6a51558",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "customer.global-customer-id",
+                         "relationship-value": "Demonstration"
+                        },
+                     {
+                         "relationship-key": "service-subscription.service-type",
+                         "relationship-value": "vLB"
+                        },
+                     {
+                         "relationship-key": "service-instance.service-instance-id",
+                         "relationship-value": "101b8fc1-1796-4db1-a4e7-fe39c6a51558"
+                        }
+                     ],
+                 "related-to-property": [
+                     {
+                         "property-key": "service-instance.service-instance-name",
+                         "property-value": "vLoadBalancerMS-0211-1"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "platform",
+                 "related-link": "/aai/v11/business/platforms/platform/Test-Platform",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "platform.platform-name",
+                         "relationship-value": "Test-Platform"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "line-of-business",
+                 "related-link": "/aai/v11/business/lines-of-business/line-of-business/Test-Business",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "line-of-business.line-of-business-name",
+                         "relationship-value": "Test-Business"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "vserver",
+                 "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/58ca8df0-17b8-4aa2-8766-9c6c1a12cec8",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "cloud-region.cloud-owner",
+                         "relationship-value": "CloudOwner"
+                        },
+                     {
+                         "relationship-key": "cloud-region.cloud-region-id",
+                         "relationship-value": "RegionOne"
+                        },
+                     {
+                         "relationship-key": "tenant.tenant-id",
+                         "relationship-value": "3f2aaef74ecb4b19b35e26d0849fe9a2"
+                        },
+                     {
+                         "relationship-key": "vserver.vserver-id",
+                         "relationship-value": "58ca8df0-17b8-4aa2-8766-9c6c1a12cec8"
+                        }
+                     ],
+                 "related-to-property": [
+                     {
+                         "property-key": "vserver.vserver-name",
+                         "property-value": "vdns-ms-0211-1"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "vserver",
+                 "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/6c3b3714-e36c-45af-9f16-7d3a73d99497",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "cloud-region.cloud-owner",
+                         "relationship-value": "CloudOwner"
+                        },
+                     {
+                         "relationship-key": "cloud-region.cloud-region-id",
+                         "relationship-value": "RegionOne"
+                        },
+                     {
+                         "relationship-key": "tenant.tenant-id",
+                         "relationship-value": "3f2aaef74ecb4b19b35e26d0849fe9a2"
+                        },
+                     {
+                         "relationship-key": "vserver.vserver-id",
+                         "relationship-value": "6c3b3714-e36c-45af-9f16-7d3a73d99497"
+                        }
+                     ],
+                 "related-to-property": [
+                     {
+                         "property-key": "vserver.vserver-name",
+                         "property-value": "vlb-ms-0211-1"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "availability-zone",
+                 "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/availability-zones/availability-zone/nova",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "cloud-region.cloud-owner",
+                         "relationship-value": "CloudOwner"
+                        },
+                     {
+                         "relationship-key": "cloud-region.cloud-region-id",
+                         "relationship-value": "RegionOne"
+                        },
+                     {
+                         "relationship-key": "availability-zone.availability-zone-name",
+                         "relationship-value": "nova"
+                        }
+                     ]
+                  }
+               ]
+     },
+     "vf-modules": {
+         "vf-module": [
+             {
+                 "vf-module-id": "e46c6636-9ce5-4b77-bb1b-455ce9edc892",
+                 "vf-module-name": "vLoadBalancerMS-0211-1",
+                 "heat-stack-id": "vLoadBalancerMS-0211-1/73360253-2dfe-46f6-bcd6-8662a81238ea",
+                 "orchestration-status": "Active",
+                 "is-base-vf-module": true,
+                 "resource-version": "1552311559802",
+                 "model-invariant-id": "d263fc6d-cfce-4e20-8337-e06f48b474e6",
+                 "model-version-id": "24c0aa10-3979-402c-ad98-20124751b551",
+                 "model-customization-id": "65382eb1-db84-466c-b9d7-4e0f1ba7105f",
+                 "selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/101b8fc1-1796-4db1-a4e7-fe39c6a51558/service-data/vnfs/vnf/7b202620-2936-4b0d-b09c-60b411f10f64/vnf-data/vf-modules/vf-module/e46c6636-9ce5-4b77-bb1b-455ce9edc892/vf-module-data/vf-module-topology/",
+                 "relationship-list": {
+                     "relationship": [
+                         {
+                             "related-to": "vserver",
+                             "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/58ca8df0-17b8-4aa2-8766-9c6c1a12cec8",
+                             "relationship-data": [
+                                 {
+                                     "relationship-key": "cloud-region.cloud-owner",
+                                     "relationship-value": "CloudOwner"
+                                 },
+                                 {
+                                     "relationship-key": "cloud-region.cloud-region-id",
+                                     "relationship-value": "RegionOne"
+                                 },
+                                 {
+                                     "relationship-key": "tenant.tenant-id",
+                                     "relationship-value": "3f2aaef74ecb4b19b35e26d0849fe9a2"
+                                 },
+                                 {
+                                     "relationship-key": "vserver.vserver-id",
+                                     "relationship-value": "58ca8df0-17b8-4aa2-8766-9c6c1a12cec8"
+                                 }
+                              ],
+                             "related-to-property": [
+                                 {
+                                     "property-key": "vserver.vserver-name",
+                                     "property-value": "vdns-ms-0211-1"
+                                 }
+                              ]
+                           },
+                         {
+                             "related-to": "vserver",
+                             "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/3f2aaef74ecb4b19b35e26d0849fe9a2/vservers/vserver/6c3b3714-e36c-45af-9f16-7d3a73d99497",
+                             "relationship-data": [
+                                 {
+                                     "relationship-key": "cloud-region.cloud-owner",
+                                     "relationship-value": "CloudOwner"
+                                 },
+                                 {
+                                     "relationship-key": "cloud-region.cloud-region-id",
+                                     "relationship-value": "RegionOne"
+                                 },
+                                 {
+                                     "relationship-key": "tenant.tenant-id",
+                                     "relationship-value": "3f2aaef74ecb4b19b35e26d0849fe9a2"
+                                 },
+                                 {
+                                     "relationship-key": "vserver.vserver-id",
+                                     "relationship-value": "6c3b3714-e36c-45af-9f16-7d3a73d99497"
+                                 }
+                              ],
+                             "related-to-property": [
+                                 {
+                                     "property-key": "vserver.vserver-name",
+                                     "property-value": "vlb-ms-0211-1"
+                                 }
+                              ]
+                           }
+                        ]
+                 }
+                  }
+               ]
+     }
+ }
