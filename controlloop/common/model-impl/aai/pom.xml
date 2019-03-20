@@ -62,5 +62,25 @@
       <version>${version.policy.common}</version>
       <scope>provided</scope>
     </dependency>
+        <dependency>
+		<groupId>org.onap.aai.schema-service</groupId>
+		<artifactId>aai-schema</artifactId>
+		<version>1.0.1-SNAPSHOT</version>
+	</dependency>
+		<dependency>
+   	    <groupId>commons-io</groupId>
+    	<artifactId>commons-io</artifactId>
+   		<version>2.6</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.eclipse.persistence</groupId>
+    	<artifactId>org.eclipse.persistence.moxy</artifactId>
+    	<version>2.5.2</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.json</groupId>
+    	<artifactId>json</artifactId>
+    	<version>20180813</version>
+	</dependency>
   </dependencies>
 </project>

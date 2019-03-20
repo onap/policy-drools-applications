@@ -1,0 +1,12 @@
+ {
+     "vf-module-id": "0afde97a-3e3f-4597-aec3-e5488c0f20b7",
+     "vf-module-name": "TestVM-0201-1",
+     "heat-stack-id": "TestVM-0201-1/aee4d7e5-b4a0-4261-b3cf-bb23348a3d99",
+     "orchestration-status": "Active",
+     "is-base-vf-module": true,
+     "resource-version": "1549039401119",
+     "model-invariant-id": "6af68fdb-6479-43e2-8989-938f06c994bd",
+     "model-version-id": "16d1834e-d834-431f-b064-98c469c6505d",
+     "model-customization-id": "29ffb122-22c8-48d2-b152-b52d9e81e910",
+     "selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/d41f8217-d464-4458-bf0a-fba33a0f1b31/service-data/vnfs/vnf/17044ef4-e7f3-46a1-af03-e2aa562f23ac/vnf-data/vf-modules/vf-module/0afde97a-3e3f-4597-aec3-e5488c0f20b7/vf-module-data/vf-module-topology/"
+ }
