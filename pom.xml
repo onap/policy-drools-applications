@@ -59,7 +59,7 @@
 
         <!-- Project common dependency versions -->
         <version.policy.common>1.3.4</version.policy.common>
-        <version.policy.drools-pdp>1.3.5</version.policy.drools-pdp>
+        <version.policy.drools-pdp>1.3.6</version.policy.drools-pdp>
     </properties>
 
     <build>
