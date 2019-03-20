@@ -1,0 +1,40 @@
+ {
+     "tenant-id": "tenant1-16197-as988q",
+     "tenant-name": "tenant-name-16197-as988q",
+     "resource-version": "1550769793637",
+     "vservers": {
+         "vserver": [
+             {
+                 "vserver-id": "vserver1-16197-as988q",
+                 "vserver-name": "vserverName",
+                 "vserver-name2": "vserverTE-name2-as988q",
+                 "prov-status": "ACTIVE",
+                 "vserver-selflink": "TRINITY vserverLink",
+                 "in-maint": false,
+                 "is-closed-loop-disabled": false,
+                 "resource-version": "1550769794551",
+                 "relationship-list": {
+                     "relationship": [
+                         {
+                             "related-to": "generic-vnf",
+                             "relationship-label": "tosca.relationships.HostedOn",
+                             "related-link": "/aai/v16/network/generic-vnfs/generic-vnf/VNF1-16197-as988q",
+                             "relationship-data": [
+                                 {
+                                     "relationship-key": "generic-vnf.vnf-id",
+                                     "relationship-value": "VNF1-16197-as988q"
+                                 }
+                              ],
+                             "related-to-property": [
+                                 {
+                                     "property-key": "generic-vnf.vnf-name",
+                                     "property-value": "vnf1Name"
+                                 }
+                              ]
+                           }
+                        ]
+                 }
+                  }
+               ]
+     }
+ }
