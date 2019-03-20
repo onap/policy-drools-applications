@@ -1,0 +1,102 @@
+ {
+     "vserver-id": "e7f1db09-ff78-44fc-b256-69095c5556fb",
+     "vserver-name": "vfw-vm-0201-2",
+     "vserver-name2": "vfw-vm-0201-2",
+     "prov-status": "ACTIVE",
+     "vserver-selflink": "http://ecompctl1.research.att.com:8774/v2/3f2aaef74ecb4b19b35e26d0849fe9a2/servers/e7f1db09-ff78-44fc-b256-69095c5556fb",
+     "in-maint": false,
+     "is-closed-loop-disabled": false,
+     "resource-version": "1549553422524",
+     "relationship-list": {
+         "relationship": [
+             {
+                 "related-to": "generic-vnf",
+                 "related-link": "/aai/v11/network/generic-vnfs/generic-vnf/17044ef4-e7f3-46a1-af03-e2aa562f23ac",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "generic-vnf.vnf-id",
+                         "relationship-value": "17044ef4-e7f3-46a1-af03-e2aa562f23ac"
+                        }
+                     ],
+                 "related-to-property": [
+                     {
+                         "property-key": "generic-vnf.vnf-name",
+                         "property-value": "TestVM-Vnf-0201-1"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "vnfc",
+                 "related-link": "/aai/v11/network/vnfcs/vnfc/vfw",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "vnfc.vnfc-name",
+                         "relationship-value": "vfw"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "vf-module",
+                 "related-link": "/aai/v11/network/generic-vnfs/generic-vnf/17044ef4-e7f3-46a1-af03-e2aa562f23ac/vf-modules/vf-module/33f9e03d-2fbd-4e9c-8e73-ce6b12f0b3d2",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "generic-vnf.vnf-id",
+                         "relationship-value": "17044ef4-e7f3-46a1-af03-e2aa562f23ac"
+                        },
+                     {
+                         "relationship-key": "vf-module.vf-module-id",
+                         "relationship-value": "33f9e03d-2fbd-4e9c-8e73-ce6b12f0b3d2"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "flavor",
+                 "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/flavors/flavor/2",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "cloud-region.cloud-owner",
+                         "relationship-value": "CloudOwner"
+                        },
+                     {
+                         "relationship-key": "cloud-region.cloud-region-id",
+                         "relationship-value": "RegionOne"
+                        },
+                     {
+                         "relationship-key": "flavor.flavor-id",
+                         "relationship-value": "2"
+                        }
+                     ],
+                 "related-to-property": [
+                     {
+                         "property-key": "flavor.flavor-name",
+                         "property-value": "m1.small"
+                        }
+                     ]
+                  },
+             {
+                 "related-to": "image",
+                 "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/images/image/84be7136-301f-4f47-9585-3a2e0f9534af",
+                 "relationship-data": [
+                     {
+                         "relationship-key": "cloud-region.cloud-owner",
+                         "relationship-value": "CloudOwner"
+                        },
+                     {
+                         "relationship-key": "cloud-region.cloud-region-id",
+                         "relationship-value": "RegionOne"
+                        },
+                     {
+                         "relationship-key": "image.image-id",
+                         "relationship-value": "84be7136-301f-4f47-9585-3a2e0f9534af"
+                        }
+                     ],
+                 "related-to-property": [
+                     {
+                         "property-key": "image.image-name",
+                         "property-value": "unknown"
+                        }
+                     ]
+                  }
+               ]
+     }
+ }
