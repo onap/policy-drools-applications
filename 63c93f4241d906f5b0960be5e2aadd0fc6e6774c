@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e63a9af_2c3f0dcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-20T21:42:35Z",
+      "side": 1,
+      "message": "Remove newline - all these 3 lines must be at the bottom with no new lines in between.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "63c93f4241d906f5b0960be5e2aadd0fc6e6774c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "398550da_76da1804",
+        "filename": "controlloop/common/model-impl/aai/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-20T21:42:35Z",
+      "side": 1,
+      "message": "Please fix the formatting",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "63c93f4241d906f5b0960be5e2aadd0fc6e6774c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5ed0f9e_68fd96b2",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqInventoryResponseItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-20T21:42:35Z",
+      "side": 1,
+      "message": "formatting - remove tabs",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "63c93f4241d906f5b0960be5e2aadd0fc6e6774c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
