@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f9af2c0_4e713f9a",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqInventoryResponseItemTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T12:26:03Z",
+      "side": 1,
+      "message": "If an exception is thrown, probably want to fail??",
+      "range": {
+        "startLine": 180,
+        "startChar": 12,
+        "endLine": 180,
+        "endChar": 43
+      },
+      "revId": "dcb2eda816987a0c62ee0cb6f3faf996309bad14",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
