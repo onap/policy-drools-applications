@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "940f5c84_8a58b455",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqInventoryResponseItemTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-21T23:23:34Z",
+      "side": 1,
+      "message": "Where is the assert fail() call here? and ditto for all the other tests that catch exceptions.",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "b1c5e89ec6ddd67d56073e75bfebecc84e188cee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
