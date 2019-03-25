@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3d1da69_a6b637d9",
+        "filename": "controlloop/common/model-impl/aai/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-25T21:57:04Z",
+      "side": 1,
+      "message": "There\u0027s an option in Eclipse for the XML formatter to turn off formatting of comments.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 151
+      },
+      "revId": "d73b85c07a0038834464d9d1dae3207c446a7613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd46c9e5_47daead8",
         "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
         "patchSetId": 5
