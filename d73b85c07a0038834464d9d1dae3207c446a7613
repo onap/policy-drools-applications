@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd46c9e5_47daead8",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-25T15:08:35Z",
+      "side": 1,
+      "message": "You don\u0027t have to fix this right away - but think about how big this constructor is. the cognitive complexity in sonar will be high, you could re-think how the for statement could call some private methods. Think about duplicate code, can those private methods be reusable?",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 29
+      },
+      "revId": "d73b85c07a0038834464d9d1dae3207c446a7613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4d3c076_986a6fa8",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqInventoryResponseItemTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-25T15:08:35Z",
+      "side": 1,
+      "message": "So in fact, just add throws to the method definition and the JUnit will fail. No need to wrap in try-catch.",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 93,
+        "endChar": 9
+      },
+      "revId": "d73b85c07a0038834464d9d1dae3207c446a7613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
