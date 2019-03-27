@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ce0039c_4559d8c1",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-03-27T11:03:16Z",
+      "side": 1,
+      "message": "Again Pramod - please FIX the JUnits. If an exception is thrown then the JUnit should fail. This comment applies to all the JUnits in this package.",
+      "range": {
+        "startLine": 87,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "cb47a355b9683582c2378660fabad9d1b579df31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
