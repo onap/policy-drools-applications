@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b612fd4a_e3920736",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T10:39:16Z",
+      "side": 1,
+      "message": "Just following up on Pam\u0027s point about the unit tests. I wonder could the checks be improved below for the tests?",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 30
+      },
+      "revId": "c57ffc3e48dc726b7c382377aec8175dedecca1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f3e44e8_d42c386f",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T10:39:16Z",
+      "side": 1,
+      "message": "For example a test for the size of the response items collection or a string equality check on a field in the first item.",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "revId": "c57ffc3e48dc726b7c382377aec8175dedecca1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d936b4c8_9a1cc679",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T10:39:16Z",
+      "side": 1,
+      "message": "here you could do\n\nassertEquals(\"blah blah\", vs.get(0).getVServerId());",
+      "range": {
+        "startLine": 94,
+        "startChar": 22,
+        "endLine": 94,
+        "endChar": 24
+      },
+      "revId": "c57ffc3e48dc726b7c382377aec8175dedecca1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30a7d929_e424cc47",
+        "filename": "controlloop/common/model-impl/aai/src/test/java/org/onap/policy/aai/AaiCqResponseTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2019-03-29T10:39:16Z",
+      "side": 1,
+      "message": "And so on....",
+      "range": {
+        "startLine": 109,
+        "startChar": 23,
+        "endLine": 109,
+        "endChar": 45
+      },
+      "revId": "c57ffc3e48dc726b7c382377aec8175dedecca1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
