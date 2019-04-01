@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ============LICENSE_START=======================================================
-  drools-applications Control Loop Drools Templates
+  ONAP
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,23 +21,35 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <packaging>pom</packaging>
+  <packaging>maven-archetype</packaging>
 
   <parent>
-    <groupId>org.onap.policy.drools-applications.controlloop</groupId>
-    <artifactId>controlloop</artifactId>
+    <groupId>org.onap.policy.drools-applications.controlloop.templates</groupId>
+    <artifactId>templates</artifactId>
     <version>1.4.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.onap.policy.drools-applications.controlloop.templates</groupId>
-  <artifactId>templates</artifactId>
+  <artifactId>archetype-cl-usecases</artifactId>
 
-  <modules>
-    <module>template.demo</module>
-    <module>template.demo.clc</module>
-    <module>archetype-cl-amsterdam</module>
-    <module>archetype-cl-usecases</module>
-  </modules>
+  <name>${project.artifactId}</name>
+  <description>Archetype to generate a yaml based control loop for ONAP Usecases release</description>
 
+  <build>
+    <extensions>
+      <extension>
+	<groupId>org.apache.maven.archetype</groupId>
+	<artifactId>archetype-packaging</artifactId>
+	<version>3.0.1</version>
+      </extension>
+    </extensions>
 
+    <pluginManagement>
+      <plugins>
+	<plugin>
+	  <artifactId>maven-archetype-plugin</artifactId>
+	  <version>3.0.1</version>
+	</plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
