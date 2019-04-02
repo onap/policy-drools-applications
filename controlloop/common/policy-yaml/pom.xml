@@ -3,6 +3,7 @@
   drools-pdp-apps
   ================================================================================
   Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2019 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -51,15 +52,15 @@
       <version>0.9.2</version>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>sdc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>aai</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
