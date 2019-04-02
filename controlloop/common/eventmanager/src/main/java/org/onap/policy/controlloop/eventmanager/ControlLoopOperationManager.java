@@ -3,6 +3,7 @@
  * controlloop operation manager
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Huawei. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -309,13 +310,14 @@ public class ControlLoopOperationManager implements Serializable {
 
                 return operationRequest;
             case "SDNC":
-                this.operationRequest = SdncActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                SdncActorServiceProvider provider = new SdncActorServiceProvider();
+                this.operationRequest = provider.constructRequest((VirtualControlLoopEvent) onset,
                         operation.clOperation, this.policy);
                 this.currentOperation = operation;
                 if (this.operationRequest == null) {
                     this.policyResult = PolicyResult.FAILURE;
                 }
-                return operationRequest;                
+                return operationRequest;
             default:
                 throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
         }

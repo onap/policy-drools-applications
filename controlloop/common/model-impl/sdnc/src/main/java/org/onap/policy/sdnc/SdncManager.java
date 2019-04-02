@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- * Copyright (C) 2018 Huawei. All rights reserved.
+ * Copyright (C) 2018-2019 Huawei. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
@@ -96,7 +96,7 @@ public final class SdncManager implements Runnable {
         responseError.setResponseOutput(responseOutput);
 
         headers.put("Accept", "application/json");
-        String sdncUrl = sdncUrlBase + "/GENERIC-RESOURCE-API:network-topology-operation";
+        String sdncUrl = sdncUrlBase + sdncRequest.getUrl();
 
         try {
             String sdncRequestJson = Serialization.gsonPretty.toJson(sdncRequest);

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2018 Huawei. All rights reserved.
+ * Copyright (C) 2018-2019 Huawei. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,12 @@ public class SdncHealRequest implements Serializable {
     @SerializedName("network-information")
     private SdncHealNetworkInfo networkInfo;
 
+    @SerializedName("vnf-information")
+    private SdncHealVnfInfo vnfInfo;
+
+    @SerializedName("vf-module-request-input")
+    private SdncHealVfModuleRequestInput vfModuleRequestInput;
+
     public SdncHealRequest() {
         // Default constructor for SdncHealRequest
     }
@@ -74,4 +80,19 @@ public class SdncHealRequest implements Serializable {
         this.networkInfo = networkInfo;
     }
 
+    public SdncHealVnfInfo getVnfInfo() {
+        return vnfInfo;
+    }
+
+    public void setVnfInfo(SdncHealVnfInfo vnfInfo) {
+        this.vnfInfo = vnfInfo;
+    }
+
+    public SdncHealVfModuleRequestInput getVfModuleRequestInput() {
+        return vfModuleRequestInput;
+    }
+
+    public void setVfModuleRequestInput(SdncHealVfModuleRequestInput input) {
+        this.vfModuleRequestInput = input;
+    }
 }
