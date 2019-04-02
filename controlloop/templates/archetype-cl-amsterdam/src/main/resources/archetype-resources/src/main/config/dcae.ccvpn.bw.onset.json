@@ -1,0 +1,25 @@
+{
+  "closedLoopEventClient": "DCAE.HolmesInstance",
+  "policyVersion": "2.0.0",
+  "policyName": "CCVPNBandwidthOnDemand",
+  "policyScope": "service=SITEService,type=SampleType,closedLoopControlName=CL-CCVPN-d925ed73-8231-4d02-9545-db4e101f88f8",
+  "target_type": "VM",
+  "AAI": {
+    "vserver.vserver-name" : "TBD",
+    "globalSubscriberId" : "e151059a-d924-4629-845f-264db19e50b4",
+    "serviceType" : "service-ccvpn",
+    "service-instance.service-instance-id" : "298dad9933BBBasa",
+    "vserver.is-closed-loop-disabled" : "false",
+    "vserver.prov-status":"ACTIVE",
+    "bandwidth" : "500",
+    "bandwidth-change-time":"20190321-10:59:32:321",
+    "vnfId": "2fbf0f93-c46e-42ed-9a9b-68aaa09ea11d"
+  },
+  "closedLoopAlarmStart": "1484677482204798",
+  "closedLoopEventStatus": "ONSET",
+  "closedLoopControlName": "${ccvpnBwClosedLoopControlName}",
+  "version": "1.0.2",
+  "target": "vserver.vserver-name",
+  "requestID": "97964e10-686e-4790-8c45-bdfa61df880f",
+  "from": "DCAE"
+}

@@ -29,6 +29,7 @@ public class SdncRequest implements Serializable {
     // These fields are not serialized and not part of JSON
     private transient String nsInstanceId;
     private transient UUID requestId;
+    private transient String url;
 
     @SerializedName("input")
     private SdncHealRequest healRequest;
@@ -59,5 +60,13 @@ public class SdncRequest implements Serializable {
 
     public void setHealRequest(SdncHealRequest healRequest) {
         this.healRequest = healRequest;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
