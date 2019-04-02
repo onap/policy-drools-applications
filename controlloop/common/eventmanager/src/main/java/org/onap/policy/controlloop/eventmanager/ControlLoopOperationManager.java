@@ -309,7 +309,8 @@ public class ControlLoopOperationManager implements Serializable {
 
                 return operationRequest;
             case "SDNC":
-                this.operationRequest = SdncActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                SdncActorServiceProvider provider = new SdncActorServiceProvider();
+                this.operationRequest = provider.constructRequest((VirtualControlLoopEvent) onset,
                         operation.clOperation, this.policy);
                 this.currentOperation = operation;
                 if (this.operationRequest == null) {
