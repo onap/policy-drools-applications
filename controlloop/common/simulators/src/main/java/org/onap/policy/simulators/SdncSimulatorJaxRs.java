@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * simulators
  * ================================================================================
- * Copyright (C) 2018 Huawei. All rights reserved.
+ * Copyright (C) 2018-2019 Huawei Technologies Co., Ltd. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,26 @@ public class SdncSimulatorJaxRs {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String sdncPostQuery() {
+        final SdncResponse response = new SdncResponse();
+        response.setRequestId(UUID.randomUUID().toString());
+        SdncResponseOutput responseOutput = new SdncResponseOutput();
+        responseOutput.setResponseCode("200");
+        responseOutput.setAckFinalIndicator("Y");
+        responseOutput.setSvcRequestId(UUID.randomUUID().toString());
+        response.setResponseOutput(responseOutput);
+        return Serialization.gsonPretty.toJson(response);
+    }
+
+    /**
+     * SDNC vnf topology operation.
+     *
+     * @return the response
+     */
+    @POST
+    @Path("/GENERIC-RESOURCE-API:vnf-topology-operation")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String sdncVnfTopologyOperation() {
         final SdncResponse response = new SdncResponse();
         response.setRequestId(UUID.randomUUID().toString());
         SdncResponseOutput responseOutput = new SdncResponseOutput();
