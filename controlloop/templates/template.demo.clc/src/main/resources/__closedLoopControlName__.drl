@@ -45,6 +45,7 @@ import org.onap.policy.appclcm.LcmCommonHeader;
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.VfcManager;
+import org.onap.policy.so.SoManager;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponseWrapper;
 import org.onap.policy.guard.PolicyGuard;
@@ -584,14 +585,32 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   
                   if(request instanceof SoRequest) {
                       // Call SO. The response will be inserted into memory once it's received 
-                      SoActorServiceProvider.sendRequest($event.getRequestId().toString(), drools.getWorkingMemory(), 
-                          request);                        
-                  }
+                      class mySoCallback implements SoManager.SoCallback {
+                          public void onSoResponseWrapper(SoResponseWrapper wrapper) {
+                              drools.getWorkingMemory().insert(wrapper);
+                          }
+                      }
+                      SoActorServiceProvider.sendRequest($event.getRequestId().toString(), 
+                          new mySoCallback(), 
+                          request,
+                          PolicyEngine.manager.getEnvironmentProperty("so.url"),
+                          PolicyEngine.manager.getEnvironmentProperty("so.username"),
+                          PolicyEngine.manager.getEnvironmentProperty("so.password"));                  }
                   break;
               case "VFC":
                   if (request instanceof VfcRequest) {
                       // Start VFC thread
-                      Thread t = new Thread(new VfcManager(drools.getWorkingMemory(), (VfcRequest)request));
+                      class myVfcCallback implements VfcManager.VfcCallback {
+                          public void onResponse(VfcResponse responseError) {
+                              drools.getWorkingMemory().insert(responseError);
+                          }
+                      };
+                      // Start VFC thread
+                      Thread t = new Thread(new VfcManager(new myVfcCallback(),
+                          (VfcRequest)request,
+                          PolicyEngine.manager.getEnvironmentProperty("vfc.url"),
+                          PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
+                          PolicyEngine.manager.getEnvironmentProperty("vfc.password")));
                       t.start();
                   }          
                   break;

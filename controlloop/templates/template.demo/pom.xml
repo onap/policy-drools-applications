@@ -126,10 +126,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-      <!-- <groupId>org.onap.policy.models.policy-models-interactions</groupId> -->
-      <artifactId>policy-yaml</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+      <artifactId>model-yaml</artifactId>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

@@ -32,13 +32,9 @@
   <artifactId>common</artifactId>
 
   <modules>
-    <module>actors</module>
     <module>guard</module>
     <module>coordination</module>
     <module>eventmanager</module>
-    <module>model-impl</module>
-    <module>policy-yaml</module>
-    <module>simulators</module>
     <module>controller-usecases</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>

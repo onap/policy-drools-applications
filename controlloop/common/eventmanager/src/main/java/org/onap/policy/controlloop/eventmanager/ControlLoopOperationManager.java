@@ -29,10 +29,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.Response;
@@ -88,7 +86,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Construct an instance.
-     * 
+     *
      * @param onset the onset event
      * @param policy the policy
      * @param em the event manager
@@ -114,7 +112,9 @@ public class ControlLoopOperationManager implements Serializable {
                      * yaml, the target vnf-id is retrieved by a named query to A&AI.
                      */
                     String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
-                            this.targetEntity);
+                            this.targetEntity, PolicyEngine.manager.getEnvironmentProperty("aai.url"),
+                            PolicyEngine.manager.getEnvironmentProperty("aai.username"),
+                            PolicyEngine.manager.getEnvironmentProperty("aai.password"));
                     this.targetEntity = targetVnf;
                 }
                 break;
@@ -156,7 +156,7 @@ public class ControlLoopOperationManager implements Serializable {
     //
     private class Operation implements Serializable {
         private static final long serialVersionUID = 1L;
-        
+
         private ControlLoopOperation clOperation = new ControlLoopOperation();
         private PolicyResult policyResult = null;
         private int attempt = 0;
@@ -182,7 +182,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the target for a policy.
-     * 
+     *
      * @param policy the policy
      * @return the target
      * @throws ControlLoopException if an error occurs
@@ -233,7 +233,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Start an operation.
-     * 
+     *
      * @param onset the onset event
      * @return the operation request
      * @throws ControlLoopException if an error occurs
@@ -288,7 +288,10 @@ public class ControlLoopOperationManager implements Serializable {
                 return operationRequest;
             case "VFC":
                 this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
-                        operation.clOperation, this.policy, this.eventManager.getVnfResponse());
+                        operation.clOperation, this.policy, this.eventManager.getVnfResponse(),
+                        PolicyEngine.manager.getEnvironmentProperty("vfc.url"),
+                        PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
+                        PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
                 this.currentOperation = operation;
                 if (this.operationRequest == null) {
                     this.policyResult = PolicyResult.FAILURE;
@@ -325,7 +328,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Handle a response.
-     * 
+     *
      * @param response the response
      * @return a PolicyResult
      */
@@ -370,7 +373,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * This method handles operation responses from APPC.
-     * 
+     *
      * @param appcResponse the APPC response
      * @return The result of the response handling
      */
@@ -463,7 +466,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * This method handles operation responses from LCM.
-     * 
+     *
      * @param dmaapResponse the LCM response
      * @return The result of the response handling
      */
@@ -496,7 +499,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * This method handles operation responses from SDNR.
-     * 
+     *
      * @param dmaapResponse the SDNR response
      * @return the result of the response handling
      */
@@ -529,7 +532,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * This method handles operation responses from SO.
-     * 
+     *
      * @param msoResponse the SO response
      * @return The result of the response handling
      */
@@ -561,7 +564,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * This method handles operation responses from VFC.
-     * 
+     *
      * @param vfcResponse the VFC response
      * @return The result of the response handling
      */
@@ -621,7 +624,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the operation timeout.
-     * 
+     *
      * @return the timeout
      */
     public Integer getOperationTimeout() {
@@ -638,7 +641,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the operation timeout as a String.
-     * 
+     *
      * @param defaultTimeout the default timeout
      * @return the timeout as a String
      */
@@ -656,7 +659,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the operation as a message.
-     * 
+     *
      * @return the operation as a message
      */
     public String getOperationMessage() {
@@ -672,7 +675,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the operation as a message including the guard result.
-     * 
+     *
      * @param guardResult the guard result
      * @return the operation as a message including the guard result
      */
@@ -689,7 +692,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the operation history.
-     * 
+     *
      * @return the operation history
      */
     public String getOperationHistory() {
@@ -705,7 +708,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Get the history.
-     * 
+     *
      * @return the list of control loop operations
      */
     public List<ControlLoopOperation> getHistory() {
@@ -743,7 +746,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Is the operation complete.
-     * 
+     *
      * @return <code>true</code> if the operation is complete, <code>false</code> otherwise
      */
     public boolean isOperationComplete() {
@@ -800,7 +803,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * This method verifies that the operation manager may run an operation.
-     * 
+     *
      * @return True if the operation can run, false otherwise
      * @throws ControlLoopException if the operation cannot run
      */
@@ -961,7 +964,7 @@ public class ControlLoopOperationManager implements Serializable {
      */
     public void commitAbatement(String message, String outcome) {
         logger.info("commitAbatement: {}. {}", message, outcome);
-        
+
         if (this.currentOperation == null) {
             try {
                 this.currentOperation = this.operationHistory.getLast();

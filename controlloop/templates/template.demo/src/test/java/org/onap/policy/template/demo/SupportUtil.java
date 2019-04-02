@@ -332,7 +332,7 @@ public final class SupportUtil {
      *  Set the VFC properties.
      */
     public static void setVfcProps() {
-        PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668");
+        PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668/api/nslcm/v1");
         PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
         PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
     }
