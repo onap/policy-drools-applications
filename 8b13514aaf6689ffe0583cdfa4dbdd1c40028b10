@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdf4d611_676ef364",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-03T12:30:37Z",
+      "side": 1,
+      "message": "Sorry one last - ONAP wants these 3 lines together as the last 3 lines. Please remove the newline here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 1
+      },
+      "revId": "8b13514aaf6689ffe0583cdfa4dbdd1c40028b10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
