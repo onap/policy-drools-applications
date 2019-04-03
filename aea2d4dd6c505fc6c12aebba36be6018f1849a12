@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "085c7b44_e58322f3",
+        "filename": "controlloop/common/model-impl/aai/pom.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-03T14:23:49Z",
+      "side": 1,
+      "message": "fyi, we typically use 4 space tabs for non-java files, including xml, fyi.",
+      "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1d3475_39f95f39",
         "filename": "controlloop/common/model-impl/aai/pom.xml",
         "patchSetId": 11
@@ -19,6 +36,81 @@
         "endLine": 84,
         "endChar": 30
       },
+      "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9f7de53_56cf6de2",
+        "filename": "controlloop/common/model-impl/aai/pom.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-03T14:23:49Z",
+      "side": 1,
+      "message": "The org.eclipse.persistence.moxy is five years old or so, while the latest  2.7.4 from Jan, 2019.   Can we migrate to a newer one?",
+      "parentUuid": "dc1d3475_39f95f39",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee941e2e_9e1ff1ca",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-03T14:23:49Z",
+      "side": 1,
+      "message": "do a logger.error - this is a very bad problem if we hit this leg.",
+      "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "befca811_92a57e09",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-03T14:23:49Z",
+      "side": 1,
+      "message": "I think you may be able to also make the unmarshaller, static (a singleton) so all these AAI operations are fast.\n\nIf you can check out if the unmarshaller is thread safe and reusable before doing that",
+      "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e5dd29_cb07679e",
+        "filename": "controlloop/common/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-03T14:23:49Z",
+      "side": 1,
+      "message": "Note also that jaxbContext may be null because of line 66, maybe you can wrap up accessing jaxbContext in a method that deals with the posibility of null, or simply at a check first thing in the methods to check if it is null, and if so, log an error and return.",
       "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
