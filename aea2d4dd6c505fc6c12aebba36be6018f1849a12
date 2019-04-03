@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1d3475_39f95f39",
+        "filename": "controlloop/common/model-impl/aai/pom.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-03T12:36:28Z",
+      "side": 1,
+      "message": "Are we sure we need this eclipse moxy? Is it the same version as the eclipse persistence we set in policy/parent?\n\nAlso would gson work instead of adding in org.json?",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "aea2d4dd6c505fc6c12aebba36be6018f1849a12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
