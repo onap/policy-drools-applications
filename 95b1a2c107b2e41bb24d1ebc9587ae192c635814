@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3bee033_a2c8da37",
+        "filename": "controlloop/common/actors/actor.sdnc/src/main/java/org/onap/policy/controlloop/actor/sdnc/SdncActorServiceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-04T16:03:29Z",
+      "side": 1,
+      "message": "Shoot - missed this. Vidya - please make sure you update all the license headers. for this one 2018-2019 would need to be changed. Others may just require a modifications copyright for Huawei. Sorry.",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "95b1a2c107b2e41bb24d1ebc9587ae192c635814",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
