@@ -3,6 +3,7 @@
   drools-applications Control Loop Drools Templates
   ================================================================================
   Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2019 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -59,51 +60,51 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>appc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>sdnr</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>appclcm</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>so</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>trafficgenerator</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>vfc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>sdnc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>events</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -119,19 +120,20 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>aai</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.model-impl</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>sdc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <!-- <groupId>org.onap.policy.models.policy-models-interactions</groupId> -->
       <artifactId>policy-yaml</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
@@ -148,45 +150,45 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actorServiceProvider</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actor.appc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actor.sdnr</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actor.appclcm</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actor.so</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actor.vfc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common.actors</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
       <artifactId>actor.sdnc</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -206,9 +208,9 @@
         <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
       <artifactId>simulators</artifactId>
-      <version>${project.version}</version>
+      <version>${policy.models.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
