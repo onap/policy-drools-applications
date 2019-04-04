@@ -23,10 +23,10 @@ RUN . ${POLICY_HOME}/etc/profile.d/env.sh && \
         --settings=${POLICY_HOME}/etc/m2/standalone-settings.xml \
         -DartifactId=feature-controlloop-management \
         -DgroupId=org.onap.policy.drools-applications.controlloop.common -Dversion=${BUILD_VERSION_APP_CL} && \
-    ${POLICY_HOME}/bin/features install healthcheck distributed-locking && \
+    ${POLICY_HOME}/bin/features install healthcheck distributed-locking lifecycle && \
     ${POLICY_HOME}/bin/features install controlloop-utils controlloop-trans controlloop-management && \
     ${POLICY_HOME}/bin/features install controlloop-amsterdam controlloop-usecases && \
-    ${POLICY_HOME}/bin/features enable healthcheck distributed-locking && \
+    ${POLICY_HOME}/bin/features enable healthcheck distributed-locking lifecycle && \
     ${POLICY_HOME}/bin/features enable controlloop-trans controlloop-management && \
     ${POLICY_HOME}/bin/features enable controlloop-amsterdam controlloop-usecases && \
     rm ${POLICY_INSTALL}/*.zip ${POLICY_INSTALL}/*.gz 2> /dev/null
