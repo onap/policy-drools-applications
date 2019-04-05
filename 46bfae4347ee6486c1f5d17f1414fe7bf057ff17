@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45fa4946_faa1d5fc",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T17:35:31Z",
+      "side": 1,
+      "message": "I think these need to change to the policy/models versions.",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 188,
+        "endChar": 35
+      },
+      "revId": "46bfae4347ee6486c1f5d17f1414fe7bf057ff17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c374fb9_35b3d43e",
+        "filename": "controlloop/common/policy-yaml/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T17:35:31Z",
+      "side": 1,
+      "message": "We can pull this in - but I think this module will be deleted.",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 1
+      },
+      "revId": "46bfae4347ee6486c1f5d17f1414fe7bf057ff17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
