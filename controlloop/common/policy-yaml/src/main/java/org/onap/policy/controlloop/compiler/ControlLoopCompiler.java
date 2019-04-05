@@ -430,7 +430,7 @@ public class ControlLoopCompiler implements Serializable {
         ImmutableMap<String, List<String>> recipes = new ImmutableMap.Builder<String, List<String>>()
                 .put("APPC", ImmutableList.of("Restart", "Rebuild", "Migrate", "ModifyConfig"))
                 .put("SDNC", ImmutableList.of("Reroute"))
-                .put("SDNR", ImmutableList.of("ModifyConfig"))
+                .put("SDNR", ImmutableList.of("ModifyConfig", "ModifyConfigANR"))
                 .put("SO", ImmutableList.of("VF Module Create", "VF Module Delete"))
                 .put("VFC", ImmutableList.of("Restart"))
                 .build();

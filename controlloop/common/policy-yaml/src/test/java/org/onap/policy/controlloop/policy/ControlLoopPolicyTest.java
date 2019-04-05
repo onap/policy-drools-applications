@@ -80,6 +80,11 @@ public class ControlLoopPolicyTest {
     }
 
     @Test 
+    public void testvsonh() {
+        this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_vSONH.yaml");
+    }
+
+    @Test 
     public void testvolte() {
         this.test("src/test/resources/v2.0.0/policy_ONAP_UseCase_VOLTE.yaml");
     }
