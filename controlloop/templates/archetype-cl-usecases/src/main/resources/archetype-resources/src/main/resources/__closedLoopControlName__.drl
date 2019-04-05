@@ -26,6 +26,7 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopLogger;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.Policy;
@@ -1458,6 +1459,9 @@ rule "SDNR.RESPONSE"
           notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
       }
       PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+
+      ControlLoopResponse clResponse = $operation.getControlLoopResponse($response, $event);
+      PolicyEngine.manager.deliver("DCAE_CL_RSP", clResponse);
       //
       // Ensure the operation is complete
       //

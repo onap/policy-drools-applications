@@ -41,6 +41,7 @@ import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appc.AppcActorServiceProvider;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
@@ -296,7 +297,7 @@ public class ControlLoopOperationManager implements Serializable {
                 return operationRequest;
             case "SDNR":
                 /*
-                 * If the recipe is ModifyConfig, a SDNR request is constructed.
+                 * If the recipe is ModifyConfig or ModifyConfigANR, a SDNR request is constructed.
                  */
                 this.currentOperation = operation;
                 this.operationRequest = SdnrActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
@@ -982,4 +983,24 @@ public class ControlLoopOperationManager implements Serializable {
         //
         this.currentOperation = null;
     }
+
+    /**
+     * Construct a ControlLoopResponse object from actor response and input event.
+     * 
+     * @param response the response from actor
+     * @param event the input event
+     *
+     * @return a ControlLoopResponse
+     */
+    public ControlLoopResponse getControlLoopResponse(Object response, VirtualControlLoopEvent event) {
+        if (response instanceof PciResponseWrapper) {
+            //
+            // Cast SDNR response and handle it
+            //
+            return SdnrActorServiceProvider.getControlLoopResponse((PciResponseWrapper) response, event);
+        } else {
+            return null;
+        }
+    }
+
 }
