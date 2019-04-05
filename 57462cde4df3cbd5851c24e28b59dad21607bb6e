@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "085bfe9c_f482abee",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T14:15:30Z",
+      "side": 1,
+      "message": "again",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 6
+      },
+      "revId": "57462cde4df3cbd5851c24e28b59dad21607bb6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3024f0d8_0b7e86be",
+        "filename": "controlloop/templates/archetype-cl-usecases/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T14:15:30Z",
+      "side": 1,
+      "message": "again",
+      "range": {
+        "startLine": 148,
+        "startChar": 5,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "57462cde4df3cbd5851c24e28b59dad21607bb6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c45e9e43_ef6b5f0f",
+        "filename": "controlloop/templates/template.demo.clc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T14:15:30Z",
+      "side": 1,
+      "message": "and again",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 213,
+        "endChar": 4
+      },
+      "revId": "57462cde4df3cbd5851c24e28b59dad21607bb6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d653267_e644500e",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-05T14:15:30Z",
+      "side": 1,
+      "message": "To be fixed once merge happens",
+      "range": {
+        "startLine": 205,
+        "startChar": 5,
+        "endLine": 207,
+        "endChar": 5
+      },
+      "revId": "57462cde4df3cbd5851c24e28b59dad21607bb6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
