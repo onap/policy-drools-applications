@@ -1,0 +1,23 @@
+{
+  "body": {
+    "output": {
+      "CommonHeader": {
+        "TimeStamp": "2018-09-10T07:10:05.614Z",
+        "APIver": "1.0",
+        "RequestID": "722ee65a-8afd-48df-bf57-c152ae45bacc",
+        "SubRequestID": "1",
+        "RequestTrack": [],
+        "Flags": []
+      },
+      "Status": {
+        "Code": 200,
+        "Value": "SUCCESS"
+      },
+      "Payload": "{ \"Configurations\":[ { \"Status\": { \"Code\": 200, \"Value\": \"SUCCESS\" }, \"data\":{ \"FAPService\":{ \"alias\":\"Cell1\", \"CellConfig\":{ \"LTE\":{ \"RAN\":{ \"Common\":{ \"CellIdentity\":\"1\" }, \"NeighborListInUse\" : { \"LTECellNumberOfEntries\" : \"1\" , \"LTECell\" : [{ \"PLMNID\" :\"plmnid1\", \"CID\":\"Chn0001\", \"PhyCellID\":\"3\", \"PNFName\":\"ncserver01\", \"Blacklisted\":\"false\"}] } } } } } } } ] }"
+    }
+  },
+  "version": "1.0",
+  "rpc-name": "ModifyConfigANR",
+  "correlation-id": "722ee65a-8afd-48df-bf57-c152ae45bacc-1",
+  "type": "response"
+}

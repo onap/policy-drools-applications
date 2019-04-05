@@ -1,0 +1,18 @@
+{
+  "closedLoopControlName": "ControlLoop-vSONH-7d4baf04-8875-4d1f-946d-06b874048b61",
+  "closedLoopAlarmStart": 1510187409180,
+  "closedLoopEventClient": "microservice.SONH",
+  "closedLoopEventStatus": "ONSET",
+  "requestID": "722ee65a-8afd-48df-bf57-c152ae45bacc",
+  "target_type": "VNF",
+  "target": "generic-vnf.vnf-id",
+  "AAI": {
+    "generic-vnf.is-closed-loop-disabled": "false",
+    "generic-vnf.prov-status": "ACTIVE",
+    "generic-vnf.vnf-id": "notused"
+  },
+  "from": "SONHMS",
+  "version": "1.0.2",
+  "Action": "ModifyConfigANR",
+  "payload": "{ \"Configurations\":[ { \"data\":{ \"FAPService\":{ \"alias\":\"Cell1\", \"CellConfig\":{ \"LTE\":{ \"RAN\":{ \"Common\":{ \"CellIdentity\":\"1\" }, \"NeighborListInUse\" : { \"LTECellNumberOfEntries\" : \"1\" , \"LTECell\" : [{ \"PLMNID\" :\"plmnid1\", \"CID\":\"Chn0001\", \"PhyCellID\":\"3\", \"PNFName\":\"ncserver01\", \"Blacklisted\":\"false\"}] } } } } } } } ] }"
+}
