@@ -164,10 +164,12 @@ public class SoActorServiceProvider implements Actor {
 
         // Find the index for base vf module and non-base vf module
         AaiNqInventoryResponseItem baseItem = findVfModule(aaiResponseWrapper, true);
-        AaiNqInventoryResponseItem vfModuleItem = findVfModule(aaiResponseWrapper, false);
+        //AaiNqInventoryResponseItem vfModuleItem = findVfModule(aaiResponseWrapper, false);
+
+        SoModelInfo soModelInfo = prepareSoModelInfo(policy);
 
         // Report the error if either base vf module or non-base vf module is not found
-        if (baseItem == null || vfModuleItem == null) {
+        if (baseItem == null || soModelInfo == null) {
             logger.error("Either base or non-base vf module is not found from AAI response.");
             return null;
         }
@@ -175,12 +177,35 @@ public class SoActorServiceProvider implements Actor {
         // Construct SO Request for a policy's recipe
         if (RECIPE_VF_MODULE_CREATE.equals(policy.getRecipe())) {
             return constructCreateRequest(aaiResponseWrapper, policy, tenantItem, vnfItem, vnfServiceItem,
-                    vfModuleItem);
+                    soModelInfo);
         } else if (RECIPE_VF_MODULE_DELETE.equals(policy.getRecipe())) {
-            return constructDeleteRequest(tenantItem, vnfItem, vnfServiceItem, vfModuleItem);
+            return constructDeleteRequest(tenantItem, vnfItem, vnfServiceItem, soModelInfo, policy);
         } else {
             return null;
         }
+    }
+
+    private SoModelInfo prepareSoModelInfo(Policy policy) {
+
+        SoModelInfo soModelInfo = new SoModelInfo();
+        if ((policy.getTarget() != null
+                && (policy.getTarget().getModelCustomizationId() != null))
+                && (policy.getTarget().getModelInvariantId() != null)
+                && (policy.getTarget().getModelName() != null)
+                && (policy.getTarget().getModelVersion() != null)
+                && (policy.getTarget().getModelVersionId() != null)) {
+
+            soModelInfo.setModelCustomizationId(policy.getTarget().getModelCustomizationId());
+            soModelInfo.setModelInvariantId(policy.getTarget().getModelInvariantId());
+            soModelInfo.setModelName(policy.getTarget().getModelName());
+            soModelInfo.setModelVersion(policy.getTarget().getModelVersion());
+            soModelInfo.setModelVersionId(policy.getTarget().getModelVersionId());
+
+            return soModelInfo;
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -197,7 +222,7 @@ public class SoActorServiceProvider implements Actor {
     private SoRequest constructCreateRequest(AaiNqResponseWrapper aaiResponseWrapper, Policy policy,
                                              AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem vnfItem,
                                              AaiNqInventoryResponseItem vnfServiceItem,
-                                             AaiNqInventoryResponseItem vfModuleItem) {
+                                             SoModelInfo vfModuleItem) {
         SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.SCALE_OUT);
         //
@@ -211,8 +236,8 @@ public class SoActorServiceProvider implements Actor {
         // cloudConfiguration
         request.getRequestDetails().setCloudConfiguration(constructCloudConfiguration(tenantItem));
         // modelInfo
-        request.getRequestDetails().setModelInfo(constructVfModuleModelInfo(vfModuleItem));
-        request.getRequestDetails().getModelInfo().setModelVersionId(vfModuleItem.getVfModule().getModelVersionId());
+        request.getRequestDetails().setModelInfo(vfModuleItem);
+        //request.getRequestDetails().getModelInfo().setModelVersionId(vfModuleItem.getVfModule().getModelVersionId());
 
         // requestInfo
         request.getRequestDetails().setRequestInfo(constructRequestInfo());
@@ -296,7 +321,7 @@ public class SoActorServiceProvider implements Actor {
      * @return SO delete vf-module request
      */
     private SoRequest constructDeleteRequest(AaiNqInventoryResponseItem tenantItem, AaiNqInventoryResponseItem
-            vnfItem, AaiNqInventoryResponseItem vnfServiceItem, AaiNqInventoryResponseItem vfModuleItem) {
+            vnfItem, AaiNqInventoryResponseItem vnfServiceItem, SoModelInfo vfModuleItem, Policy policy) {
         SoRequest request = new SoRequest();
         request.setOperationType(SoOperationType.DELETE_VF_MODULE);
         request.setRequestDetails(new SoRequestDetails());
@@ -306,12 +331,12 @@ public class SoActorServiceProvider implements Actor {
         // cloudConfiguration
         request.getRequestDetails().setCloudConfiguration(constructCloudConfiguration(tenantItem));
         // modelInfo
-        request.getRequestDetails().setModelInfo(constructVfModuleModelInfo(vfModuleItem));
+        request.getRequestDetails().setModelInfo(prepareSoModelInfo(policy));
         // requestInfo
         request.getRequestDetails().setRequestInfo(constructRequestInfo());
         // Save the instance IDs for the VNF, service and vfModule to static fields
         preserveInstanceIds(vnfItem.getGenericVnf().getVnfId(), vnfServiceItem.getServiceInstance()
-                .getServiceInstanceId(), vfModuleItem.getVfModule().getVfModuleId());
+                .getServiceInstanceId(), null); //vfModuleItem.getVfModule().getVfModuleId());
 
         if (logger.isDebugEnabled()) {
             logger.debug("Constructed SO request: {}", Serialization.gsonPretty.toJson(request));
@@ -338,7 +363,7 @@ public class SoActorServiceProvider implements Actor {
      * @param vfModuleItem vf module item from A&AI named-query response
      * @return SO Model info for the vfModule
      */
-    private SoModelInfo constructVfModuleModelInfo(AaiNqInventoryResponseItem vfModuleItem) {
+    /*private SoModelInfo constructVfModuleModelInfo(AaiNqInventoryResponseItem vfModuleItem) {
         SoModelInfo soModelInfo = new SoModelInfo();
         soModelInfo.setModelType("vfModule");
         soModelInfo.setModelInvariantId(vfModuleItem.getVfModule().getModelInvariantId());
@@ -352,7 +377,7 @@ public class SoActorServiceProvider implements Actor {
             }
         }
         return soModelInfo;
-    }
+    }*/
 
     /**
      * Construct cloudConfiguration for the SO requestDetails.
@@ -405,7 +430,7 @@ public class SoActorServiceProvider implements Actor {
     private void buildRequestParameters(Policy policy, SoRequestDetails request) {
         // assume null until proven otherwise
         request.setRequestParameters(null);
-        
+
         if (policy.getPayload() == null) {
             return;
         }
@@ -427,7 +452,7 @@ public class SoActorServiceProvider implements Actor {
     private void buildConfigurationParameters(Policy policy, SoRequestDetails request) {
         // assume null until proven otherwise
         request.setConfigurationParameters(null);
-        
+
         if (policy.getPayload() == null) {
             return;
         }
