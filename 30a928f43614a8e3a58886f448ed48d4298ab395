@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dee42844_175f2409",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T12:59:56Z",
+      "side": 1,
+      "message": "All the actors should change - and then need the Drools .DRL to utilize callbacks to insert objects into working memory.",
+      "range": {
+        "startLine": 149,
+        "startChar": 21,
+        "endLine": 188,
+        "endChar": 5
+      },
+      "revId": "30a928f43614a8e3a58886f448ed48d4298ab395",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60c2fcb5_e3503557",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T12:59:56Z",
+      "side": 1,
+      "message": "this should point to models/simulators",
+      "range": {
+        "startLine": 192,
+        "startChar": 15,
+        "endLine": 192,
+        "endChar": 74
+      },
+      "revId": "30a928f43614a8e3a58886f448ed48d4298ab395",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
