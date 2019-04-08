@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac0b579e_1dfde191",
+        "filename": "controlloop/common/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T18:57:52Z",
+      "side": 1,
+      "message": "These need to go into policy/models events.",
+      "revId": "cb71bc63c85766a4683b4bb47b28014a4a756435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fd91b5c_eba78bc6",
+        "filename": "controlloop/common/model-impl/events/src/test/java/org/onap/policy/controlloop/ControlLoopResponseTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T18:57:52Z",
+      "side": 1,
+      "message": "These need to go into policy/models events.",
+      "revId": "cb71bc63c85766a4683b4bb47b28014a4a756435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6787bee_08c72409",
+        "filename": "controlloop/common/policy-yaml/src/test/resources/v2.0.0/policy_ONAP_UseCase_vSONH.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T18:57:52Z",
+      "side": 1,
+      "message": "you can delete this then if not used - probably should cause a failure but obviously the controller code is not picking that up.",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "cb71bc63c85766a4683b4bb47b28014a4a756435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
