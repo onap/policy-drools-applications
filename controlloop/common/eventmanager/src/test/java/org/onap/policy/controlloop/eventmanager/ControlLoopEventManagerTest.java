@@ -558,7 +558,7 @@ public class ControlLoopEventManagerTest {
 
         VirtualControlLoopNotification clfNotification = manager.isControlLoopFinal();
         assertNull(clfNotification);
-        
+
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
 
@@ -632,7 +632,7 @@ public class ControlLoopEventManagerTest {
         ControlLoopOperationManager clom = manager.processControlLoop();
         assertNotNull(clom);
         assertNull(clom.getOperationResult());
-        
+
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
 
@@ -724,7 +724,7 @@ public class ControlLoopEventManagerTest {
         }
 
         assertNull(manager.unlockCurrentOperation());
-        
+
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
 
@@ -1289,6 +1289,7 @@ public class ControlLoopEventManagerTest {
         manager.activate(onset);
         assertNull(manager.getNqVserverFromAai());
     }
+
 
     private ControlLoopEventManager makeManager(VirtualControlLoopEvent event) {
         return new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());

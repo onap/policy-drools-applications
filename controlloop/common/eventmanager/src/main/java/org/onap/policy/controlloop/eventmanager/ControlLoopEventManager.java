@@ -31,10 +31,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.AaiManagerNew;
 import org.onap.policy.aai.AaiNqInstanceFilters;
 import org.onap.policy.aai.AaiNqNamedQuery;
 import org.onap.policy.aai.AaiNqQueryParameters;
@@ -82,8 +83,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private static final String QUERY_AAI_ERROR_MSG = "Exception from queryAai: ";
 
     /**
-     * Additional time, in seconds, to add to a "lock" request. This ensures that the lock
-     * won't expire right before an operation completes.
+     * Additional time, in seconds, to add to a "lock" request. This ensures that the lock won't expire right before an
+     * operation completes.
      */
     private static final int ADDITIONAL_LOCK_SEC = 60;
 
@@ -111,8 +112,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private boolean useTargetLock = true;
 
     /**
-     * Wrapper for AAI vserver named-query response. This is initialized in a lazy
-     * fashion.
+     * Wrapper for AAI vserver named-query response. This is initialized in a lazy fashion.
      */
     private AaiNqResponseWrapper nqVserverResponse = null;
 
@@ -305,8 +305,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     /**
      * Check if the control loop is final.
      *
-     * @return a VirtualControlLoopNotification if the control loop is final, otherwise
-     *         <code>null</code> is returned
+     * @return a VirtualControlLoopNotification if the control loop is final, otherwise <code>null</code> is returned
      * @throws ControlLoopException if an error occurs
      */
     public VirtualControlLoopNotification isControlLoopFinal() throws ControlLoopException {
@@ -496,8 +495,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         //
         if (!this.useTargetLock) {
             TargetLock lock = PolicyGuard.createTargetLock(this.currentOperation.policy.getTarget().getType(),
-                                                           this.currentOperation.getTargetEntity(),
-                                                           this.onset.getRequestId(), this);
+                    this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this);
             this.targetLock = lock;
             return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
         }
@@ -510,16 +508,15 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             // Currently, it should be. But in the future it may not.
             //
             GuardResult result = PolicyGuard.lockTarget(targetLock,
-                            this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
+                    this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
             return new LockResult<>(result, this.targetLock);
         } else {
             //
             // Ask the Guard
             //
-            LockResult<GuardResult, TargetLock> lockResult =
-                    PolicyGuard.lockTarget(this.currentOperation.policy.getTarget().getType(),
-                            this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this,
-                            this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
+            LockResult<GuardResult, TargetLock> lockResult = PolicyGuard.lockTarget(
+                    this.currentOperation.policy.getTarget().getType(), this.currentOperation.getTargetEntity(),
+                    this.onset.getRequestId(), this, this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
             //
             // Was it acquired?
             //
@@ -637,13 +634,13 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             return;
         }
         try {
-            this.lastOperationManager.commitAbatement(message,outcome);          
+            this.lastOperationManager.commitAbatement(message, outcome);
         } catch (NoSuchElementException e) {
             logger.error("{}: commitAbatement threw an exception ", this, e);
         }
     }
 
-    
+
     /**
      * Set the control loop time out.
      *
@@ -775,8 +772,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Process a response from A&AI for a VNF.
      *
      * @param aaiResponse the response from A&AI
-     * @param queryByVnfId <code>true</code> if the query was based on vnf-id,
-     *        <code>false</code> if the query was based on vnf-name
+     * @param queryByVnfId <code>true</code> if the query was based on vnf-id, <code>false</code> if the query was based
+     *        on vnf-name
      * @throws AaiException if an error occurs processing the response
      */
     private static void processVnfResponse(AaiGetVnfResponse aaiResponse, boolean queryByVnfId) throws AaiException {
@@ -831,38 +828,35 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * Is closed loop disabled for an event.
      *
      * @param event the event
-     * @return <code>true</code> if the control loop is disabled, <code>false</code>
-     *         otherwise
+     * @return <code>true</code> if the control loop is disabled, <code>false</code> otherwise
      */
     public static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
         Map<String, String> aai = event.getAai();
         return (isAaiTrue(aai.get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                        || isAaiTrue(aai.get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
+                || isAaiTrue(aai.get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
     }
 
     /**
      * Does provisioning status, for an event, have a value other than ACTIVE.
      *
      * @param event the event
-     * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null},
-     *         {@code false} otherwise
+     * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null}, {@code false} otherwise
      */
     protected static boolean isProvStatusInactive(VirtualControlLoopEvent event) {
         Map<String, String> aai = event.getAai();
         return (!PROV_STATUS_ACTIVE.equals(aai.getOrDefault(VSERVER_PROV_STATUS, PROV_STATUS_ACTIVE))
-                        || !PROV_STATUS_ACTIVE.equals(aai.getOrDefault(GENERIC_VNF_PROV_STATUS, PROV_STATUS_ACTIVE)));
+                || !PROV_STATUS_ACTIVE.equals(aai.getOrDefault(GENERIC_VNF_PROV_STATUS, PROV_STATUS_ACTIVE)));
     }
 
     /**
      * Determines the boolean value represented by the given AAI field value.
      *
      * @param aaiValue value to be examined
-     * @return the boolean value represented by the field value, or {@code false} if the
-     *         value is {@code null}
+     * @return the boolean value represented by the field value, or {@code false} if the value is {@code null}
      */
     protected static boolean isAaiTrue(String aaiValue) {
         return ("true".equalsIgnoreCase(aaiValue) || "T".equalsIgnoreCase(aaiValue) || "yes".equalsIgnoreCase(aaiValue)
-                        || "Y".equalsIgnoreCase(aaiValue));
+                || "Y".equalsIgnoreCase(aaiValue));
     }
 
     /**
@@ -937,6 +931,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     /**
      * Gets the output from the AAI vserver named-query, using the cache, if appropriate.
+     *
      * @return output from the AAI vserver named-query
      */
     public AaiNqResponseWrapper getNqVserverFromAai() {
@@ -976,7 +971,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         }
 
         AaiNqResponse aaiNqResponse = new AaiManager(new RestManager()).postQuery(getPeManagerEnvProperty(AAI_URL),
-                getPeManagerEnvProperty(AAI_USERNAME_PROPERTY), getPeManagerEnvProperty(AAI_PASS_PROPERTY), 
+                getPeManagerEnvProperty(AAI_USERNAME_PROPERTY), getPeManagerEnvProperty(AAI_PASS_PROPERTY),
                 aaiNqRequest, onset.getRequestId());
 
         // Check AAI response
@@ -997,8 +992,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     }
 
     /**
-     * This method reads and validates environmental properties coming from the policy engine. Null
-     * properties cause an {@link IllegalArgumentException} runtime exception to be thrown
+     * This method reads and validates environmental properties coming from the policy engine. Null properties cause an
+     * {@link IllegalArgumentException} runtime exception to be thrown
      *
      * @param enginePropertyName the name of the parameter to retrieve
      * @return the property value
@@ -1030,6 +1025,42 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 + ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestId() : "null")
                 + ", numOnsets=" + numOnsets + ", numAbatements=" + numAbatements + ", isActivated=" + isActivated
                 + ", currentOperation=" + currentOperation + ", targetLock=" + targetLock + "]";
+    }
+
+    /**
+     * This function calls Aai Custom Query and responds with the AaiCqResponse.
+     *
+     * @param event input event
+     * @return AaiCqResponse Response from Aai for custom query
+     * @throws AaiException if error occurs
+     */
+    public AaiCqResponse getCqResponse(VirtualControlLoopEvent event) throws AaiException {
+
+        Map<String, String> aai = event.getAai();
+
+        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)) {
+
+            if (isClosedLoopDisabled(event)) {
+                throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
+            }
+
+            if (isProvStatusInactive(event)) {
+                throw new AaiException("prov-status is not ACTIVE on VServer or VNF");
+            }
+        }
+
+        UUID reqId = event.getRequestId();
+        AaiCqResponse response = null;
+        String vserverId = event.getAai().get(VSERVER_VSERVER_NAME);
+
+        String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
+        String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASS_PROPERTY);
+
+        response = new AaiManagerNew(new RestManager()).getCustomQueryResponse(aaiHostUrl, aaiUser, aaiPassword, reqId,
+                vserverId);
+        return response;
+
     }
 
 }
