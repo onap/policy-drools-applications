@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f571dca_1ae6a5a2",
+        "filename": "controlloop/common/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T17:49:59Z",
+      "side": 0,
+      "message": "Safest way to eliminate these without deletion. I think - until the SNAPSHOTs expire from the onap nexus repo in 21 days.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "93206cf9624df06a518a8016b965b9104e687f14",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

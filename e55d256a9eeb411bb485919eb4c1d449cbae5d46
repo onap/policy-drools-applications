@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78c636ed_550db04c",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-08T17:49:59Z",
+      "side": 1,
+      "message": "This was a good one. Help me to understand how it ever succeeded in the first place? Unless I am losing my mind. Without this prefix (as clearly shown in the jaxrs), you get a 404, timeout and the Vfc JUnits fail.",
+      "range": {
+        "startLine": 335,
+        "startChar": 83,
+        "endLine": 335,
+        "endChar": 101
+      },
+      "revId": "e55d256a9eeb411bb485919eb4c1d449cbae5d46",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
