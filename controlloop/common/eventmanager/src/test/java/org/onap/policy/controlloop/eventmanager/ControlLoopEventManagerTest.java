@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.AaiNqRequestError;
@@ -79,6 +81,8 @@ public class ControlLoopEventManagerTest {
     private static final String INVALID_URL = "http://localhost:9999";
 
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManagerTest.class);
+
+    private static final String CQ_RESPONSE_SAMPLE = "src/test/resources/AaiCqResponse.json";
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -558,7 +562,7 @@ public class ControlLoopEventManagerTest {
 
         VirtualControlLoopNotification clfNotification = manager.isControlLoopFinal();
         assertNull(clfNotification);
-        
+
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
 
@@ -632,7 +636,7 @@ public class ControlLoopEventManagerTest {
         ControlLoopOperationManager clom = manager.processControlLoop();
         assertNotNull(clom);
         assertNull(clom.getOperationResult());
-        
+
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
 
@@ -724,7 +728,7 @@ public class ControlLoopEventManagerTest {
         }
 
         assertNull(manager.unlockCurrentOperation());
-        
+
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
 
@@ -917,7 +921,7 @@ public class ControlLoopEventManagerTest {
         try {
             onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.TRUE.toString());
             onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS,
-                            ControlLoopEventManager.PROV_STATUS_ACTIVE);
+                    ControlLoopEventManager.PROV_STATUS_ACTIVE);
 
             mgr = makeManager(onset);
             mgr.queryAai(onset);
@@ -1289,6 +1293,38 @@ public class ControlLoopEventManagerTest {
         manager.activate(onset);
         assertNull(manager.getNqVserverFromAai());
     }
+
+    @Test
+    public void testGetCqResponse() {
+        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml("src/test/resources/test.yaml");
+        onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
+        try {
+            AaiCqResponse response = getAaiCqResponse(
+                    PolicyEngine.manager.getEnvironmentProperty("aai.url") + "/aai/v11/query?format=resource'",
+                    PolicyEngine.manager.getEnvironmentProperty("aai.username"),
+                    PolicyEngine.manager.getEnvironmentProperty("aai.password"), UUID.randomUUID(), "sample_vserver");
+            assertNotNull(response);
+            logger.info("test A&AI custom query test result is " + (response == null ? "null" : "not null"));
+        } catch (Exception e) {
+            logger.error("testGetCqResponse Exception: ", e);
+            fail(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Simulate a response by returning AaiCqResponse.
+     *
+     * @throws IOException if error occurs
+     */
+    public static AaiCqResponse getAaiCqResponse(String urlGet, String username, String password, UUID requestId,
+            String key) throws IOException {
+        String responseString = "";
+        responseString = new String(Files.readAllBytes(new File(CQ_RESPONSE_SAMPLE).toPath()));
+
+        return new AaiCqResponse(responseString);
+    }
+
 
     private ControlLoopEventManager makeManager(VirtualControlLoopEvent event) {
         return new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
