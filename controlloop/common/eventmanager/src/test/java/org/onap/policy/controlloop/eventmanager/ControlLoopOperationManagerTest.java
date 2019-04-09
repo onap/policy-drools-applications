@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -119,7 +119,7 @@ public class ControlLoopOperationManagerTest {
         return numEvents;
     }
 
-    
+
     /**
      * Set up test class.
      */
@@ -131,7 +131,7 @@ public class ControlLoopOperationManagerTest {
         } catch (Exception e) {
             fail(e.getMessage());
         }
-        
+
         // Set PU
         System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
 
@@ -155,7 +155,7 @@ public class ControlLoopOperationManagerTest {
         emf.close();
         HttpServletServer.factory.destroy();
     }
-    
+
     @Test
     public void testRetriesFail() {
         //
@@ -412,6 +412,9 @@ public class ControlLoopOperationManagerTest {
 
         clom.setEventManager(manager);
         assertEquals(manager, clom.getEventManager());
+
+        clom.setUseAaiCqSystem(false);
+        assertEquals(false, clom.getUseAaiCqSystem());
 
         assertNull(clom.getTargetEntity());
 
@@ -804,13 +807,13 @@ public class ControlLoopOperationManagerTest {
 
         System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
-    }    
+    }
 
     @Test
     public void testCommitAbatement() throws ControlLoopException, AaiException, IOException {
 
         String yamlString = null;
-        try ( InputStream is = new FileInputStream(new File("src/test/resources/test.yaml")) ) {
+        try (InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"))) {
             yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -835,19 +838,19 @@ public class ControlLoopOperationManagerTest {
         Policy policy = manager.getProcessor().getCurrentPolicy();
         ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
-        
+
         clom.startOperation(onsetEvent);
 
         int numEventsBefore = getCount();
-        logger.info("numEventsBefore={}", numEventsBefore); 
-        
-        clom.commitAbatement("Test message","TEST_RESULT");
+        logger.info("numEventsBefore={}", numEventsBefore);
+
+        clom.commitAbatement("Test message", "TEST_RESULT");
 
         int numEventsAfter = getCount();
-        logger.info("numEventsAfter={}", numEventsAfter); 
-        
-        assertEquals(1, numEventsAfter - numEventsBefore);        
-    }    
+        logger.info("numEventsAfter={}", numEventsAfter);
+
+        assertEquals(1, numEventsAfter - numEventsBefore);
+    }
 
     @Test
     public void testSerialization() throws Exception {
@@ -876,7 +879,7 @@ public class ControlLoopOperationManagerTest {
 
         clom.startOperation(onsetEvent);
         assertTrue(clom.isOperationRunning());
-        
+
         clom = Serializer.roundTrip(clom);
         assertNotNull(clom);
         assertTrue(clom.isOperationRunning());
@@ -893,7 +896,7 @@ public class ControlLoopOperationManagerTest {
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
         assertFalse(clom.isOperationRunning());
         assertEquals(1, clom.getHistory().size());
-        
+
         clom = Serializer.roundTrip(clom);
         assertNotNull(clom);
         assertFalse(clom.isOperationRunning());
@@ -901,7 +904,7 @@ public class ControlLoopOperationManagerTest {
 
         System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
-        
+
         clom = Serializer.roundTrip(clom);
         assertNotNull(clom);
         assertFalse(clom.isOperationRunning());
