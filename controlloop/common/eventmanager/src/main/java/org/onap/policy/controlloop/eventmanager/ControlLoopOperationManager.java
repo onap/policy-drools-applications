@@ -227,6 +227,31 @@ public class ControlLoopOperationManager implements Serializable {
                     return vnfId;
                 }
                 throw new ControlLoopException("Target does not match target type");
+            case VFMODULE:
+                VirtualControlLoopEvent virtualOnsetEvent = (VirtualControlLoopEvent) this.onset;
+                if (this.onset.getTarget().equalsIgnoreCase(VSERVER_VSERVER_NAME)) {
+                    return virtualOnsetEvent.getAai().get(VSERVER_VSERVER_NAME);
+                } else if (this.onset.getTarget().equalsIgnoreCase(GENERIC_VNF_VNF_ID)) {
+                    return virtualOnsetEvent.getAai().get(GENERIC_VNF_VNF_ID);
+                } else if (this.onset.getTarget().equalsIgnoreCase(GENERIC_VNF_VNF_NAME)) {
+                    /*
+                     * If the onset is enriched with the vnf-id, we don't need an A&AI response
+                     */
+                    if (virtualOnsetEvent.getAai().containsKey(GENERIC_VNF_VNF_ID)) {
+                        return virtualOnsetEvent.getAai().get(GENERIC_VNF_VNF_ID);
+                    }
+
+                    /*
+                     * If the vnf-name was retrieved from the onset then the vnf-id must be obtained
+                     * from the event manager's A&AI GET query
+                     */
+                    String vnfId = this.eventManager.getVnfResponse().getVnfId();
+                    if (vnfId == null) {
+                        throw new AaiException("No vnf-id found");
+                    }
+                    return vnfId;
+                }
+                throw new ControlLoopException("Target does not match target type");
             default:
                 throw new ControlLoopException("The target type is not supported");
         }
@@ -989,7 +1014,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Construct a ControlLoopResponse object from actor response and input event.
-     * 
+     *
      * @param response the response from actor
      * @param event the input event
      *

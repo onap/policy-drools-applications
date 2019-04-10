@@ -108,6 +108,12 @@ public class PolicyGuard {
                 // Create the Lock object
                 //
                 return new VnfTargetLock(targetType, targetInstance, requestId, callback);
+                
+            case VFMODULE:
+                //
+                // Create the Lock object
+                //
+                return new VnfTargetLock(targetType, targetInstance, requestId, callback);
             default:
                 logger.error("invalid target type {} for lock on {}", targetType, targetInstance);
                 return null;
