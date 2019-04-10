@@ -106,7 +106,7 @@ public class ControlLoopOperationManagerTest {
 
     private static int getCount() {
         // Create a query for number of items in DB
-        String sql = "select count(*) as count from operationshistory10";
+        String sql = "select count(*) as count from operationshistory";
         Query nq = em.createNativeQuery(sql);
 
         int numEvents = -1;
@@ -133,7 +133,7 @@ public class ControlLoopOperationManagerTest {
         }
         
         // Set PU
-        System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
+        System.setProperty("OperationsHistoryPU", "OperationsHistoryPUTest");
 
         // Enter dummy props to avoid nullPointerException
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
@@ -141,7 +141,7 @@ public class ControlLoopOperationManagerTest {
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
 
         // Connect to in-mem db
-        emf = Persistence.createEntityManagerFactory("TestOperationsHistoryPU");
+        emf = Persistence.createEntityManagerFactory("OperationsHistoryPUTest");
         em = emf.createEntityManager();
     }
 
@@ -802,7 +802,7 @@ public class ControlLoopOperationManagerTest {
 
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
 
-        System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
+        System.setProperty("OperationsHistoryPU", "OperationsHistoryPUTest");
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
     }    
 
@@ -899,7 +899,7 @@ public class ControlLoopOperationManagerTest {
         assertFalse(clom.isOperationRunning());
         assertEquals(1, clom.getHistory().size());
 
-        System.setProperty("OperationsHistoryPU", "TestOperationsHistoryPU");
+        System.setProperty("OperationsHistoryPU", "OperationsHistoryPUTest");
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
         
         clom = Serializer.roundTrip(clom);

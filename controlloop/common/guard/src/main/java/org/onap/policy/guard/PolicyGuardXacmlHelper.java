@@ -242,11 +242,11 @@ public class PolicyGuardXacmlHelper {
             while (itAttr.hasNext()) {
                 Attribute currentAttr = itAttr.next();
                 String attributeId = currentAttr.getAttributeId().stringValue();
-                if ("urn:oasis:names:tc:xacml:1.0:request:request-id".equals(attributeId)) {
+                if ("urn:org:onap:guard:request:request-id".equals(attributeId)) {
                     Iterator<AttributeValue<?>> itValues = currentAttr.getValues().iterator();
                     reqIdFromXacmlResponse = UUID.fromString(itValues.next().getValue().toString());
                 }
-                if ("urn:oasis:names:tc:xacml:1.0:operation:operation-id".equals(attributeId)) {
+                if ("urn:org:onap:guard:operation:operation-id".equals(attributeId)) {
                     Iterator<AttributeValue<?>> itValues = currentAttr.getValues().iterator();
                     operationFromXacmlResponse = itValues.next().getValue().toString();
                 }

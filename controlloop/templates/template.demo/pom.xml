@@ -100,11 +100,17 @@
       <artifactId>sdnc</artifactId>
       <version>${policy.models.version}</version>
       <scope>provided</scope>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>events</artifactId>
       <version>${policy.models.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <artifactId>database</artifactId>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -183,7 +189,7 @@
       <artifactId>actor.sdnc</artifactId>
       <version>${policy.models.version}</version>
       <scope>provided</scope>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -214,4 +220,3 @@
     </dependency>
   </dependencies>
 </project>
-

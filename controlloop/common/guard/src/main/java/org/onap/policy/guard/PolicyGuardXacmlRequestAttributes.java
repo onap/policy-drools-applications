@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,27 +28,27 @@ import com.att.research.xacml.std.annotations.XACMLSubject;
 @XACMLRequest(ReturnPolicyIdList = true, CombinedDecision = true)
 public class PolicyGuardXacmlRequestAttributes {
 
-    @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:clname:clname-id")
+    @XACMLSubject(includeInResults = true, attributeId = "urn:org:onap:guard:clname:clname-id")
     String clnameId;
 
-    @XACMLSubject(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:actor:actor-id")
+    @XACMLSubject(includeInResults = true, attributeId = "urn:org:onap:guard:actor:actor-id")
     String actorId;
 
-    @XACMLAction(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:operation:operation-id")
+    @XACMLAction(includeInResults = true, attributeId = "urn:org:onap:guard:operation:operation-id")
     String operationId;
 
-    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:target:target-id")
+    @XACMLResource(includeInResults = true, attributeId = "urn:org:onap:guard:target:target-id")
     String targetId;
 
-    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:request-id")
+    @XACMLResource(includeInResults = true, attributeId = "urn:org:onap:guard:request:request-id")
     String requestId;
 
-    @XACMLResource(includeInResults = true, attributeId = "urn:oasis:names:tc:xacml:1.0:request:vf-count")
+    @XACMLResource(includeInResults = true, attributeId = "urn:org:onap:guard:request:vf-count")
     Integer vfCount;
 
     /**
      * Construct an instance.
-     * 
+     *
      * @param clnameId the control loop Id
      * @param actorId the actor Id
      * @param operationId the operation Id
