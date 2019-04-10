@@ -51,6 +51,7 @@ import org.json.JSONObject;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.database.operationshistory.Dbao;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.PolicyGuardResponse;
 import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
@@ -311,11 +312,11 @@ public class PolicyGuardXacmlHelperEmbedded {
             while (itAttr.hasNext()) {
                 Attribute currentAttr = itAttr.next();
                 String attributeId = currentAttr.getAttributeId().stringValue();
-                if ("urn:oasis:names:tc:xacml:1.0:request:request-id".equals(attributeId)) {
+                if ("urn:org:onap:guard:request:request-id".equals(attributeId)) {
                     Iterator<AttributeValue<?>> itValues = currentAttr.getValues().iterator();
                     reqIdFromXacmlResponse = UUID.fromString(itValues.next().getValue().toString());
                 }
-                if ("urn:oasis:names:tc:xacml:1.0:operation:operation-id".equals(attributeId)) {
+                if ("urn:org:onap:guard:operation:operation-id".equals(attributeId)) {
                     Iterator<AttributeValue<?>> itValues = currentAttr.getValues().iterator();
                     operationFromXacmlResponse = itValues.next().getValue().toString();
                 }

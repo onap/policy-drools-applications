@@ -325,7 +325,7 @@ public final class SupportUtil {
      *  Set the operation history properties.
      */
     public static void setPuProp() {
-        System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
+        System.setProperty(OPSHISTPUPROP, "OperationsHistoryPUTest");
     }
 
     /**
@@ -337,12 +337,12 @@ public final class SupportUtil {
         //
         // Connect to in-mem db
         //
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestOperationsHistoryPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("OperationsHistoryPUTest");
         EntityManager em = emf.createEntityManager();
         //
         // Create query
         //
-        String sql = "select * from operationshistory10";
+        String sql = "select * from operationshistory";
         Query nq = em.createNativeQuery(sql);
         List<?> results = null;
         //

@@ -69,7 +69,7 @@ public final class Util {
      * Junit props
      */
     protected static final String PU_KEY = "OperationsHistoryPU";
-    protected static final String JUNITPU = "TestOperationsHistoryPU";
+    protected static final String JUNITPU = "OperationsHistoryPUTest";
 
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
 

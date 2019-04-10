@@ -341,7 +341,7 @@ public final class SupportUtil {
      *  Set the operation history properties.
      */
     public static void setPuProp() {
-        System.setProperty(OPSHISTPUPROP, "TestOperationsHistoryPU");
+        System.setProperty(OPSHISTPUPROP, "OperationsHistoryPUTest");
     }
 
     /**

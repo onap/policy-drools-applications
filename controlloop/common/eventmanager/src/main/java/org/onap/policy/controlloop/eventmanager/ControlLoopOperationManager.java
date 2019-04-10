@@ -50,6 +50,7 @@ import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VfcActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.database.operationshistory.Dbao;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.guard.Util;
 import org.onap.policy.sdnc.SdncResponse;
@@ -909,7 +910,7 @@ public class ControlLoopOperationManager implements Serializable {
 
 
         String opsHistPu = System.getProperty("OperationsHistoryPU");
-        if (!"TestOperationsHistoryPU".equals(opsHistPu)) {
+        if (!"OperationsHistoryPUTest".equals(opsHistPu)) {
             opsHistPu = "OperationsHistoryPU";
         } else {
             props.clear();
@@ -922,7 +923,7 @@ public class ControlLoopOperationManager implements Serializable {
             return;
         }
 
-        OperationsHistoryDbEntry newEntry = new OperationsHistoryDbEntry();
+        Dbao newEntry = new Dbao();
 
         newEntry.setClosedLoopName(this.onset.getClosedLoopControlName());
         newEntry.setRequestId(this.onset.getRequestId().toString());

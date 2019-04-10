@@ -174,13 +174,13 @@ public class PolicyGuardXacmlHelperTest {
         Identifier identifierCategory = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow"));
         Collection<Attribute> listAttributes = new ArrayList<>();
         Identifier categoryIdIn = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));
-        Identifier attributeIdIn0 = new IdentifierImpl(new URI("urn:oasis:names:tc:xacml:1.0:request:request-id"));
+        Identifier attributeIdIn0 = new IdentifierImpl(new URI("urn:org:onap:guard:request:request-id"));
         Identifier dataTypeIdIn = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow.dataType"));
         AttributeValue<String> valueIn = new StdAttributeValue<String>(dataTypeIdIn, UUID.randomUUID().toString());
         Attribute attribute0 = new StdAttribute(categoryIdIn, attributeIdIn0, valueIn);
         listAttributes.add(attribute0);
 
-        Identifier attributeIdIn1 = new IdentifierImpl(new URI("urn:oasis:names:tc:xacml:1.0:operation:operation-id"));
+        Identifier attributeIdIn1 = new IdentifierImpl(new URI("urn:org:onap:guard:operation:operation-id"));
         Attribute attribute1 = new StdAttribute(categoryIdIn, attributeIdIn1, valueIn);
         listAttributes.add(attribute1);
         attributesIn.add(new StdAttributeCategory(identifierCategory, listAttributes));
