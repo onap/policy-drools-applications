@@ -3,6 +3,7 @@
  * guard
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Tech Mahindra
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +105,12 @@ public class PolicyGuard {
                 //
                 return new VmTargetLock(targetType, targetInstance, requestId, callback);
             case VNF:
+                //
+                // Create the Lock object
+                //
+                return new VnfTargetLock(targetType, targetInstance, requestId, callback);
+                
+            case VFMODULE:
                 //
                 // Create the Lock object
                 //
