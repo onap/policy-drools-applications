@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "834cf683_64348953",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-10T14:05:39Z",
+      "side": 1,
+      "message": "if the \"case VFMODULE\" is exactly the same,  you could simply put \"case VFMODULE\" right under line 206, undo this new cod to avoid the code duplication.",
+      "revId": "92fc7744a4df901d1688b9fa8da899372ea76fd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10622bdb_c4909b2f",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuard.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-10T14:05:39Z",
+      "side": 1,
+      "message": "can put \"case VFMODULE:\" right under line 107",
+      "revId": "92fc7744a4df901d1688b9fa8da899372ea76fd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
