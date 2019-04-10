@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4ec569f_e6008c44",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-10T11:41:26Z",
+      "side": 1,
+      "message": "This seems like the exact code as above. Perhaps just add case VFMODULE under the above case statement for VNF and VM. Avoids duplicate code.",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 255,
+        "endChar": 7
+      },
+      "revId": "f8f871f6264e8566e2c0c08d1a1b839be117a5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e20f45_43139f81",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-10T11:41:26Z",
+      "side": 1,
+      "message": "I guess the switch isn\u0027t really needed here either.",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 4
+      },
+      "revId": "f8f871f6264e8566e2c0c08d1a1b839be117a5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
