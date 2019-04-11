@@ -52,3 +52,5 @@ guard.disabled=false
 sdnc.url=${env:SDNC_URL}
 sdnc.username=${env:SDNC_USERNAME}
 sdnc.password=${env:SDNC_PASSWORD}
+
+aai.customQuery=true

@@ -33,6 +33,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
+import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
@@ -110,14 +111,25 @@ public class ControlLoopOperationManager implements Serializable {
             case "APPC":
                 if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
                     /*
-                     * The target vnf-id may not be the same as the source vnf-id specified in the
-                     * yaml, the target vnf-id is retrieved by a named query to A&AI.
+                     * The target vnf-id may not be the same as the source vnf-id specified in the yaml, the target
+                     * vnf-id is retrieved by a named query to A&AI.
                      */
-                    String targetVnf = AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
-                            this.targetEntity, PolicyEngine.manager.getEnvironmentProperty("aai.url"),
-                            PolicyEngine.manager.getEnvironmentProperty("aai.username"),
-                            PolicyEngine.manager.getEnvironmentProperty("aai.password"));
-                    this.targetEntity = targetVnf;
+                    if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty("aai.customQuery"))) {
+                        GenericVnf genvnf = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset)
+                                .getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
+                        if (genvnf == null) {
+                            logger.info("Target entity could not be found");
+                            throw new AaiException("Target vnf-id could not be found");
+                        }
+                        this.targetEntity = genvnf.getVnfId();
+
+                    } else {
+                        this.targetEntity =
+                                AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
+                                        this.targetEntity, PolicyEngine.manager.getEnvironmentProperty("aai.url"),
+                                        PolicyEngine.manager.getEnvironmentProperty("aai.username"),
+                                        PolicyEngine.manager.getEnvironmentProperty("aai.password"));
+                    }
                 }
                 break;
             case "SO":
@@ -132,6 +144,7 @@ public class ControlLoopOperationManager implements Serializable {
                 throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
         }
     }
+
 
     public ControlLoopEventManager getEventManager() {
         return eventManager;
@@ -218,10 +231,16 @@ public class ControlLoopOperationManager implements Serializable {
                     }
 
                     /*
-                     * If the vnf-name was retrieved from the onset then the vnf-id must be obtained
-                     * from the event manager's A&AI GET query
+                     * If the vnf-name was retrieved from the onset then the vnf-id must be obtained from the event
+                     * manager's A&AI GET query
                      */
-                    String vnfId = this.eventManager.getVnfResponse().getVnfId();
+                    String vnfId;
+                    if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty("aai.customQuery"))) {
+                        vnfId = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset).getDefaultGenericVnf()
+                                .getVnfId();
+                    } else {
+                        vnfId = this.eventManager.getVnfResponse().getVnfId();
+                    }
                     if (vnfId == null) {
                         throw new AaiException("No vnf-id found");
                     }
@@ -243,10 +262,16 @@ public class ControlLoopOperationManager implements Serializable {
                     }
 
                     /*
-                     * If the vnf-name was retrieved from the onset then the vnf-id must be obtained
-                     * from the event manager's A&AI GET query
+                     * If the vnf-name was retrieved from the onset then the vnf-id must be obtained from the event
+                     * manager's A&AI GET query
                      */
-                    String vnfId = this.eventManager.getVnfResponse().getVnfId();
+                    String vnfId;
+                    if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty("aai.customQuery"))) {
+                        vnfId = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset).getDefaultGenericVnf()
+                                .getVnfId();
+                    } else {
+                        vnfId = this.eventManager.getVnfResponse().getVnfId();
+                    }
                     if (vnfId == null) {
                         throw new AaiException("No vnf-id found");
                     }
@@ -264,8 +289,10 @@ public class ControlLoopOperationManager implements Serializable {
      * @param onset the onset event
      * @return the operation request
      * @throws ControlLoopException if an error occurs
+     * @throws AaiException if error occurs
      */
-    public Object startOperation(/* VirtualControlLoopEvent */ControlLoopEvent onset) throws ControlLoopException {
+    public Object startOperation(/* VirtualControlLoopEvent */ControlLoopEvent onset)
+            throws ControlLoopException, AaiException {
         verifyOperatonCanRun();
 
         //
@@ -284,8 +311,8 @@ public class ControlLoopOperationManager implements Serializable {
         switch (policy.getActor()) {
             case "APPC":
                 /*
-                 * If the recipe is ModifyConfig, a legacy APPC request is constructed. Otherwise an
-                 * LCMRequest is constructed.
+                 * If the recipe is ModifyConfig, a legacy APPC request is constructed. Otherwise an LCMRequest is
+                 * constructed.
                  */
                 this.currentOperation = operation;
                 if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
@@ -302,8 +329,14 @@ public class ControlLoopOperationManager implements Serializable {
                 return operationRequest;
             case "SO":
                 SoActorServiceProvider soActorSp = new SoActorServiceProvider();
-                this.operationRequest = soActorSp.constructRequest((VirtualControlLoopEvent) onset,
-                                operation.clOperation, this.policy, eventManager.getNqVserverFromAai());
+                if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty("aai.customQuery"))) {
+                    this.operationRequest =
+                            soActorSp.constructRequestCq((VirtualControlLoopEvent) onset, operation.clOperation,
+                                    this.policy, eventManager.getCqResponse((VirtualControlLoopEvent) onset));
+                } else {
+                    this.operationRequest = soActorSp.constructRequest((VirtualControlLoopEvent) onset,
+                            operation.clOperation, this.policy, eventManager.getNqVserverFromAai());
+                }
 
                 // Save the operation
                 this.currentOperation = operation;
@@ -314,11 +347,17 @@ public class ControlLoopOperationManager implements Serializable {
 
                 return operationRequest;
             case "VFC":
-                this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
-                        operation.clOperation, this.policy, this.eventManager.getVnfResponse(),
-                        PolicyEngine.manager.getEnvironmentProperty("vfc.url"),
-                        PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
-                        PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
+                if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty("aai.customQuery"))) {
+                    this.operationRequest = VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
+                            operation.clOperation, this.policy,
+                            eventManager.getCqResponse((VirtualControlLoopEvent) onset));
+                } else {
+                    this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                            operation.clOperation, this.policy, this.eventManager.getVnfResponse(),
+                            PolicyEngine.manager.getEnvironmentProperty("vfc.url"),
+                            PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
+                            PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
+                }
                 this.currentOperation = operation;
                 if (this.operationRequest == null) {
                     this.policyResult = PolicyResult.FAILURE;
@@ -330,7 +369,7 @@ public class ControlLoopOperationManager implements Serializable {
                  */
                 this.currentOperation = operation;
                 this.operationRequest = SdnrActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
-                            operation.clOperation, this.policy);
+                        operation.clOperation, this.policy);
                 //
                 // Save the operation
                 //
@@ -341,8 +380,8 @@ public class ControlLoopOperationManager implements Serializable {
                 return operationRequest;
             case "SDNC":
                 SdncActorServiceProvider provider = new SdncActorServiceProvider();
-                this.operationRequest = provider.constructRequest((VirtualControlLoopEvent) onset,
-                        operation.clOperation, this.policy);
+                this.operationRequest =
+                        provider.constructRequest((VirtualControlLoopEvent) onset, operation.clOperation, this.policy);
                 this.currentOperation = operation;
                 if (this.operationRequest == null) {
                     this.policyResult = PolicyResult.FAILURE;
