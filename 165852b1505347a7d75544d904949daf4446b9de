@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c547c775_d36ae12d",
+        "filename": "controlloop/common/database/src/main/java/org/onap/policy/database/operationshistory/GetOperationOutcomePip.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "argh ! 2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1accbb3e_04c26ed0",
+        "filename": "controlloop/common/database/src/test/java/org/onap/policy/database/operationshistory/GetOperationOutcomePipTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc26067_77e2b404",
+        "filename": "controlloop/common/eventmanager/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 19
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a21d0e54_1327fff0",
+        "filename": "controlloop/common/guard/src/test/resources/blacklist_template.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "Need to add in the blacklist into the XACML engine. TODO for me.",
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3026712c_9642eb91",
+        "filename": "controlloop/common/guard/src/test/resources/frequency_limiter_template.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9bd9657_df027919",
+        "filename": "controlloop/templates/template.demo/src/main/resources/blacklist_template.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8ff81e8_09fdb7f0",
+        "filename": "controlloop/templates/template.demo/src/main/resources/frequency_limiter_template.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b960de_139d2bd4",
+        "filename": "controlloop/templates/template.demo/src/main/resources/frequency_limiter_template_old.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2018-2019",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2aa212f_3788ddb5",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-11T11:08:56Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "165852b1505347a7d75544d904949daf4446b9de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
