@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a2ba84d_6fa71ec5",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-11T11:21:05Z",
+      "side": 1,
+      "message": "You can make this a primitive boolean instead of object\n\nLet\u0027s make this configurable, so we can test new interface in labs.   Do this:\n\nAdd an entry here in the aai.group:\n\n./controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment\n\naai.customQuery\u003dfalse\n\nIn your code read it with\n\nPolicyEngine.manager.getEnvironmentProperty(\"aai.customQuery\").\n\nThat way we can play with it in lab as we wish.",
+      "revId": "e8a3f9accef73b90cda9fbf6507a2849725aa703",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
