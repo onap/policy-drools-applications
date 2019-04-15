@@ -106,7 +106,6 @@
                             <excludes>
                             </excludes>
                             <consoleOutput>true</consoleOutput>
-                            <failsOnViolation>true</failsOnViolation>
                             <violationSeverity>warning</violationSeverity>
                         </configuration>
                     </execution>
@@ -128,6 +127,7 @@
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>events</artifactId>
             <version>${policy.models.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>

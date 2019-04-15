@@ -87,7 +87,9 @@
                             <addParentPoms>false</addParentPoms>
                             <copyPom>false</copyPom>
                             <includeScope>runtime</includeScope>
+                            <excludeScope>provided</excludeScope>
                             <excludeTransitive>false</excludeTransitive>
+                            <excludeGroupIds>org.glassfish.hk2.external,org.glassfish.hk2</excludeGroupIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -135,6 +137,16 @@
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>aai</artifactId>
             <version>${policy.models.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-lang3</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
@@ -186,6 +198,10 @@
                 <exclusion>
                     <artifactId>guava</artifactId>
                     <groupId>com.google.guava</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-lang3</artifactId>
+                    <groupId>org.apache.commons</groupId>
                 </exclusion>
             </exclusions>
         </dependency>

@@ -64,6 +64,7 @@ import org.onap.policy.guard.PolicyGuardRequest;
 import org.onap.policy.guard.PolicyGuardResponse;
 import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
 import org.onap.policy.guard.PolicyGuardXacmlHelper;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -106,6 +107,22 @@ rule "INSERT.PARAMS"
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "." 
         + drools.getRule().getName(), $params.getControlLoopYaml());
+end
+
+/*
+*
+* Called when a Tosca Policy fact is present.
+*
+*/
+rule "NEW TOSCA POLICY"
+    when
+        $policy : ToscaPolicy()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}:{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                $policy.getType(), $policy.getTypeVersion(), $policy.getName(), $policy.getVersion(),
+                $policy);
 end
 
 /*
