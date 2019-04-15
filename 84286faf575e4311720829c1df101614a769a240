@@ -22,6 +22,30 @@
       "revId": "84286faf575e4311720829c1df101614a769a240",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e01d854_3c915131",
+        "filename": "controlloop/common/feature-controlloop-trans/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-04-15T12:32:18Z",
+      "side": 0,
+      "message": "This is reported in my IDE as an invalid tag which does not exist, so in theory this line does nothing, just cleaning the warning,",
+      "parentUuid": "0783a116_faf3bf67",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 69
+      },
+      "revId": "84286faf575e4311720829c1df101614a769a240",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
