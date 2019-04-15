@@ -94,6 +94,30 @@
       "revId": "84286faf575e4311720829c1df101614a769a240",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d997f772_f61e82cd",
+        "filename": "controlloop/common/feature-controlloop-trans/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-15T12:43:24Z",
+      "side": 0,
+      "message": "So change the tag - do not remove it",
+      "parentUuid": "a8802e7c_a3a623fd",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 69
+      },
+      "revId": "84286faf575e4311720829c1df101614a769a240",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
