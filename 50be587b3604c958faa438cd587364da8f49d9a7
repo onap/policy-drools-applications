@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e14aaea9_ad2afcb8",
+        "filename": "controlloop/common/feature-controlloop-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-15T17:38:38Z",
+      "side": 1,
+      "message": "maybe we need this in events also??",
+      "range": {
+        "startLine": 202,
+        "startChar": 13,
+        "endLine": 206,
+        "endChar": 13
+      },
+      "revId": "50be587b3604c958faa438cd587364da8f49d9a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
