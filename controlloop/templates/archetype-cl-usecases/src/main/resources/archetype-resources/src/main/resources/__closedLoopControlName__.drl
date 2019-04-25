@@ -33,6 +33,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
+import org.onap.policy.controlloop.utils.ControlLoopUtils;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.appc.Request;
@@ -101,9 +102,6 @@ rule "INSERT.PARAMS"
         $params : ControlLoopParams()
     then
 
-    // Note: globals have bad behavior when persistence is used,
-    //       hence explicitly getting the logger vs using a global
-
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "." 
         + drools.getRule().getName(), $params.getControlLoopYaml());
@@ -111,18 +109,39 @@ end
 
 /*
 *
-* Called when a Tosca Policy fact is present.
+* Called when a Tosca Policy is present.
 *
 */
-rule "NEW TOSCA POLICY"
+rule "NEW.TOSCA.POLICY"
     when
         $policy : ToscaPolicy()
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}:{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
-                $policy.getType(), $policy.getTypeVersion(), $policy.getName(), $policy.getVersion(),
-                $policy);
+    logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
+                $policy.getVersion(), $policy);
+
+    ControlLoopParams params = ControlLoopUtils.toControlLoopParams($policy);
+    if (params != null) {
+        insert(params);
+    }
+end
+
+/*
+ * Remove Control Loop Parameters.
+ */
+rule "REMOVE.PARAMS"
+    when
+        $params : ControlLoopParams( $policyName :  getPolicyName(), $policyVersion : getPolicyVersion() )
+        not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
+                $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
+
+    retract($params);
 end
 
 /*

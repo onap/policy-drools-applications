@@ -25,6 +25,10 @@ function configurations {
 
     local confName
 
+    if ! ls "${POLICY_INSTALL_INIT}"/*.conf 2>&1; then
+        return 0
+    fi
+
     for c in $(ls "${POLICY_INSTALL_INIT}"/*.conf 2> /dev/null); do
         echo "adding configuration file: ${c}"
         cp -f "${c}" "${POLICY_HOME}"/etc/profile.d/
@@ -41,6 +45,10 @@ function features {
         set -x
     fi
 
+    if ! ls "${POLICY_INSTALL_INIT}"/features*.zip 2>&1; then
+        return 0
+    fi
+
     source "${POLICY_HOME}"/etc/profile.d/env.sh
 
     for f in $(ls "${POLICY_INSTALL_INIT}"/features*.zip 2> /dev/null); do
@@ -53,6 +61,10 @@ function scripts {
     if [[ ${DEBUG} == y ]]; then
         echo "-- ${FUNCNAME[0]} --"
         set -x
+    fi
+
+    if ! ls "${POLICY_INSTALL_INIT}"/*.sh 2>&1; then
+        return 0
     fi
 
     source "${POLICY_HOME}"/etc/profile.d/env.sh
@@ -97,6 +109,10 @@ function properties {
         set -x
     fi
 
+    if ! ls "${POLICY_INSTALL_INIT}"/*.properties 2>&1; then
+        return 0
+    fi
+
     for p in $(ls "${POLICY_INSTALL_INIT}"/*.properties 2> /dev/null); do
         echo "configuration properties: ${p}"
         cp -f "${p}" "${POLICY_HOME}"/config
@@ -112,6 +128,9 @@ function db {
     if [[ -z ${SQL_HOST} ]]; then
         return 0
     fi
+
+    echo "Wating for ${SQL_HOST} ."
+    timeout 120 bash -c 'until nc -vz "${SQL_HOST}" 3306; do echo -n "."; sleep 1; done'; echo $?
 
     "${POLICY_HOME}"/bin/db-migrator -s ALL -o upgrade
 }
@@ -200,7 +219,17 @@ function start {
     policy start
 }
 
-function boot {
+function configure {
+    if [[ ${DEBUG} == y ]]; then
+        echo "-- ${FUNCNAME[0]} --"
+        set -x
+    fi
+
+    reload
+    db
+}
+
+function vmBoot {
     if [[ ${DEBUG} == y ]]; then
         echo "-- ${FUNCNAME[0]} --"
         set -x
@@ -209,11 +238,20 @@ function boot {
     reload
     db
     start
+}
+
+function dockerBoot {
+    if [[ ${DEBUG} == y ]]; then
+        echo "-- ${FUNCNAME[0]} --"
+        set -x
+    fi
+
+    set -e
+
+    vmBoot
 
     tail -f /dev/null
 }
-
-set -e
 
 if [[ ${DEBUG} == y ]]; then
     echo "-- $0 $* --"
@@ -224,7 +262,11 @@ operation="${1}"
 case "${operation}" in
     inspect)    inspect
                 ;;
-    boot)       boot
+    boot)       dockerBoot
+                ;;
+    vmboot)     vmBoot
+                ;;
+    configure)  configure
                 ;;
     *)          exec "$@"
                 ;;
