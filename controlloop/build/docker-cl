@@ -48,6 +48,7 @@ function build {
     chmod 755 "${IMAGE_PATH}"/*.sh
 
     (
+    set -e
     set -x;
     docker pull "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest
     docker tag "${DOCKER_PULL_REPOSITORY}"/onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest onap/policy-drools:"${MAJOR_MINOR_VERSION}"-latest
@@ -78,6 +79,7 @@ function push {
     fi
 
     (
+    set -e;
     set -x;
     for tag in "$@"; do
         docker push "${tag}"

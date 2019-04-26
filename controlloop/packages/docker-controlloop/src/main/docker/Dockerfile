@@ -7,9 +7,9 @@ COPY apps-controlloop.zip ${POLICY_INSTALL}/
 
 RUN unzip apps-controlloop.zip && \
     mkdir -p ${POLICY_HOME}/logs ${POLICY_HOME}/config ${HOME}/.m2 && \
-    tar -C ${POLICY_HOME} -xvf base-${BUILD_VERSION}.tar.gz --no-same-owner && \
+    tar -C ${POLICY_HOME} -xvf base-${BUILD_VERSION_DROOLS}.tar.gz --no-same-owner && \
     tar -C ${POLICY_HOME} -xvf basex-controlloop-${BUILD_VERSION_APP_CL}.tar.gz --no-same-owner && \
-    unzip policy-management-${BUILD_VERSION}.zip -d ${POLICY_HOME} && \
+    unzip policy-management-${BUILD_VERSION_DROOLS}.zip -d ${POLICY_HOME} && \
     echo "source ${POLICY_HOME}/etc/profile.d/env.sh" >> "${HOME}/.bashrc" && \
     chmod 700 ${POLICY_HOME}/bin/* && \
     chmod 600 ${POLICY_HOME}/config/* && \
