@@ -36,6 +36,10 @@ public class ControlLoopUtils {
     public static final Logger logger = LoggerFactory.getLogger(ControlLoopUtils.class);
     public static final String TOSCA_POLICY_PROPERTY_CONTENT = "content";
 
+    private ControlLoopUtils() {
+        super();
+    }
+
     /**
      * Get a Control Loop Parameters object from a Tosca Policy.
      */

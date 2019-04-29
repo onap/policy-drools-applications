@@ -45,6 +45,8 @@ import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.system.PolicyController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Telemetry Extensions for Control Loops in the PDP-D.
@@ -55,6 +57,7 @@ import org.onap.policy.drools.system.PolicyController;
 @Consumes(MediaType.APPLICATION_JSON)
 @Api
 public class RestControlLoopManager {
+    private static final Logger logger = LoggerFactory.getLogger(RestControlLoopManager.class);
 
     /**
      * GET control loops.
@@ -79,6 +82,7 @@ public class RestControlLoopManager {
 
             return Response.status(Response.Status.OK).entity(controlLoopNames).build();
         } catch (IllegalArgumentException e) {
+            logger.error("{}", e);
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
@@ -108,6 +112,7 @@ public class RestControlLoopManager {
 
             return Response.status(Response.Status.OK).entity(controlLoopParams).build();
         } catch (IllegalArgumentException e) {
+            logger.error("{}", e);
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
@@ -145,8 +150,10 @@ public class RestControlLoopManager {
             return Response.status(Status.OK)
                 .entity(URLDecoder.decode(controlLoopParams.getControlLoopYaml(), "UTF-8")).build();
         } catch (IllegalArgumentException e) {
+            logger.error("{}", e);
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (UnsupportedEncodingException e) {
+            logger.error("{}", e);
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unreadable Policy").build();
         }
     }
@@ -207,8 +214,10 @@ public class RestControlLoopManager {
             return Response.status(Status.OK).entity(controlLoop).build();
 
         } catch (IllegalArgumentException i) {
+            logger.error("{}", i);
             return Response.status(Response.Status.NOT_FOUND).entity(i).build();
         } catch (ControlLoopException | UnsupportedEncodingException e) {
+            logger.error("{}", e);
             return Response.status(Status.NOT_ACCEPTABLE).entity(e).build();
         }
     }

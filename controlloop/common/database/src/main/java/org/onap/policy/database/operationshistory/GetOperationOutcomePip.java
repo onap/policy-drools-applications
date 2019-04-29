@@ -124,7 +124,7 @@ public class GetOperationOutcomePip extends StdOnapPip {
     }
 
     private String doDatabaseQuery(String clname, String target) {
-        logger.info("Querying operations history for {} {} {} {} {}",
+        logger.info("Querying operations history for {} {}",
                     clname, target);
         //
         // Do the query

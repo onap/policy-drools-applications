@@ -42,6 +42,10 @@ public final class Util {
 
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
+    private Util() {
+        super();
+    }
+
     /**
      * Load YAML coordination directive.
      *
