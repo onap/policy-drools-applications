@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17d68bf4_2c1d3296",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/CallGuardTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-03T13:41:22Z",
+      "side": 0,
+      "message": "So here someone decided to take the request from one object and muck it into another object. For no apparent benefit whatsoever.",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 125,
+        "endChar": 1
+      },
+      "revId": "71b3a6b68a1a27839fde863b46c74587131be313",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

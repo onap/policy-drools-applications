@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40333235_065e068d",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-03T13:41:22Z",
+      "side": 1,
+      "message": "Someone must have been testing with multiple xacml servers - and went out of their way to use the most painstaking http client code from the 90\u0027s to run it. Thus, you see the removal of a lot of unnecessary code.",
+      "revId": "7cd0f6a7210f7743b5248d18695cbc9a99fc3148",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c5d9573_b5f812ba",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/CallGuardTaskTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-03T13:41:22Z",
+      "side": 1,
+      "message": "there should never be indeterminates",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 88
+      },
+      "revId": "7cd0f6a7210f7743b5248d18695cbc9a99fc3148",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7f34833_0970318c",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PolicyGuardXacmlHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-03T13:41:22Z",
+      "side": 1,
+      "message": "Some unneeded tests now.",
+      "revId": "7cd0f6a7210f7743b5248d18695cbc9a99fc3148",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
