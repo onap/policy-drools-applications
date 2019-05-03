@@ -73,6 +73,7 @@ public class CcvpnBwControlLoopTest implements TopicListener {
         /* Set environment properties */
         SupportUtil.setAaiProps();
         SupportUtil.setSdncProps();
+        SupportUtil.setGuardProps();
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
@@ -102,6 +103,7 @@ public class CcvpnBwControlLoopTest implements TopicListener {
         try {
             SupportUtil.buildAaiSim();
             SupportUtil.buildSdncSim();
+            SupportUtil.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
