@@ -73,6 +73,7 @@ public class CcvpnBwControlLoopTest implements TopicListener {
         /* Set environment properties */
         SupportUtil.setAaiProps();
         SupportUtil.setSdncProps();
+        SupportUtil.setGuardProps();
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
@@ -102,6 +103,7 @@ public class CcvpnBwControlLoopTest implements TopicListener {
         try {
             SupportUtil.buildAaiSim();
             SupportUtil.buildSdncSim();
+            SupportUtil.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -295,6 +297,9 @@ public class CcvpnBwControlLoopTest implements TopicListener {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
                 assertNotNull(notification.getMessage());
+
+                logger.debug("PLD PLD PLD PLD PLD PLD");
+
                 assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
             } else if (policyName.endsWith("GUARD_PERMITTED")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());

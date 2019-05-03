@@ -72,6 +72,7 @@ public class CcvpnControlLoopTest implements TopicListener {
         /* Set environment properties */
         SupportUtil.setAaiProps();
         SupportUtil.setSdncProps();
+        SupportUtil.setGuardProps();
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
     }
 
@@ -101,6 +102,7 @@ public class CcvpnControlLoopTest implements TopicListener {
         try {
             SupportUtil.buildAaiSim();
             SupportUtil.buildSdncSim();
+            SupportUtil.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -158,7 +160,7 @@ public class CcvpnControlLoopTest implements TopicListener {
         sendEvent(pair.first);
 
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -204,7 +206,7 @@ public class CcvpnControlLoopTest implements TopicListener {
         kieSession.insert(event);
 
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -331,7 +333,7 @@ public class CcvpnControlLoopTest implements TopicListener {
     /**
      * This method is used to simulate event messages from DCAE that start the control loop (onset
      * message) or end the control loop (abatement message).
-     * 
+     *
      * @param policy the controlLoopName comes from the policy
      */
     protected void sendEvent(ControlLoopPolicy policy) {
@@ -355,7 +357,7 @@ public class CcvpnControlLoopTest implements TopicListener {
 
     /**
      * Dumps the kie session facts.
-     * 
+     *
      * @param kieSession input session
      */
     public static void dumpFacts(KieSession kieSession) {

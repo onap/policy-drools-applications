@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   drools-applications
   ================================================================================
-  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -23,17 +23,20 @@
  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
  
-   <persistence-unit name="OperationsHistoryPU11" transaction-type="RESOURCE_LOCAL">
+   <persistence-unit name="OperationsHistoryPU" transaction-type="RESOURCE_LOCAL">
        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-     <!-- <jar-file>packedEntity.jar</jar-file>-->
+
+        <class>org.onap.policy.database.operationshistory.Dbao</class>
+
      <properties>
-     <property name="eclipselink.ddl-generation" value="create-tables"/>
-       <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
-       <!--  <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:7779/policy"/>-->
-       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/policy"/>
-       <property name="javax.persistence.jdbc.user" value="root"/>
-       <property name="javax.persistence.jdbc.password" value="aaaa"/>
+       <property name="eclipselink.ddl-generation" value="create-tables"/>
        <property name="eclipselink.logging.level" value="INFO" />
+       <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
+       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://mariadb:3306/operationshistory"/>
+       <property name="javax.persistence.jdbc.user" value="policy_user"/>
+       <property name="javax.persistence.jdbc.password" value="cG9saWN5X3VzZXI="/>
+       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+       <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
      </properties>
    </persistence-unit>
  
