@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1b5ad96_5e8b7cd8",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/CcvpnBwControlLoopTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-03T16:32:53Z",
+      "side": 1,
+      "message": "Do you want to remove this ?",
+      "revId": "e1ec4882c587b21653afbe59d7d03e4c6f31f1d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
