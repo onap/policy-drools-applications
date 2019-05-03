@@ -98,13 +98,10 @@ public class GuardUtilTest {
         Util.setGuardEnvProp("Actor", "Judy Garland");
         assertEquals("Judy Garland", Util.getGuardProp("Actor"));
 
-        Util.setGuardEnvProps("http://somewhere.over.the.rainbow", "Dorothy", "Toto", "Wizard", "Emerald", "Oz");
+        Util.setGuardEnvProps("http://somewhere.over.the.rainbow", "Dorothy", "Toto");
 
         assertEquals("http://somewhere.over.the.rainbow", Util.getGuardProp(Util.PROP_GUARD_URL));
         assertEquals("Dorothy", Util.getGuardProp(Util.PROP_GUARD_USER));
         assertEquals("Toto", Util.getGuardProp(Util.PROP_GUARD_PASS));
-        assertEquals("Wizard", Util.getGuardProp(Util.PROP_GUARD_CLIENT_USER));
-        assertEquals("Emerald", Util.getGuardProp(Util.PROP_GUARD_CLIENT_PASS));
-        assertEquals("Oz", Util.getGuardProp(Util.PROP_GUARD_ENV));
     }
 }

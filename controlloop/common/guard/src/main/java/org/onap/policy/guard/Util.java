@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,12 +39,9 @@ public final class Util {
     /*
      * Keys for guard properties
      */
-    public static final String PROP_GUARD_URL = "guard.url";
+    public static final String PROP_GUARD_URL = "pdpx.host";
     public static final String PROP_GUARD_USER = "pdpx.username";
     public static final String PROP_GUARD_PASS = "pdpx.password";
-    public static final String PROP_GUARD_CLIENT_USER = "pdpx.client.username";
-    public static final String PROP_GUARD_CLIENT_PASS = "pdpx.client.password";
-    public static final String PROP_GUARD_ENV = "pdpx.environment";
     public static final String PROP_GUARD_DISABLED = "guard.disabled";
 
     /*
@@ -89,7 +86,7 @@ public final class Util {
 
     /**
      * Load a Yaml file.
-     * 
+     *
      * @param testFile the Yaml file
      * @return the policies
      */
@@ -113,7 +110,7 @@ public final class Util {
 
     /**
      * Load a Yaml guard.
-     * 
+     *
      * @param testFile the Yaml file
      * @return the guard
      */
@@ -134,17 +131,13 @@ public final class Util {
 
     /**
      * Sets Guard Properties.
-     * 
+     *
      * <p>see /guard/src/test/java/org/onap/policy/guard/UtilTest.java for setting test properties
      */
-    public static void setGuardEnvProps(String url, String username, String password, String clientName,
-            String clientPassword, String environment) {
+    public static void setGuardEnvProps(String url, String username, String password) {
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL, url);
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER, username);
         PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS, password);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_USER, clientName);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_CLIENT_PASS, clientPassword);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_ENV, environment);
     }
 
     public static void setGuardEnvProp(String key, String value) {
