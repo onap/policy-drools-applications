@@ -22,34 +22,9 @@ package org.onap.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.att.research.xacml.api.Advice;
-import com.att.research.xacml.api.Attribute;
-import com.att.research.xacml.api.AttributeCategory;
-import com.att.research.xacml.api.AttributeValue;
-import com.att.research.xacml.api.Decision;
-import com.att.research.xacml.api.IdReference;
-import com.att.research.xacml.api.Identifier;
-import com.att.research.xacml.api.Obligation;
-import com.att.research.xacml.api.Response;
-import com.att.research.xacml.api.Result;
-import com.att.research.xacml.api.Status;
-import com.att.research.xacml.std.IdentifierImpl;
-import com.att.research.xacml.std.StdAttribute;
-import com.att.research.xacml.std.StdAttributeCategory;
-import com.att.research.xacml.std.StdAttributeValue;
-import com.att.research.xacml.std.StdResponse;
-import com.att.research.xacml.std.StdResult;
-import com.att.research.xacml.std.StdStatus;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Properties;
-import java.util.UUID;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -59,7 +34,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 
 public class PolicyGuardXacmlHelperTest {
-    
+
     private static final Integer VF_COUNT = 100;
 
     /**
@@ -77,8 +52,7 @@ public class PolicyGuardXacmlHelperTest {
         //
         // Set guard properties
         //
-        org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", "python", "test",
-                "python", "test", "DEVL");
+        org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/policy/pdpx/v1/decision", "python", "test");
     }
 
     /**
@@ -94,7 +68,7 @@ public class PolicyGuardXacmlHelperTest {
                         "requestId", VF_COUNT);
         String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
-        assertEquals(0, Util.INDETERMINATE.compareToIgnoreCase(rawDecision));
+        assertEquals(Util.DENY, rawDecision);
     }
 
     @Test
@@ -117,84 +91,15 @@ public class PolicyGuardXacmlHelperTest {
                         "requestId", VF_COUNT);
         String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
-        assertTrue(0 == Util.DENY.compareToIgnoreCase(rawDecision));
+        assertEquals(Util.DENY, rawDecision);
 
         // Permit Case
         xacmlReq = new PolicyGuardXacmlRequestAttributes("clname", "actor", "recipe", "target", "requestId", VF_COUNT);
         rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
-        assertEquals(0, Util.PERMIT.compareToIgnoreCase(rawDecision));
+        assertEquals(Util.PERMIT, rawDecision);
 
         // Indeterminate case is in tearDown for efficiency
-    }
-
-    @Test
-    /**
-     * Tests PolicyGuardXacmlHelper.callPdp method to exercise all branches
-     */
-    public void testCallPdpExtra() {
-        PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
-                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
-                        "requestId", VF_COUNT);
-
-        xacmlReq.setClnameId(null);
-        String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
-        assertNotNull(rawDecision);
-        assertEquals(-5, Util.DENY.compareToIgnoreCase(rawDecision));
-
-        org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", "", "", "", "", "");
-
-        rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
-        assertNotNull(rawDecision);
-
-        org.onap.policy.guard.Util.setGuardEnvProps("http://localhost:6669/pdp/api/getDecision", "python", "test",
-                "python", "test", "DEVL");
-
-    }
-
-    @Test
-    public void testParseXacmlPdpResponse() throws URISyntaxException {
-        PolicyGuardResponse pgResponse = PolicyGuardXacmlHelper.parseXacmlPdpResponse(null);
-        assertEquals("Indeterminate", pgResponse.getResult());
-
-        Decision decision = Decision.PERMIT;
-        Status status = new StdStatus(StdStatus.STATUS_OK);
-        Result result = new StdResult(decision, status);
-        Response xacmlResponse = new StdResponse(result);
-        pgResponse = PolicyGuardXacmlHelper.parseXacmlPdpResponse(xacmlResponse);
-        assertEquals("Permit", pgResponse.getResult());
-
-
-        final Collection<Obligation> obligationsIn = null;
-        final Collection<Advice> adviceIn = null;
-        final Collection<IdReference> policyIdentifiersIn = null;
-        final Collection<IdReference> policySetIdentifiersIn = null;
-
-        Collection<AttributeCategory> attributesIn = new ArrayList<>();
-        Identifier identifierCategory = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow"));
-        Collection<Attribute> listAttributes = new ArrayList<>();
-        Identifier categoryIdIn = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow/category"));
-        Identifier attributeIdIn0 = new IdentifierImpl(new URI("urn:org:onap:guard:request:request-id"));
-        Identifier dataTypeIdIn = new IdentifierImpl(new URI("http://somewhere.over.the.rainbow.dataType"));
-        AttributeValue<String> valueIn = new StdAttributeValue<String>(dataTypeIdIn, UUID.randomUUID().toString());
-        Attribute attribute0 = new StdAttribute(categoryIdIn, attributeIdIn0, valueIn);
-        listAttributes.add(attribute0);
-
-        Identifier attributeIdIn1 = new IdentifierImpl(new URI("urn:org:onap:guard:operation:operation-id"));
-        Attribute attribute1 = new StdAttribute(categoryIdIn, attributeIdIn1, valueIn);
-        listAttributes.add(attribute1);
-        attributesIn.add(new StdAttributeCategory(identifierCategory, listAttributes));
-
-        Identifier attributeIdIn2 = new IdentifierImpl(new URI("Http://somewhere.over.the.rainbow/attributeId"));
-        Attribute attribute2 = new StdAttribute(categoryIdIn, attributeIdIn2, valueIn);
-        listAttributes.add(attribute2);
-        attributesIn.add(new StdAttributeCategory(identifierCategory, listAttributes));
-
-        Result fullResult = new StdResult(Decision.DENY, obligationsIn, adviceIn, attributesIn, policyIdentifiersIn,
-                policySetIdentifiersIn);
-        Response fullXacmlResponse = new StdResponse(fullResult);
-        PolicyGuardResponse fullPgResponse = PolicyGuardXacmlHelper.parseXacmlPdpResponse(fullXacmlResponse);
-        assertEquals("Deny", fullPgResponse.getResult());
     }
 
     @Test
@@ -211,7 +116,8 @@ public class PolicyGuardXacmlHelperTest {
                 "http://localhost:6669/pdp/api/getDecision,Dorothy,Toto");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.url", "http://localhost:6669/pdp/api/getDecision");
+        PolicyEngine.manager.getEnvironment().setProperty("guard.url",
+                "http://localhost:6969/policy/pdpx/v1/decision");
 
         PolicyEngine.manager.getEnvironment().setProperty("pdpx.timeout", "thisIsNotANumber");
         assertNotNull(new PolicyGuardXacmlHelper());
@@ -223,12 +129,6 @@ public class PolicyGuardXacmlHelperTest {
         assertNotNull(new PolicyGuardXacmlHelper());
 
         PolicyEngine.manager.getEnvironment().setProperty("pdpx.username", "python");
-        assertNotNull(new PolicyGuardXacmlHelper());
-
-        PolicyEngine.manager.getEnvironment().remove("pdpx.client.password");
-        assertNotNull(new PolicyGuardXacmlHelper());
-
-        PolicyEngine.manager.getEnvironment().remove("pdpx.client.username");
         assertNotNull(new PolicyGuardXacmlHelper());
 
         PolicyEngine.manager.getEnvironment().setProperty("guard.url", "///");

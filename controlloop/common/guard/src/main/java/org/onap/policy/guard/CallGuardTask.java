@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,12 +20,11 @@
 
 package org.onap.policy.guard;
 
-import com.att.research.xacml.api.DataTypeException;
-import com.att.research.xacml.std.annotations.RequestParser;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
+
 import org.drools.core.WorkingMemory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +68,7 @@ public class CallGuardTask implements Runnable {
     /**
      * Guard url is grabbed from PolicyEngine.manager properties
      */
-    public CallGuardTask(WorkingMemory wm, String cl, String act, 
+    public CallGuardTask(WorkingMemory wm, String cl, String act,
             String rec, String tar, String reqId, Supplier<Integer> vfcnt) {
         workingMemory = wm;
         clname = cl;
@@ -108,22 +107,14 @@ public class CallGuardTask implements Runnable {
             workingMemory.insert(guardResponse);
             return;
         }
-        
+
         final long startTime = System.nanoTime();
-        com.att.research.xacml.api.Request request = null;
 
         PolicyGuardXacmlRequestAttributes xacmlReq =
                         new PolicyGuardXacmlRequestAttributes(clname, actor, recipe, target, requestId, vfCount);
 
-        try {
-            request = RequestParser.parseRequest(xacmlReq);
-        } catch (IllegalArgumentException | IllegalAccessException | DataTypeException e) {
-            logger.error("CallGuardTask.run threw: {}", e);
-        }
-
-
         logger.debug("\n********** XACML REQUEST START ********");
-        logger.debug("{}", request);
+        logger.debug("{}", xacmlReq);
         logger.debug("********** XACML REQUEST END ********\n");
 
         String guardDecision = null;
@@ -146,7 +137,6 @@ public class CallGuardTask implements Runnable {
         }
 
         guardResponse = new PolicyGuardResponse(guardDecision, UUID.fromString(this.requestId), this.recipe);
-
 
         //
         // Create an artificial Guard response in case we didn't get a clear Permit or Deny
