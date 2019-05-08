@@ -27,6 +27,8 @@ policies:
     target:
       resourceID: Eace933104d443b496b8.nodes.heat.vpg
       type: VNF
+    payload:
+      streams: '{"active-streams":5}'
     retry: 2
     timeout: 1200
     success: final_success
