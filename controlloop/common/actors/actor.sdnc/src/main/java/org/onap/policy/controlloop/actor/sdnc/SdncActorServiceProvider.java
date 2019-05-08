@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -135,7 +134,7 @@ public class SdncActorServiceProvider implements Actor {
         serviceInfo.setServiceInstanceId(serviceInstance);
 
         SdncHealRequestInfo requestInfo = new SdncHealRequestInfo();
-        requestInfo.setRequestAction("SdwanBWPolicyChange");
+        requestInfo.setRequestAction("SdwanBandwidthChange");
 
         SdncHealRequestHeaderInfo headerInfo = new SdncHealRequestHeaderInfo();
         headerInfo.setSvcAction("update");
