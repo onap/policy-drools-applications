@@ -95,7 +95,7 @@ public class PolicyGuardXacmlHelper {
 
             return response;
         } catch (Exception e) {
-            logger.error("Error in sending RESTful request: ", e);
+            logger.error("Exception in sending RESTful request: ", e);
         }
 
         return Util.DENY;
@@ -117,14 +117,20 @@ public class PolicyGuardXacmlHelper {
         Map<String, String> headers = new HashMap<>();
         headers.put("Accepts", "application/json");
 
+        logger.info("Guard Decision Request: {}", jsonBody);
+
         Pair<Integer, String> httpDetails = restManager.post(url, user, pwd, headers, "application/json", jsonBody);
 
         if (httpDetails == null) {
+            logger.error("Guard rest call returned a null pair - defaulting to DENY");
             return Util.DENY;
         }
 
+        logger.info("Guard Decision REST Response {} {}", httpDetails.first, httpDetails.second);
+
         if (httpDetails.first == 200) {
             DecisionResponse decision = coder.decode(httpDetails.second, DecisionResponse.class);
+            logger.info("Guard Decision {}", decision);
             return decision.getStatus();
         }
 
