@@ -1,4 +1,4 @@
-# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Copyright 2018-2019 AT&T Intellectual Property. All rights reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ controlLoop:
   trigger_policy: unique-policy-id-1-modifyConfig
   timeout: 3600
   abatement: false
- 
+
 policies:
   - id: unique-policy-id-1-modifyConfig
     name: modify packet gen config
@@ -27,6 +27,8 @@ policies:
     target:
       resourceID: Eace933104d443b496b8.nodes.heat.vpg
       type: VNF
+    payload:
+      streams: '{"active-streams":5}'
     retry: 2
     timeout: 1200
     success: final_success
