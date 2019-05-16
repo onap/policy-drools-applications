@@ -33,7 +33,7 @@
 
     <groupId>org.onap.policy.drools.apps.test</groupId>
     <artifactId>op</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
