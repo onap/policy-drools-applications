@@ -50,7 +50,7 @@ public class PolicyGuardXacmlHelper {
      *  Constructor.
      */
     public PolicyGuardXacmlHelper() {
-        this.url = PolicyEngine.manager.getEnvironmentProperty("pdpx.host");
+        this.url = PolicyEngine.manager.getEnvironmentProperty("guard.url");
         this.user = PolicyEngine.manager.getEnvironmentProperty("pdpx.username");
         this.pwd = PolicyEngine.manager.getEnvironmentProperty("pdpx.password");
     }
