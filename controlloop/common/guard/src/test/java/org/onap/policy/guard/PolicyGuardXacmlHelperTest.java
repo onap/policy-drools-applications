@@ -45,6 +45,7 @@ public class PolicyGuardXacmlHelperTest {
         LoggerUtil.setLevel("ROOT", "INFO");
         LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
         try {
+            HttpServletServer.factory.destroy();
             org.onap.policy.simulators.Util.buildGuardSim();
         } catch (Exception e) {
             fail(e.getMessage());

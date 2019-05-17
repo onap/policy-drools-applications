@@ -39,7 +39,7 @@ public final class Util {
     /*
      * Keys for guard properties
      */
-    public static final String PROP_GUARD_URL = "pdpx.host";
+    public static final String PROP_GUARD_URL = "guard.url";
     public static final String PROP_GUARD_USER = "pdpx.username";
     public static final String PROP_GUARD_PASS = "pdpx.password";
     public static final String PROP_GUARD_DISABLED = "guard.disabled";
