@@ -1293,11 +1293,28 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
+    public void testGetCqResponseEmptyVserver() {
+        try {
+            ControlLoopEventManager mgr = null;
+            mgr = makeManager(onset);
+            mgr.queryAai(onset);
+            mgr.getCqResponse(onset);
+            fail();
+
+
+        } catch (AaiException e) {
+            logger.error("testGetCqResponse Exception: ", e);
+            assertEquals(e.getMessage(), "Vserver name is missing");
+        }
+    }
+
+    @Test
     public void testGetCqResponse() {
         try {
             ControlLoopEventManager mgr = null;
             mgr = makeManager(onset);
             mgr.queryAai(onset);
+            onset.getAai().put("vserver.vserver-name", "sample");
             AaiCqResponse aaiCqResponse = mgr.getCqResponse(onset);
             assertNotNull(aaiCqResponse);
 

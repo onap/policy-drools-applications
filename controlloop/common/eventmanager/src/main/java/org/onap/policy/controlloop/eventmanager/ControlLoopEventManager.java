@@ -1048,6 +1048,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             }
         }
 
+        if (!aai.containsKey(VSERVER_VSERVER_NAME)) {
+            throw new AaiException("Vserver name is missing");
+        }
+
         UUID reqId = event.getRequestId();
         AaiCqResponse response = null;
         String vserverId = event.getAai().get(VSERVER_VSERVER_NAME);
