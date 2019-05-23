@@ -33,13 +33,13 @@
 
     <groupId>org.onap.policy.drools.apps.test</groupId>
     <artifactId>op</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.2-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>events</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${policy.models.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
