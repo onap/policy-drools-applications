@@ -16,6 +16,24 @@
       "revId": "c992013a24811a692b985c088b671ba5b40f0dbd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "804f81dd_082c17df",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-24T14:54:10Z",
+      "side": 1,
+      "message": "I don\u0027t believe it is required per Liam in yesterday\u0027s scrum. But maybe he can confirm. None of the pojos changed themselves, just the policy provider how that works. Which was just relevant to api and pap. We can update all the repos to point to the latest policy/models in El Alto, just to be sure all is in synch.",
+      "parentUuid": "3d14e10e_6a734180",
+      "revId": "c992013a24811a692b985c088b671ba5b40f0dbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
