@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d14e10e_6a734180",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-05-24T14:49:09Z",
+      "side": 1,
+      "message": "do we need a change in policy.models.version ?",
+      "revId": "c992013a24811a692b985c088b671ba5b40f0dbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
