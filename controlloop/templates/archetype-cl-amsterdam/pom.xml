@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.onap.policy.drools-applications.controlloop.templates</groupId>
     <artifactId>templates</artifactId>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>archetype-cl-amsterdam</artifactId>
