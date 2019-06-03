@@ -3,6 +3,7 @@
   ONAP
   ================================================================================
   Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2019 Bell Canada.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -36,21 +37,22 @@
   <build>
     <plugins>
       <plugin>
-	<artifactId>maven-assembly-plugin</artifactId>
-	<executions>
-	  <execution>
-	    <goals>
-	      <goal>single</goal>
-	    </goals>
-	    <phase>package</phase>
-	    <configuration>
-	      <descriptors>
-		<descriptor>src/assembly/zip.xml</descriptor>
-	      </descriptors>
-	      <appendAssemblyId>false</appendAssemblyId>
-	    </configuration>
-	  </execution>
-	</executions>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-complete-zip</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/assembly/zip.xml</descriptor>
+              </descriptors>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
