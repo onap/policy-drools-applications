@@ -36,21 +36,22 @@
   <build>
     <plugins>
       <plugin>
-	<artifactId>maven-assembly-plugin</artifactId>
-	<executions>
-	  <execution>
-	    <goals>
-	      <goal>single</goal>
-	    </goals>
-	    <phase>package</phase>
-	    <configuration>
-	      <descriptors>
-		<descriptor>src/assembly/zip.xml</descriptor>
-	      </descriptors>
-	      <appendAssemblyId>false</appendAssemblyId>
-	    </configuration>
-	  </execution>
-	</executions>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-complete-zip</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/assembly/zip.xml</descriptor>
+              </descriptors>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
