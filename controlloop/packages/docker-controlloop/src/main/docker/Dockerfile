@@ -1,16 +1,16 @@
-FROM onap/policy-drools:1.4.0
+FROM onap/policy-drools:1.5.0-SNAPSHOT
 
 ARG BUILD_VERSION_APP_CL=${BUILD_VERSION_APP_CL}
 ENV BUILD_VERSION_APP_CL=${BUILD_VERSION_APP_CL}
 
-COPY apps-controlloop.zip ${POLICY_INSTALL}/
+COPY /maven/apps-controlloop.zip ${POLICY_INSTALL}/
 
 RUN unzip apps-controlloop.zip && \
-    mkdir -p ${POLICY_HOME}/logs ${POLICY_HOME}/config ${HOME}/.m2 && \
+    mkdir -p ${POLICY_HOME}/logs ${POLICY_HOME}/config $HOME/.m2 && \
     tar -C ${POLICY_HOME} -xvf base-${BUILD_VERSION_DROOLS}.tar.gz --no-same-owner && \
     tar -C ${POLICY_HOME} -xvf basex-controlloop-${BUILD_VERSION_APP_CL}.tar.gz --no-same-owner && \
     unzip policy-management-${BUILD_VERSION_DROOLS}.zip -d ${POLICY_HOME} && \
-    echo "source ${POLICY_HOME}/etc/profile.d/env.sh" >> "${HOME}/.bashrc" && \
+    echo "source ${POLICY_HOME}/etc/profile.d/env.sh" >> "$HOME/.bashrc" && \
     chmod 700 ${POLICY_HOME}/bin/* && \
     chmod 600 ${POLICY_HOME}/config/* && \
     chmod 700 ${POLICY_INSTALL}/*.sh && \
@@ -31,5 +31,5 @@ RUN . ${POLICY_HOME}/etc/profile.d/env.sh && \
     ${POLICY_HOME}/bin/features enable controlloop-amsterdam controlloop-usecases && \
     rm ${POLICY_INSTALL}/*.zip ${POLICY_INSTALL}/*.gz 2> /dev/null
 
-ENTRYPOINT ["/opt/app/policy/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "/opt/app/policy/bin/docker-entrypoint.sh"]
 CMD ["boot"]
