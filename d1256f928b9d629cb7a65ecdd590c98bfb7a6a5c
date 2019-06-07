@@ -16,6 +16,24 @@
       "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba5a5deb_1c42817e",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T19:59:24Z",
+      "side": 1,
+      "message": "doesn\u0027t $HOME depend on \"docker build\" being run as \"policy\", whereas this should work regardless of who runs it?\n\nOn the other hand, will the \"unzip\" command work, or does it need to specify a path for the zip file?  Or maybe do this first?\n\n  WORKDIR ${POLICY_INSTALL}\n\nFor that matter, why bother copying the zip file at all?",
+      "parentUuid": "c88c0ec0_d117686b",
+      "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
