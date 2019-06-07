@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "336f6e55_5cd5e375",
+        "filename": "controlloop/packages/apps-controlloop/src/assembly/zip.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T15:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98bacb7a_b68ea2e0",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fa7f975_67913315",
         "filename": "controlloop/packages/docker-controlloop/pom.xml",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f806ba30_adedd281",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T15:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fa7f975_67913315",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e497120b_b1f8b404",
         "filename": "controlloop/packages/docker-controlloop/pom.xml",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2019-06-07T14:46:12Z",
       "side": 1,
       "message": "don\u0027t care about patch version?",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1da0c0b_6e20709f",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T15:35:17Z",
+      "side": 1,
+      "message": "Looks like it according to: https://jira.onap.org/browse/POLICY-1808",
+      "parentUuid": "e497120b_b1f8b404",
       "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "446b08bf_8bb53f70",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T15:35:17Z",
+      "side": 1,
+      "message": "the docker-maven-plugin by default outputs the artifacts defined by dependencySet config into target/\u003cimage-name_in_plugin_config\u003e/build/maven root. I could specify an outputDirectory but it would create a subpath in maven dir",
+      "parentUuid": "43eaf6fa_b73c79e6",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe5d5923_f2842f55",
         "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
         "patchSetId": 5
@@ -99,6 +171,24 @@
       "writtenOn": "2019-06-07T14:46:12Z",
       "side": 1,
       "message": "I don\u0027t think \"bash\" is needed, as long as it\u0027s specified at the top of the .sh script.",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b47bcb_760aa28d",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-07T15:35:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe5d5923_f2842f55",
       "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
