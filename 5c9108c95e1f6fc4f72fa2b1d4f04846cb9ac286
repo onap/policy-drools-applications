@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98bacb7a_b68ea2e0",
+        "filename": "controlloop/packages/apps-controlloop/src/assembly/zip.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:46:12Z",
+      "side": 1,
+      "message": "maybe use 4 spaces instead of 2?",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fa7f975_67913315",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:46:12Z",
+      "side": 1,
+      "message": "maybe use 4 spaces instead of 2?",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e497120b_b1f8b404",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:46:12Z",
+      "side": 1,
+      "message": "don\u0027t care about patch version?",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff4afe25_ea1fd1bc",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:46:12Z",
+      "side": 1,
+      "message": "hmm.  Don\u0027t think my VM has a \"/maven\", so this won\u0027t work there, will it?",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe5d5923_f2842f55",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T14:46:12Z",
+      "side": 1,
+      "message": "I don\u0027t think \"bash\" is needed, as long as it\u0027s specified at the top of the .sh script.",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
