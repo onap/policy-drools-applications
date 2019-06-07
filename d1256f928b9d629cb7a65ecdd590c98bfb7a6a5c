@@ -34,6 +34,24 @@
       "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45308801_3c91ce87",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-06-07T20:51:59Z",
+      "side": 1,
+      "message": "\"cause\" -\u003e \"case\" typo above, not sure caused you confusion, rephrasing comment:  \"$HOME is more portable, in case user account for some reason is changed in in parent image\"  Functionally this will work, but don\u0027t see need to change it.\n\nyes, unzip is necessary as is, it has been working for a while (same as $HOME).",
+      "parentUuid": "ba5a5deb_1c42817e",
+      "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
