@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "58e2464d_110e1d85",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T16:02:44Z",
+      "side": 1,
+      "message": "oh, duh, that\u0027s the whole point of this - thx!",
+      "parentUuid": "b1da0c0b_6e20709f",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff4afe25_ea1fd1bc",
         "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
         "patchSetId": 5
