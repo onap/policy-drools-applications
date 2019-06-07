@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "43eaf6fa_b73c79e6",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-07T15:07:51Z",
+      "side": 1,
+      "message": "never mind this comment.  Appears to work in xacml, so I\u0027ll assume it will work here, too.  (Obviously, more I need to learn about docker builds.)",
+      "parentUuid": "ff4afe25_ea1fd1bc",
+      "revId": "5c9108c95e1f6fc4f72fa2b1d4f04846cb9ac286",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe5d5923_f2842f55",
         "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
         "patchSetId": 5
