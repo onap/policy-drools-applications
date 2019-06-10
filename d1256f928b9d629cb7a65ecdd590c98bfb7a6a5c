@@ -70,6 +70,24 @@
       "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "264f6432_ef33deb8",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-10T13:55:30Z",
+      "side": 1,
+      "message": "regarding #3, can\u0027t simply move the \"chmod 700\" from line 14 to before line 22?\n\nIs your drools-applications directory on your local VM?  Or is it a Windows directory that\u0027s shared with your VM?  I know the latter can cause permission issues.  Also, does group/other have read \u0026 execute permissions on all of the files \u0026 directories?  If not, that can also cause permission issues.  I thought both of these permission issues I mention in this paragraph only apply when using volume mounts within docker, but maybe they apply to the docker build step, too?\n\nAnyway, you got it working the other way, so let\u0027s just leave it that way.",
+      "parentUuid": "2db65942_5b8c2424",
+      "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
