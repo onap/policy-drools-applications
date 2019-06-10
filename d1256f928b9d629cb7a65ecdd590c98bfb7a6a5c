@@ -52,6 +52,24 @@
       "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2db65942_5b8c2424",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-06-10T02:54:12Z",
+      "side": 1,
+      "message": "1. If I do not specify the /home/policy the \"docker build\" resolves $HOME to my host home directory.\n```[ERROR] Failed to execute goal io.fabric8:docker-maven-plugin:0.30.0:build (generate-images) on project docker-controlloop: Unable to build image [onap/policy-pdpd-cl] : \"The command \u0027/bin/sh -c unzip apps-controlloop.zip \u0026\u0026     mkdir -p ${POLICY_HOME}/logs ${POLICY_HOME}/config /Users/rpujar/.m2 \u0026\u0026     tar -C ${POLICY_HOME} -xvf base-${BUILD_VERSION_DROOLS}.tar.gz --no-same-owner \u0026\u0026     tar -C ${POLICY_HOME} -xvf basex-controlloop-${BUILD_VERSION_APP_CL}.tar.gz --no-same-owner \u0026\u0026     unzip policy-management-${BUILD_VERSION_DROOLS}.zip -d ${POLICY_HOME} \u0026\u0026     echo \\\"source ${POLICY_HOME}/etc/profile.d/env.sh\\\" \u003e\u003e \\\"/Users/rpujar/.bashrc\\\" \u0026\u0026     chmod 700 ${POLICY_HOME}/bin/* \u0026\u0026     chmod 600 ${POLICY_HOME}/config/* \u0026\u0026     chmod 700 ${POLICY_INSTALL}/*.sh \u0026\u0026     rm -f ${POLICY_INSTALL}/*.conf\u0027 returned a non-zero code: 1\"  -\u003e [Help 1]```\n\n2. Without including bash in entrypoint \"ENTRYPOINT [\"bash\", \"/opt/app/policy/bin/docker-entrypoint.sh\"]\" the container fails to startup with permissions issue on the docker-entrypoint.sh script.\n```$ docker run -it onap/policy-pdpd-cl:latest bash\ndocker: Error response from daemon: OCI runtime create failed: container_linux.go:344: starting container process caused \"exec: \\\"/opt/app/policy/bin/docker-entrypoint.sh\\\": permission denied\": unknown.```\n\nHowever, changing the permissions on the shell script returns an error:\n```[ERROR] DOCKER\u003e Unable to build image [onap/policy-pdpd-cl] : \"The command \u0027/bin/sh -c chmod 700 ${POLICY_HOME}/bin/docker-entrypoint.sh\u0027 returned a non-zero code: 1\"  [\"The command \u0027/bin/sh -c chmod 700 ${POLICY_HOME}/bin/docker-entrypoint.sh\u0027 returned a non-zero code: 1\" ]```\n\n3. Also shouldn\u0027t the drools-application docker use onap/policy-drools:1.5.0-SNAPSHOT as the base image?\n\nIt is rather weird, this happens to me even when I was building docker images old way.",
+      "parentUuid": "45308801_3c91ce87",
+      "revId": "d1256f928b9d629cb7a65ecdd590c98bfb7a6a5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
