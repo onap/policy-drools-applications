@@ -76,7 +76,7 @@ public class PolicyGuardXacmlHelper {
         guard.put("recipe", xacmlReq.getOperationId());
         guard.put("target", xacmlReq.getTargetId());
         if (xacmlReq.getClnameId() != null) {
-            guard.put("clName", xacmlReq.getClnameId());
+            guard.put("clname", xacmlReq.getClnameId());
         }
         if (xacmlReq.getVfCount() != null) {
             guard.put("vfCount", Integer.toString(xacmlReq.getVfCount()));
