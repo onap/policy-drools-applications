@@ -3,6 +3,7 @@
  * eventmanager
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ public class ControlLoopLoggerTest {
     @Test
     public void testControlLoopLogger() throws ControlLoopException {
         ControlLoopLogger logger =
-                new ControlLoopLogger.Factory().buildLogger(ControlLoopLoggerStdOutImpl.class.getCanonicalName());
+                new ControlLoopLogger.Factory().buildLogger(ControlLoopLoggerStdOutImpl.class.getName());
         assertNotNull(logger);
         logger.info("a log message", "and another", " and another");
         logger.metrics("a metric", "and another", " and another");

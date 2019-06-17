@@ -3,6 +3,7 @@
  * eventmanager
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ public class ControlLoopPublisherTest {
     @Test
     public void testControlLoopPublisher() throws ControlLoopException {
         ControlLoopPublisher publisher =
-                new ControlLoopPublisher.Factory().buildLogger(ControlLoopPublisherJUnitImpl.class.getCanonicalName());
+                new ControlLoopPublisher.Factory().buildLogger(ControlLoopPublisherJUnitImpl.class.getName());
         assertNotNull(publisher);
 
         try {
