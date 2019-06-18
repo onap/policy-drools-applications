@@ -116,10 +116,11 @@ public class PolicyGuardYamlToXacmlTest {
         final File tempXacmlTemplateFile = new File("src/test/resources/frequency_limiter_template.xml");
         final File tempXacmlOutputFile = File.createTempFile("ONAPPF", ".out.xacml");
 
-        clGuard.getGuards().getFirst().getMatch_parameters().setControlLoopName(null);
-        clGuard.getGuards().getFirst().getMatch_parameters().setActor(null);
-        clGuard.getGuards().getFirst().getMatch_parameters().setRecipe(null);
-        clGuard.getGuards().getFirst().getMatch_parameters().setTargets(null);
+        GuardPolicy guardPolicy = clGuard.getGuards().get(0);
+        guardPolicy.getMatch_parameters().setControlLoopName(null);
+        guardPolicy.getMatch_parameters().setActor(null);
+        guardPolicy.getMatch_parameters().setRecipe(null);
+        guardPolicy.getMatch_parameters().setTargets(null);
 
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
@@ -179,7 +180,7 @@ public class PolicyGuardYamlToXacmlTest {
         List<String> blacklist = new ArrayList<>();
         blacklist.add("WestWitches");
         blacklist.add("EastWitches");
-        clGuard.getGuards().getFirst().getLimit_constraints().getFirst().setBlacklist(blacklist);
+        clGuard.getGuards().get(0).getLimit_constraints().get(0).setBlacklist(blacklist);
 
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
@@ -210,12 +211,13 @@ public class PolicyGuardYamlToXacmlTest {
         List<String> blacklist = new ArrayList<>();
         blacklist.add("WestWitches");
         blacklist.add("EastWitches");
-        clGuard.getGuards().getFirst().getLimit_constraints().getFirst().setBlacklist(blacklist);
+        GuardPolicy guardPolicy = clGuard.getGuards().get(0);
+        guardPolicy.getLimit_constraints().get(0).setBlacklist(blacklist);
 
-        clGuard.getGuards().getFirst().getMatch_parameters().setControlLoopName(null);
-        clGuard.getGuards().getFirst().getMatch_parameters().setActor(null);
-        clGuard.getGuards().getFirst().getMatch_parameters().setRecipe(null);
-        clGuard.getGuards().getFirst().getMatch_parameters().setTargets(null);
+        guardPolicy.getMatch_parameters().setControlLoopName(null);
+        guardPolicy.getMatch_parameters().setActor(null);
+        guardPolicy.getMatch_parameters().setRecipe(null);
+        guardPolicy.getMatch_parameters().setTargets(null);
 
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
