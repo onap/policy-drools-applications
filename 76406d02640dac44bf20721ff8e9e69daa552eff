@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a7ee272_047171f5",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardYamlToXacml.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-18T18:58:55Z",
+      "side": 1,
+      "message": "perhaps extract the constraints into a local variable, too, instead of repeatedly calling getLimit_constraints().get(0).\n\nsame comment below, too",
+      "revId": "76406d02640dac44bf20721ff8e9e69daa552eff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
