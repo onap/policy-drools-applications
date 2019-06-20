@@ -16,6 +16,24 @@
       "revId": "9ea2fd325692ec1f661d2987f77368c308e5d088",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad00cd0b_c6df1402",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-20T15:15:33Z",
+      "side": 1,
+      "message": "wondered about that.  Since you brought it up, too, I went ahead and added code for that, too.  The rules could still provide a default value of zero, but all of the templates we\u0027ve included use a default of 1500.",
+      "parentUuid": "a65519ec_2f6c8980",
+      "revId": "9ea2fd325692ec1f661d2987f77368c308e5d088",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
