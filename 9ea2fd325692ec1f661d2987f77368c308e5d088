@@ -34,6 +34,24 @@
       "revId": "9ea2fd325692ec1f661d2987f77368c308e5d088",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42033641_4710c674",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-06-20T15:35:02Z",
+      "side": 1,
+      "message": "We don\u0027t know - unfortunately if people don\u0027t use the yaml compiler then it could be crap. At this point, for El Alto I don\u0027t care to fix that but tell them to use the yaml compiler and set that value.",
+      "parentUuid": "ad00cd0b_c6df1402",
+      "revId": "9ea2fd325692ec1f661d2987f77368c308e5d088",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
