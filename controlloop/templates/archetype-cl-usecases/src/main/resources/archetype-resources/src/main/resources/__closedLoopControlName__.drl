@@ -440,7 +440,8 @@ rule "EVENT.MANAGER"
                   opTimer.setTimerType("Operation");
                   opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
                   opTimer.setRequestId($event.getRequestId().toString());
-                  opTimer.setDelay(operation.getOperationTimeout().toString() + "s");
+                  Integer timeout = operation.getOperationTimeout();
+                  opTimer.setDelay(timeout > 0 ? timeout.toString() + "s" : $clTimer.getDelay());
                   insert(opTimer);
 
                   //
