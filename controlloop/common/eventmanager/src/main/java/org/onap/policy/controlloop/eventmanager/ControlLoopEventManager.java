@@ -666,7 +666,10 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      */
     public int getControlLoopTimeout(Integer defaultTimeout) {
         if (this.processor != null && this.processor.getControlLoop() != null) {
-            return this.processor.getControlLoop().getTimeout();
+            Integer timeout = this.processor.getControlLoop().getTimeout();
+            if (timeout != null && timeout > 0) {
+                return timeout;
+            }
         }
         if (defaultTimeout != null) {
             return defaultTimeout;

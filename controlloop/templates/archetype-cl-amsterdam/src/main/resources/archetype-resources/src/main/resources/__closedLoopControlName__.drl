@@ -451,11 +451,12 @@ rule "${policyName}.EVENT.MANAGER"
                   //
                   // insert operation timeout object
                   //
-                   ControlLoopTimer opTimer = new ControlLoopTimer();
-                   opTimer.setTimerType("Operation");
-                   opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
-                   opTimer.setRequestId($event.getRequestId().toString());
-                   opTimer.setDelay(operation.getOperationTimeout().toString() + "s");
+                  ControlLoopTimer opTimer = new ControlLoopTimer();
+                  opTimer.setTimerType("Operation");
+                  opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
+                  opTimer.setRequestId($event.getRequestId().toString());
+                  Integer timeout = operation.getOperationTimeout();
+                  opTimer.setDelay(timeout > 0 ? timeout.toString() + "s" : $clTimer.getDelay());
                   insert(opTimer);
               
                   //
@@ -463,7 +464,7 @@ rule "${policyName}.EVENT.MANAGER"
                   //
                   insert(result.getB());
               } else {
-                   logger.debug("The target resource {} is already processing",
+                  logger.debug("The target resource {} is already processing",
                             $event.getAai().get($event.getTarget()));
                   notification = new VirtualControlLoopNotification($event);
                   notification.setNotification(ControlLoopNotificationType.REJECTED);

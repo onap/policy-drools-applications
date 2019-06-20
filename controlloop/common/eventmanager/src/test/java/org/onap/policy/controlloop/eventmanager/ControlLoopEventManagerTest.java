@@ -913,6 +913,56 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
+    public void testControlLoopTimeout_ZeroTimeout() throws IOException {
+        InputStream is = new FileInputStream(new File("src/test/resources/test-zero-timeout.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
+        onsetEvent.setClosedLoopControlName("TwoOnsetTest");
+        onsetEvent.setRequestId(requestId);
+        onsetEvent.setTarget("generic-vnf.vnf-id");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
+
+        ControlLoopEventManager manager = makeManager(onsetEvent);
+
+        VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        assertTrue(0 == manager.getControlLoopTimeout(null));
+        assertTrue(120 == manager.getControlLoopTimeout(120));
+    }
+
+    @Test
+    public void testControlLoopTimeout_NullTimeout() throws IOException {
+        InputStream is = new FileInputStream(new File("src/test/resources/test-null-timeout.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
+        onsetEvent.setClosedLoopControlName("TwoOnsetTest");
+        onsetEvent.setRequestId(requestId);
+        onsetEvent.setTarget("generic-vnf.vnf-id");
+        onsetEvent.setClosedLoopAlarmStart(Instant.now());
+        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onsetEvent.setAai(new HashMap<>());
+        onsetEvent.getAai().put("generic-vnf.vnf-name", "onsetOne");
+
+        ControlLoopEventManager manager = makeManager(onsetEvent);
+
+        VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        assertTrue(0 == manager.getControlLoopTimeout(null));
+        assertTrue(120 == manager.getControlLoopTimeout(120));
+    }
+
+    @Test
     public void testQueryAai_AlreadyDisabled() throws AaiException {
         ControlLoopEventManager mgr = null;
 
