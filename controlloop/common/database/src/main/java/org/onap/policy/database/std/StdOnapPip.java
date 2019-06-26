@@ -39,6 +39,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.database.ToscaDictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,11 +76,65 @@ public abstract class StdOnapPip extends StdConfigurableEngine {
         return Collections.emptyList();
     }
 
-    @Override
-    public void configure(String id, Properties properties) throws PIPException {
+    /**
+     * Configures this object and initializes {@link #em}.
+     *
+     * @param id name of this engine
+     * @param properties configuration properties
+     * @param issuerName name of this issuer, used to identify the persistence unit
+     * @throws PIPException if an error occurs
+     */
+    protected void configure(String id, Properties properties, String issuerName) throws PIPException {
         super.configure(id, properties);
         logger.debug("Configuring historyDb PIP {}", properties);
         this.properties = properties;
+
+        //
+        // Create our entity manager
+        //
+        em = null;
+        try {
+            //
+            // In case there are any overloaded properties for the JPA
+            //
+            Properties emProperties = new Properties(properties);
+            //
+            // Create the entity manager factory
+            //
+            em = Persistence.createEntityManagerFactory(
+                    properties.getProperty(issuerName + ".persistenceunit"),
+                    emProperties).createEntityManager();
+        } catch (Exception e) {
+            logger.error("Persistence failed {} operations history db {}", e.getLocalizedMessage(), e);
+        }
+    }
+
+    /**
+     * Determines if a request is valid.
+     *
+     * @param pipRequest request to validate
+     * @return {@code true} if the request is <i>NOT</i> valid, {@code false} if it is
+     */
+    protected boolean isRequestInvalid(PIPRequest pipRequest) {
+        //
+        // Determine if the issuer is correct
+        //
+        if (StringUtils.isBlank(pipRequest.getIssuer())) {
+            logger.debug("issuer is null - returning empty response");
+            //
+            // We only respond to ourself as the issuer
+            //
+            return true;
+        }
+        if (! pipRequest.getIssuer().startsWith(ToscaDictionary.GUARD_ISSUER_PREFIX)) {
+            logger.debug("Issuer does not start with guard");
+            //
+            // We only respond to ourself as the issuer
+            //
+            return true;
+        }
+
+        return false;
     }
 
     protected String getActor(PIPFinder pipFinder) {
@@ -150,14 +206,16 @@ public abstract class StdOnapPip extends StdConfigurableEngine {
     }
 
     protected String findFirstAttributeValue(PIPResponse pipResponse) {
-        for (Attribute attribute: pipResponse.getAttributes()) {
-            Iterator<AttributeValue<String>> iterAttributeValues    = attribute.findValues(DataTypes.DT_STRING);
-            if (iterAttributeValues != null) {
-                while (iterAttributeValues.hasNext()) {
-                    String value   = iterAttributeValues.next().getValue();
-                    if (value != null) {
-                        return value;
-                    }
+        for (Attribute attribute : pipResponse.getAttributes()) {
+            Iterator<AttributeValue<String>> iterAttributeValues = attribute.findValues(DataTypes.DT_STRING);
+            if (iterAttributeValues == null) {
+                continue;
+            }
+
+            while (iterAttributeValues.hasNext()) {
+                String value = iterAttributeValues.next().getValue();
+                if (value != null) {
+                    return value;
                 }
             }
         }
@@ -165,30 +223,24 @@ public abstract class StdOnapPip extends StdConfigurableEngine {
     }
 
     protected void addIntegerAttribute(StdMutablePIPResponse stdPipResponse, Identifier category,
-            Identifier attributeId, int value, PIPRequest pipRequest) {
-        AttributeValue<BigInteger> attributeValue   = null;
+                    Identifier attributeId, int value, PIPRequest pipRequest) {
         try {
-            attributeValue  = DataTypes.DT_INTEGER.createAttributeValue(value);
+            AttributeValue<BigInteger> attributeValue = DataTypes.DT_INTEGER.createAttributeValue(value);
+            stdPipResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue,
+                            pipRequest.getIssuer(), false));
         } catch (Exception e) {
             logger.error("Failed to convert {} to integer {}", value, e);
-        }
-        if (attributeValue != null) {
-            stdPipResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue,
-                    pipRequest.getIssuer(), false));
         }
     }
 
     protected void addStringAttribute(StdMutablePIPResponse stdPipResponse, Identifier category, Identifier attributeId,
-            String value, PIPRequest pipRequest) {
-        AttributeValue<String> attributeValue = null;
+                    String value, PIPRequest pipRequest) {
         try {
-            attributeValue = DataTypes.DT_STRING.createAttributeValue(value);
+            AttributeValue<String> attributeValue = DataTypes.DT_STRING.createAttributeValue(value);
+            stdPipResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue,
+                            pipRequest.getIssuer(), false));
         } catch (Exception ex) {
             logger.error("Failed to convert {} to an AttributeValue<String>", value, ex);
-        }
-        if (attributeValue != null) {
-            stdPipResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue,
-                    pipRequest.getIssuer(), false));
         }
     }
 

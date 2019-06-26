@@ -24,11 +24,9 @@ package org.onap.policy.guard;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.att.aft.dme2.internal.google.common.io.Files;
-
+import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
-
 import org.junit.Test;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
