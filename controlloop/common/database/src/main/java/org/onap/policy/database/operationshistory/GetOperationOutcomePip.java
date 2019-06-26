@@ -25,12 +25,10 @@ import com.att.research.xacml.api.pip.PIPRequest;
 import com.att.research.xacml.api.pip.PIPResponse;
 import com.att.research.xacml.std.pip.StdMutablePIPResponse;
 import com.att.research.xacml.std.pip.StdPIPResponse;
-import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import org.onap.policy.database.ToscaDictionary;
 import org.onap.policy.database.std.StdOnapPip;
 import org.slf4j.Logger;
@@ -52,25 +50,7 @@ public class GetOperationOutcomePip extends StdOnapPip {
 
     @Override
     public void configure(String id, Properties properties) throws PIPException {
-        super.configure(id, properties);
-        //
-        // Create our entity manager
-        //
-        em = null;
-        try {
-            //
-            // In case there are any overloaded properties for the JPA
-            //
-            Properties emProperties = new Properties(properties);
-            //
-            // Create the entity manager factory
-            //
-            em = Persistence.createEntityManagerFactory(
-                    properties.getProperty(ISSUER_NAME + ".persistenceunit"),
-                    emProperties).createEntityManager();
-        } catch (Exception e) {
-            logger.error("Persistence failed {} operations history db {}", e.getLocalizedMessage(), e);
-        }
+        super.configure(id, properties, ISSUER_NAME);
     }
 
     /**
@@ -84,31 +64,28 @@ public class GetOperationOutcomePip extends StdOnapPip {
     public PIPResponse getAttributes(PIPRequest pipRequest, PIPFinder pipFinder) throws PIPException {
         logger.debug("getAttributes requesting attribute {} of type {} for issuer {}",
                 pipRequest.getAttributeId(), pipRequest.getDataTypeId(), pipRequest.getIssuer());
-        //
-        // Determine if the issuer is correct
-        //
-        if (Strings.isNullOrEmpty(pipRequest.getIssuer())) {
-            logger.debug("issuer is null - returning empty response");
-            //
-            // We only respond to ourself as the issuer
-            //
+
+        if (isRequestInvalid(pipRequest)) {
             return StdPIPResponse.PIP_RESPONSE_EMPTY;
         }
-        if (! pipRequest.getIssuer().startsWith(ToscaDictionary.GUARD_ISSUER_PREFIX)) {
-            logger.debug("Issuer does not start with guard");
-            //
-            // We only respond to ourself as the issuer
-            //
-            return StdPIPResponse.PIP_RESPONSE_EMPTY;
-        }
+
         //
         // Parse out the issuer which denotes the time window
         // Eg: any-prefix:clname:some-controlloop-name
         //
         String[] s1 = pipRequest.getIssuer().split("clname:");
         String clname = s1[1];
-        String target = null;
-        target = getTarget(pipFinder);
+        String target = getTarget(pipFinder);
+        //
+        // Sanity check
+        //
+        if (target == null) {
+            //
+            // See if we have all the values
+            //
+            logger.error("missing attributes return empty");
+            return StdPIPResponse.PIP_RESPONSE_EMPTY;
+        }
 
         logger.debug("Going to query DB about: clname={}, target={}", clname, target);
         String outcome = doDatabaseQuery(clname, target);

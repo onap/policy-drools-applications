@@ -27,11 +27,12 @@ import com.att.research.xacml.api.pip.PIPRequest;
 import com.att.research.xacml.api.pip.PIPResponse;
 import com.att.research.xacml.std.pip.StdMutablePIPResponse;
 import com.att.research.xacml.std.pip.StdPIPResponse;
-import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Properties;
-import javax.persistence.Persistence;
+import java.util.Set;
 import org.onap.policy.database.ToscaDictionary;
 import org.onap.policy.database.std.StdOnapPip;
 import org.slf4j.Logger;
@@ -41,6 +42,9 @@ import org.slf4j.LoggerFactory;
 public class CountRecentOperationsPip extends StdOnapPip {
     public static final String ISSUER_NAME = "count-recent-operations";
     private static Logger logger = LoggerFactory.getLogger(CountRecentOperationsPip.class);
+
+    private static final Set<String> TIME_WINDOW_SCALES = Collections
+                    .unmodifiableSet(new HashSet<>(Arrays.asList("minute", "hour", "day", "week", "month", "year")));
 
     public CountRecentOperationsPip() {
         super();
@@ -53,25 +57,7 @@ public class CountRecentOperationsPip extends StdOnapPip {
 
     @Override
     public void configure(String id, Properties properties) throws PIPException {
-        super.configure(id, properties);
-        //
-        // Create our entity manager
-        //
-        em = null;
-        try {
-            //
-            // In case there are any overloaded properties for the JPA
-            //
-            Properties emProperties = new Properties(properties);
-            //
-            // Create the entity manager factory
-            //
-            em = Persistence.createEntityManagerFactory(
-                    properties.getProperty(ISSUER_NAME + ".persistenceunit"),
-                    emProperties).createEntityManager();
-        } catch (Exception e) {
-            logger.error("Persistence failed {} operations history db {}", e.getLocalizedMessage(), e);
-        }
+        super.configure(id, properties, ISSUER_NAME);
     }
 
     /**
@@ -85,23 +71,11 @@ public class CountRecentOperationsPip extends StdOnapPip {
     public PIPResponse getAttributes(PIPRequest pipRequest, PIPFinder pipFinder) throws PIPException {
         logger.debug("getAttributes requesting attribute {} of type {} for issuer {}",
                 pipRequest.getAttributeId(), pipRequest.getDataTypeId(), pipRequest.getIssuer());
-        //
-        // Determine if the issuer is correct
-        //
-        if (Strings.isNullOrEmpty(pipRequest.getIssuer())) {
-            logger.debug("issuer is null - returning empty response");
-            //
-            // We only respond to ourself as the issuer
-            //
+
+        if (isRequestInvalid(pipRequest)) {
             return StdPIPResponse.PIP_RESPONSE_EMPTY;
         }
-        if (! pipRequest.getIssuer().startsWith(ToscaDictionary.GUARD_ISSUER_PREFIX)) {
-            logger.debug("Issuer does not start with guard");
-            //
-            // We only respond to ourself as the issuer
-            //
-            return StdPIPResponse.PIP_RESPONSE_EMPTY;
-        }
+
         //
         // Parse out the issuer which denotes the time window
         // Eg: any-prefix:tw:10:minute
@@ -156,12 +130,7 @@ public class CountRecentOperationsPip extends StdOnapPip {
         //
         // Compute the time window
         //
-        if (! "minute".equalsIgnoreCase(timeWindowScale)
-            && ! "hour".equalsIgnoreCase(timeWindowScale)
-            && ! "day".equalsIgnoreCase(timeWindowScale)
-            && ! "week".equalsIgnoreCase(timeWindowScale)
-            && ! "month".equalsIgnoreCase(timeWindowScale)
-            && ! "year".equalsIgnoreCase(timeWindowScale)) {
+        if (! TIME_WINDOW_SCALES.contains(timeWindowScale.toLowerCase())) {
             //
             // Unsupported
             //
@@ -197,7 +166,7 @@ public class CountRecentOperationsPip extends StdOnapPip {
                 .setParameter(4, timeWindowScale)
                 .setParameter(5, timeWindowVal * -1)
                 .getSingleResult();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             logger.error("Named query failed ", e);
         }
         //
@@ -209,10 +178,10 @@ public class CountRecentOperationsPip extends StdOnapPip {
             //
             logger.info("operations query returned {}", result);
             //
-            // Should get back a long
+            // Should get back a number
             //
-            if (result instanceof Long) {
-                return ((Long) result).intValue();
+            if (result instanceof Number) {
+                return ((Number) result).intValue();
             }
             //
             // We shouldn't really get this result, but just
