@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0332b4bc_4dc11531",
+        "filename": "controlloop/common/database/src/main/java/org/onap/policy/database/operationshistory/CountRecentOperationsPip.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-06-27T13:40:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "46b5064f_e7a3b2ec",
+      "range": {
+        "startLine": 183,
+        "startChar": 10,
+        "endLine": 183,
+        "endChar": 43
+      },
+      "revId": "d8118c6638bb2440f89eae9d3f979bdfb0e013c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "224416fc_a55f0eac",
         "filename": "controlloop/common/database/src/test/java/org/onap/policy/database/operationshistory/CountRecentOperationsPipTest.java",
         "patchSetId": 2
@@ -93,6 +117,30 @@
       "revId": "d8118c6638bb2440f89eae9d3f979bdfb0e013c3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0488a0a5_3903d336",
+        "filename": "controlloop/common/database/src/test/java/org/onap/policy/database/operationshistory/CountRecentOperationsPipTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-06-27T13:40:34Z",
+      "side": 1,
+      "message": "Ok - perhaps my memory is off a bit then. Thanks.",
+      "parentUuid": "b46917ec_89e60ac5",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 106
+      },
+      "revId": "d8118c6638bb2440f89eae9d3f979bdfb0e013c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
