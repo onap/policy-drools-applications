@@ -38,6 +38,7 @@ public class GuardUtilTest {
     @Test
     public void testLoadYamlOk() throws IOException {
         File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+        tempYamlFile.deleteOnExit();
 
         ControlLoopPolicy clPolicy = new ControlLoopPolicy();
 
@@ -50,23 +51,21 @@ public class GuardUtilTest {
 
         assertEquals(clPolicy, result.parameterA);
         assertEquals(clYamlString, result.parameterB);
-
-        tempYamlFile.delete();
     }
 
     @Test
     public void testLoadYamlError() throws IOException {
         File tempDir = Files.createTempDir();
+        tempDir.deleteOnExit();
 
         // Read from a directory forces an IO exception
         assertNull(Util.loadYaml(tempDir.getCanonicalPath()));
-
-        tempDir.delete();
     }
 
     @Test
     public void testLoadGuardYamlOk() throws IOException {
         File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+        tempYamlFile.deleteOnExit();
 
         ControlLoopGuard clGuardPolicy = new ControlLoopGuard();
 
@@ -78,18 +77,15 @@ public class GuardUtilTest {
         ControlLoopGuard result = Util.loadYamlGuard(tempYamlFile.getCanonicalPath());
 
         assertEquals(clGuardPolicy, result);
-
-        tempYamlFile.delete();
     }
 
     @Test
     public void testLoadGuardYamlError() throws IOException {
         File tempDir = Files.createTempDir();
+        tempDir.deleteOnExit();
 
         // Read from a directory forces an IO exception
         assertNull(Util.loadYamlGuard(tempDir.getCanonicalPath()));
-
-        tempDir.delete();
     }
 
     @Test

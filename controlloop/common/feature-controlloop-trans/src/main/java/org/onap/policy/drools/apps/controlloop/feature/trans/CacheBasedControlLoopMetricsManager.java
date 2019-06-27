@@ -24,7 +24,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
-import com.google.common.cache.RemovalNotification;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -46,6 +45,8 @@ import org.slf4j.LoggerFactory;
  * Control Loop Metrics Tracker Implementation.
  */
 class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
+
+    private static final String UNEXPECTED_NOTIFICATION_TYPE = "unexpected notification type {} in notification {}";
 
     private static final Logger logger = LoggerFactory.getLogger(CacheBasedControlLoopMetricsManager.class);
 
@@ -98,16 +99,12 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             }
         };
 
-        RemovalListener<UUID, VirtualControlLoopNotification> listener =
-                new RemovalListener<UUID, VirtualControlLoopNotification>() {
-            @Override
-            public void onRemoval(RemovalNotification<UUID, VirtualControlLoopNotification> notification) {
-                if (notification.wasEvicted()) {
-                    evicted(notification.getValue());
-                } else {
-                    logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
-                                    notification.getCause().name());
-                }
+        RemovalListener<UUID, VirtualControlLoopNotification> listener = notification -> {
+            if (notification.wasEvicted()) {
+                evicted(notification.getValue());
+            } else {
+                logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
+                                notification.getCause().name());
             }
         };
 
@@ -139,16 +136,11 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     @Override
     public void transactionEvent(PolicyController controller, VirtualControlLoopNotification notification) {
-        if (notification == null || notification.getRequestId() == null || notification.getNotification() == null) {
-            logger.warn("Invalid notification: {}", notification);
+        if (!isNotificationValid(notification)) {
             return;
         }
 
-        if (notification.getNotificationTime() == null) {
-            notification.setNotificationTime(ZonedDateTime.now());
-        }
-
-        notification.setFrom(notification.getFrom() + ":" + controller.getName());
+        setNotificationValues(controller, notification);
 
         switch (notification.getNotification()) {
             case REJECTED:
@@ -166,10 +158,27 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 break;
             default:
                 /* unexpected */
-                logger.warn("unexpected notification type {} in notification {}",
-                        notification.getNotification().toString(), notification);
+                logger.warn(UNEXPECTED_NOTIFICATION_TYPE,
+                        notification.getNotification(), notification);
                 break;
         }
+    }
+
+    private boolean isNotificationValid(VirtualControlLoopNotification notification) {
+        if (notification == null || notification.getRequestId() == null || notification.getNotification() == null) {
+            logger.warn("Invalid notification: {}", notification);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void setNotificationValues(PolicyController controller, VirtualControlLoopNotification notification) {
+        if (notification.getNotificationTime() == null) {
+            notification.setNotificationTime(ZonedDateTime.now());
+        }
+
+        notification.setFrom(notification.getFrom() + ":" + controller.getName());
     }
 
     @Override
@@ -260,13 +269,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 trans.metric().resetTransaction();
                 break;
             case OPERATION:
-                trans.setStatusCode(true);
-                if (!operations.isEmpty()) {
-                    ControlLoopOperation operation = operations.get(operations.size() - 1);
-                    trans.setTargetEntity(operation.getTarget());
-                    trans.setTargetServiceName(operation.getActor());
-                }
-                trans.metric().resetTransaction();
+                metricOperation(trans, operations);
                 break;
             case OPERATION_SUCCESS:
                 trans.setStatusCode(true);
@@ -280,10 +283,20 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 break;
             default:
                 /* unexpected */
-                logger.warn("unexpected notification type {} in notification {}",
-                        notification.getNotification().toString(), notification);
+                logger.warn(UNEXPECTED_NOTIFICATION_TYPE,
+                        notification.getNotification(), notification);
                 break;
         }
+    }
+
+    private void metricOperation(MDCTransaction trans, List<ControlLoopOperation> operations) {
+        trans.setStatusCode(true);
+        if (!operations.isEmpty()) {
+            ControlLoopOperation operation = operations.get(operations.size() - 1);
+            trans.setTargetEntity(operation.getTarget());
+            trans.setTargetServiceName(operation.getActor());
+        }
+        trans.metric().resetTransaction();
     }
 
     protected void operation(MDCTransaction trans, List<ControlLoopOperation> operations) {
@@ -340,7 +353,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 break;
             default:
                 /* unexpected */
-                logger.warn("unexpected notification type {} in notification {}",
+                logger.warn(UNEXPECTED_NOTIFICATION_TYPE,
                         notification.getNotification(), notification);
                 break;
         }

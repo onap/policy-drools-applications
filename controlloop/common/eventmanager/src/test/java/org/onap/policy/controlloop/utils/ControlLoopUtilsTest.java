@@ -22,12 +22,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import org.junit.Test;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.params.ControlLoopParams;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -35,7 +33,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 public class ControlLoopUtilsTest {
 
     @Test
-    public void toControlLoopParams() throws IOException, CoderException {
+    public void toControlLoopParams() throws Exception {
         String policy =
             new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-operational-restart.json")));
 

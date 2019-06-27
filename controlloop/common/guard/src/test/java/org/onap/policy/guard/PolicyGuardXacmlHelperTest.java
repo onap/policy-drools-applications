@@ -22,10 +22,8 @@ package org.onap.policy.guard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.util.Properties;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,21 +33,24 @@ import org.onap.policy.drools.utils.logging.LoggerUtil;
 
 public class PolicyGuardXacmlHelperTest {
 
+    private static final String TARGET = "target";
+    private static final String REQUEST_ID = "requestId";
+    private static final String RECIPE = "recipe";
+    private static final String GUARD_URL = "guard.url";
+    private static final String ACTOR = "actor";
     private static final Integer VF_COUNT = 100;
 
     /**
      * Set up test class.
      */
     @BeforeClass
-    public static void setupSimulator() {
+    public static void setupSimulator() throws Exception {
         LoggerUtil.setLevel("ROOT", "INFO");
         LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
-        try {
-            HttpServletServer.factory.destroy();
-            org.onap.policy.simulators.Util.buildGuardSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+
+        HttpServletServer.factory.destroy();
+        org.onap.policy.simulators.Util.buildGuardSim();
+
         //
         // Set guard properties
         //
@@ -65,8 +66,8 @@ public class PolicyGuardXacmlHelperTest {
 
         // Null/ Bad Connection Case
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
-                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
-                        "requestId", VF_COUNT);
+                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, ACTOR, RECIPE, TARGET,
+                        REQUEST_ID, VF_COUNT);
         String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(Util.DENY, rawDecision);
@@ -88,14 +89,14 @@ public class PolicyGuardXacmlHelperTest {
     public void testCallPdp() {
         // Deny Case
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(
-                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, "actor", "recipe", "target",
-                        "requestId", VF_COUNT);
+                        org.onap.policy.simulators.GuardSimulatorJaxRs.DENY_CLNAME, ACTOR, RECIPE, TARGET,
+                        REQUEST_ID, VF_COUNT);
         String rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(Util.DENY, rawDecision);
 
         // Permit Case
-        xacmlReq = new PolicyGuardXacmlRequestAttributes("clname", "actor", "recipe", "target", "requestId", VF_COUNT);
+        xacmlReq = new PolicyGuardXacmlRequestAttributes("clname", ACTOR, RECIPE, TARGET, REQUEST_ID, VF_COUNT);
         rawDecision = new PolicyGuardXacmlHelper().callPdp(xacmlReq);
         assertNotNull(rawDecision);
         assertEquals(Util.PERMIT, rawDecision);
@@ -109,15 +110,15 @@ public class PolicyGuardXacmlHelperTest {
 
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.url",
+        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL,
                 "http://localhost:6669/pdp/api/getDecision,Dorothy");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.url",
+        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL,
                 "http://localhost:6669/pdp/api/getDecision,Dorothy,Toto");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.url",
+        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL,
                 "http://localhost:6969/policy/pdpx/v1/decision");
 
         PolicyEngine.manager.getEnvironment().setProperty("pdpx.timeout", "thisIsNotANumber");
@@ -132,7 +133,7 @@ public class PolicyGuardXacmlHelperTest {
         PolicyEngine.manager.getEnvironment().setProperty("pdpx.username", "python");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.url", "///");
+        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL, "///");
         assertNotNull(new PolicyGuardXacmlHelper());
 
         PolicyEngine.manager.getEnvironment().setProperty("guard.disabled", "");
