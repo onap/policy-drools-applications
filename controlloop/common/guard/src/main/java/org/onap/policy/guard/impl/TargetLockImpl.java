@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,22 @@
 
 package org.onap.policy.guard.impl;
 
+import java.io.Serializable;
 import java.util.UUID;
+
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.guard.LockCallback;
+import org.onap.policy.guard.TargetLock;
 
-public class VnfTargetLock extends TargetLockImpl {
+public class TargetLockImpl implements TargetLock, Serializable {
 
     private static final long serialVersionUID = 2335897394577202732L;
+
+    private final UUID lockId;
+    private final TargetType targetType;
+    private final String target;
+    private final UUID requestId;
+    private final transient LockCallback callback;
 
     /**
      * Construct an instance.
@@ -36,12 +45,42 @@ public class VnfTargetLock extends TargetLockImpl {
      * @param requestId the request Id
      * @param callback the callback
      */
-    public VnfTargetLock(TargetType type, String target, UUID requestId, LockCallback callback) {
-        super(type, target, requestId, callback);
+    public TargetLockImpl(TargetType type, String target, UUID requestId, LockCallback callback) {
+        this.lockId = UUID.randomUUID();
+        this.targetType = type;
+        this.target = target;
+        this.requestId = requestId;
+        this.callback = callback;
+    }
+
+    @Override
+    public UUID getLockId() {
+        return this.lockId;
+    }
+
+
+    @Override
+    public TargetType getTargetType() {
+        return targetType;
+    }
+
+    @Override
+    public String getTargetInstance() {
+        return target;
+    }
+
+    @Override
+    public UUID getRequestId() {
+        return this.requestId;
+    }
+
+    public LockCallback getCallback() {
+        return this.callback;
     }
 
     @Override
     public String toString() {
-        return "VnfTargetLock [" + super.toString() + "]";
+        return "lockId=" + lockId + ", targetType=" + targetType + ", target=" + target + ", requestId="
+                + requestId;
     }
 }
