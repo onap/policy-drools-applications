@@ -46,9 +46,9 @@ import org.onap.policy.guard.impl.VnfTargetLock;
 public class PolicyGuardTest {
     private static final String INSTANCENAME = "targetInstance";
     private static final int LOCK_SEC = 10;
-    
+
     private static Factory saveFactory;
-    
+
     private Factory factory;
     private PolicyResourceLockManager mgr;
     private UUID uuid;
@@ -69,12 +69,12 @@ public class PolicyGuardTest {
     private class DummyTargetLock implements TargetLock {
         private TargetType type;
         private UUID reqid;
-        
+
         public DummyTargetLock(TargetType type, UUID reqid) {
             this.type = type;
             this.reqid = reqid;
         }
-        
+
         @Override
         public UUID getLockId() {
             return null;
@@ -95,17 +95,17 @@ public class PolicyGuardTest {
             return reqid;
         }
     }
-    
+
     @BeforeClass
     public static void setUpBeforeClass() {
         saveFactory = PolicyGuard.getFactory();
     }
-    
+
     @AfterClass
     public static void tearDownAfterClass() {
         PolicyGuard.setFactory(saveFactory);
     }
-    
+
     /**
      * Setup method.
      */
@@ -117,10 +117,10 @@ public class PolicyGuardTest {
              * manager is protected; this gets around that
              */
         });
-        
+
         factory = mock(Factory.class);
         when(factory.getManager()).thenReturn(mgr);
-        
+
         uuid = UUID.randomUUID();
         dlcb = new DummyLockCallback();
 
@@ -279,7 +279,7 @@ public class PolicyGuardTest {
     }
 
     @Test
-    public void testLockTargetTargetTypeStringUuidLockCallbackInt() throws Exception {
+    public void testLockTargetTargetTypeStringUuidLockCallbackInt() {
         TargetType type = TargetType.VM;
 
         LockResult<GuardResult, TargetLock> result;
@@ -299,7 +299,7 @@ public class PolicyGuardTest {
     }
 
     @Test
-    public void testLockTargetTargetLockInt() throws Exception {
+    public void testLockTargetTargetLockInt() {
         TargetType type = TargetType.VM;
 
         LockResult<GuardResult, TargetLock> result;
@@ -309,16 +309,16 @@ public class PolicyGuardTest {
         verify(mgr).lock(INSTANCENAME, type + ":" + uuid, LOCK_SEC);
         assertEquals(GuardResult.LOCK_ACQUIRED, result.getA());
         assertEquals(VmTargetLock.class, result.getB().getClass());
-        
+
         TargetLock lock = result.getB();
-        
+
         // refresh - re-acquired
         assertEquals(GuardResult.LOCK_ACQUIRED, PolicyGuard.lockTarget(lock, LOCK_SEC + 1));
         verify(mgr).refresh(INSTANCENAME, type + ":" + uuid, LOCK_SEC + 1);
-        
+
         // unlock
         PolicyGuard.unlockTarget(lock);
-        
+
         // refresh - denied, as we no longer own the lock
         assertEquals(GuardResult.LOCK_DENIED, PolicyGuard.lockTarget(lock, LOCK_SEC + 2));
     }

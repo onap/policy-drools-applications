@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,6 +34,12 @@ public class ControlLoopManagementFeature implements PolicyEngineFeatureAPI {
     private static final int SEQNO = 1000;
 
     /**
+     * Factory for various objects.  May be overridden by junit tests.
+     */
+    private static Factory factory = new Factory();
+
+
+    /**
      * retrieves control loops.
      *
      * @param controllerName controller name.
@@ -41,7 +47,7 @@ public class ControlLoopManagementFeature implements PolicyEngineFeatureAPI {
      * @return control loops.
      */
     public static Stream<ControlLoopParams> controlLoops(String controllerName, String sessionName) {
-        PolicyController controller = PolicyController.factory.get(controllerName);
+        PolicyController controller = factory.getController(controllerName);
         if (controller == null) {
             throw new IllegalArgumentException("Invalid Controller Name");
         }
@@ -89,4 +95,12 @@ public class ControlLoopManagementFeature implements PolicyEngineFeatureAPI {
         return FEATURE_NAME;
     }
 
+    /**
+     * Factory that can be overridden by junit tests.
+     */
+    public static class Factory {
+        public PolicyController getController(String controllerName) {
+            return PolicyController.factory.get(controllerName);
+        }
+    }
 }

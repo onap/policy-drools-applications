@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * util
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,14 +20,11 @@
 
 package org.onap.policy.controlloop;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-
 import org.apache.commons.io.IOUtils;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.yaml.snakeyaml.Yaml;
@@ -45,13 +42,18 @@ public final class SupportUtil {
         }
     }
 
+    private SupportUtil() {
+        // do nothing
+    }
+
     /**
      * Load yaml into a Pair object.
-     * 
+     *
      * @param testFile the yaml file
      * @return a Pair
+     * @throws IOException if the file cannot be read
      */
-    public static Pair<ControlLoopPolicy, String> loadYaml(String testFile) {
+    public static Pair<ControlLoopPolicy, String> loadYaml(String testFile) throws IOException {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             String contents = IOUtils.toString(is, StandardCharsets.UTF_8);
             //
@@ -59,11 +61,8 @@ public final class SupportUtil {
             //
             Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
             Object obj = yaml.load(contents);
-            return new Pair<ControlLoopPolicy, String>((ControlLoopPolicy) obj, contents);
-        } catch (IOException e) {
-            fail(e.getLocalizedMessage());
+            return new Pair<>((ControlLoopPolicy) obj, contents);
         }
-        return null;
     }
 
 }

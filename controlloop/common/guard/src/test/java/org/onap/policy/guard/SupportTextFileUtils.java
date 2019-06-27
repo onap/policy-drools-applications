@@ -3,6 +3,7 @@
  * guard
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +22,10 @@
 package org.onap.policy.guard;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import org.drools.core.util.IoUtils;
 
 /**
  * The Class TextFileUtils is class that provides useful functions for handling text files.
@@ -31,7 +33,12 @@ import java.io.IOException;
  *
  * @author Liam Fallon (liam.fallon@ericsson.com)
  */
-public abstract class SupportTextFileUtils {
+public class SupportTextFileUtils {
+
+    private SupportTextFileUtils() {
+        // do nothing
+    }
+
     /**
      * Method to return the contents of a text file as a string.
      *
@@ -39,13 +46,8 @@ public abstract class SupportTextFileUtils {
      * @return A string containing the contents of the file
      * @throws IOException on errors reading text from the file
      */
-    public static String getTextFileAsString(final String textFilePath) throws IOException {
-        final File textFile = new File(textFilePath);
-        final FileInputStream textFileInputStream = new FileInputStream(textFile);
-        final byte[] textData = new byte[(int) textFile.length()];
-        textFileInputStream.read(textData);
-        textFileInputStream.close();
-        return new String(textData);
+    public static String getTextFileAsString(final String textFilePath) {
+        return IoUtils.readFileAsString(new File(textFilePath));
     }
 
     /**
@@ -56,8 +58,8 @@ public abstract class SupportTextFileUtils {
      * @throws IOException on errors reading text from the file
      */
     public static void putStringAsFile(final String outString, final File textFile) throws IOException {
-        final FileOutputStream textFileOutputStream = new FileOutputStream(textFile);
-        textFileOutputStream.write(outString.getBytes());
-        textFileOutputStream.close();
+        try (final FileOutputStream textFileOutputStream = new FileOutputStream(textFile)) {
+            textFileOutputStream.write(outString.getBytes(StandardCharsets.UTF_8));
+        }
     }
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -27,7 +28,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -43,6 +43,7 @@ import org.onap.policy.drools.system.PolicyEngine;
  */
 public class ControlLoopMetricsFeatureTest {
 
+    private static final String POLICY_CL_MGT = "POLICY-CL-MGT";
     private static final Path configPath = SystemPersistence.manager.getConfigurationPath();
     private static PolicyController testController;
 
@@ -63,46 +64,42 @@ public class ControlLoopMetricsFeatureTest {
 
     @Test
     public void cacheDefaults() {
-        assertTrue(ControlLoopMetrics.manager.getCacheSize() == 3);
-        assertTrue(ControlLoopMetrics.manager.getTransactionTimeout() == 10);
-        assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == 0);
+        assertEquals(3, ControlLoopMetrics.manager.getCacheSize());
+        assertEquals(10, ControlLoopMetrics.manager.getTransactionTimeout());
+        assertEquals(0, ControlLoopMetrics.manager.getCacheOccupancy());
     }
 
     @Test
     public void invalidNotifications() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
-        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
         this.cacheDefaults();
 
         UUID requestId = UUID.randomUUID();
         notification.setRequestId(requestId);
 
-        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
         assertNull(ControlLoopMetrics.manager.getTransaction(requestId));
         this.cacheDefaults();
     }
 
     @Test
-    public void validActiveNotification() {
+    public void validActiveNotification() throws InterruptedException {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
         UUID requestId = UUID.randomUUID();
         notification.setRequestId(requestId);
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
 
-        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
         assertNotNull(ControlLoopMetrics.manager.getTransaction(requestId));
         assertTrue(ControlLoopMetrics.manager.getTransaction(requestId).getFrom().contains(testController.getName()));
         assertNotNull(ControlLoopMetrics.manager.getTransaction(requestId).getNotificationTime());
         assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == 1);
 
         /* let the entries expire */
-        try {
-            Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 5) * 1000L);
-        } catch (InterruptedException e) {
-            /* nothing to do */
-        }
+        Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 5) * 1000L);
 
         assertNull(ControlLoopMetrics.manager.getTransaction(requestId));
         this.cacheDefaults();
@@ -111,7 +108,7 @@ public class ControlLoopMetricsFeatureTest {
     @Test
     public void reset() {
         VirtualControlLoopNotification notification = this.generateNotification();
-        new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT",
+        new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT,
                 notification);
 
         assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
@@ -135,19 +132,19 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void eviction() {
+    public void eviction() throws InterruptedException {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         for (int i = 0; i < ControlLoopMetrics.manager.getCacheSize(); i++) {
             VirtualControlLoopNotification notification = generateNotification();
-            feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", notification);
+            feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
             assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
         }
 
-        assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheOccupancy());
+        assertEquals(ControlLoopMetrics.manager.getCacheOccupancy(), ControlLoopMetrics.manager.getCacheOccupancy());
 
         VirtualControlLoopNotification overflowNotification = generateNotification();
-        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, "POLICY-CL-MGT", overflowNotification);
-        assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheOccupancy());
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, overflowNotification);
+        assertEquals(ControlLoopMetrics.manager.getCacheOccupancy(), ControlLoopMetrics.manager.getCacheOccupancy());
         assertNotNull(ControlLoopMetrics.manager.getTransaction(overflowNotification.getRequestId()));
         assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager.getCacheSize());
         assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheSize());
@@ -155,11 +152,7 @@ public class ControlLoopMetricsFeatureTest {
         assertFalse(ControlLoopMetrics.manager.getTransactions().isEmpty());
 
         /* let the entries expire */
-        try {
-            Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 5) * 1000L);
-        } catch (InterruptedException e) {
-            /* nothing to do */
-        }
+        Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 5) * 1000L);
 
         ControlLoopMetrics.manager.refresh();
         assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager

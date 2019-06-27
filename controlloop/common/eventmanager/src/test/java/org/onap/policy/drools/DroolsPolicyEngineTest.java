@@ -3,6 +3,7 @@
  * eventmanager
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,40 +35,43 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
 
 public class DroolsPolicyEngineTest {
+    private static final String TOPIC = "TheWizardOfOz";
+    private static final String OMNI_BUS = "OmniBus";
+
     @Test
     public void testDroolsPolicyEngine() {
         PolicyEngineJUnitImpl pe = new PolicyEngineJUnitImpl();
         assertNotNull(pe);
 
         pe.addListener(new TestPolicyEngineListener());
-        pe.notifyListeners("TheWizardOfOz");
+        pe.notifyListeners(TOPIC);
 
-        pe.subscribe("OmniBus", "TheWizardOfOz");
+        pe.subscribe(OMNI_BUS, TOPIC);
 
-        pe.deliver("OmniBus", "TheWizardOfOz", "Dorothy");
+        pe.deliver(OMNI_BUS, TOPIC, "Dorothy");
 
-        pe.subscribe("OmniBus", "TheWizardOfOz");
-        pe.subscribe("OmniBus", "ThisTopicDoesNotExist");
+        pe.subscribe(OMNI_BUS, TOPIC);
+        pe.subscribe(OMNI_BUS, "ThisTopicDoesNotExist");
 
         ControlLoopNotification notification = new VirtualControlLoopNotification();
-        pe.deliver("OmniBus", "TheWizardOfOz", notification);
+        pe.deliver(OMNI_BUS, TOPIC, notification);
 
         Request request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setSubRequestId("12321");
-        pe.deliver("OmniBus", "TheWizardOfOz", request);
+        pe.deliver(OMNI_BUS, TOPIC, request);
 
         LcmRequestWrapper lcmRw = new LcmRequestWrapper();
         lcmRw.setBody(new LcmRequest());
         lcmRw.getBody().setCommonHeader(new LcmCommonHeader());
         lcmRw.getBody().getCommonHeader().setSubRequestId("54321");
-        pe.deliver("OmniBus", "TheWizardOfOz", lcmRw);
+        pe.deliver(OMNI_BUS, TOPIC, lcmRw);
     }
 
     private class TestPolicyEngineListener implements PolicyEngineListener {
         @Override
         public void newEventNotification(String topic) {
-            assertEquals("TheWizardOfOz", topic);
+            assertEquals(TOPIC, topic);
         }
     }
 }

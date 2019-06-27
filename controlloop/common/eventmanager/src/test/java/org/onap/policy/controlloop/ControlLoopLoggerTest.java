@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,8 @@
 
 package org.onap.policy.controlloop;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.onap.policy.controlloop.impl.ControlLoopLoggerStdOutImpl;
@@ -38,11 +37,7 @@ public class ControlLoopLoggerTest {
         logger.metrics("a metric", "and another", " and another");
         logger.metrics(Double.valueOf(3));
 
-        try {
-            new ControlLoopLogger.Factory().buildLogger("java.lang.String");
-            fail("test should throw an exception here");
-        } catch (Exception e) {
-            assertEquals("Cannot load class java.lang.String as a control loop logger", e.getMessage());
-        }
+        assertThatThrownBy(() -> new ControlLoopLogger.Factory().buildLogger("java.lang.String"))
+                        .hasMessage("Cannot load class java.lang.String as a control loop logger");
     }
 }
