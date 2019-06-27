@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46b5064f_e7a3b2ec",
+        "filename": "controlloop/common/database/src/main/java/org/onap/policy/database/operationshistory/CountRecentOperationsPip.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-27T13:11:12Z",
+      "side": 1,
+      "message": "I assume it worked as was, but this should capture a wider range of possibilities (e.g., Integer, Long, BigInteger, etc.)",
+      "parentUuid": "6fae008e_f1f337ba",
+      "range": {
+        "startLine": 183,
+        "startChar": 10,
+        "endLine": 183,
+        "endChar": 43
+      },
+      "revId": "d8118c6638bb2440f89eae9d3f979bdfb0e013c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "224416fc_a55f0eac",
         "filename": "controlloop/common/database/src/test/java/org/onap/policy/database/operationshistory/CountRecentOperationsPipTest.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2019-06-27T10:40:42Z",
       "side": 1,
       "message": "Wondering if you don\u0027t need this property once you have created the entity manager. Not a big deal, I *think* in other places I just use a temp. This is a JUnit so it doesn\u0027t really matter.",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 106
+      },
+      "revId": "d8118c6638bb2440f89eae9d3f979bdfb0e013c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46917ec_89e60ac5",
+        "filename": "controlloop/common/database/src/test/java/org/onap/policy/database/operationshistory/CountRecentOperationsPipTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-06-27T13:11:12Z",
+      "side": 1,
+      "message": "Per JPA documentation, the emf is responsible for caching DB connections, thus you have to close the emf when done, otherwise the connections may remain open; closing the em does not necessarily close the DB connection or release resources.\n\nFor tests, this doesn\u0027t really matter, but it\u0027s a source of connection and memory leaks in production code.",
+      "parentUuid": "224416fc_a55f0eac",
       "range": {
         "startLine": 101,
         "startChar": 8,
