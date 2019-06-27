@@ -59,8 +59,8 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>1.5.0-SNAPSHOT</version.policy.common>
-        <policy.models.version>2.1.0-SNAPSHOT</policy.models.version>
+        <version.policy.common>1.5.1-SNAPSHOT</version.policy.common>
+        <policy.models.version>2.1.1-SNAPSHOT</policy.models.version>
         <version.policy.drools-pdp>1.5.0-SNAPSHOT</version.policy.drools-pdp>
     </properties>
 

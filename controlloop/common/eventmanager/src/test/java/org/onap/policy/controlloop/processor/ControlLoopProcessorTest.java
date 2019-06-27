@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * unit test
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,17 +20,15 @@
 
 package org.onap.policy.controlloop.processor;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -56,13 +54,8 @@ public class ControlLoopProcessorTest {
         InputStream is = new FileInputStream(new File("src/test/resources/string.yaml"));
         String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
-        try {
-            new ControlLoopProcessor(yamlString);
-            fail("test should thrown an exception");
-        } catch (Exception e) {
-            assertEquals("Cannot create property=string for JavaBean=ControlLoopPolicy",
-                    e.getMessage().substring(0, 60));
-        }
+        assertThatThrownBy(() -> new ControlLoopProcessor(yamlString))
+            .hasMessageStartingWith("Cannot create property=string for JavaBean=ControlLoopPolicy");
     }
 
     @Test
@@ -73,12 +66,8 @@ public class ControlLoopProcessorTest {
         ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
         assertNull(clProcessor.getCurrentPolicy());
 
-        try {
-            clProcessor.nextPolicyForResult(PolicyResult.SUCCESS);
-            fail("test shold throw an exception here");
-        } catch (ControlLoopException e) {
-            assertEquals("There is no current policy to determine where to go to.", e.getMessage());
-        }
+        assertThatThrownBy(() -> clProcessor.nextPolicyForResult(PolicyResult.SUCCESS))
+            .hasMessageStartingWith("There is no current policy to determine where to go to.");
     }
 
     @Test
@@ -87,13 +76,8 @@ public class ControlLoopProcessorTest {
         String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
         ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
-
-        try {
-            clProcessor.getCurrentPolicy();
-            fail("test shold throw an exception here");
-        } catch (ControlLoopException e) {
-            assertEquals("There are no policies defined.", e.getMessage());
-        }
+        assertThatThrownBy(clProcessor::getCurrentPolicy)
+            .hasMessage("There are no policies defined.");
     }
 
     @Test
@@ -128,7 +112,7 @@ public class ControlLoopProcessorTest {
 
     /**
      * Test policies in the given yaml following the successfull path.
-     * 
+     *
      * @param yaml yaml containing the policies to test
      * @throws ControlLoopException if an error occurs
      */
@@ -150,7 +134,7 @@ public class ControlLoopProcessorTest {
 
     /**
      * Test policies in the given yaml following the failure path.
-     * 
+     *
      * @param yaml yaml containing the policies to test
      * @throws ControlLoopException if an error occurs
      */

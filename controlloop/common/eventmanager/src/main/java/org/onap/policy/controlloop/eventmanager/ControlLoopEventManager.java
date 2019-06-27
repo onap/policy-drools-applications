@@ -24,13 +24,19 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
@@ -90,6 +96,16 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager.class);
 
     private static final long serialVersionUID = -1216568161322872641L;
+
+    private static final Set<String> VALID_TARGETS;
+
+    static {
+        VALID_TARGETS = Collections.unmodifiableSet(new HashSet<>(
+                        Arrays.asList(VM_NAME, VNF_NAME, VSERVER_VSERVER_NAME,
+                                        GENERIC_VNF_VNF_ID, GENERIC_VNF_VNF_NAME)
+                        .stream().map(String::toLowerCase).collect(Collectors.toList())));
+    }
+
     public final String closedLoopControlName;
     private final UUID requestId;
 
@@ -308,18 +324,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public VirtualControlLoopNotification isControlLoopFinal() throws ControlLoopException {
-        //
-        // Check if they activated us
-        //
-        if (!this.isActivated) {
-            throw new ControlLoopException("ControlLoopEventManager MUST be activated first.");
-        }
-        //
-        // Make sure we are expecting this call.
-        //
-        if (this.onset == null) {
-            throw new ControlLoopException("No onset event for ControlLoopEventManager.");
-        }
+        validateFinalControlLoop();
         //
         // Ok, start creating the notification
         //
@@ -374,14 +379,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         return notification;
     }
 
-    /**
-     * Process the control loop.
-     *
-     * @return a ControlLoopOperationManager
-     * @throws ControlLoopException if an error occurs
-     * @throws AaiException if an error occurs retrieving information from A&AI
-     */
-    public ControlLoopOperationManager processControlLoop() throws ControlLoopException, AaiException {
+    private void validateFinalControlLoop() throws ControlLoopException {
         //
         // Check if they activated us
         //
@@ -394,6 +392,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (this.onset == null) {
             throw new ControlLoopException("No onset event for ControlLoopEventManager.");
         }
+    }
+
+    /**
+     * Process the control loop.
+     *
+     * @return a ControlLoopOperationManager
+     * @throws ControlLoopException if an error occurs
+     * @throws AaiException if an error occurs retrieving information from A&AI
+     */
+    public ControlLoopOperationManager processControlLoop() throws ControlLoopException, AaiException {
+        validateFinalControlLoop();
         //
         // Is there a current operation?
         //
@@ -692,12 +701,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
-        if (event.getClosedLoopEventStatus() == null
-                || (event.getClosedLoopEventStatus() != ControlLoopEventStatus.ONSET
-                        && event.getClosedLoopEventStatus() != ControlLoopEventStatus.ABATED)) {
-            throw new ControlLoopException("Invalid value in closedLoopEventStatus");
-        }
-        if (event.getClosedLoopControlName() == null || event.getClosedLoopControlName().length() < 1) {
+        validateStatus(event);
+        if (StringUtils.isBlank(event.getClosedLoopControlName())) {
             throw new ControlLoopException("No control loop name");
         }
         if (event.getRequestId() == null) {
@@ -706,14 +711,23 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         if (event.getClosedLoopEventStatus() == ControlLoopEventStatus.ABATED) {
             return;
         }
-        if (event.getTarget() == null || event.getTarget().length() < 1) {
+        if (StringUtils.isBlank(event.getTarget())) {
             throw new ControlLoopException("No target field");
-        } else if (!VM_NAME.equalsIgnoreCase(event.getTarget()) && !VNF_NAME.equalsIgnoreCase(event.getTarget())
-                && !VSERVER_VSERVER_NAME.equalsIgnoreCase(event.getTarget())
-                && !GENERIC_VNF_VNF_ID.equalsIgnoreCase(event.getTarget())
-                && !GENERIC_VNF_VNF_NAME.equalsIgnoreCase(event.getTarget())) {
+        } else if (!VALID_TARGETS.contains(event.getTarget().toLowerCase())) {
             throw new ControlLoopException("target field invalid - expecting VM_NAME or VNF_NAME");
         }
+        validateAaiData(event);
+    }
+
+    private void validateStatus(VirtualControlLoopEvent event) throws ControlLoopException {
+        if (event.getClosedLoopEventStatus() == null
+                || (event.getClosedLoopEventStatus() != ControlLoopEventStatus.ONSET
+                        && event.getClosedLoopEventStatus() != ControlLoopEventStatus.ABATED)) {
+            throw new ControlLoopException("Invalid value in closedLoopEventStatus");
+        }
+    }
+
+    private void validateAaiData(VirtualControlLoopEvent event) throws ControlLoopException {
         if (event.getAai() == null) {
             throw new ControlLoopException("AAI is null");
         }

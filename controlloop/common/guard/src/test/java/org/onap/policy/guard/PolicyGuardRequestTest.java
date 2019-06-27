@@ -31,25 +31,29 @@ import org.junit.Test;
 
 public class PolicyGuardRequestTest {
 
+    private static final String KANSAS = "Kansas";
+    private static final String GET_BACK_HOME = "GetBackHome";
+    private static final String DOROTHY = "Dorothy";
+
     @Test
     public void policyGuardRequestTest() {
         UUID requestId = UUID.randomUUID();
 
         assertNotNull(new PolicyGuardRequest(null, null, null, null));
 
-        PolicyGuardRequest request = new PolicyGuardRequest("Dorothy", "Kansas", requestId, "GetBackHome");
+        PolicyGuardRequest request = new PolicyGuardRequest(DOROTHY, KANSAS, requestId, GET_BACK_HOME);
 
         request.setRequestId(requestId);
         assertEquals(requestId, request.getRequestId());
 
-        request.setActor("Dorothy");
-        assertEquals("Dorothy", request.getActor());
+        request.setActor(DOROTHY);
+        assertEquals(DOROTHY, request.getActor());
 
-        request.setTarget("Kansas");
-        assertEquals("Kansas", request.getTarget());
+        request.setTarget(KANSAS);
+        assertEquals(KANSAS, request.getTarget());
 
-        request.setOperation("GetBackHome");
-        assertEquals("GetBackHome", request.getOperation());
+        request.setOperation(GET_BACK_HOME);
+        assertEquals(GET_BACK_HOME, request.getOperation());
 
         assertEquals("PolicyGuardRequest [actor=Dorothy", request.toString().substring(0, 33));
     }

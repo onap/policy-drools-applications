@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,16 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class PolicyGuardYamlToXacmlTest {
+    private static final String SOME_START_TIME = "someStartTime";
+    private static final String SOME_END_TIME = "someEndTime";
+    private static final String HOURS = "hours";
+    private static final String TARGET2 = "WickedWitchOfTheWest";
+    private static final String TARGET1 = "Wizard";
+    private static final String ONAPPF_FILE = "ONAPPF";
+    private static final String RECIPE = "GoToOz";
+    private static final String TEXT1 = "WestWitches";
+    private static final String TEXT2 = "EastWitches";
+    private static final String OUT_XACML = ".out.xacml";
     private ControlLoopGuard clGuard;
 
     /**
@@ -52,10 +62,10 @@ public class PolicyGuardYamlToXacmlTest {
         MatchParameters matchParameters = new MatchParameters();
         matchParameters.setControlLoopName("WizardOfOz");
         matchParameters.setActor("Dorothy");
-        matchParameters.setRecipe("GoToOz");
+        matchParameters.setRecipe(RECIPE);
         List<String> targets = new ArrayList<>();
-        targets.add("Wizard");
-        targets.add("WickedWitchOfTheWest");
+        targets.add(TARGET1);
+        targets.add(TARGET2);
         matchParameters.setTargets(targets);
         GuardPolicy guardPolicy = new GuardPolicy();
         guardPolicy.setMatch_parameters(matchParameters);
@@ -63,11 +73,11 @@ public class PolicyGuardYamlToXacmlTest {
         limitConstraint.setFreq_limit_per_target(5);
         Map<String, String> timeWindow = new HashMap<>();
         timeWindow.put("value", "10");
-        timeWindow.put("units", "hours");
+        timeWindow.put("units", HOURS);
         limitConstraint.setTime_window(timeWindow);
         Map<String, String> activeTimeRange = new HashMap<>();
-        activeTimeRange.put("start", "someStartTime");
-        activeTimeRange.put("end", "someEndTime");
+        activeTimeRange.put("start", SOME_START_TIME);
+        activeTimeRange.put("end", SOME_END_TIME);
         limitConstraint.setActive_time_range(activeTimeRange);
         LinkedList<Constraint> limitConstraints = new LinkedList<>();
         limitConstraints.add(limitConstraint);
@@ -79,9 +89,13 @@ public class PolicyGuardYamlToXacmlTest {
 
     @Test
     public void testGenerateXacmlGuardFull() throws IOException {
-        File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+        File tempYamlFile = File.createTempFile(ONAPPF_FILE, "yaml");
+        tempYamlFile.deleteOnExit();
+
         File tempXacmlTemplateFile = new File("src/test/resources/frequency_limiter_template.xml");
-        File tempXacmlOutputFile = File.createTempFile("ONAPPF", ".out.xacml");
+
+        File tempXacmlOutputFile = File.createTempFile(ONAPPF_FILE, OUT_XACML);
+        tempXacmlOutputFile.deleteOnExit();
 
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
         String clYamlString = clYaml.dump(clGuard);
@@ -98,23 +112,24 @@ public class PolicyGuardYamlToXacmlTest {
         // Assert all substitutions are made
         assertTrue(result.contains("cl"));
         assertTrue(result.contains("actor"));
-        assertTrue(result.contains("GoToOz"));
-        assertTrue(result.contains("Wizard"));
-        assertTrue(result.contains("WickedWitchOfTheWest"));
+        assertTrue(result.contains(RECIPE));
+        assertTrue(result.contains(TARGET1));
+        assertTrue(result.contains(TARGET2));
         assertTrue(result.contains("10"));
-        assertTrue(result.contains("hours"));
-        assertTrue(result.contains("someStartTime"));
-        assertTrue(result.contains("someEndTime"));
-
-        tempYamlFile.delete();
-        tempXacmlOutputFile.delete();
+        assertTrue(result.contains(HOURS));
+        assertTrue(result.contains(SOME_START_TIME));
+        assertTrue(result.contains(SOME_END_TIME));
     }
 
     @Test
     public void testGenerateXacmlGuardPartial() throws IOException {
-        final File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+        final File tempYamlFile = File.createTempFile(ONAPPF_FILE, "yaml");
+        tempYamlFile.deleteOnExit();
+
         final File tempXacmlTemplateFile = new File("src/test/resources/frequency_limiter_template.xml");
-        final File tempXacmlOutputFile = File.createTempFile("ONAPPF", ".out.xacml");
+
+        final File tempXacmlOutputFile = File.createTempFile(ONAPPF_FILE, OUT_XACML);
+        tempXacmlOutputFile.deleteOnExit();
 
         MatchParameters matchParameters = clGuard.getGuards().get(0).getMatch_parameters();
         matchParameters.setControlLoopName(null);
@@ -137,16 +152,13 @@ public class PolicyGuardYamlToXacmlTest {
         // Assert all substitutions are made
         assertTrue(result.contains("cl"));
         assertTrue(result.contains("actor"));
-        assertFalse(result.contains("GoToOz"));
-        assertFalse(result.contains("Wizard"));
-        assertFalse(result.contains("WickedWitchOfTheWest"));
+        assertFalse(result.contains(RECIPE));
+        assertFalse(result.contains(TARGET1));
+        assertFalse(result.contains(TARGET2));
         assertTrue(result.contains("10"));
-        assertTrue(result.contains("hours"));
-        assertTrue(result.contains("someStartTime"));
-        assertTrue(result.contains("someEndTime"));
-
-        tempYamlFile.delete();
-        tempXacmlOutputFile.delete();
+        assertTrue(result.contains(HOURS));
+        assertTrue(result.contains(SOME_START_TIME));
+        assertTrue(result.contains(SOME_END_TIME));
     }
 
     @Test
@@ -173,13 +185,17 @@ public class PolicyGuardYamlToXacmlTest {
 
     @Test
     public void testGenerateXacmlGuardBlacklist() throws IOException {
-        final File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+        final File tempYamlFile = File.createTempFile(ONAPPF_FILE, "yaml");
+        tempYamlFile.deleteOnExit();
+
         final File tempXacmlTemplateFile = new File("src/test/resources/blacklist_template.xml");
-        final File tempXacmlOutputFile = File.createTempFile("ONAPPF", ".out.xacml");
+
+        final File tempXacmlOutputFile = File.createTempFile(ONAPPF_FILE, OUT_XACML);
+        tempXacmlOutputFile.deleteOnExit();
 
         List<String> blacklist = new ArrayList<>();
-        blacklist.add("WestWitches");
-        blacklist.add("EastWitches");
+        blacklist.add(TEXT1);
+        blacklist.add(TEXT2);
         clGuard.getGuards().get(0).getLimit_constraints().get(0).setBlacklist(blacklist);
 
         Yaml clYaml = new Yaml(new Constructor(ControlLoopGuard.class));
@@ -190,27 +206,27 @@ public class PolicyGuardYamlToXacmlTest {
                 tempXacmlTemplateFile.getCanonicalPath(), tempXacmlOutputFile.getCanonicalPath());
 
         String result = SupportTextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
-        System.err.println(result);
         // Assert no mote "${}" are left
         assertFalse(result.contains("${"));
         assertFalse(result.contains("}"));
         // Assert all substitutions are made
-        assertTrue(result.contains("WestWitches"));
-        assertTrue(result.contains("EastWitches"));
-
-        tempYamlFile.delete();
-        tempXacmlOutputFile.delete();
+        assertTrue(result.contains(TEXT1));
+        assertTrue(result.contains(TEXT2));
     }
 
     @Test
     public void testGenerateXacmlGuardBlacklistPartial() throws IOException {
-        final File tempYamlFile = File.createTempFile("ONAPPF", "yaml");
+        final File tempYamlFile = File.createTempFile(ONAPPF_FILE, "yaml");
+        tempYamlFile.deleteOnExit();
+
         final File tempXacmlTemplateFile = new File("src/test/resources/blacklist_template.xml");
-        final File tempXacmlOutputFile = File.createTempFile("ONAPPF", ".out.xacml");
+
+        final File tempXacmlOutputFile = File.createTempFile(ONAPPF_FILE, OUT_XACML);
+        tempXacmlOutputFile.deleteOnExit();
 
         List<String> blacklist = new ArrayList<>();
-        blacklist.add("WestWitches");
-        blacklist.add("EastWitches");
+        blacklist.add(TEXT1);
+        blacklist.add(TEXT2);
         GuardPolicy guardPolicy = clGuard.getGuards().get(0);
         guardPolicy.getLimit_constraints().get(0).setBlacklist(blacklist);
 
@@ -228,15 +244,11 @@ public class PolicyGuardYamlToXacmlTest {
                 tempXacmlTemplateFile.getCanonicalPath(), tempXacmlOutputFile.getCanonicalPath());
 
         String result = SupportTextFileUtils.getTextFileAsString(tempXacmlOutputFile.getCanonicalPath());
-        System.err.println(result);
         // Assert no mote "${}" are left
         assertFalse(result.contains("${"));
         assertFalse(result.contains("}"));
         // Assert all substitutions are made
-        assertTrue(result.contains("WestWitches"));
-        assertTrue(result.contains("EastWitches"));
-
-        tempYamlFile.delete();
-        tempXacmlOutputFile.delete();
+        assertTrue(result.contains(TEXT1));
+        assertTrue(result.contains(TEXT2));
     }
 }

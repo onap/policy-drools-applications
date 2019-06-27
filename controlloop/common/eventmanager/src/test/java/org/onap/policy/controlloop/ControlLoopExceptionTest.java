@@ -3,6 +3,7 @@
  * eventmanager
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +29,14 @@ import org.junit.Test;
 
 public class ControlLoopExceptionTest {
 
+    private static final String IN_OZ = "In Oz";
+
     @Test
     public void testControlLoopException() {
         assertNotNull(new ControlLoopException());
-        assertNotNull(new ControlLoopException("In Oz"));
+        assertNotNull(new ControlLoopException(IN_OZ));
         assertNotNull(new ControlLoopException(new IOException()));
-        assertNotNull(new ControlLoopException("In Oz", new IOException()));
-        assertNotNull(new ControlLoopException("In Oz", new IOException(), false, false));
+        assertNotNull(new ControlLoopException(IN_OZ, new IOException()));
+        assertNotNull(new ControlLoopException(IN_OZ, new IOException(), false, false));
     }
 }
