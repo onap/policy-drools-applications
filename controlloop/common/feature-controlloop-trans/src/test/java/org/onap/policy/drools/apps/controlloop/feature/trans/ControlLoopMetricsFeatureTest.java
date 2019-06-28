@@ -20,6 +20,7 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -28,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -65,7 +67,7 @@ public class ControlLoopMetricsFeatureTest {
     @Test
     public void cacheDefaults() {
         assertEquals(3, ControlLoopMetrics.manager.getCacheSize());
-        assertEquals(10, ControlLoopMetrics.manager.getTransactionTimeout());
+        assertEquals(2, ControlLoopMetrics.manager.getTransactionTimeout());
         assertEquals(0, ControlLoopMetrics.manager.getCacheOccupancy());
     }
 
@@ -98,10 +100,10 @@ public class ControlLoopMetricsFeatureTest {
         assertNotNull(ControlLoopMetrics.manager.getTransaction(requestId).getNotificationTime());
         assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == 1);
 
-        /* let the entries expire */
-        Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 1) * 1000L);
+        /* wait for the entries to expire */
+        await().atMost(ControlLoopMetrics.manager.getTransactionTimeout() + 1, TimeUnit.SECONDS)
+                        .until(() -> ControlLoopMetrics.manager.getTransaction(requestId) == null);
 
-        assertNull(ControlLoopMetrics.manager.getTransaction(requestId));
         this.cacheDefaults();
     }
 
@@ -151,8 +153,9 @@ public class ControlLoopMetricsFeatureTest {
         assertFalse(ControlLoopMetrics.manager.getTransactionIds().isEmpty());
         assertFalse(ControlLoopMetrics.manager.getTransactions().isEmpty());
 
-        /* let the entries expire */
-        Thread.sleep((ControlLoopMetrics.manager.getTransactionTimeout() + 1) * 1000L);
+        /* wait for the entries to expire */
+        await().atMost(ControlLoopMetrics.manager.getTransactionTimeout() + 1, TimeUnit.SECONDS)
+                        .until(() -> ControlLoopMetrics.manager.getTransactions().isEmpty());
 
         ControlLoopMetrics.manager.refresh();
         assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager
