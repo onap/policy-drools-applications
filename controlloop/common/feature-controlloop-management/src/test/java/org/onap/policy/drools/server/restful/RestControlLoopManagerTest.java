@@ -38,7 +38,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.builder.ReleaseId;
-import org.onap.policy.common.endpoints.http.client.HttpClient;
+import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.properties.DroolsProperties;
@@ -100,7 +100,7 @@ public class RestControlLoopManagerTest {
         PolicyEngine.manager.createPolicyController(CONTROLLER, controllerProperties);
         PolicyEngine.manager.start();
 
-        HttpClient.factory.build(SystemPersistence.manager.getProperties(CLIENT_CONFIG));
+        HttpClientFactoryInstance.getClientFactory().build(SystemPersistence.manager.getProperties(CLIENT_CONFIG));
 
         if (!NetworkUtil.isTcpPortOpen("localhost", 9696, 6, 10000L)) {
             throw new IllegalStateException("cannot connect to port 9696");
@@ -143,30 +143,30 @@ public class RestControlLoopManagerTest {
      */
     @Test
     public void testOperationalPolicy() throws IOException {
-        assertEquals(Status.OK.getStatusCode(),
-            HttpClient.factory.get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOPS).getStatus());
+        assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                        .get(URL_CONTEXT_PATH_CONTROLLOOPS).getStatus());
 
-        assertEquals(Status.OK.getStatusCode(),
-            HttpClient.factory.get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP).getStatus());
+        assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                        .get(URL_CONTEXT_PATH_CONTROLLOOP).getStatus());
 
-        assertEquals(Status.NOT_FOUND.getStatusCode(),
-            HttpClient.factory.get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
+        assertEquals(Status.NOT_FOUND.getStatusCode(), HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                        .get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
 
         String policyFromFile = new String(Files.readAllBytes(Paths.get(POLICY)));
-        HttpClient.factory.get(CONTROLLER)
-            .put(URL_CONTEXT_PATH_CONTROLLOOP_POLICY, Entity.text(policyFromFile), Collections.emptyMap());
+        HttpClientFactoryInstance.getClientFactory().get(CONTROLLER).put(URL_CONTEXT_PATH_CONTROLLOOP_POLICY,
+                        Entity.text(policyFromFile), Collections.emptyMap());
 
-        assertEquals(Status.OK.getStatusCode(),
-            HttpClient.factory.get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
+        assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                        .get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
 
-        String policyFromPdpD = HttpClient.factory.get(CONTROLLER)
+        String policyFromPdpD = HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
             .get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY)
             .readEntity(String.class);
 
         assertEquals(policyFromFile, policyFromPdpD);
 
         assertEquals(Status.CONFLICT.getStatusCode(),
-            HttpClient.factory.get(CONTROLLER).put(URL_CONTEXT_PATH_CONTROLLOOP_POLICY,
+            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER).put(URL_CONTEXT_PATH_CONTROLLOOP_POLICY,
                 Entity.text(policyFromFile), Collections.emptyMap()).getStatus());
     }
 

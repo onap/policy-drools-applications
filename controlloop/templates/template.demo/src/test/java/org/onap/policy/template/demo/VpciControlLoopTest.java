@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,17 +33,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -98,7 +97,7 @@ public class VpciControlLoopTest implements TopicListener {
                 "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+        noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
 
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -146,9 +145,9 @@ public class VpciControlLoopTest implements TopicListener {
         kieSession.dispose();
 
         PolicyEngine.manager.stop();
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
         PolicyController.factory.shutdown();
-        TopicEndpoint.manager.shutdown();
+        TopicEndpointManager.getManager().shutdown();
     }
 
     @Test
@@ -175,7 +174,7 @@ public class VpciControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, true);
 
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -215,7 +214,7 @@ public class VpciControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, false);
 
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -233,7 +232,7 @@ public class VpciControlLoopTest implements TopicListener {
 
     /**
      * This method will start a kie session and instantiate the Policy Engine.
-     * 
+     *
      * @param droolsTemplate
      *            the DRL rules file
      * @param yamlFile
@@ -283,7 +282,7 @@ public class VpciControlLoopTest implements TopicListener {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.
      * String)
@@ -384,7 +383,7 @@ public class VpciControlLoopTest implements TopicListener {
     /**
      * This method is used to simulate event messages from DCAE that start the
      * control loop (onset message).
-     * 
+     *
      * @param policy
      *            the controlLoopName comes from the policy
      * @param requestId
@@ -423,7 +422,7 @@ public class VpciControlLoopTest implements TopicListener {
 
     /**
      * This method will dump all the facts in the working memory.
-     * 
+     *
      * @param kieSession
      *            the session containing the facts
      */

@@ -32,17 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -90,7 +89,7 @@ public class CcvpnBwControlLoopTest implements TopicListener {
                 "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+        noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
 
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -137,9 +136,9 @@ public class CcvpnBwControlLoopTest implements TopicListener {
         kieSession.dispose();
 
         PolicyEngine.manager.stop();
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
         PolicyController.factory.shutdown();
-        TopicEndpoint.manager.shutdown();
+        TopicEndpointManager.getManager().shutdown();
     }
 
     @Test

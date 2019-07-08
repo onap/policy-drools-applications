@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -43,10 +42,10 @@ import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -97,7 +96,7 @@ public class ControlLoopFailureTest implements TopicListener {
                 "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+        noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
 
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -148,9 +147,9 @@ public class ControlLoopFailureTest implements TopicListener {
         kieSession.dispose();
 
         PolicyEngine.manager.stop();
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
         PolicyController.factory.shutdown();
-        TopicEndpoint.manager.shutdown();
+        TopicEndpointManager.getManager().shutdown();
     }
 
     /**
@@ -205,7 +204,7 @@ public class ControlLoopFailureTest implements TopicListener {
          * a lock for a different
          */
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -223,7 +222,7 @@ public class ControlLoopFailureTest implements TopicListener {
 
     /**
      * This method will start a kie session and instantiate the Policy Engine.
-     * 
+     *
      * @param droolsTemplate the DRL rules file
      * @param yamlFile the yaml file containing the policies
      * @param policyScope scope for policy
@@ -248,7 +247,7 @@ public class ControlLoopFailureTest implements TopicListener {
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate, 
+        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate,
                 pair.first.getControlLoop().getControlLoopName(),
                 policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
 
@@ -265,7 +264,7 @@ public class ControlLoopFailureTest implements TopicListener {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
      */
     @Override
@@ -371,7 +370,7 @@ public class ControlLoopFailureTest implements TopicListener {
     /**
      * This method is used to simulate event messages from DCAE that start the control loop (onset
      * message) or end the control loop (abatement message).
-     * 
+     *
      * @param policy the controlLoopName comes from the policy
      * @param requestId the requestId for this event
      * @param status could be onset or abated
@@ -391,7 +390,7 @@ public class ControlLoopFailureTest implements TopicListener {
 
     /**
      * This method will dump all the facts in the working memory.
-     * 
+     *
      * @param kieSession the session containing the facts
      */
     public void dumpFacts(KieSession kieSession) {
