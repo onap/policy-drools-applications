@@ -21,12 +21,10 @@
 package org.onap.policy.coordination;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class CoordinationDirectiveTest {

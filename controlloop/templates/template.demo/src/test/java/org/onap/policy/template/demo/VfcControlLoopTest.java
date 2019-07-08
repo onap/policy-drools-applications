@@ -33,17 +33,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -94,7 +93,7 @@ public class VfcControlLoopTest implements TopicListener {
                 "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
                 "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+        noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
 
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -112,7 +111,7 @@ public class VfcControlLoopTest implements TopicListener {
             fail(e.getMessage());
         }
         /*
-         * 
+         *
          * Start the kie session
          */
         try {
@@ -139,9 +138,9 @@ public class VfcControlLoopTest implements TopicListener {
         kieSession.dispose();
 
         PolicyEngine.manager.stop();
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
         PolicyController.factory.shutdown();
-        TopicEndpoint.manager.shutdown();
+        TopicEndpointManager.getManager().shutdown();
     }
 
     @Test
@@ -168,7 +167,7 @@ public class VfcControlLoopTest implements TopicListener {
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET);
 
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -219,7 +218,7 @@ public class VfcControlLoopTest implements TopicListener {
         kieSession.insert(event);
 
         kieSession.fireUntilHalt();
-        
+
         // allow object clean-up
         kieSession.fireAllRules();
 
@@ -261,7 +260,7 @@ public class VfcControlLoopTest implements TopicListener {
         /*
          * Construct a kie session
          */
-        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate, 
+        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate,
                 pair.first.getControlLoop().getControlLoopName(),
                 policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
 
@@ -278,7 +277,7 @@ public class VfcControlLoopTest implements TopicListener {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
      */
     @Override
@@ -346,7 +345,7 @@ public class VfcControlLoopTest implements TopicListener {
     /**
      * This method is used to simulate event messages from DCAE that start the control loop (onset
      * message) or end the control loop (abatement message).
-     * 
+     *
      * @param policy the controlLoopName comes from the policy
      * @param requestId the requestId for this event
      * @param status could be onset or abated
@@ -373,7 +372,7 @@ public class VfcControlLoopTest implements TopicListener {
 
     /**
      * Dumps the kie session facts.
-     * 
+     *
      * @param kieSession input session
      */
     public static void dumpFacts(KieSession kieSession) {

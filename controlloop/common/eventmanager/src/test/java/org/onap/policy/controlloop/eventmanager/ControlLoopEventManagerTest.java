@@ -54,7 +54,7 @@ import org.onap.policy.aai.Relationship;
 import org.onap.policy.aai.RelationshipData;
 import org.onap.policy.aai.RelationshipList;
 import org.onap.policy.aai.util.AaiException;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -122,7 +122,7 @@ public class ControlLoopEventManagerTest {
 
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     /**

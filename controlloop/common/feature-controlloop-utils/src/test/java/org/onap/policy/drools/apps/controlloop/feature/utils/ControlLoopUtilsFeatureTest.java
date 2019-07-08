@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ package org.onap.policy.drools.apps.controlloop.feature.utils;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;
@@ -39,11 +39,11 @@ public class ControlLoopUtilsFeatureTest {
         LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
         final ControlLoopUtilsFeature feature = new ControlLoopUtilsFeature();
         feature.afterStart(PolicyEngine.manager);
-        assertNotNull(HttpServletServer.factory.get(Util.AAISIM_SERVER_PORT));
-        assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
-        assertNotNull(HttpServletServer.factory.get(Util.SOSIM_SERVER_PORT));
-        assertNotNull(HttpServletServer.factory.get(Util.GUARDSIM_SERVER_PORT));
-        assertNotNull(HttpServletServer.factory.get(Util.SDNCSIM_SERVER_PORT));
+        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.AAISIM_SERVER_PORT));
+        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));
+        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));
+        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.GUARDSIM_SERVER_PORT));
+        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SDNCSIM_SERVER_PORT));
     }
 
 }
