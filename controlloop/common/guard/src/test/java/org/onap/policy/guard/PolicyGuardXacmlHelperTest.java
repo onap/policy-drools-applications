@@ -27,7 +27,7 @@ import java.util.Properties;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 
@@ -48,7 +48,7 @@ public class PolicyGuardXacmlHelperTest {
         LoggerUtil.setLevel("ROOT", "INFO");
         LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
 
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
         org.onap.policy.simulators.Util.buildGuardSim();
 
         //
@@ -62,7 +62,7 @@ public class PolicyGuardXacmlHelperTest {
      */
     @AfterClass
     public static void tearDownSimulator() {
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
 
         // Null/ Bad Connection Case
         PolicyGuardXacmlRequestAttributes xacmlReq = new PolicyGuardXacmlRequestAttributes(

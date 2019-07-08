@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP
   ================================================================================
-  Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2019 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,14 +26,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-        <artifactId>model-impl</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+        <artifactId>common</artifactId>
+        <version>1.5.1-SNAPSHOT</version>
     </parent>
 
     <groupId>org.onap.policy.drools.apps.test</groupId>
     <artifactId>op</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
