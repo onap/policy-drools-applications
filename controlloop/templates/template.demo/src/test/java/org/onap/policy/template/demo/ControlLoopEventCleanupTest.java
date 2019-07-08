@@ -38,9 +38,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -123,7 +123,7 @@ public class ControlLoopEventCleanupTest {
                         "org.onap.policy.controlloop.VirtualControlLoopNotification");
         noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
                         "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        final List<TopicSink> noopTopics = TopicEndpoint.manager.addTopicSinks(noopSinkProperties);
+        final List<TopicSink> noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
 
         EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
@@ -177,9 +177,9 @@ public class ControlLoopEventCleanupTest {
         kieSession.dispose();
 
         PolicyEngine.manager.stop();
-        HttpServletServer.factory.destroy();
+        HttpServletServerFactoryInstance.getServerFactory().destroy();
         PolicyController.factory.shutdown();
-        TopicEndpoint.manager.shutdown();
+        TopicEndpointManager.getManager().shutdown();
 
         if (saveGuardFlag == null) {
             PolicyEngine.manager.getEnvironment().remove(GUARD_DISABLED);
@@ -202,7 +202,7 @@ public class ControlLoopEventCleanupTest {
 
         kieSession.fireAllRules();
         List<Object> facts = getSessionObjects();
-        
+
         // should have events for both control loops
         assertEquals(2 * CL_OBJECTS, facts.size());
         assertTrue(hasEvent(facts, CONTROL_LOOP_NAME));
@@ -362,7 +362,7 @@ public class ControlLoopEventCleanupTest {
 
     /**
      * Determines if the facts contain an event for the given control loop.
-     * 
+     *
      * @param facts session facts to be checked
      * @param controlLoopName name of the control loop of interest
      * @return {@code true} if the facts contain an event for the given control loop,
