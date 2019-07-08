@@ -28,12 +28,12 @@
     <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
         <artifactId>model-impl</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>2.1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>org.onap.policy.drools.apps.test</groupId>
     <artifactId>op</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
