@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f1152bf_fc58a08b",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/resources/op.pom",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-07-09T15:51:40Z",
+      "side": 1,
+      "message": "same comment",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "51b2a2b1b19708fffcae6302e202aab953c66508",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33a7b693_a9dc296b",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/resources/op.pom",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-07-09T15:51:40Z",
+      "side": 1,
+      "message": "same comment",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 27
+      },
+      "revId": "51b2a2b1b19708fffcae6302e202aab953c66508",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc1d21f_56503e10",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/resources/op.pom",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2019-07-09T15:51:40Z",
+      "side": 1,
+      "message": "better to use the variable ${policy.models.version}",
+      "range": {
+        "startLine": 42,
+        "startChar": 21,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "51b2a2b1b19708fffcae6302e202aab953c66508",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
