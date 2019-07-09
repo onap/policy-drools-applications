@@ -46,6 +46,30 @@
       "revId": "2a1a7893b445ebca44ec8e1b90f84bb66fbca92f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc4d1eb5_05c99b0b",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/resources/op.pom",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-07-09T16:25:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca0f9498_d5b14dd6",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "2a1a7893b445ebca44ec8e1b90f84bb66fbca92f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
