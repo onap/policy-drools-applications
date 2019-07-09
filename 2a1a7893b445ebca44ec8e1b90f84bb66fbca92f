@@ -22,6 +22,30 @@
       "revId": "2a1a7893b445ebca44ec8e1b90f84bb66fbca92f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0f9498_d5b14dd6",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/resources/op.pom",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-09T16:22:11Z",
+      "side": 1,
+      "message": "since it\u0027s under src/test, it shouldn\u0027t have any effect outside of the junit, and it since the junit runs successfully, I think it\u0027s OK",
+      "parentUuid": "e338af1c_f2bdc11d",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "2a1a7893b445ebca44ec8e1b90f84bb66fbca92f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
