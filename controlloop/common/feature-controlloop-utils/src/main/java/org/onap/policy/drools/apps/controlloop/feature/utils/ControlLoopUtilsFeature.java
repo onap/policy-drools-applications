@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,7 @@
 package org.onap.policy.drools.apps.controlloop.feature.utils;
 
 import java.io.IOException;
-
-import org.onap.policy.drools.features.PolicyEngineFeatureAPI;
+import org.onap.policy.drools.features.PolicyEngineFeatureApi;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
@@ -33,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * and VFC.
  *
  */
-public class ControlLoopUtilsFeature implements PolicyEngineFeatureAPI {
+public class ControlLoopUtilsFeature implements PolicyEngineFeatureApi {
 
     private static Logger logger = LoggerFactory.getLogger(ControlLoopUtilsFeature.class);
 

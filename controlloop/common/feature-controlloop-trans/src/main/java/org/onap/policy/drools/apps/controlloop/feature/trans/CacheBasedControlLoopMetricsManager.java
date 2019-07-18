@@ -37,7 +37,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.utils.logging.MDCTransaction;
+import org.onap.policy.drools.utils.logging.MdcTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -225,7 +225,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void evicted(VirtualControlLoopNotification notification) {
-        MDCTransaction
+        MdcTransaction
                 .newTransaction(notification.getRequestId().toString(), notification.getFrom())
                 .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
                 .setStartTime(notification.getNotificationTime().toInstant()).setEndTime(Instant.now())
@@ -258,7 +258,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void metric(VirtualControlLoopNotification notification) {
-        MDCTransaction trans = MDCTransaction
+        MdcTransaction trans = MdcTransaction
                 .newTransaction(notification.getRequestId().toString(), notification.getFrom())
                 .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget());
 
@@ -289,7 +289,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         }
     }
 
-    private void metricOperation(MDCTransaction trans, List<ControlLoopOperation> operations) {
+    private void metricOperation(MdcTransaction trans, List<ControlLoopOperation> operations) {
         trans.setStatusCode(true);
         if (!operations.isEmpty()) {
             ControlLoopOperation operation = operations.get(operations.size() - 1);
@@ -299,7 +299,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         trans.metric().resetTransaction();
     }
 
-    protected void operation(MDCTransaction trans, List<ControlLoopOperation> operations) {
+    protected void operation(MdcTransaction trans, List<ControlLoopOperation> operations) {
         if (!operations.isEmpty()) {
             ControlLoopOperation operation = operations.get(operations.size() - 1);
 
@@ -332,7 +332,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void transaction(VirtualControlLoopNotification notification, ZonedDateTime startTime) {
-        MDCTransaction trans = MDCTransaction
+        MdcTransaction trans = MdcTransaction
                 .newTransaction(notification.getRequestId().toString(), notification.getFrom())
                 .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
                 .setStartTime(startTime.toInstant()).setEndTime(notification.getNotificationTime().toInstant())

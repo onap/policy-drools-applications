@@ -22,13 +22,13 @@ package org.onap.policy.drools.apps.controlloop.feature.management;
 
 import java.util.stream.Stream;
 import org.onap.policy.controlloop.params.ControlLoopParams;
-import org.onap.policy.drools.features.PolicyEngineFeatureAPI;
+import org.onap.policy.drools.features.PolicyEngineFeatureApi;
 import org.onap.policy.drools.system.PolicyController;
 
 /**
  * Control Loop Management Feature.
  */
-public class ControlLoopManagementFeature implements PolicyEngineFeatureAPI {
+public class ControlLoopManagementFeature implements PolicyEngineFeatureApi {
 
     private static final String FEATURE_NAME = "controlloop-management";
     private static final int SEQNO = 1000;
