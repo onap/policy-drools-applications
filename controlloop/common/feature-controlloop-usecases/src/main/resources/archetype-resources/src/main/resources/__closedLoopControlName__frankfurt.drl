@@ -1,0 +1,145 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop;
+
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopLogger;
+import org.onap.policy.controlloop.ControlLoopResponse;
+import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
+import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
+import org.onap.policy.controlloop.utils.ControlLoopUtils;
+import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
+import org.onap.policy.aai.AaiNqResponseWrapper;
+import org.onap.policy.guard.PolicyGuard;
+import org.onap.policy.guard.PolicyGuard.LockResult;
+import org.onap.policy.guard.TargetLock;
+import org.onap.policy.guard.GuardResult;
+import org.onap.policy.guard.PolicyGuardRequest;
+import org.onap.policy.guard.PolicyGuardResponse;
+import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
+import org.onap.policy.guard.PolicyGuardXacmlHelper;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+import java.time.Instant;
+import java.util.LinkedList;
+import java.util.Iterator;
+
+import org.onap.policy.drools.system.PolicyEngine;
+
+/*
+ * This object is to provide support for timeouts
+ * due to a bug in drools' built-in timers
+ */
+declare ControlLoopTimer
+    closedLoopControlName : String
+    requestId : String
+    delay : String
+    expired : boolean
+    //timerType is the type of timer: either "ClosedLoop" or "Operation"
+    timerType : String
+end
+
+/*
+*
+* Called when a Tosca Policy is present to log it.
+*
+*/
+rule "NEW.TOSCA.POLICY"
+    when
+        $policy : ToscaPolicy()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
+                $policy.getVersion(), $policy);
+
+end
+
+/*
+* This is the first entry point for a Control Loop Event.
+* 
+* Should verify there is a Policy for the control loop?
+*
+* Should we validate the event and retract if invalid? eg. missing or bad values
+*
+*/
+rule "EVENT"
+    when
+        $event : VirtualControlLoopEvent()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $event.getClosedLoopControlName(), drools.getRule().getName());
+
+ end
+ 
+ /*
+ * A received event is valid and a policy is associated with it.
+ *
+ */
+ rule "EVENTMANAGER"
+ 	when
+ 		$manager : ControlLoopEventManager()
+ 	then
+ end
+ 
+ /*
+ *
+ *
+ */
+ rule "OPERATION.START"
+ 	when
+ 		$operation : ControlLoopOperation()
+ 	then
+ end
+ 
+ /*
+ * An operation finished, whether it was successful, failed, timed out, guard restricted
+ *
+ */
+ rule "OPERATION.FINISHED"
+ 	when
+ 	then
+ end
+ 
+ /*
+ *
+ *
+ */
+ rule "OPERATION.TIMEOUT"
+ 	when
+ 	then
+ end
+
