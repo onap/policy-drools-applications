@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5941fab0_81039a8f",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T17:56:12Z",
+      "side": 1,
+      "message": "tabs \u0026 trailing spaces - same comment in other files (including drl)",
+      "revId": "2d619f11ca8ca227a73e70dbc79b41094f4d12a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36937f61_317eac81",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/test/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecaseTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T17:56:12Z",
+      "side": 1,
+      "message": "don\u0027t need to wrap these blocks in try/catch",
+      "revId": "2d619f11ca8ca227a73e70dbc79b41094f4d12a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575e6646_24e777dd",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/test/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecaseTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-07-23T17:56:12Z",
+      "side": 1,
+      "message": "use \"for\" instead of iterator",
+      "revId": "2d619f11ca8ca227a73e70dbc79b41094f4d12a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
