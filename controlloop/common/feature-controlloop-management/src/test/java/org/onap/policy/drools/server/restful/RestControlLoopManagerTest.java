@@ -23,6 +23,7 @@ package org.onap.policy.drools.server.restful;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,14 +39,20 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.builder.ReleaseId;
+import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.properties.DroolsProperties;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.util.KieUtils;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
+import org.onap.policy.simulators.Util;
 
 /**
  * Test RestControlLoopManager.
@@ -69,6 +76,11 @@ public class RestControlLoopManagerTest {
     private static final String URL_CONTEXT_PATH_CONTROLLOOPS = URL_CONTEXT_PATH_KSESSION +  "/controlloops/";
     private static final String URL_CONTEXT_PATH_CONTROLLOOP = URL_CONTEXT_PATH_CONTROLLOOPS +  CONTROLOOP_NAME;
     private static final String URL_CONTEXT_PATH_CONTROLLOOP_POLICY = URL_CONTEXT_PATH_CONTROLLOOP + "/policy";
+
+    private static final String URL_CONTEXT_PATH_TOOLS = "tools/controlloops/";
+    private static final String URL_CONTEXT_PATH_TOOLS_AAI = URL_CONTEXT_PATH_TOOLS + "aai/";
+    private static final String URL_CONTEXT_PATH_TOOLS_AAI_NQ = URL_CONTEXT_PATH_TOOLS_AAI + "namedQuery/";
+    private static final String URL_CONTEXT_PATH_TOOLS_AAI_CQ = URL_CONTEXT_PATH_TOOLS_AAI + "customQuery/";
 
     private static final String POLICY = "src/test/resources/vCPE.yaml";
 
@@ -107,6 +119,12 @@ public class RestControlLoopManagerTest {
         }
 
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive());
+
+        PolicyEngine.manager.setEnvironmentProperty(ControlLoopEventManager.AAI_URL, "http://localhost:6666");
+        PolicyEngine.manager.setEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY, "AAI");
+        PolicyEngine.manager.setEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY, "AAI");
+
+        Util.buildAaiSim();
     }
 
     /**
@@ -171,7 +189,43 @@ public class RestControlLoopManagerTest {
     }
 
     /**
-     * Test if the session is alive
+     * Test AAI Named Query.
+     */
+    @Test
+    public void testAaiNq() throws CoderException {
+        assertEquals(Status.OK.getStatusCode(),
+            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                .get(URL_CONTEXT_PATH_TOOLS_AAI_NQ + "dummy")
+                .getStatus());
+
+        String nqResponse =
+            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                .get(URL_CONTEXT_PATH_TOOLS_AAI_NQ + "dummy")
+                .readEntity(String.class);
+
+        assertNotNull(new StandardCoder().decode(nqResponse, AaiNqResponseWrapper.class));
+    }
+
+    /**
+     * Test AAI Custom Query.
+     */
+    @Test
+    public void testAaiCq() throws CoderException {
+        assertEquals(Status.OK.getStatusCode(),
+            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                .get(URL_CONTEXT_PATH_TOOLS_AAI_CQ + "dummy")
+                .getStatus());
+
+        String cqResponse =
+            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                .get(URL_CONTEXT_PATH_TOOLS_AAI_CQ + "dummy")
+                .readEntity(String.class);
+
+        assertNotNull(new StandardCoder().decode(cqResponse, AaiCqResponse.class));
+    }
+
+    /**
+     * Test if the session is alive.
      *
      * @return if the container is alive.
      */
