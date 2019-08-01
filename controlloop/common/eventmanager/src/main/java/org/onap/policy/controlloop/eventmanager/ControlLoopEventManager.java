@@ -81,9 +81,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     public static final String GENERIC_VNF_PROV_STATUS = "generic-vnf.prov-status";
     public static final String VSERVER_PROV_STATUS = "vserver.prov-status";
 
-    private static final String AAI_URL = "aai.url";
-    private static final String AAI_USERNAME_PROPERTY = "aai.username";
-    private static final String AAI_PASS_PROPERTY = "aai.password";
+    public static final String AAI_URL = "aai.url";
+    public static final String AAI_USERNAME_PROPERTY = "aai.username";
+    public static final String AAI_PASS_PROPERTY = "aai.password";
 
     private static final String QUERY_AAI_ERROR_MSG = "Exception from queryAai: ";
 
@@ -961,26 +961,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
             logger.warn("Missing vserver-name for AAI request {}", onset.getRequestId());
             return null;
         }
-
-        // create AAI named-query request with UUID started with ""
-        AaiNqRequest aaiNqRequest = new AaiNqRequest();
-        AaiNqQueryParameters aaiNqQueryParam = new AaiNqQueryParameters();
-        AaiNqNamedQuery aaiNqNamedQuery = new AaiNqNamedQuery();
-        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
-
-        // queryParameters
-        aaiNqNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
-        aaiNqQueryParam.setNamedQuery(aaiNqNamedQuery);
-        aaiNqRequest.setQueryParameters(aaiNqQueryParam);
-        //
-        // instanceFilters
-        //
-        Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
-        Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
-        aaiNqInstanceFilterMapItem.put("vserver-name", vserverName);
-        aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
-        aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
-        aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
+        AaiNqRequest aaiNqRequest = getAaiNqRequest(vserverName);
 
         if (logger.isDebugEnabled()) {
             logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aaiNqRequest));
@@ -1005,6 +986,29 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         }
 
         return nqVserverResponse;
+    }
+
+    public static AaiNqRequest getAaiNqRequest(String vserverName) {
+        // create AAI named-query request with UUID started with ""
+        AaiNqRequest aaiNqRequest = new AaiNqRequest();
+        AaiNqQueryParameters aaiNqQueryParam = new AaiNqQueryParameters();
+        AaiNqNamedQuery aaiNqNamedQuery = new AaiNqNamedQuery();
+        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
+
+        // queryParameters
+        aaiNqNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
+        aaiNqQueryParam.setNamedQuery(aaiNqNamedQuery);
+        aaiNqRequest.setQueryParameters(aaiNqQueryParam);
+        //
+        // instanceFilters
+        //
+        Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
+        Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
+        aaiNqInstanceFilterMapItem.put("vserver-name", vserverName);
+        aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
+        aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
+        aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
+        return aaiNqRequest;
     }
 
     /**

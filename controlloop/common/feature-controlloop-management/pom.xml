@@ -286,5 +286,11 @@
           <artifactId>assertj-core</artifactId>
           <scope>test</scope>
         </dependency>
+        <dependency>
+          <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+          <artifactId>simulators</artifactId>
+          <version>${policy.models.version}</version>
+          <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
