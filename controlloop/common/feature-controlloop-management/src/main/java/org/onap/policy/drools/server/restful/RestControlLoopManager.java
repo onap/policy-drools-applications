@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -39,12 +40,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import org.onap.policy.aai.AaiManager;
+import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.params.ControlLoopParams;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.system.PolicyController;
+import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -220,5 +226,47 @@ public class RestControlLoopManager {
             logger.error("{}", e);
             return Response.status(Status.NOT_ACCEPTABLE).entity(e).build();
         }
+    }
+
+    /**
+     * AAI Custom Query.
+     *
+     * @param vserverId vServer identifier.
+     * @return query results.
+     */
+    @GET
+    @Path("engine/tools/controlloops/aai/customQuery/{vserverId}")
+    @ApiOperation(value = "AAI Custom Query")
+    public Response aaiCustomQuery(@ApiParam(value = "vserver Identifier") String vserverId) {
+        return Response
+            .status(Status.OK)
+            .entity(new AaiManager(new RestManager())
+                .getCustomQueryResponse(PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
+                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY),
+                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY),
+                    UUID.randomUUID(),
+                    vserverId))
+            .build();
+    }
+
+    /**
+     * AAI Named Query.
+     *
+     * @param vserverId vServer identifier.
+     * @return query results.
+     */
+    @GET
+    @Path("engine/tools/controlloops/aai/namedQuery/{vserverId}")
+    @ApiOperation(value = "AAI Custom Query")
+    public Response aaiNamedQuery(@ApiParam(value = "vserver Identifier") String vserverId) {
+        return Response
+            .status(Status.OK)
+            .entity(new AaiManager(new RestManager())
+                .postQuery(PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
+                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY),
+                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY),
+                    ControlLoopEventManager.getAaiNqRequest(vserverId),
+                    UUID.randomUUID()))
+            .build();
     }
 }
