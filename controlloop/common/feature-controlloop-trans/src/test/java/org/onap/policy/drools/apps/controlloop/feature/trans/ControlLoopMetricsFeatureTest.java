@@ -66,9 +66,9 @@ public class ControlLoopMetricsFeatureTest {
 
     @Test
     public void cacheDefaults() {
-        assertEquals(3, ControlLoopMetrics.manager.getCacheSize());
-        assertEquals(2, ControlLoopMetrics.manager.getTransactionTimeout());
-        assertEquals(0, ControlLoopMetrics.manager.getCacheOccupancy());
+        assertEquals(3, ControlLoopMetricsManager.getManager().getCacheSize());
+        assertEquals(2, ControlLoopMetricsManager.getManager().getTransactionTimeout());
+        assertEquals(0, ControlLoopMetricsManager.getManager().getCacheOccupancy());
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ControlLoopMetricsFeatureTest {
         notification.setRequestId(requestId);
 
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
-        assertNull(ControlLoopMetrics.manager.getTransaction(requestId));
+        assertNull(ControlLoopMetricsManager.getManager().getTransaction(requestId));
         this.cacheDefaults();
     }
 
@@ -95,14 +95,15 @@ public class ControlLoopMetricsFeatureTest {
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
 
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(requestId));
-        assertTrue(ControlLoopMetrics.manager.getTransaction(requestId).getFrom().contains(testController.getName()));
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(requestId).getNotificationTime());
-        assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == 1);
+        assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(requestId));
+        assertTrue(ControlLoopMetricsManager.getManager().getTransaction(requestId).getFrom()
+                        .contains(testController.getName()));
+        assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(requestId).getNotificationTime());
+        assertTrue(ControlLoopMetricsManager.getManager().getCacheOccupancy() == 1);
 
         /* wait for the entries to expire */
-        await().atMost(ControlLoopMetrics.manager.getTransactionTimeout() + 1, TimeUnit.SECONDS)
-                        .until(() -> ControlLoopMetrics.manager.getTransaction(requestId) == null);
+        await().atMost(ControlLoopMetricsManager.getManager().getTransactionTimeout() + 1, TimeUnit.SECONDS)
+                        .until(() -> ControlLoopMetricsManager.getManager().getTransaction(requestId) == null);
 
         this.cacheDefaults();
     }
@@ -113,56 +114,61 @@ public class ControlLoopMetricsFeatureTest {
         new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT,
                 notification);
 
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
+        assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
 
-        ControlLoopMetrics.manager.resetCache(ControlLoopMetrics.manager.getCacheSize(),
-                ControlLoopMetrics.manager.getTransactionTimeout());
-        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
+        ControlLoopMetricsManager.getManager().resetCache(ControlLoopMetricsManager.getManager().getCacheSize(),
+                ControlLoopMetricsManager.getManager().getTransactionTimeout());
+        assertNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
         this.cacheDefaults();
     }
 
     @Test
     public void removeTransaction() {
         VirtualControlLoopNotification notification = this.generateNotification();
-        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
-        ControlLoopMetrics.manager.removeTransaction(notification.getRequestId());
+        assertNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
+        ControlLoopMetricsManager.getManager().removeTransaction(notification.getRequestId());
 
-        ControlLoopMetrics.manager.transactionEvent(testController, notification);
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
-        ControlLoopMetrics.manager.removeTransaction(notification.getRequestId());
-        assertNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
+        ControlLoopMetricsManager.getManager().transactionEvent(testController, notification);
+        assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
+        ControlLoopMetricsManager.getManager().removeTransaction(notification.getRequestId());
+        assertNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
     }
 
     @Test
     public void eviction() throws InterruptedException {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
-        for (int i = 0; i < ControlLoopMetrics.manager.getCacheSize(); i++) {
+        for (int i = 0; i < ControlLoopMetricsManager.getManager().getCacheSize(); i++) {
             VirtualControlLoopNotification notification = generateNotification();
             feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
-            assertNotNull(ControlLoopMetrics.manager.getTransaction(notification.getRequestId()));
+            assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
         }
 
-        assertEquals(ControlLoopMetrics.manager.getCacheOccupancy(), ControlLoopMetrics.manager.getCacheOccupancy());
+        assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
+                        ControlLoopMetricsManager.getManager().getCacheOccupancy());
 
         VirtualControlLoopNotification overflowNotification = generateNotification();
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, overflowNotification);
-        assertEquals(ControlLoopMetrics.manager.getCacheOccupancy(), ControlLoopMetrics.manager.getCacheOccupancy());
-        assertNotNull(ControlLoopMetrics.manager.getTransaction(overflowNotification.getRequestId()));
-        assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager.getCacheSize());
-        assertTrue(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheSize());
-        assertFalse(ControlLoopMetrics.manager.getTransactionIds().isEmpty());
-        assertFalse(ControlLoopMetrics.manager.getTransactions().isEmpty());
+        assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
+                        ControlLoopMetricsManager.getManager().getCacheOccupancy());
+        assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(overflowNotification.getRequestId()));
+        assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().size() == ControlLoopMetricsManager
+                        .getManager().getCacheSize());
+        assertTrue(ControlLoopMetricsManager.getManager().getCacheOccupancy() == ControlLoopMetricsManager.getManager()
+                        .getCacheSize());
+        assertFalse(ControlLoopMetricsManager.getManager().getTransactionIds().isEmpty());
+        assertFalse(ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
         /* wait for the entries to expire */
-        await().atMost(ControlLoopMetrics.manager.getTransactionTimeout() + 1, TimeUnit.SECONDS)
-                        .until(() -> ControlLoopMetrics.manager.getTransactions().isEmpty());
+        await().atMost(ControlLoopMetricsManager.getManager().getTransactionTimeout() + 1, TimeUnit.SECONDS)
+                        .until(() -> ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
-        ControlLoopMetrics.manager.refresh();
-        assertTrue(ControlLoopMetrics.manager.getTransactionIds().size() == ControlLoopMetrics.manager
-                .getCacheOccupancy());
-        assertFalse(ControlLoopMetrics.manager.getCacheOccupancy() == ControlLoopMetrics.manager.getCacheSize());
-        assertTrue(ControlLoopMetrics.manager.getTransactionIds().isEmpty());
-        assertTrue(ControlLoopMetrics.manager.getTransactions().isEmpty());
+        ControlLoopMetricsManager.getManager().refresh();
+        assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().size() == ControlLoopMetricsManager
+                        .getManager().getCacheOccupancy());
+        assertFalse(ControlLoopMetricsManager.getManager().getCacheOccupancy() == ControlLoopMetricsManager.getManager()
+                        .getCacheSize());
+        assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().isEmpty());
+        assertTrue(ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
         this.cacheDefaults();
     }

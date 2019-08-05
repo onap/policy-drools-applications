@@ -70,7 +70,7 @@ public class ControlLoopMetricsFeature implements PolicyControllerFeatureApi {
     @Override
     public boolean beforeDeliver(PolicyController controller, CommInfrastructure protocol, String topic, Object event) {
         if (event instanceof VirtualControlLoopNotification) {
-            ControlLoopMetrics.manager.transactionEvent(controller, (VirtualControlLoopNotification) event);
+            ControlLoopMetricsManager.getManager().transactionEvent(controller, (VirtualControlLoopNotification) event);
         }
 
         /* do not take ownership */
