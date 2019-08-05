@@ -41,7 +41,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.onap.policy.aai.AaiManager;
-import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.params.ControlLoopParams;
