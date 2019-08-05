@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017, 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,9 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import java.util.function.Consumer;
 import org.onap.policy.controlloop.policy.guard.Constraint;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.controlloop.policy.guard.GuardPolicy;
@@ -44,7 +42,7 @@ public class PolicyGuardYamlToXacml {
 
     /**
      * Convert from Yaml to Xacml.
-     * 
+     *
      * @param yamlFile the Yaml file
      * @param xacmlTemplate the Xacml template
      * @param xacmlPolicyOutput the Xacml output
@@ -78,7 +76,7 @@ public class PolicyGuardYamlToXacml {
 
     /**
      * Generate a Xacml guard.
-     * 
+     *
      * @param xacmlTemplateContent the Xacml template content
      * @param matchParameters the paremeters to use
      * @param constraint the constraint to use
@@ -86,29 +84,9 @@ public class PolicyGuardYamlToXacml {
      */
     private static String generateXacmlGuard(String xacmlTemplateContent, MatchParameters matchParameters,
             Constraint constraint) {
-        Pattern pattern = Pattern.compile("\\$\\{clname\\}");
-        Matcher matcher = pattern.matcher(xacmlTemplateContent);
-        if (isNullOrEmpty(matchParameters.getControlLoopName())) {
-            matchParameters.setControlLoopName(".*");
-        }
-        xacmlTemplateContent = matcher.replaceAll(matchParameters.getControlLoopName());
 
-        pattern = Pattern.compile("\\$\\{actor\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        if (isNullOrEmpty(matchParameters.getActor())) {
-            matchParameters.setActor(".*");
-        }
-        xacmlTemplateContent = matcher.replaceAll(matchParameters.getActor());
+        xacmlTemplateContent = doCommonReplacements(xacmlTemplateContent, matchParameters, constraint);
 
-        pattern = Pattern.compile("\\$\\{recipe\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        if (isNullOrEmpty(matchParameters.getRecipe())) {
-            matchParameters.setRecipe(".*");
-        }
-        xacmlTemplateContent = matcher.replaceAll(matchParameters.getRecipe());
-
-        pattern = Pattern.compile("\\$\\{targets\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
         String targetsRegex = "";
         if (isNullOrEmptyList(matchParameters.getTargets())) {
             targetsRegex = ".*";
@@ -125,31 +103,45 @@ public class PolicyGuardYamlToXacml {
             }
             targetsRegex = targetsRegexSb.toString();
         }
-        xacmlTemplateContent = matcher.replaceAll(targetsRegex);
+        xacmlTemplateContent = xacmlTemplateContent.replace("${targets}", targetsRegex);
 
-        pattern = Pattern.compile("\\$\\{limit\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getFreq_limit_per_target().toString());
+        xacmlTemplateContent = xacmlTemplateContent.replace("${limit}",
+                        constraint.getFreq_limit_per_target().toString());
 
-        pattern = Pattern.compile("\\$\\{twValue\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getTime_window().get("value"));
+        xacmlTemplateContent = xacmlTemplateContent.replace("${twValue}", constraint.getTime_window().get("value"));
 
-        pattern = Pattern.compile("\\$\\{twUnits\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getTime_window().get("units"));
+        xacmlTemplateContent = xacmlTemplateContent.replace("${twUnits}", constraint.getTime_window().get("units"));
 
-
-        pattern = Pattern.compile("\\$\\{guardActiveStart\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getActive_time_range().get("start"));
-
-        pattern = Pattern.compile("\\$\\{guardActiveEnd\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getActive_time_range().get("end"));
         logger.debug(xacmlTemplateContent);
 
         return xacmlTemplateContent;
+    }
+
+    private static String doCommonReplacements(String xacmlTemplateContent, MatchParameters matchParameters,
+                    Constraint constraint) {
+
+        replaceNullOrEmpty(matchParameters.getControlLoopName(), matchParameters::setControlLoopName, ".*");
+        xacmlTemplateContent = xacmlTemplateContent.replace("${clname}", matchParameters.getControlLoopName());
+
+        replaceNullOrEmpty(matchParameters.getActor(), matchParameters::setActor, ".*");
+        xacmlTemplateContent = xacmlTemplateContent.replace("${actor}", matchParameters.getActor());
+
+        replaceNullOrEmpty(matchParameters.getRecipe(), matchParameters::setRecipe, ".*");
+        xacmlTemplateContent = xacmlTemplateContent.replace("${recipe}", matchParameters.getRecipe());
+
+        xacmlTemplateContent = xacmlTemplateContent.replace("${guardActiveStart}",
+                        constraint.getActive_time_range().get("start"));
+
+        xacmlTemplateContent = xacmlTemplateContent.replace("${guardActiveEnd}",
+                        constraint.getActive_time_range().get("end"));
+
+        return xacmlTemplateContent;
+    }
+
+    private static void replaceNullOrEmpty(String text, Consumer<String> replacer, String newValue) {
+        if (isNullOrEmpty(text)) {
+            replacer.accept(newValue);
+        }
     }
 
     public static boolean isNullOrEmpty(String string) {
@@ -162,7 +154,7 @@ public class PolicyGuardYamlToXacml {
 
     /**
      * Convert from Yaml to Xacml blacklist.
-     * 
+     *
      * @param yamlFile the Yaml file
      * @param xacmlTemplate the Xacml template
      * @param xacmlPolicyOutput the Xacml output
@@ -185,6 +177,8 @@ public class PolicyGuardYamlToXacml {
             String xacmlPolicyContent = generateXacmlGuardBlacklist(xacmlTemplateContent,
                     guardPolicy.getMatch_parameters(), constraint);
 
+            logger.debug("{}", xacmlPolicyContent);
+
             Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
 
         } catch (IOException e) {
@@ -194,49 +188,17 @@ public class PolicyGuardYamlToXacml {
 
     private static String generateXacmlGuardBlacklist(String xacmlTemplateContent, MatchParameters matchParameters,
             Constraint constraint) {
-        Pattern pattern = Pattern.compile("\\$\\{clname\\}");
-        Matcher matcher = pattern.matcher(xacmlTemplateContent);
-        if (isNullOrEmpty(matchParameters.getControlLoopName())) {
-            matchParameters.setControlLoopName(".*");
-        }
-        xacmlTemplateContent = matcher.replaceAll(matchParameters.getControlLoopName());
 
-        pattern = Pattern.compile("\\$\\{actor\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        if (isNullOrEmpty(matchParameters.getActor())) {
-            matchParameters.setActor(".*");
-        }
-        xacmlTemplateContent = matcher.replaceAll(matchParameters.getActor());
-
-        pattern = Pattern.compile("\\$\\{recipe\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        if (isNullOrEmpty(matchParameters.getRecipe())) {
-            matchParameters.setRecipe(".*");
-        }
-        xacmlTemplateContent = matcher.replaceAll(matchParameters.getRecipe());
-
-        pattern = Pattern.compile("\\$\\{guardActiveStart\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getActive_time_range().get("start"));
-
-        pattern = Pattern.compile("\\$\\{guardActiveEnd\\}");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll(constraint.getActive_time_range().get("end"));
-        logger.debug(xacmlTemplateContent);
+        String result = doCommonReplacements(xacmlTemplateContent, matchParameters, constraint);
 
         for (String target : constraint.getBlacklist()) {
-            pattern = Pattern.compile("\\$\\{blackListElement\\}");
-            matcher = pattern.matcher(xacmlTemplateContent);
-            xacmlTemplateContent =
-                    matcher.replaceAll("<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" + target
-                            + "</AttributeValue>" + "\n\t\t\t\t\t\t\\$\\{blackListElement\\}\n");
+            result = result.replace("${blackListElement}",
+                            "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" + target
+                                            + "</AttributeValue>" + "\n\t\t\t\t\t\t\\${blackListElement}\n");
         }
 
-        pattern = Pattern.compile("\t\t\t\t\t\t\\$\\{blackListElement\\}\n");
-        matcher = pattern.matcher(xacmlTemplateContent);
-        xacmlTemplateContent = matcher.replaceAll("");
+        result = result.replace("\t\t\t\t\t\t\\${blackListElement}\n", "");
 
-
-        return xacmlTemplateContent;
+        return result;
     }
 }

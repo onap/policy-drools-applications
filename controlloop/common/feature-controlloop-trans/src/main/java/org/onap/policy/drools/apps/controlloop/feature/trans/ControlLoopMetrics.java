@@ -31,11 +31,6 @@ import org.onap.policy.drools.system.PolicyController;
 public interface ControlLoopMetrics {
 
     /**
-     * Singleton manager object.
-     */
-    ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
-
-    /**
      * Gets all transaction identifiers being monitored.
      *
      * @return transaction id list

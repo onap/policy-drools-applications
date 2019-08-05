@@ -98,33 +98,39 @@ public class ControlLoopOperationManager implements Serializable {
      * @param policy the policy
      * @param em the event manager
      * @throws ControlLoopException if an error occurs
-     * @throws AaiException if an error occurs retrieving information from A&AI
      */
     public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em)
-            throws ControlLoopException, AaiException {
+            throws ControlLoopException {
+
         this.onset = onset;
         this.policy = policy;
         this.guardApprovalStatus = "NONE";
         this.eventManager = em;
         this.targetEntity = getTarget(policy);
 
-        //
-        // Let's make a sanity check
-        //
-        switch (policy.getActor()) {
-            case "APPC":
-                initAppc(onset, policy);
-                break;
-            case "SO":
-                break;
-            case "SDNR":
-                break;
-            case "VFC":
-                break;
-            case "SDNC":
-                break;
-            default:
-                throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
+        try {
+
+            //
+            // Let's make a sanity check
+            //
+            switch (policy.getActor()) {
+                case "APPC":
+                    initAppc(onset, policy);
+                    break;
+                case "SO":
+                    break;
+                case "SDNR":
+                    break;
+                case "VFC":
+                    break;
+                case "SDNC":
+                    break;
+                default:
+                    throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
+            }
+
+        } catch (AaiException e) {
+            throw new ControlLoopException(e.getMessage(), e);
         }
     }
 
@@ -210,9 +216,8 @@ public class ControlLoopOperationManager implements Serializable {
      * @param policy the policy
      * @return the target
      * @throws ControlLoopException if an error occurs
-     * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public String getTarget(Policy policy) throws ControlLoopException, AaiException {
+    public String getTarget(Policy policy) throws ControlLoopException {
         if (policy.getTarget() == null) {
             throw new ControlLoopException("The target is null");
         }
@@ -235,7 +240,7 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
 
-    private String getVfModuleTarget() throws AaiException, ControlLoopException {
+    private String getVfModuleTarget() throws ControlLoopException {
         VirtualControlLoopEvent virtualOnsetEvent = (VirtualControlLoopEvent) this.onset;
         if (this.onset.getTarget().equalsIgnoreCase(VSERVER_VSERVER_NAME)) {
             return virtualOnsetEvent.getAai().get(VSERVER_VSERVER_NAME);
@@ -253,17 +258,22 @@ public class ControlLoopOperationManager implements Serializable {
              * If the vnf-name was retrieved from the onset then the vnf-id must be obtained from the event
              * manager's A&AI GET query
              */
-            String vnfId;
-            if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                vnfId = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset).getDefaultGenericVnf()
-                        .getVnfId();
-            } else {
-                vnfId = this.eventManager.getVnfResponse().getVnfId();
+            try {
+                String vnfId;
+                if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+                    vnfId = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset).getDefaultGenericVnf()
+                            .getVnfId();
+                } else {
+                    vnfId = this.eventManager.getVnfResponse().getVnfId();
+                }
+                if (vnfId == null) {
+                    throw new AaiException("No vnf-id found");
+                }
+                return vnfId;
+
+            } catch (AaiException e) {
+                throw new ControlLoopException(e.getMessage(), e);
             }
-            if (vnfId == null) {
-                throw new AaiException("No vnf-id found");
-            }
-            return vnfId;
         }
         throw new ControlLoopException("Target does not match target type");
     }
@@ -274,10 +284,9 @@ public class ControlLoopOperationManager implements Serializable {
      * @param onset the onset event
      * @return the operation request
      * @throws ControlLoopException if an error occurs
-     * @throws AaiException if error occurs
      */
     public Object startOperation(/* VirtualControlLoopEvent */ControlLoopEvent onset)
-            throws ControlLoopException, AaiException {
+            throws ControlLoopException {
         verifyOperatonCanRun();
 
         //
@@ -293,19 +302,24 @@ public class ControlLoopOperationManager implements Serializable {
         //
         // Now determine which actor we need to construct a request for
         //
-        switch (policy.getActor()) {
-            case "APPC":
-                return startAppcOperation(onset, operation);
-            case "SO":
-                return startSoOperation(onset, operation);
-            case "VFC":
-                return startVfcOperation(onset, operation);
-            case "SDNR":
-                return startSdnrOperation(onset, operation);
-            case "SDNC":
-                return startSdncOperation(onset, operation);
-            default:
-                throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
+        try {
+            switch (policy.getActor()) {
+                case "APPC":
+                    return startAppcOperation(onset, operation);
+                case "SO":
+                    return startSoOperation(onset, operation);
+                case "VFC":
+                    return startVfcOperation(onset, operation);
+                case "SDNR":
+                    return startSdnrOperation(onset, operation);
+                case "SDNC":
+                    return startSdncOperation(onset, operation);
+                default:
+                    throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
+            }
+
+        } catch (AaiException e) {
+            throw new ControlLoopException(e.getMessage(), e);
         }
     }
 
