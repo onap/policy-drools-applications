@@ -399,9 +399,8 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      *
      * @return a ControlLoopOperationManager
      * @throws ControlLoopException if an error occurs
-     * @throws AaiException if an error occurs retrieving information from A&AI
      */
-    public ControlLoopOperationManager processControlLoop() throws ControlLoopException, AaiException {
+    public ControlLoopOperationManager processControlLoop() throws ControlLoopException {
         validateFinalControlLoop();
         //
         // Is there a current operation?
