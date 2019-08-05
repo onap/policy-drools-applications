@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.onap.policy.aai.AaiManager;
-import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.params.ControlLoopParams;
