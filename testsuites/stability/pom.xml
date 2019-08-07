@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications</groupId>
         <artifactId>testsuites</artifactId>
-        <version>1.5.1-SNAPSHOT</version>
+        <version>1.5.1</version>
     </parent>
     <artifactId>stability</artifactId>
     <build>
