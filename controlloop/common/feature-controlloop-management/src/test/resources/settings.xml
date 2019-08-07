@@ -86,4 +86,23 @@
         <activeProfile>onap-snapshots</activeProfile>
     </activeProfiles>
 
+        <proxies>
+                <proxy>
+                        <id>http-proxy</id>
+                        <active>true</active>
+                        <protocol>http</protocol>
+                        <host>one.proxy.att.com</host>
+                        <port>8080</port>
+                        <nonProxyHosts></nonProxyHosts>
+                </proxy>
+                <proxy>
+                        <id>https-proxy</id>
+                        <active>true</active>
+                        <protocol>https</protocol>
+                        <host>one.proxy.att.com</host>
+                        <port>8080</port>
+                        <nonProxyHosts></nonProxyHosts>
+                </proxy>
+        </proxies>
+
 </settings>
