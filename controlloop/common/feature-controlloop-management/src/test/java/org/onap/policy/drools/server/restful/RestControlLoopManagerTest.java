@@ -46,10 +46,10 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
-import org.onap.policy.drools.persistence.SystemPersistence;
-import org.onap.policy.drools.properties.DroolsProperties;
-import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.persistence.SystemPersistenceConstants;
+import org.onap.policy.drools.properties.DroolsPropertyConstants;
+import org.onap.policy.drools.system.PolicyControllerConstants;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;
@@ -97,22 +97,23 @@ public class RestControlLoopManagerTest {
         System.setProperty("kie.maven.settings.custom", "src/test/resources/settings.xml");
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "WARN");
 
-        SystemPersistence.manager.setConfigurationDir("src/test/resources");
-        PolicyEngine.manager.configure(PolicyEngine.manager.defaultTelemetryConfig());
+        SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
+        PolicyEngineConstants.getManager().configure(PolicyEngineConstants.getManager().defaultTelemetryConfig());
 
         ReleaseId releaseId =
             KieUtils.installArtifact(Paths.get(KMODULE_PATH).toFile(), Paths.get(KMODULE_POM_PATH).toFile(),
                 KJAR_DRL_PATH, Paths.get(KMODULE_DRL_PATH).toFile());
 
         Properties controllerProperties = new Properties();
-        controllerProperties.put(DroolsProperties.RULES_GROUPID, releaseId.getGroupId());
-        controllerProperties.put(DroolsProperties.RULES_ARTIFACTID, releaseId.getArtifactId());
-        controllerProperties.put(DroolsProperties.RULES_VERSION, releaseId.getVersion());
+        controllerProperties.put(DroolsPropertyConstants.RULES_GROUPID, releaseId.getGroupId());
+        controllerProperties.put(DroolsPropertyConstants.RULES_ARTIFACTID, releaseId.getArtifactId());
+        controllerProperties.put(DroolsPropertyConstants.RULES_VERSION, releaseId.getVersion());
 
-        PolicyEngine.manager.createPolicyController(CONTROLLER, controllerProperties);
-        PolicyEngine.manager.start();
+        PolicyEngineConstants.getManager().createPolicyController(CONTROLLER, controllerProperties);
+        PolicyEngineConstants.getManager().start();
 
-        HttpClientFactoryInstance.getClientFactory().build(SystemPersistence.manager.getProperties(CLIENT_CONFIG));
+        HttpClientFactoryInstance.getClientFactory()
+                        .build(SystemPersistenceConstants.getManager().getProperties(CLIENT_CONFIG));
 
         if (!NetworkUtil.isTcpPortOpen("localhost", 9696, 6, 10000L)) {
             throw new IllegalStateException("cannot connect to port 9696");
@@ -120,9 +121,9 @@ public class RestControlLoopManagerTest {
 
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive());
 
-        PolicyEngine.manager.setEnvironmentProperty(ControlLoopEventManager.AAI_URL, "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY, "AAI");
-        PolicyEngine.manager.setEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY, "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(ControlLoopEventManager.AAI_URL, "http://localhost:6666");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY, "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY, "AAI");
 
         Util.buildAaiSim();
     }
@@ -132,14 +133,14 @@ public class RestControlLoopManagerTest {
      */
     @AfterClass
     public static void tearDown() {
-        PolicyController.factory.get(CONTROLLER).stop();
+        PolicyControllerConstants.getFactory().get(CONTROLLER).stop();
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive(), equalTo(Boolean.FALSE));
 
-        PolicyEngine.manager.removePolicyController(CONTROLLER);
-        PolicyEngine.manager.stop();
+        PolicyEngineConstants.getManager().removePolicyController(CONTROLLER);
+        PolicyEngineConstants.getManager().stop();
 
         final Path controllerPath =
-            Paths.get(SystemPersistence.manager.getConfigurationPath().toString(), CONTROLLER_FILE);
+            Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(), CONTROLLER_FILE);
         try {
             Files.deleteIfExists(controllerPath);
         } catch (Exception ignored) {
@@ -147,7 +148,7 @@ public class RestControlLoopManagerTest {
         }
 
         Path controllerBakPath =
-            Paths.get(SystemPersistence.manager.getConfigurationPath().toString(), CONTROLLER_FILE_BAK);
+            Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(), CONTROLLER_FILE_BAK);
 
         try {
             Files.deleteIfExists(controllerBakPath);
@@ -230,6 +231,6 @@ public class RestControlLoopManagerTest {
      * @return if the container is alive.
      */
     private static Callable<Boolean> isContainerAlive() {
-        return () -> PolicyController.factory.get(CONTROLLER).getDrools().getContainer().isAlive();
+        return () -> PolicyControllerConstants.getFactory().get(CONTROLLER).getDrools().getContainer().isAlive();
     }
 }

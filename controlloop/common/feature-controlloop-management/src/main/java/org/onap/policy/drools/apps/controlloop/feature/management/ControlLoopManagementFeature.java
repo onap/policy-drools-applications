@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 import org.onap.policy.controlloop.params.ControlLoopParams;
 import org.onap.policy.drools.features.PolicyEngineFeatureApi;
 import org.onap.policy.drools.system.PolicyController;
+import org.onap.policy.drools.system.PolicyControllerConstants;
 
 /**
  * Control Loop Management Feature.
@@ -100,7 +101,7 @@ public class ControlLoopManagementFeature implements PolicyEngineFeatureApi {
      */
     public static class Factory {
         public PolicyController getController(String controllerName) {
-            return PolicyController.factory.get(controllerName);
+            return PolicyControllerConstants.getFactory().get(controllerName);
         }
     }
 }

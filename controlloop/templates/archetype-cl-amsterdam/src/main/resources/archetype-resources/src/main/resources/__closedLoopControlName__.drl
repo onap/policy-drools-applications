@@ -73,7 +73,7 @@ import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Iterator;
 
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 
 /*
  * This structure mimics the Params structure.
@@ -191,7 +191,7 @@ rule "${policyName}.EVENT"
             //
             // Let interested parties know
             //
-            PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
             
             //
             // Retract it from memory
@@ -225,7 +225,7 @@ rule "${policyName}.EVENT"
                 //
                 // Let interested parties know
                 //
-                PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+                PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
                 //
                 // Setup the Overall Control Loop timer
                 //
@@ -242,7 +242,7 @@ rule "${policyName}.EVENT"
                 //
                 // Let interested parties know
                 //
-                PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+                PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
                 //
                 // Retract it from memory
                 //
@@ -267,7 +267,7 @@ rule "${policyName}.EVENT"
         //
         //
         //
-        PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         //
         // Retract the event
         //
@@ -364,7 +364,7 @@ rule "${policyName}.EVENT.MANAGER"
                 //
                 // In this case, we are done
                 //
-                PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+                PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
                 //
                 // Unlock the target
                 //
@@ -409,7 +409,7 @@ rule "${policyName}.EVENT.MANAGER"
                   //
                   // In this case, we are done
                   //
-                  PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+                  PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
                   //
                   // Unlock the target
                   //
@@ -475,7 +475,7 @@ rule "${policyName}.EVENT.MANAGER"
                   notification.setPolicyScope("${policyScope}");
                   notification.setPolicyVersion("${policyVersion}");
       
-                  PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+                  PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
 
                   retract($event);
                 
@@ -509,7 +509,7 @@ rule "${policyName}.EVENT.MANAGER"
          notification.setPolicyScope("${policyScope}");
          notification.setPolicyVersion("${policyVersion}");
   
-         PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+         PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
 
          retract($event);
                 
@@ -562,16 +562,16 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
           notification.setPolicyScope("${policyScope}");
           notification.setPolicyVersion("${policyVersion}");
 
-          PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+          PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
 
           switch ($operation.policy.getActor()){
 
               case "APPC":
                   if (request instanceof Request) {
-                      PolicyEngine.manager.deliver("APPC-CL", request);
+                      PolicyEngineConstants.getManager().deliver("APPC-CL", request);
                   }
                   else if (request instanceof LcmRequestWrapper) {
-                      PolicyEngine.manager.deliver("APPC-LCM-READ", request);
+                      PolicyEngineConstants.getManager().deliver("APPC-LCM-READ", request);
                   }
                   break;
               case "SO":
@@ -589,9 +589,9 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                       SoActorServiceProvider.sendRequest($event.getRequestId().toString(), 
                           new mySoCallback(), 
                           request,
-                          PolicyEngine.manager.getEnvironmentProperty("so.url"),
-                          PolicyEngine.manager.getEnvironmentProperty("so.username"),
-                          PolicyEngine.manager.getEnvironmentProperty("so.password"));
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("so.url"),
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("so.username"),
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("so.password"));
                   }
                   break;
               case "VFC":
@@ -606,9 +606,9 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                       // Start VFC thread
                       Thread t = new Thread(new VfcManager(new myVfcCallback(),
                           (VfcRequest)request,
-                          PolicyEngine.manager.getEnvironmentProperty("vfc.url"),
-                          PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
-                          PolicyEngine.manager.getEnvironmentProperty("vfc.password")));
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.url"),
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.username"),
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.password")));
                       t.start();
                   }          
                   break;
@@ -624,15 +624,15 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                       // Start SDNC thread
                       Thread t = new Thread(new SdncManager(new mySdncCallback(), 
                           (SdncRequest)request,
-                          PolicyEngine.manager.getEnvironmentProperty("sdnc.url"),
-                          PolicyEngine.manager.getEnvironmentProperty("sdnc.username"),
-                          PolicyEngine.manager.getEnvironmentProperty("sdnc.password")));
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("sdnc.url"),
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("sdnc.username"),
+                          PolicyEngineConstants.getManager().getEnvironmentProperty("sdnc.password")));
                       t.start();
                   }
                   break;                       
               case "SDNR":
                   if (request instanceof PciRequestWrapper) {
-                      PolicyEngine.manager.deliver("SDNR-CL", request);
+                      PolicyEngineConstants.getManager().deliver("SDNR-CL", request);
                   }
                   break;
           }
@@ -680,7 +680,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
             notification.setMessage($operation.getOperationHistory());
             notification.setHistory($operation.getHistory());
           
-            PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         }
     
         retract($opTimer);
@@ -730,7 +730,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     notification.setPolicyScope("${policyScope}");
     notification.setPolicyVersion("${policyVersion}");
     
-    PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+    PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         
     //
     // Now send Guard Request to XACML Guard. In order to bypass the call to Guard, 
@@ -742,7 +742,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     //
     
     // NOTE: The environment properties uses "guard.disabled" but the boolean is guardEnabled
-    boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngine.manager.getEnvironmentProperty("guard.disabled"));
+    boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
     
     if(guardEnabled){
     
@@ -808,7 +808,7 @@ rule "${policyName}.GUARD.RESPONSE"
     notification.setPolicyScope("${policyScope}");
     notification.setPolicyVersion("${policyVersion}");
     
-    PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+    PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
     
     if("Permit".equalsIgnoreCase($guardResponse.getResult())){
     
@@ -881,13 +881,13 @@ rule "${policyName}.APPC.RESPONSE"
             //
             // Let interested parties know
             //
-            PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         } else {
             notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
             //
             // Let interested parties know
             //
-            PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         }
         //
         // Ensure the operation is complete
@@ -1001,7 +1001,7 @@ rule "${policyName}.APPC.LCM.RESPONSE"
       } else {
           notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
       }
-      PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+      PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
       //
       // Ensure the operation is complete
       //
@@ -1110,7 +1110,7 @@ rule "${policyName}.SDNR.RESPONSE"
       } else {
           notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
       }
-      PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+      PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
       //
       // Ensure the operation is complete
       //
@@ -1219,7 +1219,7 @@ rule "${policyName}.SO.RESPONSE"
             notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
 
         }
-        PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         //
         // Ensure the operation is complete
         //
@@ -1468,7 +1468,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
     //
     // Let interested parties know
     //
-    PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+    PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
     //
     // Get rid of the timer
     //
@@ -1526,7 +1526,7 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
         //
         // Let interested parties know
         //
-        PolicyEngine.manager.deliver("POLICY-CL-MGT", notification);
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
     }
     //
     // Retract the event

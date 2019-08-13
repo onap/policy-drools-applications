@@ -66,7 +66,7 @@ public class CallGuardTask implements Runnable {
     private PolicyGuardResponse guardResponse;
 
     /**
-     * Guard url is grabbed from PolicyEngine.manager properties
+     * Guard url is grabbed from PolicyEngine manager properties
      */
     public CallGuardTask(WorkingMemory wm, String cl, String act,
             String rec, String tar, String reqId, Supplier<Integer> vfcnt) {

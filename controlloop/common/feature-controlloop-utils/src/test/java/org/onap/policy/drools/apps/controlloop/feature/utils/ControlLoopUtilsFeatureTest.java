@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;
 
@@ -38,7 +38,7 @@ public class ControlLoopUtilsFeatureTest {
         LoggerUtil.setLevel("ROOT", "INFO");
         LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
         final ControlLoopUtilsFeature feature = new ControlLoopUtilsFeature();
-        feature.afterStart(PolicyEngine.manager);
+        feature.afterStart(PolicyEngineConstants.getManager());
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.AAISIM_SERVER_PORT));
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));

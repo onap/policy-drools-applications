@@ -58,7 +58,7 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.guard.GuardResult;
 import org.onap.policy.guard.LockCallback;
 import org.onap.policy.guard.PolicyGuard;
@@ -888,9 +888,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         try {
             if (vserverName != null) {
-                String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
-                String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME_PROPERTY);
-                String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASS_PROPERTY);
+                String aaiHostUrl = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_URL);
+                String aaiUser = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+                String aaiPassword = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_PASS_PROPERTY);
                 String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
                 String url = aaiHostUrl + aaiGetQueryByVserver;
                 logger.info("AAI Host URL by VServer: {}", url);
@@ -918,9 +918,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         String vnfName = event.getAai().get(GENERIC_VNF_VNF_NAME);
         String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
 
-        String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
-        String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME_PROPERTY);
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASS_PROPERTY);
+        String aaiHostUrl = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_URL);
+        String aaiUser = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+        String aaiPassword = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_PASS_PROPERTY);
 
         try {
             if (vnfName != null) {
@@ -1024,7 +1024,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * @return the property value
      */
     private static String getPeManagerEnvProperty(String enginePropertyName) {
-        String enginePropertyValue = PolicyEngine.manager.getEnvironmentProperty(enginePropertyName);
+        String enginePropertyValue = PolicyEngineConstants.getManager().getEnvironmentProperty(enginePropertyName);
         if (enginePropertyValue == null) {
             throw new IllegalArgumentException("The value of policy engine manager environment property \""
                     + enginePropertyName + "\" may not be null");
@@ -1082,9 +1082,9 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         AaiCqResponse response = null;
         String vserverId = event.getAai().get(VSERVER_VSERVER_NAME);
 
-        String aaiHostUrl = PolicyEngine.manager.getEnvironmentProperty(AAI_URL);
-        String aaiUser = PolicyEngine.manager.getEnvironmentProperty(AAI_USERNAME_PROPERTY);
-        String aaiPassword = PolicyEngine.manager.getEnvironmentProperty(AAI_PASS_PROPERTY);
+        String aaiHostUrl = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_URL);
+        String aaiUser = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+        String aaiPassword = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_PASS_PROPERTY);
 
         response = new AaiManager(new RestManager()).getCustomQueryResponse(aaiHostUrl, aaiUser, aaiPassword, reqId,
                 vserverId);
