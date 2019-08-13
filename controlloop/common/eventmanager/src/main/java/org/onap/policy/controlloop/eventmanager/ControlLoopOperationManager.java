@@ -52,7 +52,7 @@ import org.onap.policy.controlloop.actor.vfc.VfcActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.database.operationshistory.Dbao;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.guard.Util;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnr.PciResponseWrapper;
@@ -141,7 +141,7 @@ public class ControlLoopOperationManager implements Serializable {
              * The target vnf-id may not be the same as the source vnf-id specified in the yaml, the target
              * vnf-id is retrieved by a named query to A&AI.
              */
-            if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
                 GenericVnf genvnf = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset)
                         .getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
                 if (genvnf == null) {
@@ -153,9 +153,9 @@ public class ControlLoopOperationManager implements Serializable {
             } else {
                 this.targetEntity =
                         AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
-                                this.targetEntity, PolicyEngine.manager.getEnvironmentProperty("aai.url"),
-                                PolicyEngine.manager.getEnvironmentProperty("aai.username"),
-                                PolicyEngine.manager.getEnvironmentProperty("aai.password"));
+                                this.targetEntity, PolicyEngineConstants.getManager().getEnvironmentProperty("aai.url"),
+                                PolicyEngineConstants.getManager().getEnvironmentProperty("aai.username"),
+                                PolicyEngineConstants.getManager().getEnvironmentProperty("aai.password"));
             }
         }
     }
@@ -260,7 +260,7 @@ public class ControlLoopOperationManager implements Serializable {
              */
             try {
                 String vnfId;
-                if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+                if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
                     vnfId = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset).getDefaultGenericVnf()
                             .getVnfId();
                 } else {
@@ -347,7 +347,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     private Object startSoOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
         SoActorServiceProvider soActorSp = new SoActorServiceProvider();
-        if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+        if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
             this.operationRequest =
                     soActorSp.constructRequestCq((VirtualControlLoopEvent) onset, operation.clOperation,
                             this.policy, eventManager.getCqResponse((VirtualControlLoopEvent) onset));
@@ -368,16 +368,16 @@ public class ControlLoopOperationManager implements Serializable {
 
 
     private Object startVfcOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
-        if (Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+        if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
             this.operationRequest = VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy,
                     eventManager.getCqResponse((VirtualControlLoopEvent) onset));
         } else {
             this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, this.eventManager.getVnfResponse(),
-                    PolicyEngine.manager.getEnvironmentProperty("vfc.url"),
-                    PolicyEngine.manager.getEnvironmentProperty("vfc.username"),
-                    PolicyEngine.manager.getEnvironmentProperty("vfc.password"));
+                    PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.url"),
+                    PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.username"),
+                    PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.password"));
         }
         this.currentOperation = operation;
         if (this.operationRequest == null) {
@@ -951,7 +951,8 @@ public class ControlLoopOperationManager implements Serializable {
 
     private void storeOperationInDataBase() {
         // Only store in DB if enabled
-        boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngine.manager.getEnvironmentProperty("guard.disabled"));
+        boolean guardEnabled = "false"
+                        .equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
         if (!guardEnabled) {
             return;
         }
@@ -959,12 +960,15 @@ public class ControlLoopOperationManager implements Serializable {
 
         // DB Properties
         Properties props = new Properties();
-        if (PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_URL) != null
-                && PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER) != null
-                && PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS) != null) {
-            props.put(Util.ECLIPSE_LINK_KEY_URL, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_URL));
-            props.put(Util.ECLIPSE_LINK_KEY_USER, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_USER));
-            props.put(Util.ECLIPSE_LINK_KEY_PASS, PolicyEngine.manager.getEnvironmentProperty(Util.ONAP_KEY_PASS));
+        if (PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_URL) != null
+                && PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_USER) != null
+                        && PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_PASS) != null) {
+            props.put(Util.ECLIPSE_LINK_KEY_URL,
+                            PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_URL));
+            props.put(Util.ECLIPSE_LINK_KEY_USER,
+                            PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_USER));
+            props.put(Util.ECLIPSE_LINK_KEY_PASS,
+                            PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_PASS));
             props.put(PersistenceUnitProperties.CLASSLOADER, ControlLoopOperationManager.class.getClassLoader());
         }
 

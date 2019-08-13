@@ -65,7 +65,7 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.guard.GuardResult;
 import org.onap.policy.guard.PolicyGuard;
 import org.onap.policy.guard.PolicyGuard.LockResult;
@@ -115,9 +115,9 @@ public class ControlLoopEventManagerTest {
     public static void setUpSimulator() throws Exception {
         org.onap.policy.simulators.Util.buildAaiSim();
 
-        PolicyEngine.manager.setEnvironmentProperty(AAI_USERNAME, "AAI");
-        PolicyEngine.manager.setEnvironmentProperty(AAI_PASS, "AAI");
-        PolicyEngine.manager.setEnvironmentProperty(AAI_URL, "http://localhost:6666");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_USERNAME, "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_PASS, "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, "http://localhost:6666");
     }
 
     @AfterClass
@@ -141,7 +141,7 @@ public class ControlLoopEventManagerTest {
         onset.getAai().put(VNF_ID, VNF_UUID);
         onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
-        PolicyEngine.manager.setEnvironmentProperty(AAI_URL, "http://localhost:6666");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, "http://localhost:6666");
     }
 
     @Test
@@ -1008,7 +1008,7 @@ public class ControlLoopEventManagerTest {
     @Test(expected = AaiException.class)
     public void testQueryAai_QueryException() throws AaiException {
         // Force AAI errors
-        PolicyEngine.manager.setEnvironmentProperty(AAI_URL, INVALID_URL);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, INVALID_URL);
 
         makeManager(onset).queryAai(onset);
     }
@@ -1231,7 +1231,7 @@ public class ControlLoopEventManagerTest {
 
 
         // Force AAI error
-        PolicyEngine.manager.setEnvironmentProperty(AAI_URL, INVALID_URL);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, INVALID_URL);
 
         // re-create manager
         manager = makeManager(onset);

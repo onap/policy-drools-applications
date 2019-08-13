@@ -24,13 +24,12 @@ package org.onap.policy.guard;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.rest.RestManager;
@@ -50,9 +49,9 @@ public class PolicyGuardXacmlHelper {
      *  Constructor.
      */
     public PolicyGuardXacmlHelper() {
-        this.url = PolicyEngine.manager.getEnvironmentProperty("guard.url");
-        this.user = PolicyEngine.manager.getEnvironmentProperty("pdpx.username");
-        this.pwd = PolicyEngine.manager.getEnvironmentProperty("pdpx.password");
+        this.url = PolicyEngineConstants.getManager().getEnvironmentProperty("guard.url");
+        this.user = PolicyEngineConstants.getManager().getEnvironmentProperty("pdpx.username");
+        this.pwd = PolicyEngineConstants.getManager().getEnvironmentProperty("pdpx.password");
     }
 
     /**

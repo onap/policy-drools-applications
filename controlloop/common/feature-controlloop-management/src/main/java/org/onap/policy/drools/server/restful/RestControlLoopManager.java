@@ -47,8 +47,8 @@ import org.onap.policy.controlloop.params.ControlLoopParams;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature;
 import org.onap.policy.drools.controller.DroolsController;
-import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyControllerConstants;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -206,7 +206,7 @@ public class RestControlLoopManager {
                     .build();
             }
 
-            DroolsController controller = PolicyController.factory.get(controllerName).getDrools();
+            DroolsController controller = PolicyControllerConstants.getFactory().get(controllerName).getDrools();
 
             controlLoop = new ControlLoopParams();
             controlLoop.setPolicyScope(controller.getGroupId());
@@ -240,9 +240,13 @@ public class RestControlLoopManager {
         return Response
             .status(Status.OK)
             .entity(new AaiManager(new RestManager())
-                .getCustomQueryResponse(PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
-                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY),
-                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY),
+                .getCustomQueryResponse(
+                    PolicyEngineConstants.getManager()
+                                    .getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
+                    PolicyEngineConstants.getManager().getEnvironmentProperty(
+                                    ControlLoopEventManager.AAI_USERNAME_PROPERTY),
+                    PolicyEngineConstants.getManager().getEnvironmentProperty(
+                                    ControlLoopEventManager.AAI_PASS_PROPERTY),
                     UUID.randomUUID(),
                     vserverId))
             .build();
@@ -261,9 +265,13 @@ public class RestControlLoopManager {
         return Response
             .status(Status.OK)
             .entity(new AaiManager(new RestManager())
-                .postQuery(PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
-                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY),
-                    PolicyEngine.manager.getEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY),
+                .postQuery(
+                    PolicyEngineConstants.getManager()
+                                    .getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
+                    PolicyEngineConstants.getManager().getEnvironmentProperty(
+                                    ControlLoopEventManager.AAI_USERNAME_PROPERTY),
+                    PolicyEngineConstants.getManager().getEnvironmentProperty(
+                                    ControlLoopEventManager.AAI_PASS_PROPERTY),
                     ControlLoopEventManager.getAaiNqRequest(vserverId),
                     UUID.randomUUID()))
             .build();

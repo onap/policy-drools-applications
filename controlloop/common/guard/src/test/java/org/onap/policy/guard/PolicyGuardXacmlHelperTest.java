@@ -28,7 +28,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 
 public class PolicyGuardXacmlHelperTest {
@@ -106,45 +106,45 @@ public class PolicyGuardXacmlHelperTest {
 
     @Test
     public void testInit() {
-        final Properties savedEnvironment = (Properties) PolicyEngine.manager.getEnvironment().clone();
+        final Properties savedEnvironment = (Properties) PolicyEngineConstants.getManager().getEnvironment().clone();
 
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL,
+        PolicyEngineConstants.getManager().getEnvironment().setProperty(GUARD_URL,
                 "http://localhost:6669/pdp/api/getDecision,Dorothy");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL,
+        PolicyEngineConstants.getManager().getEnvironment().setProperty(GUARD_URL,
                 "http://localhost:6669/pdp/api/getDecision,Dorothy,Toto");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL,
+        PolicyEngineConstants.getManager().getEnvironment().setProperty(GUARD_URL,
                 "http://localhost:6969/policy/pdpx/v1/decision");
 
-        PolicyEngine.manager.getEnvironment().setProperty("pdpx.timeout", "thisIsNotANumber");
+        PolicyEngineConstants.getManager().getEnvironment().setProperty("pdpx.timeout", "thisIsNotANumber");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("pdpx.timeout", "1000");
+        PolicyEngineConstants.getManager().getEnvironment().setProperty("pdpx.timeout", "1000");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().remove("pdpx.password");
+        PolicyEngineConstants.getManager().getEnvironment().remove("pdpx.password");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("pdpx.username", "python");
+        PolicyEngineConstants.getManager().getEnvironment().setProperty("pdpx.username", "python");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty(GUARD_URL, "///");
+        PolicyEngineConstants.getManager().getEnvironment().setProperty(GUARD_URL, "///");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.disabled", "");
+        PolicyEngineConstants.getManager().getEnvironment().setProperty("guard.disabled", "");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().setProperty("guard.disabled", "true");
+        PolicyEngineConstants.getManager().getEnvironment().setProperty("guard.disabled", "true");
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.getEnvironment().clear();
+        PolicyEngineConstants.getManager().getEnvironment().clear();
         assertNotNull(new PolicyGuardXacmlHelper());
 
-        PolicyEngine.manager.setEnvironment(savedEnvironment);
+        PolicyEngineConstants.getManager().setEnvironment(savedEnvironment);
     }
 }

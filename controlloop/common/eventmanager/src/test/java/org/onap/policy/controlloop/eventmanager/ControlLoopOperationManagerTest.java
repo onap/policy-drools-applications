@@ -68,7 +68,7 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.so.SoResponse;
 import org.onap.policy.so.SoResponseWrapper;
 import org.onap.policy.vfc.VfcResponse;
@@ -108,9 +108,9 @@ public class ControlLoopOperationManagerTest {
         onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
 
         /* Set environment properties */
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.password", "AAI");
     }
 
     private static EntityManagerFactory emf;
@@ -138,9 +138,9 @@ public class ControlLoopOperationManagerTest {
         System.setProperty(OPERATIONS_HISTORY_PU, OPERATIONS_HISTORY_PU_TEST);
 
         // Enter dummy props to avoid nullPointerException
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "b");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "b");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
 
         // Connect to in-mem db
         emf = Persistence.createEntityManagerFactory(OPERATIONS_HISTORY_PU_TEST);
@@ -443,7 +443,7 @@ public class ControlLoopOperationManagerTest {
 
         onsetEvent.getAai().remove(VNF_ID);
         manager.getVnfResponse();
-        if (!Boolean.valueOf(PolicyEngine.manager.getEnvironmentProperty("aai.customQuery"))) {
+        if (!Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty("aai.customQuery"))) {
             clom.getEventManager().getVnfResponse().setVnfId(VNF_ID);
             assertEquals(VNF_ID, clom.getTarget(policy));
         }
@@ -733,11 +733,11 @@ public class ControlLoopOperationManagerTest {
         SoResponse soResponse = new SoResponse();
         final SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
-        PolicyEngine.manager.setEnvironmentProperty("guard.disabled", "false");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
+        PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "false");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
                 "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
 
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
 
@@ -822,11 +822,11 @@ public class ControlLoopOperationManagerTest {
         SoResponse soResponse = new SoResponse();
         final SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
-        PolicyEngine.manager.setEnvironmentProperty("guard.disabled", "false");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
+        PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "false");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
                 "http://somewhere.over.the.rainbow");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
 
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
         assertFalse(clom.isOperationRunning());
