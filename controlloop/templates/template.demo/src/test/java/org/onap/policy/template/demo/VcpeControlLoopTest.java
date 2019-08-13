@@ -25,130 +25,39 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
-import org.onap.policy.drools.protocol.coders.EventProtocolParams;
-import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
-import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.drools.utils.logging.LoggerUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class VcpeControlLoopTest implements TopicListener {
-
-    private static final Logger logger = LoggerFactory.getLogger(VcpeControlLoopTest.class);
-
-    private static List<? extends TopicSink> noopTopics;
-
-    private static KieSession kieSession;
-    private static SupportUtil.Pair<ControlLoopPolicy, String> pair;
-    private UUID requestId;
-
-    static {
-        /* Set environment properties */
-        SupportUtil.setAaiProps();
-        SupportUtil.setGuardProps();
-        SupportUtil.setPuProp();
-        LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
-    }
+public class VcpeControlLoopTest extends ControlLoopBase implements TopicListener {
 
     /**
      * Setup the simulator.
      */
     @BeforeClass
-    public static void setUpSimulator() {
-        PolicyEngine.manager.configure(new Properties());
-        assertTrue(PolicyEngine.manager.start());
-        Properties noopSinkProperties = new Properties();
-        noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-LCM-READ,POLICY-CL-MGT");
-        noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events", "org.onap.policy.appclcm.LcmRequestWrapper");
-        noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events.custom.gson",
-                "org.onap.policy.appclcm.util.Serialization,gson");
-        noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events",
-                "org.onap.policy.controlloop.VirtualControlLoopNotification");
-        noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
-                "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
-
-        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
-                .groupId("junit.groupId")
-                .artifactId("junit.artifactId")
-                .topic("POLICY-CL-MGT")
-                .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
-                .protocolFilter(new JsonProtocolFilter())
-                .modelClassLoaderHash(1111));
-        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
-                .groupId("junit.groupId")
-                .artifactId("junit.artifactId")
-                .topic("APPC-LCM-READ")
-                .eventClass("org.onap.policy.appclcm.LcmRequestWrapper")
-                .protocolFilter(new JsonProtocolFilter())
-                .modelClassLoaderHash(1111));
-        try {
-            SupportUtil.buildAaiSim();
-            SupportUtil.buildGuardSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-        /*
-         * Start the kie session
-         */
-        try {
-            kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
-                    + "/src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
-                    "service=ServiceDemo;resource=Res1Demo;type=operational", "CL_vCPE",
-                    "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.debug("Could not create kieSession");
-            fail("Could not create kieSession");
-        }
-    }
-
-    /**
-     * Tear down the simulator.
-     */
-    @AfterClass
-    public static void tearDownSimulator() {
-        /*
-         * Gracefully shut down the kie session
-         */
-        kieSession.dispose();
-
-        PolicyEngine.manager.stop();
-        HttpServletServerFactoryInstance.getServerFactory().destroy();
-        PolicyController.factory.shutdown();
-        TopicEndpointManager.getManager().shutdown();
+    public static void setUpBeforeClass() {
+        ControlLoopBase.setUpBeforeClass(
+            "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
+                            + "/src/main/resources/__closedLoopControlName__.drl",
+            "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
+            "service=ServiceDemo;resource=Res1Demo;type=operational",
+            "CL_vCPE",
+            "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
     }
 
     @Test
@@ -228,49 +137,6 @@ public class VcpeControlLoopTest implements TopicListener {
          * Print what's left in memory
          */
         dumpFacts(kieSession);
-
-    }
-
-    /**
-     * This method will start a kie session and instantiate the Policy Engine.
-     *
-     * @param droolsTemplate the DRL rules file
-     * @param yamlFile the yaml file containing the policies
-     * @param policyScope scope for policy
-     * @param policyName name of the policy
-     * @param policyVersion version of the policy
-     * @return the kieSession to be used to insert facts
-     * @throws IOException IO exception
-     */
-    private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
-            String policyName, String policyVersion) throws IOException {
-
-        /*
-         * Load policies from yaml
-         */
-        pair = SupportUtil.loadYaml(yamlFile);
-        assertNotNull(pair);
-        assertNotNull(pair.first);
-        assertNotNull(pair.first.getControlLoop());
-        assertNotNull(pair.first.getControlLoop().getControlLoopName());
-        assertTrue(pair.first.getControlLoop().getControlLoopName().length() > 0);
-
-        /*
-         * Construct a kie session
-         */
-        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate,
-                pair.first.getControlLoop().getControlLoopName(),
-                policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
-
-        /*
-         * Retrieve the Policy Engine
-         */
-
-        logger.debug("============");
-        logger.debug(URLEncoder.encode(pair.second, "UTF-8"));
-        logger.debug("============");
-
-        return kieSession;
     }
 
     /*
@@ -406,17 +272,4 @@ public class VcpeControlLoopTest implements TopicListener {
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
-
-    /**
-     * This method will dump all the facts in the working memory.
-     *
-     * @param kieSession the session containing the facts
-     */
-    public void dumpFacts(KieSession kieSession) {
-        logger.debug("Fact Count: {}", kieSession.getFactCount());
-        for (FactHandle handle : kieSession.getFactHandles()) {
-            logger.debug("FACT: {}", handle);
-        }
-    }
-
 }

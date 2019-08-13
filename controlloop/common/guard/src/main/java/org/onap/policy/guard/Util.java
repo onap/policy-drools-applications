@@ -25,11 +25,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-
 import org.apache.commons.io.IOUtils;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -135,16 +134,16 @@ public final class Util {
      * <p>see /guard/src/test/java/org/onap/policy/guard/UtilTest.java for setting test properties
      */
     public static void setGuardEnvProps(String url, String username, String password) {
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL, url);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER, username);
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS, password);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL, url);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER, username);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS, password);
     }
 
     public static void setGuardEnvProp(String key, String value) {
-        PolicyEngine.manager.setEnvironmentProperty(key, value);
+        PolicyEngineConstants.getManager().setEnvironmentProperty(key, value);
     }
 
     public static String getGuardProp(String propName) {
-        return PolicyEngine.manager.getEnvironmentProperty(propName);
+        return PolicyEngineConstants.getManager().getEnvironmentProperty(propName);
     }
 }

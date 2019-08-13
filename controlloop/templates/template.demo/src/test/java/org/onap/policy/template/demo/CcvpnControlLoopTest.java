@@ -25,119 +25,36 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
-import org.onap.policy.drools.protocol.coders.EventProtocolParams;
-import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
-import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.system.PolicyEngine;
-import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.sdnc.SdncRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class CcvpnControlLoopTest implements TopicListener {
-
-    private static final Logger logger = LoggerFactory.getLogger(CcvpnControlLoopTest.class);
-
-    private static List<? extends TopicSink> noopTopics;
-
-    private static KieSession kieSession;
-    private static SupportUtil.Pair<ControlLoopPolicy, String> pair;
-
-    static {
-        /* Set environment properties */
-        SupportUtil.setAaiProps();
-        SupportUtil.setSdncProps();
-        SupportUtil.setGuardProps();
-        LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
-    }
+public class CcvpnControlLoopTest extends ControlLoopBase implements TopicListener {
 
     /**
      * Setup the simulator.
      */
     @BeforeClass
-    public static void setUpSimulator() {
-        PolicyEngine.manager.configure(new Properties());
-        assertTrue(PolicyEngine.manager.start());
-        Properties noopSinkProperties = new Properties();
-        noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS, "POLICY-CL-MGT");
-        noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events",
-                "org.onap.policy.controlloop.VirtualControlLoopNotification");
-        noopSinkProperties.put("noop.sink.topics.POLICY-CL-MGT.events.custom.gson",
-                "org.onap.policy.controlloop.util.Serialization,gsonPretty");
-        noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
-
-        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
-                .groupId("junit.groupId")
-                .artifactId("junit.artifactId")
-                .topic("POLICY-CL-MGT")
-                .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
-                .protocolFilter(new JsonProtocolFilter())
-                .modelClassLoaderHash(1111));
-
-        try {
-            SupportUtil.buildAaiSim();
-            SupportUtil.buildSdncSim();
-            SupportUtil.buildGuardSim();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-
-        /*
-         *
-         * Start the kie session
-         */
-        try {
-            kieSession = startSession(
-                    "../archetype-cl-amsterdam/src/main/resources/archetype-resources/"
-                    + "src/main/resources/__closedLoopControlName__.drl",
-                    "src/test/resources/yaml/policy_ControlLoop_CCVPN.yaml", "type=operational", "Connectivity Reroute",
-                    "2.0.0");
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.debug("Could not create kieSession");
-            fail("Could not create kieSession");
-        }
-    }
-
-    /**
-     * Tear down the simulator.
-     */
-    @AfterClass
-    public static void tearDownSimulator() {
-
-        /*
-         * Gracefully shut down the kie session
-         */
-        kieSession.dispose();
-
-        PolicyEngine.manager.stop();
-        HttpServletServerFactoryInstance.getServerFactory().destroy();
-        PolicyController.factory.shutdown();
-        TopicEndpointManager.getManager().shutdown();
+    public static void setUpBeforeClass() {
+        ControlLoopBase.setUpBeforeClass(
+            "../archetype-cl-amsterdam/src/main/resources/archetype-resources/"
+                            + "src/main/resources/__closedLoopControlName__.drl",
+            "src/test/resources/yaml/policy_ControlLoop_CCVPN.yaml",
+            "type=operational",
+            "Connectivity Reroute",
+            "2.0.0");
     }
 
     @Test
@@ -218,48 +135,6 @@ public class CcvpnControlLoopTest implements TopicListener {
          * Print what's left in memory
          */
         dumpFacts(kieSession);
-    }
-
-    /**
-     * This method will start a kie session and instantiate the Policy Engine.
-     *
-     * @param droolsTemplate the DRL rules file
-     * @param yamlFile the yaml file containing the policies
-     * @param policyScope scope for policy
-     * @param policyName name of the policy
-     * @param policyVersion version of the policy
-     * @return the kieSession to be used to insert facts
-     * @throws IOException IO Exception
-     */
-    private static KieSession startSession(String droolsTemplate, String yamlFile, String policyScope,
-            String policyName, String policyVersion) throws IOException {
-
-        /*
-         * Load policies from yaml
-         */
-        pair = SupportUtil.loadYaml(yamlFile);
-        assertNotNull(pair);
-        assertNotNull(pair.first);
-        assertNotNull(pair.first.getControlLoop());
-        assertNotNull(pair.first.getControlLoop().getControlLoopName());
-        assertTrue(pair.first.getControlLoop().getControlLoopName().length() > 0);
-
-        /*
-         * Construct a kie session
-         */
-        final KieSession kieSession = SupportUtil.buildContainer(droolsTemplate,
-                pair.first.getControlLoop().getControlLoopName(),
-                policyScope, policyName, policyVersion, URLEncoder.encode(pair.second, "UTF-8"));
-
-        /*
-         * Retrieve the Policy Engine
-         */
-
-        logger.debug("============");
-        logger.debug(URLEncoder.encode(pair.second, "UTF-8"));
-        logger.debug("============");
-
-        return kieSession;
     }
 
     /*
@@ -353,17 +228,4 @@ public class CcvpnControlLoopTest implements TopicListener {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         kieSession.insert(event);
     }
-
-    /**
-     * Dumps the kie session facts.
-     *
-     * @param kieSession input session
-     */
-    public static void dumpFacts(KieSession kieSession) {
-        logger.debug("Fact Count: " + kieSession.getFactCount());
-        for (FactHandle handle : kieSession.getFactHandles()) {
-            logger.debug("FACT: " + handle);
-        }
-    }
 }
-

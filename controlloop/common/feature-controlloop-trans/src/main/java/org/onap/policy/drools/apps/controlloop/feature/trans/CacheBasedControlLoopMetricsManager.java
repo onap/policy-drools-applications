@@ -24,7 +24,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
-
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -32,10 +31,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.drools.persistence.SystemPersistence;
+import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.utils.logging.MdcTransaction;
 import org.slf4j.Logger;
@@ -57,8 +55,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     public CacheBasedControlLoopMetricsManager() {
 
-        Properties properties =
-                SystemPersistence.manager.getProperties(ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME);
+        Properties properties = SystemPersistenceConstants.getManager()
+                        .getProperties(ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME);
 
         /* cache size */
 
