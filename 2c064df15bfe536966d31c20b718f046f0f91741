@@ -16,6 +16,24 @@
       "revId": "2c064df15bfe536966d31c20b718f046f0f91741",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f98c82_6024f079",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardYamlToXacml.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-13T13:34:49Z",
+      "side": 1,
+      "message": "Had left that part of the code alone.  However, this a good idea.",
+      "parentUuid": "4852c583_d5890db5",
+      "revId": "2c064df15bfe536966d31c20b718f046f0f91741",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
