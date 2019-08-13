@@ -46,7 +46,7 @@ import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.guard.PolicyGuardYamlToXacml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -289,27 +289,27 @@ public final class SupportUtil {
      *  Set the A&AI properties.
      */
     public static void setAaiProps() {
-        PolicyEngine.manager.setEnvironmentProperty("aai.url", "http://localhost:6666");
-        PolicyEngine.manager.setEnvironmentProperty("aai.username", "AAI");
-        PolicyEngine.manager.setEnvironmentProperty("aai.password", "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.username", "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.password", "AAI");
     }
 
     /**
      *  Set the SO properties.
      */
     public static void setSoProps() {
-        PolicyEngine.manager.setEnvironmentProperty("so.url", "http://localhost:6667");
-        PolicyEngine.manager.setEnvironmentProperty("so.username", "SO");
-        PolicyEngine.manager.setEnvironmentProperty("so.password", "SO");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("so.url", "http://localhost:6667");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("so.username", "SO");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("so.password", "SO");
     }
 
     /**
      *  Set the SDNC properties.
      */
     public static void setSdncProps() {
-        PolicyEngine.manager.setEnvironmentProperty("sdnc.url", "http://localhost:6670/restconf/operations");
-        PolicyEngine.manager.setEnvironmentProperty("sdnc.username", "sdnc");
-        PolicyEngine.manager.setEnvironmentProperty("sdnc.password", "sdnc");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("sdnc.url", "http://localhost:6670/restconf/operations");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("sdnc.username", "sdnc");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("sdnc.password", "sdnc");
     }
 
     /**
@@ -319,19 +319,19 @@ public final class SupportUtil {
         /*
          * Guard PDP-x connection Properties
          */
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL,         "http://localhost:6669/policy/pdpx/v1/decision");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        "python");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        "test");
-        PolicyEngine.manager.setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,    "false");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_URL,         "http://localhost:6669/policy/pdpx/v1/decision");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_USER,        "python");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_PASS,        "test");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,    "false");
     }
 
     /**
      *  Set the VFC properties.
      */
     public static void setVfcProps() {
-        PolicyEngine.manager.setEnvironmentProperty("vfc.url", "http://localhost:6668/api/nslcm/v1");
-        PolicyEngine.manager.setEnvironmentProperty("vfc.username", "VFC");
-        PolicyEngine.manager.setEnvironmentProperty("vfc.password", "VFC");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("vfc.url", "http://localhost:6668/api/nslcm/v1");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("vfc.username", "VFC");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("vfc.password", "VFC");
     }
 
     /**

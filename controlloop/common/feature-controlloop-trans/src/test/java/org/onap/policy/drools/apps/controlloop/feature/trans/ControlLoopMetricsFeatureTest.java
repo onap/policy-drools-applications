@@ -36,9 +36,9 @@ import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.drools.persistence.SystemPersistence;
+import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 
 /**
  * ControlLoopMetrics Tests.
@@ -46,7 +46,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 public class ControlLoopMetricsFeatureTest {
 
     private static final String POLICY_CL_MGT = "POLICY-CL-MGT";
-    private static final Path configPath = SystemPersistence.manager.getConfigurationPath();
+    private static final Path configPath = SystemPersistenceConstants.getManager().getConfigurationPath();
     private static PolicyController testController;
 
     /**
@@ -54,14 +54,14 @@ public class ControlLoopMetricsFeatureTest {
      */
     @BeforeClass
     public static void setUp() {
-        SystemPersistence.manager.setConfigurationDir("src/test/resources");
-        testController = PolicyEngine.manager.createPolicyController("metrics",
-                SystemPersistence.manager.getControllerProperties("metrics"));
+        SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
+        testController = PolicyEngineConstants.getManager().createPolicyController("metrics",
+                SystemPersistenceConstants.getManager().getControllerProperties("metrics"));
     }
 
     @AfterClass
     public static void tearDown() {
-        SystemPersistence.manager.setConfigurationDir(configPath.toString());
+        SystemPersistenceConstants.getManager().setConfigurationDir(configPath.toString());
     }
 
     @Test

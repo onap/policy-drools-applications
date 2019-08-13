@@ -46,11 +46,11 @@ import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
+import org.onap.policy.drools.protocol.coders.EventProtocolCoderConstants;
 import org.onap.policy.drools.protocol.coders.EventProtocolParams;
 import org.onap.policy.drools.protocol.coders.JsonProtocolFilter;
-import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.drools.system.PolicyEngine;
+import org.onap.policy.drools.system.PolicyControllerConstants;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.template.demo.SupportUtil.Pair;
 import org.slf4j.Logger;
@@ -107,13 +107,13 @@ public class ControlLoopEventCleanupTest {
     public static void setUpSimulator() {
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "INFO");
 
-        saveGuardFlag = PolicyEngine.manager.getEnvironmentProperty(GUARD_DISABLED);
-        PolicyEngine.manager.getEnvironment().setProperty(GUARD_DISABLED, "true");
+        saveGuardFlag = PolicyEngineConstants.getManager().getEnvironmentProperty(GUARD_DISABLED);
+        PolicyEngineConstants.getManager().getEnvironment().setProperty(GUARD_DISABLED, "true");
 
         SupportUtil.setAaiProps();
 
-        PolicyEngine.manager.configure(new Properties());
-        assertTrue(PolicyEngine.manager.start());
+        PolicyEngineConstants.getManager().configure(new Properties());
+        assertTrue(PolicyEngineConstants.getManager().start());
         Properties noopSinkProperties = new Properties();
         noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS, "APPC-CL,POLICY-CL-MGT");
         noopSinkProperties.put("noop.sink.topics.APPC-CL.events", "org.onap.policy.appc.Response");
@@ -125,14 +125,14 @@ public class ControlLoopEventCleanupTest {
                         "org.onap.policy.controlloop.util.Serialization,gsonPretty");
         final List<TopicSink> noopTopics = TopicEndpointManager.getManager().addTopicSinks(noopSinkProperties);
 
-        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+        EventProtocolCoderConstants.getManager().addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
                 .artifactId("junit.artifactId")
                 .topic("POLICY-CL-MGT")
                 .eventClass("org.onap.policy.controlloop.VirtualControlLoopNotification")
                 .protocolFilter(new JsonProtocolFilter())
                 .modelClassLoaderHash(1111));
-        EventProtocolCoder.manager.addEncoder(EventProtocolParams.builder()
+        EventProtocolCoderConstants.getManager().addEncoder(EventProtocolParams.builder()
                 .groupId("junit.groupId")
                 .artifactId("junit.artifactId")
                 .topic("APPC-CL")
@@ -176,16 +176,16 @@ public class ControlLoopEventCleanupTest {
     public static void tearDown() {
         kieSession.dispose();
 
-        PolicyEngine.manager.stop();
+        PolicyEngineConstants.getManager().stop();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
-        PolicyController.factory.shutdown();
+        PolicyControllerConstants.getFactory().shutdown();
         TopicEndpointManager.getManager().shutdown();
 
         if (saveGuardFlag == null) {
-            PolicyEngine.manager.getEnvironment().remove(GUARD_DISABLED);
+            PolicyEngineConstants.getManager().getEnvironment().remove(GUARD_DISABLED);
 
         } else {
-            PolicyEngine.manager.getEnvironment().setProperty(GUARD_DISABLED, saveGuardFlag);
+            PolicyEngineConstants.getManager().getEnvironment().setProperty(GUARD_DISABLED, saveGuardFlag);
         }
     }
 
