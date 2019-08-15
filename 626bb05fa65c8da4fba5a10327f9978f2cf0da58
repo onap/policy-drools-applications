@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f9d2df0_1fccf82b",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/ControlLoopBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-08-15T13:18:25Z",
+      "side": 1,
+      "message": "Ugh - set to 2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "626bb05fa65c8da4fba5a10327f9978f2cf0da58",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
