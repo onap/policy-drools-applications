@@ -34,8 +34,6 @@
   <modules>
     <module>template.demo</module>
     <module>archetype-cl-amsterdam</module>
-    <module>archetype-cl-usecases</module>
   </modules>
-
 
 </project>

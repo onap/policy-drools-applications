@@ -1,7 +1,0 @@
-{
-	"closedLoopControlName": "${vfwClosedLoopControlName}",
-	"controlLoopYaml": "${vfwControlLoopYaml}",
-	"policyName": "${vfwPolicyName}",
-	"policyScope": "${policyScope}",
-	"policyVersion": "${policyVersion}"
-}

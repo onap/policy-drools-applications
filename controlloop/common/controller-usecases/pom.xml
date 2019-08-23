@@ -48,27 +48,6 @@
                 <version>6.5.0.Final</version>
                 <extensions>true</extensions>
             </plugin>
-
-            <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-drl</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>
-                                ../../templates/archetype-cl-usecases/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl
-                            </sourceFile>
-                            <destinationFile>src/main/resources/usecases.drl</destinationFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 

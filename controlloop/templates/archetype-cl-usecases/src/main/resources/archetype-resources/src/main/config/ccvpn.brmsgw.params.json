@@ -1,7 +1,0 @@
-{
-        "closedLoopControlName": "${ccvpnClosedLoopControlName}",
-        "controlLoopYaml": "${ccvpnControlLoopYaml}",
-        "policyName": "${ccvpnPolicyName}",
-        "policyScope": "${policyScope}",
-        "policyVersion": "${policyVersion}"
-}
