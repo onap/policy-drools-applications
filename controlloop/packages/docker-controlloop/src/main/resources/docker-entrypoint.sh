@@ -63,13 +63,15 @@ function scripts {
         set -x
     fi
 
-    if ! ls "${POLICY_INSTALL_INIT}"/*.sh 2>&1; then
+    local scriptExtSuffix=${1:-"sh"}
+
+    if ! ls "${POLICY_INSTALL_INIT}"/*."${scriptExtSuffix}" 2>&1; then
         return 0
     fi
 
     source "${POLICY_HOME}"/etc/profile.d/env.sh
 
-    for s in $(ls "${POLICY_INSTALL_INIT}"/*.sh 2> /dev/null); do
+    for s in $(ls "${POLICY_INSTALL_INIT}"/*."${scriptExtSuffix}" 2> /dev/null); do
         echo "executing script: ${s}"
         source "${s}"
     done
@@ -206,7 +208,7 @@ function reload {
     features
     security
     properties
-    scripts
+    scripts "pre.sh"
 }
 
 function start {
@@ -238,6 +240,7 @@ function vmBoot {
     reload
     db
     start
+    scripts "post.sh"
 }
 
 function dockerBoot {
@@ -267,6 +270,8 @@ case "${operation}" in
     vmboot)     vmBoot
                 ;;
     configure)  configure
+                ;;
+    nexus)      nexus
                 ;;
     *)          exec "$@"
                 ;;
