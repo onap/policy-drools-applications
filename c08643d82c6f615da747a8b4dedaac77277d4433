@@ -33,6 +33,24 @@
       "revId": "c08643d82c6f615da747a8b4dedaac77277d4433",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f1240cc_1c3a2b7b",
+        "filename": "controlloop/packages/docker-controlloop/src/main/resources/docker-entrypoint.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-08-27T21:32:48Z",
+      "side": 1,
+      "message": "it is in this file but got truncated in the review",
+      "parentUuid": "60aae226_243cb65f",
+      "revId": "c08643d82c6f615da747a8b4dedaac77277d4433",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
