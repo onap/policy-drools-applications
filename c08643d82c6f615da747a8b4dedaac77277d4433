@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9f24ea0_9970ca47",
+        "filename": "controlloop/packages/docker-controlloop/src/main/resources/docker-entrypoint.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-27T20:45:52Z",
+      "side": 1,
+      "message": "\u003e/dev/null ?",
+      "revId": "c08643d82c6f615da747a8b4dedaac77277d4433",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60aae226_243cb65f",
+        "filename": "controlloop/packages/docker-controlloop/src/main/resources/docker-entrypoint.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-27T20:45:52Z",
+      "side": 1,
+      "message": "I don\u0027t see the \"nexus\" function.  Is it sourced?",
+      "revId": "c08643d82c6f615da747a8b4dedaac77277d4433",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
