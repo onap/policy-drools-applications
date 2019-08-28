@@ -36,6 +36,7 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.controlloop.utils.ControlLoopUtils;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.aai.AaiNqResponseWrapper;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
@@ -729,6 +730,7 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 
     // NOTE: The environment properties uses "guard.disabled" but the boolean is guardEnabled
     boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
+	boolean cqEnabled = "true".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("aai.customQuery"));
 
     if(guardEnabled){
 
@@ -740,8 +742,26 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
                                                         $operation.getTargetEntity(),
                                                         $event.getRequestId().toString(),
                                                         () -> {
-                                                            AaiNqResponseWrapper resp = $manager.getNqVserverFromAai();
-                                                            return(resp == null ? null : resp.countVfModules());
+                                                             if(!cqEnabled){
+                                                                    AaiNqResponseWrapper resp = $manager.getNqVserverFromAai();
+                                                                    return(resp == null ? null : resp.countVfModules());
+                                                                }
+                                                                else {
+                                                                try{
+                                                                    AaiCqResponse resp_cq  = $manager.getCqResponse($event);
+                                                                    if (resp_cq == null){
+                                                                        return null;
+                                                                    } else {
+                                                                        String custId = $operation.policy.getTarget().getModelCustomizationId();
+                                                                        String invId = $operation.policy.getTarget().getModelInvariantId();
+                                                                        String verId = $operation.policy.getTarget().getModelVersionId();
+                                                                        return resp_cq.getVfModuleCount(custId, invId, verId);
+                                                                    }
+                                                                  } catch (Exception e){
+                                                                    logger.warn("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName(), e);
+                                                                  }
+                                                                  return null;
+                                                               }
                                                         }));
         t.start();
     }
