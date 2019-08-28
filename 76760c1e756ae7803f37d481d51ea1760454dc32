@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60e3e303_8e3a24c0",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces (can configure this in eclipse)",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85b6552d_bfeb9e34",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "remove trailing spaces (can configure this in eclipse)",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7a099d7_131d9d59",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "might want to consider moving this to a separate class so it can be invoked from all drl files",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "849a36d8_bb2613ba",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "need to fix indentation level of these lines\n\nsame comment in other drl files",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bf973fb_3cd036b2",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "263ca8db_04aa9e98",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VdnsControlLoopCqTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "just 2019",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "516836fc_3cb41a2c",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_ControlLoop_SO_Cq-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "2019",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab1bd05a_9315c2d5",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_ControlLoop_SO_Cq-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-28T20:08:45Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
