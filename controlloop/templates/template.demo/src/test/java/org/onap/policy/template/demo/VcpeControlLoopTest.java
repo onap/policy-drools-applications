@@ -28,6 +28,8 @@ import static org.junit.Assert.fail;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
+
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.appclcm.LcmRequest;
