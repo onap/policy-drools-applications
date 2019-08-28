@@ -326,6 +326,14 @@ public final class SupportUtil {
         PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.PROP_GUARD_DISABLED,
                         "false");
     }
+    
+    /**
+     * Sets the value of customQuery Environment property.
+     * @param value of the custom query boolean.
+     */
+    public static void setCustomQuery(String value){
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.customQuery", value);
+    }
 
     /**
      *  Set the VFC properties.
