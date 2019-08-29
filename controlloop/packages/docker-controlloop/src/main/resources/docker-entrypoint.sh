@@ -25,7 +25,7 @@ function configurations {
 
     local confName
 
-    if ! ls "${POLICY_INSTALL_INIT}"/*.conf 2>&1; then
+    if ! ls "${POLICY_INSTALL_INIT}"/*.conf 2>&1 2> /dev/null; then
         return 0
     fi
 
@@ -45,7 +45,7 @@ function features {
         set -x
     fi
 
-    if ! ls "${POLICY_INSTALL_INIT}"/features*.zip 2>&1; then
+    if ! ls "${POLICY_INSTALL_INIT}"/features*.zip 2>&1 2> /dev/null; then
         return 0
     fi
 
@@ -65,7 +65,7 @@ function scripts {
 
     local scriptExtSuffix=${1:-"sh"}
 
-    if ! ls "${POLICY_INSTALL_INIT}"/*."${scriptExtSuffix}" 2>&1; then
+    if ! ls "${POLICY_INSTALL_INIT}"/*."${scriptExtSuffix}" 2>&1 2> /dev/null; then
         return 0
     fi
 
@@ -111,7 +111,7 @@ function properties {
         set -x
     fi
 
-    if ! ls "${POLICY_INSTALL_INIT}"/*.properties 2>&1; then
+    if ! ls "${POLICY_INSTALL_INIT}"/*.properties 2>&1 2> /dev/null; then
         return 0
     fi
 
