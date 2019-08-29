@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21e71538_31f9a437",
+        "filename": "controlloop/packages/docker-controlloop/src/main/resources/docker-entrypoint.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-29T18:55:30Z",
+      "side": 1,
+      "message": "to redirect both stderr \u0026 stdout to /dev/null, use:\n  \u003e/dev/null 2\u003e\u00261\n\nsame comment below",
+      "revId": "65e3c31594160ee0ff431332f9592948e4647982",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
