@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "dfce29cb_87cf5673",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-08-30T16:27:31Z",
+      "side": 1,
+      "message": "How to use the formatter for DRL files? AFAIK it works only for java files.",
+      "parentUuid": "849a36d8_bb2613ba",
+      "revId": "76760c1e756ae7803f37d481d51ea1760454dc32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5bf973fb_3cd036b2",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
         "patchSetId": 1
