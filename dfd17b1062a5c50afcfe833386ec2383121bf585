@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07e78109_33835447",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T16:29:03Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "dfd17b1062a5c50afcfe833386ec2383121bf585",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8e1db21_fe978a83",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T16:29:03Z",
+      "side": 1,
+      "message": "maybe reformat this whole block to fix the indentation levels",
+      "revId": "dfd17b1062a5c50afcfe833386ec2383121bf585",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f36fca9_6edfdfc3",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T16:29:03Z",
+      "side": 1,
+      "message": "reformat this whole block",
+      "revId": "dfd17b1062a5c50afcfe833386ec2383121bf585",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "445df702_8a0778c9",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-08-30T16:29:03Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "dfd17b1062a5c50afcfe833386ec2383121bf585",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
