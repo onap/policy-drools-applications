@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1cf9050_95c2c24d",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-03T18:14:34Z",
+      "side": 1,
+      "message": "What exactly changed in here? Looks like mostly re-formatting.",
+      "revId": "4cf084c8b32f4f7e2f29291238b876b6fc6cbb00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b41ca98_6e067ecb",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-03T18:14:34Z",
+      "side": 1,
+      "message": "Not sure why this is included either",
+      "revId": "4cf084c8b32f4f7e2f29291238b876b6fc6cbb00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b0aaa15_ff99f609",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VdnsControlLoopCqTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-09-03T18:14:34Z",
+      "side": 1,
+      "message": "better to test with the Use case template, not the old amsterdam version that only works with legacy platform.",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "4cf084c8b32f4f7e2f29291238b876b6fc6cbb00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
