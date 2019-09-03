@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "303b2634_89853e37",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-03T18:44:00Z",
+      "side": 1,
+      "message": "appears to have added \"setCustomQuery()\"",
+      "parentUuid": "e1cf9050_95c2c24d",
+      "revId": "4cf084c8b32f4f7e2f29291238b876b6fc6cbb00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b41ca98_6e067ecb",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
         "patchSetId": 6
@@ -47,6 +65,30 @@
       "writtenOn": "2019-09-03T18:14:34Z",
       "side": 1,
       "message": "better to test with the Use case template, not the old amsterdam version that only works with legacy platform.",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "4cf084c8b32f4f7e2f29291238b876b6fc6cbb00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66aa4271_8e56ba5d",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VdnsControlLoopCqTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-03T18:44:00Z",
+      "side": 1,
+      "message": "not sure how much effort it would be to make the test harness work with \"usecase\".  Could try it and if it doesn\u0027t work, stick with amsterdam for now",
+      "parentUuid": "4b0aaa15_ff99f609",
       "range": {
         "startLine": 53,
         "startChar": 16,
