@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7160f0da_915da9ba",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-09-04T13:11:57Z",
+      "side": 0,
+      "message": "no longer need/want these?",
+      "revId": "3c9d3dbbe614e4eecd7c2031a0185671cbf8a1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
