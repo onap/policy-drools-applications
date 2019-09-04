@@ -85,12 +85,12 @@ function security {
 
     if [[ -f "${POLICY_INSTALL_INIT}"/policy-keystore ]]; then
         if ! cmp -s "${POLICY_INSTALL_INIT}"/policy-keystore "${POLICY_HOME}"/etc/ssl/policy-keystore; then
-            echo "overriding policy-keystore"policy-keystore
+            echo "overriding policy-keystore"
             cp -f "${POLICY_INSTALL_INIT}"/policy-keystore "${POLICY_HOME}"/etc/ssl
         fi
     fi
 
-    if [[ -f ${POLICY_INSTALL_INIT}/policy-keystore ]]; then
+    if [[ -f ${POLICY_INSTALL_INIT}/policy-truststore ]]; then
         if ! cmp -s "${POLICY_INSTALL_INIT}"/policy-truststore "${POLICY_HOME}"/etc/ssl/policy-truststore; then
             echo "overriding policy-truststore"
             cp -f "${POLICY_INSTALL_INIT}"/policy-truststore "${POLICY_HOME}"/etc/ssl
