@@ -33,6 +33,7 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEvent
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.aai.AaiNqResponseWrapper;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
@@ -729,23 +730,24 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     notification.setPolicyName(drools.getRule().getName());
     notification.setPolicyScope("${policyScope}");
     notification.setPolicyVersion("${policyVersion}");
-    
+
     PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
-        
+
     //
     // Now send Guard Request to XACML Guard. In order to bypass the call to Guard, 
     // just change guardEnabled to false.
-    // 
+    //
     // In order to use REST XACML, provide a URL instead of "" as a second argument 
     // to the CallGuardTask() and set the first argument to null 
     // (instead of XacmlPdpEngine).
     //
-    
+
     // NOTE: The environment properties uses "guard.disabled" but the boolean is guardEnabled
     boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
-    
+    boolean cqEnabled = "true".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("aai.customQuery"));
+
     if(guardEnabled){
-    
+
         Thread t = new Thread(new org.onap.policy.guard.CallGuardTask(
                                                         drools.getWorkingMemory(),
                                                         $event.getClosedLoopControlName(),
@@ -754,8 +756,25 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
                                                         $operation.getTargetEntity(),
                                                         $event.getRequestId().toString(),
                                                         () -> {
-                                                            AaiNqResponseWrapper resp = $manager.getNqVserverFromAai();
-                                                            return(resp == null ? null : resp.countVfModules());
+                                                             if (!cqEnabled) {
+                                                                 AaiNqResponseWrapper resp = $manager.getNqVserverFromAai();
+                                                                 return(resp == null ? null : resp.countVfModules());
+                                                             } else {
+                                                                 try {
+                                                                     AaiCqResponse resp_cq  = $manager.getCqResponse($event);
+                                                                     if (resp_cq == null){
+                                                                         return null;
+                                                                     } else {
+                                                                         String custId = $operation.policy.getTarget().getModelCustomizationId();
+                                                                         String invId = $operation.policy.getTarget().getModelInvariantId();
+                                                                         String verId = $operation.policy.getTarget().getModelVersionId();
+                                                                         return resp_cq.getVfModuleCount(custId, invId, verId);
+                                                                     }
+                                                                 } catch (Exception e){
+                                                                     logger.warn("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName(), e);
+                                                                 }
+                                                                 return null;
+                                                             }
                                                         }));
         t.start();
     }
