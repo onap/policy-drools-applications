@@ -3,6 +3,7 @@
  * unit test
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +44,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Response;
@@ -79,6 +81,7 @@ import org.slf4j.LoggerFactory;
 public class ControlLoopOperationManagerTest {
     private static final String VSERVER_NAME = "vserver.vserver-name";
     private static final String TEST_YAML = "src/test/resources/test.yaml";
+    private static final String TEST_CDS_YAML = "src/test/resources/test-cds.yaml";
     private static final String ONSET_ONE = "onsetOne";
     private static final String VNF_NAME = "generic-vnf.vnf-name";
     private static final String VNF_ID = "generic-vnf.vnf-id";
@@ -743,6 +746,50 @@ public class ControlLoopOperationManagerTest {
 
         System.setProperty(OPERATIONS_HISTORY_PU, OPERATIONS_HISTORY_PU_TEST);
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
+    }
+
+    @Test
+    public void testStartCdsOperation() throws ControlLoopException, IOException {
+
+        // Prepare
+        String yamlString;
+        try (InputStream is = new FileInputStream(new File(TEST_CDS_YAML))) {
+            yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+        }
+
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.setClosedLoopControlName(TWO_ONSET_TEST);
+        event.setRequestId(requestId);
+        event.setTarget(VNF_ID);
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        event.setAai(new HashMap<>());
+        event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.getAai().put(VSERVER_NAME, "OzVServer");
+
+        ControlLoopEventManager eventManager =
+                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        VirtualControlLoopNotification notification = eventManager.activate(yamlString, event);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        Policy policy = eventManager.getProcessor().getCurrentPolicy();
+        policy.getTarget().setResourceID("bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38");
+        policy.setPayload(new HashMap<>());
+        policy.getPayload().put("artifact_name", "my-artifact-name");
+        policy.getPayload().put("artifact_version", "my-artifact-version");
+        ControlLoopOperationManager operationManager = new ControlLoopOperationManager(event, policy, eventManager);
+
+        // Run
+        Object result = operationManager.startOperation(event);
+
+        // Verify
+        assertNotNull(result);
+        assertTrue(result instanceof ExecutionServiceInput);
+        ExecutionServiceInput request = (ExecutionServiceInput) result;
+        logger.debug("request: " + request);
+
     }
 
     @Test
