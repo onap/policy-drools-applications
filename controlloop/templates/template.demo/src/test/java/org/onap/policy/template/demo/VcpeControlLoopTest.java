@@ -52,8 +52,7 @@ public class VcpeControlLoopTest extends ControlLoopBase implements TopicListene
     @BeforeClass
     public static void setUpBeforeClass() {
         ControlLoopBase.setUpBeforeClass(
-            "../archetype-cl-amsterdam/src/main/resources/archetype-resources"
-                            + "/src/main/resources/__closedLoopControlName__.drl",
+            "common/controller-usecases/src/main/resources/usecases.drl",
             "src/test/resources/yaml/policy_ControlLoop_vCPE.yaml",
             "service=ServiceDemo;resource=Res1Demo;type=operational",
             "CL_vCPE",
