@@ -58,18 +58,18 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
+import org.onap.policy.drools.core.lock.Lock;
+import org.onap.policy.drools.core.lock.LockCallback;
+import org.onap.policy.drools.core.lock.LockImpl;
+import org.onap.policy.drools.core.lock.LockState;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.guard.GuardResult;
-import org.onap.policy.guard.LockCallback;
-import org.onap.policy.guard.PolicyGuard;
-import org.onap.policy.guard.PolicyGuard.LockResult;
-import org.onap.policy.guard.TargetLock;
+import org.onap.policy.drools.utils.Pair;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ControlLoopEventManager implements LockCallback, Serializable {
+public class ControlLoopEventManager implements Serializable {
     public static final String PROV_STATUS_ACTIVE = "ACTIVE";
     private static final String VM_NAME = "VM_NAME";
     private static final String VNF_NAME = "VNF_NAME";
@@ -121,7 +121,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
     private ControlLoopOperationManager lastOperationManager = null;
-    private transient TargetLock targetLock = null;
+    private transient Lock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
     private boolean useTargetLock = true;
@@ -140,6 +140,12 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
         requiredAAIKeys.add(VM_NAME);
     }
 
+    /**
+     * Constructs the object.
+     *
+     * @param closedLoopControlName name of the control loop
+     * @param requestId ID of the request with which this manager is associated
+     */
     public ControlLoopEventManager(String closedLoopControlName, UUID requestId) {
         this.closedLoopControlName = closedLoopControlName;
         this.requestId = requestId;
@@ -472,9 +478,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
                 //
                 this.lastOperationManager = this.currentOperation;
                 this.currentOperation = null;
+
                 //
-                // TODO: Release our lock
+                // Don't release the lock - it may be re-used by the next operation
                 //
+
                 return;
             }
             logger.debug("Cannot finish current operation {} does not match given operation {}",
@@ -487,77 +495,75 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     /**
      * Obtain a lock for the current operation.
      *
-     * @return the lock result
+     * @param callback call-back to be invoked when the lock state changes
+     * @return a pair containing the old lock and the new lock, either of which may be null
      * @throws ControlLoopException if an error occurs
      */
-    public synchronized LockResult<GuardResult, TargetLock> lockCurrentOperation() throws ControlLoopException {
+    public synchronized Pair<Lock, Lock> lockCurrentOperation(LockCallback callback) throws ControlLoopException {
         //
         // Sanity check
         //
         if (this.currentOperation == null) {
             throw new ControlLoopException("Do not have a current operation.");
         }
+
         //
-        // Not using target locks? Create and return a lock w/o actually locking.
+        // Release the old lock if it's for a different resource.
         //
-        if (!this.useTargetLock) {
-            TargetLock lock = PolicyGuard.createTargetLock(this.currentOperation.policy.getTarget().getType(),
-                    this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this);
-            this.targetLock = lock;
-            return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
+        Lock oldLock = null;
+        if (this.targetLock != null
+                        && !this.targetLock.getResourceId().equals(this.currentOperation.getTargetEntity())) {
+            logger.debug("{}: different resource - releasing old lock", getClosedLoopControlName());
+            oldLock = this.targetLock;
+            this.targetLock = null;
         }
+
+        // keep the lock a little longer than the operation, including retries
+        int optimeout = Math.max(1, this.currentOperation.getOperationTimeout());
+        int nattempts = 1 + Math.max(0, this.currentOperation.getMaxRetries());
+        int holdSec = optimeout * nattempts + ADDITIONAL_LOCK_SEC;
+
         //
         // Have we acquired it already?
         //
         if (this.targetLock != null) {
-            //
-            // TODO: Make sure the current lock is for the same target.
-            // Currently, it should be. But in the future it may not.
-            //
-            GuardResult result = PolicyGuard.lockTarget(targetLock,
-                    this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
-            return new LockResult<>(result, this.targetLock);
+            // we have the lock - just extend it
+            this.targetLock.extend(holdSec, callback);
+            return new Pair<>(oldLock, null);
+
+        } else if (this.useTargetLock) {
+            this.targetLock = createRealLock(this.currentOperation.getTargetEntity(), this.onset.getRequestId(),
+                            holdSec, callback);
+            return new Pair<>(oldLock, this.targetLock);
+
         } else {
-            //
-            // Ask the Guard
-            //
-            LockResult<GuardResult, TargetLock> lockResult = PolicyGuard.lockTarget(
-                    this.currentOperation.policy.getTarget().getType(), this.currentOperation.getTargetEntity(),
-                    this.onset.getRequestId(), this, this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
-            //
-            // Was it acquired?
-            //
-            if (lockResult.getA().equals(GuardResult.LOCK_ACQUIRED)) {
-                //
-                // Yes, let's save it
-                //
-                this.targetLock = lockResult.getB();
-            }
-            return lockResult;
+            // Not using target locks - create a lock w/o actually locking.
+            logger.debug("{}: not using target locking; using pseudo locks", getClosedLoopControlName());
+            this.targetLock = createPseudoLock(this.currentOperation.getTargetEntity(), this.onset.getRequestId(),
+                            holdSec, callback);
+
+            // Note: no need to invoke callback, as the lock is already ACTIVE
+
+            return new Pair<>(oldLock, this.targetLock);
         }
     }
 
     /**
-     * Release the lock for the current operation.
+     * Releases the lock for the current operation, deleting it from working memory.
      *
-     * @return the target lock
+     * @return the lock, if the operation was locked, {@code null} otherwise
      */
-    public synchronized TargetLock unlockCurrentOperation() {
+    public synchronized Lock unlockCurrentOperation() {
         if (this.targetLock == null) {
             return null;
         }
 
-        TargetLock returnLock = this.targetLock;
+        Lock lock = this.targetLock;
         this.targetLock = null;
-        //
-        // if using target locking unlock before returning
-        //
-        if (this.useTargetLock) {
-            PolicyGuard.unlockTarget(returnLock);
-        }
 
-        // always return the old target lock so rules can retract it
-        return returnLock;
+        lock.free();
+
+        return lock;
     }
 
     public enum NewEventStatus {
@@ -1033,18 +1039,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     }
 
     @Override
-    public boolean isActive() {
-        // TODO
-        return true;
-    }
-
-    @Override
-    public boolean releaseLock() {
-        // TODO
-        return false;
-    }
-
-    @Override
     public String toString() {
         return "ControlLoopEventManager [closedLoopControlName=" + closedLoopControlName + ", requestId=" + requestId
                 + ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestId() : "null")
@@ -1097,4 +1091,17 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     }
 
+
+    // the following methods may be overridden by junit tests
+
+    protected Lock createRealLock(String targetEntity, UUID requestId, int holdSec, LockCallback callback) {
+        return PolicyEngineConstants.getManager().createLock(targetEntity, requestId.toString(), holdSec, callback,
+                        false);
+    }
+
+    // note: the "callback" is required, because it will be invoked when lock.extend() is
+    // invoked
+    protected Lock createPseudoLock(String targetEntity, UUID requestId, int holdSec, LockCallback callback) {
+        return new LockImpl(LockState.ACTIVE, targetEntity, requestId.toString(), holdSec, callback);
+    }
 }
