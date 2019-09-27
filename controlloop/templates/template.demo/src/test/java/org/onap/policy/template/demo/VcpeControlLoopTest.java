@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.UUID;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kie.api.event.rule.DebugAgendaEventListener;
+import org.kie.api.event.rule.DebugRuleRuntimeEventListener;
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmRequestWrapper;
 import org.onap.policy.appclcm.LcmResponse;
@@ -58,6 +60,7 @@ public class VcpeControlLoopTest extends ControlLoopBase implements TopicListene
             "service=ServiceDemo;resource=Res1Demo;type=operational",
             "CL_vCPE",
             "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
+        SupportUtil.setCustomQuery("false");
     }
 
     @Test
@@ -122,6 +125,9 @@ public class VcpeControlLoopTest extends ControlLoopBase implements TopicListene
          */
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "getFail", false);
 
+        // Add debug event listeners to session
+        kieSession.addEventListener(new DebugRuleRuntimeEventListener(System.out));
+        kieSession.addEventListener(new DebugAgendaEventListener(System.out));
 
         kieSession.fireUntilHalt();
 
