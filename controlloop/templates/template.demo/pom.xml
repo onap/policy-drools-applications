@@ -212,5 +212,12 @@
       <version>${version.policy.drools-pdp}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- simply including this in the pom will enable the feature -->
+    <dependency>
+      <groupId>org.onap.policy.drools-pdp</groupId>
+      <artifactId>feature-simple-locking</artifactId>
+      <version>${version.policy.drools-pdp}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
