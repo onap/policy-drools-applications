@@ -3,6 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,6 +58,8 @@ public final class SupportUtil {
 
     private static final String OPSHISTPUPROP = "OperationsHistoryPU";
     private static final Logger logger = LoggerFactory.getLogger(SupportUtil.class);
+    static final int GRPC_SERVER_PORT = 1142;
+
 
     public static class Pair<A, B> {
         public final A first;
@@ -367,6 +370,17 @@ public final class SupportUtil {
      */
     public static void setPuProp() {
         System.setProperty(OPSHISTPUPROP, "OperationsHistoryPUTest");
+    }
+
+    /**
+     * Set cds properties.
+     */
+    public static void setCdsProps() {
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcHost", "localhost");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcPort", Integer.toString(GRPC_SERVER_PORT));
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcUsername", "grpc-username");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcPassword", "grpc-password");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcTimeout", "5");
     }
 
     /**
