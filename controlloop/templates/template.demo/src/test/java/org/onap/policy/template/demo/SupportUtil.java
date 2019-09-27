@@ -3,6 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +45,7 @@ import org.kie.api.builder.Results;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
+import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.guard.ControlLoopGuard;
 import org.onap.policy.drools.system.PolicyEngineConstants;
@@ -57,6 +59,16 @@ public final class SupportUtil {
 
     private static final String OPSHISTPUPROP = "OperationsHistoryPU";
     private static final Logger logger = LoggerFactory.getLogger(SupportUtil.class);
+
+    static final int GRPC_SERVER_PORT;
+
+    static {
+        try {
+            GRPC_SERVER_PORT = NetworkUtil.allocPort();
+        } catch (IOException e) {
+            throw new RuntimeException("Socket cannot be created for grpc server port", e);
+        }
+    }
 
     public static class Pair<A, B> {
         public final A first;
@@ -367,6 +379,17 @@ public final class SupportUtil {
      */
     public static void setPuProp() {
         System.setProperty(OPSHISTPUPROP, "OperationsHistoryPUTest");
+    }
+
+    /**
+     * Set cds properties.
+     */
+    public static void setCdsProps() {
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcHost", "localhost");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcPort", Integer.toString(GRPC_SERVER_PORT));
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcUsername", "grpc-username");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcPassword", "grpc-password");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("cds.grpcTimeout", "5");
     }
 
     /**

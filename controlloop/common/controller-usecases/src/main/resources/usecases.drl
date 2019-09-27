@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.controlloop;
 
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.controlloop.params.ControlLoopParams;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
@@ -35,6 +37,9 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEvent
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.controlloop.utils.ControlLoopUtils;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
+import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider;
+import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider.CdsActorServiceManager;
+import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
@@ -45,6 +50,9 @@ import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.cds.CdsResponse;
+import org.onap.policy.cds.client.CdsProcessorGrpcClient;
+import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.sdnr.PciRequestWrapper;
 import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.sdnr.PciRequest;
@@ -77,6 +85,7 @@ import org.slf4j.Logger;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Iterator;
+
 
 import org.onap.policy.drools.system.PolicyEngineConstants;
 
@@ -621,6 +630,34 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                       t.start();
                   }
                   break;                 
+
+              case "CDS":
+
+                  if(request instanceof ExecutionServiceInput) {
+
+                      // Instantiate cds actor, service manager and grpc properties
+
+                      CdsActorServiceProvider cdsActor = new CdsActorServiceProvider();
+                      CdsActorServiceProvider.CdsActorServiceManager cdsActorServiceManager = cdsActor.new CdsActorServiceManager();
+
+                      CdsServerProperties props = new CdsServerProperties();
+                      props.setHost(PolicyEngineConstants.getManager().getEnvironmentProperty("cds.grpcHost"));
+                      props.setPort(Integer.parseInt(PolicyEngineConstants.getManager().getEnvironmentProperty("cds.grpcPort")));
+                      props.setUsername(PolicyEngineConstants.getManager().getEnvironmentProperty("cds.grpcUsername"));
+                      props.setPassword(PolicyEngineConstants.getManager().getEnvironmentProperty("cds.grpcPassword"));
+                      props.setTimeout(Integer.parseInt(PolicyEngineConstants.getManager().getEnvironmentProperty("cds.grpcTimeout")));
+
+                      // Send cds grpc request
+                      CdsResponse response =
+                            cdsActorServiceManager.sendRequestToCds(
+                                new CdsProcessorGrpcClient(cdsActorServiceManager, props),
+                                props, (ExecutionServiceInput) request);
+                      logger.info("CDS response: {}", response);
+                      drools.getWorkingMemory().insert(response);
+
+                  }
+                  break;
+
           }
         } else {
           //
@@ -1302,6 +1339,58 @@ rule "SDNC.RESPONSE"
 
 end
 
+
+/**
+ * This rule responds to CDS Response Events
+ */
+rule "${policyName}.CDS.RESPONSE"
+    when
+        $params : ControlLoopParams( $clName : getClosedLoopControlName() )
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
+            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
+            requestId == $event.getRequestId() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
+            onset.getRequestId() == $event.getRequestId() )
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
+            requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
+        $lock : TargetLock (requestId == $event.getRequestId())
+        $response : CdsResponse( requestId == $event.getRequestId().toString() )
+
+    then
+
+        Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+        logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
+        logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}",
+                    $params.getClosedLoopControlName(), drools.getRule().getName(),
+                    $event, $manager, $operation, $lock, $operation, $opTimer, $response);
+
+        PolicyResult policyResult = $operation.onResponse($response);
+
+        // The operation has completed, construct a notification showing our results
+        VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+        notification.setFrom("policy");
+        notification.setPolicyName(drools.getRule().getName());
+        notification.setPolicyScope("${policyScope}");
+        notification.setPolicyVersion("${policyVersion}");
+        notification.setMessage($operation.getOperationHistory());
+        notification.setHistory($operation.getHistory());
+        notification.setNotification(
+            ($response != null && CdsActorConstants.SUCCESS.equals($response.getStatus())) 
+                ? ControlLoopNotificationType.OPERATION_SUCCESS : ControlLoopNotificationType.OPERATION_FAILURE);
+
+        // Send the notification
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+
+        // Complete operation and cleanup
+        retract($operation);
+        retract($opTimer);
+        modify($manager) {finishOperation($operation)};
+        retract($response);
+
+end
+
+/*
 /*
 *
 * This manages a single timer.
