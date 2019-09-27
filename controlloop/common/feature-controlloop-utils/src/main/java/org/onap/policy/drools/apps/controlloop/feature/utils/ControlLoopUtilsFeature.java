@@ -47,9 +47,6 @@ public class ControlLoopUtilsFeature implements PolicyEngineFeatureApi {
         } catch (final InterruptedException e) {
             logger.error("{}: initialization aborted", ControlLoopUtilsFeature.class.getName(), e);
             Thread.currentThread().interrupt();
-        } catch (final IOException e) {
-            logger.error("{}: a simulator cannot be built because of {}", ControlLoopUtilsFeature.class.getName(),
-                    e.getMessage(), e);
         }
         return false;
     }
