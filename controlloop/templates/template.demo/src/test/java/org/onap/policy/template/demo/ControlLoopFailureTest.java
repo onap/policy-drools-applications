@@ -48,6 +48,8 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
     private UUID requestId2;
     private UUID requestId3;
     private int eventCount;
+    private int nsuccess = 0;
+    private int nreject = 0;
 
     /**
      * Setup simulator.
@@ -106,18 +108,24 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
         sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vnf01");
 
         /*
-         * Send a second event requesting an action for a different target entity
+         * Send a second event for a different target to ensure there are no problems with obtaining
+         * a lock
          */
         sendEvent(pair.first, requestId2, ControlLoopEventStatus.ONSET, "vnf02");
 
         /*
-         * Send a second event for a different target to ensure there are no problems with obtaining
-         * a lock for a different
+         * Send a third event requesting an action for a duplicate target entity
          */
+        sendEvent(pair.first, requestId3, ControlLoopEventStatus.ONSET, "vnf01");
+
         kieSession.fireUntilHalt();
 
         // allow object clean-up
         kieSession.fireAllRules();
+
+        // should be one success and one failure for vnf01
+        assertEquals(1, nsuccess);
+        assertEquals(1, nreject);
 
         /*
          * The only fact in memory should be Params
@@ -136,7 +144,7 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
      * @see org.onap.policy.drools.PolicyEngineListener#newEventNotification(java.lang.String)
      */
     @Override
-    public void onTopicEvent(CommInfrastructure commType, String topic, String event) {
+    public synchronized void onTopicEvent(CommInfrastructure commType, String topic, String event) {
         /*
          * Pull the object that was sent out to DMAAP and make sure it is a ControlLoopNoticiation
          * of type active
@@ -156,6 +164,17 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
             if (policyName.endsWith("EVENT")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.getNotification()));
+            } else if (policyName.endsWith("DENIED")) {
+                logger.debug("Rule Fired: " + notification.getPolicyName());
+                assertTrue(ControlLoopNotificationType.REJECTED.equals(notification.getNotification()));
+                assertNotNull(notification.getMessage());
+                assertTrue(notification.getMessage().contains("is already locked"));
+                if (requestId.equals(notification.getRequestId()) || requestId3.equals(notification.getRequestId())) {
+                    ++nreject;
+                }
+                if (++eventCount == 3) {
+                    kieSession.halt();
+                }
             } else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
                 assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
@@ -181,18 +200,16 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
                 assertTrue(ControlLoopNotificationType.OPERATION_SUCCESS.equals(notification.getNotification()));
                 assertNotNull(notification.getMessage());
                 assertTrue(notification.getMessage().startsWith("actor=APPC"));
-                if (requestId.equals(notification.getRequestId())) {
-                    sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED, "vnf01");
+                if (requestId.equals(notification.getRequestId()) || requestId3.equals(notification.getRequestId())) {
+                    sendEvent(pair.first, notification.getRequestId(), ControlLoopEventStatus.ABATED, "vnf01");
                 } else if (requestId2.equals(notification.getRequestId())) {
                     sendEvent(pair.first, requestId2, ControlLoopEventStatus.ABATED, "vnf02");
                 }
             } else if (policyName.endsWith("EVENT.MANAGER")) {
                 logger.debug("Rule Fired: " + notification.getPolicyName());
-                if (requestId3.equals(notification.getRequestId())) {
-                    /*
-                     * The event with the duplicate target should be rejected
-                     */
-                    assertTrue(ControlLoopNotificationType.REJECTED.equals(notification.getNotification()));
+                if (requestId.equals(notification.getRequestId()) || requestId3.equals(notification.getRequestId())) {
+                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
+                    ++nsuccess;
                 } else {
                     assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
                 }
