@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +41,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.apache.commons.io.IOUtils;
+import org.drools.core.WorkingMemory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -116,6 +118,8 @@ public class ControlLoopOperationManagerTest {
     private static EntityManagerFactory emf;
     private static EntityManager em;
 
+    private WorkingMemory workmem = mock(WorkingMemory.class);
+
 
     private static int getCount() {
         // Create a query for number of items in DB
@@ -174,7 +178,7 @@ public class ControlLoopOperationManagerTest {
         // create the manager
         //
         ControlLoopEventManager eventManager =
-                new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
+                new ControlLoopEventManager(workmem, onset.getClosedLoopControlName(), onset.getRequestId());
         VirtualControlLoopNotification notification = eventManager.activate(onset);
 
         assertNotNull(notification);
@@ -296,7 +300,7 @@ public class ControlLoopOperationManagerTest {
         // create the manager
         //
         ControlLoopEventManager eventManager =
-                new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
+                new ControlLoopEventManager(workmem, onset.getClosedLoopControlName(), onset.getRequestId());
         VirtualControlLoopNotification notification = eventManager.activate(onset);
 
         assertNotNull(notification);
@@ -385,7 +389,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -490,7 +494,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -538,7 +542,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -626,7 +630,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -719,7 +723,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -764,7 +768,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -803,7 +807,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+                new ControlLoopEventManager(workmem, onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
