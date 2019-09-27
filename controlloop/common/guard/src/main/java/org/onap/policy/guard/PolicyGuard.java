@@ -8,9 +8,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,9 @@ package org.onap.policy.guard;
 
 import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.core.lock.Lock;
+import org.onap.policy.drools.core.lock.LockCallback;
+import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
 import org.onap.policy.guard.impl.PnfTargetLock;
 import org.onap.policy.guard.impl.VmTargetLock;
@@ -33,47 +36,25 @@ import org.slf4j.LoggerFactory;
 public class PolicyGuard {
 
     private static final Logger logger = LoggerFactory.getLogger(PolicyGuard.class);
-    
+
     /**
      * Factory to access various objects.  Can be changed for junit tests.
      */
     private static Factory factory = new Factory();
 
-    public static class LockResult<A, B> {
-        private A parameterA;
-        private B parameterB;
-
-        public LockResult(A parameterA, B parameterB) {
-            this.parameterA = parameterA;
-            this.parameterB = parameterB;
-        }
-
-        public A getA() {
-            return parameterA;
-        }
-
-        public B getB() {
-            return parameterB;
-        }
-        
-        public static <A, B> LockResult<A, B> createLockResult(A parameterA, B parameterB) {
-            return new LockResult<>(parameterA, parameterB);
-        }
-    }
-    
     private PolicyGuard() {
         // Cannot instantiate this static class
     }
 
     /**
      * Get the factory.
-     * 
+     *
      * @return the factory used to access various objects
      */
     protected static Factory getFactory() {
         return factory;
     }
-    
+
     /**
      * Sets the factory to be used by junit tests.
      * @param factory factory
@@ -83,8 +64,8 @@ public class PolicyGuard {
     }
 
     /**
-     * Create a lock.
-     * 
+     * Create a pseudo lock, one that generally returns success.
+     *
      * @param targetType the target type
      * @param targetInstance the target instance
      * @param requestId the request Id
@@ -93,28 +74,49 @@ public class PolicyGuard {
      */
     public static TargetLock createTargetLock(TargetType targetType, String targetInstance,
             UUID requestId, LockCallback callback) {
+
+        String reqstr = requestId.toString();
+        LockImpl lock = new LockImpl(Lock.State.ACTIVE, targetInstance, reqstr, reqstr, callback, 0, true);
+        lock.notifyAvailable();
+
+        return createTargetLock(targetType, targetInstance, requestId, lock);
+    }
+
+    /**
+     * Create a lock.
+     *
+     * @param targetType the target type
+     * @param targetInstance the target instance
+     * @param requestId the request Id
+     * @param lock the lock to be wrapped within the TargetLock
+     * @return the TargetLock
+     * @throws IllegalArgumentException if an argument is null
+     */
+    private static TargetLock createTargetLock(TargetType targetType, String targetInstance,
+            UUID requestId, Lock lock) {
+
         switch (targetType) {
             case PNF:
                 //
                 // Create the Lock object
                 //
-                return new PnfTargetLock(targetType, targetInstance, requestId, callback);
+                return new PnfTargetLock(targetType, targetInstance, requestId, lock);
             case VM:
                 //
                 // Create the Lock object
                 //
-                return new VmTargetLock(targetType, targetInstance, requestId, callback);
+                return new VmTargetLock(targetType, targetInstance, requestId, lock);
             case VNF:
                 //
                 // Create the Lock object
                 //
-                return new VnfTargetLock(targetType, targetInstance, requestId, callback);
-                
+                return new VnfTargetLock(targetType, targetInstance, requestId, lock);
+
             case VFMODULE:
                 //
                 // Create the Lock object
                 //
-                return new VnfTargetLock(targetType, targetInstance, requestId, callback);
+                return new VnfTargetLock(targetType, targetInstance, requestId, lock);
             default:
                 logger.error("invalid target type {} for lock on {}", targetType, targetInstance);
                 return null;
@@ -123,7 +125,7 @@ public class PolicyGuard {
 
     /**
      * Lock a target.
-     * 
+     *
      * @param targetType the target type
      * @param targetInstance the target instance
      * @param requestId the request Id
@@ -132,98 +134,53 @@ public class PolicyGuard {
      * @return the LockResult
      * @throws IllegalArgumentException if an argument is null
      */
-    public static LockResult<GuardResult, TargetLock> lockTarget(TargetType targetType, String targetInstance,
+    public static TargetLock lockTarget(TargetType targetType, String targetInstance,
             UUID requestId, LockCallback callback, int holdSec) {
-        String owner = makeOwner(targetType, requestId);
-        boolean result = factory.getManager().lock(targetInstance, owner, holdSec);
-        if (!result) {
-            return LockResult.createLockResult(GuardResult.LOCK_DENIED, null);
-        }
 
-        TargetLock lock = createTargetLock(targetType, targetInstance, requestId, callback);
+        Lock realLock = factory.getManager().lock(targetInstance, requestId.toString(), callback, holdSec, false);
+
+        TargetLock lock = createTargetLock(targetType, targetInstance, requestId, realLock);
         if (lock == null) {
             //
             // Bad lock type: unlock and return exception result
-            // 
-            factory.getManager().unlock(targetInstance, owner);
-            return LockResult.createLockResult(GuardResult.LOCK_EXCEPTION, null);
+            //
+            realLock.free();
+
         } else {
-            //
-            // Return result
-            //
-            logger.debug("Locked {}", lock);
-            return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
+            logger.debug("Lock {} request sent", lock);
         }
+
+        return lock;
     }
-        
+
     /**
      * Extends a lock on a target.
      * @param lock      current lock
      * @param holdSec maximum number of seconds to hold the lock
-     * @return the result: acquired or denied
+     * @return {@code true} if an extension request was issued, {@code false} if it failed
      */
-    public static GuardResult lockTarget(TargetLock lock, int holdSec) {
-        String owner = makeOwner(lock.getTargetType(), lock.getRequestId());
-        
-        boolean result = factory.getManager().refresh(lock.getTargetInstance(), owner, holdSec);
-        
-        logger.debug("Lock {} extend {}", lock, result);
-        return (result ? GuardResult.LOCK_ACQUIRED : GuardResult.LOCK_DENIED);
+    public static boolean lockTarget(TargetLock lock, int holdSec) {
+        boolean result = lock.extend(holdSec);
+
+        logger.debug("Lock {} extending {}", lock, result);
+        return result;
     }
 
     /**
      * Unlock a target.
-     * 
+     *
      * @param lock the target lock to unlock
      * @return <code>true</code> if the target is successfully unlocked, <code>false</code>
      *         otherwise
      * @throws IllegalArgumentException if an argument is null
      */
     public static boolean unlockTarget(TargetLock lock) {
-        String owner = makeOwner(lock.getTargetType(), lock.getRequestId());
-        boolean result = factory.getManager().unlock(lock.getTargetInstance(), owner);
-        
-        if (result) {
-            logger.debug("Unlocked {}", lock);
-            return true;            
-        }
-        
-        return false;
+        boolean result = lock.free();
+
+        logger.debug("Lock {} releasing {}", lock, result);
+        return result;
     }
 
-    /**
-     * Check if a target is locked.
-     * 
-     * @param targetType the target type
-     * @param targetInstance the target instance
-     * @param requestId the request Id
-     * @return <code>true</code> if the target is locked, <code>false</code> otherwise
-     * @throws IllegalArgumentException if an argument is null
-     */
-    public static boolean isLocked(TargetType targetType, String targetInstance, UUID requestId) {
-        String owner = makeOwner(targetType, requestId);
-        return factory.getManager().isLockedBy(targetInstance, owner);
-    }
-
-    /**
-     * Combines the target type and request ID to yield a single, "owner" string.
-     * @param targetType target type
-     * @param requestID request id
-     * @return the "owner" of a resource
-     * @throws IllegalArgumentException if either argument is null
-     */
-    private static String makeOwner(TargetType targetType, UUID requestId) {
-        if (targetType == null) {
-            throw new IllegalArgumentException("null targetType for lock request id " + requestId);
-        }
-
-        if (requestId == null) {
-            throw new IllegalArgumentException("null requestID for lock type " + targetType);
-        }
-        
-        return targetType + ":" + requestId;
-    }
-    
     /**
      * Factory to access various objects.
      */
@@ -231,7 +188,7 @@ public class PolicyGuard {
 
         /**
          * Get the manager.
-         * 
+         *
          * @return the lock manager to be used
          */
         public PolicyResourceLockManager getManager() {

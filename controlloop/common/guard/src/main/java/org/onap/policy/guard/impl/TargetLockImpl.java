@@ -22,9 +22,8 @@ package org.onap.policy.guard.impl;
 
 import java.io.Serializable;
 import java.util.UUID;
-
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.guard.LockCallback;
+import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.guard.TargetLock;
 
 public class TargetLockImpl implements TargetLock, Serializable {
@@ -35,7 +34,7 @@ public class TargetLockImpl implements TargetLock, Serializable {
     private final TargetType targetType;
     private final String target;
     private final UUID requestId;
-    private final transient LockCallback callback;
+    private final transient Lock lock;
 
     /**
      * Construct an instance.
@@ -43,14 +42,24 @@ public class TargetLockImpl implements TargetLock, Serializable {
      * @param type the target type
      * @param target the target
      * @param requestId the request Id
-     * @param callback the callback
+     * @param lock the actual lock
      */
-    public TargetLockImpl(TargetType type, String target, UUID requestId, LockCallback callback) {
+    public TargetLockImpl(TargetType type, String target, UUID requestId, Lock lock) {
         this.lockId = UUID.randomUUID();
         this.targetType = type;
         this.target = target;
         this.requestId = requestId;
-        this.callback = callback;
+        this.lock = lock;
+    }
+
+    @Override
+    public boolean free() {
+        return lock.free();
+    }
+
+    @Override
+    public boolean extend(int holdSec) {
+        return lock.extend(holdSec);
     }
 
     @Override
@@ -72,10 +81,6 @@ public class TargetLockImpl implements TargetLock, Serializable {
     @Override
     public UUID getRequestId() {
         return this.requestId;
-    }
-
-    public LockCallback getCallback() {
-        return this.callback;
     }
 
     @Override

@@ -22,7 +22,7 @@ package org.onap.policy.guard.impl;
 
 import java.util.UUID;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.guard.LockCallback;
+import org.onap.policy.drools.core.lock.Lock;
 
 public class PnfTargetLock extends TargetLockImpl {
 
@@ -34,10 +34,10 @@ public class PnfTargetLock extends TargetLockImpl {
      * @param type the target type
      * @param target the target
      * @param requestId the request Id
-     * @param callback the callback
+     * @param lock the actual lock
      */
-    public PnfTargetLock(TargetType type, String target, UUID requestId, LockCallback callback) {
-        super(type, target, requestId, callback);
+    public PnfTargetLock(TargetType type, String target, UUID requestId, Lock lock) {
+        super(type, target, requestId, lock);
     }
 
     @Override
