@@ -1056,7 +1056,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
      * This function calls Aai Custom Query and responds with the AaiCqResponse.
      *
      * @param event input event
-     * @return AaiCqResponse Response from Aai for custom query
+     * @return AaiCqResponse Response from Aai for custom query. Can not be null.
      * @throws AaiException if error occurs
      */
     public AaiCqResponse getCqResponse(VirtualControlLoopEvent event) throws AaiException {
@@ -1088,6 +1088,11 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
         response = new AaiManager(new RestManager()).getCustomQueryResponse(aaiHostUrl, aaiUser, aaiPassword, reqId,
                 vserverId);
+
+        if (response == null) {
+            throw new AaiException("Aai response is undefined");
+        }
+
         return response;
 
     }
