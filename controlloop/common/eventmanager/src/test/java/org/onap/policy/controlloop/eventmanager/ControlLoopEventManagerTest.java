@@ -26,23 +26,33 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
+import org.drools.core.WorkingMemory;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
@@ -65,14 +75,14 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.drools.core.lock.Lock;
+import org.onap.policy.drools.core.lock.LockCallback;
+import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.guard.GuardResult;
-import org.onap.policy.guard.PolicyGuard;
-import org.onap.policy.guard.PolicyGuard.LockResult;
-import org.onap.policy.guard.TargetLock;
 import org.powermock.reflect.Whitebox;
 
 public class ControlLoopEventManagerTest {
+    private static final String TARGET_LOCK_FIELD = "targetLock";
     private static final String PROCESS_VSERVER_RESPONSE = "processVServerResponse";
     private static final String ONSET_ONE = "onsetOne";
     private static final String VSERVER_NAME = "vserver.vserver-name";
@@ -107,6 +117,7 @@ public class ControlLoopEventManagerTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private VirtualControlLoopEvent onset;
+    private WorkingMemory workmem;
 
     /**
      * Set up test class.
@@ -130,6 +141,8 @@ public class ControlLoopEventManagerTest {
      */
     @Before
     public void setUp() {
+        workmem = mock(WorkingMemory.class);
+
         onset = new VirtualControlLoopEvent();
         onset.setClosedLoopControlName("ControlLoop-vUSP");
         onset.setRequestId(UUID.randomUUID());
@@ -390,7 +403,7 @@ public class ControlLoopEventManagerTest {
     @Test
     public void testMethods() {
         UUID requestId = UUID.randomUUID();
-        ControlLoopEventManager clem = new ControlLoopEventManager("MyClosedLoopName", requestId);
+        ControlLoopEventManager clem = new ControlLoopEventManager(workmem, "MyClosedLoopName", requestId);
 
         assertEquals("MyClosedLoopName", clem.getClosedLoopControlName());
         assertEquals(requestId, clem.getRequestId());
@@ -414,11 +427,9 @@ public class ControlLoopEventManagerTest {
         assertNull(clem.getAbatementEvent());
         assertNull(clem.getProcessor());
 
-        assertEquals(true, clem.isActive());
-        assertEquals(false, clem.releaseLock());
         assertEquals(true, clem.isControlLoopTimedOut());
 
-        assertNull(clem.unlockCurrentOperation());
+        clem.unlockCurrentOperation();
     }
 
     @Test
@@ -441,11 +452,6 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testActivationYaml() throws IOException {
-        InputStream is = new FileInputStream(new File(TEST_YAML));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
-        InputStream isBad = new FileInputStream(new File("src/test/resources/notutf8.yaml"));
-        final String yamlStringBad = IOUtils.toString(isBad, StandardCharsets.UTF_8);
 
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
@@ -470,9 +476,16 @@ public class ControlLoopEventManagerTest {
         assertEquals(ControlLoopNotificationType.REJECTED, notificationEmpty.getNotification());
 
         // Bad YAML should fail
+        InputStream isBad = new FileInputStream(new File("src/test/resources/notutf8.yaml"));
+        final String yamlStringBad = IOUtils.toString(isBad, StandardCharsets.UTF_8);
+
         VirtualControlLoopNotification notificationBad = manager.activate(yamlStringBad, event);
         assertNotNull(notificationBad);
         assertEquals(ControlLoopNotificationType.REJECTED, notificationBad.getNotification());
+
+
+        InputStream is = new FileInputStream(new File(TEST_YAML));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
         VirtualControlLoopNotification notification = manager.activate(yamlString, event);
         assertNotNull(notification);
@@ -486,9 +499,6 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopFinal() throws Exception {
-        InputStream is = new FileInputStream(new File(TEST_YAML));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -509,6 +519,10 @@ public class ControlLoopEventManagerTest {
                         .hasMessage("No onset event for ControlLoopEventManager.");
 
         manager.setActivated(false);
+
+        InputStream is = new FileInputStream(new File(TEST_YAML));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
         VirtualControlLoopNotification notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -524,7 +538,7 @@ public class ControlLoopEventManagerTest {
         assertNotNull(clfNotification);
         assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, clfNotification.getNotification());
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        manager = new ControlLoopEventManager(workmem, event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -534,7 +548,7 @@ public class ControlLoopEventManagerTest {
         assertNotNull(clfNotification);
         assertEquals(ControlLoopNotificationType.FINAL_FAILURE, clfNotification.getNotification());
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        manager = new ControlLoopEventManager(workmem, event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -552,9 +566,6 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testProcessControlLoop() throws Exception {
-        InputStream is = new FileInputStream(new File(TEST_YAML));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -575,6 +586,10 @@ public class ControlLoopEventManagerTest {
                         .hasMessage("No onset event for ControlLoopEventManager.");
 
         manager.setActivated(false);
+
+        InputStream is = new FileInputStream(new File(TEST_YAML));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
         VirtualControlLoopNotification notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -591,7 +606,7 @@ public class ControlLoopEventManagerTest {
         assertThatThrownBy(manager3::processControlLoop).isInstanceOf(ControlLoopException.class)
                         .hasMessage("Already working an Operation, do not call this method.");
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        manager = new ControlLoopEventManager(workmem, event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -606,7 +621,7 @@ public class ControlLoopEventManagerTest {
         assertThatThrownBy(manager4::processControlLoop).isInstanceOf(ControlLoopException.class)
                         .hasMessage("Control Loop is in FINAL state, do not call this method.");
 
-        manager = new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        manager = new ControlLoopEventManager(workmem, event.getClosedLoopControlName(), event.getRequestId());
         notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -620,21 +635,10 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testFinishOperation() throws Exception {
-        InputStream is = new FileInputStream(new File("src/test/resources/testSOactor.yaml"));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
         InputStream isStd = new FileInputStream(new File(TEST_YAML));
         final String yamlStringStd = IOUtils.toString(isStd, StandardCharsets.UTF_8);
 
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(TWO_ONSET_TEST);
-        event.setRequestId(requestId);
-        event.setTarget(VNF_ID);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAai(new HashMap<>());
-        event.getAai().put(VNF_ID, ONSET_ONE);
+        VirtualControlLoopEvent event = makeEvent();
 
         ControlLoopEventManager manager = makeManager(event);
         ControlLoopEventManager manager2 = manager;
@@ -646,38 +650,23 @@ public class ControlLoopEventManagerTest {
                         .hasMessage("No operation to finish.");
 
         manager.setActivated(false);
+
+        InputStream is = new FileInputStream(new File("src/test/resources/testSOactor.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
         VirtualControlLoopNotification notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
-        assertThatThrownBy(manager2::lockCurrentOperation).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("Do not have a current operation.");
-
-        assertNull(manager.unlockCurrentOperation());
-
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
+
+        // set working memory object, as de-serializer will not do that
+        manager.setWorkingMemory(workmem);
 
         ControlLoopOperationManager clom = manager.processControlLoop();
         assertNotNull(clom);
         assertNull(clom.getOperationResult());
-
-        LockResult<GuardResult, TargetLock> lockLock = manager.lockCurrentOperation();
-        assertNotNull(lockLock);
-        assertEquals(GuardResult.LOCK_ACQUIRED, lockLock.getA());
-
-        LockResult<GuardResult, TargetLock> lockLockAgain = manager.lockCurrentOperation();
-        assertNotNull(lockLockAgain);
-        assertEquals(GuardResult.LOCK_ACQUIRED, lockLockAgain.getA());
-        assertEquals(lockLock.getB(), lockLockAgain.getB());
-
-        assertEquals(lockLock.getB(), manager.unlockCurrentOperation());
-        assertNull(manager.unlockCurrentOperation());
-
-        lockLock = manager.lockCurrentOperation();
-        assertNotNull(lockLock);
-        PolicyGuard.unlockTarget(lockLock.getB());
-        assertEquals(lockLock.getB(), manager.unlockCurrentOperation());
 
         clom.startOperation(event);
 
@@ -697,10 +686,122 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testOnNewEvent() throws Exception {
-        InputStream is = new FileInputStream(new File(TEST_YAML));
+    public void testLockCurrentOperation_testUnlockCurrentOperation() throws Exception {
+        VirtualControlLoopEvent event = makeEvent();
+
+        ControlLoopEventManager manager = makeManager(event);
+
+        manager.setActivated(false);
+
+        InputStream is = new FileInputStream(new File("src/test/resources/testSOactor.yaml"));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
+        VirtualControlLoopNotification notification = manager.activate(yamlString, event);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        ControlLoopEventManager manager2 = manager;
+        assertThatThrownBy(manager2::lockCurrentOperation).isInstanceOf(ControlLoopException.class)
+                        .hasMessage("Do not have a current operation.");
+
+        manager.unlockCurrentOperation();
+
+        ControlLoopOperationManager clom = manager.processControlLoop();
+        assertNotNull(clom);
+        assertNull(clom.getOperationResult());
+
+        // attach a fact to the session so notifications work
+        FactHandle fact = mock(FactHandle.class);
+        when(workmem.getFactHandle(any())).thenReturn(fact);
+
+        manager.lockCurrentOperation();
+        verify(workmem).insert(any());
+
+        // pseudo lock - session should NOT have been notified of the change
+        verify(workmem, never()).update(any(), any());
+
+        // repeat
+        manager.lockCurrentOperation();
+
+        // re-uses lock - should be no additional inserts
+        verify(workmem).insert(any());
+
+        /*
+         * even with a pseudo lock, the session should have been notified that it was
+         * extended
+         */
+        verify(workmem).update(eq(fact), any());
+
+        manager.unlockCurrentOperation();
+        verify(workmem).delete(fact);
+
+        // force it to use a pseudo lock
+        manager.setUseTargetLock(false);
+        manager.lockCurrentOperation();
+        verify(workmem, times(2)).insert(any());
+
+        manager.lockCurrentOperation();
+        verify(workmem, times(2)).insert(any());
+
+        // first lock uses a pseudo lock, so it won't do an update
+        verify(workmem, times(2)).update(eq(fact), any());
+
+        // force it to re-create the lock due to change in resource ID
+        Lock lock = mock(Lock.class);
+        when(lock.getResourceId()).thenReturn("different");
+        Whitebox.setInternalState(manager, TARGET_LOCK_FIELD, lock);
+
+        manager.lockCurrentOperation();
+
+        // should have deleted old lock and inserted a new one
+        verify(workmem, times(2)).delete(fact);
+        verify(workmem, times(3)).insert(any());
+
+        manager.lockCurrentOperation();
+        verify(workmem, times(3)).insert(any());
+
+        // first lock uses a pseudo lock, so it won't do an update
+        verify(workmem, times(3)).update(eq(fact), any());
+
+        manager.unlockCurrentOperation();
+        verify(workmem, times(3)).delete(fact);
+
+        // try again - this time don't return the fact handle- no change in count
+        manager.lockCurrentOperation();
+        when(workmem.getFactHandle(any())).thenReturn(null);
+        manager.unlockCurrentOperation();
+        verify(workmem, times(3)).delete(fact);
+    }
+
+    @Test
+    public void testMakeLockCallbackLockAvailable() throws Exception {
+        VirtualControlLoopEvent event = makeEvent();
+
+        ControlLoopEventManager manager = makeManager(event);
+
+        manager.setActivated(false);
+
+        InputStream is = new FileInputStream(new File("src/test/resources/testSOactor.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
+        VirtualControlLoopNotification notification = manager.activate(yamlString, event);
+        assertNotNull(notification);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        manager.processControlLoop();
+
+        manager.lockCurrentOperation();
+
+        LockImpl lock = Whitebox.getInternalState(manager, TARGET_LOCK_FIELD);
+        lock.notifyAvailable();
+
+        verify(workmem).insert(any());
+        verify(workmem, never()).update(any(), any());
+        verify(workmem, never()).delete(any());
+    }
+
+    @Test
+    public void testOnNewEvent() throws Exception {
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -721,6 +822,10 @@ public class ControlLoopEventManagerTest {
         abatedEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
+
+        InputStream is = new FileInputStream(new File(TEST_YAML));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -816,9 +921,6 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopTimeout() throws IOException {
-        InputStream is = new FileInputStream(new File(TEST_YAML));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -833,6 +935,9 @@ public class ControlLoopEventManagerTest {
         assertTrue(0 == manager.getControlLoopTimeout(null));
         assertTrue(120 == manager.getControlLoopTimeout(120));
 
+        InputStream is = new FileInputStream(new File(TEST_YAML));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -842,9 +947,6 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopTimeout_ZeroTimeout() throws IOException {
-        InputStream is = new FileInputStream(new File("src/test/resources/test-zero-timeout.yaml"));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -856,6 +958,9 @@ public class ControlLoopEventManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
+
+        InputStream is = new FileInputStream(new File("src/test/resources/test-zero-timeout.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
@@ -867,9 +972,6 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopTimeout_NullTimeout() throws IOException {
-        InputStream is = new FileInputStream(new File("src/test/resources/test-null-timeout.yaml"));
-        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
-
         UUID requestId = UUID.randomUUID();
         VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -881,6 +983,9 @@ public class ControlLoopEventManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
+
+        InputStream is = new FileInputStream(new File("src/test/resources/test-null-timeout.yaml"));
+        final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
@@ -1258,8 +1363,33 @@ public class ControlLoopEventManagerTest {
         assertNotNull(aaiCqResponse);
     }
 
+    private VirtualControlLoopEvent makeEvent() {
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.setClosedLoopControlName(TWO_ONSET_TEST);
+        event.setRequestId(requestId);
+        event.setTarget(VNF_ID);
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        event.setAai(new HashMap<>());
+        event.getAai().put(VNF_ID, ONSET_ONE);
+        return event;
+    }
 
     private ControlLoopEventManager makeManager(VirtualControlLoopEvent event) {
-        return new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        return new MyManager(workmem, event.getClosedLoopControlName(), event.getRequestId());
+    }
+
+    private static class MyManager extends ControlLoopEventManager implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public MyManager(WorkingMemory workmem, String closedLoopControlName, UUID requestId) {
+            super(workmem, closedLoopControlName, requestId);
+        }
+
+        @Override
+        protected Lock createRealLock(String targetEntity, UUID requestId, int holdSec, LockCallback callback) {
+            return createPseudoLock(targetEntity, requestId, holdSec, callback);
+        }
     }
 }
