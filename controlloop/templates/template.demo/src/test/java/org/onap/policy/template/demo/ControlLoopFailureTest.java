@@ -252,6 +252,7 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-id", target);
+        event.getAai().put("vserver.vserver-name", "OzVServer");
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
