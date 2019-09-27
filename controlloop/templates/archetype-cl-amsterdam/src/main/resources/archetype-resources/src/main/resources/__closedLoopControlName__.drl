@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,7 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
+import org.onap.policy.controlloop.eventmanager.LockCallbackWorkingMemory;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.aai.AaiCqResponse;
@@ -42,6 +43,7 @@ import org.onap.policy.appclcm.LcmResponseWrapper;
 import org.onap.policy.appclcm.LcmRequest;
 import org.onap.policy.appclcm.LcmResponse;
 import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.drools.utils.Pair;
 import org.onap.policy.sdnr.PciRequestWrapper;
 import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.sdnr.PciRequest;
@@ -55,10 +57,7 @@ import org.onap.policy.so.SoResponseWrapper;
 import org.onap.policy.sdnc.SdncRequest;
 import org.onap.policy.sdnc.SdncManager;
 import org.onap.policy.sdnc.SdncResponse;
-import org.onap.policy.guard.PolicyGuard;
-import org.onap.policy.guard.PolicyGuard.LockResult;
-import org.onap.policy.guard.TargetLock;
-import org.onap.policy.guard.GuardResult;
+import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.guard.PolicyGuardRequest;
 import org.onap.policy.guard.PolicyGuardResponse;
 import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
@@ -135,24 +134,24 @@ end
 rule "${policyName}.SETUP"
     salience 1
     when
-        not( Params( getClosedLoopControlName() == "${closedLoopControlName}", 
+        not( Params( getClosedLoopControlName() == "${closedLoopControlName}",
             getControlLoopYaml() == "${controlLoopYaml}" ) )
     then
-    
+
     Params params = new Params();
     params.setClosedLoopControlName("${closedLoopControlName}");
     params.setControlLoopYaml("${controlLoopYaml}");
     insert(params);
-    
+
     ParamsInitCleaner initCleaner = new ParamsInitCleaner();
     initCleaner.setClosedLoopControlName("${closedLoopControlName}");
     insert(initCleaner);
 
     // Note: globals have bad behavior when persistence is used,
     //       hence explicitly getting the logger vs using a global
-    
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {} : YAML=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(), 
+    logger.info("{}: {} : YAML=[{}]", params.getClosedLoopControlName(), drools.getRule().getName(),
         params.getControlLoopYaml());
 end
 
@@ -166,15 +165,15 @@ rule "${policyName}.EVENT"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        not ( ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        not ( ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() ) )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    
+
     try {
-      
+
         //
         // Check the event, because we need it to not be null when
         // we create the ControlLoopEventManager. The ControlLoopEventManager
@@ -188,12 +187,12 @@ rule "${policyName}.EVENT"
             notification.setPolicyName(drools.getRule().getName());
             notification.setPolicyScope("${policyScope}");
             notification.setPolicyVersion("${policyVersion}");
-            
+
             //
             // Let interested parties know
             //
             PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
-            
+
             //
             // Retract it from memory
             //
@@ -204,10 +203,10 @@ rule "${policyName}.EVENT"
             //
             // Create an EventManager
             //
-            ControlLoopEventManager manager = new ControlLoopEventManager($params.getClosedLoopControlName(), 
+            ControlLoopEventManager manager = new ControlLoopEventManager($params.getClosedLoopControlName(),
                 $event.getRequestId());
             //
-            // Determine if EventManager can actively process the event 
+            // Determine if EventManager can actively process the event
             // (i.e. syntax, is_closed_loop_disabled checks etc.)
             //
             VirtualControlLoopNotification notification = manager.activate($params.getControlLoopYaml(), $event);
@@ -249,7 +248,7 @@ rule "${policyName}.EVENT"
                 //
                 retract($event);
             }
-            
+
             //
             // Now that the manager is inserted into Drools working memory, we'll wait for
             // another rule to fire in order to continue processing. This way we can also
@@ -258,7 +257,7 @@ rule "${policyName}.EVENT"
         }
     } catch (Exception e) {
         logger.warn("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName(), e);
-        
+
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
         notification.setNotification(ControlLoopNotificationType.REJECTED);
         notification.setMessage("Exception occurred: " + e.getMessage());
@@ -286,17 +285,17 @@ rule "${policyName}.EVENT.MANAGER"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $clTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $clTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "ClosedLoop", !expired )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {}: event={} manager={} clTimer={}", 
+    logger.info("{}: {}: event={} manager={} clTimer={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
                 $event, $manager, $clTimer);
-    
+
     try {
         //
         // Check which event this is.
@@ -309,7 +308,7 @@ rule "${policyName}.EVENT.MANAGER"
             //
             // We don't care about subsequent onsets
             //
-            logger.info("{}: {}: subsequent onset", 
+            logger.info("{}: {}: subsequent onset",
                         $params.getClosedLoopControlName(), drools.getRule().getName());
             retract($event);
             return;
@@ -318,7 +317,7 @@ rule "${policyName}.EVENT.MANAGER"
             //
             // Ignore any bad syntax events
             //
-            logger.warn("{}: {}: syntax error", 
+            logger.warn("{}: {}: syntax error",
                         $params.getClosedLoopControlName(), drools.getRule().getName());
             retract($event);
             return;
@@ -329,12 +328,12 @@ rule "${policyName}.EVENT.MANAGER"
         // cleanup and avoid the other rules being fired for this event.
         //
         if (eventStatus != NewEventStatus.FIRST_ONSET) {
-            logger.warn("{}: {}: not first onset", 
+            logger.warn("{}: {}: not first onset",
                         $params.getClosedLoopControlName(), drools.getRule().getName());
             retract($event);
         }
-        
-        logger.debug("{}: {}: target={}", $params.getClosedLoopControlName(), 
+
+        logger.debug("{}: {}: target={}", $params.getClosedLoopControlName(),
                      drools.getRule().getName(), $event.getTarget());
         //
         // Now start seeing if we need to process this event
@@ -344,20 +343,20 @@ rule "${policyName}.EVENT.MANAGER"
         // Check if this is a Final Event
         //
         VirtualControlLoopNotification notification = $manager.isControlLoopFinal();
-    
-    
+
+
         if (notification != null) {
             //
             // Its final, but are we waiting for abatement?
             //
             if ($manager.getNumAbatements() > 0) {
-                logger.info("{}: {}: abatement received for {}.  Closing the control loop", 
-                            $params.getClosedLoopControlName(), drools.getRule().getName(), 
+                logger.info("{}: {}: abatement received for {}.  Closing the control loop",
+                            $params.getClosedLoopControlName(), drools.getRule().getName(),
                             $event.getRequestId());
-                
+
                 /// DB Write---end event processing for this RequestId()
                 $manager.commitAbatement("Event Abated","Closed");
-                
+
                 notification.setFrom("policy");
                 notification.setPolicyName(drools.getRule().getName());
                 notification.setPolicyScope("${policyScope}");
@@ -369,22 +368,22 @@ rule "${policyName}.EVENT.MANAGER"
                 //
                 // Unlock the target
                 //
-                TargetLock lock = $manager.unlockCurrentOperation();
-                if (lock != null) {
-                    logger.debug("{}: {}: retracting lock=", $params.getClosedLoopControlName(), 
-                                 drools.getRule().getName(), lock);
+                Lock lock = $manager.unlockCurrentOperation();
+                if(lock != null) {
+                    logger.debug("{}: {}: retracting lock={}", $params.getClosedLoopControlName(), 
+                                drools.getRule().getName(), lock);
                     retract(lock);
                 }
                 //
                 // Retract everything from memory
                 //
-                logger.info("{}: {}: retracting onset, manager, and timer", 
+                logger.info("{}: {}: retracting onset, manager, and timer",
                             $params.getClosedLoopControlName(), drools.getRule().getName());
-                
+
                 retract($manager.getOnsetEvent());
-                
+
                 // don't retract manager, etc. - a clean-up rule will do that
-                
+
                 //
                 // TODO - what if we get subsequent Events for this RequestId?
                 // By default, it will all start over again. May be confusing for Ruby.
@@ -395,18 +394,18 @@ rule "${policyName}.EVENT.MANAGER"
                 // Check whether we need to wait for abatement
                 //
                 if ($manager.getProcessor().getControlLoop().getAbatement() == true && notification.getNotification() == ControlLoopNotificationType.FINAL_SUCCESS) {
-                  logger.info("{}: {}: waiting for abatement ..", 
+                  logger.info("{}: {}: waiting for abatement ..",
                               $params.getClosedLoopControlName(), drools.getRule().getName());
                 } else {
-                  logger.info("{}: {}: no abatement expect for {}.  Closing the control loop", 
-                              $params.getClosedLoopControlName(), drools.getRule().getName(), 
+                  logger.info("{}: {}: no abatement expect for {}.  Closing the control loop",
+                              $params.getClosedLoopControlName(), drools.getRule().getName(),
                               $event.getRequestId());
-                  
+
                   notification.setFrom("policy");
                   notification.setPolicyName(drools.getRule().getName());
                   notification.setPolicyScope("${policyScope}");
                   notification.setPolicyVersion("${policyVersion}");
-                  
+
                   //
                   // In this case, we are done
                   //
@@ -414,20 +413,20 @@ rule "${policyName}.EVENT.MANAGER"
                   //
                   // Unlock the target
                   //
-                  TargetLock lock = $manager.unlockCurrentOperation();
-                  if (lock != null) {
-                      logger.debug("{}: {}: retracting lock=", $params.getClosedLoopControlName(), 
+                  Lock lock = $manager.unlockCurrentOperation();
+                  if(lock != null) {
+                      logger.debug("{}: {}: retracting lock={}", $params.getClosedLoopControlName(), 
                                   drools.getRule().getName(), lock);
                       retract(lock);
                   }
                   //
                   // Retract everything from memory
                   //
-                  logger.info("{}: {}: retracting onset, manager, and timer", 
+                  logger.info("{}: {}: retracting onset, manager, and timer",
                               $params.getClosedLoopControlName(), drools.getRule().getName());
-                  
+
                   retract($manager.getOnsetEvent());
-                
+
                 // don't retract manager, etc. - a clean-up rule will do that
                 }
             }
@@ -440,66 +439,49 @@ rule "${policyName}.EVENT.MANAGER"
               //
               // Let's ask for a lock right away
               //
-              LockResult<GuardResult, TargetLock> result = $manager.lockCurrentOperation();
-              logger.info("{}: {}: guard lock acquired={}", 
-                            $params.getClosedLoopControlName(), drools.getRule().getName(), 
-                            result.getB());
-              if (result.getA().equals(GuardResult.LOCK_ACQUIRED)) {
-                  //
-                  // insert the operation into memory
-                  //
-                  insert(operation);
-                  //
-                  // insert operation timeout object
-                  //
-                  ControlLoopTimer opTimer = new ControlLoopTimer();
-                  opTimer.setTimerType("Operation");
-                  opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
-                  opTimer.setRequestId($event.getRequestId().toString());
-                  Integer timeout = operation.getOperationTimeout();
-                  opTimer.setDelay(timeout > 0 ? timeout.toString() + "s" : $clTimer.getDelay());
-                  insert(opTimer);
-              
-                  //
-                  // Insert lock into memory
-                  //
-                  insert(result.getB());
-              } else {
-                  logger.debug("The target resource {} is already processing",
-                            $event.getAai().get($event.getTarget()));
-                  notification = new VirtualControlLoopNotification($event);
-                  notification.setNotification(ControlLoopNotificationType.REJECTED);
-                  notification.setMessage("The target " + $event.getAai().get($event.getTarget()) 
-                      + " is already locked");
-                  notification.setFrom("policy");
-                  notification.setPolicyName(drools.getRule().getName());
-                  notification.setPolicyScope("${policyScope}");
-                  notification.setPolicyVersion("${policyVersion}");
-      
-                  PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+              logger.info("{}: {}: requesting lock for operation={}",
+                            $params.getClosedLoopControlName(), drools.getRule().getName(),
+                            operation);
 
-                  retract($event);
-                
-                  // don't retract manager, etc. - a clean-up rule will do that
-
-                  if (result.getB() != null) {
-                      retract(result.getB());
-                  }
+              Pair<Lock,Lock> oldNew = $manager.lockCurrentOperation(
+                        new LockCallbackWorkingMemory($params.getClosedLoopControlName(), drools.getWorkingMemory()));
+              if(oldNew.first() != null) {
+                  logger.debug("{}: {}: retracting lock={}", $params.getClosedLoopControlName(), 
+                              drools.getRule().getName(), oldNew.first());
+                  retract(oldNew.first());
               }
-              logger.info("{}: {}: starting operation={}", 
-                          $params.getClosedLoopControlName(), drools.getRule().getName(), 
-                          operation);
+              if(oldNew.second() != null) {
+                  logger.debug("{}: {}: inserting lock={}", $params.getClosedLoopControlName(), 
+                              drools.getRule().getName(), oldNew.second());
+                  insert(oldNew.second());
+              }
+
+              //
+              // insert the operation into memory
+              //
+              insert(operation);
+              //
+              // insert operation timeout object
+              //
+              ControlLoopTimer opTimer = new ControlLoopTimer();
+              opTimer.setTimerType("Operation");
+              opTimer.setClosedLoopControlName($event.getClosedLoopControlName());
+              opTimer.setRequestId($event.getRequestId().toString());
+              Integer timeout = operation.getOperationTimeout();
+              opTimer.setDelay(timeout > 0 ? timeout.toString() + "s" : $clTimer.getDelay());
+              insert(opTimer);
+
             } else {
                 //
                 // Probably waiting for abatement
                 //
-              logger.info("{}: {}: no operation, probably waiting for abatement", 
+              logger.info("{}: {}: no operation, probably waiting for abatement",
                           $params.getClosedLoopControlName(), drools.getRule().getName());
             }
         }
     } catch (Exception e) {
-         logger.warn("{}: {}: unexpected", 
-                  $params.getClosedLoopControlName(), 
+         logger.warn("{}: {}: unexpected",
+                  $params.getClosedLoopControlName(),
                   drools.getRule().getName(), e);
 
          VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
@@ -509,14 +491,53 @@ rule "${policyName}.EVENT.MANAGER"
          notification.setPolicyName(drools.getRule().getName());
          notification.setPolicyScope("${policyScope}");
          notification.setPolicyVersion("${policyVersion}");
-  
+
          PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
 
          retract($event);
-                
+
          // don't retract manager, etc. - a clean-up rule will do that
     }
-        
+
+end
+
+/*
+*
+* Lock denied
+*
+*/
+rule "${policyName}.EVENT.MANAGER.OPERATION.LOCK.DENIED"
+    when
+        $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
+            requestId == $event.getRequestId() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
+            onset.getRequestId() == $event.getRequestId(), "None".equalsIgnoreCase(getGuardApprovalStatus()) )
+        $lock : Lock (ownerKey == $event.getRequestId().toString(), isUnavailable())
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}: event={} manager={} operation={} lock={}",
+                $params.getClosedLoopControlName(), drools.getRule().getName(),
+                $event, $manager, $operation, $lock);
+
+    logger.debug("The target resource {} is already processing",
+                        $event.getAai().get($event.getTarget()));
+    VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
+    notification.setNotification(ControlLoopNotificationType.REJECTED);
+    notification.setMessage("The target " + $event.getAai().get($event.getTarget())
+                        + " is already locked");
+    notification.setFrom("policy");
+    notification.setPolicyName(drools.getRule().getName());
+    notification.setPolicyScope("${policyScope}");
+    notification.setPolicyVersion("${policyVersion}");
+
+    PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+
+    retract($event);
+
+    // don't retract manager, etc. - a clean-up rule will do that
 end
 
 /*
@@ -528,28 +549,27 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId(), "Permit".equalsIgnoreCase(getGuardApprovalStatus()) )
-        $lock : TargetLock (requestId == $event.getRequestId())
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {}: event={} manager={} operation={} lock={}", 
+    logger.info("{}: {}: event={} manager={} operation={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
-                $event, $manager, $operation, $lock);    
+                $event, $manager, $operation);
 
     Object request = null;
     boolean caughtException = false;
-    
+
     try {
         request = $operation.startOperation($event);
-        
+
         if (request != null) {
-          logger.debug("{}: {}: starting operation ..", 
+          logger.debug("{}: {}: starting operation ..",
                        $params.getClosedLoopControlName(), drools.getRule().getName());
           //
           // Tell interested parties we are performing this Operation
@@ -576,19 +596,19 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   }
                   break;
               case "SO":
-                  // at this point the AAI named query request should have already been made, 
+                  // at this point the AAI named query request should have already been made,
                   // the response recieved and used
                   // in the construction of the SO Request which is stored in operationRequest
 
                   if(request instanceof SoRequest) {
-                      // Call SO. The response will be inserted into memory once it's received 
+                      // Call SO. The response will be inserted into memory once it's received
                       class mySoCallback implements SoManager.SoCallback {
                           public void onSoResponseWrapper(SoResponseWrapper wrapper) {
                               drools.getWorkingMemory().insert(wrapper);
                           }
                       }
-                      SoActorServiceProvider.sendRequest($event.getRequestId().toString(), 
-                          new mySoCallback(), 
+                      SoActorServiceProvider.sendRequest($event.getRequestId().toString(),
+                          new mySoCallback(),
                           request,
                           PolicyEngineConstants.getManager().getEnvironmentProperty("so.url"),
                           PolicyEngineConstants.getManager().getEnvironmentProperty("so.username"),
@@ -599,7 +619,7 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   if (request instanceof VfcRequest) {
                       // Start VFC thread
                       class myVfcCallback implements VfcManager.VfcCallback {
-                          
+
                           public void onResponse(VfcResponse responseError) {
                               drools.getWorkingMemory().insert(responseError);
                           }
@@ -611,9 +631,9 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                           PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.username"),
                           PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.password")));
                       t.start();
-                  }          
+                  }
                   break;
-                
+
               case "SDNC":
                   if (request instanceof SdncRequest) {
                      // Start SDNC thread
@@ -621,16 +641,16 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                           public void onCallback(SdncResponse response) {
                               drools.getWorkingMemory().insert(response);
                           }
-                      }  
+                      }
                       // Start SDNC thread
-                      Thread t = new Thread(new SdncManager(new mySdncCallback(), 
+                      Thread t = new Thread(new SdncManager(new mySdncCallback(),
                           (SdncRequest)request,
                           PolicyEngineConstants.getManager().getEnvironmentProperty("sdnc.url"),
                           PolicyEngineConstants.getManager().getEnvironmentProperty("sdnc.username"),
                           PolicyEngineConstants.getManager().getEnvironmentProperty("sdnc.password")));
                       t.start();
                   }
-                  break;                       
+                  break;
               case "SDNR":
                   if (request instanceof PciRequestWrapper) {
                       PolicyEngineConstants.getManager().deliver("SDNR-CL", request);
@@ -641,8 +661,8 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
           //
           // What happens if its null?
           //
-            logger.warn("{}: {}: unexpected null operation request", 
-                      $params.getClosedLoopControlName(), 
+            logger.warn("{}: {}: unexpected null operation request",
+                      $params.getClosedLoopControlName(),
                       drools.getRule().getName());
             if ("SO".equals($operation.policy.getActor())) {
                 retract($opTimer);
@@ -660,14 +680,14 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                 modify($manager) {finishOperation($operation)};
             }
         }
-        
+
     } catch (Exception e) {
         String msg = e.getMessage();
-        logger.warn("{}: {}: operation={}:  AAI failure: {}", 
+        logger.warn("{}: {}: operation={}:  AAI failure: {}",
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
                     $operation, msg, e);
         $operation.setOperationHasException(msg);
-        
+
         if(request != null) {
             //
             // Create a notification for it ("DB Write - end operation")
@@ -680,15 +700,15 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
             notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
             notification.setMessage($operation.getOperationHistory());
             notification.setHistory($operation.getHistory());
-          
+
             PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
         }
-    
+
         retract($opTimer);
         retract($operation);
         caughtException = true;
     }
-    
+
     // Having the modify statement in the catch clause doesn't work for whatever reason
     if (caughtException) {
         modify($manager) {finishOperation($operation)};
@@ -698,7 +718,7 @@ end
 
 /*
 *
-* We were able to acquire a lock so now let's ask Xacml Guard whether 
+* We were able to acquire a lock so now let's ask Xacml Guard whether
 * we are allowed to proceed with the request to the actor.
 *
 */
@@ -706,24 +726,24 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId(), getGuardApprovalStatus() == "NONE" )
-        $lock : TargetLock (requestId == $event.getRequestId())
+        $lock : Lock (ownerKey == $event.getRequestId().toString(), isActive())
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {}: event={} manager={} operation={} lock={}", 
+    logger.info("{}: {}: event={} manager={} operation={} lock={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
                 $event, $manager, $operation, $lock);
-    
+
     //
     // Sending notification that we are about to query Guard ("DB write - start operation")
     //
     VirtualControlLoopNotification notification = new VirtualControlLoopNotification($event);
     notification.setNotification(ControlLoopNotificationType.OPERATION);
-    notification.setMessage("Sending guard query for " + $operation.policy.getActor() + " " 
+    notification.setMessage("Sending guard query for " + $operation.policy.getActor() + " "
         + $operation.policy.getRecipe());
     notification.setHistory($operation.getHistory());
     notification.setFrom("policy");
@@ -734,11 +754,11 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
 
     //
-    // Now send Guard Request to XACML Guard. In order to bypass the call to Guard, 
+    // Now send Guard Request to XACML Guard. In order to bypass the call to Guard,
     // just change guardEnabled to false.
     //
-    // In order to use REST XACML, provide a URL instead of "" as a second argument 
-    // to the CallGuardTask() and set the first argument to null 
+    // In order to use REST XACML, provide a URL instead of "" as a second argument
+    // to the CallGuardTask() and set the first argument to null
     // (instead of XacmlPdpEngine).
     //
 
@@ -785,35 +805,34 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
 end
 
 //
-// This rule will be triggered when a thread talking to the XACML Guard inserts a 
+// This rule will be triggered when a thread talking to the XACML Guard inserts a
 // guardResponse object into the working memory
 //
 rule "${policyName}.GUARD.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
             closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
-            requestId == $event.getRequestId() ) 
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
+            requestId == $event.getRequestId() )
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $lock : TargetLock (requestId == $event.getRequestId())
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
         $guardResponse : PolicyGuardResponse(requestId == $event.getRequestId(), $operation.policy.recipe == operation)
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {}: event={} manager={} operation={} lock={} opTimer={} guardResponse={}", 
+    logger.info("{}: {}: event={} manager={} operation={} opTimer={} guardResponse={}",
                  $params.getClosedLoopControlName(), drools.getRule().getName(),
-                 $event, $manager, $operation, $lock, $opTimer, $guardResponse);
-        
-        
+                 $event, $manager, $operation, $opTimer, $guardResponse);
+
+
     //we will permit the operation if there was no Guard for it
     if("Indeterminate".equalsIgnoreCase($guardResponse.getResult())){
         $guardResponse.setResult("Permit");
     }
-    
+
     //
     // This notification has Guard result in "message". ("DB write - end operation in case of Guard Deny")
     //
@@ -826,11 +845,11 @@ rule "${policyName}.GUARD.RESPONSE"
     notification.setPolicyName(drools.getRule().getName());
     notification.setPolicyScope("${policyScope}");
     notification.setPolicyVersion("${policyVersion}");
-    
+
     PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
-    
+
     if("Permit".equalsIgnoreCase($guardResponse.getResult())){
-    
+
         modify($operation){setGuardApprovalStatus($guardResponse.getResult())};
     }
     else {
@@ -841,9 +860,9 @@ rule "${policyName}.GUARD.RESPONSE"
         retract($operation);
         modify($manager) {finishOperation($operation)};
     }
-    
+
     retract($guardResponse);
-            
+
 end
 
 /*
@@ -860,29 +879,28 @@ end
 rule "${policyName}.APPC.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
+            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
-        $lock : TargetLock (requestId == $event.getRequestId())
         $response : Response( getCommonHeader().RequestId == $event.getRequestId() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+    logger.debug("{}: {}: event={} manager={} operation={} opTimer={} response={}",
                  $params.getClosedLoopControlName(), drools.getRule().getName(),
-                 $event, $manager, $operation, $lock, $opTimer, $response);
+                 $event, $manager, $operation, $opTimer, $response);
     //
     // Get the result of the operation
     //
     PolicyResult policyResult = $operation.onResponse($response);
     if (policyResult != null) {
-        logger.debug("{}: {}: operation finished - result={}", 
+        logger.debug("{}: {}: operation finished - result={}",
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
                     policyResult);
         //
@@ -956,14 +974,14 @@ rule "${policyName}.APPC.RESPONSE.CLEANUP"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $response : Response($id : getCommonHeader().RequestId )
-        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: orphan appc response={}", 
+    logger.debug("{}: {}: orphan appc response={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(), $id);
-        
+
     //
     // Retract it
     //
@@ -978,33 +996,32 @@ end
 rule "${policyName}.APPC.LCM.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
+            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
-        $lock : TargetLock (requestId == $event.getRequestId())
         $response : LcmResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestId() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+    logger.debug("{}: {}: event={} manager={} operation={} opTimer={} response={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
-                $event, $manager, $operation, $lock, $operation, $opTimer, $response);
-    
+                $event, $manager, $operation, $operation, $opTimer, $response);
+
     //
     // Get the result of the operation
     //
     PolicyResult policyResult = $operation.onResponse($response);
     if (policyResult != null) {
-      logger.debug("{}: {}: operation finished - result={}", 
+      logger.debug("{}: {}: operation finished - result={}",
                   $params.getClosedLoopControlName(), drools.getRule().getName(),
                   policyResult);
-      
+
       //
       // This Operation has completed, construct a notification showing our results. (DB write - end operation)
       //
@@ -1066,12 +1083,12 @@ rule "${policyName}.APPC.LCM.RESPONSE.CLEANUP"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $response : LcmResponseWrapper($id : getBody().getCommonHeader().getRequestId )
-        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
     then
-    
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: orphan appc response={}", 
+    logger.debug("{}: {}: orphan appc response={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(), $id);
     //
     // Retract it
@@ -1087,33 +1104,32 @@ end
 rule "${policyName}.SDNR.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET ) 
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
+            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
-        $lock : TargetLock (requestId == $event.getRequestId())
         $response : PciResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestId() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+    logger.debug("{}: {}: event={} manager={} operation={} opTimer={} response={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
-                $event, $manager, $operation, $lock, $operation, $opTimer, $response);
-    
+                $event, $manager, $operation, $operation, $opTimer, $response);
+
     //
     // Get the result of the operation
     //
     PolicyResult policyResult = $operation.onResponse($response);
     if (policyResult != null) {
-      logger.debug("{}: {}: operation finished - result={}", 
+      logger.debug("{}: {}: operation finished - result={}",
                   $params.getClosedLoopControlName(), drools.getRule().getName(),
                   policyResult);
-      
+
       //
       // This Operation has completed, construct a notification showing our results. (DB write - end operation)
       //
@@ -1175,12 +1191,12 @@ rule "${policyName}.SDNR.RESPONSE.CLEANUP"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $response : PciResponseWrapper($id : getBody().getCommonHeader().getRequestId )
-        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) ) 
+        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
     then
-    
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: orphan SDNR response={}", 
+    logger.debug("{}: {}: orphan SDNR response={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(), $id);
     //
     // Retract it
@@ -1196,32 +1212,31 @@ end
 rule "${policyName}.SO.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
             closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
-        $lock : TargetLock (requestId == $event.getRequestId())
         $response : SoResponseWrapper(requestId.toString() == $event.getRequestId().toString() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+    logger.debug("{}: {}: event={} manager={} operation={} opTimer={} response={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
-                $event, $manager, $operation, $lock, $operation, $opTimer, $response);
-        
+                $event, $manager, $operation, $operation, $opTimer, $response);
+
     // Get the result of the operation
     //
     PolicyResult policyResult = $operation.onResponse($response);
     if (policyResult != null) {
-        logger.debug("{}: {}: operation finished - result={}", 
+        logger.debug("{}: {}: operation finished - result={}",
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
                     policyResult);
-      
+
         //
         // This Operation has completed, construct a notification showing our results
         //
@@ -1284,22 +1299,21 @@ end
 rule "${policyName}.VFC.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
             closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
-        $lock : TargetLock (requestId == $event.getRequestId())
-        $response : VfcResponse( requestId.toString() == $event.getRequestId().toString() )    
+        $response : VfcResponse( requestId.toString() == $event.getRequestId().toString() )
     then
         Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
         logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-        logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+        logger.debug("{}: {}: event={} manager={} operation={} opTimer={} response={}",
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
-                    $event, $manager, $operation, $lock, $operation, $opTimer, $response);
+                    $event, $manager, $operation, $operation, $opTimer, $response);
 
         // Get the result of the operation
         //
@@ -1361,22 +1375,21 @@ end
 rule "${policyName}.SDNC.RESPONSE"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(), 
+        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
             closedLoopEventStatus == ControlLoopEventStatus.ONSET )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
-        $lock : TargetLock (requestId == $event.getRequestId())
-        $response : SdncResponse( requestId.toString() == $event.getRequestId().toString() )    
+        $response : SdncResponse( requestId.toString() == $event.getRequestId().toString() )
     then
         Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
         logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-        logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={} response={}", 
+        logger.debug("{}: {}: event={} manager={} operation={} opTimer={} response={}",
                     $params.getClosedLoopControlName(), drools.getRule().getName(),
-                    $event, $manager, $operation, $lock, $operation, $opTimer, $response);
+                    $event, $manager, $operation, $operation, $opTimer, $response);
 
         // Get the result of the operation
         //
@@ -1454,23 +1467,22 @@ rule "${policyName}.EVENT.MANAGER.OPERATION.TIMEOUT"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), 
+        $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
             onset.getRequestId() == $event.getRequestId() )
-        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), expired, timerType == "Operation" )
-        $lock : TargetLock (requestId == $event.getRequestId())
     then
-    
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
-    logger.debug("{}: {}: event={} manager={} operation={} lock={} opTimer={}", 
+    logger.debug("{}: {}: event={} manager={} operation={} opTimer={}",
                 $params.getClosedLoopControlName(), drools.getRule().getName(),
-                $event, $manager, $operation, $lock, $operation, $opTimer);
-    
+                $event, $manager, $operation, $operation, $opTimer);
+
     //
-    // Tell it its timed out
+    // Tell it it has timed out
     //
     $operation.setOperationHasTimedOut();
     //
@@ -1521,16 +1533,16 @@ rule "${policyName}.EVENT.MANAGER.TIMEOUT"
     when
         $params : Params( getClosedLoopControlName() == "${closedLoopControlName}" )
         $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName() )
-        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
-        $clTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
+        $clTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId().toString(), expired, timerType == "ClosedLoop" )
     then
-    
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $params.getClosedLoopControlName(), drools.getRule().getName());
 
-    logger.debug("{}: {}: event={}", 
+    logger.debug("{}: {}: event={}",
               $params.getClosedLoopControlName(), drools.getRule().getName(),
               $event);
     //
@@ -1563,47 +1575,46 @@ rule "${policyName}.EVENT.MANAGER.CLEANUP"
     when
         $manager : ControlLoopEventManager( $clName : getClosedLoopControlName(), $requestId : getRequestId() )
         $operations : LinkedList()
-                        from collect( ControlLoopOperationManager( onset.closedLoopControlName == $clName, 
+                        from collect( ControlLoopOperationManager( onset.closedLoopControlName == $clName,
                             onset.getRequestId() == $requestId ) )
         $timers : LinkedList()
-                        from collect( ControlLoopTimer( closedLoopControlName == $clName, 
+                        from collect( ControlLoopTimer( closedLoopControlName == $clName,
                             requestId == $requestId.toString() ) )
-        $locks : LinkedList()
-                        from collect( TargetLock (requestId == $requestId) )
         not( VirtualControlLoopEvent( closedLoopControlName == $clName, requestId == $requestId ) )
     then
-    
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $clName, drools.getRule().getName());
 
-    logger.debug("{}: {}: manager={} timers={} operations={}", 
+    logger.debug("{}: {}: manager={} timers={} operations={}",
               $clName, drools.getRule().getName(),
               $manager, $timers.size(), $operations.size());
-    
+
+    //
+    // Retract lock by invoking unlock()
+    //
+    Lock lock = $manager.unlockCurrentOperation();
+    if(lock != null) {
+        retract(lock);
+    }
+
     //
     // Retract EVERYTHING
     //
+
     retract($manager);
-    
+
     for(Object manager: $operations) {
         retract((ControlLoopOperationManager) manager);
     }
     for(Object timer: $timers) {
         retract((ControlLoopTimer) timer);
     }
-    for(Object lock: $locks) {
-        TargetLock tgt = (TargetLock) lock;
-        //
-        // Ensure we release the lock
-        //
-        PolicyGuard.unlockTarget(tgt);
-        retract(tgt);
-    }
 end
 
 /*
 *
-* This rule will clean up any rogue onsets where there is no 
+* This rule will clean up any rogue onsets where there is no
 * ControlLoopParams object corresponding to the onset event.
 *
 */
@@ -1612,10 +1623,10 @@ rule "${policyName}.EVENT.CLEANUP"
         $event : VirtualControlLoopEvent( $clName: closedLoopControlName )
         not ( Params( getClosedLoopControlName() == $clName) )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $clName, drools.getRule().getName());
-    logger.debug("{}: {}: orphan onset event={}", 
+    logger.debug("{}: {}: orphan onset event={}",
                 $clName, drools.getRule().getName(), $event);
 
     retract($event);
@@ -1631,11 +1642,11 @@ rule "${policyName}.PARAMS.CLEANING"
         $params: Params( )
         ParamsInitCleaner( )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(),
         $params.getControlLoopYaml());
-        
+
     ParamsCleaner cleaner = new ParamsCleaner();
     cleaner.setClosedLoopControlName($params.getClosedLoopControlName());
     cleaner.setControlLoopYaml($params.getControlLoopYaml());
@@ -1651,10 +1662,10 @@ rule "${policyName}.PARAMS.FINISHED"
     when
         $initCleaner: ParamsInitCleaner( )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {}", $initCleaner.getClosedLoopControlName(), drools.getRule().getName());
-    
+
     retract($initCleaner);
 end
 
@@ -1671,11 +1682,11 @@ rule "${policyName}.PARAMS.ACTIVE"
         $cleaner: ParamsCleaner( getClosedLoopControlName() == "${closedLoopControlName}",
                             getControlLoopYaml() == "${controlLoopYaml}"  )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(),
         $params.getControlLoopYaml());
-        
+
     retract($cleaner);
 end
 
@@ -1691,11 +1702,11 @@ rule "${policyName}.PARAMS.DELETE"
         $cleaner: ParamsCleaner( getClosedLoopControlName() == $params.getClosedLoopControlName(),
                             getControlLoopYaml() == $params.getControlLoopYaml()  )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), drools.getRule().getName(),
         $params.getControlLoopYaml());
-        
+
     retract($params);
 end
 
@@ -1708,10 +1719,10 @@ rule "${policyName}.PARAMS.CLEANED"
     when
         $cleaner: ParamsCleaner( )
     then
- 
+
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
     logger.info("{}: {} : YAML=[{}]", $cleaner.getClosedLoopControlName(), drools.getRule().getName(),
         $cleaner.getControlLoopYaml());
-        
+
     retract($cleaner);
 end
