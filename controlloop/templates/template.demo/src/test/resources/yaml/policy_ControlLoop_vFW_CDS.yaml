@@ -1,0 +1,46 @@
+# Copyright (C) 2019 Bell Canada.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+controlLoop:
+  version: 2.0.0
+  controlLoopName: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
+  services:
+    - serviceInvariantUUID: 5cfe6f4a-41bc-4247-8674-ebd4b98e35cc
+      serviceUUID: 0f40bba5-986e-4b3c-803f-ddd1b7b25f24
+      serviceName: 57e66ea7-0ed6-45c7-970f
+  trigger_policy: unique-policy-id-1-modifyConfig
+  timeout: 60
+  abatement: true
+ 
+policies:
+  - id: unique-policy-id-1-modifyConfig
+    name: modify packet gen config
+    description:
+    actor: CDS
+    recipe: ModifyConfig
+    target:
+      resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
+      type: VNF
+    payload:
+      artifact_name: vfw-cds
+      artifact_version: 1.0.0
+      mode: async
+      data: '{"mapInfo":{"key":"val"},"arrayInfo":["one","two"],"paramInfo":"val"}'
+    retry: 0
+    timeout: 30
+    success: final_success
+    failure: final_failure
+    failure_timeout: final_failure_timeout
+    failure_retries: final_failure_retries
+    failure_exception: final_failure_exception
+    failure_guard: final_failure_guard
