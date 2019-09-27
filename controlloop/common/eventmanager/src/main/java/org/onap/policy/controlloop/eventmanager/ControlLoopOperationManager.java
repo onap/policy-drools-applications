@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Huawei Technologies Co., Ltd. All rights reserved.
  * Modifications Copyright (C) 2019 Tech Mahindra
+ * Modifications Copyright (C) 2019 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,18 +27,26 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.ServiceInstance;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.appclcm.LcmResponseWrapper;
+import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -45,12 +54,15 @@ import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.appc.AppcActorServiceProvider;
 import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
+import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider;
+import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.sdnc.SdncActorServiceProvider;
 import org.onap.policy.controlloop.actor.sdnr.SdnrActorServiceProvider;
 import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
 import org.onap.policy.controlloop.actor.vfc.VfcActorServiceProvider;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.database.operationshistory.Dbao;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.guard.Util;
@@ -72,6 +84,9 @@ public class ControlLoopOperationManager implements Serializable {
     private static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
     private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
 
+    private static final String AAI_SERVICE_INSTANCE_ID_KEY = "service-instance.service-instance-id";
+    private static final String AAI_VNF_ID_KEY = "service-instance.generic-vnf.vnf-id";
+
     //
     // These properties are not changeable, but accessible
     // for Drools Rule statements.
@@ -89,6 +104,7 @@ public class ControlLoopOperationManager implements Serializable {
     private ControlLoopEventManager eventManager = null;
     private String targetEntity;
     private String guardApprovalStatus = "NONE";// "NONE", "PERMIT", "DENY"
+    private AaiCqResponse aaiCqResponse;
     private transient Object operationRequest;
 
     /**
@@ -106,9 +122,14 @@ public class ControlLoopOperationManager implements Serializable {
         this.policy = policy;
         this.guardApprovalStatus = "NONE";
         this.eventManager = em;
-        this.targetEntity = getTarget(policy);
 
         try {
+
+            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+                this.aaiCqResponse = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
+            }
+
+            this.targetEntity = getTarget(policy);
 
             //
             // Let's make a sanity check
@@ -124,6 +145,8 @@ public class ControlLoopOperationManager implements Serializable {
                 case "VFC":
                     break;
                 case "SDNC":
+                    break;
+                case "CDS":
                     break;
                 default:
                     throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
@@ -142,8 +165,8 @@ public class ControlLoopOperationManager implements Serializable {
              * vnf-id is retrieved by a named query to A&AI.
              */
             if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                GenericVnf genvnf = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset)
-                        .getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
+                GenericVnf genvnf =
+                        this.aaiCqResponse.getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
                 if (genvnf == null) {
                     logger.info("Target entity could not be found");
                     throw new AaiException("Target vnf-id could not be found");
@@ -261,8 +284,7 @@ public class ControlLoopOperationManager implements Serializable {
             try {
                 String vnfId;
                 if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                    vnfId = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset).getDefaultGenericVnf()
-                            .getVnfId();
+                    vnfId = this.aaiCqResponse.getDefaultGenericVnf().getVnfId();
                 } else {
                     vnfId = this.eventManager.getVnfResponse().getVnfId();
                 }
@@ -314,6 +336,8 @@ public class ControlLoopOperationManager implements Serializable {
                     return startSdnrOperation(onset, operation);
                 case "SDNC":
                     return startSdncOperation(onset, operation);
+                case "CDS":
+                    return startCdsOperation(onset, operation);
                 default:
                     throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
             }
@@ -350,7 +374,7 @@ public class ControlLoopOperationManager implements Serializable {
         if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
             this.operationRequest =
                     soActorSp.constructRequestCq((VirtualControlLoopEvent) onset, operation.clOperation,
-                            this.policy, eventManager.getCqResponse((VirtualControlLoopEvent) onset));
+                            this.policy, this.aaiCqResponse);
         } else {
             this.operationRequest = soActorSp.constructRequest((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, eventManager.getNqVserverFromAai());
@@ -370,8 +394,7 @@ public class ControlLoopOperationManager implements Serializable {
     private Object startVfcOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
         if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
             this.operationRequest = VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
-                    operation.clOperation, this.policy,
-                    eventManager.getCqResponse((VirtualControlLoopEvent) onset));
+                    operation.clOperation, this.policy, this.aaiCqResponse);
         } else {
             this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, this.eventManager.getVnfResponse(),
@@ -416,6 +439,60 @@ public class ControlLoopOperationManager implements Serializable {
         return operationRequest;
     }
 
+    private Object startCdsOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
+
+        CdsActorServiceProvider provider = new CdsActorServiceProvider();
+        Optional<ExecutionServiceInput> optionalRequest = provider.constructRequest(
+                (VirtualControlLoopEvent) onset, operation.clOperation, this.policy, this.buildAaiParams());
+
+        this.currentOperation = operation;
+        try {
+            this.operationRequest = optionalRequest.get();
+        } catch (NoSuchElementException e) {
+            this.operationRequest = null;
+            this.policyResult = PolicyResult.FAILURE;
+        }
+
+        return this.operationRequest;
+    }
+
+    /**
+     * Build AAI parameters for CDS operation.
+     * @return a map containing vnf id key and value for the vnf to apply the action to.
+     * @throws AaiException if the vnf can not be found.
+     */
+    private Map<String, String> buildAaiParams() throws AaiException {
+
+        Map<String, String> result = new HashMap<>();
+
+        if (TargetType.VNF.equals(policy.getTarget().getType())
+                    || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
+
+            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+
+                ServiceInstance serviceInstance = this.aaiCqResponse.getServiceInstance();
+                if (serviceInstance == null) {
+                    logger.info("Target entity service instance could not be found");
+                    throw new AaiException("Target service instance could not be found");
+                }
+
+                GenericVnf genericVnf = this.aaiCqResponse.getGenericVnfByModelInvariantId(
+                        policy.getTarget().getResourceID());
+                if (genericVnf == null) {
+                    logger.info("Target entity generic vnf could not be found");
+                    throw new AaiException("Target generic vnf could not be found");
+                }
+
+                result.put(AAI_SERVICE_INSTANCE_ID_KEY, serviceInstance.getServiceInstanceId());
+                result.put(AAI_VNF_ID_KEY, genericVnf.getVnfId());
+            }
+
+        }
+
+        return result;
+
+    }
+
     /**
      * Handle a response.
      *
@@ -456,6 +533,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast SDNC response and handle it
             //
             return onResponse((SdncResponse) response);
+        } else if (response instanceof CdsResponse) {
+            //
+            // Cast CDS response and handle it
+            //
+            return onResponse((CdsResponse) response);
         } else {
             return null;
         }
@@ -675,6 +757,33 @@ public class ControlLoopOperationManager implements Serializable {
      */
     private PolicyResult onResponse(SdncResponse sdncResponse) {
         if ("200".equals(sdncResponse.getResponseOutput().getResponseCode())) {
+            //
+            // Consider it as success
+            //
+            this.completeOperation(this.attempts, SUCCESS_MSG, PolicyResult.SUCCESS);
+            return getTimeoutResult(PolicyResult.SUCCESS);
+        } else {
+            //
+            // Consider it as failure
+            //
+            this.completeOperation(this.attempts, FAILED_MSG, PolicyResult.FAILURE);
+            if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
+                return null;
+            }
+            // increment operation attempts for retries
+            this.attempts += 1;
+            return PolicyResult.FAILURE;
+        }
+    }
+
+    /**
+     * This method handles operation responses from CDS.
+     *
+     * @param response the CDS response
+     * @return The result of the response handling
+     */
+    private PolicyResult onResponse(CdsResponse response) {
+        if (response != null && CdsActorConstants.SUCCESS.equals(response.getStatus())) {
             //
             // Consider it as success
             //

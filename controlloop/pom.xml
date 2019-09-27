@@ -31,6 +31,21 @@
     <groupId>org.onap.policy.drools-applications.controlloop</groupId>
     <artifactId>controlloop</artifactId>
 
+  <properties>
+    <ccsdk.version>0.4.4</ccsdk.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.onap.ccsdk.cds.components</groupId>
+        <artifactId>proto-definition</artifactId>
+        <version>${ccsdk.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+
   <modules>
     <module>common</module>
     <module>templates</module>
