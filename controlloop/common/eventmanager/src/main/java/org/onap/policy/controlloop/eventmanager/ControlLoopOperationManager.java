@@ -963,7 +963,7 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // Check if there were no retries specified
             //
-            if (policy.getRetry() == null || policy.getRetry() == 0) {
+            if (getMaxRetries() < 1) {
                 //
                 // The result is the failure
                 //
@@ -972,7 +972,7 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // Check retries
             //
-            if (this.isRetriesMaxedOut()) {
+            if (this.attempts > getMaxRetries()) {
                 //
                 // No more attempts allowed, reset
                 // that our actual result is failure due to retries
@@ -1016,7 +1016,7 @@ public class ControlLoopOperationManager implements Serializable {
         //
         // Check if we have maxed out on retries
         //
-        if (this.policy.getRetry() == null || this.policy.getRetry() < 1) {
+        if (getMaxRetries() < 1) {
             //
             // No retries are allowed, so check have we even made
             // one attempt to execute the operation?
@@ -1037,7 +1037,7 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // Have we maxed out on retries?
             //
-            if (this.attempts > this.policy.getRetry()) {
+            if (this.attempts > getMaxRetries()) {
                 if (this.policyResult == null) {
                     this.policyResult = PolicyResult.FAILURE_RETRIES;
                 }
@@ -1046,15 +1046,13 @@ public class ControlLoopOperationManager implements Serializable {
         }
     }
 
-    private boolean isRetriesMaxedOut() {
-        if (policy.getRetry() == null || policy.getRetry() == 0) {
-            //
-            // There were NO retries specified, so declare
-            // this as completed.
-            //
-            return (this.attempts > 0);
-        }
-        return (this.attempts > policy.getRetry());
+    /**
+     * Gets the maximum number of retries.
+     *
+     * @return the maximum number of retries, or {@code 0}, if not specified
+     */
+    public int getMaxRetries() {
+        return (policy.getRetry() != null ? policy.getRetry() : 0);
     }
 
     private void storeOperationInDataBase() {
