@@ -26,11 +26,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.HashMap;
@@ -43,6 +49,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
@@ -65,11 +73,9 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.drools.core.lock.Lock;
+import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.guard.GuardResult;
-import org.onap.policy.guard.PolicyGuard;
-import org.onap.policy.guard.PolicyGuard.LockResult;
-import org.onap.policy.guard.TargetLock;
 import org.powermock.reflect.Whitebox;
 
 public class ControlLoopEventManagerTest {
@@ -107,6 +113,7 @@ public class ControlLoopEventManagerTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private VirtualControlLoopEvent onset;
+    private KieSession session;
 
     /**
      * Set up test class.
@@ -130,6 +137,8 @@ public class ControlLoopEventManagerTest {
      */
     @Before
     public void setUp() {
+        session = mock(KieSession.class);
+
         onset = new VirtualControlLoopEvent();
         onset.setClosedLoopControlName("ControlLoop-vUSP");
         onset.setRequestId(UUID.randomUUID());
@@ -414,11 +423,9 @@ public class ControlLoopEventManagerTest {
         assertNull(clem.getAbatementEvent());
         assertNull(clem.getProcessor());
 
-        assertEquals(true, clem.isActive());
-        assertEquals(false, clem.releaseLock());
         assertEquals(true, clem.isControlLoopTimedOut());
 
-        assertNull(clem.unlockCurrentOperation());
+        clem.unlockCurrentOperation();
     }
 
     @Test
@@ -650,10 +657,10 @@ public class ControlLoopEventManagerTest {
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
-        assertThatThrownBy(manager2::lockCurrentOperation).isInstanceOf(ControlLoopException.class)
+        assertThatThrownBy(() -> manager2.lockCurrentOperation(session)).isInstanceOf(ControlLoopException.class)
                         .hasMessage("Do not have a current operation.");
 
-        assertNull(manager.unlockCurrentOperation());
+        manager.unlockCurrentOperation();
 
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
@@ -662,22 +669,22 @@ public class ControlLoopEventManagerTest {
         assertNotNull(clom);
         assertNull(clom.getOperationResult());
 
-        LockResult<GuardResult, TargetLock> lockLock = manager.lockCurrentOperation();
-        assertNotNull(lockLock);
-        assertEquals(GuardResult.LOCK_ACQUIRED, lockLock.getA());
+        // attach a fact to the session so notifications work
+        FactHandle fact = mock(FactHandle.class);
+        when(session.getFactHandle(manager)).thenReturn(fact);
 
-        LockResult<GuardResult, TargetLock> lockLockAgain = manager.lockCurrentOperation();
-        assertNotNull(lockLockAgain);
-        assertEquals(GuardResult.LOCK_ACQUIRED, lockLockAgain.getA());
-        assertEquals(lockLock.getB(), lockLockAgain.getB());
+        manager.lockCurrentOperation(session);
 
-        assertEquals(lockLock.getB(), manager.unlockCurrentOperation());
-        assertNull(manager.unlockCurrentOperation());
+        // session should have been notified of the change
+        verify(session).update(fact, manager);
 
-        lockLock = manager.lockCurrentOperation();
-        assertNotNull(lockLock);
-        PolicyGuard.unlockTarget(lockLock.getB());
-        assertEquals(lockLock.getB(), manager.unlockCurrentOperation());
+        // repeat
+        manager.lockCurrentOperation(session);
+
+        // should have extended the lock
+        verify(session, times(2)).update(any(), any());
+
+        manager.unlockCurrentOperation();
 
         clom.startOperation(event);
 
@@ -1260,6 +1267,19 @@ public class ControlLoopEventManagerTest {
 
 
     private ControlLoopEventManager makeManager(VirtualControlLoopEvent event) {
-        return new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+        return new MyManager(event.getClosedLoopControlName(), event.getRequestId());
+    }
+
+    private static class MyManager extends ControlLoopEventManager implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        public MyManager(String closedLoopControlName, UUID requestId) {
+            super(closedLoopControlName, requestId);
+        }
+
+        @Override
+        protected Lock createLock(String targetEntity, UUID requestId, int holdSec, LockCallback callback) {
+            return createPseudoLock(targetEntity, requestId, holdSec, callback);
+        }
     }
 }

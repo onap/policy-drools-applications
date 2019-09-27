@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.function.BooleanSupplier;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -104,7 +105,6 @@ public class ControlLoopOperationManager implements Serializable {
 
         this.onset = onset;
         this.policy = policy;
-        this.guardApprovalStatus = "NONE";
         this.eventManager = em;
         this.targetEntity = getTarget(policy);
 
@@ -276,6 +276,18 @@ public class ControlLoopOperationManager implements Serializable {
             }
         }
         throw new ControlLoopException("Target does not match target type");
+    }
+
+    /**
+     * Makes a function that returns {@code true} if the current operation is still the
+     * same, {@code false} otherwise.
+     *
+     * @return a function to verify that the operation is still the same
+     */
+    public BooleanSupplier makeOperationChecker() {
+        Operation oper = this.currentOperation;
+
+        return () -> (this.currentOperation == oper);
     }
 
     /**
@@ -939,14 +951,11 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
     private boolean isRetriesMaxedOut() {
-        if (policy.getRetry() == null || policy.getRetry() == 0) {
-            //
-            // There were NO retries specified, so declare
-            // this as completed.
-            //
-            return (this.attempts > 0);
-        }
-        return (this.attempts > policy.getRetry());
+        return (this.attempts > getMaxRetries());
+    }
+
+    public int getMaxRetries() {
+        return (policy != null && policy.getRetry() != null ? policy.getRetry() : 0);
     }
 
     private void storeOperationInDataBase() {

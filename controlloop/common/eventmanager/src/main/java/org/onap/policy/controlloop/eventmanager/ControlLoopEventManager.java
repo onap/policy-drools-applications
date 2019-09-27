@@ -35,8 +35,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
 import org.onap.policy.aai.AaiGetVserverResponse;
@@ -58,18 +61,17 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
+import org.onap.policy.drools.core.lock.Lock;
+import org.onap.policy.drools.core.lock.LockCallback;
+import org.onap.policy.drools.core.lock.LockImpl;
+import org.onap.policy.drools.core.lock.PolicyResourceLockManager;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.guard.GuardResult;
-import org.onap.policy.guard.LockCallback;
-import org.onap.policy.guard.PolicyGuard;
-import org.onap.policy.guard.PolicyGuard.LockResult;
-import org.onap.policy.guard.TargetLock;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ControlLoopEventManager implements LockCallback, Serializable {
+public class ControlLoopEventManager implements Serializable {
     public static final String PROV_STATUS_ACTIVE = "ACTIVE";
     private static final String VM_NAME = "VM_NAME";
     private static final String VNF_NAME = "VNF_NAME";
@@ -121,7 +123,7 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     private LinkedList<ControlLoopOperation> controlLoopHistory = new LinkedList<>();
     private ControlLoopOperationManager currentOperation = null;
     private ControlLoopOperationManager lastOperationManager = null;
-    private transient TargetLock targetLock = null;
+    private transient Lock targetLock = null;
     private AaiGetVnfResponse vnfResponse = null;
     private AaiGetVserverResponse vserverResponse = null;
     private boolean useTargetLock = true;
@@ -487,77 +489,101 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     /**
      * Obtain a lock for the current operation.
      *
-     * @return the lock result
+     * @param session session with which this manager is associated
+     *
      * @throws ControlLoopException if an error occurs
      */
-    public synchronized LockResult<GuardResult, TargetLock> lockCurrentOperation() throws ControlLoopException {
+    public synchronized void lockCurrentOperation(KieSession session) throws ControlLoopException {
         //
         // Sanity check
         //
         if (this.currentOperation == null) {
             throw new ControlLoopException("Do not have a current operation.");
         }
+
+        LockCallback callback = makeLockCallback(session);
+
+        /*
+         * Release the old lock if the entity is different.
+         */
+        if (this.targetLock != null
+                        && !this.targetLock.getOwnerInfo().equals(this.currentOperation.getTargetEntity())) {
+            this.targetLock.free();
+            this.targetLock = null;
+        }
+
+        // keep the lock a little longer than the operation, including retries
+        int optimeout = Math.max(1, this.currentOperation.getOperationTimeout());
+        int nretries = 1 + Math.max(0, 0 + this.currentOperation.getMaxRetries());
+        int holdSec = optimeout * nretries + ADDITIONAL_LOCK_SEC;
+
         //
         // Not using target locks? Create and return a lock w/o actually locking.
         //
         if (!this.useTargetLock) {
-            TargetLock lock = PolicyGuard.createTargetLock(this.currentOperation.policy.getTarget().getType(),
-                    this.currentOperation.getTargetEntity(), this.onset.getRequestId(), this);
-            this.targetLock = lock;
-            return LockResult.createLockResult(GuardResult.LOCK_ACQUIRED, lock);
+            this.targetLock = createPseudoLock(this.currentOperation.getTargetEntity(), this.onset.getRequestId(),
+                            holdSec, callback);
         }
+
         //
         // Have we acquired it already?
         //
         if (this.targetLock != null) {
-            //
-            // TODO: Make sure the current lock is for the same target.
-            // Currently, it should be. But in the future it may not.
-            //
-            GuardResult result = PolicyGuard.lockTarget(targetLock,
-                    this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
-            return new LockResult<>(result, this.targetLock);
+            // we have the lock - just extend it
+            this.targetLock.extend(holdSec, callback);
+
         } else {
-            //
-            // Ask the Guard
-            //
-            LockResult<GuardResult, TargetLock> lockResult = PolicyGuard.lockTarget(
-                    this.currentOperation.policy.getTarget().getType(), this.currentOperation.getTargetEntity(),
-                    this.onset.getRequestId(), this, this.currentOperation.getOperationTimeout() + ADDITIONAL_LOCK_SEC);
-            //
-            // Was it acquired?
-            //
-            if (lockResult.getA().equals(GuardResult.LOCK_ACQUIRED)) {
-                //
-                // Yes, let's save it
-                //
-                this.targetLock = lockResult.getB();
-            }
-            return lockResult;
+            this.targetLock = createLock(this.currentOperation.getTargetEntity(), this.onset.getRequestId(),
+                            holdSec, callback);
         }
+    }
+
+    private LockCallback makeLockCallback(KieSession session) {
+
+        ControlLoopEventManager self = this;
+        ControlLoopOperationManager oper = this.currentOperation;
+        BooleanSupplier checker = oper.makeOperationChecker();
+
+        // TODO jrh3 need more junits
+
+        return new LockCallback() {
+
+            @Override
+            public void lockAvailable(Lock lock) {
+                notifySession();
+            }
+
+            @Override
+            public void lockUnavailable(Lock lock) {
+                notifySession();
+            }
+
+            /**
+             * Notifies the session that this manager has changed its internal state.
+             */
+            private void notifySession() {
+                synchronized (self) {
+                    if (currentOperation == oper && checker.getAsBoolean()) {
+                        FactHandle fact = session.getFactHandle(self);
+                        if (fact != null) {
+                            session.update(fact, self);
+                        }
+                    }
+                }
+            }
+        };
     }
 
     /**
      * Release the lock for the current operation.
-     *
-     * @return the target lock
      */
-    public synchronized TargetLock unlockCurrentOperation() {
+    public synchronized void unlockCurrentOperation() {
         if (this.targetLock == null) {
-            return null;
+            return;
         }
 
-        TargetLock returnLock = this.targetLock;
+        this.targetLock.free();
         this.targetLock = null;
-        //
-        // if using target locking unlock before returning
-        //
-        if (this.useTargetLock) {
-            PolicyGuard.unlockTarget(returnLock);
-        }
-
-        // always return the old target lock so rules can retract it
-        return returnLock;
     }
 
     public enum NewEventStatus {
@@ -1033,18 +1059,6 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
     }
 
     @Override
-    public boolean isActive() {
-        // TODO
-        return true;
-    }
-
-    @Override
-    public boolean releaseLock() {
-        // TODO
-        return false;
-    }
-
-    @Override
     public String toString() {
         return "ControlLoopEventManager [closedLoopControlName=" + closedLoopControlName + ", requestId=" + requestId
                 + ", processor=" + processor + ", onset=" + (onset != null ? onset.getRequestId() : "null")
@@ -1092,4 +1106,21 @@ public class ControlLoopEventManager implements LockCallback, Serializable {
 
     }
 
+    // the following methods may be overridden by junit tests
+
+    protected Lock createLock(String targetEntity, UUID requestId, int holdSec, LockCallback callback) {
+        return getLockManager().lock(targetEntity, requestId, holdSec, callback, false);
+    }
+
+    protected Lock createPseudoLock(String targetEntity, UUID requestId, int holdSec, LockCallback callback) {
+        String reqstr = requestId.toString();
+        LockImpl lock = new LockImpl(Lock.State.ACTIVE, targetEntity, reqstr, reqstr, holdSec, callback, false);
+
+        lock.notifyAvailable();
+        return lock;
+    }
+
+    protected static PolicyResourceLockManager getLockManager() {
+        return PolicyResourceLockManager.getInstance();
+    }
 }
