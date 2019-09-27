@@ -245,6 +245,17 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+            <artifactId>actor.cds</artifactId>
+            <version>${policy.models.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions</groupId>
             <artifactId>model-yaml</artifactId>
             <version>${policy.models.version}</version>
@@ -264,6 +275,11 @@
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+            <artifactId>cds</artifactId>
+            <version>${policy.models.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
