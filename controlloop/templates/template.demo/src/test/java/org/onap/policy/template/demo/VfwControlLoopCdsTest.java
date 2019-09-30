@@ -43,9 +43,6 @@ import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
-import org.onap.policy.appc.Request;
-import org.onap.policy.appc.Response;
-import org.onap.policy.appc.ResponseCode;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
@@ -54,12 +51,13 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.controlloop.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO bsa - Review and get rid of all APPC symbols
-// TODO bsa - Implement aaiFailtests()
-
+/**
+ * Test class for vfirewall use case using CDS actor.
+ */
 public class VfwControlLoopCdsTest extends ControlLoopBase implements TopicListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VfwControlLoopCdsTest.class);
@@ -71,7 +69,7 @@ public class VfwControlLoopCdsTest extends ControlLoopBase implements TopicListe
      * Setup the simulator.
      */
     @BeforeClass
-    public static void setUpBeforeClass() throws IOException {
+    public static void setUpBeforeClass() {
         ControlLoopBase.setUpBeforeClass("../archetype-cl-amsterdam/src/main/resources/archetype-resources/src/"
                                                  + "main/resources/__closedLoopControlName__.drl",
                 "src/test/resources/yaml/policy_ControlLoop_vFW_CDS.yaml",
@@ -197,80 +195,59 @@ public class VfwControlLoopCdsTest extends ControlLoopBase implements TopicListe
     @Override
     public void onTopicEvent(CommInfrastructure commType, String topic, String event) {
         /*
-         * Pull the object that was sent out to DMAAP and make sure it is a ControlLoopNoticiation
+         * Pull the object that was sent out to DMAAP and make sure it is a ControlLoopNotification
          * of type active
          */
-        Object obj = null;
-        if ("POLICY-CL-MGT".equals(topic)) {
-            obj = org.onap.policy.controlloop.util.Serialization.gsonJunit.fromJson(event,
-                    VirtualControlLoopNotification.class);
-        } else if ("APPC-CL".equals(topic)) {
-            obj = org.onap.policy.appc.util.Serialization.gsonPretty.fromJson(event,
-                    Request.class);
-        }
-        assertNotNull(obj);
-        if (obj instanceof VirtualControlLoopNotification) {
-            VirtualControlLoopNotification notification = (VirtualControlLoopNotification) obj;
-            String policyName = notification.getPolicyName();
-            if (policyName.endsWith("EVENT")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                assertTrue(ControlLoopNotificationType.ACTIVE.equals(notification.getNotification()));
-            } else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
-                assertNotNull(notification.getMessage());
-                assertTrue(notification.getMessage().startsWith("Sending guard query"));
-            } else if (policyName.endsWith("GUARD.RESPONSE")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
-                assertNotNull(notification.getMessage());
-                assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
-            } else if (policyName.endsWith("GUARD_PERMITTED")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                assertTrue(ControlLoopNotificationType.OPERATION.equals(notification.getNotification()));
-                assertNotNull(notification.getMessage());
-                assertTrue(notification.getMessage().startsWith("actor=CDS"));
-            } else if (policyName.endsWith("OPERATION.TIMEOUT")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                kieSession.halt();
-                logger.debug("The operation timed out");
-                fail("Operation Timed Out");
-            } else if (policyName.endsWith("CDS.RESPONSE")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                assertEquals(ControlLoopNotificationType.OPERATION_SUCCESS, notification.getNotification());
-                assertNotNull(notification.getMessage());
-                assertTrue(notification.getMessage().startsWith("actor=CDS"));
-                sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED);
-            } else if (policyName.endsWith("EVENT.MANAGER")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                if ("error".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
-                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
-                    assertEquals("Target vnf-id could not be found", notification.getMessage());
-                } else if ("getFail".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
-                    assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
-                } else {
-                    assertTrue(ControlLoopNotificationType.FINAL_SUCCESS.equals(notification.getNotification()));
-                }
-                kieSession.halt();
-            } else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
-                logger.debug("Rule Fired: " + notification.getPolicyName());
-                kieSession.halt();
-                logger.debug("The control loop timed out");
-                fail("Control Loop Timed Out");
+        assertEquals("POLICY-CL-MGT", topic);
+        VirtualControlLoopNotification notification =
+                Serialization.gsonJunit.fromJson(event, VirtualControlLoopNotification.class);
+        assertNotNull(notification);
+        String policyName = notification.getPolicyName();
+        if (policyName.endsWith("EVENT")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+        } else if (policyName.endsWith("GUARD_NOT_YET_QUERIED")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            assertEquals(ControlLoopNotificationType.OPERATION, notification.getNotification());
+            assertNotNull(notification.getMessage());
+            assertTrue(notification.getMessage().startsWith("Sending guard query"));
+        } else if (policyName.endsWith("GUARD.RESPONSE")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            assertEquals(ControlLoopNotificationType.OPERATION, notification.getNotification());
+            assertNotNull(notification.getMessage());
+            assertTrue(notification.getMessage().toLowerCase().endsWith("permit"));
+        } else if (policyName.endsWith("GUARD_PERMITTED")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            assertEquals(ControlLoopNotificationType.OPERATION, notification.getNotification());
+            assertNotNull(notification.getMessage());
+            assertTrue(notification.getMessage().startsWith("actor=CDS"));
+        } else if (policyName.endsWith("OPERATION.TIMEOUT")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            kieSession.halt();
+            logger.debug("The operation timed out");
+            fail("Operation Timed Out");
+        } else if (policyName.endsWith("CDS.RESPONSE")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            assertEquals(ControlLoopNotificationType.OPERATION_SUCCESS, notification.getNotification());
+            assertNotNull(notification.getMessage());
+            assertTrue(notification.getMessage().startsWith("actor=CDS"));
+            sendEvent(pair.first, requestId, ControlLoopEventStatus.ABATED);
+        } else if (policyName.endsWith("EVENT.MANAGER")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            if ("error".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
+                assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
+                assertEquals("Target vnf-id could not be found", notification.getMessage());
+            } else if ("getFail".equals(notification.getAai().get("generic-vnf.vnf-name"))) {
+                assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notification.getNotification());
+            } else {
+                assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, notification.getNotification());
             }
-        } else if (obj instanceof Request) {
-            assertTrue(((Request) obj).getCommonHeader().getSubRequestId().equals("1"));
-            assertNotNull(((Request) obj).getPayload().get("generic-vnf.vnf-id"));
-
-            logger.debug("\n============ APPC received the request!!! ===========\n");
-
-            /*
-             * Simulate a success response from APPC and insert the response into the working memory
-             */
-            Response appcResponse = new Response((Request) obj);
-            appcResponse.getStatus().setCode(ResponseCode.SUCCESS.getValue());
-            appcResponse.getStatus().setValue("SUCCESS");
-            kieSession.insert(appcResponse);
+            kieSession.halt();
+        } else if (policyName.endsWith("EVENT.MANAGER.TIMEOUT")) {
+            logger.debug("Rule Fired: " + notification.getPolicyName());
+            kieSession.halt();
+            logger.debug("The control loop timed out");
+            fail("Control Loop Timed Out");
         }
     }
 
@@ -282,7 +259,7 @@ public class VfwControlLoopCdsTest extends ControlLoopBase implements TopicListe
      * @param requestId the requestId for this event
      * @param status could be onset or abated
      */
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status) {
+    private void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status) {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
         event.setRequestId(requestId);
@@ -295,23 +272,4 @@ public class VfwControlLoopCdsTest extends ControlLoopBase implements TopicListe
         kieSession.insert(event);
     }
 
-    /**
-     * This method is used to simulate event messages from DCAE that start the control loop (onset
-     * message) or end the control loop (abatement message).
-     *
-     * @param policy the controlLoopName comes from the policy
-     * @param requestId the requestId for this event
-     * @param status could be onset or abated
-     */
-    protected void sendEvent(ControlLoopPolicy policy, UUID requestId, ControlLoopEventStatus status, String vnfId) {
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
-        event.setRequestId(requestId);
-        event.setTarget("generic-vnf.vnf-name");
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setAai(new HashMap<>());
-        event.getAai().put("generic-vnf.vnf-name", vnfId);
-        event.setClosedLoopEventStatus(status);
-        kieSession.insert(event);
-    }
 }
