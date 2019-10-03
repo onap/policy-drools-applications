@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6982ffef_a4e97c27",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 6
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "suggestion: remove these methods and just add the parameters to the getInstance() call",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f216d4c5_ffc6eed1",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesDroolsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "wrap in try-with-resources so that it will be automatically closed",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c46cb2_4f947a2b",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "if we know this is always needed, then this is ok.  If not, then it should be done on-demand instead.  In that case, the event manager should cache it internally and whenever getCqResponse() is called, would query once and return the cached value thereafter.",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96d9ece4_af3c0de3",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "won\u0027t this throw NPE if AAI_CUSTOM_QUERY is false?\n\nsame comment below.\n\nHmm, looks like several actors were invoking getCqResponse() rather than using the cached response.  Wondering if they all really need the custom query? (i.e., What should they do if AAI_CUSTOM_QUERY is false? Do the custom query anyway?)",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a461034_04fe55d6",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "wrap in try-with-resources so the input stream is closed",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d90f0ecf_abe05a9f",
+        "filename": "controlloop/common/eventmanager/src/test/resources/test-cds.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "remove trailing spaces\n\nsame comment through-out this file",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09960d09_b5657f80",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "looks like these properties should be moved to the top level pom (or to parent/pom)",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d02901d_9270c17d",
+        "filename": "controlloop/templates/template.demo/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "since this is \"provided\", is it necessary to specify the version? (just wondering)",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6865d1d_e62e153a",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "allocate the port via NetworkUtil.allocPort() instead of using a hard-coded port",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b89638d2_12340394",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VfwControlLoopCdsTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "remove the try-catch wrapper",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f9e6192_fdc75ebd",
+        "filename": "controlloop/templates/template.demo/src/test/resources/yaml/policy_ControlLoop_vFW_CDS.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "remove trailing spaces",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2821e19_6f35d8ba",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T14:23:04Z",
+      "side": 1,
+      "message": "remove the comment",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
