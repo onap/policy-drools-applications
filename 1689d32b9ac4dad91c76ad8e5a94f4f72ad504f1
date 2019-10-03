@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "789f18c2_d0e305d7",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T22:22:46Z",
+      "side": 1,
+      "message": "yes, we only want to make the call once, but it\u0027s preferable to do it on demand.",
+      "parentUuid": "4d73fd32_44ad0f84",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96d9ece4_af3c0de3",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 6
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "If AAI_CUSTOM_QUERY is false this block will not be executed. This appears to me equivalent to  current version flow.\n\nIf AAI_CUSTOM_QUERY is false custom query is not executed.",
       "parentUuid": "96d9ece4_af3c0de3",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e20c2c_6b8706d5",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T22:22:46Z",
+      "side": 1,
+      "message": "oh, duh, I missed the \"if\" test before it",
+      "parentUuid": "6f5cfdcb_6a347ee6",
       "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
