@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db24ce8d_0c9f0138",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 7
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-03T22:22:46Z",
+      "side": 1,
+      "message": "does it matter that this particular manager does not get added to the instance as a listener? (only the first manager will be added)",
+      "revId": "3bdcf3b18388d4af044913404b785ab0c0cb17ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
