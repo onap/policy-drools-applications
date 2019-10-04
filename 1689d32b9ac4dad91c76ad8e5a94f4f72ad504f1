@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "6adced85_04776eed",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-04T12:54:32Z",
+      "side": 1,
+      "message": "In the current implementation the call is done when AAI_CUSTOM_QUERY flag is set.\n\nI think that adding a complete caching system for aai requests is in the plan, should be in the backlog. Then, implementing aai caching is not in the scope of this change.",
+      "parentUuid": "789f18c2_d0e305d7",
+      "revId": "1689d32b9ac4dad91c76ad8e5a94f4f72ad504f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96d9ece4_af3c0de3",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 6
