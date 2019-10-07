@@ -17,6 +17,27 @@
 # ########################################################################
 
 
+function maven {
+    if [[ ${DEBUG} == y ]]; then
+        echo "-- ${FUNCNAME[0]} --"
+        set -x
+    fi
+
+    if [[ -f "${POLICY_INSTALL_INIT}"/settings.xml ]]; then
+        if ! cmp -s "${POLICY_INSTALL_INIT}"/settings.xml "${POLICY_HOME}"/etc/m2/settings.xml then
+            echo "overriding settings.xml"
+            cp -f "${POLICY_INSTALL_INIT}"/settings.xml "${POLICY_HOME}"/etc/m2
+        fi
+    fi
+
+    if [[ -f "${POLICY_INSTALL_INIT}"/standalone-settings.xml ]]; then
+        if ! cmp -s "${POLICY_INSTALL_INIT}"/standalone-settings.xml "${POLICY_HOME}"/etc/m2/standalone-settings.xml then
+            echo "overriding standalone-settings.xml"
+            cp -f "${POLICY_INSTALL_INIT}"/standalone-settings.xml "${POLICY_HOME}"/etc/m2
+        fi
+    fi
+}
+
 function configurations {
     if [[ ${DEBUG} == y ]]; then
         echo "-- ${FUNCNAME[0]} --"
@@ -205,6 +226,7 @@ function reload {
     fi
 
     configurations
+    maven
     features
     security
     properties
