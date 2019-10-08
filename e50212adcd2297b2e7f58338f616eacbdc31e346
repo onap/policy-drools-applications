@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a73f48f_707cd0f9",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-08T20:11:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2edec0f3_049ee975",
+      "range": {
+        "startLine": 88,
+        "startChar": 50,
+        "endLine": 88,
+        "endChar": 85
+      },
+      "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c668f2de_1c0a27de",
         "filename": "controlloop/common/feature-controlloop-management/pom.xml",
         "patchSetId": 9
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "03e42e6b_f9d7fb00",
+        "filename": "controlloop/common/feature-controlloop-management/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-08T20:11:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d6f3d2a_7eee1017",
+      "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "469f9250_d8dd103f",
         "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
         "patchSetId": 9
@@ -71,6 +113,24 @@
       "writtenOn": "2019-10-08T18:15:37Z",
       "side": 1,
       "message": "missing $ prefix for the cds properties",
+      "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adf3172d_d9e4422d",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-08T20:11:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "469f9250_d8dd103f",
       "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
