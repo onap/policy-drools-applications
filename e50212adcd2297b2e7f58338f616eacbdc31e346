@@ -34,6 +34,23 @@
       "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469f9250_d8dd103f",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-08T18:15:37Z",
+      "side": 1,
+      "message": "missing $ prefix for the cds properties",
+      "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
