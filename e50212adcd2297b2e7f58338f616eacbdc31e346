@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c668f2de_1c0a27de",
+        "filename": "controlloop/common/feature-controlloop-management/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-08T12:49:51Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
