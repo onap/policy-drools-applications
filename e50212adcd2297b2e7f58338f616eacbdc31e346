@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2edec0f3_049ee975",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-08T19:01:26Z",
+      "side": 1,
+      "message": "Typo here: should be generic-vnf.vnf-id.\nThe AAI convention is: node.attribute",
+      "range": {
+        "startLine": 88,
+        "startChar": 50,
+        "endLine": 88,
+        "endChar": 85
+      },
+      "revId": "e50212adcd2297b2e7f58338f616eacbdc31e346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c668f2de_1c0a27de",
         "filename": "controlloop/common/feature-controlloop-management/pom.xml",
         "patchSetId": 9
