@@ -60,7 +60,7 @@
 
         <!-- Project common dependency versions -->
         <version.policy.common>1.5.2</version.policy.common>
-        <policy.models.version>2.1.3</policy.models.version>
+        <policy.models.version>2.1.4-SNAPSHOT</policy.models.version>
         <version.policy.drools-pdp>1.5.2</version.policy.drools-pdp>
     </properties>
 
