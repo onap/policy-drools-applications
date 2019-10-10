@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25d00517_f94531bd",
+        "filename": "releases/1.5.3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-10T20:31:11Z",
+      "side": 1,
+      "message": "wrong job - should be the stage release job.",
+      "range": {
+        "startLine": 4,
+        "startChar": 10,
+        "endLine": 4,
+        "endChar": 57
+      },
+      "revId": "d10a2ff08c6c5247217aa138473421e74140947e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
