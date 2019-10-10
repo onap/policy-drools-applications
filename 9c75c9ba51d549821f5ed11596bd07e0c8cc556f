@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b813ddf_b3aef61c",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "I don\u0027t see this newly added property being used ?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea3a4d45_b21fe000",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "why not a plain \"insert\" as in other places in the .drl ?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328b0afd_e321b320",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "Are there any exceptions being thrown from \"sendRequetToCds\" ?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a36601f2_cbe64973",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "This should be $params.getPolicyScope()",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dba0982d_d9dcc219",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "same",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e07ad700_02b115db",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "It you look at the other *.RESPONSE rules, the retracting of objects is done a bit differently, it is in order to respect the retry operations from the actual operational policy.   I think you would need to do something similar if the same parameters in the policy are to be applied.\n\nThis would also imply that would need to take care of response objects and have clean up rules.",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56637c48_e8afa79d",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesDroolsTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "Not a comment but another way to do this through PolicyEngine directly:\n\nhttps://git.onap.org/policy/drools-applications/tree/controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "862ba4f1_cecee09d",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "can this be provided as others?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbe91f1d_aea5bc4d",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "Need Pramod to review this .. I think he had this worked out ..   What\u0027s the purpose, is it because it can cache queries?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f643f75_8ad070ec",
+        "filename": "controlloop/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "should this be in \"parent\" ?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "836e2107_d74851dd",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "plain insert ?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65cab93d_323b6308",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-10T23:01:17Z",
+      "side": 1,
+      "message": "same comments as in the other drl with respect a response retries",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
