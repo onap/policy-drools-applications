@@ -1,0 +1,4 @@
+distribution_type: 'maven'
+version: '1.5.3'
+project: 'policy-drools-applications'
+log_dir: 'policy-drools-applications-maven-stage-elalto/31/'
