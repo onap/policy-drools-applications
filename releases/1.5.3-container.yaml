@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '1.5.3'
+project: 'policy-drools-application'
+log_dir: 'policy-drools-applications-maven-docker-stage-elalto/31/'
+ref: b92f4e8c73b04c7b1d65a79b28b621881b257888
+containers:
+    - name: 'policy-pdpd-cl'
+    version: '1.5.3 tag'
