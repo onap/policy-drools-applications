@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55cc41e5_21f60d6b",
+        "filename": "releases/1.5.3-container.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-11T17:30:01Z",
+      "side": 1,
+      "message": "remove the space and the tag. it should only be \u00271.5.3\u0027",
+      "range": {
+        "startLine": 8,
+        "startChar": 19,
+        "endLine": 8,
+        "endChar": 23
+      },
+      "revId": "0276cfee4dbf67c6967ce76ad384bc6516b88db2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
