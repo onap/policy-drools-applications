@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eab0d606_52683e84",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b813ddf_b3aef61c",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea3a4d45_b21fe000",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-10T23:01:17Z",
       "side": 1,
       "message": "why not a plain \"insert\" as in other places in the .drl ?",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df665349_7bb2539e",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Done\n\nOther actors using drools.getWorkingMemory().insert() are left unchanged.",
+      "parentUuid": "ea3a4d45_b21fe000",
       "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3ac835ae_f2a1aebc",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "CdsActorServiceProvider.sendRequestToCds() does not throw any checked exceptions.",
+      "parentUuid": "328b0afd_e321b320",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a36601f2_cbe64973",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 12
@@ -67,6 +121,24 @@
       "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "160e1811_7995c1ac",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Using $params.getPolicyScope() makes ControlLoopParamsCleanupTest.test() failing with NPE :\n\n---\njava.lang.NullPointerException\n\tat org.drools.core.phreak.AddRemoveRule.splitSegment(AddRemoveRule.java:1176)\n\tat org.drools.core.phreak.AddRemoveRule$AddExistingPaths.handleSplit(AddRemoveRule.java:246)\n\tat org.drools.core.phreak.AddRemoveRule.handleExistingPaths(AddRemoveRule.java:399)\n\tat org.drools.core.phreak.AddRemoveRule.addRule(AddRemoveRule.java:124)\n\tat org.drools.core.reteoo.builder.ReteooRuleBuilder.addSubRule(ReteooRuleBuilder.java:190)\n\tat org.drools.core.reteoo.builder.ReteooRuleBuilder.addRule(ReteooRuleBuilder.java:133)\n\tat org.drools.core.reteoo.ReteooBuilder.addRule(ReteooBuilder.java:106)\n\tat org.drools.core.impl.KnowledgeBaseImpl.addRule(KnowledgeBaseImpl.java:1586)\n\tat org.drools.core.impl.KnowledgeBaseImpl.addRule(KnowledgeBaseImpl.java:1566)\n\tat org.drools.compiler.builder.impl.KnowledgeBuilderImpl.compileAllRules(KnowledgeBuilderImpl.java:1004)\n\tat org.drools.compiler.builder.impl.CompositeKnowledgeBuilderImpl.buildRules(CompositeKnowledgeBuilderImpl.java:264)\n\tat org.drools.compiler.builder.impl.CompositeKnowledgeBuilderImpl.buildPackages(CompositeKnowledgeBuilderImpl.java:122)\n\tat org.drools.compiler.builder.impl.CompositeKnowledgeBuilderImpl.build(CompositeKnowledgeBuilderImpl.java:105)\n\tat org.drools.compiler.kie.builder.impl.KieContainerImpl.rebuildAll(KieContainerImpl.java:449)\n\tat org.drools.compiler.kie.builder.impl.KieContainerImpl.updateKBase(KieContainerImpl.java:311)\n\tat org.drools.compiler.kie.builder.impl.KieContainerImpl.access$000(KieContainerImpl.java:88)\n\tat org.drools.compiler.kie.builder.impl.KieContainerImpl$1.run(KieContainerImpl.java:255)\n\tat org.drools.core.impl.KnowledgeBaseImpl.enqueueModification(KnowledgeBaseImpl.java:735)\n\tat org.drools.compiler.kie.builder.impl.KieContainerImpl.update(KieContainerImpl.java:252)\n\tat org.drools.compiler.kie.builder.impl.KieContainerImpl.updateToVersion(KieContainerImpl.java:196)\n\tat org.onap.policy.template.demo.SupportUtil.updateContainer(SupportUtil.java:217)\n\tat org.onap.policy.template.demo.ControlLoopParamsCleanupTest.updatePolicy(ControlLoopParamsCleanupTest.java:222)\n\tat org.onap.policy.template.demo.ControlLoopParamsCleanupTest.test(ControlLoopParamsCleanupTest.java:130)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:498)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\n\tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n\tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\n\tat com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)\n\tat com.intellij.rt.execution.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:47)\n\tat com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:242)\n\tat com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:70)\n---\n\nAm I missing something to use $params ? Also other RESPONSE rules are using ${policyScope}.",
+      "parentUuid": "a36601f2_cbe64973",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0956a9d2_f532016b",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "dba0982d_d9dcc219",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e07ad700_02b115db",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 12
@@ -98,6 +188,24 @@
       "writtenOn": "2019-10-10T23:01:17Z",
       "side": 1,
       "message": "It you look at the other *.RESPONSE rules, the retracting of objects is done a bit differently, it is in order to respect the retry operations from the actual operational policy.   I think you would need to do something similar if the same parameters in the policy are to be applied.\n\nThis would also imply that would need to take care of response objects and have clean up rules.",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b7f0ba_ddad0c63",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e07ad700_02b115db",
       "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "c2b332b9_bbc191eb",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "It was provided initially and removed in patch 9. I don\u0027t have all the details in mind but it was related to integration testing fixes.",
+      "parentUuid": "862ba4f1_cecee09d",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbe91f1d_aea5bc4d",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 12
@@ -152,6 +278,24 @@
       "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c0b10f4_1a80fb8d",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Caching mechanism is not in place yet. From my understanding this is a feature still to come from the backlog. \n\nDuring October 1st meeting, we decided to move the custom query call here to be more efficient and avoid making the same call twice.",
+      "parentUuid": "fbe91f1d_aea5bc4d",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "b930ff36_84d2c193",
+        "filename": "controlloop/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Yes it should and it was initially and remove in patch 7 because of a cds bug with the parent (CCSDK-1795).\nI\u0027m suggesting to create a jira to move this ccsdk dependency in the parent and to complete it in a separate change.",
+      "parentUuid": "8f643f75_8ad070ec",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "836e2107_d74851dd",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 12
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "086799c6_9ef11060",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "836e2107_d74851dd",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65cab93d_323b6308",
         "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
         "patchSetId": 12
@@ -200,6 +380,24 @@
       "writtenOn": "2019-10-10T23:01:17Z",
       "side": 1,
       "message": "same comments as in the other drl with respect a response retries",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e02498c8_4dcc9cf7",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-11T22:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65cab93d_323b6308",
       "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
