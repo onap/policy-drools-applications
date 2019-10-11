@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbb3f25d_55abc014",
+        "filename": "releases/1.5.3-container.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-11T17:57:50Z",
+      "side": 1,
+      "message": "are we sure this is correct?",
+      "range": {
+        "startLine": 5,
+        "startChar": 5,
+        "endLine": 5,
+        "endChar": 45
+      },
+      "revId": "704962c152866a21fc2e3073e2b2c6a84a1fce9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0c4172f_8f71b1b5",
+        "filename": "releases/1.5.3-container.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-11T17:57:50Z",
+      "side": 1,
+      "message": "for lack of any output in the failed job, perhaps the fact that version still isn\u0027t lined up with name. add 2 spaces in front of it.",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 8,
+        "endChar": 11
+      },
+      "revId": "704962c152866a21fc2e3073e2b2c6a84a1fce9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
