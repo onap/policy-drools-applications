@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "32091329_31b85858",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-14T13:56:28Z",
+      "side": 1,
+      "message": "the other rules in this file appear to use $params.getPolicyScope().  Perhaps the test case needs some enhancement.",
+      "parentUuid": "160e1811_7995c1ac",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dba0982d_d9dcc219",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 12
