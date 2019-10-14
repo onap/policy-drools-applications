@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "9787985a_d5e17a8c",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-14T14:48:41Z",
+      "side": 1,
+      "message": "Note that usecases and amsterdam drl are pretty similar but differ on the use of ${.}, may be you\u0027re applying the changes to \"amsterdam\" drl instead of this one.   Just to clarify, these changes are just particular to usecases, not to amsterdam.   I know it is confusing but the amsterdam will be eventually soon be deprecated and removed from codebase, it is just there to support the old architecture.",
+      "parentUuid": "32091329_31b85858",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dba0982d_d9dcc219",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 12
