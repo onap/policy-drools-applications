@@ -335,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "515ad840_0d260510",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-10-14T18:50:02Z",
+      "side": 1,
+      "message": "Moving the call to AAI during the instantiation of ControlLoopManager, will mean that the call will be made only once, when the manager is instantiated. In the current implementation, for the other use cases, the AaiCqResponse value should get overwritten when other actors (use cases) are invoked, when they make this AAI call separately . So I am guessing it should work okay. \nBut whether or not to use this as a generic solution (and remove the subsequent calls) for all other use cases will depend on how often the Manager gets instantiated. That will need discussion.",
+      "parentUuid": "2c0b10f4_1a80fb8d",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f643f75_8ad070ec",
         "filename": "controlloop/pom.xml",
         "patchSetId": 12
