@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "48ca4a3d_2dcdba4e",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 15
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-15T17:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8084e14f_8a2a1ccb",
+      "range": {
+        "startLine": 653,
+        "startChar": 36,
+        "endLine": 653,
+        "endChar": 58
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f68a0d8_737d666b",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 15
@@ -151,6 +175,30 @@
       "writtenOn": "2019-10-15T17:32:18Z",
       "side": 1,
       "message": "same here, need to close the session after response is recieved",
+      "range": {
+        "startLine": 668,
+        "startChar": 36,
+        "endLine": 668,
+        "endChar": 58
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707de1f0_16af7338",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 15
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-15T17:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84917e16_f717428e",
       "range": {
         "startLine": 668,
         "startChar": 36,
