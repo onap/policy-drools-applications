@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "03b61960_722a221b",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 12
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-15T12:37:17Z",
+      "side": 1,
+      "message": "Done.\n\nExact, I was making the change for amsterdam and once tested successfully I applied the exact same change to usecases.\n\nNow amsterdam is using ${policyScope} and usecases is using $params.getPolicyScope().\n\nMy only concern is that we were not really able to test usecases.",
+      "parentUuid": "9787985a_d5e17a8c",
+      "revId": "9c75c9ba51d549821f5ed11596bd07e0c8cc556f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dba0982d_d9dcc219",
         "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
         "patchSetId": 12
