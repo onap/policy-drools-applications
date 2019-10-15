@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8084e14f_8a2a1ccb",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 15
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "need to close the session once you have the response right?",
+      "range": {
+        "startLine": 653,
+        "startChar": 36,
+        "endLine": 653,
+        "endChar": 58
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f68a0d8_737d666b",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 15
+      },
+      "lineNbr": 1410,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "maybe log this?",
+      "range": {
+        "startLine": 1410,
+        "startChar": 18,
+        "endLine": 1410,
+        "endChar": 26
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b456a4a_2f0f2b6f",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesDroolsTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "cleanup?",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8ba6b20_87a29c14",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "maybe instead of catching a RTE check if the optional has a value --\u003e\n\nif (optionalRequest.isPresent()) {\n            this.operationRequest \u003d optionalRequest.get();\n        } else {\n            this.operationRequest \u003d null;\n            this.policyResult \u003d PolicyResult.FAILURE;\n        }",
+      "range": {
+        "startLine": 448,
+        "startChar": 8,
+        "endLine": 453,
+        "endChar": 9
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96d5d560_e41cc370",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "nitpick: since you are already loading the yaml above, you can insert these into the YAML file instead of setting it on policy. Sample:\n\npolicies:\n  - id: unique-policy-id-1-restart\n    name: Restart Policy\n    description:\n    actor: CDS\n    recipe: Restart\n    target:\n      resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38\n      type: VNF\n    payload:\n      artifact_name: my-artifact-name\n      artifact_version: 1.0.0\n    retry: 1\n    timeout: 20\n    success: final_success\n    failure: unique-policy-id-2-rebuild\n    failure_timeout: unique-policy-id-2-rebuild\n    failure_retries: unique-policy-id-2-rebuild\n    failure_exception: final_failure_exception",
+      "range": {
+        "startLine": 778,
+        "startChar": 8,
+        "endLine": 781,
+        "endChar": 75
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4b5f987_45ced8c3",
+        "filename": "controlloop/common/eventmanager/src/test/resources/test-cds.yaml",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "please refer to the previous comment. Maybe rename to modifyConfig to match the usecase we are testing. Also the below two items using actor APPC can be removed for sake of clarity since they are not being used in the unit test\n\nMaybe you can reuse the contents of the one you already have: policy_ControlLoop_vFW_CDS.yaml",
+      "range": {
+        "startLine": 38,
+        "startChar": 12,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84917e16_f717428e",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 15
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "same here, need to close the session after response is recieved",
+      "range": {
+        "startLine": 668,
+        "startChar": 36,
+        "endLine": 668,
+        "endChar": 58
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "654c6c4c_3569e46b",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/SupportUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-10-15T17:32:18Z",
+      "side": 1,
+      "message": "looks like this is not used even when set since in the properties file it is always defaulted to 10mins",
+      "range": {
+        "startLine": 392,
+        "startChar": 67,
+        "endLine": 392,
+        "endChar": 82
+      },
+      "revId": "589fba54e340957971652449d7daf53efaeaef81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
