@@ -16,6 +16,24 @@
       "revId": "20f92221047c0e847c51de1b3f198c3ab40e84d6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "079b53ac_e1cdd007",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-16T23:58:23Z",
+      "side": 1,
+      "message": "This is not final code, this is only to investigate a unit test error not reproduced locally yet. \n\nWhen issue will be fixed, we\u0027ll see which code we would like to keep.",
+      "parentUuid": "03f7a619_d92c7cc5",
+      "revId": "20f92221047c0e847c51de1b3f198c3ab40e84d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
