@@ -46,6 +46,30 @@
       "revId": "636a1b2fcafa5249cf2bf380dfb6e20f6fe98691",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e658886_4a6c3489",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-17T13:58:31Z",
+      "side": 1,
+      "message": "Pramod can fix in his review - as he will be removing that flag to ensure all tests etc. use the Custom Query.",
+      "parentUuid": "6448365c_6ce69926",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "636a1b2fcafa5249cf2bf380dfb6e20f6fe98691",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
