@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "815b2336_2509a4bc",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-10-17T13:14:16Z",
+      "side": 1,
+      "message": "I am not sure I understand the reason you set the custom query to false in this use case?",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "636a1b2fcafa5249cf2bf380dfb6e20f6fe98691",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
