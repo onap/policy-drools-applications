@@ -22,6 +22,30 @@
       "revId": "636a1b2fcafa5249cf2bf380dfb6e20f6fe98691",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6448365c_6ce69926",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2019-10-17T13:41:38Z",
+      "side": 1,
+      "message": "I reviewed the current flow for this test in master branch and saw that custom query was not executed. Then, the flag was set to false here to ensure that the flow remains identical and custom query is still not executed with the change we are making.",
+      "parentUuid": "815b2336_2509a4bc",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "636a1b2fcafa5249cf2bf380dfb6e20f6fe98691",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
