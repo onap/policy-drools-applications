@@ -30,10 +30,10 @@ import java.util.HashMap;
 import java.util.UUID;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.onap.policy.appclcm.LcmRequest;
-import org.onap.policy.appclcm.LcmRequestWrapper;
-import org.onap.policy.appclcm.LcmResponse;
-import org.onap.policy.appclcm.LcmResponseWrapper;
+import org.onap.policy.appclcm.AppcLcmBody;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
+import org.onap.policy.appclcm.AppcLcmInput;
+import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
@@ -147,7 +147,7 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
                     org.onap.policy.controlloop.VirtualControlLoopNotification.class);
         } else if ("APPC-LCM-READ".equals(topic)) {
             obj = org.onap.policy.appclcm.util.Serialization.gsonJunit.fromJson(event,
-                    org.onap.policy.appclcm.LcmRequestWrapper.class);
+                    org.onap.policy.appclcm.AppcLcmDmaapWrapper.class);
         }
         assertNotNull(obj);
         if (obj instanceof VirtualControlLoopNotification) {
@@ -205,12 +205,12 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
                 logger.debug("The control loop timed out");
                 fail("Control Loop Timed Out");
             }
-        } else if (obj instanceof LcmRequestWrapper) {
+        } else if (obj instanceof AppcLcmDmaapWrapper) {
             /*
              * The request should be of type LCMRequestWrapper and the subrequestid should be 1
              */
-            LcmRequestWrapper dmaapRequest = (LcmRequestWrapper) obj;
-            LcmRequest appcRequest = dmaapRequest.getBody();
+            AppcLcmDmaapWrapper dmaapRequest = (AppcLcmDmaapWrapper) obj;
+            AppcLcmInput appcRequest = dmaapRequest.getBody().getInput();
             assertTrue(appcRequest.getCommonHeader().getSubRequestId().equals("1"));
 
             logger.debug("\n============ APPC received the request!!! ===========\n");
@@ -218,11 +218,12 @@ public class ControlLoopFailureTest extends ControlLoopBase implements TopicList
             /*
              * Simulate a success response from APPC and insert the response into the working memory
              */
-            LcmResponseWrapper dmaapResponse = new LcmResponseWrapper();
-            LcmResponse appcResponse = new LcmResponse(appcRequest);
+            AppcLcmDmaapWrapper dmaapResponse = new AppcLcmDmaapWrapper();
+            AppcLcmOutput appcResponse = new AppcLcmOutput(appcRequest);
             appcResponse.getStatus().setCode(400);
             appcResponse.getStatus().setMessage("AppC success");
-            dmaapResponse.setBody(appcResponse);
+            dmaapResponse.setBody(new AppcLcmBody());
+            dmaapResponse.getBody().setOutput(appcResponse);
 
             /*
              * Interrupting with a different request for the same target entity to check if lock
