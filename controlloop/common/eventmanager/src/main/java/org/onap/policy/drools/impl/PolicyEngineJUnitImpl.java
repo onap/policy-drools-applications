@@ -2,14 +2,14 @@
  * ============LICENSE_START=======================================================
  * policy engine
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import org.onap.policy.appc.Request;
-import org.onap.policy.appclcm.LcmRequestWrapper;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.util.Serialization;
 import org.onap.policy.drools.PolicyEngine;
@@ -45,7 +45,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
     /**
      * Adds all objects that implement PolicyEngineListener to the notification list when an event
      * occurs.
-     * 
+     *
      * @param listener an object that is interest in knowing about events published to the
      *        PolicyEngine
      */
@@ -55,7 +55,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 
     /**
      * Notifies all listeners about a new event.
-     * 
+     *
      * @param topic the topic in which the notification was sent to
      */
     public void notifyListeners(String topic) {
@@ -75,10 +75,10 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
         if (obj instanceof Request) {
             Request request = (Request) obj;
             logger.debug("Request: {} subrequest {}", request.getAction(), request.getCommonHeader().getSubRequestId());
-        } else if (obj instanceof LcmRequestWrapper) {
-            LcmRequestWrapper dmaapRequest = (LcmRequestWrapper) obj;
-            logger.debug("Request: {} subrequest {}", dmaapRequest.getBody().getAction(),
-                    dmaapRequest.getBody().getCommonHeader().getSubRequestId());
+        } else if (obj instanceof AppcLcmDmaapWrapper) {
+            AppcLcmDmaapWrapper dmaapRequest = (AppcLcmDmaapWrapper) obj;
+            logger.debug("Request: {} subrequest {}", dmaapRequest.getBody().getInput().getAction(),
+                    dmaapRequest.getBody().getInput().getCommonHeader().getSubRequestId());
         }
         //
         // Does the bus exist?
@@ -115,7 +115,7 @@ public class PolicyEngineJUnitImpl implements PolicyEngine {
 
     /**
      * Subscribe to a topic on a bus.
-     * 
+     *
      * @param busType the bus type
      * @param topic the topic
      * @return the head of the queue, or <code>null</code> if the queue or bus does not exist or the

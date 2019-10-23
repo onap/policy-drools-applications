@@ -45,7 +45,7 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
-import org.onap.policy.appclcm.LcmResponseWrapper;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -507,11 +507,11 @@ public class ControlLoopOperationManager implements Serializable {
             // Cast APPC response and handle it
             //
             return onResponse((Response) response);
-        } else if (response instanceof LcmResponseWrapper) {
+        } else if (response instanceof AppcLcmDmaapWrapper) {
             //
             // Cast LCM response and handle it
             //
-            return onResponse((LcmResponseWrapper) response);
+            return onResponse(( AppcLcmDmaapWrapper) response);
         } else if (response instanceof PciResponseWrapper) {
             //
             // Cast SDNR response and handle it
@@ -633,12 +633,12 @@ public class ControlLoopOperationManager implements Serializable {
      * @param dmaapResponse the LCM response
      * @return The result of the response handling
      */
-    private PolicyResult onResponse(LcmResponseWrapper dmaapResponse) {
+    private PolicyResult onResponse(AppcLcmDmaapWrapper dmaapResponse) {
         /*
          * Parse out the operation attempt using the subrequestid
          */
         Integer operationAttempt = AppcLcmActorServiceProvider
-                .parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
+                .parseOperationAttempt(dmaapResponse.getBody().getOutput().getCommonHeader().getSubRequestId());
         if (operationAttempt == null) {
             this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).",
                     PolicyResult.FAILURE_EXCEPTION);

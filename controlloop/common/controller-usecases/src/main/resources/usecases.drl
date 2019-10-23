@@ -45,11 +45,7 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.CommonHeader;
-import org.onap.policy.appclcm.LcmRequestWrapper;
-import org.onap.policy.appclcm.LcmResponseWrapper;
-import org.onap.policy.appclcm.LcmRequest;
-import org.onap.policy.appclcm.LcmResponse;
-import org.onap.policy.appclcm.LcmCommonHeader;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
@@ -568,7 +564,7 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                   if (request instanceof Request) {
                       PolicyEngineConstants.getManager().deliver("APPC-CL", request);
                   }
-                  else if (request instanceof LcmRequestWrapper) {
+                  else if (request instanceof AppcLcmDmaapWrapper) {
                       PolicyEngineConstants.getManager().deliver("APPC-LCM-READ", request);
                   }
                   break;
@@ -1009,7 +1005,7 @@ rule "APPC.LCM.RESPONSE"
         $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(), 
             requestId == $event.getRequestId().toString(), timerType == "Operation", !expired )
         $lock : TargetLock (requestId == $event.getRequestId())
-        $response : LcmResponseWrapper( getBody().getCommonHeader().getRequestId() == $event.getRequestId() )
+        $response : AppcLcmDmaapWrapper( getBody().getOutput().getCommonHeader().getRequestId() == $event.getRequestId() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1087,7 +1083,7 @@ end
 rule "APPC.LCM.RESPONSE.CLEANUP"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $response : LcmResponseWrapper($id : getBody().getCommonHeader().getRequestId )
+        $response : AppcLcmDmaapWrapper($id : getBody().getOutput().getCommonHeader().getRequestId )
         not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
     then
 

@@ -94,7 +94,7 @@ public class ControlLoopBase {
         Properties noopSinkProperties = new Properties();
         noopSinkProperties.put(PolicyEndPointProperties.PROPERTY_NOOP_SINK_TOPICS,
                         "APPC-LCM-READ,APPC-CL,SDNR-CL,POLICY-CL-MGT");
-        noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events", "org.onap.policy.appclcm.LcmRequestWrapper");
+        noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events", "org.onap.policy.appclcm.AppcLcmDmaapWrapper");
         noopSinkProperties.put("noop.sink.topics.APPC-LCM-READ.events.custom.gson",
                 "org.onap.policy.appclcm.util.Serialization,gson");
         noopSinkProperties.put("noop.sink.topics.APPC-CL.events", "org.onap.policy.appc.Response");
@@ -117,7 +117,7 @@ public class ControlLoopBase {
                 .groupId(JUNIT_GROUP_ID)
                 .artifactId(JUNIT_ARTIFACT_ID)
                 .topic("APPC-LCM-READ")
-                .eventClass("org.onap.policy.appclcm.LcmRequestWrapper")
+                .eventClass("org.onap.policy.appclcm.AppcLcmDmaapWrapper")
                 .protocolFilter(new JsonProtocolFilter())
                 .modelClassLoaderHash(1111));
         EventProtocolCoderConstants.getManager().addEncoder(EventProtocolParams.builder()

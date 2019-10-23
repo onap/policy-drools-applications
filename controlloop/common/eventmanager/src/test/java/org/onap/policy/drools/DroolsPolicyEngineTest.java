@@ -2,15 +2,15 @@
  * ============LICENSE_START=======================================================
  * eventmanager
  * ================================================================================
- * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Copyright (C) 2019 Ericsson. All rights reserved.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,10 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
-import org.onap.policy.appclcm.LcmCommonHeader;
-import org.onap.policy.appclcm.LcmRequest;
-import org.onap.policy.appclcm.LcmRequestWrapper;
+import org.onap.policy.appclcm.AppcLcmBody;
+import org.onap.policy.appclcm.AppcLcmCommonHeader;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
+import org.onap.policy.appclcm.AppcLcmInput;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.impl.PolicyEngineJUnitImpl;
@@ -61,10 +62,11 @@ public class DroolsPolicyEngineTest {
         request.getCommonHeader().setSubRequestId("12321");
         pe.deliver(OMNI_BUS, TOPIC, request);
 
-        LcmRequestWrapper lcmRw = new LcmRequestWrapper();
-        lcmRw.setBody(new LcmRequest());
-        lcmRw.getBody().setCommonHeader(new LcmCommonHeader());
-        lcmRw.getBody().getCommonHeader().setSubRequestId("54321");
+        AppcLcmDmaapWrapper lcmRw = new AppcLcmDmaapWrapper();
+        lcmRw.setBody(new AppcLcmBody());
+        lcmRw.getBody().setInput(new AppcLcmInput());
+        lcmRw.getBody().getInput().setCommonHeader(new AppcLcmCommonHeader());
+        lcmRw.getBody().getInput().getCommonHeader().setSubRequestId("54321");
         pe.deliver(OMNI_BUS, TOPIC, lcmRw);
     }
 
