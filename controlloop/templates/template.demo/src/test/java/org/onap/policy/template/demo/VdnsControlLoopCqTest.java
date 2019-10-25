@@ -28,8 +28,6 @@ import static org.junit.Assert.fail;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
-
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
@@ -55,12 +53,6 @@ public class VdnsControlLoopCqTest extends ControlLoopBase implements TopicListe
             "src/test/resources/yaml/policy_ControlLoop_SO_Cq-test.yaml", "type=operational",
             "CL_vDNS", "v2.0");
         SupportUtil.setCustomQuery("true");
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() {
-        SupportUtil.setCustomQuery("false");
-        ControlLoopBase.tearDownAfterClass();
     }
 
     @Test

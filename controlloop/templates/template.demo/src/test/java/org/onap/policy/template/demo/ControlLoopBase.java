@@ -78,6 +78,8 @@ public class ControlLoopBase {
     public static void setUpBeforeClass(String droolsTemplate, String yamlFile, String policyScope,
                     String policyName, String policyVersion) {
 
+        SupportUtil.setCustomQuery("false");
+
         /* Set environment properties */
         SupportUtil.setAaiProps();
         SupportUtil.setGuardProps();
@@ -163,6 +165,9 @@ public class ControlLoopBase {
      */
     @AfterClass
     public static void tearDownAfterClass() {
+
+        SupportUtil.setCustomQuery("false");
+
         /*
          * Gracefully shut down the kie session
          */

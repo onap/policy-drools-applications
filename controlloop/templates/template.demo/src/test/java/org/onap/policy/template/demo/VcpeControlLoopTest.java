@@ -58,7 +58,6 @@ public class VcpeControlLoopTest extends ControlLoopBase implements TopicListene
             "service=ServiceDemo;resource=Res1Demo;type=operational",
             "CL_vCPE",
             "org.onap.closed_loop.ServiceDemo:VNFS:1.0.0");
-        SupportUtil.setCustomQuery("false");
     }
 
     @Test
