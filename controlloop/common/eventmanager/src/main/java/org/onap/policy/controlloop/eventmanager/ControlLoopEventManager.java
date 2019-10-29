@@ -20,11 +20,14 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import static org.onap.policy.controlloop.ControlLoopTargetType.PNF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VM;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VNF;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +39,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiGetVnfResponse;
@@ -78,8 +82,11 @@ public class ControlLoopEventManager implements Serializable {
     public static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
     public static final String GENERIC_VNF_IS_CLOSED_LOOP_DISABLED = "generic-vnf.is-closed-loop-disabled";
     public static final String VSERVER_IS_CLOSED_LOOP_DISABLED = "vserver.is-closed-loop-disabled";
+    private static final String PNF_IS_IN_MAINT = "pnf.in-maint";
     public static final String GENERIC_VNF_PROV_STATUS = "generic-vnf.prov-status";
     public static final String VSERVER_PROV_STATUS = "vserver.prov-status";
+    public static final String PNF_ID = "pnf.pnf-id";
+    public static final String PNF_NAME = "pnf.pnf-name";
 
     public static final String AAI_URL = "aai.url";
     public static final String AAI_USERNAME_PROPERTY = "aai.username";
@@ -101,9 +108,8 @@ public class ControlLoopEventManager implements Serializable {
 
     static {
         VALID_TARGETS = Collections.unmodifiableSet(new HashSet<>(
-                        Arrays.asList(VM_NAME, VNF_NAME, VSERVER_VSERVER_NAME,
-                                        GENERIC_VNF_VNF_ID, GENERIC_VNF_VNF_NAME)
-                        .stream().map(String::toLowerCase).collect(Collectors.toList())));
+                Stream.of(VM_NAME, VNF_NAME, VSERVER_VSERVER_NAME, GENERIC_VNF_VNF_ID, GENERIC_VNF_VNF_NAME, PNF_NAME)
+                        .map(String::toLowerCase).collect(Collectors.toList())));
     }
 
     public final String closedLoopControlName;
@@ -733,13 +739,26 @@ public class ControlLoopEventManager implements Serializable {
     }
 
     private void validateAaiData(VirtualControlLoopEvent event) throws ControlLoopException {
-        if (event.getAai() == null) {
+        Map<String, String> eventAai = event.getAai();
+        if (eventAai == null) {
             throw new ControlLoopException("AAI is null");
         }
-        if (event.getAai().get(GENERIC_VNF_VNF_ID) == null && event.getAai().get(VSERVER_VSERVER_NAME) == null
-                && event.getAai().get(GENERIC_VNF_VNF_NAME) == null) {
-            throw new ControlLoopException(
-                    "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
+        switch (event.getTargetType()) {
+            case VM:
+            case VNF:
+                if (eventAai.get(GENERIC_VNF_VNF_ID) == null && eventAai.get(VSERVER_VSERVER_NAME) == null
+                            && eventAai.get(GENERIC_VNF_VNF_NAME) == null) {
+                    throw new ControlLoopException(
+                            "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
+                }
+                return;
+            case PNF:
+                if (eventAai.get(PNF_NAME) == null) {
+                    throw new ControlLoopException("AAI PNF object key pnf-name is missing");
+                }
+                return;
+            default:
+                throw new ControlLoopException("The target type is not supported");
         }
     }
 
@@ -753,14 +772,16 @@ public class ControlLoopEventManager implements Serializable {
 
         Map<String, String> aai = event.getAai();
 
-        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)) {
+        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)
+                    || aai.containsKey(PNF_IS_IN_MAINT)) {
 
             if (isClosedLoopDisabled(event)) {
-                throw new AaiException("is-closed-loop-disabled is set to true on VServer or VNF");
+                throw new AaiException(
+                        "is-closed-loop-disabled is set to true on VServer or VNF or in-maint is set to true for PNF");
             }
 
             if (isProvStatusInactive(event)) {
-                throw new AaiException("prov-status is not ACTIVE on VServer or VNF");
+                throw new AaiException("prov-status is not ACTIVE on VServer or VNF or PNF");
             }
 
             // no need to query, as we already have the data
@@ -854,7 +875,8 @@ public class ControlLoopEventManager implements Serializable {
     public static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
         Map<String, String> aai = event.getAai();
         return (isAaiTrue(aai.get(VSERVER_IS_CLOSED_LOOP_DISABLED))
-                || isAaiTrue(aai.get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)));
+                || isAaiTrue(aai.get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
+                || isAaiTrue(aai.get(PNF_IS_IN_MAINT)));
     }
 
     /**
@@ -1089,6 +1111,34 @@ public class ControlLoopEventManager implements Serializable {
 
         return response;
 
+    }
+
+    /**
+     * Get the specified pnf data from aai.
+     * @param event the event containing pnf id.
+     * @return pnf key value data.
+     * @throws AaiException if an aai error occurs.
+     */
+    public Map<String, String> getPnf(VirtualControlLoopEvent event) throws AaiException {
+        Map<String, String> aai = event.getAai();
+
+        if (!aai.containsKey(PNF_NAME)) {
+            throw new AaiException("Missing unique identifier for PNF AAI object in the event.");
+        }
+
+        UUID reqId = event.getRequestId();
+        String pnfName = event.getAai().get(PNF_NAME);
+        String aaiHostUrl = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_URL);
+        String aaiUser = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_USERNAME_PROPERTY);
+        String aaiPassword = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_PASS_PROPERTY);
+
+        Map<String, String> pnfParams =
+                new AaiManager(new RestManager()).getPnf(aaiHostUrl, aaiUser, aaiPassword, reqId, pnfName);
+
+        if (pnfParams == null) {
+            throw new AaiException("Aai response is undefined");
+        }
+        return pnfParams;
     }
 
 

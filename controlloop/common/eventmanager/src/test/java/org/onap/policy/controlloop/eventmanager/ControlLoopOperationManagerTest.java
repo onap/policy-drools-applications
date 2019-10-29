@@ -64,6 +64,7 @@ import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
@@ -108,12 +109,15 @@ public class ControlLoopOperationManagerTest {
         onset.setClosedLoopAlarmStart(Instant.now());
         onset.setAai(new HashMap<>());
         onset.getAai().put(VNF_NAME, "testTriggerSource");
+        onset.getAai().put(VSERVER_NAME, "testVserverName");
         onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onset.setTargetType(ControlLoopTargetType.VNF);
 
         /* Set environment properties */
         PolicyEngineConstants.getManager().setEnvironmentProperty("aai.url", "http://localhost:6666");
         PolicyEngineConstants.getManager().setEnvironmentProperty("aai.username", "AAI");
         PolicyEngineConstants.getManager().setEnvironmentProperty("aai.password", "AAI");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.customQuery", "false");
     }
 
     private static EntityManagerFactory emf;
@@ -390,10 +394,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -428,7 +434,8 @@ public class ControlLoopOperationManagerTest {
         policy.setTarget(savedTarget);
 
         policy.getTarget().setType(TargetType.PNF);
-        assertThatThrownBy(() -> clom.getTarget(policy)).hasMessage("PNF target is not supported");
+        assertThatThrownBy(() -> clom.getTarget(policy)).hasMessage(
+                "Target in the onset event is either null or does not match target key expected in AAI section.");
 
         onsetEvent.setTarget("Oz");
         onsetEvent.getAai().remove(VNF_NAME);
@@ -495,10 +502,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -543,10 +552,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -631,10 +642,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -726,10 +739,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -772,6 +787,7 @@ public class ControlLoopOperationManagerTest {
         event.setClosedLoopControlName(TWO_ONSET_TEST);
         event.setRequestId(requestId);
         event.setTarget(VNF_ID);
+        event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
@@ -801,7 +817,7 @@ public class ControlLoopOperationManagerTest {
     @Test
     public void testCommitAbatement() throws Exception {
 
-        String yamlString = null;
+        String yamlString;
         try (InputStream is = new FileInputStream(new File(TEST_YAML))) {
             yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
         }
@@ -811,10 +827,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -850,10 +868,12 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
         onsetEvent.setRequestId(requestId);
         onsetEvent.setTarget(VNF_ID);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
         onsetEvent.setClosedLoopAlarmStart(Instant.now());
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());

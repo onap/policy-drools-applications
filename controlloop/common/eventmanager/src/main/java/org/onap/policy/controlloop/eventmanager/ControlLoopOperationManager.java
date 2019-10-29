@@ -37,6 +37,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -85,6 +86,7 @@ public class ControlLoopOperationManager implements Serializable {
     private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
 
     private static final String AAI_SERVICE_INSTANCE_ID_KEY = "service-instance.service-instance-id";
+    private static final String PNF_NAME = "pnf.pnf-name";
 
     //
     // These properties are not changeable, but accessible
@@ -123,9 +125,13 @@ public class ControlLoopOperationManager implements Serializable {
         this.eventManager = em;
 
         try {
-
-            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                this.aaiCqResponse = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
+            if (TargetType.VNF.equals(policy.getTarget().getType())
+                        || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
+                String aaiCqEnvProp =
+                        PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY);
+                if (StringUtils.isBlank(aaiCqEnvProp) || Boolean.valueOf(aaiCqEnvProp)) {
+                    this.aaiCqResponse = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
+                }
             }
 
             this.targetEntity = getTarget(policy);
@@ -250,7 +256,7 @@ public class ControlLoopOperationManager implements Serializable {
 
         switch (policy.getTarget().getType()) {
             case PNF:
-                throw new ControlLoopException("PNF target is not supported");
+                return getPnfTarget();
             case VM:
             case VNF:
                 return getVfModuleTarget();
@@ -297,6 +303,15 @@ public class ControlLoopOperationManager implements Serializable {
             }
         }
         throw new ControlLoopException("Target does not match target type");
+    }
+
+    private String getPnfTarget() throws ControlLoopException {
+        VirtualControlLoopEvent virtualOnsetEvent = (VirtualControlLoopEvent) this.onset;
+        if (!PNF_NAME.equalsIgnoreCase(onset.getTarget())) {
+            throw new ControlLoopException(
+                    "Target in the onset event is either null or does not match target key expected in AAI section.");
+        }
+        return virtualOnsetEvent.getAai().get(PNF_NAME);
     }
 
     /**
@@ -485,7 +500,8 @@ public class ControlLoopOperationManager implements Serializable {
                 result.put(AAI_SERVICE_INSTANCE_ID_KEY, serviceInstance.getServiceInstanceId());
                 result.put(GENERIC_VNF_VNF_ID, genericVnf.getVnfId());
             }
-
+        } else if (TargetType.PNF.equals(policy.getTarget().getType())) {
+            result = this.eventManager.getPnf((VirtualControlLoopEvent) onset);
         }
 
         return result;
