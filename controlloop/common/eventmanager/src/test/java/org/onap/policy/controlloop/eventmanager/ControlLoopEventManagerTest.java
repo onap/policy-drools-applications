@@ -66,6 +66,7 @@ import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
@@ -145,11 +146,12 @@ public class ControlLoopEventManagerTest {
         onset.setRequestId(UUID.randomUUID());
         onset.setTarget("VM_NAME");
         onset.setClosedLoopAlarmStart(Instant.now());
-        onset.setAai(new HashMap<String, String>());
+        onset.setAai(new HashMap<>());
         onset.getAai().put("cloud-region.identity-url", "foo");
         onset.getAai().put("vserver.selflink", "bar");
         onset.getAai().put(VNF_ID, VNF_UUID);
         onset.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        onset.setTargetType(ControlLoopTargetType.VNF);
 
         PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, "http://localhost:6666");
     }
@@ -212,6 +214,7 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(event);
         VirtualControlLoopNotification notification = manager.activate(event);
@@ -236,6 +239,7 @@ public class ControlLoopEventManagerTest {
         event2.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event2.setAai(new HashMap<>());
         event2.getAai().put(VNF_NAME, "onsetTwo");
+        event2.setTargetType(ControlLoopTargetType.VNF);
 
 
         status = manager.onNewEvent(event2);
@@ -440,6 +444,7 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(event);
         manager.setActivated(true);
@@ -459,6 +464,7 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(event);
 
@@ -505,6 +511,7 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(event);
         ControlLoopEventManager manager2 = manager;
@@ -572,6 +579,8 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.getAai().put(VSERVER_NAME, "test-vserver");
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(event);
         ControlLoopEventManager manager2 = manager;
@@ -781,6 +790,7 @@ public class ControlLoopEventManagerTest {
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
 
         VirtualControlLoopEvent abatedEvent = new VirtualControlLoopEvent();
         abatedEvent.setClosedLoopControlName(TWO_ONSET_TEST);
@@ -846,6 +856,9 @@ public class ControlLoopEventManagerTest {
         checkSyntaxEvent.setAai(new HashMap<>());
         assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
+        checkSyntaxEvent.setTargetType("");
+        assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
+
         checkSyntaxEvent.setTarget("");
         assertEquals(NewEventStatus.SYNTAX_ERROR, manager.onNewEvent(checkSyntaxEvent));
 
@@ -900,6 +913,7 @@ public class ControlLoopEventManagerTest {
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
         assertTrue(0 == manager.getControlLoopTimeout(null));
@@ -926,6 +940,7 @@ public class ControlLoopEventManagerTest {
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
 
@@ -951,6 +966,7 @@ public class ControlLoopEventManagerTest {
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
+        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
 
@@ -972,8 +988,8 @@ public class ControlLoopEventManagerTest {
 
         ControlLoopEventManager mgr = makeManager(onset);
 
-        assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class)
-                        .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
+        assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class).hasMessage(
+                "is-closed-loop-disabled is set to true on VServer or VNF or in-maint is set to true for PNF");
         assertNull(mgr.getVnfResponse());
         assertNull(mgr.getVserverResponse());
     }
@@ -986,7 +1002,7 @@ public class ControlLoopEventManagerTest {
         ControlLoopEventManager mgr = makeManager(onset);
 
         assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class)
-                        .hasMessage("prov-status is not ACTIVE on VServer or VNF");
+                        .hasMessage("prov-status is not ACTIVE on VServer or VNF or PNF");
         assertNull(mgr.getVnfResponse());
         assertNull(mgr.getVserverResponse());
     }
@@ -1343,6 +1359,8 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_ID, ONSET_ONE);
+        event.getAai().put(VSERVER_NAME, "test-vserver");
+        event.setTargetType(ControlLoopTargetType.VNF);
         return event;
     }
 

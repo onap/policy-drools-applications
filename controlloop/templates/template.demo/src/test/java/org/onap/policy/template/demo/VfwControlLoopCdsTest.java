@@ -30,6 +30,7 @@ import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -254,12 +255,16 @@ public class VfwControlLoopCdsTest extends ControlLoopBase implements TopicListe
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
         event.setRequestId(requestId);
+        event.setTargetType("VNF");
         event.setTarget("generic-vnf.vnf-name");
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-name", "testGenericVnfID");
         event.getAai().put("vserver.vserver-name", "OzVServer");
         event.setClosedLoopEventStatus(status);
+        Map<String, String> map = new HashMap<>();
+        map.put("my-key", "my-value");
+        event.setAdditionalEventParams(map);
         kieSession.insert(event);
     }
 
