@@ -85,6 +85,8 @@ public class ControlLoopOperationManager implements Serializable {
     private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
 
     private static final String AAI_SERVICE_INSTANCE_ID_KEY = "service-instance.service-instance-id";
+    private static final String PNF_ID = "pnf.pnf-id";
+    private static final String PNF_NAME = "pnf.pnf-name";
 
     //
     // These properties are not changeable, but accessible
@@ -124,8 +126,12 @@ public class ControlLoopOperationManager implements Serializable {
 
         try {
 
-            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                this.aaiCqResponse = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
+            // TODO: Cleanup: AAI enrichment calls by targetType
+            if (TargetType.VNF.equals(policy.getTarget().getType())
+                        || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
+                if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+                    this.aaiCqResponse = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
+                }
             }
 
             this.targetEntity = getTarget(policy);
@@ -250,7 +256,7 @@ public class ControlLoopOperationManager implements Serializable {
 
         switch (policy.getTarget().getType()) {
             case PNF:
-                throw new ControlLoopException("PNF target is not supported");
+                return getPnfTarget();
             case VM:
             case VNF:
                 return getVfModuleTarget();
@@ -295,6 +301,16 @@ public class ControlLoopOperationManager implements Serializable {
             } catch (AaiException e) {
                 throw new ControlLoopException(e.getMessage(), e);
             }
+        }
+        throw new ControlLoopException("Target does not match target type");
+    }
+
+    private String getPnfTarget() throws ControlLoopException {
+        VirtualControlLoopEvent virtualOnsetEvent = (VirtualControlLoopEvent) this.onset;
+        if (this.onset.getTarget().equalsIgnoreCase(PNF_ID)) {
+            return virtualOnsetEvent.getAai().get(PNF_ID);
+        } else if (this.onset.getTarget().equalsIgnoreCase(PNF_NAME)) {
+            return virtualOnsetEvent.getAai().get(PNF_NAME);
         }
         throw new ControlLoopException("Target does not match target type");
     }
@@ -485,7 +501,8 @@ public class ControlLoopOperationManager implements Serializable {
                 result.put(AAI_SERVICE_INSTANCE_ID_KEY, serviceInstance.getServiceInstanceId());
                 result.put(GENERIC_VNF_VNF_ID, genericVnf.getVnfId());
             }
-
+        } else if (TargetType.PNF.equals(policy.getTarget().getType())) {
+            result = this.eventManager.getPnf((VirtualControlLoopEvent) onset);
         }
 
         return result;
