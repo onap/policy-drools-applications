@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "057d55ff_b684ab5f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-30T15:51:30Z",
+      "side": 1,
+      "message": "I don\u0027t see isClosedLoopDisabled modified, should it to check for pnf?",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce619156_68923a38",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
         "patchSetId": 1
@@ -59,6 +76,23 @@
     },
     {
       "key": {
+        "uuid": "1caae08a_cf28ef8f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-30T15:51:30Z",
+      "side": 1,
+      "message": "There\u0027s an inconsistency here, local var referring to pnfI, and constant referring to PNF_NAME.",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66c0898c_a7e9829d",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -70,6 +104,58 @@
       "writtenOn": "2019-10-30T13:09:27Z",
       "side": 1,
       "message": "I know it\u0027s more readable as is, but I think sonar will complain that the tests should be combined into one \"if\"",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d9e48ce_6b7aadd1",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-30T15:51:30Z",
+      "side": 1,
+      "message": "I would prefer readable :)\nAAI_CUSTOM_QUERY may be for some reason not set by the installation - need to account for that, and choose a default value for it, if not defined, probably should assume \"true\" here if undefined.",
+      "parentUuid": "66c0898c_a7e9829d",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3f3cf95_ae3998d5",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-30T15:51:30Z",
+      "side": 1,
+      "message": "check that getTarget() is not null\nprobably better if you can reverse the condition with the constant in the beginning - PNF_ID.equals...",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "836a5fcc_520178a0",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-10-30T15:51:30Z",
+      "side": 1,
+      "message": "same",
       "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
