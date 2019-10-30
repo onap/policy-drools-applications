@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ad44cbb_67e88d15",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-30T12:06:48Z",
+      "side": 1,
+      "message": "Whoa - how did that get in there?",
+      "range": {
+        "startLine": 748,
+        "startChar": 17,
+        "endLine": 748,
+        "endChar": 27
+      },
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
