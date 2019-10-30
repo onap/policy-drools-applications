@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "69d09bd0_78e93b5a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-30T13:09:27Z",
+      "side": 1,
+      "message": "I learned something new - thx!",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ad44cbb_67e88d15",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
         "patchSetId": 1
@@ -22,6 +39,40 @@
       "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce619156_68923a38",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-30T13:09:27Z",
+      "side": 1,
+      "message": "if both are required, then the logic is fine.  If only one is required (as the log message indicates), then \"||\" \u003d\u003e \"\u0026\u0026\".",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66c0898c_a7e9829d",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-10-30T13:09:27Z",
+      "side": 1,
+      "message": "I know it\u0027s more readable as is, but I think sonar will complain that the tests should be combined into one \"if\"",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
