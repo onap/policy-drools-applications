@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "f426a74d_326094fb",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "I am a bit confused about the different target-type definitions within the policy repos. TargetType defines VFMODULE, ControlLoopTargetType has VF, and ControlLoopEvent has been recently updated to use String instead of ControlLoopTargetType for target_type. We probably need to align them into one enum with the supported target-types? Maybe this can be handled in a separate patch under POLICY-1187, I will remove this from the patch",
+      "parentUuid": "0ad44cbb_67e88d15",
+      "range": {
+        "startLine": 748,
+        "startChar": 17,
+        "endLine": 748,
+        "endChar": 27
+      },
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "057d55ff_b684ab5f",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2019-10-30T15:51:30Z",
       "side": 1,
       "message": "I don\u0027t see isClosedLoopDisabled modified, should it to check for pnf?",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08976178_ffaf0d22",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "Yes, would like to retain the same logic for PNF type as well. Will update the method isClosedLoopDisabled()",
+      "parentUuid": "057d55ff_b684ab5f",
       "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -76,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "13b8c3ff_c531a5c7",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "I need to clean this up a bit. The assumption really is that whatever event it is that we get from PNF will contain the unique key to identify a PNF object in AAI. Much like the vserver-name we want the pnf-name also to be unique. I think a better way to implement the lookup is to either have a non-null PNF-ID or PNF-NAME that can uniquely identify the PNF object in AAI. Will rework this method accordingly.",
+      "parentUuid": "ce619156_68923a38",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1caae08a_cf28ef8f",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
         "patchSetId": 1
@@ -87,6 +147,24 @@
       "writtenOn": "2019-10-30T15:51:30Z",
       "side": 1,
       "message": "There\u0027s an inconsistency here, local var referring to pnfI, and constant referring to PNF_NAME.",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf1bd7f2_618170b4",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "Thats right! Will fix it.",
+      "parentUuid": "1caae08a_cf28ef8f",
       "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -128,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "de717972_b4719c81",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "Okie in that case the check can be replaced by a logger statement to have visibility if the property is enabled/disabled and proceed with the query in either case. Is that good?",
+      "parentUuid": "6d9e48ce_6b7aadd1",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f3cf95_ae3998d5",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -145,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "b5e32549_5495b96b",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "Makes sense, will fix it.",
+      "parentUuid": "c3f3cf95_ae3998d5",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "836a5fcc_520178a0",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
@@ -156,6 +270,24 @@
       "writtenOn": "2019-10-30T15:51:30Z",
       "side": 1,
       "message": "same",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ded93f20_d48d7838",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-01T16:51:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "836a5fcc_520178a0",
       "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
