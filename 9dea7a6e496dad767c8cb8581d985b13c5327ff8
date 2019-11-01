@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "fca041a8_b54b594f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-01T17:01:53Z",
+      "side": 1,
+      "message": "I think if AAI_CUSTOM_QUERY\u003dtrue or blank, it can proceed.  Otherwise (false) skip the query.",
+      "parentUuid": "de717972_b4719c81",
+      "revId": "9dea7a6e496dad767c8cb8581d985b13c5327ff8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f3cf95_ae3998d5",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 1
