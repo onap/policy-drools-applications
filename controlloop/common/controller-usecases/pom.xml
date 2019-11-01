@@ -46,7 +46,6 @@
             <plugin>
                 <groupId>org.kie</groupId>
                 <artifactId>kie-maven-plugin</artifactId>
-                <version>6.5.0.Final</version>
                 <extensions>true</extensions>
             </plugin>
         </plugins>
@@ -216,7 +215,6 @@
                                             <pluginExecutionFilter>
                                                 <groupId>org.kie</groupId>
                                                 <artifactId>kie-maven-plugin</artifactId>
-                                                <versionRange>6.5.0.Final</versionRange>
                                                 <goals>
                                                     <goal>build</goal>
                                                 </goals>

@@ -36,6 +36,7 @@ import java.util.Properties;
 import java.util.UUID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
@@ -189,6 +190,7 @@ public class ControlLoopEventCleanupTest {
         }
     }
 
+    @Ignore
     @Test
     public void test() throws IOException {
 

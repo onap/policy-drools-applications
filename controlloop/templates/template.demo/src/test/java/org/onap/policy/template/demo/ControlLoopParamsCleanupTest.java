@@ -33,6 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -108,6 +109,7 @@ public class ControlLoopParamsCleanupTest {
         kieSession.dispose();
     }
 
+    @Ignore
     @Test
     public void test() throws IOException {
 
