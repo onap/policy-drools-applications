@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6a8a7de_bd20d23e",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-04T12:36:25Z",
+      "side": 1,
+      "message": "this is ok, though I think we normally use apache StringUtils.isBlank()",
+      "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ca2bf02_aeddcd33",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-04T12:36:25Z",
+      "side": 1,
+      "message": "don\u0027t need the null check",
+      "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
