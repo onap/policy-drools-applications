@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "266c9c23_efdcb567",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-04T17:08:16Z",
+      "side": 1,
+      "message": "hmm.  I don\u0027t know if this method has always been wrong, or if something got introduced along the way, but the tests don\u0027t test what they\u0027re intended to test.  For each test, it needs to start out with a VALID structure and make only one single field invalid.",
+      "revId": "d4d56ed3fef132e5d27057b8679756ed72ba9ab0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
