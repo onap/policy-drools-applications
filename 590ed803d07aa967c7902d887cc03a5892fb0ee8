@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "824bd9be_b6e98648",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-04T13:04:42Z",
+      "side": 1,
+      "message": "Seems this could potentially give faulty return values. No check to determine whether VM/VNF/PNF are the target that is cared about for this control loop. I suppose we address this when we cleanup the code.",
+      "range": {
+        "startLine": 875,
+        "startChar": 1,
+        "endLine": 881,
+        "endChar": 0
+      },
+      "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6a8a7de_bd20d23e",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 3
