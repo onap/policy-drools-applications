@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "714b09b1_d70292a9",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-04T15:20:03Z",
+      "side": 1,
+      "message": "Makes sense, wanted to put a FIXME/TODO but looks like the whole class would need some cleaup.",
+      "parentUuid": "824bd9be_b6e98648",
+      "range": {
+        "startLine": 875,
+        "startChar": 1,
+        "endLine": 881,
+        "endChar": 0
+      },
+      "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6a8a7de_bd20d23e",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "499ab7fe_a850719d",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-04T15:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6a8a7de_bd20d23e",
+      "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ca2bf02_aeddcd33",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2019-11-04T12:36:25Z",
       "side": 1,
       "message": "don\u0027t need the null check",
+      "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2574a08_387bac5b",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-11-04T15:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ca2bf02_aeddcd33",
       "revId": "590ed803d07aa967c7902d887cc03a5892fb0ee8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
