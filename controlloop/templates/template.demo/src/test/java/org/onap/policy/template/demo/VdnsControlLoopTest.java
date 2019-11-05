@@ -35,6 +35,7 @@ import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -263,6 +264,7 @@ public class VdnsControlLoopTest extends ControlLoopBase implements TopicListene
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
         event.setRequestId(requestId);
         event.setTarget("vserver.vserver-name");
+        event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("vserver.vserver-name", "dfw1lb01lb01");
@@ -278,6 +280,7 @@ public class VdnsControlLoopTest extends ControlLoopBase implements TopicListene
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
         event.setRequestId(requestId);
         event.setTarget("vserver.vserver-name");
+        event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("vserver.vserver-name", vserverName);

@@ -38,6 +38,7 @@ import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
@@ -280,6 +281,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
         event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-name");
+        event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-name", "testGenericVnfID");
@@ -300,6 +302,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
         event.setClosedLoopControlName(policy.getControlLoop().getControlLoopName());
         event.setRequestId(requestId);
         event.setTarget("generic-vnf.vnf-name");
+        event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-name", vnfId);
