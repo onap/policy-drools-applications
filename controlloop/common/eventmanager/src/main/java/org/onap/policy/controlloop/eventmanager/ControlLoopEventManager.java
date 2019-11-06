@@ -828,7 +828,7 @@ public class ControlLoopEventManager implements Serializable {
             throw new AaiException("AAI Responded with a request error (query by " + queryTypeString + ")");
         }
 
-        if (aaiResponse.getIsClosedLoopDisabled()) {
+        if (aaiResponse.isClosedLoopDisabled()) {
             throw new AaiException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
         }
 

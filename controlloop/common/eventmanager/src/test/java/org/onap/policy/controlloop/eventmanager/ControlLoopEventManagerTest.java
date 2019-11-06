@@ -264,7 +264,7 @@ public class ControlLoopEventManagerTest {
         response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
         response.setOrchestrationStatus("Created");
         response.setInMaint(false);
-        response.setIsClosedLoopDisabled(false);
+        response.setClosedLoopDisabled(false);
         response.setResourceVersion("1494001988835");
         response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
 
@@ -313,7 +313,7 @@ public class ControlLoopEventManagerTest {
         response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
         response.setOrchestrationStatus("Created");
         response.setInMaint(false);
-        response.setIsClosedLoopDisabled(false);
+        response.setClosedLoopDisabled(false);
         response.setResourceVersion("1494001988835");
         response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
 
@@ -1108,7 +1108,7 @@ public class ControlLoopEventManagerTest {
     @Test
     public void testProcessVnfResponse_Success() throws Exception {
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
-        resp.setIsClosedLoopDisabled(false);
+        resp.setClosedLoopDisabled(false);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
         Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
     }
@@ -1131,7 +1131,7 @@ public class ControlLoopEventManagerTest {
 
         resp.setRequestError(new AaiNqRequestError());
 
-        resp.setIsClosedLoopDisabled(false);
+        resp.setClosedLoopDisabled(false);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
         Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, false);
     }
@@ -1142,7 +1142,7 @@ public class ControlLoopEventManagerTest {
         thrown.expectMessage("is-closed-loop-disabled is set to true (query by vnf-id)");
 
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
-        resp.setIsClosedLoopDisabled(true);
+        resp.setClosedLoopDisabled(true);
         resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
         Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
     }
@@ -1153,7 +1153,7 @@ public class ControlLoopEventManagerTest {
         thrown.expectMessage("prov-status is not ACTIVE (query by vnf-name)");
 
         AaiGetVnfResponse resp = new AaiGetVnfResponse();
-        resp.setIsClosedLoopDisabled(false);
+        resp.setClosedLoopDisabled(false);
         resp.setProvStatus("inactive1");
         Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, false);
     }
