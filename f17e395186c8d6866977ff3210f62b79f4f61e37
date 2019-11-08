@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16a006b9_cee8d8df",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-08T16:48:58Z",
+      "side": 1,
+      "message": "BTW the fact that all of this code is in the Constructor is something that annoys the heck out of me. That WILL be refactored at some point.",
+      "range": {
+        "startLine": 127,
+        "startChar": 1,
+        "endLine": 143,
+        "endChar": 9
+      },
+      "revId": "f17e395186c8d6866977ff3210f62b79f4f61e37",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
