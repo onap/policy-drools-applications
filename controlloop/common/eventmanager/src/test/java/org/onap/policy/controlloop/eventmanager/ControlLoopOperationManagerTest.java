@@ -64,7 +64,6 @@ import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;

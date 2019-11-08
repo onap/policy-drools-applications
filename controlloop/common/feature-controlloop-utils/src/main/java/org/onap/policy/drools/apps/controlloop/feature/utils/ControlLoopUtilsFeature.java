@@ -20,7 +20,6 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.utils;
 
-import java.io.IOException;
 import org.onap.policy.drools.features.PolicyEngineFeatureApi;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.simulators.Util;
