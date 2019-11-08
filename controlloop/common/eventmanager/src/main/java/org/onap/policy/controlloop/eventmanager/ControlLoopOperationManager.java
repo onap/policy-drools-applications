@@ -136,26 +136,7 @@ public class ControlLoopOperationManager implements Serializable {
 
             this.targetEntity = getTarget(policy);
 
-            //
-            // Let's make a sanity check
-            //
-            switch (policy.getActor()) {
-                case "APPC":
-                    initAppc(onset, policy);
-                    break;
-                case "SO":
-                    break;
-                case "SDNR":
-                    break;
-                case "VFC":
-                    break;
-                case "SDNC":
-                    break;
-                case "CDS":
-                    break;
-                default:
-                    throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
-            }
+            initActor(policy);
 
         } catch (AaiException e) {
             throw new ControlLoopException(e.getMessage(), e);
@@ -163,7 +144,31 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
 
-    private void initAppc(ControlLoopEvent onset, Policy policy) throws AaiException {
+    private void initActor(Policy policy) throws AaiException, ControlLoopException {
+        //
+        // Let's make a sanity check
+        //
+        switch (policy.getActor()) {
+            case "APPC":
+                initAppc(policy);
+                break;
+            case "SO":
+                break;
+            case "SDNR":
+                break;
+            case "VFC":
+                break;
+            case "SDNC":
+                break;
+            case "CDS":
+                break;
+            default:
+                throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
+        }
+    }
+
+
+    private void initAppc(Policy policy) throws AaiException {
         if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
             /*
              * The target vnf-id may not be the same as the source vnf-id specified in the yaml, the target
@@ -383,7 +388,7 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
 
-    private Object startSoOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
+    private Object startSoOperation(ControlLoopEvent onset, Operation operation) {
         SoActorServiceProvider soActorSp = new SoActorServiceProvider();
         if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
             this.operationRequest =
@@ -405,7 +410,7 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
 
-    private Object startVfcOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
+    private Object startVfcOperation(ControlLoopEvent onset, Operation operation) {
         if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
             this.operationRequest = VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, this.aaiCqResponse);

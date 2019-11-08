@@ -48,15 +48,33 @@ public class PolicyGuardYamlToXacml {
      * @param xacmlPolicyOutput the Xacml output
      */
     public static void fromYamlToXacml(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput) {
+        fromYamlToXacml(yamlFile, xacmlTemplate, xacmlPolicyOutput, PolicyGuardYamlToXacml::generateXacmlGuard,
+            constraint -> {
+                logger.debug("num: {}", constraint.getFreq_limit_per_target());
+                logger.debug("duration: {}", constraint.getTime_window());
+                logger.debug("time_in_range: {}", constraint.getActive_time_range());
+            });
+    }
+
+    /**
+     * Convert from Yaml to Xacml.
+     *
+     * @param yamlFile the Yaml file
+     * @param xacmlTemplate the Xacml template
+     * @param xacmlPolicyOutput the Xacml output
+     * @param generator function to generate the yaml from the xacml
+     * @param logConstraint function to log relevant fields of the constraint
+     */
+    public static void fromYamlToXacml(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput,
+                    Generator generator, Consumer<Constraint> logConstraint) {
+
         ControlLoopGuard yamlGuardObject = Util.loadYamlGuard(yamlFile);
         GuardPolicy guardPolicy = yamlGuardObject.getGuards().get(0);
         logger.debug("clname: {}", guardPolicy.getMatch_parameters().getControlLoopName());
         logger.debug("actor: {}", guardPolicy.getMatch_parameters().getActor());
         logger.debug("recipe: {}", guardPolicy.getMatch_parameters().getRecipe());
         Constraint constraint = guardPolicy.getLimit_constraints().get(0);
-        logger.debug("num: {}", constraint.getFreq_limit_per_target());
-        logger.debug("duration: {}", constraint.getTime_window());
-        logger.debug("time_in_range: {}", constraint.getActive_time_range());
+        logConstraint.accept(constraint);
 
         Path xacmlTemplatePath = Paths.get(xacmlTemplate);
         String xacmlTemplateContent;
@@ -64,7 +82,7 @@ public class PolicyGuardYamlToXacml {
         try {
             xacmlTemplateContent = new String(Files.readAllBytes(xacmlTemplatePath));
 
-            String xacmlPolicyContent = generateXacmlGuard(xacmlTemplateContent,
+            String xacmlPolicyContent = generator.apply(xacmlTemplateContent,
                     guardPolicy.getMatch_parameters(), constraint);
 
             Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
@@ -160,30 +178,12 @@ public class PolicyGuardYamlToXacml {
      * @param xacmlPolicyOutput the Xacml output
      */
     public static void fromYamlToXacmlBlacklist(String yamlFile, String xacmlTemplate, String xacmlPolicyOutput) {
-        ControlLoopGuard yamlGuardObject = Util.loadYamlGuard(yamlFile);
-        GuardPolicy guardPolicy = yamlGuardObject.getGuards().get(0);
-        logger.debug("actor: {}", guardPolicy.getMatch_parameters().getActor());
-        logger.debug("recipe: {}", guardPolicy.getMatch_parameters().getRecipe());
-        Constraint constraint = guardPolicy.getLimit_constraints().get(0);
-        logger.debug("freq_limit_per_target: {}", constraint.getFreq_limit_per_target());
-        logger.debug("time_window: {}", constraint.getTime_window());
-        logger.debug("active_time_range: {}", constraint.getActive_time_range());
-
-        Path xacmlTemplatePath = Paths.get(xacmlTemplate);
-        String xacmlTemplateContent;
-
-        try {
-            xacmlTemplateContent = new String(Files.readAllBytes(xacmlTemplatePath));
-            String xacmlPolicyContent = generateXacmlGuardBlacklist(xacmlTemplateContent,
-                    guardPolicy.getMatch_parameters(), constraint);
-
-            logger.debug("{}", xacmlPolicyContent);
-
-            Files.write(Paths.get(xacmlPolicyOutput), xacmlPolicyContent.getBytes());
-
-        } catch (IOException e) {
-            logger.error("fromYamlToXacmlBlacklist threw: ", e);
-        }
+        fromYamlToXacml(yamlFile, xacmlTemplate, xacmlPolicyOutput, PolicyGuardYamlToXacml::generateXacmlGuardBlacklist,
+            constraint -> {
+                logger.debug("freq_limit_per_target: {}", constraint.getFreq_limit_per_target());
+                logger.debug("time_window: {}", constraint.getTime_window());
+                logger.debug("active_time_range: {}", constraint.getActive_time_range());
+            });
     }
 
     private static String generateXacmlGuardBlacklist(String xacmlTemplateContent, MatchParameters matchParameters,
@@ -200,5 +200,11 @@ public class PolicyGuardYamlToXacml {
         result = result.replace("\t\t\t\t\t\t\\${blackListElement}\n", "");
 
         return result;
+    }
+
+    @FunctionalInterface
+    private static interface Generator {
+        public String apply(String xacmlTemplateContent, MatchParameters matchParameters,
+            Constraint constraint);
     }
 }

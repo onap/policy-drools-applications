@@ -746,19 +746,27 @@ public class ControlLoopEventManager implements Serializable {
         switch (event.getTargetType()) {
             case VM:
             case VNF:
-                if (eventAai.get(GENERIC_VNF_VNF_ID) == null && eventAai.get(VSERVER_VSERVER_NAME) == null
-                            && eventAai.get(GENERIC_VNF_VNF_NAME) == null) {
-                    throw new ControlLoopException(
-                            "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
-                }
+                validateAaiVmVnfData(eventAai);
                 return;
             case PNF:
-                if (eventAai.get(PNF_NAME) == null) {
-                    throw new ControlLoopException("AAI PNF object key pnf-name is missing");
-                }
+                validateAaiPnfData(eventAai);
                 return;
             default:
                 throw new ControlLoopException("The target type is not supported");
+        }
+    }
+
+    private void validateAaiVmVnfData(Map<String, String> eventAai) throws ControlLoopException {
+        if (eventAai.get(GENERIC_VNF_VNF_ID) == null && eventAai.get(VSERVER_VSERVER_NAME) == null
+                    && eventAai.get(GENERIC_VNF_VNF_NAME) == null) {
+            throw new ControlLoopException(
+                    "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
+        }
+    }
+
+    private void validateAaiPnfData(Map<String, String> eventAai) throws ControlLoopException {
+        if (eventAai.get(PNF_NAME) == null) {
+            throw new ControlLoopException("AAI PNF object key pnf-name is missing");
         }
     }
 
@@ -772,19 +780,7 @@ public class ControlLoopEventManager implements Serializable {
 
         Map<String, String> aai = event.getAai();
 
-        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)
-                    || aai.containsKey(PNF_IS_IN_MAINT)) {
-
-            if (isClosedLoopDisabled(event)) {
-                throw new AaiException(
-                        "is-closed-loop-disabled is set to true on VServer or VNF or in-maint is set to true for PNF");
-            }
-
-            if (isProvStatusInactive(event)) {
-                throw new AaiException("prov-status is not ACTIVE on VServer or VNF or PNF");
-            }
-
-            // no need to query, as we already have the data
+        if (alreadyHaveData(event, aai)) {
             return;
         }
 
@@ -808,6 +804,26 @@ public class ControlLoopEventManager implements Serializable {
             logger.error(QUERY_AAI_ERROR_MSG, e);
             throw new AaiException(QUERY_AAI_ERROR_MSG + e.toString());
         }
+    }
+
+    private boolean alreadyHaveData(VirtualControlLoopEvent event, Map<String, String> aai) throws AaiException {
+        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)
+                    || aai.containsKey(PNF_IS_IN_MAINT)) {
+
+            if (isClosedLoopDisabled(event)) {
+                throw new AaiException(
+                        "is-closed-loop-disabled is set to true on VServer or VNF or in-maint is set to true for PNF");
+            }
+
+            if (isProvStatusInactive(event)) {
+                throw new AaiException("prov-status is not ACTIVE on VServer or VNF or PNF");
+            }
+
+            // no need to query, as we already have the data
+            return true;
+        }
+
+        return false;
     }
 
     /**
