@@ -235,7 +235,7 @@ public class VdnsControlLoopCqTest extends ControlLoopBase implements TopicListe
         event.setTargetType(ControlLoopTargetType.VNF);
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
-        event.getAai().put("vserver.vserver-name", "Ete_vFWCLvFWSNK_7ba1fbde_0");
+        event.getAai().put("vserver.vserver-name", "OzVServer");
         event.getAai().put("vserver.is-closed-loop-disabled", "false");
         event.getAai().put("vserver.prov-status", "ACTIVE");
         event.setClosedLoopEventStatus(status);

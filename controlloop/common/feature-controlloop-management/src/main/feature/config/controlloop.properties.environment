@@ -51,8 +51,6 @@ sdnc.url=${env:SDNC_URL}
 sdnc.username=${env:SDNC_USERNAME}
 sdnc.password=${env:SDNC_PASSWORD}
 
-aai.customQuery=true
-
 cds.grpcHost=${env:CDS_GRPC_HOST}
 cds.grpcPort=${env:CDS_GRPC_PORT}
 cds.grpcUsername=${env:CDS_GRPC_USERNAME}
