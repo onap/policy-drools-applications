@@ -50,28 +50,15 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.aai.AaiGetVnfResponse;
-import org.onap.policy.aai.AaiGetVserverResponse;
-import org.onap.policy.aai.AaiNqRequestError;
-import org.onap.policy.aai.AaiNqResponseWrapper;
-import org.onap.policy.aai.AaiNqVServer;
-import org.onap.policy.aai.RelatedToProperty;
-import org.onap.policy.aai.Relationship;
-import org.onap.policy.aai.RelationshipData;
-import org.onap.policy.aai.RelationshipList;
-import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopTargetType;
-import org.onap.policy.controlloop.SupportUtil;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEventStatus;
-import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
@@ -81,34 +68,16 @@ import org.powermock.reflect.Whitebox;
 
 public class ControlLoopEventManagerTest {
     private static final String TARGET_LOCK_FIELD = "targetLock";
-    private static final String PROCESS_VSERVER_RESPONSE = "processVServerResponse";
     private static final String ONSET_ONE = "onsetOne";
     private static final String VSERVER_NAME = "vserver.vserver-name";
     private static final String TEST_YAML = "src/test/resources/test.yaml";
-    private static final String SERVICE_TYPE = "service-subscription.service-type";
-    private static final String SERVICE_INSTANCE_NAME = "service-instance.service-instance-name";
-    private static final String SERVICE_INSTANCE_ID = "service-instance.service-instance-id";
-    private static final String SERVICE_INSTANCE = "service-instance";
-    private static final String VNF_NAME_TEXT = "lll_vnf_010317";
-    private static final String SERVICE_INSTANCE_NAME_TEXT = "lll_svc_010317";
     private static final String VNF_NAME = "generic-vnf.vnf-name";
     private static final String VNF_ID = "generic-vnf.vnf-id";
-    private static final String SERVICE_INSTANCE_UUID = "e1e9c97c-02c0-4919-9b4c-eb5d5ef68970";
-    private static final String MSO_CUSTOMER_ID = "customer.global-customer-id";
     private static final String AAI_USERNAME = "aai.username";
     private static final String AAI_URL = "aai.url";
     private static final String AAI_PASS = "aai.password";
     private static final String TWO_ONSET_TEST = "TwoOnsetTest";
-    private static final String MSO_1610_ST = "MSO_1610_ST";
-    private static final String MSO_DEV_SERVICE_TYPE = "MSO-dev-service-type";
     private static final String VNF_UUID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
-    private static final String AAI_SERVICE_SUBSCRIPTION_URI =
-                    "/aai/v11/business/customers/customer/MSO_1610_ST/service-subscriptions/service-subscription";
-    private static final String MSO_SERVICE_INSTANCE_URI = "/MSO-dev-service-type/service-instances/service-instance/";
-
-    private static final String PROCESS_VNF_RESPONSE_METHOD_NAME = "processVnfResponse";
-
-    private static final String INVALID_URL = "http://localhost:9999";
 
 
     @Rule
@@ -155,251 +124,6 @@ public class ControlLoopEventManagerTest {
         onset.setTargetType(ControlLoopTargetType.VNF);
 
         PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, "http://localhost:6666");
-    }
-
-    @Test
-    public void testAaiVnfInfo() throws IOException {
-        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
-        onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
-        AaiGetVnfResponse response = getQueryByVnfId2();
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testAaiVnfInfo2() throws IOException {
-        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
-        onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
-        AaiGetVnfResponse response = getQueryByVnfName2();
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testAaiVserver() throws IOException {
-        final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
-        onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
-        AaiGetVserverResponse response = getQueryByVserverName2();
-        assertNotNull(response);
-    }
-
-    @Test
-    public void abatementCheckEventSyntaxTest() throws ControlLoopException {
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName("abatementAAI");
-        event.setRequestId(UUID.randomUUID());
-        event.setTarget(VNF_ID);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
-        ControlLoopEventManager manager = makeManager(event);
-        assertNull(manager.getVnfResponse());
-        assertNull(manager.getVserverResponse());
-        manager.checkEventSyntax(event);
-        assertNull(manager.getVnfResponse());
-        assertNull(manager.getVserverResponse());
-
-
-        event.setAai(new HashMap<>());
-        event.getAai().put(VNF_NAME, "abatementTest");
-        manager.checkEventSyntax(event);
-        assertNull(manager.getVnfResponse());
-        assertNull(manager.getVserverResponse());
-    }
-
-    @Test
-    public void subsequentOnsetTest() throws Exception {
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(TWO_ONSET_TEST);
-        event.setRequestId(requestId);
-        event.setTarget(VNF_ID);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAai(new HashMap<>());
-        event.getAai().put(VNF_NAME, ONSET_ONE);
-        event.setTargetType(ControlLoopTargetType.VNF);
-
-        ControlLoopEventManager manager = makeManager(event);
-        VirtualControlLoopNotification notification = manager.activate(event);
-
-        assertNotNull(notification);
-        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
-
-        ControlLoopEventManager.NewEventStatus status = null;
-        status = manager.onNewEvent(event);
-        assertNotNull(status);
-        assertEquals(ControlLoopEventManager.NewEventStatus.FIRST_ONSET, status);
-
-        AaiGetVnfResponse response = manager.getVnfResponse();
-        assertNotNull(response);
-        assertNull(manager.getVserverResponse());
-
-        VirtualControlLoopEvent event2 = new VirtualControlLoopEvent();
-        event2.setClosedLoopControlName(TWO_ONSET_TEST);
-        event2.setRequestId(requestId);
-        event2.setTarget(VNF_ID);
-        event2.setClosedLoopAlarmStart(Instant.now());
-        event2.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event2.setAai(new HashMap<>());
-        event2.getAai().put(VNF_NAME, "onsetTwo");
-        event2.setTargetType(ControlLoopTargetType.VNF);
-
-
-        status = manager.onNewEvent(event2);
-        assertEquals(ControlLoopEventManager.NewEventStatus.SUBSEQUENT_ONSET, status);
-        AaiGetVnfResponse response2 = manager.getVnfResponse();
-        assertNotNull(response2);
-        // We should not have queried AAI, so the stored response should be the same
-        assertEquals(response, response2);
-        assertNull(manager.getVserverResponse());
-    }
-
-    /**
-     * Simulate a response.
-     */
-    public static AaiGetVnfResponse getQueryByVnfId2() {
-        AaiGetVnfResponse response = new AaiGetVnfResponse();
-
-        response.setVnfId(VNF_UUID);
-        response.setVnfName(VNF_NAME_TEXT);
-        response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
-        response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
-        response.setOrchestrationStatus("Created");
-        response.setInMaint(false);
-        response.setClosedLoopDisabled(false);
-        response.setResourceVersion("1494001988835");
-        response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
-
-        final RelationshipList relationshipList = new RelationshipList();
-        final Relationship relationship = new Relationship();
-        RelationshipData relationshipDataItem = new RelationshipData();
-
-        relationshipDataItem.setRelationshipKey(MSO_CUSTOMER_ID);
-        relationshipDataItem.setRelationshipValue(MSO_1610_ST);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey(SERVICE_TYPE);
-        relationshipDataItem.setRelationshipValue(MSO_DEV_SERVICE_TYPE);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey(SERVICE_INSTANCE_ID);
-        relationshipDataItem.setRelationshipValue(SERVICE_INSTANCE_UUID);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        RelatedToProperty item = new RelatedToProperty();
-        item.setPropertyKey(SERVICE_INSTANCE_NAME);
-        item.setPropertyValue(SERVICE_INSTANCE_NAME_TEXT);
-        relationship.getRelatedToProperty().add(item);
-
-        relationship.setRelatedTo(SERVICE_INSTANCE);
-        relationship.setRelatedLink(
-                AAI_SERVICE_SUBSCRIPTION_URI
-                        + MSO_SERVICE_INSTANCE_URI
-                        + SERVICE_INSTANCE_UUID);
-
-        relationshipList.getRelationships().add(relationship);
-        response.setRelationshipList(relationshipList);
-
-        return response;
-    }
-
-    /**
-     * Simulate a response.
-     */
-    public static AaiGetVnfResponse getQueryByVnfName2() {
-        AaiGetVnfResponse response = new AaiGetVnfResponse();
-
-        response.setVnfId(VNF_UUID);
-        response.setVnfName(VNF_NAME_TEXT);
-        response.setVnfType("Basa-122216-Service/VidVsamp12BaseVolume 1");
-        response.setServiceId("a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb");
-        response.setOrchestrationStatus("Created");
-        response.setInMaint(false);
-        response.setClosedLoopDisabled(false);
-        response.setResourceVersion("1494001988835");
-        response.setModelInvariantId("f18be3cd-d446-456e-9109-121d9b62feaa");
-
-        final RelationshipList relationshipList = new RelationshipList();
-        final Relationship relationship = new Relationship();
-        RelationshipData relationshipDataItem = new RelationshipData();
-
-        relationshipDataItem.setRelationshipKey(MSO_CUSTOMER_ID);
-        relationshipDataItem.setRelationshipValue(MSO_1610_ST);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey(SERVICE_TYPE);
-        relationshipDataItem.setRelationshipValue(MSO_DEV_SERVICE_TYPE);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey(SERVICE_INSTANCE_ID);
-        relationshipDataItem.setRelationshipValue(SERVICE_INSTANCE_UUID);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        RelatedToProperty item = new RelatedToProperty();
-        item.setPropertyKey(SERVICE_INSTANCE_NAME);
-        item.setPropertyValue(SERVICE_INSTANCE_NAME_TEXT);
-        relationship.getRelatedToProperty().add(item);
-
-        relationship.setRelatedTo(SERVICE_INSTANCE);
-        relationship.setRelatedLink(
-                AAI_SERVICE_SUBSCRIPTION_URI
-                        + MSO_SERVICE_INSTANCE_URI
-                        + SERVICE_INSTANCE_UUID);
-
-        relationshipList.getRelationships().add(relationship);
-        response.setRelationshipList(relationshipList);
-
-        return response;
-    }
-
-    /**
-     * Simulate a response.
-     */
-    public static AaiGetVserverResponse getQueryByVserverName2() {
-        final AaiGetVserverResponse response = new AaiGetVserverResponse();
-
-        AaiNqVServer svr = new AaiNqVServer();
-
-        svr.setVserverId("d0668d4f-c25e-4a1b-87c4-83845c01efd8");
-        svr.setVserverName("USMSO1SX7NJ0103UJZZ01-vjunos0");
-        svr.setVserverName2("vjunos0");
-        svr.setVserverSelflink(
-                "https://aai-ext1.test.att.com:8443/aai/v7/cloud-infrastructure/cloud-regions/cloud-region/att-aic/AAIAIC25/tenants/tenant/USMSO1SX7NJ0103UJZZ01%3A%3AuCPE-VMS/vservers/vserver/d0668d4f-c25e-4a1b-87c4-83845c01efd8");
-        svr.setInMaint(false);
-        svr.setIsClosedLoopDisabled(false);
-        svr.setResourceVersion("1494001931513");
-
-        final RelationshipList relationshipList = new RelationshipList();
-        final Relationship relationship = new Relationship();
-        RelationshipData relationshipDataItem = new RelationshipData();
-
-        relationshipDataItem.setRelationshipKey(MSO_CUSTOMER_ID);
-        relationshipDataItem.setRelationshipValue(MSO_1610_ST);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey(SERVICE_TYPE);
-        relationshipDataItem.setRelationshipValue(MSO_DEV_SERVICE_TYPE);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        relationshipDataItem.setRelationshipKey(SERVICE_INSTANCE_ID);
-        relationshipDataItem.setRelationshipValue(SERVICE_INSTANCE_UUID);
-        relationship.getRelationshipData().add(relationshipDataItem);
-
-        RelatedToProperty item = new RelatedToProperty();
-        item.setPropertyKey(SERVICE_INSTANCE_NAME);
-        item.setPropertyValue(SERVICE_INSTANCE_NAME_TEXT);
-        relationship.getRelatedToProperty().add(item);
-
-        relationship.setRelatedTo(SERVICE_INSTANCE);
-        relationship.setRelatedLink(
-                AAI_SERVICE_SUBSCRIPTION_URI
-                        + MSO_SERVICE_INSTANCE_URI
-                        + SERVICE_INSTANCE_UUID);
-
-        relationshipList.getRelationships().add(relationship);
-        svr.setRelationshipList(relationshipList);
-
-        response.getVserver().add(svr);
-
-        return response;
     }
 
     @Test
@@ -580,7 +304,7 @@ public class ControlLoopEventManagerTest {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setAai(new HashMap<>());
         event.getAai().put(VNF_NAME, ONSET_ONE);
-        event.getAai().put(VSERVER_NAME, "test-vserver");
+        event.getAai().put(VSERVER_NAME, "testVserverName");
         event.setTargetType(ControlLoopTargetType.VNF);
 
         ControlLoopEventManager manager = makeManager(event);
@@ -664,6 +388,8 @@ public class ControlLoopEventManagerTest {
         VirtualControlLoopNotification notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+        
+        event.getAai().put(VSERVER_NAME, "testVserverName");
 
         // serialize and de-serialize manager
         manager = Serializer.roundTrip(manager);
@@ -709,6 +435,8 @@ public class ControlLoopEventManagerTest {
                         .hasMessage("Do not have a current operation.");
 
         assertNull(manager.unlockCurrentOperation());
+        
+        event.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopOperationManager clom = manager.processControlLoop();
         assertNotNull(clom);
@@ -983,249 +711,6 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testQueryAai_AlreadyDisabled() throws AaiException {
-        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.TRUE.toString());
-        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE);
-
-        ControlLoopEventManager mgr = makeManager(onset);
-
-        assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class).hasMessage(
-                "is-closed-loop-disabled is set to true on VServer or VNF or in-maint is set to true for PNF");
-        assertNull(mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-    }
-
-    @Test
-    public void testQueryAai_AlreadyInactive() throws AaiException {
-        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, Boolean.FALSE.toString());
-        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS, "not-active2");
-
-        ControlLoopEventManager mgr = makeManager(onset);
-
-        assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class)
-                        .hasMessage("prov-status is not ACTIVE on VServer or VNF or PNF");
-        assertNull(mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-    }
-
-    @Test
-    public void testQueryAai_QueryVnfById() throws AaiException {
-        ControlLoopEventManager mgr = null;
-
-        mgr = makeManager(onset);
-        mgr.queryAai(onset);
-
-        assertNotNull(mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-
-        AaiGetVnfResponse vnfresp = mgr.getVnfResponse();
-
-        // should not re-query
-        mgr.queryAai(onset);
-
-        assertEquals(vnfresp, mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-    }
-
-    @Test
-    public void testQueryAai_QueryVnfByName() throws AaiException {
-        ControlLoopEventManager mgr = null;
-
-        // vnf query by name
-        onset.getAai().remove(ControlLoopEventManager.GENERIC_VNF_VNF_ID);
-        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_VNF_NAME, "AVNFName");
-
-        mgr = makeManager(onset);
-        mgr.queryAai(onset);
-
-        assertNotNull(mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-
-        AaiGetVnfResponse vnfresp = mgr.getVnfResponse();
-
-        // should not re-query
-        mgr.queryAai(onset);
-
-        assertEquals(vnfresp, mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-    }
-
-    @Test
-    public void testQueryAai_QueryVnfById_Disabled() {
-        onset.getAai().put(ControlLoopEventManager.GENERIC_VNF_VNF_ID, "disableClosedLoop");
-
-        ControlLoopEventManager mgr = makeManager(onset);
-
-        assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class)
-                        .hasMessage("is-closed-loop-disabled is set to true (query by vnf-id)");
-
-        assertNotNull(mgr.getVnfResponse());
-        assertNull(mgr.getVserverResponse());
-    }
-
-    @Test
-    public void testQueryAai_QueryVserver() throws AaiException {
-        onset.getAai().remove(ControlLoopEventManager.GENERIC_VNF_VNF_ID);
-        onset.getAai().put(ControlLoopEventManager.VSERVER_VSERVER_NAME, "AVserver");
-
-        ControlLoopEventManager mgr = makeManager(onset);
-        mgr.queryAai(onset);
-
-        assertNull(mgr.getVnfResponse());
-        assertNotNull(mgr.getVserverResponse());
-
-        AaiGetVserverResponse vsvresp = mgr.getVserverResponse();
-
-        // should not re-query
-        mgr.queryAai(onset);
-
-        assertNull(mgr.getVnfResponse());
-        assertEquals(vsvresp, mgr.getVserverResponse());
-    }
-
-    @Test
-    public void testQueryAai_QueryVserver_Disabled() {
-        onset.getAai().remove(ControlLoopEventManager.GENERIC_VNF_VNF_ID);
-        onset.getAai().put(ControlLoopEventManager.VSERVER_VSERVER_NAME, "disableClosedLoop");
-
-        ControlLoopEventManager mgr = makeManager(onset);
-
-        assertThatThrownBy(() -> mgr.queryAai(onset)).isInstanceOf(AaiException.class)
-                        .hasMessage("is-closed-loop-disabled is set to true (query by vserver-name)");
-
-        assertNull(mgr.getVnfResponse());
-        assertNotNull(mgr.getVserverResponse());
-    }
-
-    @Test(expected = AaiException.class)
-    public void testQueryAai_QueryException() throws AaiException {
-        // Force AAI errors
-        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, INVALID_URL);
-
-        makeManager(onset).queryAai(onset);
-    }
-
-    @Test
-    public void testProcessVnfResponse_Success() throws Exception {
-        AaiGetVnfResponse resp = new AaiGetVnfResponse();
-        resp.setClosedLoopDisabled(false);
-        resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
-    }
-
-    @Test
-    public void testProcessVnfResponse_NullResponse() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("AAI Response is null (query by vnf-id)");
-
-        AaiGetVnfResponse resp = null;
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
-    }
-
-    @Test
-    public void testProcessVnfResponse_Error() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("AAI Responded with a request error (query by vnf-name)");
-
-        AaiGetVnfResponse resp = new AaiGetVnfResponse();
-
-        resp.setRequestError(new AaiNqRequestError());
-
-        resp.setClosedLoopDisabled(false);
-        resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, false);
-    }
-
-    @Test
-    public void testProcessVnfResponse_Disabled() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("is-closed-loop-disabled is set to true (query by vnf-id)");
-
-        AaiGetVnfResponse resp = new AaiGetVnfResponse();
-        resp.setClosedLoopDisabled(true);
-        resp.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, true);
-    }
-
-    @Test
-    public void testProcessVnfResponse_Inactive() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("prov-status is not ACTIVE (query by vnf-name)");
-
-        AaiGetVnfResponse resp = new AaiGetVnfResponse();
-        resp.setClosedLoopDisabled(false);
-        resp.setProvStatus("inactive1");
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VNF_RESPONSE_METHOD_NAME, resp, false);
-    }
-
-    @Test
-    public void testProcessVserverResponse_Success() throws Exception {
-        AaiGetVserverResponse resp = new AaiGetVserverResponse();
-
-        AaiNqVServer svr = new AaiNqVServer();
-        resp.getVserver().add(svr);
-
-        svr.setIsClosedLoopDisabled(false);
-        svr.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VSERVER_RESPONSE, resp);
-    }
-
-    @Test
-    public void testProcessVserverResponse_NullResponse() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("AAI Response is null (query by vserver-name)");
-
-        AaiGetVserverResponse resp = null;
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VSERVER_RESPONSE, resp);
-    }
-
-    @Test
-    public void testProcessVserverResponse_Error() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("AAI Responded with a request error (query by vserver-name)");
-
-        AaiGetVserverResponse resp = new AaiGetVserverResponse();
-
-        resp.setRequestError(new AaiNqRequestError());
-
-        AaiNqVServer svr = new AaiNqVServer();
-        resp.getVserver().add(svr);
-
-        svr.setIsClosedLoopDisabled(false);
-        svr.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VSERVER_RESPONSE, resp);
-    }
-
-    @Test
-    public void testProcessVserverResponse_Disabled() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("is-closed-loop-disabled is set to true (query by vserver-name)");
-
-        AaiGetVserverResponse resp = new AaiGetVserverResponse();
-        AaiNqVServer svr = new AaiNqVServer();
-        resp.getVserver().add(svr);
-
-        svr.setIsClosedLoopDisabled(true);
-        svr.setProvStatus(ControlLoopEventManager.PROV_STATUS_ACTIVE);
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VSERVER_RESPONSE, resp);
-    }
-
-    @Test
-    public void testProcessVserverResponse_Inactive() throws Exception {
-        thrown.expect(AaiException.class);
-        thrown.expectMessage("prov-status is not ACTIVE (query by vserver-name)");
-
-        AaiGetVserverResponse resp = new AaiGetVserverResponse();
-        AaiNqVServer svr = new AaiNqVServer();
-        resp.getVserver().add(svr);
-
-        svr.setIsClosedLoopDisabled(false);
-        svr.setProvStatus("inactive1");
-        Whitebox.invokeMethod(ControlLoopEventManager.class, PROCESS_VSERVER_RESPONSE, resp);
-    }
-
-    @Test
     public void testIsClosedLoopDisabled() {
         Map<String, String> aai = onset.getAai();
 
@@ -1298,57 +783,6 @@ public class ControlLoopEventManagerTest {
         assertFalse(ControlLoopEventManager.isAaiTrue(null));
     }
 
-    @Test
-    public void testGetNqVserverFromAai() {
-
-        // empty vserver name
-        ControlLoopEventManager manager = makeManager(onset);
-        manager.activate(onset);
-        assertNull(manager.getNqVserverFromAai());
-
-
-        // re-create manager with a vserver name in the onset
-        onset.getAai().put(ControlLoopEventManager.VSERVER_VSERVER_NAME, "my-name");
-        manager = makeManager(onset);
-        manager.activate(onset);
-
-        AaiNqResponseWrapper resp = manager.getNqVserverFromAai();
-        assertNotNull(resp);
-        assertEquals(onset.getRequestId(), resp.getRequestId());
-        assertNotNull(resp.getAaiNqResponse());
-        assertFalse(resp.getAaiNqResponse().getInventoryResponseItems().isEmpty());
-
-        // re-query should return the same object
-        assertTrue(resp == manager.getNqVserverFromAai());
-
-
-        // Force AAI error
-        PolicyEngineConstants.getManager().setEnvironmentProperty(AAI_URL, INVALID_URL);
-
-        // re-create manager
-        manager = makeManager(onset);
-        manager.activate(onset);
-        assertNull(manager.getNqVserverFromAai());
-    }
-
-    @Test
-    public void testGetCqResponseEmptyVserver() throws AaiException {
-        ControlLoopEventManager mgr = makeManager(onset);
-        mgr.queryAai(onset);
-
-        assertThatThrownBy(() -> mgr.getCqResponse(onset)).isInstanceOf(AaiException.class)
-                        .hasMessage("Vserver name is missing");
-    }
-
-    @Test
-    public void testGetCqResponse() throws AaiException {
-        ControlLoopEventManager mgr = makeManager(onset);
-        mgr.queryAai(onset);
-        onset.getAai().put(VSERVER_NAME, "sample");
-
-        AaiCqResponse aaiCqResponse = mgr.getCqResponse(onset);
-        assertNotNull(aaiCqResponse);
-    }
 
     private VirtualControlLoopEvent makeEvent() {
         UUID requestId = UUID.randomUUID();

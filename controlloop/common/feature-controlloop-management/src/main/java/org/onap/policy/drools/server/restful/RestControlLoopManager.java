@@ -252,28 +252,4 @@ public class RestControlLoopManager {
             .build();
     }
 
-    /**
-     * AAI Named Query.
-     *
-     * @param vserverId vServer identifier.
-     * @return query results.
-     */
-    @GET
-    @Path("engine/tools/controlloops/aai/namedQuery/{vserverId}")
-    @ApiOperation(value = "AAI Custom Query")
-    public Response aaiNamedQuery(@ApiParam(value = "vserver Identifier") String vserverId) {
-        return Response
-            .status(Status.OK)
-            .entity(new AaiManager(new RestManager())
-                .postQuery(
-                    PolicyEngineConstants.getManager()
-                                    .getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty(
-                                    ControlLoopEventManager.AAI_USERNAME_PROPERTY),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty(
-                                    ControlLoopEventManager.AAI_PASS_PROPERTY),
-                    ControlLoopEventManager.getAaiNqRequest(vserverId),
-                    UUID.randomUUID()))
-            .build();
-    }
 }

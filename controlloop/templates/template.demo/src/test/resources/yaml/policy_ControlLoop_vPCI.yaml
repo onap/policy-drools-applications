@@ -26,7 +26,7 @@ policies:
     recipe: ModifyConfig
     target:
       # These fields are not used
-      resourceID: Eace933104d443b496b8.nodes.heat.vpg
+      resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
       type: VNF
     retry: 0
     timeout: 300

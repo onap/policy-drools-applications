@@ -27,13 +27,9 @@ import static org.onap.policy.controlloop.ControlLoopTargetType.VNF;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -42,16 +38,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.aai.AaiGetVnfResponse;
-import org.onap.policy.aai.AaiGetVserverResponse;
 import org.onap.policy.aai.AaiManager;
-import org.onap.policy.aai.AaiNqInstanceFilters;
-import org.onap.policy.aai.AaiNqNamedQuery;
-import org.onap.policy.aai.AaiNqQueryParameters;
-import org.onap.policy.aai.AaiNqRequest;
-import org.onap.policy.aai.AaiNqResponse;
-import org.onap.policy.aai.AaiNqResponseWrapper;
-import org.onap.policy.aai.AaiNqVServer;
 import org.onap.policy.aai.util.AaiException;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -69,7 +56,6 @@ import org.onap.policy.drools.core.lock.LockState;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.Pair;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.so.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +78,6 @@ public class ControlLoopEventManager implements Serializable {
     public static final String AAI_USERNAME_PROPERTY = "aai.username";
     public static final String AAI_PASS_PROPERTY = "aai.password";
 
-    private static final String QUERY_AAI_ERROR_MSG = "Exception from queryAai: ";
 
     /**
      * Additional time, in seconds, to add to a "lock" request. This ensures that the lock won't expire right before an
@@ -128,23 +113,7 @@ public class ControlLoopEventManager implements Serializable {
     private ControlLoopOperationManager currentOperation = null;
     private ControlLoopOperationManager lastOperationManager = null;
     private transient Lock targetLock = null;
-    private AaiGetVnfResponse vnfResponse = null;
-    private AaiGetVserverResponse vserverResponse = null;
     private boolean useTargetLock = true;
-
-    /**
-     * Wrapper for AAI vserver named-query response. This is initialized in a lazy fashion.
-     */
-    private AaiNqResponseWrapper nqVserverResponse = null;
-
-    private static Collection<String> requiredAAIKeys = new ArrayList<>();
-
-    static {
-        requiredAAIKeys.add("AICVServerSelfLink");
-        requiredAAIKeys.add("AICIdentity");
-        requiredAAIKeys.add("is_closed_loop_disabled");
-        requiredAAIKeys.add(VM_NAME);
-    }
 
     /**
      * Constructs the object.
@@ -592,11 +561,6 @@ public class ControlLoopEventManager implements Serializable {
                 //
                 if (event.equals(this.onset)) {
                     //
-                    // Query A&AI if needed
-                    //
-                    queryAai(event);
-
-                    //
                     // DO NOT retract it
                     //
                     return NewEventStatus.FIRST_ONSET;
@@ -697,14 +661,6 @@ public class ControlLoopEventManager implements Serializable {
         return 0;
     }
 
-    public AaiGetVnfResponse getVnfResponse() {
-        return vnfResponse;
-    }
-
-    public AaiGetVserverResponse getVserverResponse() {
-        return vserverResponse;
-    }
-
     /**
      * Check an event syntax.
      *
@@ -771,118 +727,6 @@ public class ControlLoopEventManager implements Serializable {
     }
 
     /**
-     * Query A&AI for an event.
-     *
-     * @param event the event
-     * @throws AaiException if an error occurs retrieving information from A&AI
-     */
-    public void queryAai(VirtualControlLoopEvent event) throws AaiException {
-
-        Map<String, String> aai = event.getAai();
-
-        if (alreadyHaveData(event, aai)) {
-            return;
-        }
-
-        if (vnfResponse != null || vserverResponse != null) {
-            // query has already been performed
-            return;
-        }
-
-        try {
-            if (aai.containsKey(GENERIC_VNF_VNF_ID) || aai.containsKey(GENERIC_VNF_VNF_NAME)) {
-                vnfResponse = getAaiVnfInfo(event);
-                processVnfResponse(vnfResponse, aai.containsKey(GENERIC_VNF_VNF_ID));
-            } else if (aai.containsKey(VSERVER_VSERVER_NAME)) {
-                vserverResponse = getAaiVserverInfo(event);
-                processVServerResponse(vserverResponse);
-            }
-        } catch (AaiException e) {
-            logger.error(QUERY_AAI_ERROR_MSG, e);
-            throw e;
-        } catch (Exception e) {
-            logger.error(QUERY_AAI_ERROR_MSG, e);
-            throw new AaiException(QUERY_AAI_ERROR_MSG + e.toString());
-        }
-    }
-
-    private boolean alreadyHaveData(VirtualControlLoopEvent event, Map<String, String> aai) throws AaiException {
-        if (aai.containsKey(VSERVER_IS_CLOSED_LOOP_DISABLED) || aai.containsKey(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED)
-                    || aai.containsKey(PNF_IS_IN_MAINT)) {
-
-            if (isClosedLoopDisabled(event)) {
-                throw new AaiException(
-                        "is-closed-loop-disabled is set to true on VServer or VNF or in-maint is set to true for PNF");
-            }
-
-            if (isProvStatusInactive(event)) {
-                throw new AaiException("prov-status is not ACTIVE on VServer or VNF or PNF");
-            }
-
-            // no need to query, as we already have the data
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Process a response from A&AI for a VNF.
-     *
-     * @param aaiResponse the response from A&AI
-     * @param queryByVnfId <code>true</code> if the query was based on vnf-id, <code>false</code> if the query was based
-     *        on vnf-name
-     * @throws AaiException if an error occurs processing the response
-     */
-    private static void processVnfResponse(AaiGetVnfResponse aaiResponse, boolean queryByVnfId) throws AaiException {
-        String queryTypeString = (queryByVnfId ? "vnf-id" : "vnf-name");
-
-        if (aaiResponse == null) {
-            throw new AaiException("AAI Response is null (query by " + queryTypeString + ")");
-        }
-        if (aaiResponse.getRequestError() != null) {
-            throw new AaiException("AAI Responded with a request error (query by " + queryTypeString + ")");
-        }
-
-        if (aaiResponse.isClosedLoopDisabled()) {
-            throw new AaiException("is-closed-loop-disabled is set to true (query by " + queryTypeString + ")");
-        }
-
-        if (!PROV_STATUS_ACTIVE.equals(aaiResponse.getProvStatus())) {
-            throw new AaiException("prov-status is not ACTIVE (query by " + queryTypeString + ")");
-        }
-    }
-
-    /**
-     * Process a response from A&AI for a VServer.
-     *
-     * @param aaiResponse the response from A&AI
-     * @throws AaiException if an error occurs processing the response
-     */
-    private static void processVServerResponse(AaiGetVserverResponse aaiResponse) throws AaiException {
-        if (aaiResponse == null) {
-            throw new AaiException("AAI Response is null (query by vserver-name)");
-        }
-        if (aaiResponse.getRequestError() != null) {
-            throw new AaiException("AAI Responded with a request error (query by vserver-name)");
-        }
-
-        List<AaiNqVServer> lst = aaiResponse.getVserver();
-        if (lst.isEmpty()) {
-            return;
-        }
-
-        AaiNqVServer svr = lst.get(0);
-        if (svr.getIsClosedLoopDisabled()) {
-            throw new AaiException("is-closed-loop-disabled is set to true (query by vserver-name)");
-        }
-
-        if (!PROV_STATUS_ACTIVE.equals(svr.getProvStatus())) {
-            throw new AaiException("prov-status is not ACTIVE (query by vserver-name)");
-        }
-    }
-
-    /**
      * Is closed loop disabled for an event.
      *
      * @param event the event
@@ -916,164 +760,6 @@ public class ControlLoopEventManager implements Serializable {
     protected static boolean isAaiTrue(String aaiValue) {
         return ("true".equalsIgnoreCase(aaiValue) || "T".equalsIgnoreCase(aaiValue) || "yes".equalsIgnoreCase(aaiValue)
                 || "Y".equalsIgnoreCase(aaiValue));
-    }
-
-    /**
-     * Get the A&AI VService information for an event.
-     *
-     * @param event the event
-     * @return a AaiGetVserverResponse
-     * @throws ControlLoopException if an error occurs
-     */
-    public static AaiGetVserverResponse getAaiVserverInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-        UUID requestId = event.getRequestId();
-        AaiGetVserverResponse response = null;
-        String vserverName = event.getAai().get(VSERVER_VSERVER_NAME);
-
-        try {
-            if (vserverName != null) {
-                String aaiHostUrl = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_URL);
-                String aaiUser = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_USERNAME_PROPERTY);
-                String aaiPassword = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_PASS_PROPERTY);
-                String aaiGetQueryByVserver = "/aai/v11/nodes/vservers?vserver-name=";
-                String url = aaiHostUrl + aaiGetQueryByVserver;
-                logger.info("AAI Host URL by VServer: {}", url);
-                response = new AaiManager(new RestManager()).getQueryByVserverName(url, aaiUser, aaiPassword, requestId,
-                        vserverName);
-            }
-        } catch (Exception e) {
-            logger.error("getAaiVserverInfo exception: ", e);
-            throw new ControlLoopException("Exception in getAaiVserverInfo: ", e);
-        }
-
-        return response;
-    }
-
-    /**
-     * Get A&AI VNF information for an event.
-     *
-     * @param event the event
-     * @return a AaiGetVnfResponse
-     * @throws ControlLoopException if an error occurs
-     */
-    public static AaiGetVnfResponse getAaiVnfInfo(VirtualControlLoopEvent event) throws ControlLoopException {
-        UUID requestId = event.getRequestId();
-        AaiGetVnfResponse response = null;
-        String vnfName = event.getAai().get(GENERIC_VNF_VNF_NAME);
-        String vnfId = event.getAai().get(GENERIC_VNF_VNF_ID);
-
-        String aaiHostUrl = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_URL);
-        String aaiUser = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_USERNAME_PROPERTY);
-        String aaiPassword = PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_PASS_PROPERTY);
-
-        try {
-            if (vnfName != null) {
-                String aaiGetQueryByVnfName = "/aai/v11/network/generic-vnfs/generic-vnf?vnf-name=";
-                String url = aaiHostUrl + aaiGetQueryByVnfName;
-                logger.info("AAI Host URL by VNF name: {}", url);
-                response = new AaiManager(new RestManager()).getQueryByVnfName(url, aaiUser, aaiPassword, requestId,
-                        vnfName);
-            } else if (vnfId != null) {
-                String aaiGetQueryByVnfId = "/aai/v11/network/generic-vnfs/generic-vnf/";
-                String url = aaiHostUrl + aaiGetQueryByVnfId;
-                logger.info("AAI Host URL by VNF ID: {}", url);
-                response =
-                        new AaiManager(new RestManager()).getQueryByVnfId(url, aaiUser, aaiPassword, requestId, vnfId);
-            }
-        } catch (Exception e) {
-            logger.error("getAaiVnfInfo exception: ", e);
-            throw new ControlLoopException("Exception in getAaiVnfInfo: ", e);
-        }
-
-        return response;
-    }
-
-    /**
-     * Gets the output from the AAI vserver named-query, using the cache, if appropriate.
-     *
-     * @return output from the AAI vserver named-query
-     */
-    public AaiNqResponseWrapper getNqVserverFromAai() {
-        if (nqVserverResponse != null) {
-            // already queried
-            return nqVserverResponse;
-        }
-
-        String vserverName = onset.getAai().get(VSERVER_VSERVER_NAME);
-        if (vserverName == null) {
-            logger.warn("Missing vserver-name for AAI request {}", onset.getRequestId());
-            return null;
-        }
-        AaiNqRequest aaiNqRequest = getAaiNqRequest(vserverName);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("AAI Request sent: {}", Serialization.gsonPretty.toJson(aaiNqRequest));
-        }
-
-        AaiNqResponse aaiNqResponse = new AaiManager(new RestManager()).postQuery(getPeManagerEnvProperty(AAI_URL),
-                getPeManagerEnvProperty(AAI_USERNAME_PROPERTY), getPeManagerEnvProperty(AAI_PASS_PROPERTY),
-                aaiNqRequest, onset.getRequestId());
-
-        // Check AAI response
-        if (aaiNqResponse == null) {
-            logger.warn("No response received from AAI for request {}", aaiNqRequest);
-            return null;
-        }
-
-        // Create AAINQResponseWrapper
-        nqVserverResponse = new AaiNqResponseWrapper(onset.getRequestId(), aaiNqResponse);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("AAI Named Query Response: ");
-            logger.debug(Serialization.gsonPretty.toJson(nqVserverResponse.getAaiNqResponse()));
-        }
-
-        return nqVserverResponse;
-    }
-
-    /**
-     * Gets an AAI Named Query Request object.
-     *
-     * @param vserverName vserver name.
-     * @return the AAI Named Query Request object.
-     */
-    public static AaiNqRequest getAaiNqRequest(String vserverName) {
-        // create AAI named-query request with UUID started with ""
-        AaiNqRequest aaiNqRequest = new AaiNqRequest();
-        AaiNqQueryParameters aaiNqQueryParam = new AaiNqQueryParameters();
-        AaiNqNamedQuery aaiNqNamedQuery = new AaiNqNamedQuery();
-        final AaiNqInstanceFilters aaiNqInstanceFilter = new AaiNqInstanceFilters();
-
-        // queryParameters
-        aaiNqNamedQuery.setNamedQueryUuid(UUID.fromString("4ff56a54-9e3f-46b7-a337-07a1d3c6b469"));
-        aaiNqQueryParam.setNamedQuery(aaiNqNamedQuery);
-        aaiNqRequest.setQueryParameters(aaiNqQueryParam);
-        //
-        // instanceFilters
-        //
-        Map<String, Map<String, String>> aaiNqInstanceFilterMap = new HashMap<>();
-        Map<String, String> aaiNqInstanceFilterMapItem = new HashMap<>();
-        aaiNqInstanceFilterMapItem.put("vserver-name", vserverName);
-        aaiNqInstanceFilterMap.put("vserver", aaiNqInstanceFilterMapItem);
-        aaiNqInstanceFilter.getInstanceFilter().add(aaiNqInstanceFilterMap);
-        aaiNqRequest.setInstanceFilters(aaiNqInstanceFilter);
-        return aaiNqRequest;
-    }
-
-    /**
-     * This method reads and validates environmental properties coming from the policy engine. Null properties cause an
-     * {@link IllegalArgumentException} runtime exception to be thrown
-     *
-     * @param enginePropertyName the name of the parameter to retrieve
-     * @return the property value
-     */
-    private static String getPeManagerEnvProperty(String enginePropertyName) {
-        String enginePropertyValue = PolicyEngineConstants.getManager().getEnvironmentProperty(enginePropertyName);
-        if (enginePropertyValue == null) {
-            throw new IllegalArgumentException("The value of policy engine manager environment property \""
-                    + enginePropertyName + "\" may not be null");
-        }
-        return enginePropertyValue;
     }
 
     @Override
@@ -1122,7 +808,7 @@ public class ControlLoopEventManager implements Serializable {
                 vserverId);
 
         if (response == null) {
-            throw new AaiException("Aai response is undefined");
+            throw new AaiException("Target vnf-id could not be found");
         }
 
         return response;
