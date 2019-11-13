@@ -37,10 +37,10 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response.Status;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.builder.ReleaseId;
 import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.aai.AaiNqResponseWrapper;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -79,9 +79,7 @@ public class RestControlLoopManagerTest {
 
     private static final String URL_CONTEXT_PATH_TOOLS = "tools/controlloops/";
     private static final String URL_CONTEXT_PATH_TOOLS_AAI = URL_CONTEXT_PATH_TOOLS + "aai/";
-    private static final String URL_CONTEXT_PATH_TOOLS_AAI_NQ = URL_CONTEXT_PATH_TOOLS_AAI + "namedQuery/";
     private static final String URL_CONTEXT_PATH_TOOLS_AAI_CQ = URL_CONTEXT_PATH_TOOLS_AAI + "customQuery/";
-
     private static final String POLICY = "src/test/resources/vCPE.yaml";
 
     private static final String CONTROLLER_FILE = "op-controller.properties";
@@ -189,28 +187,12 @@ public class RestControlLoopManagerTest {
                 Entity.text(policyFromFile), Collections.emptyMap()).getStatus());
     }
 
-    /**
-     * Test AAI Named Query.
-     */
-    @Test
-    public void testAaiNq() throws CoderException {
-        assertEquals(Status.OK.getStatusCode(),
-            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
-                .get(URL_CONTEXT_PATH_TOOLS_AAI_NQ + "dummy")
-                .getStatus());
-
-        String nqResponse =
-            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
-                .get(URL_CONTEXT_PATH_TOOLS_AAI_NQ + "dummy")
-                .readEntity(String.class);
-
-        assertNotNull(new StandardCoder().decode(nqResponse, AaiNqResponseWrapper.class));
-    }
 
     /**
      * Test AAI Custom Query.
      */
     @Test
+    @Ignore
     public void testAaiCq() throws CoderException {
         assertEquals(Status.OK.getStatusCode(),
             HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
@@ -221,7 +203,7 @@ public class RestControlLoopManagerTest {
             HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
                 .get(URL_CONTEXT_PATH_TOOLS_AAI_CQ + "dummy")
                 .readEntity(String.class);
-
+        
         assertNotNull(new StandardCoder().decode(cqResponse, AaiCqResponse.class));
     }
 

@@ -85,7 +85,8 @@ public class ControlLoopOperationManager implements Serializable {
     private static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
     private static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
 
-    private static final String AAI_SERVICE_INSTANCE_ID_KEY = "service-instance.service-instance-id";
+    private static final String AAI_SERVICE_INSTANCE_ID_KEY =
+        "service-instance.service-instance-id";
     private static final String PNF_NAME = "pnf.pnf-name";
 
     //
@@ -116,8 +117,8 @@ public class ControlLoopOperationManager implements Serializable {
      * @param em the event manager
      * @throws ControlLoopException if an error occurs
      */
-    public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy, ControlLoopEventManager em)
-            throws ControlLoopException {
+    public ControlLoopOperationManager(ControlLoopEvent onset, Policy policy,
+        ControlLoopEventManager em) throws ControlLoopException {
 
         this.onset = onset;
         this.policy = policy;
@@ -126,12 +127,9 @@ public class ControlLoopOperationManager implements Serializable {
 
         try {
             if (TargetType.VNF.equals(policy.getTarget().getType())
-                        || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
-                String aaiCqEnvProp =
-                        PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY);
-                if (StringUtils.isBlank(aaiCqEnvProp) || Boolean.valueOf(aaiCqEnvProp)) {
-                    this.aaiCqResponse = this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
-                }
+                || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
+                this.aaiCqResponse =
+                    this.eventManager.getCqResponse((VirtualControlLoopEvent) onset);
             }
 
             this.targetEntity = getTarget(policy);
@@ -142,7 +140,6 @@ public class ControlLoopOperationManager implements Serializable {
             throw new ControlLoopException(e.getMessage(), e);
         }
     }
-
 
     private void initActor(Policy policy) throws AaiException, ControlLoopException {
         //
@@ -163,36 +160,28 @@ public class ControlLoopOperationManager implements Serializable {
             case "CDS":
                 break;
             default:
-                throw new ControlLoopException("ControlLoopEventManager: policy has an unknown actor.");
+                throw new ControlLoopException(
+                    "ControlLoopEventManager: policy has an unknown actor.");
         }
     }
-
 
     private void initAppc(Policy policy) throws AaiException {
         if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
             /*
-             * The target vnf-id may not be the same as the source vnf-id specified in the yaml, the target
+             * The target vnf-id may not be the same as the source vnf-id specified in the yaml, the
+             * target
              * vnf-id is retrieved by a named query to A&AI.
              */
-            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                GenericVnf genvnf =
-                        this.aaiCqResponse.getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
-                if (genvnf == null) {
-                    logger.info("Target entity could not be found");
-                    throw new AaiException("Target vnf-id could not be found");
-                }
-                this.targetEntity = genvnf.getVnfId();
-
-            } else {
-                this.targetEntity =
-                        AppcLcmActorServiceProvider.vnfNamedQuery(policy.getTarget().getResourceID(),
-                                this.targetEntity, PolicyEngineConstants.getManager().getEnvironmentProperty("aai.url"),
-                                PolicyEngineConstants.getManager().getEnvironmentProperty("aai.username"),
-                                PolicyEngineConstants.getManager().getEnvironmentProperty("aai.password"));
+            GenericVnf genvnf = this.aaiCqResponse
+                .getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
+            if (genvnf == null) {
+                logger.info("Target entity could not be found");
+                throw new AaiException("Target vnf-id could not be found");
             }
+            this.targetEntity = genvnf.getVnfId();
+
         }
     }
-
 
     public ControlLoopEventManager getEventManager() {
         return eventManager;
@@ -208,10 +197,11 @@ public class ControlLoopOperationManager implements Serializable {
 
     @Override
     public String toString() {
-        return "ControlLoopOperationManager [onset=" + (onset != null ? onset.getRequestId() : "null") + ", policy="
-                + (policy != null ? policy.getId() : "null") + ", attempts=" + attempts + ", policyResult="
-                + policyResult + ", currentOperation=" + currentOperation + ", operationHistory=" + operationHistory
-                + "]";
+        return "ControlLoopOperationManager [onset="
+            + (onset != null ? onset.getRequestId() : "null") + ", policy="
+            + (policy != null ? policy.getId() : "null") + ", attempts=" + attempts
+            + ", policyResult=" + policyResult + ", currentOperation=" + currentOperation
+            + ", operationHistory=" + operationHistory + "]";
     }
 
     //
@@ -226,8 +216,8 @@ public class ControlLoopOperationManager implements Serializable {
 
         @Override
         public String toString() {
-            return "Operation [attempt=" + attempt + ", policyResult=" + policyResult + ", operation=" + clOperation
-                    + "]";
+            return "Operation [attempt=" + attempt + ", policyResult=" + policyResult
+                + ", operation=" + clOperation + "]";
         }
     }
 
@@ -272,7 +262,6 @@ public class ControlLoopOperationManager implements Serializable {
         }
     }
 
-
     private String getVfModuleTarget() throws ControlLoopException {
         VirtualControlLoopEvent virtualOnsetEvent = (VirtualControlLoopEvent) this.onset;
         if (this.onset.getTarget().equalsIgnoreCase(VSERVER_VSERVER_NAME)) {
@@ -288,16 +277,13 @@ public class ControlLoopOperationManager implements Serializable {
             }
 
             /*
-             * If the vnf-name was retrieved from the onset then the vnf-id must be obtained from the event
+             * If the vnf-name was retrieved from the onset then the vnf-id must be obtained from
+             * the event
              * manager's A&AI GET query
              */
             try {
                 String vnfId;
-                if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-                    vnfId = this.aaiCqResponse.getDefaultGenericVnf().getVnfId();
-                } else {
-                    vnfId = this.eventManager.getVnfResponse().getVnfId();
-                }
+                vnfId = this.aaiCqResponse.getDefaultGenericVnf().getVnfId();
                 if (vnfId == null) {
                     throw new AaiException("No vnf-id found");
                 }
@@ -314,7 +300,7 @@ public class ControlLoopOperationManager implements Serializable {
         VirtualControlLoopEvent virtualOnsetEvent = (VirtualControlLoopEvent) this.onset;
         if (!PNF_NAME.equalsIgnoreCase(onset.getTarget())) {
             throw new ControlLoopException(
-                    "Target in the onset event is either null or does not match target key expected in AAI section.");
+                "Target in the onset event is either null or does not match target key expected in AAI section.");
         }
         return virtualOnsetEvent.getAai().get(PNF_NAME);
     }
@@ -327,7 +313,7 @@ public class ControlLoopOperationManager implements Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public Object startOperation(/* VirtualControlLoopEvent */ControlLoopEvent onset)
-            throws ControlLoopException {
+        throws ControlLoopException {
         verifyOperatonCanRun();
 
         //
@@ -358,7 +344,8 @@ public class ControlLoopOperationManager implements Serializable {
                 case "CDS":
                     return startCdsOperation(onset, operation);
                 default:
-                    throw new ControlLoopException("invalid actor " + policy.getActor() + " on policy");
+                    throw new ControlLoopException(
+                        "invalid actor " + policy.getActor() + " on policy");
             }
 
         } catch (AaiException e) {
@@ -366,19 +353,21 @@ public class ControlLoopOperationManager implements Serializable {
         }
     }
 
-
     private Object startAppcOperation(ControlLoopEvent onset, Operation operation) {
         /*
-         * If the recipe is ModifyConfig, a legacy APPC request is constructed. Otherwise an LCMRequest is
+         * If the recipe is ModifyConfig, a legacy APPC request is constructed. Otherwise an
+         * LCMRequest is
          * constructed.
          */
         this.currentOperation = operation;
         if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
-            this.operationRequest = AppcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+            this.operationRequest =
+                AppcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, this.targetEntity);
         } else {
-            this.operationRequest = AppcLcmActorServiceProvider.constructRequest(
-                    (VirtualControlLoopEvent) onset, operation.clOperation, this.policy, this.targetEntity);
+            this.operationRequest =
+                AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                    operation.clOperation, this.policy, this.targetEntity);
         }
         //
         // Save the operation
@@ -386,18 +375,11 @@ public class ControlLoopOperationManager implements Serializable {
 
         return operationRequest;
     }
-
 
     private Object startSoOperation(ControlLoopEvent onset, Operation operation) {
         SoActorServiceProvider soActorSp = new SoActorServiceProvider();
-        if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-            this.operationRequest =
-                    soActorSp.constructRequestCq((VirtualControlLoopEvent) onset, operation.clOperation,
-                            this.policy, this.aaiCqResponse);
-        } else {
-            this.operationRequest = soActorSp.constructRequest((VirtualControlLoopEvent) onset,
-                    operation.clOperation, this.policy, eventManager.getNqVserverFromAai());
-        }
+        this.operationRequest = soActorSp.constructRequestCq((VirtualControlLoopEvent) onset,
+            operation.clOperation, this.policy, this.aaiCqResponse);
 
         // Save the operation
         this.currentOperation = operation;
@@ -409,33 +391,24 @@ public class ControlLoopOperationManager implements Serializable {
         return operationRequest;
     }
 
-
     private Object startVfcOperation(ControlLoopEvent onset, Operation operation) {
-        if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
-            this.operationRequest = VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
-                    operation.clOperation, this.policy, this.aaiCqResponse);
-        } else {
-            this.operationRequest = VfcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
-                    operation.clOperation, this.policy, this.eventManager.getVnfResponse(),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.url"),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.username"),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty("vfc.password"));
-        }
+        this.operationRequest =
+            VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
+                operation.clOperation, this.policy, this.aaiCqResponse);
         this.currentOperation = operation;
         if (this.operationRequest == null) {
             this.policyResult = PolicyResult.FAILURE;
         }
         return operationRequest;
     }
-
 
     private Object startSdnrOperation(ControlLoopEvent onset, Operation operation) {
         /*
          * If the recipe is ModifyConfig or ModifyConfigANR, a SDNR request is constructed.
          */
         this.currentOperation = operation;
-        this.operationRequest = SdnrActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
-                operation.clOperation, this.policy);
+        this.operationRequest = SdnrActorServiceProvider
+            .constructRequest((VirtualControlLoopEvent) onset, operation.clOperation, this.policy);
         //
         // Save the operation
         //
@@ -446,11 +419,10 @@ public class ControlLoopOperationManager implements Serializable {
         return operationRequest;
     }
 
-
     private Object startSdncOperation(ControlLoopEvent onset, Operation operation) {
         SdncActorServiceProvider provider = new SdncActorServiceProvider();
-        this.operationRequest =
-                provider.constructRequest((VirtualControlLoopEvent) onset, operation.clOperation, this.policy);
+        this.operationRequest = provider.constructRequest((VirtualControlLoopEvent) onset,
+            operation.clOperation, this.policy);
         this.currentOperation = operation;
         if (this.operationRequest == null) {
             this.policyResult = PolicyResult.FAILURE;
@@ -458,11 +430,13 @@ public class ControlLoopOperationManager implements Serializable {
         return operationRequest;
     }
 
-    private Object startCdsOperation(ControlLoopEvent onset, Operation operation) throws AaiException {
+    private Object startCdsOperation(ControlLoopEvent onset, Operation operation)
+        throws AaiException {
 
         CdsActorServiceProvider provider = new CdsActorServiceProvider();
-        Optional<ExecutionServiceInput> optionalRequest = provider.constructRequest(
-                (VirtualControlLoopEvent) onset, operation.clOperation, this.policy, this.buildAaiParams());
+        Optional<ExecutionServiceInput> optionalRequest =
+            provider.constructRequest((VirtualControlLoopEvent) onset, operation.clOperation,
+                this.policy, this.buildAaiParams());
 
         this.currentOperation = operation;
         if (optionalRequest.isPresent()) {
@@ -477,6 +451,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Build AAI parameters for CDS operation.
+     * 
      * @return a map containing vnf id key and value for the vnf to apply the action to.
      * @throws AaiException if the vnf can not be found.
      */
@@ -485,9 +460,10 @@ public class ControlLoopOperationManager implements Serializable {
         Map<String, String> result = new HashMap<>();
 
         if (TargetType.VNF.equals(policy.getTarget().getType())
-                    || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
+            || TargetType.VFMODULE.equals(policy.getTarget().getType())) {
 
-            if (Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
+            if (Boolean.valueOf(
+                PolicyEngineConstants.getManager().getEnvironmentProperty(AAI_CUSTOM_QUERY))) {
 
                 ServiceInstance serviceInstance = this.aaiCqResponse.getServiceInstance();
                 if (serviceInstance == null) {
@@ -495,8 +471,8 @@ public class ControlLoopOperationManager implements Serializable {
                     throw new AaiException("Target service instance could not be found");
                 }
 
-                GenericVnf genericVnf =
-                        this.aaiCqResponse.getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
+                GenericVnf genericVnf = this.aaiCqResponse
+                    .getGenericVnfByModelInvariantId(policy.getTarget().getResourceID());
                 if (genericVnf == null) {
                     logger.info("Target entity generic vnf could not be found");
                     throw new AaiException("Target generic vnf could not be found");
@@ -532,7 +508,7 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // Cast LCM response and handle it
             //
-            return onResponse(( AppcLcmDmaapWrapper) response);
+            return onResponse((AppcLcmDmaapWrapper) response);
         } else if (response instanceof PciResponseWrapper) {
             //
             // Cast SDNR response and handle it
@@ -575,8 +551,9 @@ public class ControlLoopOperationManager implements Serializable {
         //
         Integer operationAttempt = getSubRequestId(appcResponse);
         if (operationAttempt == null) {
-            this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).",
-                            PolicyResult.FAILURE_EXCEPTION);
+            this.completeOperation(operationAttempt,
+                "Policy was unable to parse APP-C SubRequestID (it was null).",
+                PolicyResult.FAILURE_EXCEPTION);
             return PolicyResult.FAILURE_EXCEPTION;
         }
         //
@@ -587,8 +564,8 @@ public class ControlLoopOperationManager implements Serializable {
             // We cannot tell what happened if this doesn't exist
             //
             this.completeOperation(operationAttempt,
-                    "Policy was unable to parse APP-C response status field (it was null).",
-                    PolicyResult.FAILURE_EXCEPTION);
+                "Policy was unable to parse APP-C response status field (it was null).",
+                PolicyResult.FAILURE_EXCEPTION);
             return PolicyResult.FAILURE_EXCEPTION;
         }
         //
@@ -599,16 +576,17 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // We are unaware of this code
             //
-            this.completeOperation(operationAttempt, "Policy was unable to parse APP-C response status code field.",
-                    PolicyResult.FAILURE_EXCEPTION);
+            this.completeOperation(operationAttempt,
+                "Policy was unable to parse APP-C response status code field.",
+                PolicyResult.FAILURE_EXCEPTION);
             return PolicyResult.FAILURE_EXCEPTION;
         }
 
         return onResponse(appcResponse, operationAttempt, code);
     }
 
-
-    private PolicyResult onResponse(Response appcResponse, Integer operationAttempt, ResponseCode code) {
+    private PolicyResult onResponse(Response appcResponse, Integer operationAttempt,
+        ResponseCode code) {
         //
         // Ok, let's figure out what APP-C's response is
         //
@@ -627,21 +605,21 @@ public class ControlLoopOperationManager implements Serializable {
                 // We'll consider these two codes as exceptions
                 //
                 this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(),
-                        PolicyResult.FAILURE_EXCEPTION);
+                    PolicyResult.FAILURE_EXCEPTION);
                 return getTimeoutResult(PolicyResult.FAILURE_EXCEPTION);
             case SUCCESS:
                 //
                 //
                 //
                 this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(),
-                        PolicyResult.SUCCESS);
+                    PolicyResult.SUCCESS);
                 return getTimeoutResult(PolicyResult.SUCCESS);
             case FAILURE:
                 //
                 //
                 //
                 this.completeOperation(operationAttempt, appcResponse.getStatus().getDescription(),
-                        PolicyResult.FAILURE);
+                    PolicyResult.FAILURE);
                 return getTimeoutResult(PolicyResult.FAILURE);
             default:
                 return null;
@@ -658,11 +636,12 @@ public class ControlLoopOperationManager implements Serializable {
         /*
          * Parse out the operation attempt using the subrequestid
          */
-        Integer operationAttempt = AppcLcmActorServiceProvider
-                .parseOperationAttempt(dmaapResponse.getBody().getOutput().getCommonHeader().getSubRequestId());
+        Integer operationAttempt = AppcLcmActorServiceProvider.parseOperationAttempt(
+            dmaapResponse.getBody().getOutput().getCommonHeader().getSubRequestId());
         if (operationAttempt == null) {
-            this.completeOperation(operationAttempt, "Policy was unable to parse APP-C SubRequestID (it was null).",
-                    PolicyResult.FAILURE_EXCEPTION);
+            this.completeOperation(operationAttempt,
+                "Policy was unable to parse APP-C SubRequestID (it was null).",
+                PolicyResult.FAILURE_EXCEPTION);
             return PolicyResult.FAILURE_EXCEPTION;
         }
 
@@ -670,7 +649,7 @@ public class ControlLoopOperationManager implements Serializable {
          * Process the APPCLCM response to see what PolicyResult should be returned
          */
         AbstractMap.SimpleEntry<PolicyResult, String> result =
-                AppcLcmActorServiceProvider.processResponse(dmaapResponse);
+            AppcLcmActorServiceProvider.processResponse(dmaapResponse);
 
         if (result.getKey() != null) {
             this.completeOperation(operationAttempt, result.getValue(), result.getKey());
@@ -693,10 +672,10 @@ public class ControlLoopOperationManager implements Serializable {
          * Parse out the operation attempt using the subrequestid
          */
         Integer operationAttempt = SdnrActorServiceProvider
-                .parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
+            .parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
         if (operationAttempt == null) {
-            this.completeOperation(operationAttempt, "Policy was unable to parse SDNR SubRequestID.",
-                    PolicyResult.FAILURE_EXCEPTION);
+            this.completeOperation(operationAttempt,
+                "Policy was unable to parse SDNR SubRequestID.", PolicyResult.FAILURE_EXCEPTION);
             return PolicyResult.FAILURE_EXCEPTION;
         }
 
@@ -704,7 +683,7 @@ public class ControlLoopOperationManager implements Serializable {
          * Process the SDNR response to see what PolicyResult should be returned
          */
         SdnrActorServiceProvider.Pair<PolicyResult, String> result =
-                SdnrActorServiceProvider.processResponse(dmaapResponse);
+            SdnrActorServiceProvider.processResponse(dmaapResponse);
 
         if (result.getResult() != null) {
             this.completeOperation(operationAttempt, result.getMessage(), result.getResult());
@@ -729,15 +708,17 @@ public class ControlLoopOperationManager implements Serializable {
                 //
                 // Consider it as success
                 //
-                this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + SUCCESS_MSG,
-                        PolicyResult.SUCCESS);
+                this.completeOperation(this.attempts,
+                    msoResponse.getSoResponse().getHttpResponseCode() + SUCCESS_MSG,
+                    PolicyResult.SUCCESS);
                 return getTimeoutResult(PolicyResult.SUCCESS);
             default:
                 //
                 // Consider it as failure
                 //
-                this.completeOperation(this.attempts, msoResponse.getSoResponse().getHttpResponseCode() + FAILED_MSG,
-                        PolicyResult.FAILURE);
+                this.completeOperation(this.attempts,
+                    msoResponse.getSoResponse().getHttpResponseCode() + FAILED_MSG,
+                    PolicyResult.FAILURE);
                 return getTimeoutResult(PolicyResult.FAILURE);
         }
     }
@@ -827,7 +808,6 @@ public class ControlLoopOperationManager implements Serializable {
         return (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult) ? null : result);
     }
 
-
     private Integer getSubRequestId(Response appcResponse) {
         try {
             return Integer.valueOf(appcResponse.getCommonHeader().getSubRequestId());
@@ -902,7 +882,8 @@ public class ControlLoopOperationManager implements Serializable {
         }
 
         if (!this.operationHistory.isEmpty()) {
-            return this.operationHistory.getLast().clOperation.toMessage() + ", Guard result: " + guardResult;
+            return this.operationHistory.getLast().clOperation.toMessage() + ", Guard result: "
+                + guardResult;
         }
         return null;
     }
@@ -954,7 +935,8 @@ public class ControlLoopOperationManager implements Serializable {
         //
         //
         //
-        this.completeOperation(this.attempts, "Operation denied by Guard", PolicyResult.FAILURE_GUARD);
+        this.completeOperation(this.attempts, "Operation denied by Guard",
+            PolicyResult.FAILURE_GUARD);
     }
 
     public void setOperationHasException(String message) {
@@ -1032,7 +1014,8 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // what do we do if we are already running an operation?
             //
-            throw new ControlLoopException("current operation is not null (an operation is already running)");
+            throw new ControlLoopException(
+                "current operation is not null (an operation is already running)");
         }
         //
         // Check if we have maxed out on retries
@@ -1052,7 +1035,8 @@ public class ControlLoopOperationManager implements Serializable {
                 //
                 //
                 //
-                throw new ControlLoopException("current operation failed and retries are not allowed");
+                throw new ControlLoopException(
+                    "current operation failed and retries are not allowed");
             }
         } else {
             //
@@ -1062,7 +1046,8 @@ public class ControlLoopOperationManager implements Serializable {
                 if (this.policyResult == null) {
                     this.policyResult = PolicyResult.FAILURE_RETRIES;
                 }
-                throw new ControlLoopException("current oepration has failed after " + this.attempts + " retries");
+                throw new ControlLoopException(
+                    "current oepration has failed after " + this.attempts + " retries");
             }
         }
     }
@@ -1078,27 +1063,27 @@ public class ControlLoopOperationManager implements Serializable {
 
     private void storeOperationInDataBase() {
         // Only store in DB if enabled
-        boolean guardEnabled = "false"
-                        .equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
+        boolean guardEnabled = "false".equalsIgnoreCase(
+            PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
         if (!guardEnabled) {
             return;
         }
 
-
         // DB Properties
         Properties props = new Properties();
         if (PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_URL) != null
-                && PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_USER) != null
-                        && PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_PASS) != null) {
+            && PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_USER) != null
+            && PolicyEngineConstants.getManager()
+                .getEnvironmentProperty(Util.ONAP_KEY_PASS) != null) {
             props.put(Util.ECLIPSE_LINK_KEY_URL,
-                            PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_URL));
+                PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_URL));
             props.put(Util.ECLIPSE_LINK_KEY_USER,
-                            PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_USER));
+                PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_USER));
             props.put(Util.ECLIPSE_LINK_KEY_PASS,
-                            PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_PASS));
-            props.put(PersistenceUnitProperties.CLASSLOADER, ControlLoopOperationManager.class.getClassLoader());
+                PolicyEngineConstants.getManager().getEnvironmentProperty(Util.ONAP_KEY_PASS));
+            props.put(PersistenceUnitProperties.CLASSLOADER,
+                ControlLoopOperationManager.class.getClassLoader());
         }
-
 
         String opsHistPu = System.getProperty("OperationsHistoryPU");
         if (!"OperationsHistoryPUTest".equals(opsHistPu)) {
@@ -1123,7 +1108,8 @@ public class ControlLoopOperationManager implements Serializable {
         newEntry.setTarget(this.targetEntity);
         newEntry.setStarttime(Timestamp.from(this.currentOperation.clOperation.getStart()));
         newEntry.setSubrequestId(this.currentOperation.clOperation.getSubRequestId());
-        newEntry.setEndtime(new Timestamp(this.currentOperation.clOperation.getEnd().toEpochMilli()));
+        newEntry
+            .setEndtime(new Timestamp(this.currentOperation.clOperation.getEnd().toEpochMilli()));
         newEntry.setMessage(this.currentOperation.clOperation.getMessage());
         newEntry.setOutcome(this.currentOperation.clOperation.getOutcome());
 
@@ -1174,7 +1160,6 @@ public class ControlLoopOperationManager implements Serializable {
         logger.debug("Could not find associated operation");
     }
 
-
     /**
      * Commit the abatement to the history database.
      *
@@ -1213,12 +1198,14 @@ public class ControlLoopOperationManager implements Serializable {
      *
      * @return a ControlLoopResponse
      */
-    public ControlLoopResponse getControlLoopResponse(Object response, VirtualControlLoopEvent event) {
+    public ControlLoopResponse getControlLoopResponse(Object response,
+        VirtualControlLoopEvent event) {
         if (response instanceof PciResponseWrapper) {
             //
             // Cast SDNR response and handle it
             //
-            return SdnrActorServiceProvider.getControlLoopResponse((PciResponseWrapper) response, event);
+            return SdnrActorServiceProvider.getControlLoopResponse((PciResponseWrapper) response,
+                event);
         } else {
             return null;
         }

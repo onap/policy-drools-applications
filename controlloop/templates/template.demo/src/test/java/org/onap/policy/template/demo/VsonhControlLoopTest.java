@@ -269,6 +269,7 @@ public class VsonhControlLoopTest extends ControlLoopBase implements TopicListen
             event.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
             event.getAai().put("generic-vnf.prov-status", "ACTIVE");
             event.getAai().put("generic-vnf.vnf-id", "notused");
+            event.getAai().put("vserver.vserver-name", "OzVServer");
         } else {
             event.getAai().put("generic-vnf.vnf-id", "getFail");
         }

@@ -285,6 +285,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-name", "testGenericVnfID");
+        event.getAai().put("vserver.vserver-name", "testVserverName");
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }
@@ -306,6 +307,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-name", vnfId);
+        event.getAai().put("vserver.vserver-name", vnfId);
         event.setClosedLoopEventStatus(status);
         kieSession.insert(event);
     }

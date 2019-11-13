@@ -171,6 +171,7 @@ public class ControlLoopOperationManagerTest {
         //
         final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
+        onset.getAai().put(VSERVER_NAME, "testVserverName");
 
         //
         // Create a processor
@@ -298,6 +299,8 @@ public class ControlLoopOperationManagerTest {
         //
         final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
+        onset.getAai().put(VSERVER_NAME, "OzVServer");
+        
 
         //
         // Create a processor
@@ -458,13 +461,6 @@ public class ControlLoopOperationManagerTest {
 
         manager.onNewEvent(onsetEvent);
 
-        onsetEvent.getAai().remove(VNF_ID);
-        manager.getVnfResponse();
-        if (!Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty("aai.customQuery"))) {
-            clom.getEventManager().getVnfResponse().setVnfId(VNF_ID);
-            assertEquals(VNF_ID, clom.getTarget(policy));
-        }
-
 
         policy.getTarget().setType(TargetType.VFC);
         assertThatThrownBy(() -> clom.getTarget(policy)).hasMessage("The target type is not supported");
@@ -506,7 +502,7 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
-        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
+        onsetEvent.getAai().put(VSERVER_NAME, "OzVServer");
 
         ControlLoopEventManager manager =
                 new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
@@ -519,11 +515,13 @@ public class ControlLoopOperationManagerTest {
         assertNotNull(clom);
 
         policy.setRecipe("ModifyConfig");
+        onsetEvent.getAai().put(VSERVER_NAME, "NonExistentVserver");
         policy.getTarget().setResourceID(UUID.randomUUID().toString());
         assertThatThrownBy(() -> new ControlLoopOperationManager(onsetEvent, policy, manager))
                         .hasMessage("Target vnf-id could not be found");
-
-        policy.getTarget().setResourceID("82194af1-3c2c-485a-8f44-420e22a9eaa4");
+        
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
+        policy.getTarget().setResourceID("bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38");
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 

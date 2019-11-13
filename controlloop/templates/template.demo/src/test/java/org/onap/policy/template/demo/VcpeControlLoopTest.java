@@ -81,8 +81,9 @@ public class VcpeControlLoopTest extends ControlLoopBase implements TopicListene
          * Simulate an onset event the policy engine will receive from DCAE to kick off processing
          * through the rules
          */
-        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vCPEInfraVNF13", true);
-
+        //sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "vCPEInfraVNF13", true);
+        sendEvent(pair.first, requestId, ControlLoopEventStatus.ONSET, "OzVServer", true);
+        
         kieSession.fireUntilHalt();
 
         // allow object clean-up
@@ -260,6 +261,7 @@ public class VcpeControlLoopTest extends ControlLoopBase implements TopicListene
         event.setClosedLoopAlarmStart(Instant.now());
         event.setAai(new HashMap<>());
         event.getAai().put("generic-vnf.vnf-name", vnfName);
+        event.getAai().put("vserver.vserver-name", vnfName);
         if (isEnriched) {
             event.getAai().put("generic-vnf.in-maint", "false");
             event.getAai().put("generic-vnf.is-closed-loop-disabled", "false");
