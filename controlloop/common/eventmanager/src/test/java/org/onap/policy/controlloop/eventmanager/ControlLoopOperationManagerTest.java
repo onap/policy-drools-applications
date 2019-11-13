@@ -94,9 +94,8 @@ public class ControlLoopOperationManagerTest {
     private static final String APPC_FAILURE_REASON = "AppC failed for some reason";
     private static final String ACCEPT = "ACCEPT";
 
-
-    private static final Logger logger = LoggerFactory.getLogger(ControlLoopOperationManagerTest.class);
-
+    private static final Logger logger =
+        LoggerFactory.getLogger(ControlLoopOperationManagerTest.class);
 
     private static VirtualControlLoopEvent onset;
 
@@ -113,7 +112,8 @@ public class ControlLoopOperationManagerTest {
         onset.setTargetType(ControlLoopTargetType.VNF);
 
         /* Set environment properties */
-        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.url", "http://localhost:6666");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("aai.url",
+            "http://localhost:6666");
         PolicyEngineConstants.getManager().setEnvironmentProperty("aai.username", "AAI");
         PolicyEngineConstants.getManager().setEnvironmentProperty("aai.password", "AAI");
         PolicyEngineConstants.getManager().setEnvironmentProperty("aai.customQuery", "false");
@@ -122,7 +122,6 @@ public class ControlLoopOperationManagerTest {
     private static EntityManagerFactory emf;
     private static EntityManager em;
 
-
     private static int getCount() {
         // Create a query for number of items in DB
         String sql = "select count(*) as count from operationshistory";
@@ -130,7 +129,6 @@ public class ControlLoopOperationManagerTest {
 
         return ((Number) nq.getSingleResult()).intValue();
     }
-
 
     /**
      * Set up test class.
@@ -144,15 +142,17 @@ public class ControlLoopOperationManagerTest {
         System.setProperty(OPERATIONS_HISTORY_PU, OPERATIONS_HISTORY_PU_TEST);
 
         // Enter dummy props to avoid nullPointerException
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "b");
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL, "a");
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, "b");
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "c");
 
         // Connect to in-mem db
         emf = Persistence.createEntityManagerFactory(OPERATIONS_HISTORY_PU_TEST);
         em = emf.createEntityManager();
     }
-
 
     /**
      * Clean up test class.
@@ -171,6 +171,7 @@ public class ControlLoopOperationManagerTest {
         //
         final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
+        onset.getAai().put(VSERVER_NAME, "testVserverName");
 
         //
         // Create a processor
@@ -180,7 +181,7 @@ public class ControlLoopOperationManagerTest {
         // create the manager
         //
         ControlLoopEventManager eventManager =
-                new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
+            new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
         VirtualControlLoopNotification notification = eventManager.activate(onset);
 
         assertNotNull(notification);
@@ -191,7 +192,7 @@ public class ControlLoopOperationManagerTest {
         assertEquals(ControlLoopEventManager.NewEventStatus.FIRST_ONSET, status);
 
         ControlLoopOperationManager manager =
-                new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
+            new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
         logger.debug("{}", manager);
         //
         //
@@ -298,6 +299,7 @@ public class ControlLoopOperationManagerTest {
         //
         final SupportUtil.Pair<ControlLoopPolicy, String> pair = SupportUtil.loadYaml(TEST_YAML);
         onset.setClosedLoopControlName(pair.key.getControlLoop().getControlLoopName());
+        onset.getAai().put(VSERVER_NAME, "OzVServer");
 
         //
         // Create a processor
@@ -307,7 +309,7 @@ public class ControlLoopOperationManagerTest {
         // create the manager
         //
         ControlLoopEventManager eventManager =
-                new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
+            new ControlLoopEventManager(onset.getClosedLoopControlName(), onset.getRequestId());
         VirtualControlLoopNotification notification = eventManager.activate(onset);
 
         assertNotNull(notification);
@@ -318,7 +320,7 @@ public class ControlLoopOperationManagerTest {
         assertEquals(ControlLoopEventManager.NewEventStatus.FIRST_ONSET, status);
 
         ControlLoopOperationManager manager =
-                new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
+            new ControlLoopOperationManager(onset, processor.getCurrentPolicy(), eventManager);
         //
         //
         //
@@ -400,8 +402,8 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
         onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
@@ -434,7 +436,7 @@ public class ControlLoopOperationManagerTest {
 
         policy.getTarget().setType(TargetType.PNF);
         assertThatThrownBy(() -> clom.getTarget(policy)).hasMessage(
-                "Target in the onset event is either null or does not match target key expected in AAI section.");
+            "Target in the onset event is either null or does not match target key expected in AAI section.");
 
         onsetEvent.setTarget("Oz");
         onsetEvent.getAai().remove(VNF_NAME);
@@ -442,7 +444,8 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().remove(VSERVER_NAME);
 
         policy.getTarget().setType(TargetType.VNF);
-        assertThatThrownBy(() -> clom.getTarget(policy)).hasMessage("Target does not match target type");
+        assertThatThrownBy(() -> clom.getTarget(policy))
+            .hasMessage("Target does not match target type");
 
         onsetEvent.setTarget(VSERVER_NAME);
         onsetEvent.getAai().put(VSERVER_NAME, "OzVServer");
@@ -458,16 +461,9 @@ public class ControlLoopOperationManagerTest {
 
         manager.onNewEvent(onsetEvent);
 
-        onsetEvent.getAai().remove(VNF_ID);
-        manager.getVnfResponse();
-        if (!Boolean.valueOf(PolicyEngineConstants.getManager().getEnvironmentProperty("aai.customQuery"))) {
-            clom.getEventManager().getVnfResponse().setVnfId(VNF_ID);
-            assertEquals(VNF_ID, clom.getTarget(policy));
-        }
-
-
         policy.getTarget().setType(TargetType.VFC);
-        assertThatThrownBy(() -> clom.getTarget(policy)).hasMessage("The target type is not supported");
+        assertThatThrownBy(() -> clom.getTarget(policy))
+            .hasMessage("The target type is not supported");
 
         assertEquals(Integer.valueOf(20), clom.getOperationTimeout());
 
@@ -478,12 +474,13 @@ public class ControlLoopOperationManagerTest {
 
         clom.startOperation(onsetEvent);
 
-        assertEquals("actor=SO,operation=Restart,target=Target [type=VFC, resourceId=null],subRequestId=1",
-                clom.getOperationMessage());
         assertEquals(
-                "actor=SO,operation=Restart,target=Target [type=VFC, resourceId=null],subRequestId=1, Guard result: "
-                        + OPER_MSG,
-                clom.getOperationMessage(OPER_MSG));
+            "actor=SO,operation=Restart,target=Target [type=VFC, resourceId=null],subRequestId=1",
+            clom.getOperationMessage());
+        assertEquals(
+            "actor=SO,operation=Restart,target=Target [type=VFC, resourceId=null],subRequestId=1, Guard result: "
+                + OPER_MSG,
+            clom.getOperationMessage(OPER_MSG));
 
         assertEquals("actor=SO,operation=Restart,tar", clom.getOperationHistory().substring(0, 30));
 
@@ -506,27 +503,29 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         onsetEvent.setAai(new HashMap<>());
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
-        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
+        onsetEvent.getAai().put(VSERVER_NAME, "OzVServer");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = manager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        ControlLoopOperationManager clom =
+            new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 
         policy.setRecipe("ModifyConfig");
+        onsetEvent.getAai().put(VSERVER_NAME, "NonExistentVserver");
         policy.getTarget().setResourceID(UUID.randomUUID().toString());
         assertThatThrownBy(() -> new ControlLoopOperationManager(onsetEvent, policy, manager))
-                        .hasMessage("Target vnf-id could not be found");
+            .hasMessage("Target vnf-id could not be found");
 
-        policy.getTarget().setResourceID("82194af1-3c2c-485a-8f44-420e22a9eaa4");
+        onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
+        policy.getTarget().setResourceID("bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38");
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
-
 
         policy.setActor("SO");
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
@@ -538,7 +537,7 @@ public class ControlLoopOperationManagerTest {
 
         policy.setActor(DOROTHY);
         assertThatThrownBy(() -> new ControlLoopOperationManager(onsetEvent, policy, manager))
-                        .hasMessage("ControlLoopEventManager: policy has an unknown actor.");
+            .hasMessage("ControlLoopEventManager: policy has an unknown actor.");
     }
 
     @Test
@@ -558,20 +557,21 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
         onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = manager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        ControlLoopOperationManager clom =
+            new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 
         clom.startOperation(onsetEvent);
         ControlLoopOperationManager clom2 = clom;
         assertThatThrownBy(() -> clom2.startOperation(onsetEvent))
-                        .hasMessage("current operation is not null (an operation is already running)");
+            .hasMessage("current operation is not null (an operation is already running)");
 
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
@@ -589,7 +589,7 @@ public class ControlLoopOperationManagerTest {
         assertTrue(clom.isOperationComplete());
         ControlLoopOperationManager clom3 = clom;
         assertThatThrownBy(() -> clom3.startOperation(onsetEvent))
-                        .hasMessage("current operation failed and retries are not allowed");
+            .hasMessage("current operation failed and retries are not allowed");
 
         policy.setRetry(0);
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
@@ -599,7 +599,7 @@ public class ControlLoopOperationManagerTest {
         assertTrue(clom.isOperationComplete());
         ControlLoopOperationManager clom4 = clom;
         assertThatThrownBy(() -> clom4.startOperation(onsetEvent))
-                        .hasMessage("current operation failed and retries are not allowed");
+            .hasMessage("current operation failed and retries are not allowed");
 
         policy.setRetry(1);
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
@@ -611,7 +611,7 @@ public class ControlLoopOperationManagerTest {
         assertTrue(clom.isOperationComplete());
         ControlLoopOperationManager clom5 = clom;
         assertThatThrownBy(() -> clom5.startOperation(onsetEvent))
-                        .hasMessage("current oepration has failed after 2 retries");
+            .hasMessage("current oepration has failed after 2 retries");
 
         clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
@@ -628,7 +628,7 @@ public class ControlLoopOperationManagerTest {
         policy.setActor("Oz");
         ControlLoopOperationManager clom6 = clom;
         assertThatThrownBy(() -> clom6.startOperation(onsetEvent))
-                        .hasMessage("invalid actor Oz on policy");
+            .hasMessage("invalid actor Oz on policy");
     }
 
     @Test
@@ -648,14 +648,15 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
         onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = manager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        ControlLoopOperationManager clom =
+            new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 
         assertNull(clom.onResponse(null));
@@ -745,14 +746,15 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
         onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = manager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        ControlLoopOperationManager clom =
+            new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 
         clom.startOperation(onsetEvent);
@@ -761,10 +763,12 @@ public class ControlLoopOperationManagerTest {
         final SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
         PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "false");
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
-                "http://somewhere.over.the.rainbow");
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(
+            org.onap.policy.guard.Util.ONAP_KEY_URL, "http://somewhere.over.the.rainbow");
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
 
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
 
@@ -794,13 +798,14 @@ public class ControlLoopOperationManagerTest {
         event.getAai().put(VSERVER_NAME, "OzVServer");
 
         ControlLoopEventManager eventManager =
-                new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
+            new ControlLoopEventManager(event.getClosedLoopControlName(), event.getRequestId());
         VirtualControlLoopNotification notification = eventManager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = eventManager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager operationManager = new ControlLoopOperationManager(event, policy, eventManager);
+        ControlLoopOperationManager operationManager =
+            new ControlLoopOperationManager(event, policy, eventManager);
 
         // Run
         Object result = operationManager.startOperation(event);
@@ -833,14 +838,15 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
         onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = manager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        ControlLoopOperationManager clom =
+            new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 
         clom.startOperation(onsetEvent);
@@ -874,14 +880,15 @@ public class ControlLoopOperationManagerTest {
         onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
         onsetEvent.getAai().put(VSERVER_NAME, "testVserverName");
 
-        ControlLoopEventManager manager =
-                new ControlLoopEventManager(onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
+        ControlLoopEventManager manager = new ControlLoopEventManager(
+            onsetEvent.getClosedLoopControlName(), onsetEvent.getRequestId());
         VirtualControlLoopNotification notification = manager.activate(yamlString, onsetEvent);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
         Policy policy = manager.getProcessor().getCurrentPolicy();
-        ControlLoopOperationManager clom = new ControlLoopOperationManager(onsetEvent, policy, manager);
+        ControlLoopOperationManager clom =
+            new ControlLoopOperationManager(onsetEvent, policy, manager);
         assertNotNull(clom);
 
         clom.startOperation(onsetEvent);
@@ -895,10 +902,12 @@ public class ControlLoopOperationManagerTest {
         final SoResponseWrapper soRw = new SoResponseWrapper(soResponse, null);
 
         PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "false");
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_URL,
-                "http://somewhere.over.the.rainbow");
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
-        PolicyEngineConstants.getManager().setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(
+            org.onap.policy.guard.Util.ONAP_KEY_URL, "http://somewhere.over.the.rainbow");
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_USER, DOROTHY);
+        PolicyEngineConstants.getManager()
+            .setEnvironmentProperty(org.onap.policy.guard.Util.ONAP_KEY_PASS, "Toto");
 
         assertEquals(PolicyResult.FAILURE, clom.onResponse(soRw));
         assertFalse(clom.isOperationRunning());
