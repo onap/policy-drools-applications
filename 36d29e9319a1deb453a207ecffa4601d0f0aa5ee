@@ -48,6 +48,40 @@
     },
     {
       "key": {
+        "uuid": "45ed4136_2ce1da8b",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:34:46Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment below",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2ce908_3731abb3",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:34:46Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment below",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa58aacd_4e463818",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -71,6 +105,40 @@
     },
     {
       "key": {
+        "uuid": "cc6d5a68_73d7a7c0",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:34:46Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25099e89_5d596f4e",
+        "filename": "controlloop/templates/archetype-cl-amsterdam/src/main/resources/archetype-resources/src/main/resources/__closedLoopControlName__.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:34:46Z",
+      "side": 1,
+      "message": "maybe lessen the indentation of this block",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da9ce60e_4dd73ced",
         "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
         "patchSetId": 1
@@ -91,6 +159,40 @@
       "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2314b543_bd5b92d0",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VcpeControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:34:46Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e863950c_ab06cbce",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VfwControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-14T13:34:46Z",
+      "side": 1,
+      "message": "we should probably have a test somewhere that tests with one and not the other, and then vice versa",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
