@@ -170,6 +170,30 @@
     },
     {
       "key": {
+        "uuid": "26e77a57_75a4dd0f",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-15T16:46:42Z",
+      "side": 1,
+      "message": "This specific test fails, and the reason behind it is that it sends out a wrong URL for the query. I am not sure who wrote this test, but I need to work with that person to make sure correct URL is sent to the simulator. Patch 2 still has this test ignored.",
+      "parentUuid": "9b7f114b_860cf310",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 11
+      },
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc6d5a68_73d7a7c0",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
