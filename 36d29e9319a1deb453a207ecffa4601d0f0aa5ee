@@ -218,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "2ab0f3b0_01bfaaaf",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-15T17:07:05Z",
+      "side": 1,
+      "message": "I tried something similar before, but I couldn\u0027t make it work. Let me try with different combinations and see if it works. Thanks!",
+      "parentUuid": "65672fc3_fe67286b",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 11
+      },
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc6d5a68_73d7a7c0",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
