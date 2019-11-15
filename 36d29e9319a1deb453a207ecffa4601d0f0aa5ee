@@ -193,6 +193,24 @@
       "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cc08158_2fac4557",
+        "filename": "controlloop/templates/template.demo/src/test/java/org/onap/policy/template/demo/VfwControlLoopTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2019-11-15T16:09:05Z",
+      "side": 1,
+      "message": "In custom queries, vnf-name does not matter. The query is made using only vserver-name. As far as testing with non-valid vserver-name is concerned, aaiFailTest in this file handles that by sending the values \"error\" and \"getFail\"",
+      "parentUuid": "e863950c_ab06cbce",
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
