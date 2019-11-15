@@ -194,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "65672fc3_fe67286b",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-15T16:59:38Z",
+      "side": 1,
+      "message": "Can you change this file to use the right URL at line 122 and here in the parameters as necessary?",
+      "parentUuid": "26e77a57_75a4dd0f",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 11
+      },
+      "revId": "36d29e9319a1deb453a207ecffa4601d0f0aa5ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc6d5a68_73d7a7c0",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
