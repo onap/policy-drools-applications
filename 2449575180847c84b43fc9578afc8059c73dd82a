@@ -1,0 +1,2469 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6337bea_636ec4a2",
+        "filename": "m2/adapters/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "missing license\n\nsame comment in other poms",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e564209_3c18fdea",
+        "filename": "m2/adapters/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "remove version\n\nsame comment in other poms",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ff7a990_1e5b18b2",
+        "filename": "m2/adapters/src/main/java/org/onap/policy/m2/adapters/VirtualOnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "at first, I was going to suggest that we make this a parameterized class, but then it occurred to me that we may not even need it at all: Why not just register an event class and it\u0027s corresponding notification class with the OnsetAdapter and let that do the type conversion and construction of the notification object?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87a03d6_2580cada",
+        "filename": "m2/adapters/src/main/java/org/onap/policy/m2/adapters/VirtualOnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "see if we can eliminate the \"static\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71868149_0dc1458d",
+        "filename": "m2/adapters/src/main/java/org/onap/policy/m2/adapters/VirtualOnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "typo \"pasased\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "824b9a88_9b6b55f6",
+        "filename": "m2/adapters/src/test/java/org/onap/policy/m2/adapters/VirtualOnsetAdapterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "eclipse complains about this if \"register\" is static",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "115104ba_05aaf626",
+        "filename": "m2/adapters/src/test/java/org/onap/policy/m2/adapters/VirtualOnsetAdapterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "uncomment this code - the test is of value",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb419c37_6eb65045",
+        "filename": "m2/base/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delete this - should not need log4j",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7c32bff_3db519f2",
+        "filename": "m2/base/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delete version",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b24e5a4_5c9bb1f7",
+        "filename": "m2/base/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delete version",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a06bc8f9_cbdcb4ce",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7c87705_c6cded5f",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "add \"private\"\n\nsame comment below",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c578d16a_762bd876",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: need a body; can add a comment in the body or invoke super()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "955a0504_cbdcb86d",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "eliminate \"static\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4983263_62de2a35",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "declare type to be plain \"Map\"\n\nI\u0027m seeing \"eclipse\" warnings about the use of generic \"Class\"\n\nperhaps put this into an \"OnsetAdapterManager\" class, and use getInstance to access the manager object.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbf84ba8_363f37ba",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "see if we can change all of these \"static\" methods to regular methods.  I\u0027m not totally against static \"register\" methods since they\u0027re one-time, initialization methods, but they can still make it more difficult to unit test.  If they remain \"static\", then probably need a \"clear\" or \"reset\" method so that that junit tests can reset the contents of the map.  (Bobby found an annotation that makes methods visible to junit tests, but not to the rest of the production code.)",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7d3ae74_0b3dbac1",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use map.putIfAbsent instead of get/put",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60ba38d0_2113f837",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use computeIfAbsent, eliminating double look-up and eliminating the need for sychronized(map) below",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85946a6c_72036c37",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar may complain about the complexity - maybe extract the \"for\" loop or its body into a separate method",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad24eaed_4c363b84",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use isEmpty()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9deef0b1_d1de5157",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "this can be simplified by eliminating this outer test",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a89dce9d_3555454f",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use a logger instead of System.out",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65367bc3_b2171650",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "hmm.  if we didn\u0027t worry about this case, then most of this method body could probably be replaced with a stream.reduce() call.  Is it really worth writing all of this code to catch this case?  What does the code coverage look like for the junit tests?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa598fd7_a716efe2",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Operation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "\"UDB\" \u003d\u003e \"UEB\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b407bc4c_d3aa9e7e",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "declare type to be plain \"Map\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e187eccb_b1b8d221",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "doesn\u0027t appear that concurrency is needed - maybe use a plain HashMap",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cde49b33_16a8b8c6",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: this should be transient or Serializable",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4533afa9_ef8469a7",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "maybe reformat or add a newline to make it more obvious where the method declaration ends and its body begins",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20d428b0_cc4a8d30",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "in ONAP, we prefer to structure \"if\" statements in a way that simple stuff is done first (e.g., error checks) and then the code immediately returns, eliminating the need to indent/nest the more complex stuff that follows.  The alternative is to extract methods so that none of the branches is more than a few lines long (i.e., 3-5).",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3caa0851_34e2cdde",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use isEmpty(), or better yet: StringUtils.isBlank()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1d1dfc4_14217bed",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: should not assign to a parameter (this isn\u0027t really needed anyway - could just use \"?:\" operator on line 266)",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779fa4c0_ebf321f5",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s possible for onsetAdapter to be null at this point - is that correct?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca6e3f4_86076ae2",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "maybe use an ArrayList in this case, as it requires fewer memory allocations",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d7ef828_79924c9d",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "no need to set currentOp\u003dnull?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8995476_94187462",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "flip the \"if\" test to avoid indentation/nesting",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a9647f_cd2fa8a2",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "perhaps use stream.filter instead of setHistory/for-loop",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2887a12_68d0fba2",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "flip the \"if\" test to avoid indentation/nesting",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28552d3f_f3675803",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "complexity: extract some blocks into their own methods",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c59c5c3_527b5848",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "flip \"if\" test",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f588ba7f_40b46d5b",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "perhaps use stream.filter instead of setHistory/for-loop",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c408d8d_196660eb",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: case statement is too long",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4be5ae_20a592c5",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "flip \"if\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc96d5e_8498efc8",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use \"{}\" instead of concatenation",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a1e556_5e8244da",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "perhaps use stream.findAny()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fe3693a_48418cad",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "declare type to be plain \"Map\"\n\nsonar: move this up with the rest of the field declarations",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d86e8c1c_b8cbd67b",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use map.computeIfAbsent",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc5d3f93_73654992",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "cast is not needed",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4cc0943_6a91ef4d",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use logger",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7e24a10_4f306d3c",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use map.putIfAbsent",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d86f132f_4e8d9255",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use a logger",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1b5ce70_6817c46c",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "avoid \"static\" methods with side-effects.  Perhaps turn this method into:\n\n  getTopicCommInfrastructure(topic)\n\nand then the invoker would call controller.deliver(...) as a separate step.  Ex:\n\n  controller.deliver(getCommInfra(topic), topic, event)",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eb0ad0c_f1f3e4a2",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "maybe also verify that the putAdjunct() method is invoked",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "403dc42c_6b848a7f",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/TransactionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "could combine these lines using Arrays.asList()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1793efff_09bb732b",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "may want to add @AfterClass to destroy the topic sinks",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f536bfe4_d5241ec5",
+        "filename": "m2/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delete version",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "834de950_983d5751",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use thread pool from PolicyEngine",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97692279_b59ffd56",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "I believe this was moved to a property",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "571af29f_3608b184",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use stream.findAny()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f1c6d1f_baf2c311",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "replace with StringUtils.isBlank()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df51b4f9_f220fc4c",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "complexity: extract parts of this into separate methods",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a56c5c88_fdcaaccf",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "do this like the code to check the number of nexus repos",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3b257fa_b417f205",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "missing trailing space after comma",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faa4a752_6a42db9d",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "separate append() calls instead of concatenation",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "795d3db4_73038dc4",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: use equals()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a015852_20495dbc",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "reformat or add spacing to delineate parameters vs method body",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0312f4a9_4a70c760",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "complexity: extract methods\n\nshould this be protected so rule writer is not tempted to use it?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8806f523_990f8d39",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "perhaps do clean-up and return here so-as to eliminate the need for the \"else\" (or reduce the contents of the \"else\" to just a few lines)",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f622c605_b0e44da8",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use a structure or map, along with StandardCoder to encode the request into json",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eab20ff7_3e0d714e",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "I assume this is meant to be non-blocking",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "080ce0dc_c2296d93",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use StandardCoder to decode the response - can decode into a StandardCoderObject, a map, or a structure",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882a0778_eceea9cb",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use previously decoded object",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cba7421_aa8703e2",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use: ! StringUtils.isBlank()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8038946_1b4f6a3b",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "looks to me like \"error\" is not needed as it\u0027s always true at this point",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2cdac0_80ce9b3f",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delineate parameters vs method body",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05bf06f9_3f909aa9",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "can use execute() if don\u0027t need the \"Future\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54701af4_11ccc22f",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: use a lambda instead of anonymous class",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f5a757_e1944316",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "flip \"if\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d3ed616_0810f7e3",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delineate parameters vs method body",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa7055e_907b71ca",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: use lambda",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "719bb127_af0b1193",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "these fields should be moved up with the rest of the fields",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a97ad389_cb9fd191",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use lambda",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b198639d_b6b83e74",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use this instead of the TrustManager array:\n\n  NetworkUtil.getAlwaysTrustingManager()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ffeb7a2_a8e174ad",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "should probably throw an Error here (or a RuntimeException of some sort)",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5925bdd2_98111756",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "parameter delineation",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2826ee7e_60688079",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "\"utf-8\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e15368c_d40e1a1e",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "flip \"if\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d1e76b_c2dddad5",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "pretty sure there\u0027s an IOUtil or IOUtils method to read an entire input stream",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30321364_b3b58aa1",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use \"{}\" instead of concatenation\n\nsame comment in other logger calls",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37cd42b0_232d86d2",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/OperationsHistoryDbEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "make the fields private and use lombok",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4685bac1_49344da5",
+        "filename": "m2/guard/src/test/java/org/onap/policy/guard/GuardContextTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "should this result in any different outcome than the previous test?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53dae71c_49285003",
+        "filename": "m2/lcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "remove \"experimental\"?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd7d6a0b_fa7ebd1c",
+        "filename": "m2/lcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delete log4j\n\nsame comment in all poms",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e09bf35_6460c179",
+        "filename": "m2/lcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "delete this - use policy-common StandardCoder instead",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea1f117_7f568b11",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "parameter delineation",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9afadad_bd5930d4",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: I prefer this for ease of addition, but sonar doesn\u0027t like it when a switch statement has less than three cases",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa0f14c_a0d49d7f",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use StandardCoder instead of Gson.  Can decode into StandardCoderObject, Map, or a class",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1e3f83c_7be27af2",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "method complexity",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35a7fec3_d2c8afce",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use \"int\" instead of \"Integer\", unless need to allow \"null\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "968ed0bf_0311cc71",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "StringUtils.isBlank()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "395fe5d9_0dd384d0",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use StandardCoder",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2232fc6_87ae0995",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "is this onMethod stuff needed?  If not, delete it",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b95c28f_43bb2091",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "should check current ONAP code - seems like enhancements were made to check additional fields",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdf6ddfd_86e56957",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "can invoke toString() instead of using concatenation",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3cd0607_7e58e745",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: use \"if\" instead",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9296cfde_dee21904",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use StandardCoder",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe20068e_0b98582f",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "not sure if these needs to support other types now, too - check ONAP",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f76a84_41b727ba",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "method complexity",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a474d1d4_3bf82d7f",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use stream.findAny()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4348a84c_9b63cbc8",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "vnf_id?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff78199_8f765c6d",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "vserver_name?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15aef0b8_2c1f07ef",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use: \"Deny\".equals()",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd18061f_23356db6",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "method complexity",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "420648a9_542aa34d",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "are we sure it\u0027s an abatement and not a second onset?  Or does it matter?  Or maybe rename the method.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60a9a056_a987d950",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "\"int\" instead of \"Integer\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e6b26b1_6b9c77e6",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "\"int\" instead of \"Integer\"\n\ndelineate parameters",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4687a8bf_814a1805",
+        "filename": "m2/lcm/src/test/java/lcm/LcmHealthCheckOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use @BeforeClass instead of static",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7594fcc_34b9e3c5",
+        "filename": "m2/lcm/src/test/java/lcm/LcmHealthCheckOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "is this needed?  Should it be @After instead of @AfterClass?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a3db79_c2408db2",
+        "filename": "m2/lcm/src/test/java/lcm/LcmHealthCheckOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "remove try/catch wrapper",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ffba8e6_2293c2f9",
+        "filename": "m2/lcm/src/test/java/lcm/LcmHealthCheckOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use logger",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053ed168_46164d25",
+        "filename": "m2/lcm/src/test/java/lcm/LcmOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "move to \"start()\" method",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "020675c2_99fb354b",
+        "filename": "m2/lcm/src/test/java/lcm/LcmOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "is this line needed?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b39225db_bfb13f72",
+        "filename": "m2/lcm/src/test/java/lcm/LcmOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "remove try/catch wrapper\n\nsame comment below",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea3978ef_b7faa0ae",
+        "filename": "m2/lcm/src/test/java/lcm/LcmOperationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use logger\n\nsame comment below",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1029f57_04fdac32",
+        "filename": "m2/lock/src/main/java/org/onap/policy/drools/m2/lock/LockAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "add \"private\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3dbf73_a2703d57",
+        "filename": "m2/lock/src/main/java/org/onap/policy/drools/m2/lock/LockAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "add \"private\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "764d812f_68988b7e",
+        "filename": "m2/lock/src/test/java/org/onap/policy/drools/m2/lock/LockAdjunctTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "\"public\" \u003d\u003e \"private\"",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "116be33d_d40cc1a4",
+        "filename": "m2/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "remove \"experimental\"?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3618789_61f4ca7f",
+        "filename": "m2/test/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "is this needed?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0537fbf4_b857d98c",
+        "filename": "m2/test/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use StandardCoder instead of json, if possible",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23e3742_835e2deb",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/LcmTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "sonar: no \"sleep\" in junit tests.  Is there another way to do this?  wait on a latch, semaphore, event?\n\nsame comment below",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e49f6bc_b86308d3",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimDmaap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use the dmaap simulator from policy-models",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cde91b3_2b9a8791",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use the simulator from policy-models",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5be0ffab_1975ed1f",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "I believe there\u0027s an IOUtil or IOUtils method for this",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06077b22_09f83f8b",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "throw an exception if the arg count is not even",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b87b837_50edfbf3",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "throw an exception if the arg count is not even",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9296435_c44086a1",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use GsonMessageBodyHandler class instead of jackson",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c50966c_ee76c234",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use lambda",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e1ee9ea_5d68e9c0",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use logger",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a670b0e_9b7d0d45",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use logger",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e41c5e_ff3e604b",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "looks like dmaap could be avoided altogether by using noop topics, or by simply tying Input and Output together using a shared queue",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640ff308_1a41a1e4",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use logger",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0a35fa_1b388cb9",
+        "filename": "m2/test/src/test/resources/lcm/M2CLRulevUSPLCMGuardTemplate.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "license",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f14cb83_540fea6a",
+        "filename": "m2/test/src/test/resources/lcm/M2CLRulevUSPLCMGuardTemplate.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "use \"{}\" instead of concatenation\n\nsame comment below",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b364b2f9_2f4c9831",
+        "filename": "m2/test/src/test/resources/lcm/M2CLRulevUSPLCMGuardTemplate.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7272d677_ba385341",
+        "filename": "m2/test/src/test/resources/lcm/kmodule.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T21:46:04Z",
+      "side": 1,
+      "message": "license",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
