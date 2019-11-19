@@ -230,6 +230,7 @@
     <modules>
         <module>controlloop</module>
         <module>testsuites</module>
+        <module>m2</module>
     </modules>
 
     <reporting>
