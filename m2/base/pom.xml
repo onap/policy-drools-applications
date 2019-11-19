@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.onap.policy.drools-applications.m2</groupId>
+    <artifactId>m2</artifactId>
+    <version>1.6.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>base</artifactId>
+  <name>Experimental Control Loop Model - base</name>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.m2</groupId>
+      <artifactId>guard</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <artifactId>eventmanager</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.common</groupId>
+      <artifactId>ONAP-Logging</artifactId>
+      <version>${version.policy.common}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+      <artifactId>model-yaml</artifactId>
+      <version>${policy.models.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+      <artifactId>events</artifactId>
+      <version>${policy.models.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+      <artifactId>aai</artifactId>
+      <version>${policy.models.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+      <artifactId>sdc</artifactId>
+      <version>${policy.models.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.policy.drools-pdp</groupId>
+      <artifactId>policy-management</artifactId>
+      <version>${version.policy.drools-pdp}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.6.6</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.6.6</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
