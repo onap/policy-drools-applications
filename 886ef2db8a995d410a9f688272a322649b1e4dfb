@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4f41f945_57b6de60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T15:38:35Z",
+      "side": 1,
+      "message": "nice - much cleaner than its predecessor!  great idea to use kie listeners to detect updates!",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9413c84f_6ab81f65",
         "filename": "controlloop/common/controller-usecases/pom.xml",
         "patchSetId": 2
@@ -22,6 +39,74 @@
       "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381449be_b79efccd",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T15:38:35Z",
+      "side": 1,
+      "message": "is there no way to use a latch, semaphore, or blocking queue for this?",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c7c384a_a5e44fea",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T15:38:35Z",
+      "side": 1,
+      "message": "I\u0027d prefer that a CountDownLatch be used here and then the code can wait for the latch instead of using the sleep-loop within awaitility, avoiding waiting any longer than is necessary.\n\nPerhaps add methods to this class to check and/or wait for \"notified\" instead of directly checking the \"notified\" flag within the test classes.  Similar comment for the TopicCallback class.",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fc74407_73008fca",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/VcpeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T15:38:35Z",
+      "side": 1,
+      "message": "these two lines could be combined into a single method on TopicListener, replacing them with a single line using assertEquals",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d6718f7_c6d6a431",
+        "filename": "controlloop/common/controller-usecases/src/test/resources/vlb/vlb.onset.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-19T15:38:35Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
