@@ -38,6 +38,11 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
+      <modules>
+        <module>basex-controlloop</module>
+        <module>artifacts-controlloop</module>
+        <module>apps-controlloop</module>
+      </modules>
     </profile>
     <profile>
       <id>docker</id>
