@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9413c84f_6ab81f65",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-11-19T12:51:42Z",
+      "side": 1,
+      "message": "Do we need the version here? Did we put this in policy/parent?",
+      "range": {
+        "startLine": 201,
+        "startChar": 9,
+        "endLine": 201,
+        "endChar": 36
+      },
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
