@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f3941835_30911257",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T22:19:21Z",
+      "side": 1,
+      "message": "I think the main benefit is that since is using the \"real\" pdp-d middleware to run the user scenarios, we will be able to catch errors hopefully during development more often than before.",
+      "parentUuid": "4f41f945_57b6de60",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9413c84f_6ab81f65",
         "filename": "controlloop/common/controller-usecases/pom.xml",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2019-11-19T12:51:42Z",
       "side": 1,
       "message": "Do we need the version here? Did we put this in policy/parent?",
+      "range": {
+        "startLine": 201,
+        "startChar": 9,
+        "endLine": 201,
+        "endChar": 36
+      },
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71ceecb6_8ad914a7",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T22:19:21Z",
+      "side": 1,
+      "message": "I didn\u0027t see it in parent, but I could add this library to dependency-management in parent in another review, if you think should be there.",
+      "parentUuid": "9413c84f_6ab81f65",
       "range": {
         "startLine": 201,
         "startChar": 9,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5bcb328a_5980e82f",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T22:19:21Z",
+      "side": 1,
+      "message": "I initially thought about a blocking queue, then for some reason I thought that this other way, may be a few less lines of test code, and pretty readable.  I will consider in the future though.",
+      "parentUuid": "381449be_b79efccd",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c7c384a_a5e44fea",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesBase.java",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2019-11-19T15:38:35Z",
       "side": 1,
       "message": "I\u0027d prefer that a CountDownLatch be used here and then the code can wait for the latch instead of using the sleep-loop within awaitility, avoiding waiting any longer than is necessary.\n\nPerhaps add methods to this class to check and/or wait for \"notified\" instead of directly checking the \"notified\" flag within the test classes.  Similar comment for the TopicCallback class.",
+      "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60807790_11f94ddb",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-19T22:19:21Z",
+      "side": 1,
+      "message": "I can do a CountdownLatch here.  With regards to the Topic callbacks, I\u0027m going to leave as is for now, I think if any change would be to move to a blocking queue instead, since the number of messages is variable and lifetime lasts for the length of the test.",
+      "parentUuid": "1c7c384a_a5e44fea",
       "revId": "886ef2db8a995d410a9f688272a322649b1e4dfb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
