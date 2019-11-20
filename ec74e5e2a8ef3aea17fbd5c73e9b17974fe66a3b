@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5268e96_73d2f0ac",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-20T13:56:15Z",
+      "side": 1,
+      "message": "no longer need to wrap these calls in \"await\"",
+      "revId": "ec74e5e2a8ef3aea17fbd5c73e9b17974fe66a3b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
