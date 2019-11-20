@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "90b9d3c0_558fd455",
+        "filename": "m2/base/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "Remove ONAP-Logging dependency - Flex Logger should be avoided.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb419c37_6eb65045",
         "filename": "m2/base/pom.xml",
         "patchSetId": 1
@@ -166,6 +183,23 @@
       "writtenOn": "2019-11-19T21:46:04Z",
       "side": 1,
       "message": "delete version",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e38f309_349ad8fe",
+        "filename": "m2/base/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "remove - in general check all dependencies version against those defined in policy/parent/integration/pom.xml",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -472,6 +506,23 @@
       "writtenOn": "2019-11-19T21:46:04Z",
       "side": 1,
       "message": "maybe reformat or add a newline to make it more obvious where the method declaration ends and its body begins",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c986d7e_61e8ddc7",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "I would prefer a method being added to drools-pdp KieUtils to consolidate similar code in a single place.",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -869,6 +920,23 @@
     },
     {
       "key": {
+        "uuid": "df29e86b_2fbad8c8",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "If possible all these calls should go through the engine.  No need to pass the getTopicCommInfrastructure, case the controller or engine are locked for some reason.\n\nOnly 2 parameters are necessary PolicyEngine.deliver(topic, event);    The assumption is that topic names are unique, no need to know underlying channel.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9eb0ad0c_f1f3e4a2",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
         "patchSetId": 1
@@ -917,6 +985,74 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b8fb0f_f719a573",
+        "filename": "m2/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "delete version, test scope better",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7519542f_458dc4d5",
+        "filename": "m2/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a64a777_75164ec6",
+        "filename": "m2/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "double check with existing dependencies in repo, only xacml-pdp is used and in version 1.0.2.  The should match.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17b32e6f_edd04e0f",
+        "filename": "m2/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "a different version is used - 1.0.2.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -971,6 +1107,24 @@
     },
     {
       "key": {
+        "uuid": "b3dfdf01_76b321a3",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "Remove all together - encryption is handled by the framework transparently for applications.",
+      "parentUuid": "97692279_b59ffd56",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "571af29f_3608b184",
         "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
         "patchSetId": 1
@@ -985,6 +1139,23 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a939eff9_74d804e2",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "this can be done in 1 line - PolicyControllerFactory.get(groupId, artifactId).getProperties();",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -1022,6 +1193,23 @@
     },
     {
       "key": {
+        "uuid": "87ba7ecc_685210d9",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "access properties through PolicyEngine apis to get environment variables, look at existing examples in drools-applications repo, related to guard.   All these properties are available.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a56c5c88_fdcaaccf",
         "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
         "patchSetId": 1
@@ -1036,6 +1224,40 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "399d0a4b_79402b54",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "There is some overlap with guard code in policy/models to do exactly this I think.   They probably should be consolidated.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0315dd10_595bcc2b",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "Multiple rest urls are obsolete at least in kubernetes environment where xacml pdp replicas will be hidden behind a service a load balancer, only one service endpoint host is needed here.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -1087,6 +1309,23 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2307fe_48ad0568",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "All Crypto code should be removed, handle by the infrastructure.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -1155,6 +1394,40 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9046e5c_0f34d23b",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "Can this reuse, the common code in models ?\n\nIn addition, this may not be compatible with new PDP-X.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca033b7b_3ca69e3c",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "ecomp term should be avoided in onap (this is a project wide directive)",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -1515,6 +1788,40 @@
     },
     {
       "key": {
+        "uuid": "1f2e1cce_d22ff4e4",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/OperationsHistoryDbEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "There is another table for the same purpose used for these purposes.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05500ecc_12d2e7be",
+        "filename": "m2/guard/src/main/resources/META-INF/persistence.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "this is dup with something similar we have for this purpose",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4685bac1_49344da5",
         "filename": "m2/guard/src/test/java/org/onap/policy/guard/GuardContextTest.java",
         "patchSetId": 1
@@ -1549,6 +1856,41 @@
     },
     {
       "key": {
+        "uuid": "6e82825b_fcee3fec",
+        "filename": "m2/lcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "I think better to leave it experimental until we bless it in our testing.",
+      "parentUuid": "53dae71c_49285003",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ded63ff_22602a1b",
+        "filename": "m2/lcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd7d6a0b_fa7ebd1c",
         "filename": "m2/lcm/pom.xml",
         "patchSetId": 1
@@ -1580,6 +1922,23 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "302b7311_270c97e3",
+        "filename": "m2/lcm/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "delete version",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -2093,6 +2452,57 @@
     },
     {
       "key": {
+        "uuid": "aadfdccc_d0819ae0",
+        "filename": "m2/lock/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "policy-core should be transitively retrieved from policy-management.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54cc82ec_98370f2a",
+        "filename": "m2/lock/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "delete version",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57fa2bd2_a95a1d3c",
+        "filename": "m2/lock/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "delete dependency",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1029f57_04fdac32",
         "filename": "m2/lock/src/main/java/org/onap/policy/drools/m2/lock/LockAdjunct.java",
         "patchSetId": 1
@@ -2127,6 +2537,23 @@
     },
     {
       "key": {
+        "uuid": "cddd35f7_7a2c2645",
+        "filename": "m2/lock/src/main/java/org/onap/policy/drools/m2/lock/LockAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "fyi, sonar complains when using \"(x)\" in return statements.",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "764d812f_68988b7e",
         "filename": "m2/lock/src/test/java/org/onap/policy/drools/m2/lock/LockAdjunctTest.java",
         "patchSetId": 1
@@ -2158,6 +2585,23 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89513ce0_c004ce65",
+        "filename": "m2/test/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "we usually don\u0027t add this",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -2240,6 +2684,23 @@
       "writtenOn": "2019-11-19T21:46:04Z",
       "side": 1,
       "message": "use the simulator from policy-models",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1879598_55a06c46",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2019-11-20T17:40:42Z",
+      "side": 1,
+      "message": "There are simulators in common, can they be used?",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
