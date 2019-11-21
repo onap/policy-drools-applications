@@ -2758,6 +2758,23 @@
     },
     {
       "key": {
+        "uuid": "ee6f9be5_805cda71",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-21T16:58:55Z",
+      "side": 1,
+      "message": "perhaps use RestServer (policy-endpoints) instead",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9296435_c44086a1",
         "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
         "patchSetId": 1
@@ -2823,6 +2840,23 @@
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d49371e_31a1732d",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-11-21T16:58:55Z",
+      "side": 1,
+      "message": "how does the server get shut down?",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
