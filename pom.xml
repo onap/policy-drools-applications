@@ -259,6 +259,11 @@
             <artifactId>logback-classic</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- Common Controller SDK -->
+        <dependency>
+            <groupId>org.onap.ccsdk.cds.components</groupId>
+            <artifactId>proto-definition</artifactId>
+        </dependency>
     </dependencies>
 
 
