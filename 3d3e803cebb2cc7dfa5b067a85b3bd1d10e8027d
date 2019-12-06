@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8827dd82_b1fc08d6",
+        "filename": "m2/adapters/src/test/java/org/onap/policy/m2/adapters/VirtualOnsetAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "suggestion: in general, use assertEquals so that eclipse will display the actual values if the assertion fails",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe570bc4_5e29e43e",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "can remove the size()!\u003d1 test and make that part of line 120 - accomplishes the same thing without the extra nesting",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23d2aaec_dc99afa1",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "are Adjuncts serializable?",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46f920f0_f21d852b",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "suggestion: flip \"if\" condition",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ffa06b4_4963316a",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "use \"{}\" instead of concatenation",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e32eef_fdc4b549",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "delete this method.  If you don\u0027t like using the line below in its place, then perhaps we should make a global \"$engine\" so that the rules can simply do:\n\n  $engine.deliver(topic, event)",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28500248_4960ccf8",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "I\u0027m ok with this, though obviously, if the assert fails then the adjunct will not be restored and other tests may then fail",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66be4069_817f0ff0",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "use Boolean.valueOf()",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55a1ac13_6cdc6613",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "sonar: use a lambda instead",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be4b1436_6aee9b41",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "use lambda",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db6e7d75_d79a8175",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmActor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "sonar: use equalsIgnoreCase instead of equals/toLower (sorry)",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cfcf2cd_8af7de93",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "StringUtils.isBlank() or at least replace equals(\"\") with isEmpty()",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8618aed2_291d25e1",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "use existing simulators, or open an ONAP JIRA to do it later during Frankfurt",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffa5ab47_48c40d50",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "let\u0027s open an ONAP JIRA to replace these gson objects with regular java objects so it works regardless of the JSON package that is used",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea021a8c_3beb8660",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "use GsonMessageBodyHandler class instead of jackson",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84e47b8a_1b6ae350",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "use lambda",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e87d18b_885cfe1d",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "how does the server get shut down?",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
