@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "a1991b2c_d1953c47",
+        "filename": "m2/adapters/src/main/java/org/onap/policy/m2/adapters/VirtualOnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "actually, I like the idea of renaming it to ControlLoopNotificationFactory, as that makes it a lot more clear what it\u0027s purpose is",
+      "parentUuid": "678be42b_d1374331",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e87a03d6_2580cada",
         "filename": "m2/adapters/src/main/java/org/onap/policy/m2/adapters/VirtualOnsetAdapter.java",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "This method exists, so it can be called on by the \u0027Actor\u0027 subclasses to ensure that the \u0027OnsetAdapter.map\u0027 table contains the entries it depends upon. The whole idea was to make this extensible -- \u0027ClassLoader\u0027 is used to discover the \u0027Actor\u0027 subclasses, and they call the \u0027register\u0027 methods to ensure that the table is populated. If just referencing \u0027VirtualOnsetAdapter\u0027 in the \u0027Actor\u0027 subclasses were sufficient to trigger static initialization in \u0027VirtualOnsetAdapter\u0027, we would place the \u0027register\u0027 call within a \u0027static { ...}\u0027 block -- unfortunately, this doesn\u0027t work.",
       "parentUuid": "e87a03d6_2580cada",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c88c99f0_6e63e119",
+        "filename": "m2/adapters/src/main/java/org/onap/policy/m2/adapters/VirtualOnsetAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "ok.  It does make me wonder, though, if this could be done via properties, thus eliminating the need for \"register()\" and also eliminating all of the code to find the \"best match\"",
+      "parentUuid": "b1bd6b39_d6ce00a5",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -556,6 +592,24 @@
       "side": 1,
       "message": "I don\u0027t think this should be a \u0027Transaction\u0027 method -- adjuncts exist in order to extend the base functionality provided by \u0027Transaction\u0027. You could argue that this class should be in a separate project, rather than \u0027base\u0027.\n\nI don\u0027t think this should be a \u0027GuardContext\u0027 method -- \u0027GuardContext\u0027 was something we used with the older model and \u0027m2\u0027 (\u0027GuardContext\u0027 is under the \u0027m2\u0027 project here, although it wasn\u0027t in our environment).\n\nI don\u0027t think this should be a new \u0027GuardAdjunct\u0027 constructor -- the creation of the \u0027GuardAdjunct\u0027 should be an implementation detail to the caller. If you look at the call to \u0027GuardAdjunct.create(...)\u0027 in \u0027M2CLRulevUSPLCMGuardTemplate.drl\u0027:\n\nGuardAdjunct.create(transaction, $context.getGuardContext());\n\nI think the current call is preferable to doing the following:\n\n(void) new GuardAdjunct(transaction, $context.getGuardContext());\n\nI believe this should remain here as a static method.",
       "parentUuid": "955a0504_cbdcb86d",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cee2e85_deaab16c",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "disagree: the rule of thumb is, static methods should have no side-effects.  This clearly has the side-effect of adding the adjunct to the transaction.  If you don\u0027t like \"new GA(...)\", here are just a few alternatives that would be acceptable:\n\n  transaction.putAdjunct(new GA(...))\n\n  new GA(...).attach(transaction)\n\n  new GA().attach(...)\n\nIf you don\u0027t like the use of \"new GA\" then replace \"new GA\" in any of the above.",
+      "parentUuid": "78527650_d60f8637",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -1122,6 +1176,24 @@
     },
     {
       "key": {
+        "uuid": "37d744ff_0d457a89",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "sonar was the original cause.  However, we\u0027ve gotten use to it and now this type of flow seems more readable as you don\u0027t have to jump back and forth across the function to try to figure out what\u0027s happening, thus:\n\n  if something special then\n    handle it and return\n\n  if something else special then\n    handle it and return\n\n  handle the normal case\n\nthis is particularly effective when the \"something special\" is an error case of some sort",
+      "parentUuid": "fd24e90a_2cc52841",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3caa0851_34e2cdde",
         "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
         "patchSetId": 1
@@ -1361,6 +1433,24 @@
       "side": 1,
       "message": "That seems far too complex for a simple loop -- the use of a stream pipeline involves the creation of an object for each stage, as well as a lambda object for the test. Eventually, it still ends up doing everything that the simple loop does, with a somewhat more complex syntax.",
       "parentUuid": "76a9647f_cd2fa8a2",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3a6e9ff_6c63fef4",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "in this case, I agree",
+      "parentUuid": "3af8efde_f170ac4a",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -1926,6 +2016,24 @@
     },
     {
       "key": {
+        "uuid": "af41fa7e_79c39918",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "that works",
+      "parentUuid": "eaa871e0_7ffef82e",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "403dc42c_6b848a7f",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/TransactionTest.java",
         "patchSetId": 1
@@ -1990,6 +2098,24 @@
       "side": 1,
       "message": "Is there a method to remove noop topic sinks? I can\u0027t find one.",
       "parentUuid": "1793efff_09bb732b",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0061d34e_e0391eee",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "destroy() will remove all of the topic endpoints, both sources and sinks",
+      "parentUuid": "7bf4cec5_a3a2fc3a",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -3151,6 +3277,24 @@
     },
     {
       "key": {
+        "uuid": "434b072b_af2a6dde",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "yes, it doesn\u0027t like anonymous classes with a single method",
+      "parentUuid": "5b730de7_48b727c3",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28f5a757_e1944316",
         "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
         "patchSetId": 1
@@ -3180,6 +3324,24 @@
       "side": 1,
       "message": "There is additional work that needs to be done once \u0027emf\u0027 is initialized, namely the \u0027createEntityManager\u0027 call. I see no reason to have \u0027emf.createEntityManager()\u0027 calls in two places.",
       "parentUuid": "28f5a757_e1944316",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e8305c_f2e332f6",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "it makes the code more readable.  Another option would be to extract the body of the \"if\" into a separate method.  Nevertheless, this case is probably ok, as the function is short enough that you can see what happens in either branch",
+      "parentUuid": "053d5719_dfaeae21",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -4141,6 +4303,24 @@
       "side": 1,
       "message": "Can you be more specific? \"Check current ONAP code\" doesn\u0027t narrow it down very much.",
       "parentUuid": "9b95c28f_43bb2091",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441e79df_d7c904a6",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "look at ControlLoopEventManager.isClosedLoopDisabled()",
+      "parentUuid": "bd17b634_a05fd055",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -5436,6 +5616,24 @@
     },
     {
       "key": {
+        "uuid": "77557a01_32dda1c5",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "we need to figure this out - maybe just need to add a logback-test.xml at the appropriate level?",
+      "parentUuid": "98e922a8_b8cfe374",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a670b0e_9b7d0d45",
         "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
         "patchSetId": 1
@@ -5517,6 +5715,24 @@
       "side": 1,
       "message": "We use the same UEB/DMAAP simulator for CI/CD testing, and I have used it to do load testing with server pool. I don\u0027t see a benefit to not using it here.",
       "parentUuid": "56e41c5e_ff3e604b",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b644b767_b5f091e6",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-06T15:00:45Z",
+      "side": 1,
+      "message": "the benefit is that we avoid having yet another simulator whose code has to be maintained",
+      "parentUuid": "bd53a798_9f826308",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
