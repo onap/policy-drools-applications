@@ -23,6 +23,14 @@ RUN . $POLICY_HOME/etc/profile.d/env.sh && \
         --settings=$POLICY_HOME/etc/m2/standalone-settings.xml \
         -DartifactId=feature-controlloop-management \
         -DgroupId=org.onap.policy.drools-applications.controlloop.common -Dversion=$BUILD_VERSION_APP_CL && \
+    mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.1:get \
+        --settings=$POLICY_HOME/etc/m2/standalone-settings.xml \
+        -DartifactId=controller-usecases \
+        -DgroupId=org.onap.policy.drools-applications.controlloop.common -Dversion=$BUILD_VERSION_APP_CL && \
+    mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.1:get \
+        --settings=$POLICY_HOME/etc/m2/standalone-settings.xml \
+        -DartifactId=policy-management \
+        -DgroupId=org.onap.policy.drools-pdp -Dversion=$BUILD_VERSION_APP_CL && \
     $POLICY_HOME/bin/features install healthcheck distributed-locking lifecycle && \
     $POLICY_HOME/bin/features install controlloop-utils controlloop-trans controlloop-management && \
     $POLICY_HOME/bin/features install controlloop-amsterdam controlloop-usecases && \
