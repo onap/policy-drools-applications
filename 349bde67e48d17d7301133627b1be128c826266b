@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b334d2ea_8e43e7b8",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "guess I was unclear, use \"{}\" instead of \"+ cl\"",
+      "revId": "349bde67e48d17d7301133627b1be128c826266b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "615e0da5_ba529249",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "sonar: replace \"{ return null; }\" with simply \"null\"",
+      "revId": "349bde67e48d17d7301133627b1be128c826266b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c49cd4b_42fcc29d",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "we need to determine why logger isn\u0027t working in these tests - it works in all of the others.  Sonar will definitely complain about these, but I guess we can figure it out when we do the next round of sonar clean-up.",
+      "revId": "349bde67e48d17d7301133627b1be128c826266b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
