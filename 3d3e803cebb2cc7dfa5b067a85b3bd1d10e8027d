@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "990739eb_b43dae37",
+        "filename": "m2/adapters/src/test/java/org/onap/policy/m2/adapters/VirtualOnsetAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8827dd82_b1fc08d6",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe570bc4_5e29e43e",
         "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "can remove the size()!\u003d1 test and make that part of line 120 - accomplishes the same thing without the extra nesting",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c914fe0_90048a83",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "This code only runs once per adapter, so I made the change. However, note that the way it was originally coded results in is only one test run in the non-error case. With the change there are now two tests run in the high-runner case, which is slightly less efficient.",
+      "parentUuid": "fe570bc4_5e29e43e",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9f939435_7d59d6fc",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "They are -- I have added this to the \u0027Adjuncts\u0027 declaration.",
+      "parentUuid": "23d2aaec_dc99afa1",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46f920f0_f21d852b",
         "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "545cd143_ad3016fc",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46f920f0_f21d852b",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ffa06b4_4963316a",
         "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "use \"{}\" instead of concatenation",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83646b29_b9f513fe",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "It turns out that \u0027Logger.error​(String msg, Throwable t)\u0027 is being called -- I don\u0027t see any API methods that include formatting with a \u0027Throwable\u0027.",
+      "parentUuid": "9ffa06b4_4963316a",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "85ac417f_855db4e3",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "I\u0027m kind of undecided on this one -- I removed the \u0027policyController\u0027 argument, because it is no longer being used. I also removed the reference in the Drools example that was provided, but I will leave the method here for now.",
+      "parentUuid": "afe121ca_2216101e",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28500248_4960ccf8",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
         "patchSetId": 2
@@ -133,6 +241,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "I\u0027m ok with this, though obviously, if the assert fails then the adjunct will not be restored and other tests may then fail",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3c24482_543e2a9b",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "I changed it to use a try/finally block, so things will still be cleaned up if the assert fails.",
+      "parentUuid": "28500248_4960ccf8",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "f52d4f01_543b4505",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66be4069_817f0ff0",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a1ac13_6cdc6613",
         "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
         "patchSetId": 2
@@ -167,6 +311,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "sonar: use a lambda instead",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f14810ff_54e26412",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55a1ac13_6cdc6613",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -190,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "00867042_ca7001e0",
+        "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be4b1436_6aee9b41",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db6e7d75_d79a8175",
         "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmActor.java",
         "patchSetId": 2
@@ -201,6 +381,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "sonar: use equalsIgnoreCase instead of equals/toLower (sorry)",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6990deea_683f2e57",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmActor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6e7d75_d79a8175",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -224,6 +422,24 @@
     },
     {
       "key": {
+        "uuid": "0d73dbeb_36c8b0ea",
+        "filename": "m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmHealthCheckOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "I replaced \u0027equals(\"\")\u0027 with \u0027isEmpty()\u0027",
+      "parentUuid": "8cfcf2cd_8af7de93",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8618aed2_291d25e1",
         "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
         "patchSetId": 2
@@ -238,6 +454,24 @@
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7983400c_3e45db94",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "I think I would prefer to hold off on this for now -- we have simple simulators that work, and we also have additional simulators built on this same base for other AT\u0026T-specific protocols.",
+      "parentUuid": "8618aed2_291d25e1",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
@@ -258,6 +492,24 @@
     },
     {
       "key": {
+        "uuid": "1311be13_7adf3d47",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Are you suggesting that this functionality be added as a new method in \u0027StandardCoder\u0027?",
+      "parentUuid": "ffa5ab47_48c40d50",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea021a8c_3beb8660",
         "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
         "patchSetId": 2
@@ -269,6 +521,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "use GsonMessageBodyHandler class instead of jackson",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e97e3b6_7d61b8be",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea021a8c_3beb8660",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -292,6 +562,24 @@
     },
     {
       "key": {
+        "uuid": "1c047674_e3b81a26",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84e47b8a_1b6ae350",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e87d18b_885cfe1d",
         "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
         "patchSetId": 2
@@ -303,6 +591,24 @@
       "writtenOn": "2019-12-06T15:00:45Z",
       "side": 1,
       "message": "how does the server get shut down?",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c626f09f_32225fbb",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-09T16:11:28Z",
+      "side": 1,
+      "message": "I added code to track the \u0027Server\u0027 instances, and added a method \u0027commonShutdown()\u0027 to call \u0027stop()\u0027 on each instance.",
+      "parentUuid": "8e87d18b_885cfe1d",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
