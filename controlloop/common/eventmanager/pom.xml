@@ -145,6 +145,10 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.onap.ccsdk.cds.components</groupId>
+      <artifactId>proto-definition</artifactId>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
