@@ -616,6 +616,24 @@
     },
     {
       "key": {
+        "uuid": "ed1e2ceb_a8efd68f",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "still need to address this - this static method should be replaced with a non-static method on something",
+      "parentUuid": "0cee2e85_deaab16c",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4983263_62de2a35",
         "filename": "m2/base/src/main/java/org/onap/policy/m2/base/OnsetAdapter.java",
         "patchSetId": 1
@@ -2116,6 +2134,24 @@
       "side": 1,
       "message": "destroy() will remove all of the topic endpoints, both sources and sinks",
       "parentUuid": "7bf4cec5_a3a2fc3a",
+      "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac29c3a7_e4486101",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "destroy()",
+      "parentUuid": "0061d34e_e0391eee",
       "revId": "2449575180847c84b43fc9578afc8059c73dd82a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
