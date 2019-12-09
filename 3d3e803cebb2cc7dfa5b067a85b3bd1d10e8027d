@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "82312ce2_2862c8d6",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "ok.  It did occur to me that static wrapper methods such as this could be made regular methods within ControlLoopManager.",
+      "parentUuid": "85ac417f_855db4e3",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28500248_4960ccf8",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/GuardAdjunctTest.java",
         "patchSetId": 2
@@ -475,6 +493,24 @@
     },
     {
       "key": {
+        "uuid": "4db16138_57362537",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "then open an ONAP JIRA to remove these two simulators in a later review",
+      "parentUuid": "7983400c_3e45db94",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ffa5ab47_48c40d50",
         "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
         "patchSetId": 2
@@ -504,6 +540,24 @@
       "side": 1,
       "message": "Are you suggesting that this functionality be added as a new method in \u0027StandardCoder\u0027?",
       "parentUuid": "ffa5ab47_48c40d50",
+      "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4df8cb14_d45df68f",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-09T17:38:27Z",
+      "side": 1,
+      "message": "I\u0027m suggesting that JsonElement, JsonObject, etc. be replaced with regular java objects, such as Object, Map, etc.",
+      "parentUuid": "1311be13_7adf3d47",
       "revId": "3d3e803cebb2cc7dfa5b067a85b3bd1d10e8027d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
