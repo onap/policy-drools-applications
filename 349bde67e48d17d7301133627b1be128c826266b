@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7c923cda_177265bf",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:11:27Z",
+      "side": 1,
+      "message": "Oh, got it.  Yes, #2 is the one - slf4j will check the last argument to see if it\u0027s a throwable and generate a stack trace for it, rather than trying to assign it to a place-holder (assuming there\u0027s no place-holder for it).",
+      "parentUuid": "7795a642_74519a3b",
+      "revId": "349bde67e48d17d7301133627b1be128c826266b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "615e0da5_ba529249",
         "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
         "patchSetId": 3
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I tried using \u0027logger\u0027 again, and this time it worked. I\u0027m not certain what changed, but it may have been that we last tried it with FlexLogger. In any case, \u0027logger\u0027 is being used now, and there are no remaining references to \u0027System.out\u0027 or \u0027System.err\u0027.",
       "parentUuid": "6c49cd4b_42fcc29d",
+      "revId": "349bde67e48d17d7301133627b1be128c826266b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e704b9_e25966d7",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:11:27Z",
+      "side": 1,
+      "message": "great!",
+      "parentUuid": "f757fa5c_8cefa972",
       "revId": "349bde67e48d17d7301133627b1be128c826266b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
