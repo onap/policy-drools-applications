@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "908b8d37_ccf9f21c",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:11:27Z",
+      "side": 1,
+      "message": "use regular member method",
+      "revId": "4fddee101c2dbd3e5f0ab937f94b79e5fc73e33c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "821e281c_7c8f0433",
+        "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:11:27Z",
+      "side": 1,
+      "message": "hmm.  this works in other junit tests.\n\ndon\u0027t forget to invoke destroy()",
+      "revId": "4fddee101c2dbd3e5f0ab937f94b79e5fc73e33c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06752665_29163b57",
+        "filename": "m2/test/src/test/java/org/onap/policy/m2/test/SimDmaap.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-10T14:11:27Z",
+      "side": 1,
+      "message": "use the existing simulators or create an ONAP JIRA to replace these in a later Frankfurt review",
+      "revId": "4fddee101c2dbd3e5f0ab937f94b79e5fc73e33c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
