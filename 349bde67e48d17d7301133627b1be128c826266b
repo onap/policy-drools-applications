@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7795a642_74519a3b",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-10T09:18:08Z",
+      "side": 1,
+      "message": "No, I understood that much, but I don\u0027t think you understood my response. Here are all of the \u0027error(...)\u0027 methods defined in \u0027Logger\u0027 version 1.7.26, extracted using \u0027javap\u0027 -- I have numbered them, so I can refer to them later:\n\n 1) public abstract void error(java.lang.String);\n 2) public abstract void error(java.lang.String, java.lang.Object...);\n 3) public abstract void error(java.lang.String, java.lang.Object);\n 4) public abstract void error(java.lang.String, java.lang.Object, java.lang.Object);\n 5) public abstract void error(java.lang.String, java.lang.Throwable);\n 6) public abstract void error(org.slf4j.Marker, java.lang.String);\n 7) public abstract void error(org.slf4j.Marker, java.lang.String, java.lang.Object...);\n 8) public abstract void error(org.slf4j.Marker, java.lang.String, java.lang.Object);\n 9) public abstract void error(org.slf4j.Marker, java.lang.String, java.lang.Object, java.lang.Object);\n10) public abstract void error(org.slf4j.Marker, java.lang.String, java.lang.Throwable);\n\nI am not going to worry about #6 through #10, because we aren\u0027t currently using \u0027Marker\u0027. Regarding methods #1 through #5, only #5 has the \u0027Throwable\u0027 argument, and I have been assuming that it is the only one that would print a stack trace from said \u0027Throwable\u0027. That is the one I am currently calling. Note that it only has one \u0027String\u0027 argument, which is the message to be printed -- no space for {} here.\n\nI assume you have been referring to one of the methods in the range #2 through #4, although I would have thought that the variable argument method #2 already covers #3 and #4, and even #1. However, I don\u0027t think any of the methods in the range of #2 through #4 would give you a stack backtrace -- you could only call \u0027Throwable.toString()\u0027 if you pass \u0027Throwable\u0027 as an argument, placing the output in one of the {} locations. Is there some trick to get a stack backtrace using #2 through #4 that I don\u0027t know about?",
+      "parentUuid": "b334d2ea_8e43e7b8",
+      "revId": "349bde67e48d17d7301133627b1be128c826266b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "615e0da5_ba529249",
         "filename": "m2/guard/src/main/java/org/onap/policy/guard/GuardContext.java",
         "patchSetId": 3
