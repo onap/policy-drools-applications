@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d26560e6_b3dba31f",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-12T16:18:12Z",
+      "side": 1,
+      "message": "I\u0027m going to accept this as a static method for now, as there are only a couple of them in this review, just so we can make progress.",
+      "revId": "d70722e19de1f3d1795d34a2a5f04e17bbca791f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
