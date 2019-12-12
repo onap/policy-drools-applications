@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d1d38e48_41c91269",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-12T15:01:18Z",
+      "side": 1,
+      "message": "per decision, this should be made into a regular method (which may or may not entail moving to a different class).\n\nI agree with your comments about having multiple classes for one thing, and yes, XyzConstants was only introduced because of a sonar complaint.  If there is always only one implementation intended, then we could move getManager() from XyzConstants to XyzManager and rename it getInstance().  As for having both a class and an interface when only one implementation will ever be used, the only advantage I see to that is that it can eliminate a circular dependency - having getManager() appear within XyzConstants also helps to eliminate circular dependencies.\n\nFYI: the test approach you mentioned that overwrites the static \u0027manager\u0027 field with \u0027Whitebox\u0027 is exactly the approach that\u0027s used.",
+      "parentUuid": "51c7c958_2454961b",
+      "revId": "4fddee101c2dbd3e5f0ab937f94b79e5fc73e33c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "821e281c_7c8f0433",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
         "patchSetId": 4
