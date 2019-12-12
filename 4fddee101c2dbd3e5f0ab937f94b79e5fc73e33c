@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "23aabec9_f9d398f3",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-12T16:06:53Z",
+      "side": 1,
+      "message": "This file has been reverted to the contents it had in patch set 4.",
+      "parentUuid": "d1d38e48_41c91269",
+      "revId": "4fddee101c2dbd3e5f0ab937f94b79e5fc73e33c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "821e281c_7c8f0433",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
         "patchSetId": 4
