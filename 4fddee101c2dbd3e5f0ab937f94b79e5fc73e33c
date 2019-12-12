@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51c7c958_2454961b",
+        "filename": "m2/base/src/main/java/org/onap/policy/m2/base/GuardAdjunct.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-12T12:56:08Z",
+      "side": 1,
+      "message": "I do acknowledge that static methods can be difficult to override if you need to in a Junit test. Still, I don\u0027t like the complexity and lack of encapsulation that external auxiliary classes introduce.\n\nI have made a change that provides a way to override the static method in a Junit test, without losing the benefits of encapsulation, and without adding complexity to the external interface. There is an additional class that has been introduced, but it is a nested class, and the complexity is only visible externally if there is a real need to override the method in a Junit test.\n\nI am actually not too thrilled about the trend that I now see in the ONAP code. There are classes that are singletons, but that functionality winds up in three separate classes. You might has something like:\n\nXyz - an interface class with the operations that the singleton is providing\nXyzManager - the one-and-only implementation of the Xyz interface\nXyzConstants - yet another class, whose primary contribution is a static \u0027getManager()\u0027 method with return type \u0027Xyz\u0027 that returns an instance of \u0027XyzManager\u0027.\n\nI see this as unnecessary complexity. Why define an interface class if there is really only one implementation? Also, I believe the \u0027XyzConstants\u0027 class was only introduced because Sonar didn\u0027t like the static \u0027getManager()\u0027 method and associated field that used to exist in \u0027Xyz\u0027.\n\nIf you like the \u0027getManager()\u0027 approach, you could still do this with a single class \u0027Xyz\u0027. You could put your static \u0027getManager()\u0027 method there, and make all of the other methods instance methods. If a Junit test needs to override some of the functionality, they could subclass \u0027Xyz\u0027, override the methods they need to, and leave the rest intact. They could then overwrite the static \u0027manager\u0027 field with \u0027Whitebox\u0027 to replace the singleton for the duration of their Junit tests. I don\u0027t think this approach offends Sonar in any way, but I am not certain.",
+      "parentUuid": "908b8d37_ccf9f21c",
+      "revId": "4fddee101c2dbd3e5f0ab937f94b79e5fc73e33c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "821e281c_7c8f0433",
         "filename": "m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
         "patchSetId": 4
