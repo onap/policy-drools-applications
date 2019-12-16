@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10ea3348_244ef4f7",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/TransactionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-12-16T17:22:54Z",
+      "side": 1,
+      "message": "Should the ignored tests be removed?",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f85aaf0_f297e2a0",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-12-16T17:22:54Z",
+      "side": 1,
+      "message": "Should this test expect an IllegalArgumentException to be thrown or some other assertion?",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b70b3f_7528bd73",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-12-16T17:22:54Z",
+      "side": 1,
+      "message": "If power mock isn\u0027t needed, it should be removed",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5601152_ee14a339",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-12-16T17:22:54Z",
+      "side": 1,
+      "message": "Maybe remove the commented out scope provided if it is not needed",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c3a5547_12c0eb93",
+        "filename": "controlloop/m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2019-12-16T17:22:54Z",
+      "side": 1,
+      "message": "In hindsight, naming everything \"Lcm*\" for APPC LCM related classes was a bit too generic. I think it would be good to open a separate ticket to rename all \"Lcm*\" classes and references to \"AppcLcm*\" once this is merged. Just a suggestion.",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
