@@ -45,6 +45,7 @@
         <docker.push.registry>nexus3.onap.org:10003</docker.push.registry>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
         <docker.buildArg.BUILD_VERSION_APP_CL>${project.version}</docker.buildArg.BUILD_VERSION_APP_CL>
+        <BASE_IMG_VERSION>1.6-SNAPSHOT-latest</BASE_IMG_VERSION> <!--Maybe set this property using the script as done below: L66-L78?-->
     </properties>
 
     <build>
@@ -76,6 +77,33 @@
                                     println 'New tag for docker: ' + properties['project.docker.latest.minmax.tag.version']
                                 }
                             </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--fabric8.io docker-maven-plugin does not support ARG usage in the FROM statement of Dockerfile
+             even though docker supports it: https://github.com/fabric8io/docker-maven-plugin/issues/859.
+             As a workaround we shall use maven-antrun-plugin to copy the Dockerfile and apply filters to
+             parameterize the base-image version and have fabric8.io docker-maven-plugin pick up this new filtered file.-->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>filter-dockerfiles-for-different-base-versions</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <replace file="src/main/docker/Dockerfile" token="@base_img_version@" value="${BASE_IMG_VERSION}"/>
+                                <!--FIXME: instead of replacing the file use the copy ant-task and findfabric8.io config to pick the file from new location-->
+                                <!--<copy file="src/main/docker/Dockerfile" toFile="target/antrun/src/main/docker/Dockerfile">-->
+                                <!--<filterset>-->
+                                    <!--<filter token="@base_img_version@" value="${BASE_IMG_VERSION}"/>-->
+                                <!--</filterset>-->
+                                <!--</copy>-->
+                            </tasks>
                         </configuration>
                     </execution>
                 </executions>
