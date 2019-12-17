@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "3d99f10f_9e5f7aad",
+        "filename": "controlloop/m2/feature-controlloop-m2/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:11:36Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment below",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "605baca5_04318934",
+        "filename": "controlloop/m2/feature-controlloop-m2/src/assembly/assemble_zip.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-12-17T14:11:36Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62b70b3f_7528bd73",
         "filename": "controlloop/m2/guard/pom.xml",
         "patchSetId": 7
