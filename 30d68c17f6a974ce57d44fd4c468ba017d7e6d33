@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "093571f3_eb9a6bb3",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/TransactionTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "I removed this test, and fixed \u0027getOperationTest()\u0027.",
+      "parentUuid": "10ea3348_244ef4f7",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f85aaf0_f297e2a0",
         "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2019-12-16T17:22:54Z",
       "side": 1,
       "message": "Should this test expect an IllegalArgumentException to be thrown or some other assertion?",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "767fb7e4_52407e82",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "That is what we are seeing now, but should that be the expected result? My best guess is that Policy Engine needs to be started, but something else also needs to be done, and I just don\u0027t know what that is yet.",
+      "parentUuid": "9f85aaf0_f297e2a0",
       "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ac027eca_38d9476d",
+        "filename": "controlloop/m2/feature-controlloop-m2/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d99f10f_9e5f7aad",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "605baca5_04318934",
         "filename": "controlloop/m2/feature-controlloop-m2/src/assembly/assemble_zip.xml",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2019-12-17T14:11:36Z",
       "side": 1,
       "message": "trailing spaces",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05d593e3_c9a3b45f",
+        "filename": "controlloop/m2/feature-controlloop-m2/src/assembly/assemble_zip.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "605baca5_04318934",
       "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ae6ac7c6_f1ab30d2",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62b70b3f_7528bd73",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5601152_ee14a339",
         "filename": "controlloop/m2/guard/pom.xml",
         "patchSetId": 7
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "1e93b29b_e69f5ebf",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5601152_ee14a339",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c3a5547_12c0eb93",
         "filename": "controlloop/m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
         "patchSetId": 7
@@ -118,6 +226,24 @@
       "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff9063a_a9749088",
+        "filename": "controlloop/m2/lcm/src/main/java/org/onap/policy/m2/lcm/LcmOperation.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2019-12-19T10:42:20Z",
+      "side": 1,
+      "message": "I made the change as part of this Gerrit change.",
+      "parentUuid": "8c3a5547_12c0eb93",
+      "revId": "30d68c17f6a974ce57d44fd4c468ba017d7e6d33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
