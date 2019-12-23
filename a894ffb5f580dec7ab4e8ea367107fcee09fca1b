@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf4a47ad_74e15999",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2019-12-23T21:14:38Z",
+      "side": 1,
+      "message": "not sure if this is the property to track both maven artifacts as well as the drools-pdp image version",
+      "range": {
+        "startLine": 101,
+        "startChar": 87,
+        "endLine": 101,
+        "endChar": 112
+      },
+      "revId": "a894ffb5f580dec7ab4e8ea367107fcee09fca1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
