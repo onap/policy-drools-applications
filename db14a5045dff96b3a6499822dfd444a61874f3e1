@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b61069d5_876dada8",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-02T19:44:03Z",
+      "side": 1,
+      "message": "I don\u0027t think this may be needed, see comment below ..",
+      "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39a64aa3_04206b91",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-02T19:44:03Z",
+      "side": 1,
+      "message": "check the non-m2 guard/pom.xml for xacml-pdp dependency.   There are exclusions due to security items with a bunch libraries transitively added.   I think the same should be done here.",
+      "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "457b1a7e_ffd08f2f",
+        "filename": "controlloop/m2/lock/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-02T19:44:03Z",
+      "side": 1,
+      "message": "scope provided  ?",
+      "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
