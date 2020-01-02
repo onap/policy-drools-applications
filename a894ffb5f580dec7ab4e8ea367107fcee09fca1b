@@ -22,6 +22,30 @@
       "revId": "a894ffb5f580dec7ab4e8ea367107fcee09fca1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f3e78d8_6cc8c377",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-02T15:49:30Z",
+      "side": 1,
+      "message": "It is actually the maven java artifacts version. But I think this is fine - because when we release the drools-pdp artifacts and image, the versions should be the same between java artifacts and the docker image.",
+      "parentUuid": "bf4a47ad_74e15999",
+      "range": {
+        "startLine": 101,
+        "startChar": 87,
+        "endLine": 101,
+        "endChar": 112
+      },
+      "revId": "a894ffb5f580dec7ab4e8ea367107fcee09fca1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
