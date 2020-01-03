@@ -1,4 +1,4 @@
-FROM onap/policy-drools:@version.policy.drools-pdp@
+FROM onap/policy-drools:1.6-SNAPSHOT-latest
 
 ARG BUILD_VERSION_APP_CL=${BUILD_VERSION_APP_CL}
 ENV BUILD_VERSION_APP_CL=${BUILD_VERSION_APP_CL}
