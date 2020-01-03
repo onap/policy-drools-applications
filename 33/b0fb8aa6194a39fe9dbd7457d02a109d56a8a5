@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Code-Review+2: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Submitted-by: Liam Fallon <liam.fallon@est.tech>
+Submitted-at: Fri, 03 Jan 2020 13:58:37 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/drools-applications/+/99992
+Project: policy/drools-applications
+Branch: refs/heads/master
