@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d903879a_bdec87a3",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-03T10:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b61069d5_876dada8",
+      "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a64aa3_04206b91",
         "filename": "controlloop/m2/guard/pom.xml",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1d358bc2_ecaac0a5",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-03T10:41:12Z",
+      "side": 1,
+      "message": "Now that this \u0027guard\u0027 is dependent upon \u0027*.common:guard\u0027, I was able to remove this dependency, and take advantage of the transitive dependency.",
+      "parentUuid": "39a64aa3_04206b91",
+      "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457b1a7e_ffd08f2f",
         "filename": "controlloop/m2/lock/pom.xml",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2020-01-02T19:44:03Z",
       "side": 1,
       "message": "scope provided  ?",
+      "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2e1ee6e_2ba34061",
+        "filename": "controlloop/m2/lock/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-03T10:41:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "457b1a7e_ffd08f2f",
       "revId": "db14a5045dff96b3a6499822dfd444a61874f3e1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
