@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2109e99_85ab2dbf",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-01-07T23:51:48Z",
+      "side": 1,
+      "message": "I\u0027m changing the phase from the configuration that was done previously and reverted.\nThe antrun cleanup is now executed at deploy phase instead of process-sources phase. This is because the antrun Dockerfile is also required at deploy phase for push. This is why the cleanup is delayed to the end of the deploy phase.\n\nI\u0027m concerned about running maven docker profile without reaching deploy phase (ex: mvn clean install -Pdocker). In this case it is possible that antrun Dockerfile is not deleted and remains. This is not clean and would require a more elegant solution. Any comments on this ?\n\nAs this change is related to maven deploy, it was not tested locally. Maven install, including tests, ran successfully locally.\n\nFor reference, previous change and revert one are:\n* https://gerrit.onap.org/r/c/policy/drools-applications/+/99741\n* https://gerrit.onap.org/r/c/policy/drools-applications/+/99992",
+      "revId": "2eabfeeecda1e52ed2ef1cb52b690409b50c6a50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
