@@ -3,7 +3,7 @@
   ONAP
   ================================================================================
   Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2019 Bell Canada.
+  Modifications Copyright (C) 2019-2020 Bell Canada.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -93,6 +93,7 @@
                             <name>onap/policy-pdpd-cl</name>
                             <build>
                                 <cleanup>try</cleanup>
+                                <contextDir>antrun</contextDir>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <tags>
                                     <tag>${project.version}</tag>
@@ -134,6 +135,44 @@
                         </goals>
                         <configuration>
                             <image>onap/policy-pdpd-cl</image>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--fabric8.io docker-maven-plugin does not support ARG usage in the FROM statement of Dockerfile
+             even though docker supports it: https://github.com/fabric8io/docker-maven-plugin/issues/859.
+             As a workaround we shall use maven-antrun-plugin to copy the Dockerfile and apply filters to
+             replace the parameterized base-image version. The fabric8.io docker-maven-plugin shall use this filtered file
+             to build the image. After the image is built we perform a cleanup to remove the filtered file.-->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>update-parameterized-dockerfile</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy file="src/main/docker/Dockerfile" toFile="src/main/docker/antrun/Dockerfile">
+                                    <filterset>
+                                        <filter token="version.policy.drools-pdp" value="${version.policy.drools-pdp}"/>
+                                    </filterset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cleanup-filtered-dockerfile</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <delete dir="src/main/docker/antrun"/>
+                            </tasks>
                         </configuration>
                     </execution>
                 </executions>
