@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84f89d03_8781d7a1",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/AppcLcmTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-01-09T16:56:06Z",
+      "side": 1,
+      "message": "alarmStart and alarmEnd variables are not used.",
+      "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23589d37_4fcdfd88",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/SimDmaap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-01-09T16:56:06Z",
+      "side": 1,
+      "message": "Integer.parseInt() can also be used here for efficiency and avoid unboxing to primitive.",
+      "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b4f179_790cffb8",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-01-09T16:56:06Z",
+      "side": 1,
+      "message": "sb variable is not used.",
+      "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
