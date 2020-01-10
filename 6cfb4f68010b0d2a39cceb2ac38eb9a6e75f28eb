@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c98a4a0_eb6dd321",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/AppcLcmTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-10T09:25:01Z",
+      "side": 1,
+      "message": "The variables have been removed.",
+      "parentUuid": "84f89d03_8781d7a1",
+      "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23589d37_4fcdfd88",
         "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/SimDmaap.java",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c30b93b8_65dee03d",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/SimDmaap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-10T09:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23589d37_4fcdfd88",
+      "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93b4f179_790cffb8",
         "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
         "patchSetId": 10
@@ -50,6 +86,24 @@
       "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8b21d9e_7d9dc012",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-10T09:25:01Z",
+      "side": 1,
+      "message": "The line has been removed.",
+      "parentUuid": "93b4f179_790cffb8",
+      "revId": "6cfb4f68010b0d2a39cceb2ac38eb9a6e75f28eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
