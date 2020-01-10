@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b08e15aa_0b3b3a38",
+        "filename": "controlloop/m2/appclcm/src/test/java/appclcm/AppcLcmOperationTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-10T16:08:08Z",
+      "side": 1,
+      "message": "Line length",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 3
+      },
+      "revId": "3e05cb41202145e113853392e9837abf3f6ec12c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7906371_9d27db13",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/SimDmaap.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-10T16:08:08Z",
+      "side": 1,
+      "message": "Maybe consider using the other DMaaP simulator.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 1
+      },
+      "revId": "3e05cb41202145e113853392e9837abf3f6ec12c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2549b43a_c086960d",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/SimGuard.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-10T16:08:08Z",
+      "side": 1,
+      "message": "I think there is a Guard simulator in policy models.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 1
+      },
+      "revId": "3e05cb41202145e113853392e9837abf3f6ec12c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85640f29_e54848c6",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/Util.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-01-10T16:08:08Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure there\u0027s utility functions in Apache commons that coders this functionality.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 5
+      },
+      "revId": "3e05cb41202145e113853392e9837abf3f6ec12c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
