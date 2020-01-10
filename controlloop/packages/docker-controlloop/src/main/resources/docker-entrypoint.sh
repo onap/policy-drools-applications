@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ########################################################################
-# Copyright 2019 AT&T Intellectual Property. All rights reserved
+# Copyright 2019-2020 AT&T Intellectual Property. All rights reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ function maven {
     fi
 }
 
-function configurations {
+function systemConfs {
     if [[ ${DEBUG} == y ]]; then
         echo "-- ${FUNCNAME[0]} --"
         set -x
@@ -51,7 +51,7 @@ function configurations {
     fi
 
     for c in $(ls "${POLICY_INSTALL_INIT}"/*.conf 2> /dev/null); do
-        echo "adding configuration file: ${c}"
+        echo "adding system conf file: ${c}"
         cp -f "${c}" "${POLICY_HOME}"/etc/profile.d/
         confName="$(basename "${c}")"
         sed -i -e "s/ *= */=/" -e "s/=\([^\"\']*$\)/='\1'/" "${POLICY_HOME}/etc/profile.d/${confName}"
@@ -126,18 +126,20 @@ function security {
     fi
 }
 
-function properties {
+function serverConfig {
     if [[ ${DEBUG} == y ]]; then
         echo "-- ${FUNCNAME[0]} --"
         set -x
     fi
 
-    if ! ls "${POLICY_INSTALL_INIT}"/*.properties > /dev/null 2>&1; then
+    local configExtSuffix=${1:-"properties"}
+
+    if ! ls "${POLICY_INSTALL_INIT}"/*."${configExtSuffix}" > /dev/null 2>&1; then
         return 0
     fi
 
-    for p in $(ls "${POLICY_INSTALL_INIT}"/*.properties 2> /dev/null); do
-        echo "configuration properties: ${p}"
+    for p in $(ls "${POLICY_INSTALL_INIT}"/*."${configExtSuffix}" 2> /dev/null); do
+        echo "configuration ${configExtSuffix}: ${p}"
         cp -f "${p}" "${POLICY_HOME}"/config
     done
 }
@@ -225,11 +227,13 @@ function reload {
         set -x
     fi
 
-    configurations
+    systemConfs
     maven
     features
     security
-    properties
+    serverConfig "properties"
+    serverConfig "xml"
+    serverConfig "json"
     scripts "pre.sh"
 }
 
