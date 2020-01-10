@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.drools.apps.controlloop.feature.management;
+package org.onap.policy.controlloop.drl.legacy;
 
-import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-rule "PARAMS"
-when
-    $params : ControlLoopParams()
-then
-end
+@Data
+@NoArgsConstructor
+public class ControlLoopParams implements Serializable {
+
+    private static final long serialVersionUID = 970755684770982776L;
+
+    private String closedLoopControlName;
+    private String controlLoopYaml;
+    private String policyName;
+    private String policyScope;
+    private String policyVersion;
+}
