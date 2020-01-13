@@ -21,16 +21,72 @@
 package org.onap.policy.util;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import org.mockito.Mockito;
+
+import org.onap.policy.drools.core.PolicySession;
+
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
+
+@RunWith(PowerMockRunner.class)
 public class DroolsSessionCommonSerializableTest {
+
+    private DroolsSessionCommonSerializable droolsSessionCommonSerializable;
 
     @Test
     public void test() {
         Object object = new Object();
-        DroolsSessionCommonSerializable droolsSessionCommonSerializable =
-            new DroolsSessionCommonSerializable("drools", object);
+        droolsSessionCommonSerializable = new DroolsSessionCommonSerializable("drools", object);
+        assertNotNull(droolsSessionCommonSerializable.toString());
+    }
+
+    @PrepareForTest(PolicySession.class)
+    @Test
+    public void testConstructorGetNullAdjunct() {
+        PowerMockito.mockStatic(PolicySession.class);
+        PolicySession mockPolicySession = Mockito.mock(PolicySession.class);
+        Object mockObject = Mockito.mock(Object.class);
+
+        when(PolicySession.getCurrentSession()).thenReturn(mockPolicySession);
+        when(mockPolicySession.getAdjunct(any(Class.class))).thenReturn(null);
+
+        droolsSessionCommonSerializable = new DroolsSessionCommonSerializable("testName", mockObject);
+
+        verify(mockPolicySession).getAdjunct(any(Class.class));
+        assertNotNull(droolsSessionCommonSerializable.toString());
+    }
+
+    @PrepareForTest(PolicySession.class)
+    @Test
+    public void testConstructorGetAdjunct() {
+        PowerMockito.mockStatic(PolicySession.class);
+        PolicySession mockPolicySession = Mockito.mock(PolicySession.class);
+        Object mockObject = Mockito.mock(Object.class);
+
+        when(PolicySession.getCurrentSession()).thenReturn(mockPolicySession);
+        when(mockPolicySession.getAdjunct(any(Class.class))).thenReturn(mockObject);
+
+        droolsSessionCommonSerializable = new DroolsSessionCommonSerializable("testName", mockObject);
+
+        verify(mockPolicySession).getAdjunct(any(Class.class));
+        assertNotNull(droolsSessionCommonSerializable.toString());
+    }
+
+    @Test
+    public void testReadResolve() throws Exception {
+        Object mockObject = Mockito.mock(Object.class);
+        droolsSessionCommonSerializable = new DroolsSessionCommonSerializable("testName", mockObject);
+
+        assertNotNull(Whitebox.invokeMethod(droolsSessionCommonSerializable, "readResolve"));
         assertNotNull(droolsSessionCommonSerializable.toString());
     }
 }
