@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb65bbc3_ea8f2679",
+        "filename": "controlloop/m2/util/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-13T22:44:19Z",
+      "side": 1,
+      "message": "probably don\u0027t need these two dependencies - I think they\u0027re included by powermock",
+      "revId": "a42577d0645632ca1903ae9b147cbd80c2b7845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
