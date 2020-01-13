@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c508b200_d85e841e",
+        "filename": "controlloop/m2/util/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-13T18:48:18Z",
+      "side": 1,
+      "message": "need to fix the indentation, looks like there\u0027s tabs on every line",
+      "revId": "740d31e4e071a37f66aae0f1650126c68a08bf4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "957b29ee_d20da772",
+        "filename": "controlloop/m2/util/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-13T18:48:18Z",
+      "side": 1,
+      "message": "trailing space",
+      "range": {
+        "startLine": 2,
+        "startChar": 85,
+        "endLine": 2,
+        "endChar": 86
+      },
+      "revId": "740d31e4e071a37f66aae0f1650126c68a08bf4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96927f2b_a49e39ba",
+        "filename": "controlloop/m2/util/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-13T18:48:18Z",
+      "side": 1,
+      "message": "trailing space",
+      "range": {
+        "startLine": 3,
+        "startChar": 113,
+        "endLine": 3,
+        "endChar": 114
+      },
+      "revId": "740d31e4e071a37f66aae0f1650126c68a08bf4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329875ad_7f5b0dd6",
+        "filename": "controlloop/m2/util/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1757
+      },
+      "writtenOn": "2020-01-13T18:48:18Z",
+      "side": 1,
+      "message": "same, and 6 more below",
+      "range": {
+        "startLine": 4,
+        "startChar": 149,
+        "endLine": 4,
+        "endChar": 150
+      },
+      "revId": "740d31e4e071a37f66aae0f1650126c68a08bf4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
