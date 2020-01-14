@@ -16,6 +16,23 @@
       "revId": "a42577d0645632ca1903ae9b147cbd80c2b7845b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f2a19c3_81faf245",
+        "filename": "controlloop/m2/util/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-01-14T05:18:50Z",
+      "side": 1,
+      "message": "Is there a reason to override the project\u0027s default dependency version (from policy/parent/integration) ?",
+      "revId": "a42577d0645632ca1903ae9b147cbd80c2b7845b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
