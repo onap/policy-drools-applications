@@ -20,9 +20,7 @@
 
 package org.onap.policy.m2.base;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -54,20 +52,26 @@ public class UtilTest {
     }
 
     @Test
-    public void deliverTest() {
+    public void testDeliver() {
         Properties prop = new Properties();
         prop.put("noop.sink.topics", "testTopic");
         TopicEndpointManager.getManager().addTopicSinks(prop);
-
-        // throws an exception:
-        //     java.lang.IllegalStateException: Policy Engine is stopped
-        // if policy engine is started, it still throws an exception:
-        //     java.lang.IllegalArgumentException: no reverse coder has been found
-        //assertTrue(Util.deliver("testTopic", "test"));
     }
 
     @Test(expected = IllegalStateException.class)
-    public void deliverNoTopicTest() {
+    public void testDeliverNoTopic() {
         Util.deliver("noTopic", "test");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetPolicyController() {
+        assertNotNull(session);
+        PolicyController policyController = Util.getPolicyController(session);
+    }
+    
+    @Test
+    public void testUtil() {
+        Util util = new Util();
+        assertNotNull(util);
     }
 }
