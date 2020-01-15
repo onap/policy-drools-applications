@@ -3,7 +3,7 @@
  * demo
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ public class VpciControlLoopTest extends ControlLoopBase implements TopicListene
     }
 
     @Test
-    public void successTest() {
+    public void testSuccess() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an
@@ -102,7 +102,7 @@ public class VpciControlLoopTest extends ControlLoopBase implements TopicListene
     }
 
     @Test
-    public void aaiGetFailTest() {
+    public void testAaiGetFail() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an

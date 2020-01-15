@@ -33,7 +33,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 public class ControlLoopUtilsTest {
 
     @Test
-    public void toControlLoopParams() throws Exception {
+    public void testToControlLoopParams() throws Exception {
         String policy =
             new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-operational-restart.json")));
 

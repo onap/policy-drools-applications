@@ -76,7 +76,7 @@ public class GuardContextTest {
     }
 
     @Test
-    public void guardDbResponseTest() throws InterruptedException {
+    public void testGuardDbResponse() throws InterruptedException {
         Properties props = new Properties(prop);
         props.setProperty("guard.disabled", "false");
         props.setProperty("guard.javax.persistence.jdbc.user", "user");
@@ -99,7 +99,7 @@ public class GuardContextTest {
     }
 
     @Test
-    public void badValuesTest() throws InterruptedException {
+    public void testBadValues() throws InterruptedException {
         Properties props = new Properties(prop);
         props.setProperty("guard.disabled", "true");
         props.setProperty("guard.pdp.rest.client.user", "");
@@ -120,7 +120,7 @@ public class GuardContextTest {
     }
 
     @Test
-    public void policyGuardResponseTest() {
+    public void testPolicyGuardResponse() {
         UUID requestId = UUID.randomUUID();
         PolicyGuardResponse emptyResponse1 = new PolicyGuardResponse(null, null, null);
 

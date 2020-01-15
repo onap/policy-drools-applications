@@ -3,6 +3,7 @@
  * guard
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -35,7 +36,7 @@ public class PolicyGuardResponseTest {
     private static final String BACK_HOME = "BackHome";
 
     @Test
-    public void policyGuardResponseTest() {
+    public void testPolicyGuardResponse() {
         UUID requestId = UUID.randomUUID();
 
         assertNotNull(new PolicyGuardResponse(null, null, null));

@@ -647,14 +647,16 @@ public class Transaction implements Serializable {
          *
          * @param transaction the transaction containing the adjunct
          */
-        public default void init(Transaction transaction) {}
+        public default void init(Transaction transaction) {
+        }
 
         /**
          * Called for each adjunct when the transaction completes, and is
          * removed from Drools memory. Any adjunct-specific cleanup can be
          * done at this point (e.g. freeing locks).
          */
-        public default void cleanup(Transaction transaction) {}
+        public default void cleanup(Transaction transaction) {
+        }
     }
 
     /**

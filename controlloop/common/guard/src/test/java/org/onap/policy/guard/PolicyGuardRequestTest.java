@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class PolicyGuardRequestTest {
     private static final String DOROTHY = "Dorothy";
 
     @Test
-    public void policyGuardRequestTest() {
+    public void testPolicyGuardRequest() {
         UUID requestId = UUID.randomUUID();
 
         assertNotNull(new PolicyGuardRequest(null, null, null, null));

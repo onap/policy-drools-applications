@@ -111,7 +111,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void getVnfHealthCheckRequestTest() throws ControlLoopException {
+    public void testGetVnfHealthCheckRequest() throws ControlLoopException {
 
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
@@ -141,7 +141,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageHealthyStateTest() {
+    public void testIncomingHealthCheckMessageHealthyState() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
@@ -160,7 +160,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageUnhealthyStateTest() {
+    public void testIncomingHealthCheckMessageUnhealthyState() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
@@ -181,7 +181,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageUnknownStateTest() {
+    public void testIncomingHealthCheckMessageUnknownState() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
@@ -202,7 +202,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageNoStateTest() {
+    public void testIncomingHealthCheckMessageNoState() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
@@ -223,7 +223,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageUnsuccessfulTest() {
+    public void testIncomingHealthCheckMessageUnsuccessful() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
@@ -244,7 +244,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageNoPayloadTest() {
+    public void testIncomingHealthCheckMessageNoPayload() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
@@ -262,7 +262,7 @@ public class AppcLcmHealthCheckOperationTest {
     }
 
     @Test
-    public void incomingHealthCheckMessageEmptyPayloadTest() {
+    public void testIncomingHealthCheckMessageEmptyPayload() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);

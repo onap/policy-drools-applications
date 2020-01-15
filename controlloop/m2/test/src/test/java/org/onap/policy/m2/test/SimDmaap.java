@@ -173,7 +173,7 @@ public class SimDmaap {
          * @return a JSON array, containing 0-limit messages
          */
         String get(String group, long timeout, int limit)
-        throws InterruptedException {
+            throws InterruptedException {
             // look up the group -- create one if it doesn't exist
             Group groupObj = groupTable.get(group);
             if (groupObj == null) {
@@ -257,7 +257,7 @@ public class SimDmaap {
                           @PathParam("id") String id,
                           @QueryParam("timeout") long timeout,
                           @QueryParam("limit") int limit)
-    throws InterruptedException {
+        throws InterruptedException {
 
         logger.info("Receive: topic={}, group={}, id={}, timeout={}, limit={}",
                     topic, group, id, timeout, limit);

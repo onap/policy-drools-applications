@@ -71,7 +71,7 @@ public class LockAdjunctTest {
     }
 
     @Test
-    public void lockAdjunctTest() {
+    public void testLockAdjunct() {
         owner = new TestOwner();
         lock = PolicyEngineConstants.getManager().createLock("key", "ownerKey", 60, owner, false);
         LockAdjunct lockA = new LockAdjunct();

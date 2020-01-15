@@ -22,7 +22,7 @@ package org.onap.policy.m2.base;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +54,7 @@ public class UtilTest {
     }
 
     @Test
-    public void deliverTest() {
+    public void testDeliver() {
         Properties prop = new Properties();
         prop.put("noop.sink.topics", "testTopic");
         TopicEndpointManager.getManager().addTopicSinks(prop);

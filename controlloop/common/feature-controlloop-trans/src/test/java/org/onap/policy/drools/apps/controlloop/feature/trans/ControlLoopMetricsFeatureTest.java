@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,29 +65,29 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void cacheDefaults() {
+    public void testCacheDefaults() {
         assertEquals(3, ControlLoopMetricsManager.getManager().getCacheSize());
         assertEquals(2, ControlLoopMetricsManager.getManager().getTransactionTimeout());
         assertEquals(0, ControlLoopMetricsManager.getManager().getCacheOccupancy());
     }
 
     @Test
-    public void invalidNotifications() {
+    public void testInvalidNotifications() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
-        this.cacheDefaults();
+        this.testCacheDefaults();
 
         UUID requestId = UUID.randomUUID();
         notification.setRequestId(requestId);
 
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
         assertNull(ControlLoopMetricsManager.getManager().getTransaction(requestId));
-        this.cacheDefaults();
+        this.testCacheDefaults();
     }
 
     @Test
-    public void validActiveNotification() throws InterruptedException {
+    public void testValidActiveNotification() throws InterruptedException {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
         UUID requestId = UUID.randomUUID();
@@ -105,11 +105,11 @@ public class ControlLoopMetricsFeatureTest {
         await().atMost(ControlLoopMetricsManager.getManager().getTransactionTimeout() + 1, TimeUnit.SECONDS)
                         .until(() -> ControlLoopMetricsManager.getManager().getTransaction(requestId) == null);
 
-        this.cacheDefaults();
+        this.testCacheDefaults();
     }
 
     @Test
-    public void reset() {
+    public void testReset() {
         VirtualControlLoopNotification notification = this.generateNotification();
         new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT,
                 notification);
@@ -119,11 +119,11 @@ public class ControlLoopMetricsFeatureTest {
         ControlLoopMetricsManager.getManager().resetCache(ControlLoopMetricsManager.getManager().getCacheSize(),
                 ControlLoopMetricsManager.getManager().getTransactionTimeout());
         assertNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
-        this.cacheDefaults();
+        this.testCacheDefaults();
     }
 
     @Test
-    public void removeTransaction() {
+    public void testRemoveTransaction() {
         VirtualControlLoopNotification notification = this.generateNotification();
         assertNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
         ControlLoopMetricsManager.getManager().removeTransaction(notification.getRequestId());
@@ -135,7 +135,7 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void eviction() throws InterruptedException {
+    public void testEviction() throws InterruptedException {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         for (int i = 0; i < ControlLoopMetricsManager.getManager().getCacheSize(); i++) {
             VirtualControlLoopNotification notification = generateNotification();
@@ -170,7 +170,7 @@ public class ControlLoopMetricsFeatureTest {
         assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().isEmpty());
         assertTrue(ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
-        this.cacheDefaults();
+        this.testCacheDefaults();
     }
 
     private VirtualControlLoopNotification generateNotification() {
