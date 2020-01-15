@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * demo
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
     }
 
     @Test
-    public void successTest() {
+    public void testSuccess() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready
@@ -107,7 +107,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
     }
 
     @Test
-    public void aaiFailTests() {
+    public void testAaiFail() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready

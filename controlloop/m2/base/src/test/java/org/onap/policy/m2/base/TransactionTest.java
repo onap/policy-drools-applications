@@ -111,7 +111,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void validControlLoopEventTest() {
+    public void testValidControlLoopEvent() {
         VirtualControlLoopEvent event = setControlLoopEvent(UUID.randomUUID(),
                                         "cltest", Instant.now(), ControlLoopTargetType.VM, "vserver.vserver-name");
         Transaction transaction = new Transaction(null, "clvusptest", event.getRequestId(), createControlLoop());
@@ -119,7 +119,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void noRequestIdControlLoopEventTest() {
+    public void testNoRequestIdControlLoopEvent() {
         VirtualControlLoopEvent event = setControlLoopEvent(null,
                                         "cltest", Instant.now(), ControlLoopTargetType.VM, "vserver.vserver-name");
         Transaction transaction = new Transaction(null, "clvusptest", event.getRequestId(), createControlLoop());
@@ -128,7 +128,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void noTargetTypeControlLoopEventTest() {
+    public void testNoTargetTypeControlLoopEvent() {
         VirtualControlLoopEvent event = setControlLoopEvent(UUID.randomUUID(),
                                         "cltest", Instant.now(), null, "vserver.vserver-name");
         Transaction transaction = new Transaction(null, "clvusptest", event.getRequestId(), createControlLoop());
@@ -137,7 +137,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void noTargetControlLoopEventTest() {
+    public void testNoTargetControlLoopEvent() {
         VirtualControlLoopEvent event = setControlLoopEvent(UUID.randomUUID(),
                                         "cltest", Instant.now(), ControlLoopTargetType.VM, null);
         Transaction transaction = new Transaction(null, "clvusptest", event.getRequestId(), createControlLoop());
@@ -152,14 +152,14 @@ public class TransactionTest {
     }
 
     @Test
-    public void getRequestIdTest() {
+    public void testGetRequestId() {
         UUID requestId = UUID.randomUUID();
         Transaction transaction = new Transaction(null, "clvusptest", requestId, createControlLoop());
         assertEquals(requestId, transaction.getRequestId());
     }
 
     @Test
-    public void getWorkingMemoryTest() {
+    public void testGetWorkingMemory() {
         // Create mock working session
         StatefulKnowledgeSessionImpl mockWorkingMemory = mock(StatefulKnowledgeSessionImpl.class);
         Transaction transaction = new Transaction(mockWorkingMemory, "clvusptest",
@@ -192,7 +192,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void getOperationTimeoutTest() {
+    public void testGetOperationTimeout() {
         Transaction transaction = new Transaction(null, "clvusptest", UUID.randomUUID(), createControlLoop());
         VirtualControlLoopEvent onset = setControlLoopEvent(UUID.randomUUID(),
                                         "cltest", null, ControlLoopTargetType.VM, "vserver.vserver-name");
@@ -201,7 +201,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void getCurrentPolicy() {
+    public void testGetCurrentPolicy() {
         ControlLoopPolicy controlLoopPolicy = createControlLoop();
         Transaction transaction = new Transaction(null, "clvusptest", UUID.randomUUID(), controlLoopPolicy);
         VirtualControlLoopEvent onset = setControlLoopEvent(UUID.randomUUID(),
@@ -217,7 +217,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void getNotificationTest() {
+    public void testGetNotification() {
         Transaction transaction = new Transaction(null, "clvusptest", UUID.randomUUID(), createControlLoop());
         VirtualControlLoopEvent onset = setControlLoopEvent(UUID.randomUUID(),
                                         "cltest", null, ControlLoopTargetType.VM, "vserver.vserver-name");

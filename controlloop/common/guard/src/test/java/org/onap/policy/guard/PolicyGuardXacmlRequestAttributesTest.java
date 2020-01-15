@@ -3,6 +3,7 @@
  * guard
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2018-2019 AT&T. All rights reserved.
  * ================================================================================
@@ -32,7 +33,7 @@ import org.junit.Test;
 public class PolicyGuardXacmlRequestAttributesTest {
 
     @Test
-    public void policyGuardXacmlRequestAttributesTest() {
+    public void testPolicyGuardXacmlRequestAttributes() {
         PolicyGuardXacmlRequestAttributes attributes =
                         new PolicyGuardXacmlRequestAttributes(null, null, null, null, null, null);
         assertNotNull(attributes);

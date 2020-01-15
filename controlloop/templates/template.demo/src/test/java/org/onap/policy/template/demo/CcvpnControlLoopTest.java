@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ public class CcvpnControlLoopTest extends ControlLoopBase implements TopicListen
     }
 
     @Test
-    public void successTest() throws IOException {
+    public void testSuccess() throws IOException {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready
@@ -92,7 +92,7 @@ public class CcvpnControlLoopTest extends ControlLoopBase implements TopicListen
     }
 
     @Test
-    public void nullRequestTest() throws IOException {
+    public void testNullRequest() throws IOException {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready
