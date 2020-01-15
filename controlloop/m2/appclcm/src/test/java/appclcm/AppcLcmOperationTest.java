@@ -114,7 +114,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmRestartRequestTest() throws ControlLoopException {
+    public void testGetVmRestartRequest() throws ControlLoopException {
 
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VM);
@@ -144,7 +144,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfRestartRequestTest() throws ControlLoopException {
+    public void testGetVnfRestartRequest() throws ControlLoopException {
 
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VNF);
@@ -174,7 +174,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmRebuildRequestTest() throws ControlLoopException {
+    public void testGetVmRebuildRequest() throws ControlLoopException {
 
         policy.setRecipe("REBUILD");
         policy.getTarget().setType(TargetType.VM);
@@ -204,7 +204,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfRebuildRequestTest() throws ControlLoopException {
+    public void testGetVnfRebuildRequest() throws ControlLoopException {
 
         policy.setRecipe("REBUILD");
         policy.getTarget().setType(TargetType.VNF);
@@ -234,7 +234,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmMigrateRequestTest() throws ControlLoopException {
+    public void testGetVmMigrateRequest() throws ControlLoopException {
 
         policy.setRecipe("MIGRATE");
         policy.getTarget().setType(TargetType.VM);
@@ -264,7 +264,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfMigrateRequestTest() throws ControlLoopException {
+    public void testGetVnfMigrateRequest() throws ControlLoopException {
 
         policy.setRecipe("MIGRATE");
         policy.getTarget().setType(TargetType.VNF);
@@ -294,7 +294,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmEvacuateRequestTest() throws ControlLoopException {
+    public void testGetVmEvacuateRequest() throws ControlLoopException {
 
         policy.setRecipe("EVACUATE");
         policy.getTarget().setType(TargetType.VM);
@@ -324,7 +324,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfEvacuateRequestTest() throws ControlLoopException {
+    public void testGetVnfEvacuateRequest() throws ControlLoopException {
 
         policy.setRecipe("EVACUATE");
         policy.getTarget().setType(TargetType.VNF);
@@ -354,7 +354,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmRebootRequestTest() throws ControlLoopException {
+    public void testGetVmRebootRequest() throws ControlLoopException {
 
         policy.setRecipe("REBOOT");
         policy.getTarget().setType(TargetType.VM);
@@ -386,7 +386,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfRebootRequestTest() throws ControlLoopException {
+    public void testGetVnfRebootRequest() throws ControlLoopException {
 
         policy.setRecipe("REBOOT");
         policy.getTarget().setType(TargetType.VNF);
@@ -418,7 +418,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfStartRequestTest() throws ControlLoopException {
+    public void testGetVnfStartRequest() throws ControlLoopException {
 
         policy.setRecipe("START");
         policy.getTarget().setType(TargetType.VNF);
@@ -448,7 +448,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmStartRequestTest() throws ControlLoopException {
+    public void testGetVmStartRequest() throws ControlLoopException {
 
         policy.setRecipe("START");
         policy.getTarget().setType(TargetType.VM);
@@ -478,7 +478,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVnfStopRequestTest() throws ControlLoopException {
+    public void testGetVnfStopRequest() throws ControlLoopException {
 
         policy.setRecipe("STOP");
         policy.getTarget().setType(TargetType.VNF);
@@ -508,7 +508,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void getVmStopRequestTest() throws ControlLoopException {
+    public void testGetVmStopRequest() throws ControlLoopException {
 
         policy.setRecipe("STOP");
         policy.getTarget().setType(TargetType.VM);
@@ -546,7 +546,7 @@ public class AppcLcmOperationTest {
      */
 
     @Test
-    public void incomingVmSuccessMessageTest() {
+    public void testIncomingVmSuccessMessage() {
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VM);
         operation = new AppcLcmOperation(transaction, policy, event, 1);
@@ -559,7 +559,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void incomingVnfSuccessMessageTest() {
+    public void testIncomingVnfSuccessMessage() {
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmOperation(transaction, policy, event, 1);
@@ -580,7 +580,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void incomingVmFailureMessageTest() {
+    public void testIncomingVmFailureMessage() {
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VM);
         operation = new AppcLcmOperation(transaction, policy, event, 1);
@@ -593,7 +593,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void incomingAllVnfFailureMessageTest() {
+    public void testIncomingAllVnfFailureMessage() {
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmOperation(transaction, policy, event, 1);
@@ -616,7 +616,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void incomingPartialVnfFailureMessageTest() {
+    public void testIncomingPartialVnfFailureMessage() {
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmOperation(transaction, policy, event, 1);
@@ -657,7 +657,7 @@ public class AppcLcmOperationTest {
      */
 
     @Test
-    public void validAaiSubtagTest() {
+    public void testValidAaiSubtag() {
         transaction.setNotificationMessage(null);
         VirtualControlLoopEvent validEvent = new VirtualControlLoopEvent();
         validEvent.setTarget("vserver.vserver-name");
@@ -668,7 +668,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void noAaiSubtagTest() {
+    public void testNoAaiSubtag() {
         transaction.setNotificationMessage(null);
         VirtualControlLoopEvent noAaiTag = new VirtualControlLoopEvent();
         noAaiTag.setAai(null);
@@ -677,7 +677,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void noClosedLoopDisabledInAaiTest() {
+    public void testNoClosedLoopDisabledInAai() {
         transaction.setNotificationMessage(null);
         VirtualControlLoopEvent invalidEvent = new VirtualControlLoopEvent();
         assertFalse(AppcLcmOperation.isAaiValid(transaction, invalidEvent));
@@ -686,7 +686,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void closedLoopDisabledInAaiTest() {
+    public void testClosedLoopDisabledInAai() {
         transaction.setNotificationMessage(null);
         VirtualControlLoopEvent invalidEvent = new VirtualControlLoopEvent();
         invalidEvent.getAai().put(AppcLcmOperation.DCAE_CLOSEDLOOP_DISABLED_FIELD, "true");
@@ -696,7 +696,7 @@ public class AppcLcmOperationTest {
     }
 
     @Test
-    public void targetMismatchInAaiTest() {
+    public void testTargetMismatchInAai() {
         transaction.setNotificationMessage(null);
         VirtualControlLoopEvent validEvent = new VirtualControlLoopEvent();
         validEvent.setTarget("vserver.vserver-name");

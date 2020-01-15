@@ -98,7 +98,7 @@ public class Util {
      * @return a String containing the contents of the file
      */
     public static String fileToString(File file)
-    throws IOException, FileNotFoundException {
+        throws IOException, FileNotFoundException {
         try (FileInputStream fis = new FileInputStream(file)) {
             String string = inputStreamToString(fis);
             return string;
@@ -113,7 +113,7 @@ public class Util {
      * @return a File, whose contents contain the string
      */
     public static File stringToFile(String string, String suffix)
-    throws IOException {
+        throws IOException {
         File file = File.createTempFile("templates-util", suffix);
         file.deleteOnExit();
 
@@ -130,7 +130,7 @@ public class Util {
      * @return a File, whose contents contain the string
      */
     public static File stringToFile(String string)
-    throws IOException {
+        throws IOException {
         return stringToFile(string, "");
     }
 
@@ -162,7 +162,7 @@ public class Util {
      *     replaced
      */
     public static String openAndReplace(String fileName, String... args)
-    throws IOException, FileNotFoundException {
+        throws IOException, FileNotFoundException {
         String text = fileToString(new File(fileName));
         for (int i = 0 ; i < args.length ; i += 2) {
             text = text.replace(args[i], args[i + 1]);
