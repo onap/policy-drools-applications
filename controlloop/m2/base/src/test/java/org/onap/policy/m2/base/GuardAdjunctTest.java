@@ -60,12 +60,12 @@ public class GuardAdjunctTest {
     }
 
     @Test
-    public void createGuardAdjunctTest() {
+    public void testCreateGuardAdjunct() {
         assertEquals(context, adjunct.get());
     }
 
     @Test
-    public void asyncQueryTest() {
+    public void testAsyncQuery() {
         Policy policy = new Policy();
         policy.setActor("APPCLCM");
         policy.setRecipe("test");
@@ -83,7 +83,7 @@ public class GuardAdjunctTest {
     }
 
     @Test
-    public void asyncCreateDbEntryTest() {
+    public void testAsyncCreateDbEntry() {
         ControlLoopOperation op = new ControlLoopOperation();
         op.setStart(Instant.now().minusSeconds(1));
         op.setEnd(Instant.now());
