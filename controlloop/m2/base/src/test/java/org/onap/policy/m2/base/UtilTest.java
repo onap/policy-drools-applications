@@ -20,9 +20,7 @@
 
 package org.onap.policy.m2.base;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -69,5 +67,11 @@ public class UtilTest {
     @Test(expected = IllegalStateException.class)
     public void deliverNoTopicTest() {
         Util.deliver("noTopic", "test");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getPolicyControllerTest() {
+        assertNotNull(session);
+        PolicyController policyController = Util.getPolicyController(session);
     }
 }
