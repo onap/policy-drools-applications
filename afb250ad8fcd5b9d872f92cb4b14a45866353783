@@ -16,6 +16,24 @@
       "revId": "afb250ad8fcd5b9d872f92cb4b14a45866353783",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d15b0c7d_b1487ab4",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-16T17:19:41Z",
+      "side": 1,
+      "message": "I tried the \"prop.put\" option, as well as creating a minimal controller, and couldn\u0027t get around the \"no reverse coder has been found\" error. I may be missing something, or you may need a controller using dmaap or ueb.",
+      "parentUuid": "5e079e62_4241150f",
+      "revId": "afb250ad8fcd5b9d872f92cb4b14a45866353783",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
