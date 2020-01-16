@@ -21,9 +21,14 @@
 package org.onap.policy.guard;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.isNotNull;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -37,7 +42,9 @@ import org.drools.core.WorkingMemory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
+import org.mockito.Mockito;
+import org.onap.policy.drools.core.PolicyContainer;
+import org.onap.policy.drools.core.PolicySession;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 
 public class GuardContextTest {
@@ -136,4 +143,57 @@ public class GuardContextTest {
 
         assertEquals("PolicyGuardResponse [requestId=", response.toString().substring(0, 31));
     }
+
+	@Test
+	public void testConstructors() {
+		PolicySession mockPolicySession = Mockito.mock(PolicySession.class);
+		PolicyContainer mockPolicyContainer = Mockito.mock(PolicyContainer.class);
+
+		when(mockPolicySession.getPolicyContainer()).thenReturn(mockPolicyContainer);
+		when(mockPolicyContainer.getArtifactId()).thenReturn("testArtifactId");
+		when(mockPolicyContainer.getGroupId()).thenReturn("testGroupId");
+
+		try {
+			guardContext = new GuardContext(mockPolicySession);
+			fail();
+		} catch (IllegalArgumentException e) {
+			verify(mockPolicySession, atLeast(1)).getPolicyContainer();
+			verify(mockPolicyContainer, atLeast(1)).getArtifactId();
+			verify(mockPolicyContainer, atLeast(1)).getGroupId();
+		}
+
+		try {
+			guardContext = new GuardContext(mockPolicySession, "testSerializableName");
+			fail();
+		} catch (IllegalArgumentException e) {
+			verify(mockPolicySession, atLeast(1)).getPolicyContainer();
+			verify(mockPolicyContainer, atLeast(1)).getArtifactId();
+			verify(mockPolicyContainer, atLeast(1)).getGroupId();
+		}
+	}
+
+	@Test
+	public void testCreateDbEntry() {
+		Properties mockProperties = Mockito.mock(Properties.class);
+		Instant startTime = Instant.now();
+		Instant endTime = Instant.now();
+
+		guardContext = new GuardContext(mockProperties);
+		assertFalse(guardContext.createDbEntry(startTime, endTime, "testClosedLoopControlName", "testActor",
+				"testRecipe", "testTarget", "testRequestId", "testSubRequestId", "testMessage", "testOutcome"));
+
+		PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "true");
+		assertFalse(guardContext.createDbEntry(startTime, endTime, "testClosedLoopControlName", "testActor",
+				"testRecipe", "testTarget", "testRequestId", "testSubRequestId", "testMessage", "testOutcome"));
+
+		PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "");
+		PolicyEngineConstants.getManager().setEnvironmentProperty("guard.jdbc.url", "jdbc:h2:file:./H2DB");
+		PolicyEngineConstants.getManager().setEnvironmentProperty("sql.db.username", "user");
+		PolicyEngineConstants.getManager().setEnvironmentProperty("sql.db.password", "secret");
+		guardContext = new GuardContext(mockProperties);
+		assertTrue(guardContext.createDbEntry(startTime, endTime, "testClosedLoopControlName", "testActor",
+				"testRecipe", "testTarget", "testRequestId", "testSubRequestId", "testMessage", "testOutcome"));
+
+		PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "");
+	}
 }
