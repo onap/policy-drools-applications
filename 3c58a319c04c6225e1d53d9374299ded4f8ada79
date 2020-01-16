@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8744bd36_e0a5befb",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/impl/ActorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-16T09:45:21Z",
+      "side": 1,
+      "message": "The build failure that occurred with patchset 1 is apparently the result of a corrupt file on the Jenkins server.\n\nI did run the Junit tests, and although they completed successfully, I don\u0027t think they are doing what you expect:\n\n[INFO] Running org.onap.policy.m2.base.TransactionTest\n03:07:48.636 [main] INFO org.onap.policy.m2.base.Transaction - Transaction constructor\n03:07:48.649 [main] ERROR org.onap.policy.m2.base.Transaction - \u0027Transaction\u0027 can\u0027t find actor testActor\n03:07:48.649 [main] ERROR org.onap.policy.m2.base.Transaction - \u0027Transaction\u0027 received unexpected timeout\n03:07:48.649 [main] ERROR org.onap.policy.m2.base.Transaction - \u0027Transaction\u0027 received unexpected timeout\n03:07:48.652 [main] INFO org.onap.policy.m2.base.Transaction - Transaction constructor\n\nThe \u0027Actor\u0027 mechanism makes use of \u0027java.util.ServiceLoader\u0027 to locate Actor implementations. You need to create a file called \u0027controlloop/m2/base/src/test/resources/META-INF/services/org.onap.policy.m2.base.Actor\u0027, which has the following contents:\n\norg.onap.policy.m2.base.impl.ActorImpl\n\nPerhaps you did create this file, but forgot to include it in the patch set.\n\nThe end result is that \u0027ActorImpl\u0027 and \u0027OperationImpl\u0027 are never referenced -- I tried the build after removing both files, and got the same result. The fact that the tests still \"passed\" suggests that more verification is needed. It seems to me that the tests would be more useful if you could verify that \u0027ActorImpl\u0027 and \u0027OperationImpl\u0027 were actually invoked where expected, and had the expected effects.",
+      "revId": "3c58a319c04c6225e1d53d9374299ded4f8ada79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
