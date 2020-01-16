@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6023a6c_a5ef28d3",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PolicyGuardResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-16T01:17:38Z",
+      "side": 1,
+      "message": "Duplicate line here - just amend this line",
+      "range": {
+        "startLine": 8,
+        "startChar": 31,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "ed6d68f546a8c452671a7cac022de17400ad79ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84cc9366_5dfed97a",
+        "filename": "controlloop/common/guard/src/test/java/org/onap/policy/guard/PolicyGuardXacmlRequestAttributesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-16T01:17:38Z",
+      "side": 1,
+      "message": "same here - please check all the files.",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "ed6d68f546a8c452671a7cac022de17400ad79ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af75a719_e6747ec9",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-01-16T01:17:38Z",
+      "side": 1,
+      "message": "This can be removed also - already defined.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "ed6d68f546a8c452671a7cac022de17400ad79ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
