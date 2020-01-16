@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e079e62_4241150f",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 743
+      },
+      "writtenOn": "2020-01-16T16:49:01Z",
+      "side": 1,
+      "message": "This is an example of the old quote: \"if you can\u0027t fix it, feature it\". In this case, you try to send a message via \u0027Util.deliver\u0027, it fails, and you declare victory!\n\nI think it would be better to fix it -- my original comment was as follows:\n\n        // throws an exception:\n        //     java.lang.IllegalStateException: Policy Engine is stopped\n        // if policy engine is started, it still throws an exception:\n        //     java.lang.IllegalArgumentException: no reverse coder has been found\n        //assertTrue(Util.deliver(\"testTopic\", \"test\"));\n\nI now realize what is needed -- in addition to starting the Policy Engine, I believe you need to create at least one controller, which includes the following properties:\n\nnoop.sink.topics\u003dtestTopic\nnoop.sink.topics.testTopic.events\u003djava.lang.String\n\nIt\u0027s also possible that you can just add the following \u0027props.put\u0027 (I\u0027m not sure about this):\n\nprop.put(\"noop.sink.topics.testTopic.events\", \"java.lang.String\");",
+      "revId": "afb250ad8fcd5b9d872f92cb4b14a45866353783",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
