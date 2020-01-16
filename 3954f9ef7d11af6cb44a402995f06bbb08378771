@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53ae32d_428b7e08",
+        "filename": "controlloop/m2/guard/src/test/java/org/onap/policy/guard/GuardContextTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-16T20:29:40Z",
+      "side": 1,
+      "message": "prefer to use assertj rather than try/catch in tests\n\nsame comment below",
+      "revId": "3954f9ef7d11af6cb44a402995f06bbb08378771",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
