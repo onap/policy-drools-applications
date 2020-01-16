@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d7abafc_b4bdec8f",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/TransactionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-16T14:42:15Z",
+      "side": 1,
+      "message": "based on something I saw Ali doing, it appears that test method names should start with \"test\" instead of ending with \"Test\".",
+      "revId": "cd8a34345ddf70297a1bd7294ad9e5aefd03f37d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c7376d3_ff5b6ff0",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/UtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-16T14:42:15Z",
+      "side": 1,
+      "message": "maybe add some tests for sunny day scenarios, too",
+      "revId": "cd8a34345ddf70297a1bd7294ad9e5aefd03f37d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
