@@ -101,7 +101,7 @@ public class ActorOperationTest {
     }
 
     @Test
-    public void operationTest() throws ControlLoopException {
+    public void testOperation() throws ControlLoopException {
         Actor actor = new TestActor();
         Operation operation = actor.createOperation(null, null, null, 0);
         assertNotNull(operation);

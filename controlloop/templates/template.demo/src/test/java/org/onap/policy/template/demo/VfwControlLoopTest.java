@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * demo
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,9 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.Response;
 import org.onap.policy.appc.ResponseCode;
@@ -43,6 +45,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VfwControlLoopTest extends ControlLoopBase implements TopicListener {
 
     /**
@@ -60,7 +63,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
     }
 
     @Test
-    public void successTest() {
+    public void testASuccess() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready
@@ -107,7 +110,7 @@ public class VfwControlLoopTest extends ControlLoopBase implements TopicListener
     }
 
     @Test
-    public void aaiFailTests() {
+    public void testBAaiFail() {
 
         /*
          * Allows the PolicyEngine to callback to this object to notify that there is an event ready

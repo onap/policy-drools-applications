@@ -3,6 +3,7 @@
  * guard
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +29,7 @@ import org.junit.Test;
 public class GuardResultTest {
 
     @Test
-    public void guardResultTest() {
+    public void testGuardResult() {
         assertEquals(3, GuardResult.values().length);
         assertNotNull(GuardResult.LOCK_ACQUIRED);
         assertNotNull(GuardResult.LOCK_DENIED);

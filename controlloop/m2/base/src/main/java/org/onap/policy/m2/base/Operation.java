@@ -121,5 +121,6 @@ public interface Operation extends Serializable {
      *
      * @param histEntry the history entry for this particular operation
      */
-    default void histEntryCompleted(ControlLoopOperation histEntry) {}
+    default void histEntryCompleted(ControlLoopOperation histEntry) {
+    }
 }
