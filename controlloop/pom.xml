@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   drools-applications
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017, 2020 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,8 +26,14 @@
     <artifactId>drools-applications</artifactId>
     <version>1.6.0-SNAPSHOT</version>
   </parent>
+
   <groupId>org.onap.policy.drools-applications.controlloop</groupId>
   <artifactId>controlloop</artifactId>
+
+  <properties>
+    <jacoco.dataFile>${project.basedir}/../../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
+  </properties>
+
   <modules>
     <module>common</module>
     <module>templates</module>
