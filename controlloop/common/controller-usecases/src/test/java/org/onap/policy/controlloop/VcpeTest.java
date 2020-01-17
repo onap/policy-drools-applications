@@ -48,7 +48,9 @@ public class VcpeTest extends UsecasesBase {
      * VCPE Use case Messages.
      */
     private static final String APPC_SUCCESS = "src/test/resources/vcpe/vcpe.appc.success.json";
-    private static final String ONSET = "src/test/resources/vcpe/vcpe.onset.json";
+    private static final String ONSET_1 = "src/test/resources/vcpe/vcpe.onset.1.json";
+    private static final String ONSET_2 = "src/test/resources/vcpe/vcpe.onset.2.json";
+    private static final String ONSET_3 = "src/test/resources/vcpe/vcpe.onset.3.json";
 
     /*
      * Topic trackers used by the VCPE use case.
@@ -88,7 +90,7 @@ public class VcpeTest extends UsecasesBase {
     public void sunnyDay() throws IOException {
 
         /* Inject an ONSET event over the DCAE topic */
-        injectOnTopic(DCAE_TOPIC, Paths.get(ONSET));
+        injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_1));
 
         /* Wait to acquire a LOCK and a PDP-X PERMIT */
         waitForLockAndPermit(policy, policyClMgt);
@@ -117,6 +119,25 @@ public class VcpeTest extends UsecasesBase {
 
         /* --- VCPE Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+    }
+
+    /**
+     * ONSET flood prevention tests by injecting a few ONSETs at once.
+      *The attempt is to simulate flooding characterics as the DCAE TCA ms. where
+     * a blast of hundreds of ONSETs could be produced in a matter of millisecons.
+     */
+    @Test
+    public void onsetFloodPrevention() throws IOException {
+        injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_1));
+        injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_2));
+        injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_3));
+
+        assertEquals(1, usecases.getDrools().facts(USECASES, VirtualControlLoopEvent.class).stream().count());
+        assertEquals(1, usecases.getDrools().facts(USECASES, CanonicalOnset.class).stream().count());
+        assertEquals(usecases.getDrools().facts(USECASES, CanonicalOnset.class).get(0),
+                usecases.getDrools().facts(USECASES, VirtualControlLoopEvent.class).get(0));
+
+        sunnyDay();
     }
 
     /**
