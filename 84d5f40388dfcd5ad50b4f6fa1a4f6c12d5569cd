@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9eba2314_64cc6225",
+        "filename": "controlloop/m2/guard/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-01-17T15:11:46Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "84d5f40388dfcd5ad50b4f6fa1a4f6c12d5569cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
