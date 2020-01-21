@@ -95,7 +95,7 @@ function void sendNotification(Context context,
       notification.setPolicyScope("${policyScope}");
       notification.setPolicyVersion("${policyVersion}");
 
-      PolicyEngineConstants.getManager().deliver(context.getNotificationTopic(), notification);
+      Util.deliver(context.getNotificationTopic(), notification);
     }
 }
 
@@ -350,7 +350,7 @@ rule "${policyName}.TRANSACTION.LCM.BEGIN"
           logger.error("request could not be formed due to: "+e.getMessage());
           return;
       }
-      PolicyEngineConstants.getManager().deliver($context.getOperationTopic(), request);
+      Util.deliver($context.getOperationTopic(), request);
 
       // send notification
       sendNotification($context, drools,
