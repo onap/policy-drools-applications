@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ec342f04_9e491aa2",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-03T16:12:26Z",
+      "side": 1,
+      "message": "Q: could we use the more common http_proxy (similar as in the drools pdp)?",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29afe9bd_34cc1d65",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-03T16:12:26Z",
+      "side": 1,
+      "message": "Q: Is it a possibility to have these vars in the maven-surefire-plugin defaulting pointing to onap?",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6986f992_1d44836a",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -36,6 +70,40 @@
     },
     {
       "key": {
+        "uuid": "3f3e4662_b70637d5",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-03T16:12:26Z",
+      "side": 1,
+      "message": "Q: if these could be defined in the pom.xml already, would be easier (this is a question).",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d391102_44bd9a70",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-03T16:12:26Z",
+      "side": 1,
+      "message": "see my comment about using http_proxy var instead which is more common.",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e7064ec_f36a3c6b",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -47,6 +115,23 @@
       "writtenOn": "2020-02-03T16:04:07Z",
       "side": 1,
       "message": "should this be \"localhost,127.0.*\" ?",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cea5ace2_00c10ac4",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/resources/settings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-03T16:12:26Z",
+      "side": 1,
+      "message": "Question: this syntax works with setSystemProperty, right?   For env. variables, usually I\u0027ve seen the \"env.\" prefix.",
       "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
