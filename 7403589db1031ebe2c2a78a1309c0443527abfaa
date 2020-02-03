@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6986f992_1d44836a",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T16:04:07Z",
+      "side": 1,
+      "message": "should remove the properties in @AfterClass",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ca62160_9ee5ff71",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T16:04:07Z",
+      "side": 1,
+      "message": "might be simpler to say:\n\n  System.getenv().getOrDefault(propName, defaultValue)\n\nsame comment elsewhere",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e7064ec_f36a3c6b",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-03T16:04:07Z",
+      "side": 1,
+      "message": "should this be \"localhost,127.0.*\" ?",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
