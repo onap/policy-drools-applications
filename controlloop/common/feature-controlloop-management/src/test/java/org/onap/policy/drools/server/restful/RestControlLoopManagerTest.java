@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +33,12 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,11 +54,15 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test RestControlLoopManager.
  */
 public class RestControlLoopManagerTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestControlLoopManagerTest.class.getName());
 
     private static final String KSESSION = "op";
     private static final String KMODULE_DRL_PATH = "src/test/resources/op.drl";
@@ -89,6 +98,18 @@ public class RestControlLoopManagerTest {
     private static final String CONTROLLER_FILE = "op-controller.properties";
     private static final String CONTROLLER_FILE_BAK = "op-controller.properties.bak";
 
+    private static final String MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME = "MAVEN_SNAPSHOTS_REPO_URL";
+    private static final String MAVEN_RELEASES_REPO_URL_VAR_NAME = "MAVEN_RELEASES_REPO_URL";
+    private static final String ONAP_MAVEN_SNAPSHOTS_REPO_URL = "https://nexus.onap.org/content/repositories/snapshots/";
+    private static final String ONAP_MAVEN_RELEASES_REPO_URL = "https://nexus.onap.org/content/repositories/releases/";
+
+    private static final Pattern PROXY_URL_PATTERN = Pattern.compile("(https?)://([^:^/]*):(\\d*)$");
+    private static final String HTTP_PROXY_VAR_NAME = "HTTP_PROXY";
+    private static final String MAVEN_PROXY_PROTOCOL_VAR_NAME = "MAVEN_PROXY_PROTOCOL";
+    private static final String MAVEN_PROXY_HOST_VAR_NAME = "MAVEN_PROXY_HOST";
+    private static final String MAVEN_PROXY_PORT_VAR_NAME = "MAVEN_PROXY_PORT";
+    private static final String MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME = "MAVEN_PROXY_NON_PROXY_HOSTS";
+
     /**
      * test set up.
      *
@@ -97,6 +118,11 @@ public class RestControlLoopManagerTest {
     @BeforeClass
     public static void setUp() throws Exception {
         System.setProperty("kie.maven.settings.custom", "src/test/resources/settings.xml");
+
+        configureMavenRepositories();
+        configureMavenProxy();
+        logMavenConfigurationProperties();
+
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "WARN");
 
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
@@ -133,6 +159,62 @@ public class RestControlLoopManagerTest {
             .setEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY, "AAI");
 
         Util.buildAaiSim();
+    }
+
+    /**
+     * Set properties for maven repositories urls.
+     * Properties values are defined from environment variables values.
+     * If no values are provided from environment variables, then default onap repositories urls are set.
+     */
+    private static void configureMavenRepositories() {
+        String snapshotsUrl =
+                System.getenv(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME) != null
+                        ? System.getenv(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME) : ONAP_MAVEN_SNAPSHOTS_REPO_URL;
+        System.setProperty(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME, snapshotsUrl);
+        String releasesUrl =
+                System.getenv(MAVEN_RELEASES_REPO_URL_VAR_NAME) != null
+                        ? System.getenv(MAVEN_RELEASES_REPO_URL_VAR_NAME) : ONAP_MAVEN_RELEASES_REPO_URL;
+        System.setProperty(MAVEN_RELEASES_REPO_URL_VAR_NAME, releasesUrl);
+    }
+
+    /**
+     * Set properties for maven proxy.
+     * Properties values are defined form HTTP_PROXY environment variable.
+     * If this environment variable is not provided, then no host is configured to be proxied.
+     */
+    private static void configureMavenProxy() {
+        String nonProxyHosts = "*";
+        String httpProxy = System.getenv(HTTP_PROXY_VAR_NAME);
+        if (StringUtils.isNotBlank(httpProxy)) {
+            Matcher matcher = PROXY_URL_PATTERN.matcher(httpProxy);
+            if (matcher.find()) {
+                System.setProperty(MAVEN_PROXY_PROTOCOL_VAR_NAME, matcher.group(1));
+                System.setProperty(MAVEN_PROXY_HOST_VAR_NAME, matcher.group(2));
+                System.setProperty(MAVEN_PROXY_PORT_VAR_NAME, matcher.group(3));
+                nonProxyHosts = StringUtils.EMPTY;
+            } else {
+                LOGGER.warn(
+                        "Proxy specified in {} environment variable whose value is {} is not supported and ignored.",
+                        HTTP_PROXY_VAR_NAME, httpProxy);
+            }
+        }
+        System.setProperty(MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME, nonProxyHosts);
+    }
+
+    private static void logMavenConfigurationProperties() {
+        LOGGER.info("Maven configuration:");
+        LOGGER.info("{}: {}",
+                MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME, System.getProperty(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_RELEASES_REPO_URL_VAR_NAME, System.getProperty(MAVEN_RELEASES_REPO_URL_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_PROTOCOL_VAR_NAME, System.getProperty(MAVEN_PROXY_PROTOCOL_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_HOST_VAR_NAME, System.getProperty(MAVEN_PROXY_HOST_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_PORT_VAR_NAME, System.getProperty(MAVEN_PROXY_PORT_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME, System.getProperty(MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME));
     }
 
     /**

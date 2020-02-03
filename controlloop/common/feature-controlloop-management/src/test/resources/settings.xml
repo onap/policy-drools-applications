@@ -4,6 +4,7 @@
   ONAP
   ================================================================================
   Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2020 Bell Canada.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -32,7 +33,7 @@
                 <repository>
                     <id>onap-releases</id>
                     <name>onap-releases</name>
-                    <url>https://nexus.onap.org/content/repositories/releases/</url>
+                    <url>${MAVEN_RELEASES_REPO_URL}</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -49,7 +50,7 @@
                 <repository>
                     <id>onap-snapshots</id>
                     <name>onap-snapshots</name>
-                    <url>https://nexus.onap.org/content/repositories/snapshots/</url>
+                    <url>${MAVEN_SNAPSHOTS_REPO_URL}</url>
                     <releases>
                         <enabled>false</enabled>
                     </releases>
@@ -66,5 +67,16 @@
         <activeProfile>onap-releases</activeProfile>
         <activeProfile>onap-snapshots</activeProfile>
     </activeProfiles>
+
+    <proxies>
+        <proxy>
+            <id>proxy-id</id>
+            <active>true</active>
+            <protocol>${MAVEN_PROXY_PROTOCOL}</protocol>
+            <host>${MAVEN_PROXY_HOST}</host>
+            <port>${MAVEN_PROXY_PORT}</port>
+            <nonProxyHosts>${MAVEN_PROXY_NON_PROXY_HOSTS}</nonProxyHosts>
+        </proxy>
+    </proxies>
 
 </settings>
