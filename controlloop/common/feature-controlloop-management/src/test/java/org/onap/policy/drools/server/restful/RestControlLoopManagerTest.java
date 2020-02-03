@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +33,12 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,45 +54,63 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test RestControlLoopManager.
  */
 public class RestControlLoopManagerTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestControlLoopManagerTest.class.getName());
+
     private static final String KSESSION = "op";
     private static final String KMODULE_DRL_PATH = "src/test/resources/op.drl";
     private static final String KMODULE_POM_PATH = "src/test/resources/op.pom";
     private static final String KMODULE_PATH = "src/test/resources/op.kmodule";
     private static final String KJAR_DRL_PATH =
-        "src/main/resources/kbop/org/onap/policy/drools/test/op.drl";
+            "src/main/resources/kbop/org/onap/policy/drools/test/op.drl";
 
     private static final String CONTROLLER = KSESSION;
     private static final String CONTROLOOP_NAME =
-        "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e";
+            "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e";
 
     private static final String CLIENT_CONFIG = "op-http";
 
     private static final String URL_CONTEXT_PATH_CONTROLLERS = "controllers/";
     private static final String URL_CONTEXT_PATH_CONTROLLER =
-        URL_CONTEXT_PATH_CONTROLLERS + CONTROLLER;
+            URL_CONTEXT_PATH_CONTROLLERS + CONTROLLER;
     private static final String URL_CONTEXT_PATH_KSESSION =
-        URL_CONTEXT_PATH_CONTROLLER + "/drools/facts/" + KSESSION;
+            URL_CONTEXT_PATH_CONTROLLER + "/drools/facts/" + KSESSION;
     private static final String URL_CONTEXT_PATH_CONTROLLOOPS =
-        URL_CONTEXT_PATH_KSESSION + "/controlloops/";
+            URL_CONTEXT_PATH_KSESSION + "/controlloops/";
     private static final String URL_CONTEXT_PATH_CONTROLLOOP =
-        URL_CONTEXT_PATH_CONTROLLOOPS + CONTROLOOP_NAME;
+            URL_CONTEXT_PATH_CONTROLLOOPS + CONTROLOOP_NAME;
     private static final String URL_CONTEXT_PATH_CONTROLLOOP_POLICY =
-        URL_CONTEXT_PATH_CONTROLLOOP + "/policy";
+            URL_CONTEXT_PATH_CONTROLLOOP + "/policy";
 
     private static final String URL_CONTEXT_PATH_TOOLS = "tools/controlloops/";
     private static final String URL_CONTEXT_PATH_TOOLS_AAI = URL_CONTEXT_PATH_TOOLS + "aai/";
     private static final String URL_CONTEXT_PATH_TOOLS_AAI_CQ =
-        URL_CONTEXT_PATH_TOOLS_AAI + "customQuery/";
+            URL_CONTEXT_PATH_TOOLS_AAI + "customQuery/";
     private static final String POLICY = "src/test/resources/vCPE.yaml";
 
     private static final String CONTROLLER_FILE = "op-controller.properties";
     private static final String CONTROLLER_FILE_BAK = "op-controller.properties.bak";
+
+    private static final String MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME = "MAVEN_SNAPSHOTS_REPO_URL";
+    private static final String MAVEN_RELEASES_REPO_URL_VAR_NAME = "MAVEN_RELEASES_REPO_URL";
+    private static final String ONAP_MAVEN_SNAPSHOTS_REPO_URL = "https://nexus.onap.org/content/repositories/snapshots/";
+    private static final String ONAP_MAVEN_RELEASES_REPO_URL = "https://nexus.onap.org/content/repositories/releases/";
+
+    private static final Pattern PROXY_URL_PATTERN = Pattern.compile("(https?)://([^:^/]*):(\\d*)$");
+    private static final String[] HTTP_PROXY_VAR_NAMES = { "http_proxy", "HTTP_PROXY" };
+    private static final String ALL_HOSTS = "*";
+    private static final String LOCAL_HOSTS = "localhost,127.0.*";
+    private static final String MAVEN_PROXY_PROTOCOL_VAR_NAME = "MAVEN_PROXY_PROTOCOL";
+    private static final String MAVEN_PROXY_HOST_VAR_NAME = "MAVEN_PROXY_HOST";
+    private static final String MAVEN_PROXY_PORT_VAR_NAME = "MAVEN_PROXY_PORT";
+    private static final String MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME = "MAVEN_PROXY_NON_PROXY_HOSTS";
 
     /**
      * test set up.
@@ -97,6 +120,11 @@ public class RestControlLoopManagerTest {
     @BeforeClass
     public static void setUp() throws Exception {
         System.setProperty("kie.maven.settings.custom", "src/test/resources/settings.xml");
+
+        configureMavenRepositories();
+        configureMavenProxy();
+        logMavenConfigurationProperties();
+
         LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "WARN");
 
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
@@ -104,13 +132,13 @@ public class RestControlLoopManagerTest {
             .configure(PolicyEngineConstants.getManager().defaultTelemetryConfig());
 
         ReleaseId releaseId = KieUtils.installArtifact(Paths.get(KMODULE_PATH).toFile(),
-            Paths.get(KMODULE_POM_PATH).toFile(), KJAR_DRL_PATH,
-            Paths.get(KMODULE_DRL_PATH).toFile());
+                Paths.get(KMODULE_POM_PATH).toFile(), KJAR_DRL_PATH,
+                Paths.get(KMODULE_DRL_PATH).toFile());
 
         Properties controllerProperties = new Properties();
         controllerProperties.put(DroolsPropertyConstants.RULES_GROUPID, releaseId.getGroupId());
         controllerProperties.put(DroolsPropertyConstants.RULES_ARTIFACTID,
-            releaseId.getArtifactId());
+                releaseId.getArtifactId());
         controllerProperties.put(DroolsPropertyConstants.RULES_VERSION, releaseId.getVersion());
 
         PolicyEngineConstants.getManager().createPolicyController(CONTROLLER, controllerProperties);
@@ -126,13 +154,79 @@ public class RestControlLoopManagerTest {
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive());
 
         PolicyEngineConstants.getManager().setEnvironmentProperty(ControlLoopEventManager.AAI_URL,
-            "http://localhost:6666");
+                "http://localhost:6666");
         PolicyEngineConstants.getManager()
             .setEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY, "AAI");
         PolicyEngineConstants.getManager()
             .setEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY, "AAI");
 
         Util.buildAaiSim();
+    }
+
+    /**
+     * Set properties for maven repositories urls.
+     * Properties values are defined from environment variables values.
+     * If no values are provided from environment variables, then default onap repositories urls are set.
+     */
+    private static void configureMavenRepositories() {
+        String snapshotsUrl =
+                System.getenv().getOrDefault(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME, ONAP_MAVEN_SNAPSHOTS_REPO_URL);
+        System.setProperty(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME, snapshotsUrl);
+        String releasesUrl =
+                System.getenv().getOrDefault(MAVEN_RELEASES_REPO_URL_VAR_NAME, ONAP_MAVEN_RELEASES_REPO_URL);
+        System.setProperty(MAVEN_RELEASES_REPO_URL_VAR_NAME, releasesUrl);
+    }
+
+    /**
+     * Set properties for maven proxy.
+     * Properties values are defined form HTTP_PROXY environment variable.
+     * If this environment variable is not provided, then no host is configured to be proxied.
+     */
+    private static void configureMavenProxy() {
+        String nonProxyHosts = ALL_HOSTS;
+        String httpProxy = null;
+        for (int  i = 0; i < HTTP_PROXY_VAR_NAMES.length && StringUtils.isBlank(httpProxy); i++) {
+            httpProxy = System.getenv(HTTP_PROXY_VAR_NAMES[i]);
+        }
+        if (StringUtils.isNotBlank(httpProxy)) {
+            Matcher matcher = PROXY_URL_PATTERN.matcher(httpProxy);
+            if (matcher.find()) {
+                System.setProperty(MAVEN_PROXY_PROTOCOL_VAR_NAME, matcher.group(1));
+                System.setProperty(MAVEN_PROXY_HOST_VAR_NAME, matcher.group(2));
+                System.setProperty(MAVEN_PROXY_PORT_VAR_NAME, matcher.group(3));
+                nonProxyHosts = LOCAL_HOSTS;
+            } else {
+                LOGGER.warn(
+                        "Proxy specified in {} environment variables whose value is {} is not supported and ignored.",
+                        HTTP_PROXY_VAR_NAMES, httpProxy);
+            }
+        }
+        System.setProperty(MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME, nonProxyHosts);
+    }
+
+    private static void cleanupMavenProperties() {
+        System.clearProperty(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME);
+        System.clearProperty(MAVEN_RELEASES_REPO_URL_VAR_NAME);
+        System.clearProperty(MAVEN_PROXY_PROTOCOL_VAR_NAME);
+        System.clearProperty(MAVEN_PROXY_HOST_VAR_NAME);
+        System.clearProperty(MAVEN_PROXY_PORT_VAR_NAME);
+        System.clearProperty(MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME);
+    }
+
+    private static void logMavenConfigurationProperties() {
+        LOGGER.info("Maven configuration properties:");
+        LOGGER.info("{}: {}",
+                MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME, System.getProperty(MAVEN_SNAPSHOTS_REPO_URL_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_RELEASES_REPO_URL_VAR_NAME, System.getProperty(MAVEN_RELEASES_REPO_URL_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_PROTOCOL_VAR_NAME, System.getProperty(MAVEN_PROXY_PROTOCOL_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_HOST_VAR_NAME, System.getProperty(MAVEN_PROXY_HOST_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_PORT_VAR_NAME, System.getProperty(MAVEN_PROXY_PORT_VAR_NAME));
+        LOGGER.info("{}: {}",
+                MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME, System.getProperty(MAVEN_PROXY_NON_PROXY_HOSTS_VAR_NAME));
     }
 
     /**
@@ -147,7 +241,7 @@ public class RestControlLoopManagerTest {
         PolicyEngineConstants.getManager().stop();
 
         final Path controllerPath =
-            Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(),
+                Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(),
                 CONTROLLER_FILE);
         try {
             Files.deleteIfExists(controllerPath);
@@ -156,7 +250,7 @@ public class RestControlLoopManagerTest {
         }
 
         Path controllerBakPath =
-            Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(),
+                Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(),
                 CONTROLLER_FILE_BAK);
 
         try {
@@ -164,6 +258,8 @@ public class RestControlLoopManagerTest {
         } catch (Exception ignored) {
             /* to satisfy checkstyle */
         }
+
+        cleanupMavenProperties();
     }
 
     /**
@@ -172,29 +268,29 @@ public class RestControlLoopManagerTest {
     @Test
     public void testOperationalPolicy() throws IOException {
         assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
-            .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOPS).getStatus());
+                .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOPS).getStatus());
 
         assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
-            .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP).getStatus());
+                .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP).getStatus());
 
         assertEquals(Status.NOT_FOUND.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
-            .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
+                .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
 
         String policyFromFile = new String(Files.readAllBytes(Paths.get(POLICY)));
         HttpClientFactoryInstance.getClientFactory().get(CONTROLLER).put(
-            URL_CONTEXT_PATH_CONTROLLOOP_POLICY, Entity.text(policyFromFile),
-            Collections.emptyMap());
+                URL_CONTEXT_PATH_CONTROLLOOP_POLICY, Entity.text(policyFromFile),
+                Collections.emptyMap());
 
         assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
-            .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
+                .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
 
         String policyFromPdpD = HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
-            .get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).readEntity(String.class);
+                .get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).readEntity(String.class);
 
         assertEquals(policyFromFile, policyFromPdpD);
 
         assertEquals(Status.CONFLICT.getStatusCode(),
-            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
+                HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
                 .put(URL_CONTEXT_PATH_CONTROLLOOP_POLICY, Entity.text(policyFromFile),
                     Collections.emptyMap())
                 .getStatus());
@@ -206,7 +302,7 @@ public class RestControlLoopManagerTest {
     @Test
     public void testAaiCq() throws CoderException {
         assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
-            .get(CONTROLLER).get(URL_CONTEXT_PATH_TOOLS_AAI_CQ + "dummy").getStatus());
+                .get(CONTROLLER).get(URL_CONTEXT_PATH_TOOLS_AAI_CQ + "dummy").getStatus());
     }
 
     /**
