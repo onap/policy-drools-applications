@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a384f0d_067cc1ef",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec342f04_9e491aa2",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29afe9bd_34cc1d65",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d45ddc6c_7bdc2ace",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "Yes it should be feasible but I don\u0027t like it so much:\n* This maven configuration is very specific to this RestControlLoopManagerTest class. Changing the surefire plugin configuration would be done in feature-control-loop-management/pom.xml, I presume. Then it would affect all the build process for this module. For now I would not give it higher visibility than the class it belongs to. \n* I also prefer keeping this maven config very localized and hidden to this test class as I don\u0027t recommend building much more test cases having a bulky dependency on nexus to run.\n* Moving the default values from the test class to pom.xml would require to provide it manually when running unit tests from ide tool without maven.",
+      "parentUuid": "29afe9bd_34cc1d65",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6986f992_1d44836a",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2020-02-03T16:04:07Z",
       "side": 1,
       "message": "should remove the properties in @AfterClass",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03eb0b8e_9613d9d2",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6986f992_1d44836a",
       "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2ef16c88_866c4604",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ca62160_9ee5ff71",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f3e4662_b70637d5",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -84,6 +156,24 @@
       "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fae0fc0e_1de25dae",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "See response above.",
+      "parentUuid": "3f3e4662_b70637d5",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "b8ed7ebd_4edef20e",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d391102_44bd9a70",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e7064ec_f36a3c6b",
         "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2020-02-03T16:04:07Z",
       "side": 1,
       "message": "should this be \"localhost,127.0.*\" ?",
+      "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "201f4ed7_1c423157",
+        "filename": "controlloop/common/feature-controlloop-management/src/test/java/org/onap/policy/drools/server/restful/RestControlLoopManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-04T15:45:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7064ec_f36a3c6b",
       "revId": "7403589db1031ebe2c2a78a1309c0443527abfaa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
