@@ -23,6 +23,7 @@ package org.onap.policy.controlloop;
 
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.CanonicalOnset;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
@@ -157,7 +158,7 @@ end
 rule "EVENT"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         not ( ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() ) )
     then
@@ -190,8 +191,6 @@ rule "EVENT"
             // Retract it from memory
             //
             retract($event);
-        } else if ($event.getClosedLoopEventStatus() != ControlLoopEventStatus.ONSET) {
-            throw new ControlLoopException($event.getClosedLoopEventStatus() + " received with no prior onset");
         } else {
             //
             // Create an EventManager
@@ -818,8 +817,7 @@ end
 rule "GUARD.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName,
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -886,8 +884,7 @@ end
 rule "APPC.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName,
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -981,7 +978,7 @@ rule "APPC.RESPONSE.CLEANUP"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $response : Response($id : getCommonHeader().RequestId )
-        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
+        not ( CanonicalOnset( requestId == $id ) )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1003,8 +1000,7 @@ end
 rule "APPC.LCM.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName,
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -1090,7 +1086,7 @@ rule "APPC.LCM.RESPONSE.CLEANUP"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $response : AppcLcmDmaapWrapper($id : getBody().getOutput().getCommonHeader().getRequestId() )
-        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
+        not ( CanonicalOnset( requestId == $id ) )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -1111,8 +1107,7 @@ end
 rule "SO.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName,
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -1198,8 +1193,7 @@ end
 rule "VFC.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName,
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -1273,7 +1267,7 @@ end
 rule "SDNC.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName, closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(), requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(), onset.getRequestId() == $event.getRequestId() )
         $opTimer : ControlLoopTimer( closedLoopControlName == $event.getClosedLoopControlName(),
@@ -1344,8 +1338,7 @@ end
 rule "${policyName}.CDS.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $params.getClosedLoopControlName(),
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $params.getClosedLoopControlName() )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -1614,8 +1607,7 @@ end
 rule "SDNR.RESPONSE"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
-        $event : VirtualControlLoopEvent( closedLoopControlName == $clName,
-            closedLoopEventStatus == ControlLoopEventStatus.ONSET )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
         $manager : ControlLoopEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             requestId == $event.getRequestId() )
         $operation : ControlLoopOperationManager( onset.closedLoopControlName == $event.getClosedLoopControlName(),
@@ -1704,7 +1696,7 @@ rule "SDNR.RESPONSE.CLEANUP"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $response : PciResponseWrapper($id : getBody().getCommonHeader().getRequestId )
-        not ( VirtualControlLoopEvent( requestId == $id, closedLoopEventStatus == ControlLoopEventStatus.ONSET ) )
+        not ( CanonicalOnset( requestId == $id ) )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
