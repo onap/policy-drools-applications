@@ -16,6 +16,24 @@
       "revId": "fa4292c3b2a85d0cd8a5536462ea6081ae09c1e2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dba4387_d7a69c2e",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-06T19:23:46Z",
+      "side": 1,
+      "message": "Only events that can go in are ONSET and ABATED (from drools filtering enforcement).   I was checking the .drl and I don\u0027t think there\u0027s support for ABATED, wondering if we never had it in the first place.  Anyhow, this is something will revisit in the near future, as we move cleaning it up.",
+      "parentUuid": "232f8ea0_28e935fc",
+      "revId": "fa4292c3b2a85d0cd8a5536462ea6081ae09c1e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
