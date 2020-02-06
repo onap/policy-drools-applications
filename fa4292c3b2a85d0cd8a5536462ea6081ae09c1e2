@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "232f8ea0_28e935fc",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/usecases.drl",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-06T18:52:20Z",
+      "side": 1,
+      "message": "need to add a rule to retract events that are not ONSETs?",
+      "revId": "fa4292c3b2a85d0cd8a5536462ea6081ae09c1e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
