@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop event manager
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiManager;
@@ -46,6 +47,7 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
@@ -186,6 +188,42 @@ public class ControlLoopEventManager implements Serializable {
         return requestId;
     }
 
+
+    private VirtualControlLoopNotification rejectNotification(@NonNull VirtualControlLoopEvent event, String message) {
+        VirtualControlLoopNotification notification = new VirtualControlLoopNotification(event);
+        notification.setNotification(ControlLoopNotificationType.REJECTED);
+        notification.setMessage(message);
+        return notification;
+    }
+
+    /**
+     * Preactivations check for an event.
+     *
+     * @param event the event
+     * @return the VirtualControlLoopNotification
+     */
+    private VirtualControlLoopNotification preActivationChecks(VirtualControlLoopEvent event) {
+        try {
+            //
+            // This method should ONLY be called ONCE
+            //
+            if (this.isActivated) {
+                return rejectNotification(event, "ControlLoopEventManager has already been activated.");
+            }
+
+            //
+            // Syntax check the event
+            //
+            checkEventSyntax(event);
+        } catch (ControlLoopException e) {
+            logger.warn("{}: invalid event syntax: ", this, e);
+            return rejectNotification(event, e.getMessage());
+
+        }
+
+        return new VirtualControlLoopNotification(event);
+    }
+
     /**
      * Activate a control loop event.
      *
@@ -193,35 +231,23 @@ public class ControlLoopEventManager implements Serializable {
      * @return the VirtualControlLoopNotification
      */
     public VirtualControlLoopNotification activate(VirtualControlLoopEvent event) {
-        VirtualControlLoopNotification notification = new VirtualControlLoopNotification(event);
-        try {
-            //
-            // This method should ONLY be called ONCE
-            //
-            if (this.isActivated) {
-                throw new ControlLoopException("ControlLoopEventManager has already been activated.");
-            }
-            //
-            // Syntax check the event
-            //
-            checkEventSyntax(event);
-
-            //
-            // At this point we are good to go with this event
-            //
-            this.onset = event;
-            this.numOnsets = 1;
-            //
-            notification.setNotification(ControlLoopNotificationType.ACTIVE);
-            //
-            // Set ourselves as active
-            //
-            this.isActivated = true;
-        } catch (ControlLoopException e) {
-            logger.error("{}: activate by event threw: ", this, e);
-            notification.setNotification(ControlLoopNotificationType.REJECTED);
-            notification.setMessage(e.getMessage());
+        VirtualControlLoopNotification notification = preActivationChecks(event);
+        if (notification.getNotification() == ControlLoopNotificationType.REJECTED) {
+            return notification;
         }
+
+        //
+        // At this point we are good to go with this event
+        //
+        this.onset = event;
+        this.numOnsets = 1;
+        //
+        //
+        // Set ourselves as active
+        //
+        this.isActivated = true;
+
+        notification.setNotification(ControlLoopNotificationType.ACTIVE);
         return notification;
     }
 
@@ -233,30 +259,13 @@ public class ControlLoopEventManager implements Serializable {
      * @return the VirtualControlLoopNotification
      */
     public VirtualControlLoopNotification activate(String yamlSpecification, VirtualControlLoopEvent event) {
-        VirtualControlLoopNotification notification = new VirtualControlLoopNotification(event);
-        try {
-            //
-            // This method should ONLY be called ONCE
-            //
-            if (this.isActivated) {
-                throw new ControlLoopException("ControlLoopEventManager has already been activated.");
-            }
-            //
-            // Syntax check the event
-            //
-            checkEventSyntax(event);
-
-            //
-            // Check the YAML
-            //
-            if (yamlSpecification == null || yamlSpecification.length() < 1) {
-                throw new ControlLoopException("yaml specification is null or 0 length");
-            }
-        } catch (ControlLoopException e) {
-            logger.error("{}: activate by YAML specification and event threw: ", this, e);
-            notification.setNotification(ControlLoopNotificationType.REJECTED);
-            notification.setMessage(e.getMessage());
+        VirtualControlLoopNotification notification = preActivationChecks(event);
+        if (notification.getNotification() == ControlLoopNotificationType.REJECTED) {
             return notification;
+        }
+
+        if (yamlSpecification == null || yamlSpecification.length() < 1) {
+            return rejectNotification(event, "yaml specification is null or 0 length");
         }
 
         String decodedYaml = null;
@@ -266,10 +275,8 @@ public class ControlLoopEventManager implements Serializable {
                 yamlSpecification = decodedYaml;
             }
         } catch (UnsupportedEncodingException e) {
-            logger.error("{}: YAML decode in activate by YAML specification and event threw: ", this, e);
-            notification.setNotification(ControlLoopNotificationType.REJECTED);
-            notification.setMessage(e.getMessage());
-            return notification;
+            logger.warn("{}: YAML decode in activate by YAML specification and event threw: ", this, e);
+            return rejectNotification(event, e.getMessage());
         }
 
         try {
@@ -277,24 +284,26 @@ public class ControlLoopEventManager implements Serializable {
             // Parse the YAML specification
             //
             this.processor = new ControlLoopProcessor(yamlSpecification);
-            //
-            // At this point we are good to go with this event
-            //
-            this.onset = event;
-            this.numOnsets = 1;
-            //
-            //
-            //
-            notification.setNotification(ControlLoopNotificationType.ACTIVE);
-            //
-            // Set ourselves as active
-            //
-            this.isActivated = true;
         } catch (ControlLoopException e) {
             logger.error("{}: activate by YAML specification and event threw: ", this, e);
-            notification.setNotification(ControlLoopNotificationType.REJECTED);
-            notification.setMessage(e.getMessage());
+            return rejectNotification(event, e.getMessage());
         }
+
+        //
+        // At this point we are good to go with this event
+        //
+        this.onset = event;
+        this.numOnsets = 1;
+
+        //
+        // Set ourselves as active
+        //
+        this.isActivated = true;
+
+        //
+        //
+        //
+        notification.setNotification(ControlLoopNotificationType.ACTIVE);
         return notification;
     }
 
