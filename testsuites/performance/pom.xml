@@ -3,6 +3,7 @@
   performance
   ================================================================================
   Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2020 Bell Canada.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,10 +22,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.policy.drools-applications</groupId>
-        <artifactId>testsuites</artifactId>
+        <artifactId>drools-applications-testsuites</artifactId>
         <version>1.6.0-SNAPSHOT</version>
     </parent>
-    <artifactId>performance</artifactId>
+    <artifactId>drools-applications-performance</artifactId>
     <build>
         <plugins>
             <plugin>

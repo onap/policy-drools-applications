@@ -4,6 +4,7 @@
   ================================================================================
   Copyright (C) 2018 Ericsson. All rights reserved.
   Modifications Copyright (C) 2018, 2020 AT&T. All rights reserved.
+  Modifications Copyright (C) 2020 Bell Canada.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,7 +26,7 @@
         <artifactId>drools-applications</artifactId>
         <version>1.6.0-SNAPSHOT</version>
     </parent>
-    <artifactId>testsuites</artifactId>
+    <artifactId>drools-applications-testsuites</artifactId>
     <packaging>pom</packaging>
 
     <properties>
