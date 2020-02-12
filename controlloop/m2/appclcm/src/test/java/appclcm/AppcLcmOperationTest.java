@@ -25,7 +25,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import java.util.HashMap;
@@ -49,7 +48,6 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.m2.lock.LockAdjunct;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.m2.appclcm.AppcLcmOperation;
 import org.onap.policy.m2.base.Transaction;
@@ -704,5 +702,26 @@ public class AppcLcmOperationTest {
         assertFalse(AppcLcmOperation.isAaiValid(transaction, validEvent));
         assertEquals("target field invalid - must have corresponding AAI value",
                      transaction.getNotificationMessage());
+    }
+
+    @Test
+    public void testTimeout() {
+        policy.setRecipe("RESTART");
+        policy.getTarget().setType(TargetType.VNF);
+        operation = new AppcLcmOperation(transaction, policy, event, 1);
+        operation.timeout();
+        assertEquals(PolicyResult.FAILURE_TIMEOUT, operation.getResult());
+    }
+
+    @Test
+    public void testIncomingAbatedEvent() {
+        transaction.setNotificationMessage(null);
+        VirtualControlLoopEvent validEvent = new VirtualControlLoopEvent();
+        validEvent.setTarget("vserver.vserver-name");
+        validEvent.getAai().put(AppcLcmOperation.DCAE_CLOSEDLOOP_DISABLED_FIELD, "false");
+        validEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
+        operation = new AppcLcmOperation(transaction, policy, event, 1);
+        operation.incomingMessage(validEvent);
+        assertEquals(PolicyResult.SUCCESS, operation.getResult());
     }
 }
