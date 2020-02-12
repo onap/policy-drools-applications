@@ -46,8 +46,9 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.m2.lock.LockAdjunct;
 import org.onap.policy.drools.system.PolicyEngineConstants;
+import org.onap.policy.guard.PolicyGuardResponse;
+import org.onap.policy.m2.appclcm.AppcLcmActor;
 import org.onap.policy.m2.appclcm.AppcLcmHealthCheckOperation;
 import org.onap.policy.m2.base.Transaction;
 import org.slf4j.Logger;
@@ -115,7 +116,8 @@ public class AppcLcmHealthCheckOperationTest {
 
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
-        operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
+        AppcLcmActor actor = new AppcLcmActor();
+        operation = (AppcLcmHealthCheckOperation) actor.createOperation(transaction, policy, event, 1);
 
         Object request = operation.getRequest();
         assertTrue(request instanceof AppcLcmDmaapWrapper);
@@ -277,5 +279,57 @@ public class AppcLcmHealthCheckOperationTest {
 
         operation.incomingMessage(healthCheckResp);
         assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
+    }
+    
+    @Test
+    public void testIncomingMessage() {
+        policy.setRecipe("HEALTHCHECK");
+        policy.getTarget().setType(TargetType.VNF);
+        operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
+        
+        //Submitting Policy Guard Response instead of AppcLcmDmaapWrapper
+        PolicyGuardResponse response = new PolicyGuardResponse("", UUID.randomUUID(), "");
+        operation.incomingMessage(response);
+
+        //Checking for Failure Code
+        String lcmRespJson = "{\"body\":{\"output\":{\"common-header\":{\"timestamp\":\"2017-08-25T21:06:23.037Z\","
+                + "\"api-ver\":\"5.00\",\"originator-id\":\"POLICY\","
+                + "\"request-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200\",\"sub-request-id\":\"1\",\"flags\":{}},"
+                + "\"status\":{\"code\":404,\"message\":\"VNF is unhealthy\"},\"payload\":\"\"}},\"version\":\"2.0\","
+                + "\"rpc-name\":\"health-check\",\"correlation-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200-1\","
+                + "\"type\":\"response\"}";
+        AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
+       
+        operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
+        operation.incomingMessage(healthCheckResp);
+        assertEquals(PolicyResult.FAILURE, operation.getResult());
+        
+        //Checking code 300 Failure_Exception
+        lcmRespJson = "{\"body\":{\"output\":{\"common-header\":{\"timestamp\":\"2017-08-25T21:06:23.037Z\","
+                + "\"api-ver\":\"5.00\",\"originator-id\":\"POLICY\","
+                + "\"request-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200\",\"sub-request-id\":\"1\",\"flags\":{}},"
+                + "\"status\":{\"code\":300,\"message\":\"VNF is unhealthy\"},\"payload\":\"\"}},\"version\":\"2.0\","
+                + "\"rpc-name\":\"health-check\",\"correlation-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200-1\","
+                + "\"type\":\"response\"}";
+        healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
+       
+        operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
+        operation.incomingMessage(healthCheckResp);
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
+       
+        //Checking code 100 accepted does nothing to result
+        //Leaving the operation result as the initialized value of null
+        lcmRespJson = "{\"body\":{\"output\":{\"common-header\":{\"timestamp\":\"2017-08-25T21:06:23.037Z\","
+                + "\"api-ver\":\"5.00\",\"originator-id\":\"POLICY\","
+                + "\"request-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200\",\"sub-request-id\":\"1\",\"flags\":{}},"
+                + "\"status\":{\"code\":100,\"message\":\"VNF is unhealthy\"},\"payload\":\"\"}},\"version\":\"2.0\","
+                + "\"rpc-name\":\"health-check\",\"correlation-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200-1\","
+                + "\"type\":\"response\"}";
+        healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
+       
+        operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
+        operation.incomingMessage(healthCheckResp);        
+        assertEquals(null, operation.getResult());
+       
     }
 }
