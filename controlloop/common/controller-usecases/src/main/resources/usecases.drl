@@ -108,8 +108,8 @@ rule "INSERT.PARAMS"
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
-    logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
-        + drools.getRule().getName(), $params.getControlLoopYaml());
+    logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
+        + drools.getRule().getName(), $params.getToscaPolicy());
 end
 
 /*
@@ -200,7 +200,7 @@ rule "EVENT"
             // Determine if EventManager can actively process the event
             // (i.e. syntax, is_closed_loop_disabled checks etc.)
             //
-            VirtualControlLoopNotification notification = manager.activate($params.getControlLoopYaml(), $event);
+            VirtualControlLoopNotification notification = manager.activate($params.getToscaPolicy(), $event);
             notification.setFrom("pdp-0001-controller=controlloop"); // Engine.getInstanceName()
             notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
             notification.setPolicyScope($params.getPolicyScope());

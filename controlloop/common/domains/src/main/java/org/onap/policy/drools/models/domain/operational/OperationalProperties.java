@@ -18,22 +18,58 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.drl.legacy;
+package org.onap.policy.drools.models.domain.operational;
 
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+
+/**
+ * Operational Policy Properties.
+ */
 
 @Data
-@NoArgsConstructor
-public class ControlLoopParams implements Serializable {
+@Builder
+public class OperationalProperties implements Serializable {
+    private static final long serialVersionUID = 2455300363502597721L;
 
-    private static final long serialVersionUID = 970755684770982776L;
+    /**
+     * Control Loop Name.
+     */
+    @SerializedName("id")
+    protected String id;
 
-    private String closedLoopControlName;
-    private String policyName;
-    private String policyScope;
-    private String policyVersion;
-    private ToscaPolicy toscaPolicy;
+    /**
+     * Timeout in seconds.
+     */
+    @SerializedName("timeout")
+    protected int timeout = 30;
+
+    /**
+     * Abatement.
+     */
+    @SerializedName("abatement")
+    protected boolean abatement = false;
+
+    /**
+     * Trigger Operation.
+     */
+    @SerializedName("trigger")
+    protected String trigger;
+
+    /**
+     * Operations.
+     */
+    @SerializedName("operations")
+    protected List<Operation> operations = new ArrayList<Operation>();
+
+    /**
+     * Controller Name.
+     */
+    @SerializedName("controllerName")
+    protected String controllerName;
 }

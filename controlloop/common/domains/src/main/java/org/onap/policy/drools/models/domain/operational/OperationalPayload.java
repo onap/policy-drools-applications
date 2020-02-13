@@ -18,22 +18,24 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.drl.legacy;
+package org.onap.policy.drools.models.domain.operational;
 
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.Map;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+/**
+ * Payload.
+ */
 
 @Data
-@NoArgsConstructor
-public class ControlLoopParams implements Serializable {
+@Builder
+public class OperationalPayload implements Serializable {
 
-    private static final long serialVersionUID = 970755684770982776L;
+    private static final long serialVersionUID = 3060472756723571441L;
 
-    private String closedLoopControlName;
-    private String policyName;
-    private String policyScope;
-    private String policyVersion;
-    private ToscaPolicy toscaPolicy;
+    @SerializedName("payload")
+    protected Map<String, String> payload;
 }
