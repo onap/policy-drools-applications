@@ -42,7 +42,8 @@ public class VcpeTest extends UsecasesBase {
     /**
      * VCPE Tosca Policy File.
      */
-    private static final String TOSCA_POLICY_VCPE = "src/test/resources/vcpe/tosca-vcpe.json";
+    private static final String TOSCA_LEGACY_POLICY_VCPE = "src/test/resources/vcpe/tosca-legacy-vcpe.json";
+    private static final String TOSCA_COMPLIANT_POLICY_VCPE = "src/test/resources/vcpe/tosca-compliant-vcpe.json";
 
     /*
      * VCPE Use case Messages.
@@ -86,7 +87,6 @@ public class VcpeTest extends UsecasesBase {
     /**
      * Sunny day scenario for the VCPE use case.
      */
-    @Test
     public void sunnyDay() throws IOException {
 
         /* Inject an ONSET event over the DCAE topic */
@@ -122,12 +122,40 @@ public class VcpeTest extends UsecasesBase {
     }
 
     /**
+     * Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void sunnyDayLegacy() throws InterruptedException, CoderException, IOException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicy(TOSCA_LEGACY_POLICY_VCPE);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
+        sunnyDay();
+    }
+
+    /**
+     * Sunny Day with Tosca Compliant Policy.
+     */
+    @Test
+    public void sunnyDayCompliant() throws InterruptedException, CoderException, IOException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicy(TOSCA_COMPLIANT_POLICY_VCPE);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
+        sunnyDay();
+    }
+
+    /**
      * An ONSET flood prevention test that injects a few ONSETs at once.
      * It attempts to simulate the flooding behavior of the DCAE TCA microservice.
      * TCA could blast tenths or hundreds of ONSETs within sub-second intervals.
      */
     @Test
-    public void onsetFloodPrevention() throws IOException {
+    public void onsetFloodPrevention() throws IOException, InterruptedException, CoderException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicy(TOSCA_LEGACY_POLICY_VCPE);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
         injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_1));
         injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_2));
         injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_3));
@@ -166,16 +194,6 @@ public class VcpeTest extends UsecasesBase {
         if (appcLcmWrite != null) {
             appcLcmWrite.unregister();
         }
-    }
-
-    /**
-     * Install Policy.
-     */
-    @Before
-    public void installPolicy() throws IOException, CoderException, InterruptedException {
-        assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_POLICY_VCPE);
-        assertEquals(2, usecases.getDrools().factCount(USECASES));
     }
 
     /**

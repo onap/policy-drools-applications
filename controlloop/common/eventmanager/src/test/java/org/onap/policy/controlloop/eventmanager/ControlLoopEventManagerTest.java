@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * unit test
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,11 +39,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -51,6 +54,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
@@ -64,6 +69,7 @@ import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.Pair;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.powermock.reflect.Whitebox;
 
 public class ControlLoopEventManagerTest {
@@ -160,16 +166,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testAlreadyActivated() {
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(TWO_ONSET_TEST);
-        event.setRequestId(requestId);
-        event.setTarget(VNF_ID);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAai(new HashMap<>());
-        event.getAai().put(VNF_NAME, ONSET_ONE);
-        event.setTargetType(ControlLoopTargetType.VNF);
+        VirtualControlLoopEvent event = getOnsetEvent();
 
         ControlLoopEventManager manager = makeManager(event);
         manager.setActivated(true);
@@ -178,23 +175,13 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testActivationYaml() throws IOException {
+    public void testActivationYaml() throws IOException, CoderException {
 
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(TWO_ONSET_TEST);
-        event.setRequestId(requestId);
-        event.setTarget(VNF_ID);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAai(new HashMap<>());
-        event.getAai().put(VNF_NAME, ONSET_ONE);
-        event.setTargetType(ControlLoopTargetType.VNF);
-
+        VirtualControlLoopEvent event = getOnsetEvent();
         ControlLoopEventManager manager = makeManager(event);
 
         // Null YAML should fail
-        VirtualControlLoopNotification notificationNull = manager.activate(null, event);
+        VirtualControlLoopNotification notificationNull = manager.activate((String) null, event);
         assertNotNull(notificationNull);
         assertEquals(ControlLoopNotificationType.REJECTED, notificationNull.getNotification());
 
@@ -226,17 +213,32 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
+    public void testActivateToscaLegacy() throws IOException, CoderException {
+        String policy =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vcpe.json")));
+        ToscaPolicy toscaPolicy = new StandardCoder().decode(policy, ToscaPolicy.class);
+
+        VirtualControlLoopEvent event = getOnsetEvent();
+        ControlLoopEventManager manager = makeManager(event);
+
+        // trigger a reject by passing the wrong policy type
+        toscaPolicy.setType("onap.policies.controlloop.operational.common.Drools");
+        VirtualControlLoopNotification notification = manager.activate(toscaPolicy, event);
+        assertEquals(ControlLoopNotificationType.REJECTED, notification.getNotification());
+
+        // place back correct policy type
+        toscaPolicy.setType("onap.policies.controlloop.Operational");
+        notification = manager.activate(toscaPolicy, event);
+        assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
+
+        // another activate should fail
+        notification = manager.activate(toscaPolicy, event);
+        assertEquals(ControlLoopNotificationType.REJECTED, notification.getNotification());
+    }
+
+    @Test
     public void testControlLoopFinal() throws Exception {
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
-        event.setClosedLoopControlName(TWO_ONSET_TEST);
-        event.setRequestId(requestId);
-        event.setTarget(VNF_ID);
-        event.setClosedLoopAlarmStart(Instant.now());
-        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        event.setAai(new HashMap<>());
-        event.getAai().put(VNF_NAME, ONSET_ONE);
-        event.setTargetType(ControlLoopTargetType.VNF);
+        VirtualControlLoopEvent event = getOnsetEvent();
 
         ControlLoopEventManager manager = makeManager(event);
         ControlLoopEventManager manager2 = manager;
@@ -291,6 +293,21 @@ public class ControlLoopEventManagerTest {
         clfNotification = manager.isControlLoopFinal();
         assertNotNull(clfNotification);
         assertEquals(ControlLoopNotificationType.FINAL_FAILURE, clfNotification.getNotification());
+    }
+
+    @NotNull
+    private VirtualControlLoopEvent getOnsetEvent() {
+        UUID requestId = UUID.randomUUID();
+        VirtualControlLoopEvent event = new VirtualControlLoopEvent();
+        event.setClosedLoopControlName(TWO_ONSET_TEST);
+        event.setRequestId(requestId);
+        event.setTarget(VNF_ID);
+        event.setClosedLoopAlarmStart(Instant.now());
+        event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
+        event.setAai(new HashMap<>());
+        event.getAai().put(VNF_NAME, ONSET_ONE);
+        event.setTargetType(ControlLoopTargetType.VNF);
+        return event;
     }
 
     @Test
@@ -633,16 +650,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopTimeout() throws IOException {
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
-        onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
-        onsetEvent.setRequestId(requestId);
-        onsetEvent.setTarget(VNF_ID);
-        onsetEvent.setClosedLoopAlarmStart(Instant.now());
-        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAai(new HashMap<>());
-        onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
-        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
+        VirtualControlLoopEvent onsetEvent = getOnsetEvent();
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
         assertTrue(0 == manager.getControlLoopTimeout(null));
@@ -660,16 +668,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopTimeout_ZeroTimeout() throws IOException {
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
-        onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
-        onsetEvent.setRequestId(requestId);
-        onsetEvent.setTarget(VNF_ID);
-        onsetEvent.setClosedLoopAlarmStart(Instant.now());
-        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAai(new HashMap<>());
-        onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
-        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
+        VirtualControlLoopEvent onsetEvent = getOnsetEvent();
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
 
@@ -686,16 +685,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testControlLoopTimeout_NullTimeout() throws IOException {
-        UUID requestId = UUID.randomUUID();
-        VirtualControlLoopEvent onsetEvent = new VirtualControlLoopEvent();
-        onsetEvent.setClosedLoopControlName(TWO_ONSET_TEST);
-        onsetEvent.setRequestId(requestId);
-        onsetEvent.setTarget(VNF_ID);
-        onsetEvent.setClosedLoopAlarmStart(Instant.now());
-        onsetEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
-        onsetEvent.setAai(new HashMap<>());
-        onsetEvent.getAai().put(VNF_NAME, ONSET_ONE);
-        onsetEvent.setTargetType(ControlLoopTargetType.VNF);
+        VirtualControlLoopEvent onsetEvent = getOnsetEvent();
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
 
