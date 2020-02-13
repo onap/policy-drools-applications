@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response.Status;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -179,25 +177,6 @@ public class RestControlLoopManagerTest {
 
         assertEquals(Status.NOT_FOUND.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
             .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
-
-        String policyFromFile = new String(Files.readAllBytes(Paths.get(POLICY)));
-        HttpClientFactoryInstance.getClientFactory().get(CONTROLLER).put(
-            URL_CONTEXT_PATH_CONTROLLOOP_POLICY, Entity.text(policyFromFile),
-            Collections.emptyMap());
-
-        assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
-            .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).getStatus());
-
-        String policyFromPdpD = HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
-            .get(URL_CONTEXT_PATH_CONTROLLOOP_POLICY).readEntity(String.class);
-
-        assertEquals(policyFromFile, policyFromPdpD);
-
-        assertEquals(Status.CONFLICT.getStatusCode(),
-            HttpClientFactoryInstance.getClientFactory().get(CONTROLLER)
-                .put(URL_CONTEXT_PATH_CONTROLLOOP_POLICY, Entity.text(policyFromFile),
-                    Collections.emptyMap())
-                .getStatus());
     }
 
     /**
