@@ -22,6 +22,12 @@ package org.onap.policy.controlloop.drl.legacy;
 
 import static org.junit.Assert.assertEquals;
 
+import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.impl.PojoClassFactory;
+import com.openpojo.validation.Validator;
+import com.openpojo.validation.ValidatorBuilder;
+import com.openpojo.validation.test.impl.GetterTester;
+import com.openpojo.validation.test.impl.SetterTester;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +36,6 @@ public class ControlLoopParamsTest {
     private static final String POLICY_NAME = "m";
     private static final String POLICY_SCOPE = "s";
     private static final String POLICY_VERSION = "v";
-    private static final String CONTROL_LOOP_YAML = "y";
 
     private ControlLoopParams  clp = new ControlLoopParams();
 
@@ -43,17 +48,19 @@ public class ControlLoopParamsTest {
         clp.setPolicyName(POLICY_NAME);
         clp.setPolicyScope(POLICY_SCOPE);
         clp.setPolicyVersion(POLICY_VERSION);
-        clp.setControlLoopYaml(CONTROL_LOOP_YAML);
+    }
+
+    @Test
+    public void testPojo() {
+        PojoClass controlLoopParams = PojoClassFactory.getPojoClass(ControlLoopParams.class);
+        Validator validator = ValidatorBuilder.create()
+                                      .with(new SetterTester(), new GetterTester()).build();
+        validator.validate(controlLoopParams);
     }
 
     @Test
     public void getClosedLoopControlName() {
         assertEquals(CONTROL_LOOP_NAME, clp.getClosedLoopControlName());
-    }
-
-    @Test
-    public void getControlLoopYaml() {
-        assertEquals(CONTROL_LOOP_YAML, clp.getControlLoopYaml());
     }
 
     @Test
@@ -75,12 +82,6 @@ public class ControlLoopParamsTest {
     public void setClosedLoopControlName() {
         clp.setClosedLoopControlName(CONTROL_LOOP_NAME.toUpperCase());
         assertEquals(CONTROL_LOOP_NAME.toUpperCase(), clp.getClosedLoopControlName());
-    }
-
-    @Test
-    public void setControlLoopYaml() {
-        clp.setControlLoopYaml(CONTROL_LOOP_YAML.toUpperCase());
-        assertEquals(CONTROL_LOOP_YAML.toUpperCase(), clp.getControlLoopYaml());
     }
 
     @Test
@@ -108,7 +109,6 @@ public class ControlLoopParamsTest {
         other.setPolicyName(POLICY_NAME);
         other.setPolicyScope(POLICY_SCOPE);
         other.setPolicyVersion(POLICY_VERSION);
-        other.setControlLoopYaml(CONTROL_LOOP_YAML);
 
         assertEquals(clp, other);
         assertEquals(clp.hashCode(), other.hashCode());

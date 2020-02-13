@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * controlloop processor
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,21 +21,40 @@
 package org.onap.policy.controlloop.processor;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.stream.Collectors;
+import lombok.Getter;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.policy.ControlLoop;
 import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.policy.PolicyParam;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.policy.Target;
+import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.domain.models.DroolsPolicy;
+import org.onap.policy.drools.models.domain.legacy.LegacyPolicy;
+import org.onap.policy.drools.models.domain.operational.OperationalPolicy;
+import org.onap.policy.drools.system.PolicyEngineConstants;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
 public class ControlLoopProcessor implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    private final String yaml;
+
     private final ControlLoopPolicy policy;
     private String currentNestedPolicyId = null;
+
+    @Getter
+    private ToscaPolicy toscaOpPolicy;
+
+    @Getter
+    private DroolsPolicy domainOpPolicy;
 
     /**
      * Construct an instance from yaml.
@@ -44,11 +63,10 @@ public class ControlLoopProcessor implements Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public ControlLoopProcessor(String yaml) throws ControlLoopException {
-        this.yaml = yaml;
         try {
             final Yaml y = new Yaml(new CustomClassLoaderConstructor(ControlLoopPolicy.class,
                     ControlLoopPolicy.class.getClassLoader()));
-            final Object obj = y.load(this.yaml);
+            final Object obj = y.load(yaml);
 
             this.policy = (ControlLoopPolicy) obj;
             this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
@@ -58,6 +76,82 @@ public class ControlLoopProcessor implements Serializable {
             //
             throw new ControlLoopException(e);
         }
+    }
+
+    /**
+     * Create an instance from a Tosca Policy.
+     */
+    public ControlLoopProcessor(ToscaPolicy toscaPolicy) throws ControlLoopException {
+        try {
+            // TODO: automate policy type to models mapping
+            this.policy =
+                ("onap.policies.controlloop.Operational".equals(toscaPolicy.getType()))
+                    ? buildPolicyFromToscaLegacy(toscaPolicy)
+                        : buildPolicyFromToscaCompliant(toscaPolicy);
+
+            this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
+            this.toscaOpPolicy = toscaPolicy;
+        } catch (RuntimeException | CoderException | UnsupportedEncodingException e) {
+            throw new ControlLoopException(e);
+        }
+    }
+
+    protected ControlLoopPolicy buildPolicyFromToscaLegacy(ToscaPolicy policy)
+            throws UnsupportedEncodingException, CoderException {
+        LegacyPolicy legacyPolicy =
+                PolicyEngineConstants.getManager().getDomainMaker().convertTo(policy, LegacyPolicy.class);
+        this.domainOpPolicy = legacyPolicy;
+        String decodedPolicy = URLDecoder.decode(legacyPolicy.getProperties().getContent(), "UTF-8");
+        return new Yaml(
+                new CustomClassLoaderConstructor(
+                        ControlLoopPolicy.class, ControlLoopPolicy.class.getClassLoader())).load(decodedPolicy);
+    }
+
+    protected ControlLoopPolicy buildPolicyFromToscaCompliant(ToscaPolicy policy) throws CoderException {
+        OperationalPolicy domainPolicy =
+                PolicyEngineConstants.getManager().getDomainMaker().convertTo(policy, OperationalPolicy.class);
+
+        ControlLoopPolicy backwardsCompatiblePolicy = new ControlLoopPolicy();
+        backwardsCompatiblePolicy.setPolicies(
+            domainPolicy.getProperties().getOperations().stream().map(operation -> new Policy(
+                    PolicyParam.builder()
+                            .id(operation.getId())
+                            .name(operation.getActorOperation().getOperation())
+                            .description(operation.getDescription())
+                            .actor(operation.getActorOperation().getActor())
+                            .payload(operation.getActorOperation().getPayload())
+                            .recipe(operation.getActorOperation().getOperation())
+                            .retries(operation.getRetries())
+                            .timeout(operation.getTimeout())
+                            .target(new Target(TargetType.valueOf(operation.getActorOperation().getTarget().getType()),
+                                    operation.getActorOperation().getTarget().getResourceId())).build()))
+                    .collect(Collectors.toList()));
+
+        ControlLoop controlLoop = new ControlLoop();
+        controlLoop.setAbatement(domainPolicy.getProperties().isAbatement());
+        controlLoop.setControlLoopName(domainPolicy.getProperties().getId());
+        controlLoop.setTimeout(domainPolicy.getProperties().getTimeout());
+        controlLoop.setTrigger_policy(domainPolicy.getProperties().getTrigger());
+        controlLoop.setVersion(domainPolicy.getVersion());
+
+        backwardsCompatiblePolicy.setControlLoop(controlLoop);
+        this.domainOpPolicy = domainPolicy;
+        return backwardsCompatiblePolicy;
+    }
+
+    /**
+     * Get ControlLoopParams.
+     */
+    public ControlLoopParams getControlLoopParams() {
+        ControlLoopParams controlLoopParams = new ControlLoopParams();
+
+        controlLoopParams.setClosedLoopControlName(this.getControlLoop().getControlLoopName());
+        controlLoopParams.setPolicyScope(domainOpPolicy.getType() + ":" + domainOpPolicy.getTypeVersion());
+        controlLoopParams.setPolicyName(domainOpPolicy.getName());
+        controlLoopParams.setPolicyVersion(domainOpPolicy.getVersion());
+        controlLoopParams.setToscaPolicy(toscaOpPolicy);
+
+        return controlLoopParams;
     }
 
     public ControlLoop getControlLoop() {

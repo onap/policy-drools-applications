@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * unit test
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,12 +29,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +52,31 @@ public class ControlLoopProcessorTest {
         String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
         this.testSuccess(yamlString);
         this.testFailure(yamlString);
+    }
+
+    @Test
+    public void testControlLoopFromToscaLegacy() throws IOException, CoderException, ControlLoopException {
+        String policy =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vcpe.json")));
+        assertNotNull(
+                new ControlLoopProcessor(new StandardCoder().decode(policy, ToscaPolicy.class)).getCurrentPolicy());
+    }
+
+    @Test
+    public void testControlLoopFromToscaCompliant() throws IOException, CoderException, ControlLoopException {
+        String policy =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
+        assertNotNull(
+                new ControlLoopProcessor(new StandardCoder().decode(policy, ToscaPolicy.class)).getCurrentPolicy());
+    }
+
+    @Test
+    public void testControlLoopFromToscaCompliantBad() throws IOException, CoderException, ControlLoopException {
+        String policy =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
+        ToscaPolicy toscaPolicy = new StandardCoder().decode(policy, ToscaPolicy.class);
+        toscaPolicy.setType("onap.policies.controlloop.Operational");
+        assertThatThrownBy(() -> new ControlLoopProcessor(toscaPolicy)).hasCauseInstanceOf(CoderException.class);
     }
 
     @Test
