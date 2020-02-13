@@ -92,7 +92,7 @@ public class AppcLcmActorTest {
         event.getAai().put("complex.physical-location-id", "LSLEILAA");
 
         WorkingMemory wm = mock(WorkingMemory.class);
-        transaction = new Transaction(wm, "clvusptest", event.getRequestId(), null);    
+        transaction = new Transaction(wm, "clvusptest", event.getRequestId(), null);
 
         actor = new AppcLcmActor();
     }

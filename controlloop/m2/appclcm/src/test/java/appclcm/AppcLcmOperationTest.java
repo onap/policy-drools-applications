@@ -703,17 +703,16 @@ public class AppcLcmOperationTest {
         assertEquals("target field invalid - must have corresponding AAI value",
                      transaction.getNotificationMessage());
     }
-    
+
     @Test
     public void testTimeout() {
         policy.setRecipe("RESTART");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmOperation(transaction, policy, event, 1);
-        
         operation.timeout();
         assertEquals(PolicyResult.FAILURE_TIMEOUT, operation.getResult());
     }
-    
+
     @Test
     public void testIncomingAbatedEvent() {
         transaction.setNotificationMessage(null);
@@ -721,10 +720,8 @@ public class AppcLcmOperationTest {
         validEvent.setTarget("vserver.vserver-name");
         validEvent.getAai().put(AppcLcmOperation.DCAE_CLOSEDLOOP_DISABLED_FIELD, "false");
         validEvent.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
-        
         operation = new AppcLcmOperation(transaction, policy, event, 1);
         operation.incomingMessage(validEvent);
-        
         assertEquals(PolicyResult.SUCCESS, operation.getResult());
     }
 }

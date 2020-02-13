@@ -23,7 +23,7 @@ package appclcm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+
 import static org.mockito.Mockito.mock;
 
 import java.util.Properties;
@@ -280,13 +280,13 @@ public class AppcLcmHealthCheckOperationTest {
         operation.incomingMessage(healthCheckResp);
         assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
     }
-    
+
     @Test
     public void testIncomingMessage() {
         policy.setRecipe("HEALTHCHECK");
         policy.getTarget().setType(TargetType.VNF);
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
-        
+
         //Submitting Policy Guard Response instead of AppcLcmDmaapWrapper
         PolicyGuardResponse response = new PolicyGuardResponse("", UUID.randomUUID(), "");
         operation.incomingMessage(response);
@@ -299,11 +299,11 @@ public class AppcLcmHealthCheckOperationTest {
                 + "\"rpc-name\":\"health-check\",\"correlation-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200-1\","
                 + "\"type\":\"response\"}";
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
-       
+
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
         operation.incomingMessage(healthCheckResp);
         assertEquals(PolicyResult.FAILURE, operation.getResult());
-        
+
         //Checking code 300 Failure_Exception
         lcmRespJson = "{\"body\":{\"output\":{\"common-header\":{\"timestamp\":\"2017-08-25T21:06:23.037Z\","
                 + "\"api-ver\":\"5.00\",\"originator-id\":\"POLICY\","
@@ -312,11 +312,11 @@ public class AppcLcmHealthCheckOperationTest {
                 + "\"rpc-name\":\"health-check\",\"correlation-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200-1\","
                 + "\"type\":\"response\"}";
         healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
-       
+
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
         operation.incomingMessage(healthCheckResp);
         assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
-       
+
         //Checking code 100 accepted does nothing to result
         //Leaving the operation result as the initialized value of null
         lcmRespJson = "{\"body\":{\"output\":{\"common-header\":{\"timestamp\":\"2017-08-25T21:06:23.037Z\","
@@ -326,10 +326,9 @@ public class AppcLcmHealthCheckOperationTest {
                 + "\"rpc-name\":\"health-check\",\"correlation-id\":\"664be3d2-6c12-4f4b-a3e7-c349acced200-1\","
                 + "\"type\":\"response\"}";
         healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
-       
+
         operation = new AppcLcmHealthCheckOperation(transaction, policy, event, 1);
-        operation.incomingMessage(healthCheckResp);        
+        operation.incomingMessage(healthCheckResp);
         assertEquals(null, operation.getResult());
-       
     }
 }
