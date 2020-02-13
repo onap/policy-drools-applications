@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25ee7aa4_42241bbd",
+        "filename": "controlloop/m2/appclcm/src/test/java/appclcm/AppcLcmActorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-13T17:13:00Z",
+      "side": 1,
+      "message": "swap arguments - the \"expected\" value should always be on the left",
+      "revId": "dc821b0ffa2b2a29c29f1590743b1390a8a3dd83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
