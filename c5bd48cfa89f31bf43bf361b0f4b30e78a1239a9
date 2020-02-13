@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9856cc04_2cfd0c44",
+        "filename": "controlloop/m2/appclcm/src/test/java/appclcm/AppcLcmActorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-13T17:02:32Z",
+      "side": 1,
+      "message": "use assertEquals",
+      "revId": "c5bd48cfa89f31bf43bf361b0f4b30e78a1239a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
