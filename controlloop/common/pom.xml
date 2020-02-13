@@ -2,7 +2,7 @@
     ============LICENSE_START=======================================================
     Drools PDP Application Common Models
     ================================================================================
-    Copyright (C) 2017, 2019 AT&T Intellectual Property. All rights reserved.
+    Copyright (C) 2017, 2019-2020 AT&T Intellectual Property. All rights reserved.
     Modifications Copyright (C) 2020 Bell Canada.
     ================================================================================
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +37,7 @@
     <module>guard</module>
     <module>coordination</module>
     <module>eventmanager</module>
+    <module>domains</module>
     <module>controller-usecases</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>
