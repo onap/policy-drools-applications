@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "406a10d8_41f699bd",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-14T22:41:03Z",
+      "side": 1,
+      "message": "the tests should be changed to put the h2 database into a temporary folder, not a local dev directory. Can you remove this? So that team can make those changes.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "4ac1faef6a43ec8dbeeb2ee5410c19a90409c5c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
