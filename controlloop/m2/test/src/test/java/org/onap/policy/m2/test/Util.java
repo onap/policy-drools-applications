@@ -350,10 +350,10 @@ public class Util {
             initNeeded = false;
 
             // start DMAAP Simulator
-            startRestServer("simdmaap", "127.0.71.250", 3904, SimDmaap.class);
+            startRestServer("simdmaap", "127.0.0.1", 3904, SimDmaap.class);
 
             // start Guard Simulator
-            startRestServer("simguard", "127.0.71.201", 8443, SimGuard.class);
+            startRestServer("simguard", "127.0.0.1", 8443, SimGuard.class);
 
             // start PolicyEngine
             PolicyEngineConstants.getManager().configure(new Properties());
@@ -398,7 +398,7 @@ public class Util {
             PublisherBuilder builder =
                 new CambriaClientBuilders.PublisherBuilder();
             builder
-                .usingHosts("127.0.71.250")
+                .usingHosts("127.0.0.1")
                 .onTopic(topic)
                 .withSocketTimeout(5000);
             publisher = builder.build();
@@ -448,7 +448,7 @@ public class Util {
             ConsumerBuilder builder = new CambriaClientBuilders.ConsumerBuilder();
             builder
                 .knownAs(UUID.randomUUID().toString(), "1")
-                .usingHosts("127.0.71.250")
+                .usingHosts("127.0.0.1")
                 .onTopic(topic)
                 .waitAtServer(15000)
                 .receivingAtMost(100)

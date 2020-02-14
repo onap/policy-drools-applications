@@ -99,7 +99,7 @@ public class AppcLcmTest {
         //properties.setProperty("pdpx.password", "");
 
         // create PolicyController, which creates the Drools session
-        PolicyEngineConstants.getManager().setEnvironmentProperty(PROP_GUARD_URL, "http://127.0.71.201:8443/pdp/");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(PROP_GUARD_URL, "http://127.0.0.1:8443/pdp/");
         PolicyEngineConstants.getManager().setEnvironmentProperty(ONAP_KEY_URL, "jdbc:h2:file:./H2DB");
         PolicyEngineConstants.getManager().setEnvironmentProperty(ONAP_KEY_USER, "sa");
         PolicyEngineConstants.getManager().setEnvironmentProperty(ONAP_KEY_PASS, "");
