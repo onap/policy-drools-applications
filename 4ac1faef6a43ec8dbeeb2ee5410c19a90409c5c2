@@ -46,6 +46,30 @@
       "revId": "4ac1faef6a43ec8dbeeb2ee5410c19a90409c5c2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2823e827_0eda4a15",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-02-14T23:20:33Z",
+      "side": 1,
+      "message": "Or better yet, put it in a memory DB so nothing to clean up when the test completes",
+      "parentUuid": "d0233bec_b0e05736",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "4ac1faef6a43ec8dbeeb2ee5410c19a90409c5c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
