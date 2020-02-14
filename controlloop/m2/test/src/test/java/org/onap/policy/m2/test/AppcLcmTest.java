@@ -3,6 +3,7 @@
  * m2/test
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Bell Canada.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +100,7 @@ public class AppcLcmTest {
         //properties.setProperty("pdpx.password", "");
 
         // create PolicyController, which creates the Drools session
-        PolicyEngineConstants.getManager().setEnvironmentProperty(PROP_GUARD_URL, "http://127.0.71.201:8443/pdp/");
+        PolicyEngineConstants.getManager().setEnvironmentProperty(PROP_GUARD_URL, "http://127.0.0.1:8443/pdp/");
         PolicyEngineConstants.getManager().setEnvironmentProperty(ONAP_KEY_URL, "jdbc:h2:file:./H2DB");
         PolicyEngineConstants.getManager().setEnvironmentProperty(ONAP_KEY_USER, "sa");
         PolicyEngineConstants.getManager().setEnvironmentProperty(ONAP_KEY_PASS, "");
