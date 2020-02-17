@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "36789944_aaf4a1e5",
+        "filename": "controlloop/common/domains/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-17T22:11:31Z",
+      "side": 1,
+      "message": "Okay, for now lets leave it under controlloop/common",
+      "parentUuid": "3ec0a27f_9b6e3a70",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "58cc4b4a559310a6b6ec8d1c0005383cdf9d124c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b154d209_743b71aa",
         "filename": "controlloop/common/domains/pom.xml",
         "patchSetId": 2
@@ -312,6 +336,30 @@
       "side": 1,
       "message": "Sounds good, let me make sure is the same data, and will reuse.   If you don\u0027t mind will do that in the next iteration with all the other changes to match syntax.",
       "parentUuid": "adc9fcfb_97289feb",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "58cc4b4a559310a6b6ec8d1c0005383cdf9d124c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13793adc_96ba134d",
+        "filename": "controlloop/common/domains/src/test/resources/tosca-legacy-vcpe.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-02-17T22:11:31Z",
+      "side": 1,
+      "message": "Sure, no problem :)",
+      "parentUuid": "d02bbf0a_b08c7b34",
       "range": {
         "startLine": 1,
         "startChar": 0,
