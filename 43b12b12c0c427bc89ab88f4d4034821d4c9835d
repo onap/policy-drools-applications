@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "613b047d_c2ba1bd3",
+        "filename": "controlloop/m2/test/src/test/resources/appclcm/controller.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-17T01:19:23Z",
+      "side": 1,
+      "message": "It was missed in original submission, but do you mind to add an ATT copyright header too here.",
+      "revId": "43b12b12c0c427bc89ab88f4d4034821d4c9835d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
