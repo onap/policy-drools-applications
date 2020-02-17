@@ -159,9 +159,6 @@
                             <goal>build</goal>
                             <goal>push</goal>
                         </goals>
-                        <configuration>
-                            <image>onap/policy-pdpd-cl</image>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

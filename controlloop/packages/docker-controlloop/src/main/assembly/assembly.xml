@@ -28,7 +28,7 @@
             <outputDirectory>.</outputDirectory>
             <filtered>true</filtered>
             <includes>
-                <include>docker-entrypoint.sh</include>
+                <include>pdpd-cl-entrypoint.sh</include>
             </includes>
             <fileMode>755</fileMode>
         </fileSet>
