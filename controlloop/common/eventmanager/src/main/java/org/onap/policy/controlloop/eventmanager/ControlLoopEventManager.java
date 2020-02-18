@@ -55,6 +55,7 @@ import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.Pair;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -234,19 +235,7 @@ public class ControlLoopEventManager implements Serializable {
             return notification;
         }
 
-        //
-        // At this point we are good to go with this event
-        //
-        this.onset = event;
-        this.numOnsets = 1;
-        //
-        //
-        // Set ourselves as active
-        //
-        this.isActivated = true;
-
-        notification.setNotification(ControlLoopNotificationType.ACTIVE);
-        return notification;
+        return postActivate(event, notification);
     }
 
     /**
@@ -287,6 +276,34 @@ public class ControlLoopEventManager implements Serializable {
             return rejectNotification(event, e.getMessage());
         }
 
+        return postActivate(event, notification);
+    }
+
+    /**
+     * Activate a control loop event.
+     *
+     * @param toscaPolicy the tosca policy
+     * @param event the event
+     * @return the VirtualControlLoopNotification
+     */
+    public VirtualControlLoopNotification activate(ToscaPolicy toscaPolicy, VirtualControlLoopEvent event) {
+        VirtualControlLoopNotification notification = preActivationChecks(event);
+        if (notification.getNotification() == ControlLoopNotificationType.REJECTED) {
+            return notification;
+        }
+
+        try {
+            this.processor = new ControlLoopProcessor(toscaPolicy);
+        } catch (ControlLoopException e) {
+            logger.error("{}: activate from Tosca Policy threw: ", this, e);
+            return rejectNotification(event, e.getMessage());
+        }
+
+        return postActivate(event, notification);
+    }
+
+    private VirtualControlLoopNotification postActivate(
+            VirtualControlLoopEvent event, VirtualControlLoopNotification notification) {
         //
         // At this point we are good to go with this event
         //
@@ -298,9 +315,6 @@ public class ControlLoopEventManager implements Serializable {
         //
         this.isActivated = true;
 
-        //
-        //
-        //
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
         return notification;
     }

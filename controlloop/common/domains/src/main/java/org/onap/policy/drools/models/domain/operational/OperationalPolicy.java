@@ -18,22 +18,23 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.drl.legacy;
+package org.onap.policy.drools.models.domain.operational;
 
 import java.io.Serializable;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import lombok.experimental.SuperBuilder;
+import org.onap.policy.drools.domain.models.DroolsPolicy;
+
+
+/**
+ * Operational Domain Policy.
+ */
 
 @Data
-@NoArgsConstructor
-public class ControlLoopParams implements Serializable {
+@SuperBuilder
+public class OperationalPolicy extends DroolsPolicy implements Serializable {
+    private static final long serialVersionUID = 4100092564657497713L;
 
-    private static final long serialVersionUID = 970755684770982776L;
+    private OperationalProperties properties;
 
-    private String closedLoopControlName;
-    private String policyName;
-    private String policyScope;
-    private String policyVersion;
-    private ToscaPolicy toscaPolicy;
 }

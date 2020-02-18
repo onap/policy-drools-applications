@@ -146,7 +146,7 @@ public abstract class UsecasesBase {
         return usecases
             .getDrools()
             .facts(USECASES, ControlLoopParams.class).stream()
-            .filter((params) -> params.getControlLoopYaml() == policy.getProperties().get("content"))
+            .filter((params) -> params.getToscaPolicy() == policy)
             .findFirst()
             .get();
     }
@@ -178,7 +178,7 @@ public abstract class UsecasesBase {
             usecases
                 .getDrools()
                 .facts(USECASES, ControlLoopParams.class).stream()
-                .filter((params) -> params.getControlLoopYaml() == policy.getProperties().get("content"))
+                .filter((params) -> params.getToscaPolicy() == policy)
                 .count());
 
         return policy;
@@ -209,18 +209,18 @@ public abstract class UsecasesBase {
             usecases
                 .getDrools()
                 .facts(USECASES, ControlLoopParams.class).stream()
-                .filter((params) -> params.getControlLoopYaml() == policy.getProperties().get("content"))
+                .filter((params) -> params.getPolicyName() == policy.getName())
                 .count());
     }
 
     /**
      * Prepare a PDP-D to test the Use Cases.
      */
-    protected static void preparePdpD() throws IOException, InterruptedException, CoderException {
+    protected static void preparePdpD() throws IOException {
         KieUtils.installArtifact(
             Paths.get("src/main/resources/META-INF/kmodule.xml").toFile(),
             Paths.get("src/test/resources/usecases.pom").toFile(),
-            "src/main/resources/onap.policies.controlloop.Operational/org/onap/policy/controlloop/",
+            "src/main/resources/org/onap/policy/controlloop/",
             Collections.singletonList(Paths.get("src/main/resources/usecases.drl").toFile()));
 
         repo.setConfigurationDir("src/test/resources/config");

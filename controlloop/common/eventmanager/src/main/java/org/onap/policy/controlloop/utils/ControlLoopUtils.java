@@ -18,9 +18,6 @@
 
 package org.onap.policy.controlloop.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
@@ -34,7 +31,6 @@ import org.slf4j.LoggerFactory;
 public class ControlLoopUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(ControlLoopUtils.class);
-    public static final String TOSCA_POLICY_PROPERTY_CONTENT = "content";
 
     private ControlLoopUtils() {
         super();
@@ -45,35 +41,11 @@ public class ControlLoopUtils {
      */
     public static ControlLoopParams toControlLoopParams(ToscaPolicy policy) {
 
-        // TODO: ControlLoopParams class should be moved to this repo and take Tosca Policy in a constructor.
-
         /* No exceptions are thrown to keep the DRL simpler */
 
         try {
-            if (policy == null || policy.getProperties() == null
-                || policy.getProperties().get(TOSCA_POLICY_PROPERTY_CONTENT) == null) {
-                logger.error("Invalid Policy: {}", policy);
-                return null;
-            }
-
-            String encodedPolicy = policy.getProperties().get(TOSCA_POLICY_PROPERTY_CONTENT).toString();
-            String decodedPolicy = URLDecoder.decode(encodedPolicy, "UTF-8");
-
-            ControlLoopProcessor controlLoopProcessor = new ControlLoopProcessor(decodedPolicy);
-            if (controlLoopProcessor.getControlLoop() == null
-                || StringUtils.isEmpty(controlLoopProcessor.getControlLoop().getControlLoopName())) {
-                return null;
-            }
-
-            ControlLoopParams controlLoopParams = new ControlLoopParams();
-            controlLoopParams.setClosedLoopControlName(controlLoopProcessor.getControlLoop().getControlLoopName());
-            controlLoopParams.setControlLoopYaml(encodedPolicy);
-            controlLoopParams.setPolicyScope(policy.getType() + ":" + policy.getTypeVersion());
-            controlLoopParams.setPolicyName(policy.getName());
-            controlLoopParams.setPolicyVersion(policy.getVersion());
-
-            return controlLoopParams;
-        } catch (ControlLoopException | RuntimeException | UnsupportedEncodingException e) {
+            return new ControlLoopProcessor(policy).getControlLoopParams();
+        } catch (ControlLoopException | RuntimeException e) {
             logger.error("Invalid Policy because of {}: {}", e.getMessage(), policy, e);
             return null;
         }
