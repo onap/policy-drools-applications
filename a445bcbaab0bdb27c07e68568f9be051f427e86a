@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fea8266d_dd6cb210",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T16:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4386a97b_5e2af1f4",
+      "revId": "a445bcbaab0bdb27c07e68568f9be051f427e86a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1416416f_6d236a16",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/processor/ControlLoopProcessor.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "795b66d2_3b3ddb7f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/processor/ControlLoopProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T16:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1416416f_6d236a16",
+      "revId": "a445bcbaab0bdb27c07e68568f9be051f427e86a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c445e0d_92156bb9",
         "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/processor/ControlLoopProcessorTest.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2020-02-21T16:41:17Z",
       "side": 1,
       "message": "fyi: can define a static coder and use it through-out this file",
+      "revId": "a445bcbaab0bdb27c07e68568f9be051f427e86a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cd968b6_e6d94772",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/processor/ControlLoopProcessorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T16:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c445e0d_92156bb9",
       "revId": "a445bcbaab0bdb27c07e68568f9be051f427e86a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
