@@ -190,17 +190,25 @@
                                         "type": "object",
                                         "title": "Target",
                                         "required": [
-                                            "type"
+                                            "targetType"
                                         ],
                                         "properties": {
-                                            "type": {
-                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/type",
+                                            "targetType": {
+                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/targetType",
                                                 "type": "string",
                                                 "title": "Target Type",
                                                 "examples": [
                                                     "VNF"
                                                 ],
                                                 "pattern": "^(.+)$"
+                                            },
+                                            "entityIds": {
+                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/entityIds",
+                                                "type": "object",
+                                                "title": "Payload",
+                                                "additionalProperties": {
+                                                    "type": "string"
+                                                }
                                             },
                                             "resourceID": {
                                                 "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/resourceID",

@@ -43,7 +43,8 @@ public class VfwTest extends UsecasesBase {
     /**
      * VFW Tosca Policy File.
      */
-    private static final String TOSCA_POLICY_VFW = "src/test/resources/vfw/tosca-vfw.json";
+    private static final String TOSCA_LEGACY_POLICY_VFW = "src/test/resources/vfw/tosca-vfw.json";
+    private static final String TOSCA_COMPLIANT_POLICY_VFW = "src/test/resources/vfw/tosca-compliant-vfw.json";
 
     /*
      * VFW Use case Messages.
@@ -85,7 +86,6 @@ public class VfwTest extends UsecasesBase {
     /**
      * Sunny day scenario for the VFW use case.
      */
-    @Test
     public void sunnyDay() throws IOException {
 
         /* Inject an ONSET event over the DCAE topic */
@@ -119,6 +119,30 @@ public class VfwTest extends UsecasesBase {
     }
 
     /**
+     * Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void sunnyDayLegacy() throws InterruptedException, CoderException, IOException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicy(TOSCA_LEGACY_POLICY_VFW);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
+        sunnyDay();
+    }
+
+    /**
+     * Sunny Day with Tosca Compliant Policy.
+     */
+    @Test
+    public void sunnyDayCompliant() throws InterruptedException, CoderException, IOException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicy(TOSCA_COMPLIANT_POLICY_VFW);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
+        sunnyDay();
+    }
+
+    /**
      * Observe Topics.
      */
     @Before
@@ -144,16 +168,6 @@ public class VfwTest extends UsecasesBase {
         if (appcClSink != null) {
             appcClSink.unregister();
         }
-    }
-
-    /**
-     * Install Policy.
-     */
-    @Before
-    public void installPolicy() throws IOException, CoderException, InterruptedException {
-        assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_POLICY_VFW);
-        assertEquals(2, usecases.getDrools().factCount(USECASES));
     }
 
     /**
