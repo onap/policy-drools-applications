@@ -16,6 +16,24 @@
       "revId": "5cdc0da265e1488321f88c38d9e0fb9d3626f54d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb17072_57afb54c",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/VfwTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T16:13:59Z",
+      "side": 0,
+      "message": "I will mark it as private.   I think you know, but just to make sure addressing the questions, that this method ran is executed twice on this file from the 2 other @test (from lines 130 and 142), one using a Tosca Legacy Operational Policy, and the second using the equivalent new Tosca Compliant Operation Policy.",
+      "parentUuid": "9d4286bb_a6fb9235",
+      "revId": "5cdc0da265e1488321f88c38d9e0fb9d3626f54d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
