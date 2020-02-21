@@ -22,6 +22,30 @@
       "revId": "3ddf869666d34dde364688d5c7d33335c9cd3615",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8fa86c0_38359ae2",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-02-21T17:51:16Z",
+      "side": 1,
+      "message": "Yes, you are right, the right version is picked up from upstream parents, I see it correctly set in the dependencyManagement section of the effective pom, and then in the dependency.   I tracked it to oparent from this imported pom in that project:  https://git.onap.org/oparent/tree/dependencies/pom.xml.   I\u0027ll remove the version then.",
+      "parentUuid": "4df823fe_bb9c98c1",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "3ddf869666d34dde364688d5c7d33335c9cd3615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
