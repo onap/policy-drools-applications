@@ -190,11 +190,11 @@
                                         "type": "object",
                                         "title": "Target",
                                         "required": [
-                                            "type"
+                                            "targetType"
                                         ],
                                         "properties": {
-                                            "type": {
-                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/type",
+                                            "targetType": {
+                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/targetType",
                                                 "type": "string",
                                                 "title": "Target Type",
                                                 "examples": [
@@ -202,14 +202,17 @@
                                                 ],
                                                 "pattern": "^(.+)$"
                                             },
-                                            "resourceID": {
-                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/resourceID",
-                                                "type": "string",
-                                                "title": "Resource ID",
+                                            "entityIds": {
+                                                "$id": "#/properties/properties/properties/operations/items/properties/operation/properties/target/properties/entityIds",
+                                                "type": "object",
+                                                "title": "Arbitrary Resource Identities",
                                                 "examples": [
                                                     "Eace933104d443b496b8.nodes.heat.vpg"
                                                 ],
-                                                "pattern": "^(.+)$"
+                                                "additionalProperties": {
+                                                    "type": "string",
+                                                    "pattern": "^(.+)$"
+                                                }
                                             }
                                         }
                                     },
@@ -218,7 +221,8 @@
                                         "type": "object",
                                         "title": "Payload",
                                         "additionalProperties": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "pattern": "^(.+)$"
                                         }
                                     }
                                 }
