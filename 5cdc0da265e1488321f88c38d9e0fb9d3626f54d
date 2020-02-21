@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d4286bb_a6fb9235",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/VfwTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5658
+      },
+      "writtenOn": "2020-02-21T16:05:23Z",
+      "side": 0,
+      "message": "Don\u0027t we run it as a test anymore ?\nShould we make the method private for internal use only ?",
+      "revId": "5cdc0da265e1488321f88c38d9e0fb9d3626f54d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
