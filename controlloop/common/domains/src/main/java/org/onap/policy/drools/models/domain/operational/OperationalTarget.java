@@ -20,8 +20,9 @@
 
 package org.onap.policy.drools.models.domain.operational;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 
@@ -38,11 +39,11 @@ public class OperationalTarget implements Serializable {
     /**
      * Target Type.
      */
-    private String type;
+    private String targetType;
 
     /**
-     * Resource ID.
+     * Payload.
      */
-    @SerializedName("resourceID")
-    private String resourceId;
+    @Builder.Default
+    private Map<String, String> entityIds = new HashMap<>();
 }

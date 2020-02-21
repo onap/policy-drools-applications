@@ -65,7 +65,12 @@ public class ControlLoopProcessorTest {
     @Test
     public void testControlLoopFromToscaCompliant() throws IOException, CoderException, ControlLoopException {
         String policy =
-                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
+                  new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
+        assertNotNull(
+                  new ControlLoopProcessor(new StandardCoder().decode(policy, ToscaPolicy.class)).getCurrentPolicy());
+
+        policy =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vfw.json")));
         assertNotNull(
                 new ControlLoopProcessor(new StandardCoder().decode(policy, ToscaPolicy.class)).getCurrentPolicy());
     }

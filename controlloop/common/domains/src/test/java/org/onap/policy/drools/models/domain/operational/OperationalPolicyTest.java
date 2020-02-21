@@ -86,7 +86,7 @@ public class OperationalPolicyTest {
     }
 
     @Test
-    public void testToscaLegacyOperationalPolicyType() throws CoderException, IOException {
+    public void testToscaLegacyOperationalPolicyType() throws IOException {
         String rawVcpeToscaPolicy = getJsonFromFile(VCPE_OPERATIONAL_LEGACY_POLICY_JSON);
 
         // valid "known" policy type with implicit schema
@@ -119,7 +119,7 @@ public class OperationalPolicyTest {
                                                     .actorOperation(ActorOperation.builder()
                                                         .operation("Restart")
                                                         .actor("APPC")
-                                                        .target(OperationalTarget.builder().type("VNF").build())
+                                                        .target(OperationalTarget.builder().targetType("VNF").build())
                                                         .build())
                                                     .build()))
                                     .controllerName("usecases")
