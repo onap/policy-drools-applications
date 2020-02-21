@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4df823fe_bb9c98c1",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-02-21T17:06:30Z",
+      "side": 1,
+      "message": "Is this new addition? Overriding something in oparent? or policy/parent?",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "3ddf869666d34dde364688d5c7d33335c9cd3615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
