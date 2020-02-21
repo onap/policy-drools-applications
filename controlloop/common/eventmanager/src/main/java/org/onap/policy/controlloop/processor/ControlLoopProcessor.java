@@ -22,9 +22,11 @@ package org.onap.policy.controlloop.processor;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import org.apache.commons.beanutils.BeanUtils;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
@@ -39,13 +41,17 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.domain.models.DroolsPolicy;
 import org.onap.policy.drools.models.domain.legacy.LegacyPolicy;
 import org.onap.policy.drools.models.domain.operational.OperationalPolicy;
+import org.onap.policy.drools.models.domain.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
 public class ControlLoopProcessor implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessor.class);
 
     private final ControlLoopPolicy policy;
     private String currentNestedPolicyId = null;
@@ -107,6 +113,16 @@ public class ControlLoopProcessor implements Serializable {
                         ControlLoopPolicy.class, ControlLoopPolicy.class.getClassLoader())).load(decodedPolicy);
     }
 
+    private Target toStandardTarget(OperationalTarget opTarget) {
+        Target target = new Target(TargetType.valueOf(opTarget.getTargetType()));
+        try {
+            BeanUtils.populate(target, opTarget.getEntityIds());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            logger.warn("target entityIds cannot be mapped (unexpected): {}", opTarget, e);
+        }
+        return target;
+    }
+
     protected ControlLoopPolicy buildPolicyFromToscaCompliant(ToscaPolicy policy) throws CoderException {
         OperationalPolicy domainPolicy =
                 PolicyEngineConstants.getManager().getDomainMaker().convertTo(policy, OperationalPolicy.class);
@@ -116,17 +132,17 @@ public class ControlLoopProcessor implements Serializable {
         // @formatter:off
         backwardsCompatiblePolicy.setPolicies(
             domainPolicy.getProperties().getOperations().stream().map(operation -> new Policy(
-                    PolicyParam.builder()
-                            .id(operation.getId())
-                            .name(operation.getActorOperation().getOperation())
-                            .description(operation.getDescription())
-                            .actor(operation.getActorOperation().getActor())
-                            .payload(operation.getActorOperation().getPayload())
-                            .recipe(operation.getActorOperation().getOperation())
-                            .retries(operation.getRetries())
-                            .timeout(operation.getTimeout())
-                            .target(new Target(TargetType.valueOf(operation.getActorOperation().getTarget().getType()),
-                                    operation.getActorOperation().getTarget().getResourceId())).build()))
+                        PolicyParam.builder()
+                                .id(operation.getId())
+                                .name(operation.getActorOperation().getOperation())
+                                .description(operation.getDescription())
+                                .actor(operation.getActorOperation().getActor())
+                                .payload(operation.getActorOperation().getPayload())
+                                .recipe(operation.getActorOperation().getOperation())
+                                .retries(operation.getRetries())
+                                .timeout(operation.getTimeout())
+                                .target(toStandardTarget(operation.getActorOperation().getTarget()))
+                                .build()))
                     .collect(Collectors.toList()));
         // @formatter:on
 

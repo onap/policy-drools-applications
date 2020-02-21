@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 
 public class ControlLoopProcessorTest {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessorTest.class);
+    private static final StandardCoder coder = new StandardCoder();
 
     @Test
     public void testControlLoopProcessor() throws IOException, ControlLoopException {
@@ -59,22 +60,27 @@ public class ControlLoopProcessorTest {
         String policy =
                 new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vcpe.json")));
         assertNotNull(
-                new ControlLoopProcessor(new StandardCoder().decode(policy, ToscaPolicy.class)).getCurrentPolicy());
+                new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
     }
 
     @Test
     public void testControlLoopFromToscaCompliant() throws IOException, CoderException, ControlLoopException {
         String policy =
-                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
+                  new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
         assertNotNull(
-                new ControlLoopProcessor(new StandardCoder().decode(policy, ToscaPolicy.class)).getCurrentPolicy());
+                  new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
+
+        policy =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vfw.json")));
+        assertNotNull(
+                new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
     }
 
     @Test
     public void testControlLoopFromToscaCompliantBad() throws IOException, CoderException, ControlLoopException {
         String policy =
                 new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
-        ToscaPolicy toscaPolicy = new StandardCoder().decode(policy, ToscaPolicy.class);
+        ToscaPolicy toscaPolicy = coder.decode(policy, ToscaPolicy.class);
         toscaPolicy.setType("onap.policies.controlloop.Operational");
         assertThatThrownBy(() -> new ControlLoopProcessor(toscaPolicy)).hasCauseInstanceOf(CoderException.class);
     }

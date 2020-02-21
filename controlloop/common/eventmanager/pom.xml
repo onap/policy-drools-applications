@@ -45,6 +45,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- less than 1.9.4 has security vulnerabilities -->
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actorServiceProvider</artifactId>
             <version>${policy.models.version}</version>
