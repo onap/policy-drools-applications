@@ -19,7 +19,7 @@
                     "actor": "APPC",
                     "operation": "Restart",
                     "target": {
-                        "type": "VM"
+                        "targetType": "VM"
                     }
                 },
                 "timeout": 1200,
