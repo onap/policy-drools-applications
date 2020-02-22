@@ -172,6 +172,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+            <artifactId>actor.aai</artifactId>
+            <version>${policy.models.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actor.appc</artifactId>
             <version>${policy.models.version}</version>
             <exclusions>
@@ -195,6 +200,11 @@
                     <groupId>org.apache.commons</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+            <artifactId>actor.guard</artifactId>
+            <version>${policy.models.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
