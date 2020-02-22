@@ -1,0 +1,17 @@
+{
+  "closedLoopControlName": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+  "closedLoopAlarmStart": 1570722876324905,
+  "closedLoopAlarmEnd": 1570722876324999,
+  "closedLoopEventClient": "DCAE_INSTANCE_ID.dcae-tca",
+  "closedLoopEventStatus": "ONSET",
+  "requestID": "8cf3cd05-1218-4224-931b-601494ffe55b",
+  "target_type": "VNF",
+  "target": "generic-vnf.vnf-id",
+  "AAI": {
+    "vserver.is-closed-loop-disabled": "false",
+    "vserver.prov-status": "ACTIVE",
+    "generic-vnf.vnf-id": "vCPE_Infrastructure_vGMUX_demo_app"
+  },
+  "from": "DCAE",
+  "version": "1.0.2"
+}
