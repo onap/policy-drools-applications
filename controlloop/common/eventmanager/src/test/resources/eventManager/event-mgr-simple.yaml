@@ -1,0 +1,34 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+topology_template:
+    policies:
+    -   operational.activity:
+            type: onap.policies.controlloop.operational.common.Drools
+            type_version: 1.0.0
+            version: 1.0.0
+            metadata:
+                policy-id: operational.activity
+                policy-version: 1.0.0
+            properties:
+                id: ControlLoop-event-mgr
+                timeout: 1200
+                abatement: false
+                trigger: first-operation
+                operations:
+                -   id: first-operation
+                    description: First action
+                    operation:
+                        actor: First
+                        operation: OperationA
+                        target:
+                            targetType: VNF
+                            entityIds:
+                                resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
+                    timeout: 300
+                    retries: 0
+                    success: final_success
+                    failure: final_failure
+                    failure_timeout: final_failure_timeout
+                    failure_retries: final_failure_retries
+                    failure_exception: final_failure_exception
+                    failure_guard: final_failure_guard
+                controllerName: usecases

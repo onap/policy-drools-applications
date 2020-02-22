@@ -56,15 +56,16 @@ public class ControlLoopProcessor implements Serializable {
     private final ControlLoopPolicy policy;
     private String currentNestedPolicyId = null;
 
+    // not serializable, thus must be transient
     @Getter
-    private ToscaPolicy toscaOpPolicy;
+    private transient ToscaPolicy toscaOpPolicy;
 
     @Getter
     private DroolsPolicy domainOpPolicy;
 
     /**
      * Construct an instance from yaml.
-     * 
+     *
      * @param yaml the yaml
      * @throws ControlLoopException if an error occurs
      */
@@ -183,7 +184,7 @@ public class ControlLoopProcessor implements Serializable {
 
     /**
      * Get the current policy.
-     * 
+     *
      * @return the current policy
      * @throws ControlLoopException if an error occurs
      */
@@ -202,7 +203,7 @@ public class ControlLoopProcessor implements Serializable {
 
     /**
      * Get the next policy given a result of the current policy.
-     * 
+     *
      * @param result the result of the current policy
      * @throws ControlLoopException if an error occurs
      */
