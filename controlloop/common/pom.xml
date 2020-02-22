@@ -39,6 +39,7 @@
     <module>eventmanager</module>
     <module>domains</module>
     <module>controller-usecases</module>
+    <module>controller-frankfurt</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>
     <module>feature-controlloop-management</module>
