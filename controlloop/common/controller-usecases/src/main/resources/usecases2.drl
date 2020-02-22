@@ -1,0 +1,662 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019 Bell Canada.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop;
+
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
+import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.CanonicalOnset;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.ControlLoopEventStatus;
+import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.ControlLoopResponse;
+import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2.NewEventStatus;
+import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
+import org.onap.policy.controlloop.eventmanager.LockCallbackWorkingMemory;
+import org.onap.policy.controlloop.utils.ControlLoopUtils;
+import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
+import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider;
+import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider.CdsActorServiceManager;
+import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
+import org.onap.policy.aai.AaiCqResponse;
+import org.onap.policy.appc.Request;
+import org.onap.policy.appc.Response;
+import org.onap.policy.appc.CommonHeader;
+import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
+import org.onap.policy.cds.CdsResponse;
+import org.onap.policy.cds.client.CdsProcessorGrpcClient;
+import org.onap.policy.cds.properties.CdsServerProperties;
+import org.onap.policy.drools.utils.Pair;
+import org.onap.policy.sdnr.PciRequestWrapper;
+import org.onap.policy.sdnr.PciResponseWrapper;
+import org.onap.policy.sdnr.PciRequest;
+import org.onap.policy.sdnr.PciResponse;
+import org.onap.policy.vfc.VfcRequest;
+import org.onap.policy.vfc.VfcResponse;
+import org.onap.policy.vfc.VfcManager;
+import org.onap.policy.so.SoManager;
+import org.onap.policy.so.SoRequest;
+import org.onap.policy.so.SoResponseWrapper;
+import org.onap.policy.sdnc.SdncRequest;
+import org.onap.policy.sdnc.SdncManager;
+import org.onap.policy.sdnc.SdncResponse;
+import org.onap.policy.drools.core.lock.Lock;
+import org.onap.policy.guard.PolicyGuardRequest;
+import org.onap.policy.guard.PolicyGuardResponse;
+import org.onap.policy.guard.PolicyGuardXacmlRequestAttributes;
+import org.onap.policy.guard.PolicyGuardXacmlHelper;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+import java.time.Instant;
+import java.util.LinkedList;
+import java.util.Iterator;
+
+
+import org.onap.policy.drools.system.PolicyEngineConstants;
+
+/*
+*
+* Called when the ControlLoopParams object has been inserted into working memory from the BRMSGW.
+*
+*/
+rule "INSERT.PARAMS"
+    when
+        $params : ControlLoopParams()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : YAML=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
+        + drools.getRule().getName(), $params.getControlLoopYaml());
+end
+
+/*
+*
+* Called when a Tosca Policy is present.
+*
+*/
+rule "NEW.TOSCA.POLICY"
+    when
+        $policy : ToscaPolicy()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
+                $policy.getVersion(), $policy);
+
+    ControlLoopParams params = ControlLoopUtils.toControlLoopParams($policy);
+    if (params != null) {
+        insert(params);
+    }
+end
+
+/*
+ * Remove Control Loop Parameters.
+ */
+rule "REMOVE.PARAMS"
+    when
+        $params : ControlLoopParams( $policyName :  getPolicyName(), $policyVersion : getPolicyVersion() )
+        not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
+                $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
+
+    retract($params);
+end
+
+/*
+*
+* This rule responds to DCAE Events where there is no manager yet. Either it is
+* the first ONSET, or a subsequent badly formed Event (i.e. Syntax error, or is-closed-loop-disabled)
+*
+*/
+rule "EVENT"
+    when
+        $params : ControlLoopParams( $clName : getClosedLoopControlName() )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
+        not ( ControlLoopEventManager2( closedLoopControlName == $event.getClosedLoopControlName(),
+            requestId == $event.getRequestId() ) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}: event={}",
+                $clName, $params.getPolicyName() + "." + drools.getRule().getName(),
+                $event);
+    //
+    // Retract the event from memory
+    //
+    retract($event);
+    
+    VirtualControlLoopNotification notification;
+
+    try {
+        //
+        // Check the event, because we need it to not be null when
+        // we create the ControlLoopEventManager2. The ControlLoopEventManager2
+        // will do extra syntax checking as well as check if the closed loop is disabled.
+        //
+        if ($event.getRequestId() == null) {
+            notification = new VirtualControlLoopNotification($event);
+            notification.setNotification(ControlLoopNotificationType.REJECTED);
+            notification.setFrom("policy");
+            notification.setMessage("Missing requestId");
+            notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+            notification.setPolicyScope($params.getPolicyScope());
+            notification.setPolicyVersion($params.getPolicyVersion());
+            
+        } else {
+            ControlLoopEventManager2 manager = new ControlLoopEventManager2($params, $event);
+            insert(manager);
+            manager.start();
+            notification = manager.makeNotification();
+        }
+    } catch (Exception e) {
+        logger.warn("{}: {}", $clName, $params.getPolicyName() + "." + drools.getRule().getName(), e);
+        notification = new VirtualControlLoopNotification($event);
+        notification.setNotification(ControlLoopNotificationType.REJECTED);
+        notification.setMessage("Exception occurred: " + e.getMessage());
+        notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope($params.getPolicyScope());
+        notification.setPolicyVersion($params.getPolicyVersion());
+    }    
+    //
+    // Generate notification
+    //
+    try {
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+            
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}: event={} exception generating notification",
+                $clName, $params.getPolicyName() + "." + drools.getRule().getName(),
+                $event, e);
+    }
+end
+
+/*
+*
+* This rule happens when we get a subsequent event.
+*
+*/
+rule "EVENT.MANAGER"
+    when
+        $event : VirtualControlLoopEvent( )
+        $manager : ControlLoopEventManager2( closedLoopControlName == $event.getClosedLoopControlName(),
+            requestId == $event.getRequestId() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: event={} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $event, $manager);
+    //
+    // Remove the event from memory
+    //
+    retract($event);
+    
+    //
+    // Check what kind of event this is
+    //
+    switch($manager.onNewEvent($event)) {
+        case SYNTAX_ERROR:
+            //
+            // Ignore any bad syntax events
+            //
+            logger.warn("{}: {}.{}: syntax error",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName());
+            break;
+            
+        case FIRST_ABATEMENT:
+        case SUBSEQUENT_ABATEMENT:    
+            //
+            // TODO: handle the abatement.  Currently, it's just discarded.
+            //
+            break;
+            
+        case FIRST_ONSET:
+        case SUBSEQUENT_ONSET:
+        default:
+            //
+            // We don't care about subsequent onsets
+            //
+            logger.info("{}: {}.{}: subsequent onset,
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName());
+            break;
+    }
+end
+
+/*
+*
+* Lock denied
+*
+*/
+rule "EVENT.MANAGER.OPERATION.LOCK.DENIED"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.LOCK_DENIED )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    //
+    // Generate notification
+    //
+    try {
+        VirtualControlLoopEvent event = $manager.getEvent();
+        logger.debug("The target resource {} is already processing", event.getAai().get(event.getTarget()));
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.REJECTED);
+        notification.setMessage("The target " + event.getAai().get(event.getTarget()) + " is already locked");
+    
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+    
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
+    // Discard this message and wait for the next response.
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Lock lost
+*
+*/
+rule "EVENT.MANAGER.OPERATION.LOCK.LOST"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.LOCK_LOST )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    //
+    // Generate notification
+    //
+    try {
+        VirtualControlLoopEvent event = $manager.getEvent();
+        logger.debug("The target resource {} is already processing", event.getAai().get(event.getTarget()));
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        notification.setMessage("The target " + event.getAai().get(event.getTarget()) + " is no longer locked");
+    
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+    
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
+    // Discard this message and wait for the next response.
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Guard started
+*
+*/
+rule "EVENT.MANAGER.OPERATION.GUARD.STARTED"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.GUARD_STARTED )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    try {
+        //
+        // Sending notification that guard has started ("DB write - start operation")
+        //
+        ControlLoopOperationManager operation = $manager.getOperationManager();
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        notification.setMessage("Sending guard query for " + operation.policy.getActor() + " "
+            + operation.policy.getRecipe());
+    
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+    
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
+    // Discard this message and wait for the next response.
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Guard Permitted, let's send request to the actor.
+*
+*/
+rule "EVENT.MANAGER.OPERATION.GUARD.PERMITTED"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.GUARD_PERMITTED )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    try {
+        // This notification has Guard result in "message". ("DB write - end operation in case of Guard Deny")
+        //
+        ControlLoopOperationManager operation = $manager.getOperationManager();
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        // TODO use appropriate "Permit" literal
+        notification.setMessage("Guard result for " + operation.policy.getActor() + " " + operation.policy.getRecipe()
+                        + " is Permit");
+    
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+    
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }      
+    //
+    // Discard this message and start the operation.
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Guard denied
+*
+*/
+rule "EVENT.MANAGER.OPERATION.GUARD.DENIED"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.GUARD_DENIED )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    try {
+        //
+        // This notification has Guard result in "message". ("DB write - end operation in case of Guard Deny")
+        //
+        ControlLoopOperationManager operation = $manager.getOperationManager();
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        // TODO use appropriate "Deny" literal
+        notification.setMessage("Guard result for " + operation.policy.getActor() + " " + operation.policy.getRecipe()
+                        + " is Deny");
+    
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+    
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }      
+    //
+    // Discard this message and handle the failure.
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Operation started
+*
+*/
+rule "EVENT.MANAGER.OPERATION.STARTED"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.OPERATION_STARTED )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    try {    
+        //
+        // Tell interested parties we are performing this Operation
+        //
+        ControlLoopOperationManager operation = $manager.getOperationManager();
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        notification.setMessage(operation.getOperationMessage());
+    
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+        
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} notification threw an exception",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
+    // Discard this message and wait for the next response.
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Operation succeeded
+*
+*/
+rule "EVENT.MANAGER.OPERATION.SUCCESS"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.OPERATION_SUCCESS )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    try {
+        //
+        // This Operation has completed, construct a notification showing our results. (DB write - end operation)
+        //
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
+            
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+        
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} notification threw an exception",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
+    // Discard this message and start the next operation, based on this operation's outcome
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* Operation failed
+*
+*/
+rule "EVENT.MANAGER.OPERATION.FAILURE"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.OPERATION_FAILURE )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    try {
+        //
+        // This Operation has completed, construct a notification showing our results. (DB write - end operation)
+        //
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
+            
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+        
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} notification threw an exception",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
+    // Discard this message and start the next operation, based on this operation's outcome
+    //
+    modify($manager){ $manager.nextStep(); }
+end
+
+/*
+*
+* This rule cleans up the manager when it completes with a failure.
+*
+*/
+rule "EVENT.MANAGER.FINAL.FAILURE"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.FINAL_FAILURE )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    //
+    // Retract the manager
+    //
+    retract($manager);
+    $manager.destroy();
+    
+    try {
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(FINAL_FAILURE);
+            
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+        
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} notification threw an exception",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+end
+
+/*
+*
+* This rule cleans up the manager when it is reconstituted from a persistent store or
+* by transfer from another server.  As the state of the last operation is unknown, we
+* simply retract it and generate a notification.
+*
+*/
+rule "EVENT.MANAGER.RECONSTITUED"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.UNKNOWN )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    //
+    // Retract the manager
+    //
+    retract($manager);
+    $manager.destroy();
+    
+    try {
+        //
+        // Generate a notification
+        //
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        notification.setMessage("Policy processing aborted due to server failure");
+            
+        PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+        
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} notification threw an exception",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+end
+
+/*
+*
+* This rule cleans up the manager when it completes.
+*
+*/
+rule "EVENT.MANAGER.CLEANUP"
+    when
+        $manager : ControlLoopEventManager2( state == ControlLoopEventManager2.State.COMPLETED )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+    //
+    // Retract the manager
+    //
+    retract($manager);
+    $manager.destroy();
+end
+
+/*
+*
+* This rule will clean up any rogue events where there is no
+* ControlLoopParams object corresponding to the onset event.
+*
+*/
+rule "EVENT.CLEANUP"
+    salience -1
+    when
+        $event : VirtualControlLoopEvent( $clName: closedLoopControlName )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $clName, drools.getRule().getName());
+    logger.debug("{}: {}: orphan event={}",
+                $clName, drools.getRule().getName(), $event);
+    //
+    // Retract the event
+    //
+    retract($event);
+end
