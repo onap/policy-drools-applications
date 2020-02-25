@@ -36,6 +36,7 @@ import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.BeforeMatchFiredEvent;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
@@ -54,6 +55,7 @@ import org.onap.policy.common.endpoints.event.comm.TopicListener;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
@@ -66,6 +68,7 @@ import org.onap.policy.drools.util.KieUtils;
 import org.onap.policy.drools.utils.PropertyUtil;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.simulators.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +79,7 @@ import org.slf4j.LoggerFactory;
 public abstract class UsecasesBase {
 
     private static final Logger logger = LoggerFactory.getLogger(UsecasesBase.class);
+    private static final StandardCoder coder = new StandardCoder();
 
     /**
      * PDP-D Engine.
@@ -151,15 +155,34 @@ public abstract class UsecasesBase {
             .get();
     }
 
+    protected ToscaPolicy getPolicyFromResource(String resourcePath, String policyName) throws CoderException {
+        String policyJson = ResourceUtils.getResourceAsString(resourcePath);
+        ToscaServiceTemplate serviceTemplate = coder.decode(policyJson, ToscaServiceTemplate.class);
+        ToscaPolicy policy = serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyName);
+        assertNotNull(policy);
 
-    /**
-     * Installs a given policy.
-     */
-    protected ToscaPolicy setupPolicy(String policyPath) throws IOException, CoderException, InterruptedException {
+        /*
+         * name and version are used within a drl.  api component and drools core will ensure that these
+         * are populated.
+         */
+        if (StringUtils.isBlank(policy.getName())) {
+            policy.setName(policyName);
+        }
+
+        if (StringUtils.isBlank(policy.getVersion())) {
+            policy.setVersion(policy.getTypeVersion());
+        }
+
+        return serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyName);
+    }
+
+    protected ToscaPolicy getPolicyFromFile(String policyPath) throws IOException, CoderException {
         String rawPolicy = new String(Files.readAllBytes(Paths.get(policyPath)));
-        ToscaPolicy policy = new StandardCoder().decode(rawPolicy, ToscaPolicy.class);
+        return coder.decode(rawPolicy, ToscaPolicy.class);
+    }
 
-        final KieObjectExpectedCallback policyTracker = new KieObjectInsertedExpectedCallback<>(policy);
+    private ToscaPolicy setupPolicy(ToscaPolicy policy) throws InterruptedException {
+        final KieObjectInsertedExpectedCallback policyTracker = new KieObjectInsertedExpectedCallback<>(policy);
         final KieObjectExpectedCallback paramsTracker = new KieClassInsertedExpectedCallback<>(ControlLoopParams.class);
 
         usecases.getDrools().offer(policy);
@@ -167,21 +190,29 @@ public abstract class UsecasesBase {
         assertTrue(policyTracker.isNotified());
         assertTrue(paramsTracker.isNotified());
 
-        assertEquals(1,
-            usecases
-                .getDrools()
-                .facts(USECASES, ToscaPolicy.class).stream()
-                .filter((anotherPolicy) -> anotherPolicy == policy)
-                .count());
+        assertEquals(1, usecases.getDrools().facts(USECASES, ToscaPolicy.class).stream()
+                                .filter((anotherPolicy) -> anotherPolicy == policy).count());
 
-        assertEquals(1,
-            usecases
-                .getDrools()
-                .facts(USECASES, ControlLoopParams.class).stream()
-                .filter((params) -> params.getToscaPolicy() == policy)
-                .count());
-
+        assertEquals(1, usecases.getDrools().facts(USECASES, ControlLoopParams.class).stream()
+                                .filter((params) -> params.getToscaPolicy() == policy).count());
         return policy;
+    }
+
+    /**
+     * Installs a policy from policy/models (examples) repo.
+     */
+    protected ToscaPolicy setupPolicyFromResource(String resourcePath, String policyName)
+            throws CoderException, InterruptedException {
+        return setupPolicy(getPolicyFromResource(resourcePath, policyName));
+    }
+
+
+    /**
+     * Installs a given policy.
+     */
+    protected ToscaPolicy setupPolicyFromFile(String policyPath)
+            throws IOException, CoderException, InterruptedException {
+        return setupPolicy(getPolicyFromFile(policyPath));
     }
 
     /**
