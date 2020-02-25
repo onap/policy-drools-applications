@@ -127,7 +127,7 @@ public class VcpeTest extends UsecasesBase {
     @Test
     public void sunnyDayLegacy() throws InterruptedException, CoderException, IOException {
         assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_LEGACY_POLICY_VCPE);
+        policy = setupPolicyFromFile(TOSCA_LEGACY_POLICY_VCPE);
         assertEquals(2, usecases.getDrools().factCount(USECASES));
 
         sunnyDay();
@@ -139,7 +139,7 @@ public class VcpeTest extends UsecasesBase {
     @Test
     public void sunnyDayCompliant() throws InterruptedException, CoderException, IOException {
         assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_COMPLIANT_POLICY_VCPE);
+        policy = setupPolicyFromFile(TOSCA_COMPLIANT_POLICY_VCPE);
         assertEquals(2, usecases.getDrools().factCount(USECASES));
 
         sunnyDay();
@@ -153,7 +153,7 @@ public class VcpeTest extends UsecasesBase {
     @Test
     public void onsetFloodPrevention() throws IOException, InterruptedException, CoderException {
         assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_LEGACY_POLICY_VCPE);
+        policy = setupPolicyFromFile(TOSCA_LEGACY_POLICY_VCPE);
         assertEquals(2, usecases.getDrools().factCount(USECASES));
 
         injectOnTopic(DCAE_TOPIC, Paths.get(ONSET_1));

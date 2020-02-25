@@ -68,7 +68,7 @@ public class VfwTest extends UsecasesBase {
      * Prepare PDP-D Framework for testing.
      */
     @BeforeClass
-    public static void prepareResouces() throws InterruptedException, CoderException, IOException {
+    public static void prepareResouces() throws InterruptedException, IOException {
         setupLogging();
         preparePdpD();
         setupSimulators();
@@ -124,7 +124,7 @@ public class VfwTest extends UsecasesBase {
     @Test
     public void sunnyDayLegacy() throws InterruptedException, CoderException, IOException {
         assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_LEGACY_POLICY_VFW);
+        policy = setupPolicyFromFile(TOSCA_LEGACY_POLICY_VFW);
         assertEquals(2, usecases.getDrools().factCount(USECASES));
 
         sunnyDay();
@@ -136,7 +136,7 @@ public class VfwTest extends UsecasesBase {
     @Test
     public void sunnyDayCompliant() throws InterruptedException, CoderException, IOException {
         assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_COMPLIANT_POLICY_VFW);
+        policy = setupPolicyFromFile(TOSCA_COMPLIANT_POLICY_VFW);
         assertEquals(2, usecases.getDrools().factCount(USECASES));
 
         sunnyDay();

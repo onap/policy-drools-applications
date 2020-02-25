@@ -32,14 +32,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,32 +58,67 @@ public class ControlLoopProcessorTest {
         this.testFailure(yamlString);
     }
 
+    private ToscaPolicy getPolicyFromResource(String resourcePath, String policyName) throws CoderException {
+        String policyJson = ResourceUtils.getResourceAsString(resourcePath);
+        ToscaServiceTemplate serviceTemplate = coder.decode(policyJson, ToscaServiceTemplate.class);
+        ToscaPolicy policy = serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyName);
+        assertNotNull(policy);
+
+        /*
+         * name and version are used within a drl.  api component and drools core will ensure that these
+         * are populated.
+         */
+        if (StringUtils.isBlank(policy.getName())) {
+            policy.setName(policyName);
+        }
+
+        if (StringUtils.isBlank(policy.getVersion())) {
+            policy.setVersion(policy.getTypeVersion());
+        }
+
+        return serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyName);
+    }
+
     @Test
     public void testControlLoopFromToscaLegacy() throws IOException, CoderException, ControlLoopException {
         String policy =
                 new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vcpe.json")));
         assertNotNull(
                 new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
-    }
-
-    @Test
-    public void testControlLoopFromToscaCompliant() throws IOException, CoderException, ControlLoopException {
-        String policy =
-                  new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
-        assertNotNull(
-                  new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
 
         policy =
-                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vfw.json")));
+                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vdns.json")));
         assertNotNull(
                 new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
     }
 
     @Test
-    public void testControlLoopFromToscaCompliantBad() throws IOException, CoderException, ControlLoopException {
-        String policy =
-                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-compliant-vcpe.json")));
-        ToscaPolicy toscaPolicy = coder.decode(policy, ToscaPolicy.class);
+    public void testControlLoopFromToscaCompliant()
+            throws CoderException, ControlLoopException {
+        assertNotNull(
+                new ControlLoopProcessor(
+                        getPolicyFromResource(
+                                "policies/vCPE.policy.operational.input.tosca.json", "operational.restart")
+                ).getCurrentPolicy());
+
+
+        assertNotNull(
+                new ControlLoopProcessor(
+                        getPolicyFromResource(
+                                "policies/vFirewall.policy.operational.input.tosca.json", "operational.modifyconfig")
+                ).getCurrentPolicy());
+
+        assertNotNull(
+                new ControlLoopProcessor(
+                        getPolicyFromResource(
+                                "policies/vDNS.policy.operational.input.tosca.json", "operational.scaleout")
+                ).getCurrentPolicy());
+    }
+
+    @Test
+    public void testControlLoopFromToscaCompliantBad() throws CoderException {
+        ToscaPolicy toscaPolicy = getPolicyFromResource(
+                "policies/vCPE.policy.operational.input.tosca.json", "operational.restart");
         toscaPolicy.setType("onap.policies.controlloop.Operational");
         assertThatThrownBy(() -> new ControlLoopProcessor(toscaPolicy)).hasCauseInstanceOf(CoderException.class);
     }
@@ -147,7 +185,7 @@ public class ControlLoopProcessorTest {
     }
 
     /**
-     * Test policies in the given yaml following the successfull path.
+     * Test policies in the given yaml following the successful path.
      *
      * @param yaml yaml containing the policies to test
      * @throws ControlLoopException if an error occurs

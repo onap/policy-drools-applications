@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,8 @@ public class VlbTest extends UsecasesBase {
     /**
      * VLB Tosca Policy File.
      */
-    private static final String TOSCA_POLICY_VLB = "src/test/resources/vlb/tosca-vlb.json";
+    private static final String TOSCA_LEGACY_POLICY_VLB = "src/test/resources/vlb/tosca-vlb.json";
+    private static final String TOSCA_COMPLIANT_POLICY_VLB = "src/test/resources/vlb/tosca-compliant-vlb.json";
 
     /*
      * VLB Use case Messages.
@@ -62,7 +63,7 @@ public class VlbTest extends UsecasesBase {
      * Prepare PDP-D Framework for testing.
      */
     @BeforeClass
-    public static void prepareResouces() throws InterruptedException, CoderException, IOException {
+    public static void prepareResouces() throws InterruptedException, IOException {
         setupLogging();
         preparePdpD();
         setupSimulators();
@@ -80,8 +81,7 @@ public class VlbTest extends UsecasesBase {
     /**
      * Sunny day scenario for the VCPE use case.
      */
-    @Test
-    public void sunnyDay() throws IOException {
+    private void sunnyDay() throws IOException {
 
         /* Inject an ONSET event over the DCAE topic */
         injectOnTopic(DCAE_TOPIC, Paths.get(ONSET));
@@ -101,6 +101,30 @@ public class VlbTest extends UsecasesBase {
     }
 
     /**
+     * Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void sunnyDayLegacy() throws InterruptedException, CoderException, IOException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicyFromFile(TOSCA_LEGACY_POLICY_VLB);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
+        sunnyDay();
+    }
+
+    /**
+     * Sunny Day with Tosca Compliant Policy.
+     */
+    @Test
+    public void sunnyDayCompliant() throws InterruptedException, CoderException, IOException {
+        assertEquals(0, usecases.getDrools().factCount(USECASES));
+        policy = setupPolicyFromFile(TOSCA_COMPLIANT_POLICY_VLB);
+        assertEquals(2, usecases.getDrools().factCount(USECASES));
+
+        sunnyDay();
+    }
+
+    /**
      * Observe Topics.
      */
     @Before
@@ -116,16 +140,6 @@ public class VlbTest extends UsecasesBase {
         if (policyClMgt != null) {
             policyClMgt.unregister();
         }
-    }
-
-    /**
-     * Install Policy.
-     */
-    @Before
-    public void installPolicy() throws IOException, CoderException, InterruptedException {
-        assertEquals(0, usecases.getDrools().factCount(USECASES));
-        policy = setupPolicy(TOSCA_POLICY_VLB);
-        assertEquals(2, usecases.getDrools().factCount(USECASES));
     }
 
     /**
