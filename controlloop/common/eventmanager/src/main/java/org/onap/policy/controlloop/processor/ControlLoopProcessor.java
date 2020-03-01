@@ -40,6 +40,7 @@ import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.domain.models.DroolsPolicy;
 import org.onap.policy.drools.models.domain.legacy.LegacyPolicy;
+import org.onap.policy.drools.models.domain.operational.Operation;
 import org.onap.policy.drools.models.domain.operational.OperationalPolicy;
 import org.onap.policy.drools.models.domain.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngineConstants;
@@ -131,18 +132,7 @@ public class ControlLoopProcessor implements Serializable {
 
         // @formatter:off
         backwardsCompatiblePolicy.setPolicies(
-            domainPolicy.getProperties().getOperations().stream().map(operation -> new Policy(
-                        PolicyParam.builder()
-                                .id(operation.getId())
-                                .name(operation.getActorOperation().getOperation())
-                                .description(operation.getDescription())
-                                .actor(operation.getActorOperation().getActor())
-                                .payload(operation.getActorOperation().getPayload())
-                                .recipe(operation.getActorOperation().getOperation())
-                                .retries(operation.getRetries())
-                                .timeout(operation.getTimeout())
-                                .target(toStandardTarget(operation.getActorOperation().getTarget()))
-                                .build()))
+            domainPolicy.getProperties().getOperations().stream().map(this::convertPolicy)
                     .collect(Collectors.toList()));
         // @formatter:on
 
@@ -156,6 +146,31 @@ public class ControlLoopProcessor implements Serializable {
         backwardsCompatiblePolicy.setControlLoop(controlLoop);
         this.domainOpPolicy = domainPolicy;
         return backwardsCompatiblePolicy;
+    }
+
+    private Policy convertPolicy(Operation operation) {
+        // @formatter:off
+        Policy newPolicy = new Policy(PolicyParam.builder()
+                .id(operation.getId())
+                .name(operation.getActorOperation().getOperation())
+                .description(operation.getDescription())
+                .actor(operation.getActorOperation().getActor())
+                .payload(operation.getActorOperation().getPayload())
+                .recipe(operation.getActorOperation().getOperation())
+                .retries(operation.getRetries())
+                .timeout(operation.getTimeout())
+                .target(toStandardTarget(operation.getActorOperation().getTarget()))
+            .build());
+        // @formatter:on
+
+        newPolicy.setSuccess(operation.getSuccess());
+        newPolicy.setFailure(operation.getFailure());
+        newPolicy.setFailure_exception(operation.getFailureException());
+        newPolicy.setFailure_guard(operation.getFailureGuard());
+        newPolicy.setFailure_retries(operation.getFailureRetries());
+        newPolicy.setFailure_timeout(operation.getFailureTimeout());
+
+        return newPolicy;
     }
 
     /**
