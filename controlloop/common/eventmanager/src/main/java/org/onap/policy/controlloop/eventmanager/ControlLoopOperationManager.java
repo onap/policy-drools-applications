@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop operation manager
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Huawei Technologies Co., Ltd. All rights reserved.
  * Modifications Copyright (C) 2019 Tech Mahindra
  * Modifications Copyright (C) 2019 Bell Canada.
@@ -37,7 +37,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -448,7 +448,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     /**
      * Build AAI parameters for CDS operation.
-     * 
+     *
      * @return a map containing vnf id key and value for the vnf to apply the action to.
      * @throws AaiException if the vnf can not be found.
      */
@@ -676,15 +676,15 @@ public class ControlLoopOperationManager implements Serializable {
         /*
          * Process the SDNR response to see what PolicyResult should be returned
          */
-        SdnrActorServiceProvider.Pair<PolicyResult, String> result =
+        Pair<PolicyResult, String> result =
             SdnrActorServiceProvider.processResponse(dmaapResponse);
 
-        if (result.getResult() != null) {
-            this.completeOperation(operationAttempt, result.getMessage(), result.getResult());
+        if (result.getLeft() != null) {
+            this.completeOperation(operationAttempt, result.getRight(), result.getLeft());
             if (PolicyResult.FAILURE_TIMEOUT.equals(this.policyResult)) {
                 return null;
             }
-            return result.getResult();
+            return result.getLeft();
         }
         return null;
     }
