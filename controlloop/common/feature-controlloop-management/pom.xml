@@ -278,27 +278,6 @@
             <version>${policy.models.version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.powermock</groupId>
-          <artifactId>powermock-api-mockito2</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.assertj</groupId>
-          <artifactId>assertj-core</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
           <groupId>org.onap.policy.models.policy-models-interactions</groupId>
           <artifactId>simulators</artifactId>
           <version>${policy.models.version}</version>

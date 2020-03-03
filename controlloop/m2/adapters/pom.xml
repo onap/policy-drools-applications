@@ -32,12 +32,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.m2</groupId>
       <artifactId>base</artifactId>
       <version>${project.version}</version>

@@ -38,11 +38,6 @@
       <version>${version.policy.common}</version>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
       <artifactId>aai</artifactId>
       <version>${policy.models.version}</version>
