@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1237205_163eb0ee",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/APPC-CL-topic.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-04T02:46:16Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment in other files",
+      "revId": "49a696aba0240b68e534b65f896eaf535b231a8c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
