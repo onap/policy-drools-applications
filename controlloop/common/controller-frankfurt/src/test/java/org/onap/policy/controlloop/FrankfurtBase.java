@@ -63,6 +63,8 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.protocol.coders.EventProtocolCoderConstants;
@@ -117,6 +119,14 @@ public abstract class FrankfurtBase {
 
     protected static void initConfigDir() {
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources/config");
+    }
+
+    protected void resetFacts() {
+        DroolsController drools = controller.getDrools();
+        drools.delete(ToscaPolicy.class);
+        drools.delete(ControlLoopParams.class);
+        drools.delete(ControlLoopEventManager2.class);
+        drools.delete(VirtualControlLoopEvent.class);
     }
 
     /**
@@ -355,6 +365,12 @@ public abstract class FrankfurtBase {
         assertEquals(ControlLoopNotificationType.OPERATION, notif.getNotification());
         assertEquals(policyName + ".EVENT.MANAGER.PROCESSING", notif.getPolicyName());
         assertThat(notif.getMessage()).startsWith("Guard result").endsWith("Permit");
+
+        await().until(() -> !policyClMgt.getMessages().isEmpty());
+        notif = policyClMgt.getMessages().remove();
+        assertEquals(ControlLoopNotificationType.OPERATION, notif.getNotification());
+        assertEquals(policyName + ".EVENT.MANAGER.PROCESSING", notif.getPolicyName());
+        assertThat(notif.getMessage()).startsWith("actor=");
     }
 
     /**

@@ -137,14 +137,17 @@ public class ControlLoopEventManager2Test {
         when(oper1.getActor()).thenReturn("First");
         when(oper1.getOperation()).thenReturn("OperationA");
         when(oper1.getOperationMessage()).thenReturn("message-A");
+        when(oper1.getOperationHistory()).thenReturn("history-A");
 
         when(oper2.getActor()).thenReturn("Second");
         when(oper2.getOperation()).thenReturn("OperationB");
         when(oper2.getOperationMessage()).thenReturn("message-B");
+        when(oper2.getOperationHistory()).thenReturn("history-B");
 
         when(oper3.getActor()).thenReturn("Third");
         when(oper3.getOperation()).thenReturn("OperationC");
         when(oper3.getOperationMessage()).thenReturn("message-C");
+        when(oper3.getOperationHistory()).thenReturn("history-C");
 
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
 
@@ -365,13 +368,17 @@ public class ControlLoopEventManager2Test {
         mgr.updated(oper1);
         verifyNotification(ControlLoopNotificationType.OPERATION, "Guard result for First OperationA is Deny");
 
+        when(oper1.getState()).thenReturn(State.OPERATION_STARTED);
+        mgr.updated(oper1);
+        verifyNotification(ControlLoopNotificationType.OPERATION, "message-A");
+
         when(oper1.getState()).thenReturn(State.OPERATION_SUCCESS);
         mgr.updated(oper1);
-        verifyNotification(ControlLoopNotificationType.OPERATION_SUCCESS, "message-A");
+        verifyNotification(ControlLoopNotificationType.OPERATION_SUCCESS, "history-A");
 
         when(oper1.getState()).thenReturn(State.OPERATION_FAILURE);
         mgr.updated(oper1);
-        verifyNotification(ControlLoopNotificationType.OPERATION_FAILURE, "message-A");
+        verifyNotification(ControlLoopNotificationType.OPERATION_FAILURE, "history-A");
 
         // should still be active
         assertTrue(mgr.isActive());
@@ -427,6 +434,9 @@ public class ControlLoopEventManager2Test {
 
     @Test
     public void testMakeNotification() throws ControlLoopException {
+        // before started
+        assertNotNull(mgr.makeNotification());
+
         mgr.start();
 
         nextStep(oper1, true, PolicyResult.SUCCESS);
@@ -434,7 +444,7 @@ public class ControlLoopEventManager2Test {
 
         // check notification while running
         VirtualControlLoopNotification notif = mgr.getNotification();
-        assertEquals("message-A", notif.getMessage());
+        assertEquals("history-A", notif.getMessage());
 
         List<ControlLoopOperation> history = notif.getHistory();
         assertNotNull(history);
