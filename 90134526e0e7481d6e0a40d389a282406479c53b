@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50bf77f6_cfb283bb",
+        "filename": "controlloop/common/controller-frankfurt/pom.xml",
+        "patchSetId": 22
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "I think this can be safely deleted (suppose is the same is in usecases controller, if you can do at the same time)",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94093fe2_d1e986ee",
+        "filename": "controlloop/common/controller-frankfurt/src/main/resources/frankfurt.drl",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "Much nicer with the rules!",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14d879a7_65ae4227",
+        "filename": "controlloop/common/controller-frankfurt/src/test/java/org/onap/policy/controlloop/FrankfurtBase.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "Wondering if there\u0027s a good way to share UsecaseBase and FrankfurBase to avoid repetition?",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f713669_205b46c7",
+        "filename": "controlloop/common/controller-frankfurt/src/test/java/org/onap/policy/controlloop/FrankfurtBase.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "The 2 methods above and below coud be avoid, something like:\n\nDo this at initialization:\nSystemPersistenceConstants.getManager().setConfigurationDir(\"src/test/resources/config\");\n\nand replace the 2 methods with\nHttpClientFactoryInstance.getClientFactory().build(SystemPersistenceConstants.getManager().getHttpClientProperties(\u003cfile\u003c));\n\nthe naming convention would be \"-http-client.properties to be found.   It would be good to test the same way that these files are found on the core.",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc646e3_0896e870",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "what does this do?   Who will catch the runtimeexception ?",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18698f8b_c0263a8b",
+        "filename": "controlloop/common/eventmanager/src/test/resources/eventService/event-svc-http.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "event-svc-http-client.properties (convention used by pdpd)",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1684bace_711e3b7d",
+        "filename": "controlloop/common/eventmanager/src/test/resources/eventService/event-svc-no-guard-actor.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "delete ?",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a185ca02_8f0bb14e",
+        "filename": "controlloop/common/feature-controlloop-frankfurt/src/assembly/assemble_zip.xml",
+        "patchSetId": 22
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "change name",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c519bf68_c671f6a7",
+        "filename": "controlloop/common/feature-controlloop-frankfurt/src/assembly/assemble_zip.xml",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "Change this and all the ones below to feature-controlloop-frankfurt",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c0059b0_83ae1822",
+        "filename": "controlloop/common/feature-controlloop-frankfurt/src/main/feature/config/event-manager.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "may be prefix this file with \"frankfurt-\" so it is clear that does not appy to the other ones (amsterdam and usecases)",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad6e694_7b431c6a",
+        "filename": "controlloop/common/feature-controlloop-frankfurt/src/main/feature/config/event-manager.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "change env to envd to leave blank if undefined",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f882694_35d06644",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/AAI-http-client.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5ce2019_dc7b3e93",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/AAI-http-client.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "missing https property",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b68f2919_68234f1e",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/GUARD-http-client.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-06T15:23:00Z",
+      "side": 1,
+      "message": "same as in other file - global",
+      "revId": "90134526e0e7481d6e0a40d389a282406479c53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
