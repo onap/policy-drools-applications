@@ -188,6 +188,9 @@ public class ControlLoopOperationManager2Test {
         assertEquals(ControlLoopOperationManager2.State.GUARD_PERMITTED, mgr.getState());
 
         assertTrue(mgr.nextStep());
+        assertEquals(ControlLoopOperationManager2.State.OPERATION_STARTED, mgr.getState());
+
+        assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_SUCCESS, mgr.getState());
 
         assertFalse(mgr.nextStep());
@@ -196,7 +199,7 @@ public class ControlLoopOperationManager2Test {
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.isFinalOutcome());
 
-        verify(mgrctx, times(3)).updated(mgr);
+        verify(mgrctx, times(4)).updated(mgr);
     }
 
     /**
@@ -204,7 +207,7 @@ public class ControlLoopOperationManager2Test {
      */
     @Test
     public void testStartDetmTargetException() {
-        policy.setTarget(null);
+        policy.setTarget(new Target());
         mgr.start(REMAINING_MS);
 
         runToCompletion();
@@ -454,13 +457,16 @@ public class ControlLoopOperationManager2Test {
         assertEquals(ControlLoopOperationManager2.State.GUARD_PERMITTED, mgr.getState());
 
         assertTrue(mgr.nextStep());
+        assertEquals(ControlLoopOperationManager2.State.OPERATION_STARTED, mgr.getState());
+
+        assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_SUCCESS, mgr.getState());
 
         assertFalse(mgr.nextStep());
 
         assertEquals(PolicyResult.SUCCESS, mgr.getOutcomes().peek().getResult());
 
-        verify(mgrctx, times(3)).updated(mgr);
+        verify(mgrctx, times(4)).updated(mgr);
     }
 
     @Test
@@ -600,10 +606,13 @@ public class ControlLoopOperationManager2Test {
         assertEquals(ControlLoopOperationManager2.State.GUARD_PERMITTED, mgr.getState());
 
         assertTrue(mgr.nextStep());
+        assertEquals(ControlLoopOperationManager2.State.OPERATION_STARTED, mgr.getState());
+
+        assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_SUCCESS, mgr.getState());
 
         assertFalse(mgr.nextStep());
-        verify(mgrctx, times(3)).updated(mgr);
+        verify(mgrctx, times(4)).updated(mgr);
 
         verifyDb(1, PolicyResult.SUCCESS, null);
     }
@@ -627,6 +636,9 @@ public class ControlLoopOperationManager2Test {
         assertEquals(ControlLoopOperationManager2.State.GUARD_PERMITTED, mgr.getState());
 
         assertTrue(mgr.nextStep());
+        assertEquals(ControlLoopOperationManager2.State.OPERATION_STARTED, mgr.getState());
+
+        assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_FAILURE, mgr.getState());
         verifyDb(1, PolicyResult.FAILURE, null);
 
@@ -635,6 +647,9 @@ public class ControlLoopOperationManager2Test {
         // next failure
         genOpOutcome(false);
         runToCompletion();
+
+        assertTrue(mgr.nextStep());
+        assertEquals(ControlLoopOperationManager2.State.OPERATION_STARTED, mgr.getState());
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_FAILURE, mgr.getState());
@@ -646,13 +661,16 @@ public class ControlLoopOperationManager2Test {
         genOpOutcome();
 
         assertTrue(mgr.nextStep());
+        assertEquals(ControlLoopOperationManager2.State.OPERATION_STARTED, mgr.getState());
+
+        assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_SUCCESS, mgr.getState());
         verifyDb(3, PolicyResult.SUCCESS, null);
 
         assertThat(mgr.toString()).contains("attempts=3");
 
         assertFalse(mgr.nextStep());
-        verify(mgrctx, times(5)).updated(mgr);
+        verify(mgrctx, times(8)).updated(mgr);
     }
 
     @Test
@@ -802,8 +820,16 @@ public class ControlLoopOperationManager2Test {
 
         runToCompletion();
 
+        // guard start
         assertTrue(mgr.nextStep());
+
+        // guard permit
         assertTrue(mgr.nextStep());
+
+        // operation start
+        assertTrue(mgr.nextStep());
+
+        // operation success
         assertFalse(mgr.nextStep());
     }
 
