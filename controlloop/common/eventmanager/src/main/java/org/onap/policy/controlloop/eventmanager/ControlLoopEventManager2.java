@@ -25,6 +25,7 @@ import static org.onap.policy.controlloop.ControlLoopTargetType.VM;
 import static org.onap.policy.controlloop.ControlLoopTargetType.VNF;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -268,11 +269,11 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         } catch (ControlLoopException | RuntimeException e) {
             // processor problem - this is fatal
             logger.warn("{}: cannot start next step for {}", closedLoopControlName, requestId, e);
+            finalResult = FinalResult.FINAL_FAILURE_EXCEPTION;
             notification = makeNotification();
             notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
             notification.setMessage("Policy processing aborted due to policy error");
             notification.setHistory(controlLoopHistory);
-            finalResult = FinalResult.FINAL_FAILURE_EXCEPTION;
         }
     }
 
@@ -301,8 +302,6 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
 
         VirtualControlLoopEvent event = context.getEvent();
 
-        notification.setHistory(operation.getHistory());
-
         switch (operation.getState()) {
             case LOCK_DENIED:
                 notification.setNotification(ControlLoopNotificationType.REJECTED);
@@ -326,6 +325,11 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
                 notification.setNotification(ControlLoopNotificationType.OPERATION);
                 notification.setMessage("Guard result for " + operation.getActor() + " " + operation.getOperation()
                                 + " is Deny");
+                break;
+            case OPERATION_STARTED:
+                notification.setNotification(ControlLoopNotificationType.OPERATION);
+                notification.setMessage(operation.getOperationMessage());
+                notification.setHistory(Collections.emptyList());
                 break;
             case OPERATION_SUCCESS:
                 notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
@@ -375,7 +379,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      * @return a new notification
      */
     public VirtualControlLoopNotification makeNotification() {
-        VirtualControlLoopNotification notif = new VirtualControlLoopNotification();
+        VirtualControlLoopNotification notif = new VirtualControlLoopNotification(context.getEvent());
         notif.setNotification(ControlLoopNotificationType.OPERATION);
         notif.setFrom("policy");
         notif.setPolicyScope(policyScope);
@@ -384,7 +388,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         if (finalResult == null) {
             ControlLoopOperationManager2 oper = currentOperation.get();
             if (oper != null) {
-                notif.setMessage(oper.getOperationMessage());
+                notif.setMessage(oper.getOperationHistory());
                 notif.setHistory(oper.getHistory());
             }
         }
