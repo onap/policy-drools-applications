@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf209ed7_c25dbaf2",
+        "filename": "controlloop/m2/base/src/test/java/org/onap/policy/m2/base/TransactionTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T17:16:27Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "55f3e5e9dad4a15b4bbffa892e5851abe5b900c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e5cc0c_1ce6bd6f",
+        "filename": "controlloop/m2/base/src/test/resources/META-INF/services/org.onap.policy.m2.base.Actor",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-06T17:16:27Z",
+      "side": 1,
+      "message": "may add a newline at the end",
+      "revId": "55f3e5e9dad4a15b4bbffa892e5851abe5b900c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
