@@ -37,6 +37,7 @@
     <module>guard</module>
     <module>coordination</module>
     <module>eventmanager</module>
+    <module>endpoints-test</module>
     <module>domains</module>
     <module>controller-frankfurt</module>
     <module>controller-usecases</module>
