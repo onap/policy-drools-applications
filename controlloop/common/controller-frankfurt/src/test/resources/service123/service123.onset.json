@@ -1,14 +1,15 @@
 {
-  "closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
-  "closedLoopAlarmStart": 1484677482204798,
+  "closedLoopControlName": "ControlLoop-Service123-cbed919f-2212-4ef7-8051-fe6308da1bda",
+  "closedLoopAlarmStart": 1463679805324,
   "closedLoopEventClient": "DCAE_INSTANCE_ID.dcae-tca",
   "closedLoopEventStatus": "ONSET",
-  "requestID": "e4f95e0c-a013-4530-8e59-c5c5f9e539b6",
+  "requestID": "664be3d2-6c12-4f4b-a3e7-c349acced200",
   "target_type": "VNF",
-  "target": "vserver.vserver-name",
+  "target": "generic-vnf.vnf-name",
   "AAI": {
     "vserver.is-closed-loop-disabled": "false",
     "vserver.prov-status": "ACTIVE",
+    "generic-vnf.vnf-name": "fw0002vm002fw002",
     "vserver.vserver-name": "OzVServer"
   },
   "from": "DCAE",

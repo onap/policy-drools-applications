@@ -1,0 +1,203 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop.common.rules.test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Function;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
+import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
+import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
+import org.onap.policy.drools.protocol.coders.EventProtocolCoderConstants;
+import org.onap.policy.drools.system.PolicyController;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+/**
+ * Mechanism by which junit tests can manage topic messages.
+ */
+public class Topics {
+    private static final String REPLACE_ME = "${replaceMe}";
+
+    private final List<Listener<?>> listeners = new LinkedList<>();
+
+    /**
+     * Constructs the object.
+     */
+    public Topics() {
+        super();
+    }
+
+    /**
+     * Unregisters all of the listeners.
+     */
+    public void destroy() {
+        listeners.forEach(Listener::unregister);
+    }
+
+    /**
+     * Injects the content of the given file onto a NOOP topic SOURCE.
+     *
+     * @param topicName topic on which to inject
+     * @param file file whose content is to be injected
+     */
+    public void inject(String topicName, File file) {
+        inject(topicName, file, REPLACE_ME);
+    }
+
+    /**
+     * Injects the content of the given file onto a NOOP topic SOURCE, with the given
+     * substitution.
+     *
+     * @param topicName topic on which to inject
+     * @param file file whose content is to be injected
+     * @param newText text to be substituted for occurrences of "${replaceMe}" in the
+     *        source file
+     */
+    public void inject(String topicName, File file, String newText) {
+        try {
+            String text = new String(Files.readAllBytes(file.toPath()));
+            text = text.replace(REPLACE_ME, newText);
+            getTopicManager().getNoopTopicSource(topicName).offer(text);
+        } catch (IOException e) {
+            throw new TopicException(e);
+        }
+    }
+
+    /**
+     * Makes a listener for messages published on a NOOP topic SINK. Messages are decoded
+     * using the coder associated with the controller.
+     *
+     * @param <T> message type
+     * @param topicName name of the topic on which to listen
+     * @param expectedClass type of message expected
+     * @param controller controller whose decoders are to be used
+     * @return a new listener
+     */
+    public <T> Listener<T> createListener(String topicName, Class<T> expectedClass, PolicyController controller) {
+        EventProtocolCoder mgr = getProtocolCoder();
+        String groupId = controller.getDrools().getGroupId();
+        String artifactId = controller.getDrools().getArtifactId();
+
+        // @formatter:off
+        return createListener(topicName,
+            event -> expectedClass.cast(mgr.decode(groupId, artifactId, topicName, event)));
+        // @formatter:on
+    }
+
+    /**
+     * Makes a listener for messages published on a NOOP topic SINK. Messages are decoded
+     * using the specified coder.
+     *
+     * @param <T> message type
+     * @param topicName name of the topic on which to listen
+     * @param expectedClass type of message expected
+     * @param coder coder to decode the messages
+     * @return a new listener
+     */
+    public <T> Listener<T> createListener(String topicName, Class<T> expectedClass, Coder coder) {
+        Function<String, T> decoder = event -> {
+            try {
+                return coder.decode(event, expectedClass);
+            } catch (CoderException e) {
+                throw new IllegalArgumentException("cannot decode message", e);
+            }
+        };
+
+        return createListener(topicName, decoder);
+    }
+
+    /**
+     * Makes a listener for messages published on a NOOP topic SINK. Messages are decoded
+     * using the specified coder.
+     *
+     * @param <T> message type
+     * @param topicName name of the topic on which to listen
+     * @param decoder function that takes a message and decodes it into the desired type
+     * @return a new listener
+     */
+    public <T> Listener<T> createListener(String topicName, Function<String, T> decoder) {
+        Listener<T> listener = makeListener(topicName, decoder);
+        listeners.add(listener);
+
+        return listener;
+    }
+
+    /**
+     * Waits for notifications for LOCK acquisition and GUARD Permit so that event
+     * processing may proceed.
+     */
+    public void waitForLockAndPermit(ToscaPolicy policy, Listener<VirtualControlLoopNotification> policyClMgt) {
+        String policyName = policy.getIdentifier().getName();
+
+        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.ACTIVE
+                        && (policyName + ".EVENT").equals(notif.getPolicyName()));
+
+        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
+                        && (policyName + ".EVENT.MANAGER.PROCESSING").equals(notif.getPolicyName())
+                        && notif.getMessage().startsWith("Sending guard query"));
+
+        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
+                        && (policyName + ".EVENT.MANAGER.PROCESSING").equals(notif.getPolicyName())
+                        && notif.getMessage().startsWith("Guard result") && notif.getMessage().endsWith("Permit"));
+
+        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
+                        && (policyName + ".EVENT.MANAGER.PROCESSING").equals(notif.getPolicyName())
+                        && notif.getMessage().startsWith("actor="));
+    }
+
+    /**
+     * Waits for a FINAL SUCCESS transaction notification.
+     *
+     * @return the FINAL SUCCESS notification
+     */
+    public VirtualControlLoopNotification waitForFinalSuccess(ToscaPolicy policy,
+                    Listener<VirtualControlLoopNotification> policyClMgt) {
+
+        return policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.FINAL_SUCCESS
+                        && (policy.getIdentifier().getName() + ".EVENT.MANAGER.FINAL").equals(notif.getPolicyName()));
+    }
+
+    // these methods may be overridden by junit tests
+
+    protected TopicEndpoint getTopicManager() {
+        return TopicEndpointManager.getManager();
+    }
+
+    protected EventProtocolCoder getProtocolCoder() {
+        return EventProtocolCoderConstants.getManager();
+    }
+
+    protected <T> Listener<T> makeListener(String topicName, Function<String, T> decoder) {
+        return new Listener<>(topicName, decoder) {
+            @Override
+            protected TopicEndpoint getTopicManager() {
+                return Topics.this.getTopicManager();
+            }
+        };
+    }
+}

@@ -7,6 +7,7 @@
         "policy-id": "operational.restart"
     },
     "properties": {
+        "controllerName": "frankfurt",
         "id": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
         "timeout": 3600,
         "abatement": false,
@@ -31,7 +32,6 @@
                 "failure_exception": "final_failure_exception",
                 "failure_guard": "final_failure_guard"
             }
-        ],
-        "controllerName": "frankfurt"
+        ]
     }
 }
