@@ -1,33 +1,30 @@
 {
     "type": "onap.policies.controlloop.operational.common.Drools",
     "type_version": "1.0.0",
-    "name": "operational.modifyconfig",
     "version": "1.0.0",
+    "name": "operational.restart",
     "metadata": {
-        "policy-id": "operational.modifyconfig"
+        "policy-id": "operational.restart"
     },
     "properties": {
         "controllerName": "frankfurt",
-        "id": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
-        "timeout": 60,
+        "id": "ControlLoop-Duplicates-48f0c2c3-a172-4192-9ae3-052274181b6e",
+        "timeout": 3600,
         "abatement": false,
-        "trigger": "unique-policy-id-1-modifyConfig",
+        "trigger": "unique-policy-id-1-restart",
         "operations": [
             {
-                "id": "unique-policy-id-1-modifyConfig",
-                "description": "Modify the packet generator",
+                "id": "unique-policy-id-1-restart",
+                "description": "Restart the VM",
                 "operation": {
                     "actor": "APPC",
-                    "operation": "ModifyConfig",
+                    "operation": "Restart",
                     "target": {
-                        "targetType": "VNF",
-                        "entityIds": {
-                            "resourceID": "bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38"
-                        }
+                        "targetType": "VM"
                     }
                 },
-                "timeout": 300,
-                "retries": 0,
+                "timeout": 1200,
+                "retries": 3,
                 "success": "final_success",
                 "failure": "final_failure",
                 "failure_timeout": "final_failure_timeout",
