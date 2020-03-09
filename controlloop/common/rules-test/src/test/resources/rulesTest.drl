@@ -1,0 +1,96 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop;
+
+import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.CanonicalOnset;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2.NewEventStatus;
+import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2;
+import org.onap.policy.controlloop.utils.ControlLoopUtils;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+import org.onap.policy.drools.system.PolicyEngineConstants;
+
+rule "STARTED"
+    when
+    then
+    System.out.println(drools.getRule().getName());
+end
+
+/*
+*
+* Called when the ControlLoopParams object has been inserted into working memory from the BRMSGW.
+*
+*/
+rule "INSERT.PARAMS"
+    when
+        $params : ControlLoopParams()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
+        + drools.getRule().getName(), $params.getToscaPolicy());
+end
+
+/*
+*
+* Called when a Tosca Policy is present.
+*
+*/
+rule "NEW.TOSCA.POLICY"
+    when
+        $policy : ToscaPolicy()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
+                $policy.getVersion(), $policy);
+
+    ControlLoopParams params = ControlLoopUtils.toControlLoopParams($policy);
+    if (params != null) {
+        insert(params);
+    }
+end
+
+/*
+ * Remove Control Loop Parameters.
+ */
+rule "REMOVE.PARAMS"
+    when
+        $params : ControlLoopParams( $policyName :  getPolicyName(), $policyVersion : getPolicyVersion() )
+        not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
+                $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
+
+    retract($params);
+end
