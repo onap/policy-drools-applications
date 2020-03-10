@@ -37,7 +37,6 @@
     <module>guard</module>
     <module>coordination</module>
     <module>eventmanager</module>
-    <module>domains</module>
     <module>controller-frankfurt</module>
     <module>controller-usecases</module>
     <module>feature-controlloop-utils</module>

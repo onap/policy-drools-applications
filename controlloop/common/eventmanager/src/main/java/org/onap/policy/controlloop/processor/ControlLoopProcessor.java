@@ -21,9 +21,9 @@
 package org.onap.policy.controlloop.processor;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import org.apache.commons.beanutils.BeanUtils;
@@ -39,10 +39,10 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.domain.models.DroolsPolicy;
-import org.onap.policy.drools.models.domain.legacy.LegacyPolicy;
-import org.onap.policy.drools.models.domain.operational.Operation;
-import org.onap.policy.drools.models.domain.operational.OperationalPolicy;
-import org.onap.policy.drools.models.domain.operational.OperationalTarget;
+import org.onap.policy.drools.domain.models.legacy.LegacyPolicy;
+import org.onap.policy.drools.domain.models.operational.Operation;
+import org.onap.policy.drools.domain.models.operational.OperationalPolicy;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class ControlLoopProcessor implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessor.class);
 
     private final ControlLoopPolicy policy;
-    private String currentNestedPolicyId = null;
+    private String currentNestedPolicyId;
 
     // not serializable, thus must be transient
     @Getter
@@ -99,17 +99,17 @@ public class ControlLoopProcessor implements Serializable {
 
             this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
             this.toscaOpPolicy = toscaPolicy;
-        } catch (RuntimeException | CoderException | UnsupportedEncodingException e) {
+        } catch (RuntimeException | CoderException e) {
             throw new ControlLoopException(e);
         }
     }
 
     protected ControlLoopPolicy buildPolicyFromToscaLegacy(ToscaPolicy policy)
-            throws UnsupportedEncodingException, CoderException {
+            throws CoderException {
         LegacyPolicy legacyPolicy =
                 PolicyEngineConstants.getManager().getDomainMaker().convertTo(policy, LegacyPolicy.class);
         this.domainOpPolicy = legacyPolicy;
-        String decodedPolicy = URLDecoder.decode(legacyPolicy.getProperties().getContent(), "UTF-8");
+        String decodedPolicy = URLDecoder.decode(legacyPolicy.getProperties().getContent(), StandardCharsets.UTF_8);
         return new Yaml(
                 new CustomClassLoaderConstructor(
                         ControlLoopPolicy.class, ControlLoopPolicy.class.getClassLoader())).load(decodedPolicy);
