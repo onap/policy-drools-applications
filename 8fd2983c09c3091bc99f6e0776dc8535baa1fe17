@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cfdc4b5_76101a86",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-11T18:59:00Z",
+      "side": 1,
+      "message": "2018-2020",
+      "revId": "8fd2983c09c3091bc99f6e0776dc8535baa1fe17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78f2e2bd_99456e08",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-11T18:59:00Z",
+      "side": 1,
+      "message": "replace with mvn -Pdocker clean install",
+      "revId": "8fd2983c09c3091bc99f6e0776dc8535baa1fe17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3866edec_b368d2ab",
         "filename": "controlloop/templates/pom.xml",
         "patchSetId": 2
@@ -31,6 +65,24 @@
       "side": 1,
       "message": "If the archetype is removed also then I don\u0027t see any reason to keep this file.",
       "parentUuid": "3866edec_b368d2ab",
+      "revId": "8fd2983c09c3091bc99f6e0776dc8535baa1fe17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32350ce8_cc3789ae",
+        "filename": "controlloop/templates/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-11T18:59:00Z",
+      "side": 1,
+      "message": "I think if we remove \"feature-controlloop-amsterdam\" the archetype, and this whole templates dir can be deleted.",
+      "parentUuid": "bdcf1165_7a9b8de4",
       "revId": "8fd2983c09c3091bc99f6e0776dc8535baa1fe17",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
