@@ -27,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -50,9 +50,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -84,10 +82,6 @@ public class ControlLoopEventManagerTest {
     private static final String AAI_PASS = "aai.password";
     private static final String TWO_ONSET_TEST = "TwoOnsetTest";
     private static final String VNF_UUID = "83f674e8-7555-44d7-9a39-bdc3770b0491";
-
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private VirtualControlLoopEvent onset;
     private LockCallback callback;
@@ -405,7 +399,7 @@ public class ControlLoopEventManagerTest {
         VirtualControlLoopNotification notification = manager.activate(yamlString, event);
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
-        
+
         event.getAai().put(VSERVER_NAME, "testVserverName");
 
         // serialize and de-serialize manager
@@ -452,7 +446,7 @@ public class ControlLoopEventManagerTest {
                         .hasMessage("Do not have a current operation.");
 
         assertNull(manager.unlockCurrentOperation());
-        
+
         event.getAai().put(VSERVER_NAME, "testVserverName");
 
         ControlLoopOperationManager clom = manager.processControlLoop();

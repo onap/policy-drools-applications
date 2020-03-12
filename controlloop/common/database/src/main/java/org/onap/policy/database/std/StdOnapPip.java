@@ -1,6 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +107,7 @@ public abstract class StdOnapPip extends StdConfigurableEngine {
                     properties.getProperty(issuerName + ".persistenceunit"),
                     emProperties).createEntityManager();
         } catch (Exception e) {
-            logger.error("Persistence failed {} operations history db {}", e.getLocalizedMessage(), e);
+            logger.error("Persistence failed operations history db", e);
         }
     }
 
@@ -200,7 +202,7 @@ public abstract class StdOnapPip extends StdConfigurableEngine {
                 pipResponse = null;
             }
         } catch (PIPException ex) {
-            logger.error("PIPException getting subject-id attribute: " + ex.getMessage(), ex);
+            logger.error("PIPException getting subject-id attribute", ex);
         }
         return pipResponse;
     }
@@ -229,7 +231,7 @@ public abstract class StdOnapPip extends StdConfigurableEngine {
             stdPipResponse.addAttribute(new StdMutableAttribute(category, attributeId, attributeValue,
                             pipRequest.getIssuer(), false));
         } catch (Exception e) {
-            logger.error("Failed to convert {} to integer {}", value, e);
+            logger.error("Failed to convert {} to integer", value, e);
         }
     }
 
