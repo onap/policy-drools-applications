@@ -100,8 +100,6 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         FIRST_ONSET, SUBSEQUENT_ONSET, FIRST_ABATEMENT, SUBSEQUENT_ABATEMENT, SYNTAX_ERROR
     }
 
-    // TODO limit the number of policies that may be executed for a single event?
-
     /**
      * {@code True} if this object was created by this JVM instance, {@code false}
      * otherwise. This will be {@code false} if this object is reconstituted from a

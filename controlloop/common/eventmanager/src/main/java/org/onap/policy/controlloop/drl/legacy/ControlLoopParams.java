@@ -35,5 +35,7 @@ public class ControlLoopParams implements Serializable {
     private String policyName;
     private String policyScope;
     private String policyVersion;
-    private ToscaPolicy toscaPolicy;
+
+    // not serializable, thus must be transient
+    private transient ToscaPolicy toscaPolicy;
 }

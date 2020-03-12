@@ -79,7 +79,7 @@ public class RestControlLoopManager {
 
             return Response.status(Response.Status.OK).entity(controlLoopNames).build();
         } catch (IllegalArgumentException e) {
-            logger.error("{}", e);
+            logger.error("'GET' controlloops threw an exception", e);
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
@@ -109,7 +109,7 @@ public class RestControlLoopManager {
 
             return Response.status(Response.Status.OK).entity(controlLoopParams).build();
         } catch (IllegalArgumentException e) {
-            logger.error("{}", e);
+            logger.error("'GET' controlloop threw an exception", e);
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }

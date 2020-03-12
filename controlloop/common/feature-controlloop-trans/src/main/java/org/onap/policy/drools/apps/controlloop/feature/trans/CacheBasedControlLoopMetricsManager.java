@@ -100,7 +100,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         RemovalListener<UUID, VirtualControlLoopNotification> listener = notification -> {
             if (notification.wasEvicted()) {
                 evicted(notification.getValue());
-            } else {
+            } else if (logger.isInfoEnabled()) {
                 logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
                                 notification.getCause().name());
             }

@@ -159,29 +159,15 @@ public class ControlLoopProcessorTest {
         InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
         String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
+        for (PolicyResult result : PolicyResult.values()) {
+            checkResult(yamlString, result);
+        }
+    }
+
+    private void checkResult(String yamlString, PolicyResult result) throws ControlLoopException {
         ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
         clProcessor.getCurrentPolicy();
-        clProcessor.nextPolicyForResult(PolicyResult.SUCCESS);
-
-        clProcessor = new ControlLoopProcessor(yamlString);
-        clProcessor.getCurrentPolicy();
-        clProcessor.nextPolicyForResult(PolicyResult.FAILURE);
-
-        clProcessor = new ControlLoopProcessor(yamlString);
-        clProcessor.getCurrentPolicy();
-        clProcessor.nextPolicyForResult(PolicyResult.FAILURE_EXCEPTION);
-
-        clProcessor = new ControlLoopProcessor(yamlString);
-        clProcessor.getCurrentPolicy();
-        clProcessor.nextPolicyForResult(PolicyResult.FAILURE_GUARD);
-
-        clProcessor = new ControlLoopProcessor(yamlString);
-        clProcessor.getCurrentPolicy();
-        clProcessor.nextPolicyForResult(PolicyResult.FAILURE_RETRIES);
-
-        clProcessor = new ControlLoopProcessor(yamlString);
-        clProcessor.getCurrentPolicy();
-        clProcessor.nextPolicyForResult(PolicyResult.FAILURE_TIMEOUT);
+        clProcessor.nextPolicyForResult(result);
     }
 
     /**

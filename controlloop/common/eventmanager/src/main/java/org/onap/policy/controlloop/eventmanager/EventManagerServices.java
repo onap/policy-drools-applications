@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 import lombok.Getter;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.utils.properties.PropertyObjectUtils;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actor.guard.GuardActorServiceProvider;
 import org.onap.policy.controlloop.actor.guard.GuardConfig;
@@ -38,7 +39,6 @@ import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerImpl;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerParams;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
-import org.onap.policy.controlloop.utils.ControlLoopUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,8 +86,8 @@ public class EventManagerServices {
             Properties props = new Properties();
             props.load(inpstr);
 
-            Map<String, Object> parameters = ControlLoopUtils.toObject(props, ACTOR_SERVICE_PROPERTIES);
-            ControlLoopUtils.compressLists(parameters);
+            Map<String, Object> parameters = PropertyObjectUtils.toObject(props, ACTOR_SERVICE_PROPERTIES);
+            PropertyObjectUtils.compressLists(parameters);
 
             actorService.configure(parameters);
             actorService.start();
@@ -157,7 +157,7 @@ public class EventManagerServices {
      */
     public OperationHistoryDataManagerImpl makeDataManager(Properties props) {
         try {
-            Map<String, Object> parameters = ControlLoopUtils.toObject(props, DATA_MANAGER_PROPERTIES);
+            Map<String, Object> parameters = PropertyObjectUtils.toObject(props, DATA_MANAGER_PROPERTIES);
             OperationHistoryDataManagerParams params = Util.translate(DATA_MANAGER_PROPERTIES, parameters,
                             OperationHistoryDataManagerParams.class);
             ValidationResult result = params.validate(DATA_MANAGER_PROPERTIES);
