@@ -91,6 +91,12 @@
     </dependency>
     <dependency>
       <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
+      <artifactId>feature-controlloop-frankfurt</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
       <artifactId>feature-controlloop-usecases</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
