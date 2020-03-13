@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * controlloop
+ * ONAP
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,9 +95,9 @@ public final class Util {
          */
         String xacmlPolicy = null;
         try (Stream<String> stream = Files.lines(Paths.get(xacmlProtoFilename))) {
-            xacmlPolicy = stream.map(s -> s.replaceAll("UNIQUE_ID", uniqueId))
-                .map(s -> s.replaceAll("CONTROL_LOOP_ONE", cLOne))
-                .map(s -> s.replaceAll("CONTROL_LOOP_TWO", cLTwo))
+            xacmlPolicy = stream.map(s -> s.replace("UNIQUE_ID", uniqueId))
+                .map(s -> s.replace("CONTROL_LOOP_ONE", cLOne))
+                .map(s -> s.replace("CONTROL_LOOP_TWO", cLTwo))
                 .collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
             logger.error("Error while generating XACML policy for coordination directive", e);

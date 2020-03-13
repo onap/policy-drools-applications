@@ -82,7 +82,6 @@ public class RestControlLoopManagerTest {
     private static final String URL_CONTEXT_PATH_TOOLS_AAI = URL_CONTEXT_PATH_TOOLS + "aai/";
     private static final String URL_CONTEXT_PATH_TOOLS_AAI_CQ =
         URL_CONTEXT_PATH_TOOLS_AAI + "customQuery/";
-    private static final String POLICY = "src/test/resources/vCPE.yaml";
 
     private static final String CONTROLLER_FILE = "op-controller.properties";
     private static final String CONTROLLER_FILE_BAK = "op-controller.properties.bak";

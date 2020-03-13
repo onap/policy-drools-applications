@@ -61,8 +61,9 @@ public class ControlLoopProcessor implements Serializable {
     @Getter
     private transient ToscaPolicy toscaOpPolicy;
 
+    // not serializable, thus must be transient
     @Getter
-    private DroolsPolicy domainOpPolicy;
+    private transient DroolsPolicy domainOpPolicy;
 
     /**
      * Construct an instance from yaml.
