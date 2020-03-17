@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,12 +33,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import ch.qos.logback.classic.Logger;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
@@ -53,6 +60,7 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.Match;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
@@ -62,14 +70,22 @@ import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyControllerFactory;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.slf4j.LoggerFactory;
 
 public class RulesTest {
+    private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String CONTROLLER_NAME = "rulesTest";
     private static final String POLICY_FILE = "src/test/resources/tosca-policy.json";
     private static final String MY_POLICY = "operational.restart";
     private static final String RESOURCE_DIR = "src/test/resources";
     private static final String MY_RULE_NAME = "my-rule-name";
     private static final String MY_TEXT = "my text";
+
+    /**
+     * Used to attach an appender to the class' logger.
+     */
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(Rules.class);
+    private static final ExtractAppender appender = new ExtractAppender();
 
     @Mock
     private PolicyEngine engine;
@@ -91,6 +107,28 @@ public class RulesTest {
     private boolean installed;
 
     private Rules rules;
+
+    /**
+     * Attaches the appender to the logger.
+     */
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        /**
+         * Attach appender to the logger.
+         */
+        appender.setContext(logger.getLoggerContext());
+        appender.start();
+
+        logger.addAppender(appender);
+    }
+
+    /**
+     * Stops the appender.
+     */
+    @AfterClass
+    public static void tearDownAfterClass() {
+        appender.stop();
+    }
 
     /**
      * Sets up.
@@ -206,18 +244,25 @@ public class RulesTest {
     }
 
     @Test
-    public void testSetupPolicyFromTemplate_testGetPolicyFromTemplate() {
+    public void testSetupPolicyFromTemplate_testGetPolicyFromTemplate() throws InterruptedException {
         rules.setupPolicyFromTemplate("tosca-template.json", MY_POLICY);
 
         assertThatIllegalArgumentException()
                         .isThrownBy(() -> rules.setupPolicyFromTemplate("missing-file.json", "a-policy"));
+
+        // check interrupt case
+        checkInterrupt(() -> rules.setupPolicyFromTemplate("tosca-template.json", MY_POLICY),
+                        "policy operational.restart");
     }
 
     @Test
-    public void testSetupPolicyFromFile_testGetPolicyFromFile_testSetupPolicy() {
+    public void testSetupPolicyFromFile_testGetPolicyFromFile_testSetupPolicy() throws InterruptedException {
         assertNotNull(rules.setupPolicyFromFile(POLICY_FILE));
 
         assertThatIllegalArgumentException().isThrownBy(() -> rules.setupPolicyFromFile("missing-file.json"));
+
+        // check interrupt case
+        checkInterrupt(() -> rules.setupPolicyFromFile(POLICY_FILE), "policy " + POLICY_FILE);
     }
 
     @Test
@@ -228,23 +273,23 @@ public class RulesTest {
         // insertions - with and without rule name
         ObjectInsertedEvent insert = mock(ObjectInsertedEvent.class);
         when(insert.getObject()).thenReturn(MY_TEXT);
-        ruleListeners.forEach(listener -> listener.objectInserted(insert));
+        checkLogging("inserted", () -> ruleListeners.forEach(listener -> listener.objectInserted(insert)));
         when(insert.getRule()).thenReturn(rule);
-        ruleListeners.forEach(listener -> listener.objectInserted(insert));
+        checkLogging("inserted", () -> ruleListeners.forEach(listener -> listener.objectInserted(insert)));
 
         // updates - with and without rule name
         ObjectUpdatedEvent update = mock(ObjectUpdatedEvent.class);
         when(update.getObject()).thenReturn(MY_TEXT);
-        ruleListeners.forEach(listener -> listener.objectUpdated(update));
+        checkLogging("updated", () -> ruleListeners.forEach(listener -> listener.objectUpdated(update)));
         when(update.getRule()).thenReturn(rule);
-        ruleListeners.forEach(listener -> listener.objectUpdated(update));
+        checkLogging("updated", () -> ruleListeners.forEach(listener -> listener.objectUpdated(update)));
 
         // deletions - with and without rule name
         ObjectDeletedEvent delete = mock(ObjectDeletedEvent.class);
         when(delete.getOldObject()).thenReturn(MY_TEXT);
-        ruleListeners.forEach(listener -> listener.objectDeleted(delete));
+        checkLogging("deleted", () -> ruleListeners.forEach(listener -> listener.objectDeleted(delete)));
         when(delete.getRule()).thenReturn(rule);
-        ruleListeners.forEach(listener -> listener.objectDeleted(delete));
+        checkLogging("deleted", () -> ruleListeners.forEach(listener -> listener.objectDeleted(delete)));
     }
 
     @Test
@@ -258,22 +303,25 @@ public class RulesTest {
         // create
         MatchCreatedEvent create = mock(MatchCreatedEvent.class);
         when(create.getMatch()).thenReturn(match);
-        agendaListeners.forEach(listener -> listener.matchCreated(create));
+        checkLogging("match created", () -> agendaListeners.forEach(listener -> listener.matchCreated(create)));
 
         // cancel
         MatchCancelledEvent cancel = mock(MatchCancelledEvent.class);
         when(cancel.getMatch()).thenReturn(match);
-        agendaListeners.forEach(listener -> listener.matchCancelled(cancel));
+        checkLogging("match cancelled", () -> agendaListeners.forEach(listener -> listener.matchCancelled(cancel)));
 
         // before-fire
         BeforeMatchFiredEvent before = mock(BeforeMatchFiredEvent.class);
         when(before.getMatch()).thenReturn(match);
-        agendaListeners.forEach(listener -> listener.beforeMatchFired(before));
+        // @formatter:off
+        checkLogging("before match fired",
+            () -> agendaListeners.forEach(listener -> listener.beforeMatchFired(before)));
+        // @formatter:on
 
         // after-fire
         AfterMatchFiredEvent after = mock(AfterMatchFiredEvent.class);
         when(after.getMatch()).thenReturn(match);
-        agendaListeners.forEach(listener -> listener.afterMatchFired(after));
+        checkLogging("after match fired", () -> agendaListeners.forEach(listener -> listener.afterMatchFired(after)));
     }
 
     @Test
@@ -283,6 +331,41 @@ public class RulesTest {
 
         assertNotNull(rules.getPdpd());
         assertNotNull(rules.getPdpdRepo());
+    }
+
+    private void checkInterrupt(Runnable command, String expectedMsg) throws InterruptedException {
+        BlockingQueue<IllegalArgumentException> exceptions = new LinkedBlockingQueue<>();
+
+        Thread thread = new Thread(() -> {
+            try {
+                command.run();
+            } catch (IllegalArgumentException e) {
+                exceptions.add(e);
+            }
+        });
+
+        thread.setDaemon(true);
+        thread.start();
+
+        rules = new MyRules() {
+            @Override
+            protected ToscaPolicy setupPolicy(ToscaPolicy policy) throws InterruptedException {
+                throw new InterruptedException(EXPECTED_EXCEPTION);
+            }
+        };
+        rules.configure(RESOURCE_DIR);
+        rules.start();
+
+        assertThat(exceptions.poll(10, TimeUnit.SECONDS)).isNotNull().hasMessage(expectedMsg)
+                        .hasCauseInstanceOf(InterruptedException.class);
+    }
+
+    private void checkLogging(String expectedMsg, Runnable command) {
+        appender.clearExtractions();
+        command.run();
+        List<String> messages = appender.getExtracted();
+        assertEquals(1, messages.size());
+        assertThat(messages.get(0)).contains(expectedMsg);
     }
 
     protected void notifyInserted(Object object) {

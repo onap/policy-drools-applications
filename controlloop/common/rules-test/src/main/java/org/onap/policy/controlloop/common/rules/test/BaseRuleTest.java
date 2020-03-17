@@ -44,6 +44,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  * Superclass used for rule tests.
  */
 public abstract class BaseRuleTest {
+    private static final String APPC_RESTART_OP = "restart";
+
     /*
      * Canonical Topic Names.
      */
@@ -185,7 +187,7 @@ public abstract class BaseRuleTest {
 
         // restart request should be sent and fail four times (i.e., because retry=3)
         for (int count = 0; count < 4; ++count) {
-            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> "restart".equals(req.getRpcName()));
+            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_RESTART_FAILURE,
                             appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
@@ -245,7 +247,7 @@ public abstract class BaseRuleTest {
 
         // should see two restarts
         for (int count = 0; count < 2; ++count) {
-            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> "restart".equals(req.getRpcName()));
+            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             // indicate success
             topics.inject(APPC_LCM_WRITE_TOPIC, DUPLICATES_APPC_SUCCESS,
@@ -270,7 +272,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVcpeSunnyDayLegacy() {
-        appcLcmSunnyDay(VCPE_TOSCA_LEGACY_POLICY, VCPE_ONSET_1, "restart");
+        appcLcmSunnyDay(VCPE_TOSCA_LEGACY_POLICY, VCPE_ONSET_1, APPC_RESTART_OP);
     }
 
     /**
@@ -278,7 +280,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVcpeSunnyDayCompliant() {
-        appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, VCPE_ONSET_1, "restart");
+        appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, VCPE_ONSET_1, APPC_RESTART_OP);
     }
 
     /**
@@ -288,7 +290,8 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVcpeOnsetFloodPrevention() {
-        appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, List.of(VCPE_ONSET_1, VCPE_ONSET_2, VCPE_ONSET_3), "restart");
+        appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, List.of(VCPE_ONSET_1, VCPE_ONSET_2, VCPE_ONSET_3),
+                        APPC_RESTART_OP);
     }
 
     // VDNS
