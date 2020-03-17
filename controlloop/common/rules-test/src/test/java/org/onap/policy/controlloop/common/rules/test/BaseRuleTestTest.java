@@ -315,6 +315,28 @@ public class BaseRuleTestTest {
         checkAppcLegacyPolicy("ModifyConfig", base::testVfwSunnyDayCompliant);
     }
 
+    /*
+     * WIP
+     * @Test
+    public void testTestVfwRainyDayLegacyFailure() {
+        checkAppcLegacyPolicyFailure("ModifyConfig", base::testVfwRainyDayLegacyFailure, false);
+    }
+
+    @Test
+    public void testTestVfwRainyDayLegacyTimeout() {
+        checkAppcLegacyPolicyFailure("ModifyConfig", base::testVfwRainyDayLegacyTimeout, true);
+    }
+
+    @Test
+    public void testTestVfwRainyDayCompliantFailure() {
+        checkAppcLegacyPolicyFailure("ModifyConfig", base::testVfwRainyDayCompliantFailure, false);
+    }
+
+    @Test
+    public void testTestVfwRainyDayCompliantTimeout() {
+        checkAppcLegacyPolicyFailure("ModifyConfig", base::testVfwRainyDayCompliantTimeout, true);
+    }*/
+
     @Test
     public void testTestVlbSunnyDayLegacy() {
         checkHttpPolicy(base::testVlbSunnyDayLegacy);
@@ -364,6 +386,31 @@ public class BaseRuleTestTest {
         // reply to each APPC request
         verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
     }
+
+    /*
+     *
+     * WIP
+     * protected void checkAppcLegacyPolicyFailure(String operation, Runnable test, boolean timeout) {
+        enqueueAppcLegacy(operation);
+        enqueueClMgt(ControlLoopNotificationType.OPERATION_FAILURE);
+        enqueueClMgt(ControlLoopNotificationType.FINAL_FAILURE);
+
+        test.run();
+
+        assertEquals(1, permitCount);
+        assertEquals(1, finalCount);
+
+        assertTrue(appcLcmQueue.isEmpty());
+        assertTrue(clMgtQueue.isEmpty());
+
+        // initial event
+        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+
+        // reply to each APPC request (if this is not testing for timeout)
+        if (!timeout) {
+            verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
+        }
+    }*/
 
     protected void checkHttpPolicy(Runnable test) {
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);

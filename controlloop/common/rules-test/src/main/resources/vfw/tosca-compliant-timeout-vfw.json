@@ -9,7 +9,7 @@
     "properties": {
         "controllerName": "usecases",
         "id": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
-        "timeout": 60,
+        "timeout": 7,
         "abatement": false,
         "trigger": "unique-policy-id-1-modifyConfig",
         "operations": [
@@ -26,7 +26,7 @@
                         }
                     }
                 },
-                "timeout": 7,
+                "timeout": 10,
                 "retries": 0,
                 "success": "final_success",
                 "failure": "final_failure",
