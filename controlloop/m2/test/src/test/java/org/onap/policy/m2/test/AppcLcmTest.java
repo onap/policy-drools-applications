@@ -21,6 +21,7 @@
 
 package org.onap.policy.m2.test;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertNotNull;
 import static org.onap.policy.guard.Util.ONAP_KEY_PASS;
 import static org.onap.policy.guard.Util.ONAP_KEY_URL;
@@ -34,7 +35,10 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.awaitility.Durations;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -149,8 +153,15 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive active notification, and restart operation
-        assertSubset(json("notification", "ACTIVE"),
-                     notification.poll());
+        AtomicReference<JsonObject> obj = new AtomicReference<>();
+        await().atMost(5, TimeUnit.SECONDS)
+            .with().pollInterval(Durations.ONE_HUNDRED_MILLISECONDS)
+            .until(() -> {
+                obj.set(notification.poll());
+                return obj.get() != null;
+            });
+
+        assertSubset(json("notification", "ACTIVE"), obj.get());
 
         appcOperation(req, "Restart", 400, "Restart Successful");
 
@@ -159,8 +170,13 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive final success notification
-        assertSubset(json("notification", "FINAL: SUCCESS"),
-                     notification.poll());
+        await().atMost(5, TimeUnit.SECONDS)
+            .with().pollInterval(Durations.ONE_HUNDRED_MILLISECONDS)
+            .until(() -> {
+                obj.set(notification.poll());
+                return obj.get() != null;
+            });
+        assertSubset(json("notification", "FINAL: SUCCESS"), obj.get());
 
         // sleep to allow DB update
         Thread.sleep(1000);
@@ -177,8 +193,14 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // active notification, and restart 1 operation
-        assertSubset(json("notification", "ACTIVE"),
-                     notification.poll());
+        AtomicReference<JsonObject> obj = new AtomicReference<>();
+        await().atMost(5, TimeUnit.SECONDS)
+            .with().pollInterval(Durations.ONE_HUNDRED_MILLISECONDS)
+            .until(() -> {
+                obj.set(notification.poll());
+                return obj.get() != null;
+            });
+        assertSubset(json("notification", "ACTIVE"), obj.get());
 
         appcOperation(req, "Restart", 450, "Restart 1 Failed");
         appcOperation(req, "Restart", 450, "Restart 2 Failed");
@@ -191,8 +213,13 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive final success notification
-        assertSubset(json("notification", "FINAL: SUCCESS"),
-                     notification.poll());
+        await().atMost(5, TimeUnit.SECONDS)
+            .with().pollInterval(Durations.ONE_HUNDRED_MILLISECONDS)
+            .until(() -> {
+                obj.set(notification.poll());
+                return obj.get() != null;
+            });
+        assertSubset(json("notification", "FINAL: SUCCESS"), obj.get());
 
         // sleep to allow DB update
         Thread.sleep(1000);
