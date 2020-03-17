@@ -21,6 +21,7 @@
 
 package org.onap.policy.m2.test;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertNotNull;
 import static org.onap.policy.guard.Util.ONAP_KEY_PASS;
 import static org.onap.policy.guard.Util.ONAP_KEY_URL;
@@ -32,9 +33,13 @@ import static org.onap.policy.m2.test.Util.json;
 import com.google.gson.JsonObject;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.awaitility.Durations;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -149,8 +154,8 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive active notification, and restart operation
-        assertSubset(json("notification", "ACTIVE"),
-                     notification.poll());
+        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+            json("notification", "ACTIVE"));
 
         appcOperation(req, "Restart", 400, "Restart Successful");
 
@@ -159,8 +164,8 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive final success notification
-        assertSubset(json("notification", "FINAL: SUCCESS"),
-                     notification.poll());
+        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+                json("notification", "FINAL: SUCCESS"));
 
         // sleep to allow DB update
         Thread.sleep(1000);
@@ -177,8 +182,8 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // active notification, and restart 1 operation
-        assertSubset(json("notification", "ACTIVE"),
-                     notification.poll());
+        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+                json("notification", "ACTIVE"));
 
         appcOperation(req, "Restart", 450, "Restart 1 Failed");
         appcOperation(req, "Restart", 450, "Restart 2 Failed");
@@ -191,11 +196,23 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive final success notification
-        assertSubset(json("notification", "FINAL: SUCCESS"),
-                     notification.poll());
+        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+                json("notification", "FINAL: SUCCESS"));
 
         // sleep to allow DB update
         Thread.sleep(1000);
+    }
+
+    private void awaitAndAssert(int maxWaitSecond, Duration pollIntervalMilli, Input notification,
+        JsonObject jsonObj) {
+        AtomicReference<JsonObject> obj = new AtomicReference<>();
+        await().atMost(maxWaitSecond, TimeUnit.SECONDS)
+            .with().pollInterval(pollIntervalMilli)
+            .until(() -> {
+                obj.set(notification.poll());
+                return obj.get() != null;
+            });
+        assertSubset(jsonObj, obj.get());
     }
 
     private void appcOperation(Request req, String name, int responseCode, String responseMessage)
