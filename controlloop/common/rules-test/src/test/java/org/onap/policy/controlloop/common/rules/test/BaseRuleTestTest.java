@@ -316,6 +316,21 @@ public class BaseRuleTestTest {
     }
 
     @Test
+    public void testTestVfwRainyDayLegacyFailure() {
+        checkAppcLegacyPolicyOperationFailure("ModifyConfig", base::testVfwRainyDayLegacyFailure);
+    }
+
+    @Test
+    public void testTestVfwRainyDayOverallTimeout() {
+        checkAppcLegacyPolicyFinalFailure("ModifyConfig", base::testVfwRainyDayOverallTimeout, true);
+    }
+
+    @Test
+    public void testTestVfwRainyDayCompliantTimeout() {
+        checkAppcLegacyPolicyFinalFailure("ModifyConfig", base::testVfwRainyDayCompliantTimeout, false);
+    }
+
+    @Test
     public void testTestVlbSunnyDayLegacy() {
         checkHttpPolicy(base::testVlbSunnyDayLegacy);
     }
@@ -363,6 +378,47 @@ public class BaseRuleTestTest {
 
         // reply to each APPC request
         verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
+    }
+
+    protected void checkAppcLegacyPolicyOperationFailure(String operation, Runnable test) {
+        enqueueAppcLegacy(operation);
+        enqueueClMgt(ControlLoopNotificationType.OPERATION_FAILURE);
+        enqueueClMgt(ControlLoopNotificationType.FINAL_FAILURE);
+
+        test.run();
+
+        assertEquals(1, permitCount);
+        assertEquals(1, finalCount);
+
+        assertTrue(appcLcmQueue.isEmpty());
+        assertTrue(clMgtQueue.isEmpty());
+
+        // initial event
+        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+
+        // reply to each APPC request
+        verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
+    }
+
+    protected void checkAppcLegacyPolicyFinalFailure(String operation, Runnable test, boolean requestSent) {
+        enqueueAppcLegacy(operation);
+        enqueueClMgt(ControlLoopNotificationType.FINAL_FAILURE);
+
+        test.run();
+
+        assertEquals(1, permitCount);
+        assertEquals(1, finalCount);
+
+        assertTrue(appcLcmQueue.isEmpty());
+        assertTrue(clMgtQueue.isEmpty());
+
+        // initial event
+        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+
+        // reply to each APPC request
+        if (requestSent) {
+            verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
+        }
     }
 
     protected void checkHttpPolicy(Runnable test) {
