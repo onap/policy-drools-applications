@@ -115,6 +115,6 @@ public class UsecasesTest extends BaseRuleTest {
                     Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType) {
 
         return policyClMgt.await(notif -> notif.getNotification() == finalType
-                        && (policy.getIdentifier().getName() + ".EVENT.MANAGER").equals(notif.getPolicyName()));
+                        && (notif.getPolicyName().contains(policy.getIdentifier().getName() + ".EVENT.MANAGER")));
     }
 }
