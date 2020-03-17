@@ -74,6 +74,7 @@ import org.slf4j.LoggerFactory;
 public class Rules {
     private static final Logger logger = LoggerFactory.getLogger(Rules.class);
     private static final StandardCoder coder = new StandardCoder();
+    private static final String POLICY_MSG = "policy ";
 
     /**
      * PDP-D Engine.
@@ -116,7 +117,7 @@ public class Rules {
             File kmoduleFile = new File(resourceDir + "/META-INF/kmodule.xml");
             File pomFile = new File("src/test/resources/" + controllerName + ".pom");
             String resourceDir2 = resourceDir + "/org/onap/policy/controlloop/";
-            File ruleFile = new File(resourceDir + "/" + controllerName + ".drl");
+            File ruleFile = new File(resourceDir + File.separator + controllerName + ".drl");
             List<File> ruleFiles = Collections.singletonList(ruleFile);
 
             installArtifact(kmoduleFile, pomFile, resourceDir2, ruleFiles);
@@ -181,8 +182,12 @@ public class Rules {
         try {
             return setupPolicy(getPolicyFromTemplate(templatePath, policyName));
 
-        } catch (InterruptedException | CoderException e) {
-            throw new IllegalArgumentException("policy " + policyName, e);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(POLICY_MSG + policyName, e);
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalArgumentException(POLICY_MSG + policyName, e);
         }
     }
 
@@ -218,12 +223,16 @@ public class Rules {
         try {
             return setupPolicy(getPolicyFromFile(policyPath));
 
-        } catch (InterruptedException | IOException | CoderException e) {
-            throw new IllegalArgumentException("policy " + policyPath, e);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(POLICY_MSG + policyPath, e);
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalArgumentException(POLICY_MSG + policyPath, e);
         }
     }
 
-    private ToscaPolicy getPolicyFromFile(String policyPath) throws IOException, CoderException {
+    private ToscaPolicy getPolicyFromFile(String policyPath) throws CoderException {
         String policyJson = ResourceUtils.getResourceAsString(policyPath);
         if (policyJson == null) {
             throw new CoderException(new FileNotFoundException(policyPath));
@@ -232,7 +241,7 @@ public class Rules {
         return coder.decode(policyJson, ToscaPolicy.class);
     }
 
-    private ToscaPolicy setupPolicy(ToscaPolicy policy) throws InterruptedException {
+    protected ToscaPolicy setupPolicy(ToscaPolicy policy) throws InterruptedException {
         final KieObjectExpectedCallback<?> policyTracker = new KieObjectInsertedExpectedCallback<>(policy);
         final KieObjectExpectedCallback<?> paramsTracker =
                         new KieClassInsertedExpectedCallback<>(ControlLoopParams.class);
@@ -243,10 +252,10 @@ public class Rules {
         assertTrue(paramsTracker.isNotified());
 
         assertEquals(1, controller.getDrools().facts(controllerName, ToscaPolicy.class).stream()
-                        .filter((anotherPolicy) -> anotherPolicy == policy).count());
+                        .filter(anotherPolicy -> anotherPolicy == policy).count());
 
         assertEquals(1, controller.getDrools().facts(controllerName, ControlLoopParams.class).stream()
-                        .filter((params) -> params.getToscaPolicy() == policy).count());
+                        .filter(params -> params.getToscaPolicy() == policy).count());
         return policy;
     }
 
@@ -377,6 +386,7 @@ public class Rules {
             super(affected);
         }
 
+        @Override
         public void objectInserted(ObjectInsertedEvent event) {
             if (subject == event.getObject().getClass()) {
                 callbacked();
