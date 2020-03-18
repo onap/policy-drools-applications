@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31f81c35_9c8827c0",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/AppcLcmTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2020-03-18T04:07:09Z",
+      "side": 1,
+      "message": "Suggestion: Move the await logic into a method to reduce duplicated code. You could also include the assertion and pass in the subset you are expecting. Ex: awaitAndAssert(json(\"notification\", \"ACTIVE\"));",
+      "revId": "769f9786aeb918ea5b62452bc65c17eb752691aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
