@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fe791db_480c52d1",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-18T16:22:53Z",
+      "side": 1,
+      "message": "should this be appcLegacyRainyDayNoResponse, as we don\u0027t want to inject a response?",
+      "revId": "2ea489afcdacbf180487e484aa22d535d6a79f4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
