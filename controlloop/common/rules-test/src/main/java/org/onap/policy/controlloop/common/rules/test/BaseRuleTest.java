@@ -29,6 +29,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
+
 import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -87,8 +88,10 @@ public abstract class BaseRuleTest {
     // VFW
     private static final String VFW_TOSCA_LEGACY_POLICY = "vfw/tosca-vfw.json";
     private static final String VFW_TOSCA_COMPLIANT_POLICY = "vfw/tosca-compliant-vfw.json";
+    private static final String VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY = "vfw/tosca-compliant-timeout-vfw.json";
     private static final String VFW_ONSET = "vfw/vfw.onset.json";
     private static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
+    private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
 
     // VLB
     private static final String VLB_TOSCA_LEGACY_POLICY = "vlb/tosca-vlb.json";
@@ -110,7 +113,6 @@ public abstract class BaseRuleTest {
     protected static Rules rules;
     protected static HttpClients httpClients;
     protected static Simulators simulators;
-
 
     // used to inject and wait for messages
     @Getter(AccessLevel.PROTECTED)
@@ -322,6 +324,30 @@ public abstract class BaseRuleTest {
         appcLegacySunnyDay(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, "ModifyConfig");
     }
 
+    /**
+     * VFW Rainy Day using legacy tosca policy (operation and final failure).
+     */
+    @Test
+    public void testVfwRainyDayLegacyFailure() {
+        appcLegacyRainyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, "ModifyConfig");
+    }
+
+    /**
+     * VFW Rainy Day using compliant tosca policy (final failure).
+     */
+    @Test
+    public void testVfwRainyDayOverallTimeout() {
+        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY, VFW_ONSET, "ModifyConfig");
+    }
+
+    /**
+     * VFW Rainy day using compliant tosca policy (final failure due to timeout).
+     */
+    @Test
+    public void testVfwRainyDayCompliantTimeout() {
+        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, "ModifyConfig");
+    }
+
     // VLB
 
     /**
@@ -435,6 +461,81 @@ public abstract class BaseRuleTest {
     }
 
     /**
+     * Rainy day scenario for use cases that use Legacy APPC.
+     *
+     * @param policyFile file containing the ToscaPolicy to be loaded
+     * @param onsetFile file containing the ONSET to be injected
+     * @param operation expected APPC operation request
+     * @param checkOperation flag to determine whether or not to wait for operation timeout
+     */
+    protected void appcLegacyRainyDay(String policyFile, String onsetFile, String operation) {
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
+
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+
+        /* Inject an ONSET event over the DCAE topic */
+        topics.inject(DCAE_TOPIC, onsetFile);
+
+        /* Wait to acquire a LOCK and a PDP-X PERMIT */
+        waitForLockAndPermit(policy, policyClMgt);
+
+        /*
+         * Ensure that an APPC RESTART request was sent in response to the matching ONSET
+         */
+        Request appcreq = appcClSink.await(req -> operation.equals(req.getAction()));
+
+        /*
+         * Inject a 401 APPC Response Return over the APPC topic, with appropriate
+         * subRequestId
+         */
+        topics.inject(APPC_CL_TOPIC, VFW_APPC_FAILURE, appcreq.getCommonHeader().getSubRequestId());
+
+        /* --- Operation Completed --- */
+        waitForOperationFailure();
+
+        /* --- Transaction Completed --- */
+        waitForFinalFailure(policy, policyClMgt);
+    }
+
+    /**
+     * Rainy day scenario for use cases that use Legacy APPC.
+     * Expected to fail due to timeout.
+     *
+     * @param policyFile file containing the ToscaPolicy to be loaded
+     * @param onsetFile file containing the ONSET to be injected
+     * @param operation expected APPC operation request
+     */
+    protected void appcLegacyRainyDayNoResponse(String policyFile, String onsetFile, String operation) {
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
+
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+
+        /* Inject an ONSET event over the DCAE topic */
+        topics.inject(DCAE_TOPIC, onsetFile);
+
+        /* Wait to acquire a LOCK and a PDP-X PERMIT */
+        waitForLockAndPermit(policy, policyClMgt);
+
+        /*
+         * Ensure that an APPC RESTART request was sent in response to the matching ONSET
+         */
+        appcClSink.await(req -> operation.equals(req.getAction()));
+
+        /*
+         * Do not inject an APPC Response.
+         */
+
+        /* --- Transaction Completed --- */
+        waitForFinalFailure(policy, policyClMgt);
+    }
+
+    /**
      * Sunny day scenario for use cases that use an HTTP simulator.
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
@@ -478,6 +579,24 @@ public abstract class BaseRuleTest {
                     Listener<VirtualControlLoopNotification> policyClMgt) {
 
         return this.waitForFinal(policy, policyClMgt, ControlLoopNotificationType.FINAL_SUCCESS);
+    }
+
+    /**
+     * Waits for a OPERATION FAILURE transaction notification.
+     */
+    protected void waitForOperationFailure() {
+        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION_FAILURE);
+    }
+
+    /**
+     * Waits for a FINAL FAILURE transaction notification.
+     *
+     * @return the FINAL FAILURE notification
+     */
+    protected VirtualControlLoopNotification waitForFinalFailure(ToscaPolicy policy,
+                    Listener<VirtualControlLoopNotification> policyClMgt) {
+
+        return this.waitForFinal(policy, policyClMgt, ControlLoopNotificationType.FINAL_FAILURE);
     }
 
     /**

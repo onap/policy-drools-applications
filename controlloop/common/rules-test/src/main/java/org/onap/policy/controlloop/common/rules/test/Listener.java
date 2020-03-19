@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Listener<T> implements TopicListener {
     private static final Logger logger = LoggerFactory.getLogger(Listener.class);
-    private static final long DEFAULT_WAIT_SEC = 5L;
+    private static final long DEFAULT_WAIT_SEC = 10L;
 
     private final TopicSink sink;
     private final Function<String, T> decoder;
