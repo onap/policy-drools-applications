@@ -59,8 +59,13 @@ public class NamedRunnerTest {
         checkTest();
     }
 
+    /*
+     * Note: this test is purposely marked with the "Ignore" annotation to verify that the
+     * NamedRunner skips over it, hence the sonar issue is being suppressed.
+     */
     @Test
     @Ignore
+    @SuppressWarnings("java:S1607")
     public void testIgnore() {
         fail("should not run");
     }
