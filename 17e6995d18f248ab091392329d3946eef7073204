@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0415b1c_a0ae2694",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/APPC-CL-topic.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-19T23:26:49Z",
+      "side": 1,
+      "message": "managed is not needed and place the new installation variables in installation files in other projects.",
+      "revId": "17e6995d18f248ab091392329d3946eef7073204",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e3f0ebb_1c6546c5",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/DCAE_CL_RSP-topic.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-19T23:26:49Z",
+      "side": 1,
+      "message": "Not sure what this topic is for, but I am wondering here if it should reuse the api/secret from the DCAE channel, or should have its own.   I haven\u0027t seem in ONAP though api key/secret been used although the capability is there.",
+      "revId": "17e6995d18f248ab091392329d3946eef7073204",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
