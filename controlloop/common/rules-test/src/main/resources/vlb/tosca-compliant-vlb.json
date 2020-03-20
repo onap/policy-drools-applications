@@ -8,7 +8,7 @@
     },
     "properties": {
         "controllerName": "usecases",
-        "id": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
+        "id": "ControlLoop-vLB-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
         "timeout": 1200,
         "abatement": false,
         "trigger": "unique-policy-id-1-scale-up",
