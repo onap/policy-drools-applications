@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "500201ac_f2cb36da",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/event-manager.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-03-20T23:57:46Z",
+      "side": 1,
+      "message": "If I remove these, my test case times out at (below). It completes this step if these lines are present.  \n policyClMgt.await(notif -\u003e notif.getNotification() \u003d\u003d ControlLoopNotificationType.OPERATION\n                        \u0026\u0026 (policyName + \".EVENT.MANAGER.PROCESSING\").equals(notif.getPolicyName())\n                        \u0026\u0026 notif.getMessage().startsWith(\"Sending guard query\"));",
+      "parentUuid": "24b6d7c7_2a096f62",
+      "revId": "3bbcd3e09e637346aa4fff60d77738ebdd369120",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95b7a868_8d2f8745",
         "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/frankfurt-controller.properties",
         "patchSetId": 3
