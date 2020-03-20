@@ -301,6 +301,11 @@ public class BaseRuleTestTest {
     }
 
     @Test
+    public void testTestVdnsSunnyDayLegacy() {
+        checkHttpPolicy(base::testVdnsSunnyDayLegacy);
+    }
+
+    @Test
     public void testTestVdnsSunnyDayCompliant() {
         checkHttpPolicy(base::testVdnsSunnyDayCompliant);
     }
@@ -328,16 +333,6 @@ public class BaseRuleTestTest {
     @Test
     public void testTestVfwRainyDayCompliantTimeout() {
         checkAppcLegacyPolicyFinalFailure("ModifyConfig", base::testVfwRainyDayCompliantTimeout);
-    }
-
-    @Test
-    public void testTestVlbSunnyDayLegacy() {
-        checkHttpPolicy(base::testVlbSunnyDayLegacy);
-    }
-
-    @Test
-    public void testTestVlbSunnyDayCompliant() {
-        checkHttpPolicy(base::testVlbSunnyDayCompliant);
     }
 
     protected void checkAppcLcmPolicy(String operation, Runnable test) {
