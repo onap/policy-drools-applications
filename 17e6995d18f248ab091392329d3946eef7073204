@@ -33,6 +33,29 @@
       "revId": "17e6995d18f248ab091392329d3946eef7073204",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da175e1b_88703fcb",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/POLICY-CL-MGT-topic.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-03-20T09:32:58Z",
+      "side": 1,
+      "message": "Space, there are a few others as well.",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "17e6995d18f248ab091392329d3946eef7073204",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
