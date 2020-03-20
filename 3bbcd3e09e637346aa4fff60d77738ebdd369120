@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24b6d7c7_2a096f62",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/event-manager.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T21:43:18Z",
+      "side": 1,
+      "message": "I don\u0027t think these lines are needed",
+      "revId": "3bbcd3e09e637346aa4fff60d77738ebdd369120",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95b7a868_8d2f8745",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/frankfurt-controller.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T21:43:18Z",
+      "side": 1,
+      "message": "we can probably remove SDNR-CL and DCAE_CL_RSP",
+      "revId": "3bbcd3e09e637346aa4fff60d77738ebdd369120",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494aae8_4d953567",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/frankfurt-controller.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T21:43:18Z",
+      "side": 1,
+      "message": "and we can delete lines 56-60",
+      "revId": "3bbcd3e09e637346aa4fff60d77738ebdd369120",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66cf97f_f4b2bbd6",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T21:43:18Z",
+      "side": 1,
+      "message": "This comment is still not fully correct.  Maybe just change it to:\n\n  // inject response",
+      "revId": "3bbcd3e09e637346aa4fff60d77738ebdd369120",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
