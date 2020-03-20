@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe3dd44_a944dea3",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T13:07:57Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment below",
+      "revId": "035815232f9b2f575375dba5c0b35a2e25512c4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fa3bedf_f5b3ad9b",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T13:07:57Z",
+      "side": 1,
+      "message": "space after \",\"\n\nsame comment on line 419",
+      "revId": "035815232f9b2f575375dba5c0b35a2e25512c4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f9b8ef2_d213acef",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T13:07:57Z",
+      "side": 1,
+      "message": "is this comment still correct?",
+      "revId": "035815232f9b2f575375dba5c0b35a2e25512c4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b54a31c2_4eca784e",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTestTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-20T13:07:57Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment below",
+      "revId": "035815232f9b2f575375dba5c0b35a2e25512c4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
