@@ -56,6 +56,9 @@ import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
+import org.onap.policy.sdnr.PciCommonHeader;
+import org.onap.policy.sdnr.PciRequest;
+import org.onap.policy.sdnr.PciRequestWrapper;
 import org.powermock.reflect.Whitebox;
 
 public class BaseRuleTestTest {
@@ -71,6 +74,7 @@ public class BaseRuleTestTest {
     private BaseRuleTest base;
     private LinkedList<VirtualControlLoopNotification> clMgtQueue;
     private Queue<AppcLcmDmaapWrapper> appcLcmQueue;
+    private Queue<PciRequestWrapper> sdnrQueue;
     private Queue<Request> appcLegacyQueue;
     private int permitCount;
     private int finalCount;
@@ -89,6 +93,8 @@ public class BaseRuleTestTest {
     private Listener<VirtualControlLoopNotification> policyClMgt;
     @Mock
     private Listener<Request> appcClSink;
+    @Mock
+    private Listener<PciRequestWrapper> sdnrClSink;
     @Mock
     private Listener<AppcLcmDmaapWrapper> appcLcmRead;
     @Mock
@@ -147,6 +153,8 @@ public class BaseRuleTestTest {
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
         when(topics.createListener(eq(BaseRuleTest.APPC_CL_TOPIC), eq(Request.class),
                         any(StandardCoderInstantAsMillis.class))).thenReturn(appcClSink);
+        when(topics.createListener(eq(BaseRuleTest.SDNR_CL_TOPIC), eq(PciRequestWrapper.class),
+            any(StandardCoderInstantAsMillis.class))).thenReturn(sdnrClSink);
 
         Function<String, Rules> ruleMaker = this::makeRules;
         Supplier<HttpClients> httpClientMaker = this::makeHttpClients;
@@ -161,6 +169,7 @@ public class BaseRuleTestTest {
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();
         appcLegacyQueue = new LinkedList<>();
+        sdnrQueue = new LinkedList<>();
 
         when(policyClMgt.await(any())).thenAnswer(args -> {
             VirtualControlLoopNotification notif = clMgtQueue.remove();
@@ -181,6 +190,13 @@ public class BaseRuleTestTest {
             Predicate<Request> pred = args.getArgument(0);
             assertTrue(pred.test(req));
             return req;
+        });
+        
+        when(sdnrClSink.await(any())).thenAnswer(args -> {
+            PciRequestWrapper pcireq = sdnrQueue.remove();
+            Predicate<PciRequestWrapper> pred = args.getArgument(0);
+            assertTrue(pred.test(pcireq));
+            return pcireq;
         });
 
         permitCount = 0;
@@ -304,6 +320,16 @@ public class BaseRuleTestTest {
     public void testTestVdnsSunnyDayCompliant() {
         checkHttpPolicy(base::testVdnsSunnyDayCompliant);
     }
+    
+    @Test
+    public void testTestVpciSunnyDayLegacy() {
+        checkSdnrLegacyPolicy("ModifyConfig", base::testVpciSunnyDayLegacy);
+    }
+    
+    @Test
+    public void testTestVsonhSunnyDayLegacy() {
+        checkSdnrLegacyPolicy("ModifyConfigANR", base::testVsonhSunnyDayLegacy);
+    }
 
     @Test
     public void testTestVfwSunnyDayLegacy() {
@@ -339,6 +365,26 @@ public class BaseRuleTestTest {
     public void testTestVlbSunnyDayCompliant() {
         checkHttpPolicy(base::testVlbSunnyDayCompliant);
     }
+    
+    protected void checkSdnrLegacyPolicy(String operation, Runnable test) {
+        enqueueSdnrLegacy(operation);
+        enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
+        enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
+
+        test.run();
+
+        assertEquals(1, permitCount);
+        assertEquals(1, finalCount);
+
+        assertTrue(sdnrQueue.isEmpty());
+        assertTrue(clMgtQueue.isEmpty());
+
+        // initial event
+        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+
+        // reply to each SDNR request
+        verify(topics).inject(eq(BaseRuleTest.SDNR_CL_RSP_TOPIC), any(), any());
+    }
 
     protected void checkAppcLcmPolicy(String operation, Runnable test) {
         enqueueAppcLcm(operation);
@@ -359,6 +405,8 @@ public class BaseRuleTestTest {
         // reply to each APPC request
         verify(topics).inject(eq(BaseRuleTest.APPC_LCM_WRITE_TOPIC), any(), any());
     }
+    
+    
 
     protected void checkAppcLegacyPolicy(String operation, Runnable test) {
         enqueueAppcLegacy(operation);
@@ -472,6 +520,22 @@ public class BaseRuleTestTest {
             header.setSubRequestId("my-subrequest-id");
 
             appcLegacyQueue.add(req);
+        }
+    }
+    
+    private void enqueueSdnrLegacy(String... operationNames) {
+        for (String oper : operationNames) {
+            PciRequestWrapper pcireq = new PciRequestWrapper();
+            PciRequest req = new PciRequest();
+            pcireq.setBody(req);
+            pcireq.getBody().setAction(oper);
+
+            PciCommonHeader header = new PciCommonHeader();
+            pcireq.getBody().setCommonHeader(header);
+
+            header.setSubRequestId("my-subrequest-id");
+
+            sdnrQueue.add(pcireq);
         }
     }
 
