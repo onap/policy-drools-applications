@@ -40,6 +40,7 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.sdnr.PciRequestWrapper;
 
 /**
  * Superclass used for rule tests.
@@ -55,20 +56,27 @@ public abstract class BaseRuleTest {
     protected static final String POLICY_CL_MGT_TOPIC = "POLICY-CL-MGT";
     protected static final String APPC_LCM_READ_TOPIC = "APPC-LCM-READ";
     protected static final String APPC_CL_TOPIC = "APPC-CL";
+    protected static final String SDNR_CL_TOPIC = "SDNR-CL";
+    protected static final String SDNR_CL_RSP_TOPIC = "SDNR-CL-RSP";
 
     /*
      * Constants for each test case.
      */
 
     // service123 (i.e., multi-operation policy)
-    private static final String SERVICE123_TOSCA_COMPLIANT_POLICY = "service123/tosca-compliant-service123.json";
+    private static final String SERVICE123_TOSCA_COMPLIANT_POLICY =
+        "service123/tosca-compliant-service123.json";
     private static final String SERVICE123_ONSET = "service123/service123.onset.json";
-    private static final String SERVICE123_APPC_RESTART_FAILURE = "service123/service123.appc.restart.failure.json";
-    private static final String SERVICE123_APPC_REBUILD_FAILURE = "service123/service123.appc.rebuild.failure.json";
-    private static final String SERVICE123_APPC_MIGRATE_SUCCESS = "service123/service123.appc.migrate.success.json";
+    private static final String SERVICE123_APPC_RESTART_FAILURE =
+        "service123/service123.appc.restart.failure.json";
+    private static final String SERVICE123_APPC_REBUILD_FAILURE =
+        "service123/service123.appc.rebuild.failure.json";
+    private static final String SERVICE123_APPC_MIGRATE_SUCCESS =
+        "service123/service123.appc.migrate.success.json";
 
     // duplicates (i.e., mutliple events in the engine at the same time)
-    private static final String DUPLICATES_TOSCA_COMPLIANT_POLICY = "duplicates/tosca-compliant-duplicates.json";
+    private static final String DUPLICATES_TOSCA_COMPLIANT_POLICY =
+        "duplicates/tosca-compliant-duplicates.json";
     private static final String DUPLICATES_ONSET_1 = "duplicates/duplicates.onset.1.json";
     private static final String DUPLICATES_ONSET_2 = "duplicates/duplicates.onset.2.json";
     private static final String DUPLICATES_APPC_SUCCESS = "duplicates/duplicates.appc.success.json";
@@ -88,7 +96,8 @@ public abstract class BaseRuleTest {
     // VFW
     private static final String VFW_TOSCA_LEGACY_POLICY = "vfw/tosca-vfw.json";
     private static final String VFW_TOSCA_COMPLIANT_POLICY = "vfw/tosca-compliant-vfw.json";
-    private static final String VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY = "vfw/tosca-compliant-timeout-vfw.json";
+    private static final String VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY =
+        "vfw/tosca-compliant-timeout-vfw.json";
     private static final String VFW_ONSET = "vfw/vfw.onset.json";
     private static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
     private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
@@ -97,12 +106,27 @@ public abstract class BaseRuleTest {
     private static final String VLB_TOSCA_LEGACY_POLICY = "vlb/tosca-vlb.json";
     private static final String VLB_TOSCA_COMPLIANT_POLICY = "vlb/tosca-compliant-vlb.json";
     private static final String VLB_ONSET = "vlb/vlb.onset.json";
+    
+    // VPCI
+    private static final String VPCI_TOSCA_LEGACY_POLICY = "vpci/tosca-vpci.json";
+    private static final String VPCI_ONSET = "vpci/vpci.onset.json";
+    private static final String VPCI_SDNR_SUCCESS = "vpci/vpci.appc.success.json";
+    
+    // VSONH
+    private static final String VSONH_TOSCA_LEGACY_POLICY = "vsonh/tosca-vsonh.json";
+    private static final String VSONH_ONSET = "vsonh/vsonh.onset.json";
+    private static final String VSONH_SDNR_SUCCESS = "vsonh/vsonh.appc.success.json";
 
     /*
      * Coders used to decode requests and responses.
      */
     private static final Coder APPC_LEGACY_CODER = new StandardCoderInstantAsMillis();
     private static final Coder APPC_LCM_CODER = new StandardCoder();
+    
+    /*
+     * Coders used to decode requests and responses.
+     */
+    private static final Coder SDNR_LEGACY_CODER = new StandardCoderInstantAsMillis();
 
     // these may be overridden by junit tests
     private static Function<String, Rules> ruleMaker = Rules::new;
@@ -122,6 +146,7 @@ public abstract class BaseRuleTest {
     protected Listener<VirtualControlLoopNotification> policyClMgt;
     protected Listener<Request> appcClSink;
     protected Listener<AppcLcmDmaapWrapper> appcLcmRead;
+    protected Listener<PciRequestWrapper> sdnrClSink;
 
     protected PolicyController controller;
 
@@ -129,7 +154,6 @@ public abstract class BaseRuleTest {
      * Tosca Policy that was loaded.
      */
     protected ToscaPolicy policy;
-
 
     /**
      * Initializes {@link #rules}, {@link #httpClients}, and {@link #simulators}.
@@ -174,8 +198,10 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testService123Compliant() {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
-        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
+        appcLcmRead =
+            topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
         policy = rules.setupPolicyFromFile(SERVICE123_TOSCA_COMPLIANT_POLICY);
@@ -189,23 +215,24 @@ public abstract class BaseRuleTest {
 
         // restart request should be sent and fail four times (i.e., because retry=3)
         for (int count = 0; count < 4; ++count) {
-            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
+            AppcLcmDmaapWrapper appcreq =
+                appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_RESTART_FAILURE,
-                            appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
+                appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
         }
 
         // rebuild request should be sent and fail once
         AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> "rebuild".equals(req.getRpcName()));
 
         topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_REBUILD_FAILURE,
-                        appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
+            appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
 
         // migrate request should be sent and succeed
         appcreq = appcLcmRead.await(req -> "migrate".equals(req.getRpcName()));
 
         topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_MIGRATE_SUCCESS,
-                        appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
+            appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
 
         /* --- Operation Completed --- */
 
@@ -228,8 +255,10 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testDuplicatesEvents() {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
-        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
+        appcLcmRead =
+            topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
         policy = rules.setupPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
@@ -249,11 +278,12 @@ public abstract class BaseRuleTest {
 
         // should see two restarts
         for (int count = 0; count < 2; ++count) {
-            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
+            AppcLcmDmaapWrapper appcreq =
+                appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             // indicate success
             topics.inject(APPC_LCM_WRITE_TOPIC, DUPLICATES_APPC_SUCCESS,
-                            appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
+                appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
         }
 
         // should see two FINAL successes
@@ -261,10 +291,12 @@ public abstract class BaseRuleTest {
         VirtualControlLoopNotification notif2 = waitForFinalSuccess(policy, policyClMgt);
 
         // get the list of target names so we can ensure there's one of each
-        List<String> actual = List.of(notif1, notif2).stream().map(notif -> notif.getAai().get("generic-vnf.vnf-id"))
-                        .sorted().collect(Collectors.toList());
+        List<String> actual =
+            List.of(notif1, notif2).stream().map(notif -> notif.getAai().get("generic-vnf.vnf-id"))
+                .sorted().collect(Collectors.toList());
 
-        assertEquals(List.of("duplicate-VNF", "vCPE_Infrastructure_vGMUX_demo_app").toString(), actual.toString());
+        assertEquals(List.of("duplicate-VNF", "vCPE_Infrastructure_vGMUX_demo_app").toString(),
+            actual.toString());
     }
 
     // VCPE
@@ -292,8 +324,8 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVcpeOnsetFloodPrevention() {
-        appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, List.of(VCPE_ONSET_1, VCPE_ONSET_2, VCPE_ONSET_3),
-                        APPC_RESTART_OP);
+        appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY,
+            List.of(VCPE_ONSET_1, VCPE_ONSET_2, VCPE_ONSET_3), APPC_RESTART_OP);
     }
 
     // VDNS
@@ -337,7 +369,8 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVfwRainyDayOverallTimeout() {
-        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY, VFW_ONSET, "ModifyConfig");
+        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY, VFW_ONSET,
+            "ModifyConfig");
     }
 
     /**
@@ -365,6 +398,27 @@ public abstract class BaseRuleTest {
     public void testVlbSunnyDayCompliant() {
         httpSunnyDay(VLB_TOSCA_COMPLIANT_POLICY, VLB_ONSET);
     }
+    
+    // VPCI
+
+    /**
+     * VPCI Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void testVpciSunnyDayLegacy() {
+        sdnrLegacySunnyDay(VPCI_TOSCA_LEGACY_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS,"ModifyConfig");
+    }
+    
+    // VPCI
+
+    /**
+     * VPCI Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void testVsonhSunnyDayLegacy() {
+        sdnrLegacySunnyDay(VSONH_TOSCA_LEGACY_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS,"ModifyConfigANR");
+    }
+    
 
     /**
      * Sunny day scenario for use cases that use APPC-LCM.
@@ -385,8 +439,10 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void appcLcmSunnyDay(String policyFile, List<String> onsetFiles, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
-        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
+        appcLcmRead =
+            topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
         policy = rules.setupPolicyFromFile(policyFile);
@@ -410,7 +466,7 @@ public abstract class BaseRuleTest {
          * subRequestId
          */
         topics.inject(APPC_LCM_WRITE_TOPIC, VCPE_APPC_SUCCESS,
-                        appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
+            appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
 
         /* --- Operation Completed --- */
 
@@ -428,7 +484,8 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void appcLegacySunnyDay(String policyFile, String onsetFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
@@ -469,7 +526,8 @@ public abstract class BaseRuleTest {
      * @param checkOperation flag to determine whether or not to wait for operation timeout
      */
     protected void appcLegacyRainyDay(String policyFile, String onsetFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
@@ -508,8 +566,10 @@ public abstract class BaseRuleTest {
      * @param onsetFile file containing the ONSET to be injected
      * @param operation expected APPC operation request
      */
-    protected void appcLegacyRainyDayNoResponse(String policyFile, String onsetFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+    protected void appcLegacyRainyDayNoResponse(String policyFile, String onsetFile,
+        String operation) {
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
@@ -534,6 +594,47 @@ public abstract class BaseRuleTest {
         /* --- Transaction Completed --- */
         waitForFinalFailure(policy, policyClMgt);
     }
+    
+    /**
+     * Sunny day scenario for use cases that use Legacy APPC.
+     *
+     * @param policyFile file containing the ToscaPolicy to be loaded
+     * @param onsetFile file containing the ONSET to be injected
+     * @param operation expected APPC operation request
+     */
+    protected void sdnrLegacySunnyDay(String policyFile, String onsetFile, String successFile, String operation) {
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
+        sdnrClSink = topics.createListener(SDNR_CL_TOPIC, PciRequestWrapper.class, SDNR_LEGACY_CODER);
+
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+
+        /* Inject an ONSET event over the DCAE topic */
+        topics.inject(DCAE_TOPIC, onsetFile);
+
+        /* Wait to acquire a LOCK and a PDP-X PERMIT */
+        waitForLockAndPermit(policy, policyClMgt);
+
+        /*
+         * Ensure that an SDNR RESTART request was sent in response to the matching ONSET
+         */
+        PciRequestWrapper pcireq = sdnrClSink.await(req -> operation.equals(req.getBody().getAction()));
+
+        /*
+         * Inject a 400 APPC Response Return over the APPC topic, with appropriate
+         * subRequestId
+         */
+        topics.inject(SDNR_CL_RSP_TOPIC, successFile, pcireq.getBody().getCommonHeader().getSubRequestId());
+
+        /* --- Operation Completed --- */
+
+        waitForOperationSuccess();
+
+        /* --- Transaction Completed --- */
+        waitForFinalSuccess(policy, policyClMgt);
+    }
 
     /**
      * Sunny day scenario for use cases that use an HTTP simulator.
@@ -543,7 +644,8 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void httpSunnyDay(String policyFile, String onsetFile) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
 
         assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
         policy = rules.setupPolicyFromFile(policyFile);
@@ -567,7 +669,8 @@ public abstract class BaseRuleTest {
      * Waits for a OPERATION SUCCESS transaction notification.
      */
     protected void waitForOperationSuccess() {
-        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION_SUCCESS);
+        policyClMgt.await(
+            notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION_SUCCESS);
     }
 
     /**
@@ -576,7 +679,7 @@ public abstract class BaseRuleTest {
      * @return the FINAL SUCCESS notification
      */
     protected VirtualControlLoopNotification waitForFinalSuccess(ToscaPolicy policy,
-                    Listener<VirtualControlLoopNotification> policyClMgt) {
+        Listener<VirtualControlLoopNotification> policyClMgt) {
 
         return this.waitForFinal(policy, policyClMgt, ControlLoopNotificationType.FINAL_SUCCESS);
     }
@@ -585,7 +688,8 @@ public abstract class BaseRuleTest {
      * Waits for a OPERATION FAILURE transaction notification.
      */
     protected void waitForOperationFailure() {
-        policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION_FAILURE);
+        policyClMgt.await(
+            notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION_FAILURE);
     }
 
     /**
@@ -594,7 +698,7 @@ public abstract class BaseRuleTest {
      * @return the FINAL FAILURE notification
      */
     protected VirtualControlLoopNotification waitForFinalFailure(ToscaPolicy policy,
-                    Listener<VirtualControlLoopNotification> policyClMgt) {
+        Listener<VirtualControlLoopNotification> policyClMgt) {
 
         return this.waitForFinal(policy, policyClMgt, ControlLoopNotificationType.FINAL_FAILURE);
     }
@@ -604,7 +708,7 @@ public abstract class BaseRuleTest {
      * processing may proceed.
      */
     protected abstract void waitForLockAndPermit(ToscaPolicy policy,
-                    Listener<VirtualControlLoopNotification> policyClMgt);
+        Listener<VirtualControlLoopNotification> policyClMgt);
 
     /**
      * Waits for a FINAL transaction notification.
@@ -614,5 +718,6 @@ public abstract class BaseRuleTest {
      * @return the FINAL notification
      */
     protected abstract VirtualControlLoopNotification waitForFinal(ToscaPolicy policy,
-                    Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType);
+        Listener<VirtualControlLoopNotification> policyClMgt,
+        ControlLoopNotificationType finalType);
 }
