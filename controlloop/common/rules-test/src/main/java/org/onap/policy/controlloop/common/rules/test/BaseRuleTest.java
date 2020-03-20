@@ -46,6 +46,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  */
 public abstract class BaseRuleTest {
     private static final String APPC_RESTART_OP = "restart";
+    private static final String APPC_MODIFY_CONFIG_OP = "ModifyConfig";
 
     /*
      * Canonical Topic Names.
@@ -92,11 +93,6 @@ public abstract class BaseRuleTest {
     private static final String VFW_ONSET = "vfw/vfw.onset.json";
     private static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
     private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
-
-    // VLB
-    private static final String VLB_TOSCA_LEGACY_POLICY = "vlb/tosca-vlb.json";
-    private static final String VLB_TOSCA_COMPLIANT_POLICY = "vlb/tosca-compliant-vlb.json";
-    private static final String VLB_ONSET = "vlb/vlb.onset.json";
 
     /*
      * Coders used to decode requests and responses.
@@ -313,7 +309,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVfwSunnyDayLegacy() {
-        appcLegacySunnyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, "ModifyConfig");
+        appcLegacySunnyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
 
     /**
@@ -321,7 +317,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVfwSunnyDayCompliant() {
-        appcLegacySunnyDay(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, "ModifyConfig");
+        appcLegacySunnyDay(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
 
     /**
@@ -329,7 +325,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVfwRainyDayLegacyFailure() {
-        appcLegacyRainyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, "ModifyConfig");
+        appcLegacyRainyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
 
     /**
@@ -337,7 +333,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVfwRainyDayOverallTimeout() {
-        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY, VFW_ONSET, "ModifyConfig");
+        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
 
     /**
@@ -345,25 +341,7 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testVfwRainyDayCompliantTimeout() {
-        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, "ModifyConfig");
-    }
-
-    // VLB
-
-    /**
-     * Sunny Day with Legacy Tosca Policy.
-     */
-    @Test
-    public void testVlbSunnyDayLegacy() {
-        httpSunnyDay(VLB_TOSCA_LEGACY_POLICY, VLB_ONSET);
-    }
-
-    /**
-     * Sunny Day with Tosca Compliant Policy.
-     */
-    @Test
-    public void testVlbSunnyDayCompliant() {
-        httpSunnyDay(VLB_TOSCA_COMPLIANT_POLICY, VLB_ONSET);
+        appcLegacyRainyDayNoResponse(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
 
     /**

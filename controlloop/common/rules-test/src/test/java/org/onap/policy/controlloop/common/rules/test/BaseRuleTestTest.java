@@ -330,16 +330,6 @@ public class BaseRuleTestTest {
         checkAppcLegacyPolicyFinalFailure("ModifyConfig", base::testVfwRainyDayCompliantTimeout);
     }
 
-    @Test
-    public void testTestVlbSunnyDayLegacy() {
-        checkHttpPolicy(base::testVlbSunnyDayLegacy);
-    }
-
-    @Test
-    public void testTestVlbSunnyDayCompliant() {
-        checkHttpPolicy(base::testVlbSunnyDayCompliant);
-    }
-
     protected void checkAppcLcmPolicy(String operation, Runnable test) {
         enqueueAppcLcm(operation);
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
