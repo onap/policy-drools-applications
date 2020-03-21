@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23662242_36926b04",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/frankfurt-controller.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-21T16:28:38Z",
+      "side": 1,
+      "message": "Pramod and I talked about SDNR-CL topic, we were not sure how it was used.  So, are we saying that responses only come from SDNR-CL-RSP?  \n\nChanges are also needed in the corresponding in the SDNR-CL*-topic files and in the official frankfurt and usecases features.   I think these changes are missing.",
+      "revId": "8282dffb138d80730a36ddac2833bac9fadc82ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3941733a_bc5294f2",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/event-manager.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-21T16:28:38Z",
+      "side": 1,
+      "message": "do you want to leave it empty if we don\u0027t know it for the official copy?",
+      "revId": "8282dffb138d80730a36ddac2833bac9fadc82ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
