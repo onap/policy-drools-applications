@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "524497ea_0555936b",
+        "filename": "controlloop/common/guard/src/main/java/org/onap/policy/guard/PolicyGuardXacmlHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-23T22:36:32Z",
+      "side": 1,
+      "message": "I agree with this change, let\u0027s remove recipe. I will submit a review for xacml-pdp to recognize \"operation\" instead. I think this slipped my mind to go back and check this.",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 58
+      },
+      "revId": "6084c6dcf5bf061f33204e01116573160bf39fa6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
