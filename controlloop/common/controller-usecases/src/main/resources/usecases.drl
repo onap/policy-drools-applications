@@ -775,7 +775,7 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_NOT_YET_QUERIED"
     //
 
     // NOTE: The environment properties uses "guard.disabled" but the boolean is guardEnabled
-    boolean guardEnabled = "false".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
+    boolean guardEnabled = true; // "false".equalsIgnoreCase(PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
 
     if(guardEnabled){
 

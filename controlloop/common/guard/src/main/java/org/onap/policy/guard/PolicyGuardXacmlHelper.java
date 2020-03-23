@@ -1,8 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * guard
+ * ONAP
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,7 +72,7 @@ public class PolicyGuardXacmlHelper {
         decisionRequest.setAction("guard");
         Map<String, String> guard = new HashMap<>();
         guard.put("actor", xacmlReq.getActorId());
-        guard.put("recipe", xacmlReq.getOperationId());
+        guard.put("operation", xacmlReq.getOperationId());
         guard.put("target", xacmlReq.getTargetId());
         if (xacmlReq.getClnameId() != null) {
             guard.put("clname", xacmlReq.getClnameId());

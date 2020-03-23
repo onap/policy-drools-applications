@@ -41,7 +41,7 @@ pdpx.password=pdpx
 
 guard.url=http://localhost:6669/policy/pdpx/v1/decision
 guard.jdbc.url=jdbc:mariadb://localhost:3306/operationshistory
-guard.disabled=true
+#guard.disabled=false
 
 sdnc.url=sdnc
 sdnc.username=sdnc
