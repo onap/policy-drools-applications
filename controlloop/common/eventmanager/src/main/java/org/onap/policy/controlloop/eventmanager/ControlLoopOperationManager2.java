@@ -107,6 +107,13 @@ public class ControlLoopOperationManager2 implements Serializable {
     private final Deque<Operation> operationHistory = new ConcurrentLinkedDeque<>();
 
     /**
+     * Set to {@code true} to prevent the last item in {@link #operationHistory} from
+     * being included in the outcome of {@link #getHistory()}. Used when the operation
+     * aborts prematurely due to lock-denied, guard-denied, etc.
+     */
+    private boolean holdLast = false;
+
+    /**
      * Queue of outcomes yet to be processed. Outcomes are added to this each time the
      * "start" or "complete" callback is invoked.
      */
@@ -417,6 +424,7 @@ public class ControlLoopOperationManager2 implements Serializable {
             case LOCK_LOST:
             case GUARD_DENIED:
             case CONTROL_LOOP_TIMEOUT:
+                holdLast = false;
                 return false;
             default:
                 break;
@@ -541,8 +549,16 @@ public class ControlLoopOperationManager2 implements Serializable {
      * @return the list of control loop operations
      */
     public List<ControlLoopOperation> getHistory() {
-        return operationHistory.stream().map(Operation::getClOperation).map(ControlLoopOperation::new)
-                        .collect(Collectors.toList());
+        Operation last = (holdLast ? operationHistory.removeLast() : null);
+
+        List<ControlLoopOperation> result = operationHistory.stream().map(Operation::getClOperation)
+                        .map(ControlLoopOperation::new).collect(Collectors.toList());
+
+        if (last != null) {
+            operationHistory.add(last);
+        }
+
+        return result;
     }
 
     /**
@@ -553,6 +569,9 @@ public class ControlLoopOperationManager2 implements Serializable {
      * @param message message to put into the DB
      */
     private void storeFailureInDataBase(OperationOutcome outcome, PolicyResult result, String message) {
+        // don't include this in history yet
+        holdLast = true;
+
         outcome.setActor(actor);
         outcome.setOperation(operation);
         outcome.setMessage(message);
