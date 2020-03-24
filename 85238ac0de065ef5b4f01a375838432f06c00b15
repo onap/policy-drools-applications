@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c482454_f544a20a",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/SDNC-http-client.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-24T15:04:47Z",
+      "side": 1,
+      "message": "I think it\u0027s ok, but remove the \":\" at end.   It would be great also to change the other env in these files to envd instead.",
+      "revId": "85238ac0de065ef5b4f01a375838432f06c00b15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
