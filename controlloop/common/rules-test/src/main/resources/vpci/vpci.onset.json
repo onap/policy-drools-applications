@@ -1,0 +1,18 @@
+{
+    "closedLoopControlName": "ControlLoop-vPCI-fb41f388-a5f2-11e8-98d0-529269fb1459",
+    "closedLoopAlarmStart": 1510187409180,
+    "closedLoopEventClient": "microservice.PCI",
+    "closedLoopEventStatus": "ONSET",
+    "requestID": "9d2d790e-a5f0-11e8-98d0-529269fb1459",
+    "target_type": "PNF",
+    "target": "pnf.pnf-name",
+    "AAI": {
+        "generic-vnf.is-closed-loop-disabled": "false",
+        "generic-vnf.prov-status": "ACTIVE",
+        "pnf.pnf-name": "OzPServer"
+    },
+    "from": "PCIMS",
+    "version": "1.0.2",
+    "Action": "ModifyConfig",
+    "payload": "{\"Configurations\":[{\"data\":{\"FAPService\":{\"alias\":\"Chn0330\",\"X0005b9Lte\":{\"phyCellIdInUse\":6,\"pnfName\":\"ncserver23\"},\"CellConfig\":{\"LTE\":{\"RAN\":{\"Common\":{\"CellIdentity\":\"Chn0330\"}}}}}}},{\"data\":{\"FAPService\":{\"alias\":\"Chn0331\",\"X0005b9Lte\":{\"phyCellIdInUse\":7,\"pnfName\":\"ncserver23\"},\"CellConfig\":{\"LTE\":{\"RAN\":{\"Common\":{\"CellIdentity\":\"Chn0331\"}}}}}}}]}"
+}
