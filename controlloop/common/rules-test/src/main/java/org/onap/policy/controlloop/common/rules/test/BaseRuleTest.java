@@ -41,6 +41,7 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.sdnr.PciMessage;
 
 /**
  * Superclass used for rule tests.
@@ -57,6 +58,8 @@ public abstract class BaseRuleTest {
     protected static final String POLICY_CL_MGT_TOPIC = "POLICY-CL-MGT";
     protected static final String APPC_LCM_READ_TOPIC = "APPC-LCM-READ";
     protected static final String APPC_CL_TOPIC = "APPC-CL";
+    protected static final String SDNR_CL_TOPIC = "SDNR-CL";
+    protected static final String SDNR_CL_RSP_TOPIC = "SDNR-CL-RSP";
 
     /*
      * Constants for each test case.
@@ -96,11 +99,28 @@ public abstract class BaseRuleTest {
     private static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
     private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
 
+    // VPCI
+    private static final String VPCI_TOSCA_POLICY = "vpci/tosca-vpci.json";
+    private static final String VPCI_TOSCA_COMPLIANT_POLICY = "vpci/tosca-compliant-vpci.json";
+    private static final String VPCI_ONSET = "vpci/vpci.onset.json";
+    private static final String VPCI_SDNR_SUCCESS = "vpci/vpci.sdnr.success.json";
+
+    // VSONH
+    private static final String VSONH_TOSCA_POLICY = "vsonh/tosca-vsonh.json";
+    private static final String VSONH_TOSCA_COMPLIANT_POLICY = "vsonh/tosca-compliant-vsonh.json";
+    private static final String VSONH_ONSET = "vsonh/vsonh.onset.json";
+    private static final String VSONH_SDNR_SUCCESS = "vsonh/vsonh.sdnr.success.json";
+
     /*
      * Coders used to decode requests and responses.
      */
     private static final Coder APPC_LEGACY_CODER = new StandardCoderInstantAsMillis();
     private static final Coder APPC_LCM_CODER = new StandardCoder();
+
+    /*
+     * Coders used to decode requests and responses.
+     */
+    private static final Coder SDNR_CODER = new StandardCoder();
 
     // these may be overridden by junit tests
     private static Function<String, Rules> ruleMaker = Rules::new;
@@ -120,6 +140,7 @@ public abstract class BaseRuleTest {
     protected Listener<VirtualControlLoopNotification> policyClMgt;
     protected Listener<Request> appcClSink;
     protected Listener<AppcLcmDmaapWrapper> appcLcmRead;
+    protected Listener<PciMessage> sdnrClSink;
 
     protected PolicyController controller;
 
@@ -358,6 +379,40 @@ public abstract class BaseRuleTest {
     }
 
     /**
+     * VPCI Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void testVpciSunnyDayLegacy() {
+        sdnrSunnyDay(VPCI_TOSCA_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS, "ModifyConfig");
+    }
+
+    /**
+     * VPCI Sunny Day Tosca Policy.
+     */
+    @Test
+    public void testVpciSunnyDayCompliant() {
+        sdnrSunnyDay(VPCI_TOSCA_COMPLIANT_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS, "ModifyConfig");
+    }
+
+    // VSONH
+
+    /**
+     * VSONH Sunny Day with Legacy Tosca Policy.
+     */
+    @Test
+    public void testVsonhSunnyDayLegacy() {
+        sdnrSunnyDay(VSONH_TOSCA_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, "ModifyConfig");
+    }
+
+    /**
+     * VSONH Sunny Day with Tosca Policy.
+     */
+    @Test
+    public void testVsonhSunnyDayCompliant() {
+        sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, "ModifyConfig");
+    }
+
+    /**
      * Sunny day scenario for use cases that use APPC-LCM.
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
@@ -524,6 +579,46 @@ public abstract class BaseRuleTest {
 
         /* --- Transaction Completed --- */
         waitForFinalFailure(policy, policyClMgt);
+    }
+
+    /**
+     * Sunny day scenario for use cases that use SDNR.
+     *
+     * @param policyFile file containing the ToscaPolicy to be loaded
+     * @param onsetFile file containing the ONSET to be injected
+     * @param operation expected SDNR operation request
+     */
+    protected void sdnrSunnyDay(String policyFile, String onsetFile, String successFile, String operation) {
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
+        sdnrClSink = topics.createListener(SDNR_CL_TOPIC, PciMessage.class, SDNR_CODER);
+
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+
+        /* Inject an ONSET event over the DCAE topic */
+        topics.inject(DCAE_TOPIC, onsetFile);
+
+        /* Wait to acquire a LOCK and a PDP-X PERMIT */
+        waitForLockAndPermit(policy, policyClMgt);
+
+        /*
+         * Ensure that an SDNR RESTART request was sent in response to the matching ONSET
+         */
+        PciMessage pcireq = sdnrClSink.await(req -> operation.equals(req.getBody().getInput().getAction()));
+
+        /*
+         * Inject response.
+         */
+        topics.inject(SDNR_CL_RSP_TOPIC, successFile, pcireq.getBody().getInput().getCommonHeader().getSubRequestId());
+
+        /* --- Operation Completed --- */
+
+        waitForOperationSuccess();
+
+        /* --- Transaction Completed --- */
+        waitForFinalSuccess(policy, policyClMgt);
     }
 
     /**
