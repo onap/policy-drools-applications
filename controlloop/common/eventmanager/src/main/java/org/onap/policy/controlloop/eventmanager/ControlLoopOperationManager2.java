@@ -585,7 +585,7 @@ public class ControlLoopOperationManager2 implements Serializable {
      * Stores the latest operation in the DB.
      */
     private void storeOperationInDataBase() {
-        operContext.getDataManager().store(requestId, eventContext.getEvent(),
+        operContext.getDataManager().store(requestId, eventContext.getEvent(), targetEntity,
                         operationHistory.peekLast().getClOperation());
     }
 

@@ -34,9 +34,10 @@ public interface OperationHistoryDataManager {
      *
      * @param requestId request ID
      * @param event event with which the operation is associated
+     * @param targetEntity target entity associated with the operation
      * @param operation operation to be stored
      */
-    void store(String requestId, VirtualControlLoopEvent event, ControlLoopOperation operation);
+    void store(String requestId, VirtualControlLoopEvent event, String targetEntity, ControlLoopOperation operation);
 
     /**
      * Starts the background thread.

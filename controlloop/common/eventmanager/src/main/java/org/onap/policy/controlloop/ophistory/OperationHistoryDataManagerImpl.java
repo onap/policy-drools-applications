@@ -110,6 +110,8 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
             return;
         }
 
+        logger.info("start operation history thread");
+
         thread = makeThread(emFactory, this::run);
         thread.setDaemon(true);
         thread.start();
@@ -117,6 +119,8 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
 
     @Override
     public synchronized void stop() {
+        logger.info("requesting stop of operation history thread");
+
         stopped = true;
 
         if (thread == null) {
@@ -130,7 +134,8 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     }
 
     @Override
-    public synchronized void store(String requestId, VirtualControlLoopEvent event, ControlLoopOperation operation) {
+    public synchronized void store(String requestId, VirtualControlLoopEvent event, String targetEntity,
+                    ControlLoopOperation operation) {
 
         if (stopped) {
             logger.warn("operation history thread is stopped, discarding requestId={} event={} operation={}", requestId,
@@ -138,7 +143,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
             return;
         }
 
-        operations.add(new Record(requestId, event, operation));
+        operations.add(new Record(requestId, event, targetEntity, operation));
 
         if (operations.size() > maxQueueLength) {
             Record discarded = operations.remove();
@@ -204,6 +209,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      * @param firstRecord first record to be stored
      */
     private void storeBatch(EntityManager entityManager, Record firstRecord) {
+        logger.info("store operation history record batch");
 
         try (EntityMgrCloser emc = new EntityMgrCloser(entityManager);
                         EntityTransCloser trans = new EntityTransCloser(entityManager.getTransaction())) {
@@ -233,17 +239,18 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      * @param record record to be stored
      */
     private void storeRecord(EntityManager entityMgr, Record record) {
-
         Dbao newEntry = new Dbao();
 
         final VirtualControlLoopEvent event = record.getEvent();
         final ControlLoopOperation operation = record.getOperation();
 
+        logger.info("store operation history record for {}", event.getRequestId());
+
         newEntry.setClosedLoopName(event.getClosedLoopControlName());
         newEntry.setRequestId(record.getRequestId());
         newEntry.setActor(operation.getActor());
         newEntry.setOperation(operation.getOperation());
-        newEntry.setTarget(operation.getTarget());
+        newEntry.setTarget(record.getTargetEntity());
         newEntry.setSubrequestId(operation.getSubRequestId());
         newEntry.setMessage(operation.getMessage());
         newEntry.setOutcome(operation.getOutcome());
@@ -280,6 +287,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     private static class Record {
         private String requestId;
         private VirtualControlLoopEvent event;
+        private String targetEntity;
         private ControlLoopOperation operation;
     }
 

@@ -30,7 +30,7 @@ public class OperationHistoryDataManagerStubTest {
     public void test() {
         OperationHistoryDataManagerStub mgr = new OperationHistoryDataManagerStub();
 
-        assertThatCode(() -> mgr.store(null, null, null)).doesNotThrowAnyException();
+        assertThatCode(() -> mgr.store(null, null, null, null)).doesNotThrowAnyException();
         assertThatCode(() -> mgr.stop()).doesNotThrowAnyException();
     }
 }
