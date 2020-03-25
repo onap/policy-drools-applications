@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b61a621_32753b62",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-25T19:14:52Z",
+      "side": 1,
+      "message": "probably we should set this to 1.6.1-SNAPSHOT as we already have some submissions in the drools repo for next time we release.",
+      "revId": "c4dc25c57c349041039ede62df9793eab5ccd28a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
