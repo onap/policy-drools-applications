@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90dbaf91_0bbf3026",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTestTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-25T16:01:10Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "aea35b83369978ce8d11247cf5bea0d7f4c151db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
