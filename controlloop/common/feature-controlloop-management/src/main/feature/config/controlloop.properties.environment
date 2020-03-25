@@ -43,7 +43,7 @@ pdpx.host=${envd:PDP_HOST}
 pdpx.username=${envd:PDP_USERNAME}
 pdpx.password=${envd:PDP_PASSWORD}
 
-guard.url=https://${envd:PDP_HOST}:${envd:PDP_PORT:443}/${envd:PDP_CONTEXT_URI}/decision
+guard.url=https://${envd:PDP_HOST}:${envd:PDP_PORT:443}/${envd:PDP_CONTEXT_URI}decision
 guard.jdbc.url=jdbc:mariadb://${envd:SQL_HOST}:3306/operationshistory
 guard.disabled=false
 
