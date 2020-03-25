@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5659489_a3b06807",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-25T19:29:06Z",
+      "side": 1,
+      "message": "agree",
+      "parentUuid": "0d046ad8_8c71ccc4",
+      "revId": "c4dc25c57c349041039ede62df9793eab5ccd28a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b61a621_32753b62",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-03-25T19:14:52Z",
       "side": 1,
       "message": "probably we should set this to 1.6.1-SNAPSHOT as we already have some submissions in the drools repo for next time we release.",
+      "revId": "c4dc25c57c349041039ede62df9793eab5ccd28a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58e560c9_72a1d7ef",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-03-25T19:29:06Z",
+      "side": 1,
+      "message": "agree",
+      "parentUuid": "6b61a621_32753b62",
       "revId": "c4dc25c57c349041039ede62df9793eab5ccd28a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
