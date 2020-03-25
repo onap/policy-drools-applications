@@ -31,19 +31,16 @@ import static org.onap.policy.m2.test.Util.assertSubset;
 import static org.onap.policy.m2.test.Util.json;
 
 import com.google.gson.JsonObject;
-
 import java.io.File;
 import java.time.Duration;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-
 import org.awaitility.Durations;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
@@ -154,7 +151,7 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive active notification, and restart operation
-        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+        awaitAndAssert(10, Durations.TWO_HUNDRED_MILLISECONDS, notification,
             json("notification", "ACTIVE"));
 
         appcOperation(req, "Restart", 400, "Restart Successful");
@@ -164,7 +161,7 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive final success notification
-        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+        awaitAndAssert(10, Durations.TWO_HUNDRED_MILLISECONDS, notification,
                 json("notification", "FINAL: SUCCESS"));
 
         // sleep to allow DB update
@@ -182,7 +179,7 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // active notification, and restart 1 operation
-        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+        awaitAndAssert(10, Durations.TWO_HUNDRED_MILLISECONDS, notification,
                 json("notification", "ACTIVE"));
 
         appcOperation(req, "Restart", 450, "Restart 1 Failed");
@@ -196,7 +193,7 @@ public class AppcLcmTest {
         dcae.send(req.msg);
 
         // receive final success notification
-        awaitAndAssert(5, Durations.TWO_HUNDRED_MILLISECONDS, notification,
+        awaitAndAssert(10, Durations.TWO_HUNDRED_MILLISECONDS, notification,
                 json("notification", "FINAL: SUCCESS"));
 
         // sleep to allow DB update
