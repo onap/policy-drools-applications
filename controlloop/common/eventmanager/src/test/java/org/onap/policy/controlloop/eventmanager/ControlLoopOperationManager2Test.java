@@ -276,7 +276,7 @@ public class ControlLoopOperationManager2Test {
         verify(mgrctx).updated(mgr);
 
         // should not have tried to store anything in the DB
-        verify(dataMgr, never()).store(any(), any(), any());
+        verify(dataMgr, never()).store(any(), any(), any(), any());
     }
 
     @Test
@@ -561,7 +561,7 @@ public class ControlLoopOperationManager2Test {
         assertTrue(mgr.nextStep());
         verify(mgrctx, times(2)).updated(mgr);
 
-        verify(dataMgr, never()).store(any(), any(), any());
+        verify(dataMgr, never()).store(any(), any(), any(), any());
     }
 
     /**
@@ -951,10 +951,13 @@ public class ControlLoopOperationManager2Test {
     }
 
     private void verifyDb(int nrecords, PolicyResult expectedResult, String expectedMsg) {
-        ArgumentCaptor<ControlLoopOperation> captor = ArgumentCaptor.forClass(ControlLoopOperation.class);
-        verify(dataMgr, times(nrecords)).store(any(), any(), captor.capture());
+        ArgumentCaptor<String> entityCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<ControlLoopOperation> opCaptor = ArgumentCaptor.forClass(ControlLoopOperation.class);
+        verify(dataMgr, times(nrecords)).store(any(), any(), entityCaptor.capture(), opCaptor.capture());
 
-        ControlLoopOperation oper = captor.getValue();
+        assertEquals(MY_TARGET, entityCaptor.getValue());
+
+        ControlLoopOperation oper = opCaptor.getValue();
 
         assertEquals(expectedResult.toString(), oper.getOutcome());
         assertEquals(expectedMsg, oper.getMessage());

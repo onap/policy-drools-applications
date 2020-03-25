@@ -29,7 +29,8 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 public class OperationHistoryDataManagerStub implements OperationHistoryDataManager {
 
     @Override
-    public void store(String requestId, VirtualControlLoopEvent event, ControlLoopOperation operation) {
+    public void store(String requestId, VirtualControlLoopEvent event, String targetEntity,
+                    ControlLoopOperation operation) {
         // do nothing
     }
 

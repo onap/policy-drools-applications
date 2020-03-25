@@ -54,6 +54,7 @@ public class OperationHistoryDataManagerImplTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
     private static final String MY_TARGET = "my-target";
+    private static final String MY_ENTITY = "my-entity";
     private static final String REQ_ID = "my-request-id";
     private static final int BATCH_SIZE = 5;
     private static final int MAX_QUEUE_LENGTH = 23;
@@ -165,7 +166,7 @@ public class OperationHistoryDataManagerImplTest {
     @Test
     public void testStore_testStop() throws InterruptedException {
         // store
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         runThread();
 
@@ -192,7 +193,7 @@ public class OperationHistoryDataManagerImplTest {
         mgr.stop();
 
         // store
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         assertEquals(0, mgr.getRecordsAdded());
     }
@@ -204,7 +205,7 @@ public class OperationHistoryDataManagerImplTest {
     public void testStoreTooManyItems() throws InterruptedException {
         final int nextra = 5;
         for (int nitems = 0; nitems < MAX_QUEUE_LENGTH + nextra; ++nitems) {
-            mgr.store(REQ_ID, event, operation);
+            mgr.store(REQ_ID, event, MY_ENTITY, operation);
         }
 
         runThread();
@@ -225,9 +226,9 @@ public class OperationHistoryDataManagerImplTest {
         mgr = new RealThread();
         mgr.start();
 
-        mgr.store(REQ_ID, event, operation);
-        mgr.store(REQ_ID, event, operation);
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         waitForThread();
 
@@ -261,9 +262,9 @@ public class OperationHistoryDataManagerImplTest {
         mgr = new RealThread();
         mgr.start();
 
-        mgr.store(REQ_ID, event, operation);
-        mgr.store(REQ_ID, event, operation);
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         waitForThread();
 
@@ -278,7 +279,7 @@ public class OperationHistoryDataManagerImplTest {
         // arrange to throw an exception
         when(emfSpy.createEntityManager()).thenThrow(EXPECTED_EXCEPTION);
 
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         runThread();
     }
@@ -286,22 +287,22 @@ public class OperationHistoryDataManagerImplTest {
     @Test
     public void testStoreRecord() throws InterruptedException {
         // no start time
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // no start time
         operation = new ControlLoopOperation(operation);
         operation.setStart(Instant.now());
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // both start and end times
         operation = new ControlLoopOperation(operation);
         operation.setEnd(Instant.now());
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // only end time
         operation = new ControlLoopOperation(operation);
         operation.setStart(null);
-        mgr.store(REQ_ID, event, operation);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         runThread();
 
