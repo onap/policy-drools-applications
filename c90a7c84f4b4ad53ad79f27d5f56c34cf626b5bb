@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96da7a44_789ffef2",
+        "filename": "releases/1.6.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-03-25T18:27:35Z",
+      "side": 1,
+      "message": "change to \u0027policy-pdpd-cl\u0027",
+      "revId": "c90a7c84f4b4ad53ad79f27d5f56c34cf626b5bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
