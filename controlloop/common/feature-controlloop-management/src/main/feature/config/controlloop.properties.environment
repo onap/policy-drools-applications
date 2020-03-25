@@ -31,7 +31,7 @@ aai.url=https://${envd:AAI_HOST}:${envd:AAI_PORT:443}/${envd:AAI_CONTEXT_URI}
 aai.username=${envd:AAI_USERNAME}
 aai.password=${envd:AAI_PASSWORD}
 
-so.url=https://${envd:SO_HOST}:${envd:SO_PORT:443}/${envd:SO_CONTEXT_URI}
+so.url=${envd:SO_URL}
 so.username=${envd:SO_USERNAME}
 so.password=${envd:SO_PASSWORD}
 
