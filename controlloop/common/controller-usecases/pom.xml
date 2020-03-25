@@ -185,11 +185,16 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <profiles>
         <profile>
-            <!--This profile is used to store Eclipse m2e settings only. It has no 
+            <!--This profile is used to store Eclipse m2e settings only. It has no
                 influence on the Maven build itself. -->
             <id>only-eclipse</id>
             <activation>
