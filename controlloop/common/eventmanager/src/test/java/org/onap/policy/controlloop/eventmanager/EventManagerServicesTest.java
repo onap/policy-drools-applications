@@ -37,7 +37,7 @@ import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerImpl;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
-import org.onap.policy.drools.utils.PropertyUtil;
+import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 
 public class EventManagerServicesTest {
     private static final String FILEPFX = "eventService/";
@@ -54,8 +54,9 @@ public class EventManagerServicesTest {
         // start with a clean slate
         HttpClientFactoryInstance.getClientFactory().destroy();
 
-        Properties props =
-                        PropertyUtil.getProperties("src/test/resources/eventService/event-svc-http-client.properties");
+        SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
+
+        Properties props = SystemPersistenceConstants.getManager().getProperties("eventService/event-svc-http-client");
         HttpClientFactoryInstance.getClientFactory().build(props);
     }
 
@@ -72,12 +73,12 @@ public class EventManagerServicesTest {
     @Test
     public void testEventManagerServices_testGetActorService() {
         // try with guard disabled - should use DB stub
-        services = new EventManagerServices(FILEPFX + "event-svc-guard-disabled.properties");
+        services = new EventManagerServices(FILEPFX + "event-svc-guard-disabled");
         assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
         assertNotNull(services.getActorService());
 
         // try with guard enabled - should create a DB connection
-        services = new EventManagerServices(FILEPFX + "event-svc-with-db.properties");
+        services = new EventManagerServices(FILEPFX + "event-svc-with-db");
         assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerImpl);
         assertNotNull(services.getActorService());
     }
@@ -91,11 +92,11 @@ public class EventManagerServicesTest {
     @Test
     public void testIsGuardEnabled() {
         // cannot check guard
-        services = new EventManagerServices(FILEPFX + "event-svc-no-guard-actor.properties");
+        services = new EventManagerServices(FILEPFX + "event-svc-no-guard-actor");
         assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
 
         // force exception when checking for guard operator
-        services = new EventManagerServices(FILEPFX + "event-svc-with-db.properties") {
+        services = new EventManagerServices(FILEPFX + "event-svc-with-db") {
             @Override
             public ActorService getActorService() {
                 ActorService svc = mock(ActorService.class);
@@ -108,7 +109,7 @@ public class EventManagerServicesTest {
 
     @Test
     public void testMakeDataManager() {
-        assertThatThrownBy(() -> new EventManagerServices(FILEPFX + "event-svc-invalid-db.properties"));
+        assertThatThrownBy(() -> new EventManagerServices(FILEPFX + "event-svc-invalid-db"));
     }
 
 

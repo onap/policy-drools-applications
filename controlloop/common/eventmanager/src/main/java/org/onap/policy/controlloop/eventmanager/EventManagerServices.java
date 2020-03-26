@@ -20,15 +20,11 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 import lombok.Getter;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.properties.PropertyObjectUtils;
-import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actor.guard.GuardActorServiceProvider;
 import org.onap.policy.controlloop.actor.guard.GuardConfig;
 import org.onap.policy.controlloop.actor.guard.GuardOperation;
@@ -39,6 +35,7 @@ import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerImpl;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerParams;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
+import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,9 +79,8 @@ public class EventManagerServices {
      * @return the properties that were loaded from the configuration file
      */
     public Properties startActorService(String configFileName) {
-        try (InputStream inpstr = openConfigFile(configFileName)) {
-            Properties props = new Properties();
-            props.load(inpstr);
+        try {
+            Properties props = SystemPersistenceConstants.getManager().getProperties(configFileName);
 
             Map<String, Object> parameters = PropertyObjectUtils.toObject(props, ACTOR_SERVICE_PROPERTIES);
             PropertyObjectUtils.compressLists(parameters);
@@ -94,26 +90,10 @@ public class EventManagerServices {
 
             return props;
 
-        } catch (RuntimeException | IOException e) {
+        } catch (RuntimeException e) {
             logger.error("cannot configure/start actor service");
             throw new IllegalStateException(e);
         }
-    }
-
-    /**
-     * Opens the config file.
-     *
-     * @param configFileName configuration file name
-     * @return the file's input stream
-     * @throws FileNotFoundException if the file cannot be found
-     */
-    private InputStream openConfigFile(String configFileName) throws FileNotFoundException {
-        InputStream inpstr = ResourceUtils.getResourceAsStream(configFileName);
-        if (inpstr == null) {
-            throw new FileNotFoundException(configFileName);
-        }
-
-        return inpstr;
     }
 
     /**
