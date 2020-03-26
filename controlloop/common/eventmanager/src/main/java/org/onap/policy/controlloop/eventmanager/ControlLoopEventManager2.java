@@ -75,7 +75,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager2.class);
     private static final long serialVersionUID = -1216568161322872641L;
 
-    private static final String EVENT_MANAGER_SERVICE_CONFIG = "config/event-manager.properties";
+    private static final String EVENT_MANAGER_SERVICE_CONFIG = "event-manager";
     public static final String PROV_STATUS_ACTIVE = "ACTIVE";
     private static final String VM_NAME = "VM_NAME";
     private static final String VNF_NAME = "VNF_NAME";
