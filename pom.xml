@@ -45,7 +45,7 @@
         <staging.path>content/repositories/staging/</staging.path>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>1.6.2</version.policy.common>
+        <version.policy.common>1.6.3-SNAPSHOT</version.policy.common>
         <policy.models.version>2.2.3-SNAPSHOT</policy.models.version>
         <version.policy.drools-pdp>1.6.1-SNAPSHOT</version.policy.drools-pdp>
     </properties>
