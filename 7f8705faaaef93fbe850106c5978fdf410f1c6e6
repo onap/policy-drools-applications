@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98f3b990_4f45a2b4",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.sdnr.success.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-31T13:08:17Z",
+      "side": 1,
+      "message": "just guess that this is not needed in the response",
+      "revId": "7f8705faaaef93fbe850106c5978fdf410f1c6e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6879cfb_7296b501",
+        "filename": "controlloop/common/rules-test/src/main/resources/vsonh/vsonh.sdnr.success.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-31T13:08:17Z",
+      "side": 1,
+      "message": "just guess that this is not needed in the response",
+      "revId": "7f8705faaaef93fbe850106c5978fdf410f1c6e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c788395c_fecde10f",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTestTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-03-31T13:08:17Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "7f8705faaaef93fbe850106c5978fdf410f1c6e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
