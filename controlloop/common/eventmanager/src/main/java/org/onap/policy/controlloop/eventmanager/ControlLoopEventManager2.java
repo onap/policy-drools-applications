@@ -249,7 +249,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     /**
      * Starts the next step, whatever that may be.
      */
-    public void nextStep() {
+    public synchronized void nextStep() {
         if (!isActive()) {
             return;
         }
@@ -280,7 +280,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      *
      * @return {@code true} if the manager is still active, {@code false} otherwise
      */
-    public boolean isActive() {
+    public synchronized boolean isActive() {
         return (createdByThisJvmInstance && finalResult == null);
     }
 
@@ -355,7 +355,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     /**
      * Cancels the current operation and frees all locks.
      */
-    public void destroy() {
+    public synchronized void destroy() {
         ControlLoopOperationManager2 oper = currentOperation.get();
         if (oper != null) {
             oper.cancel();
@@ -376,7 +376,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      *
      * @return a new notification
      */
-    public VirtualControlLoopNotification makeNotification() {
+    public synchronized VirtualControlLoopNotification makeNotification() {
         VirtualControlLoopNotification notif = new VirtualControlLoopNotification(context.getEvent());
         notif.setNotification(ControlLoopNotificationType.OPERATION);
         notif.setFrom("policy");
@@ -400,7 +400,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      * @param event the event
      * @return the status
      */
-    public NewEventStatus onNewEvent(VirtualControlLoopEvent event) {
+    public synchronized NewEventStatus onNewEvent(VirtualControlLoopEvent event) {
         try {
             checkEventSyntax(event);
 
@@ -446,7 +446,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      * @param event the event syntax
      * @throws ControlLoopException if an error occurs
      */
-    public void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
+    protected void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
         validateStatus(event);
         if (StringUtils.isBlank(event.getClosedLoopControlName())) {
             throw new ControlLoopException("No control loop name");
@@ -514,7 +514,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      * @return <code>true</code> if the control loop is disabled, <code>false</code>
      *         otherwise
      */
-    public static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
+    private static boolean isClosedLoopDisabled(VirtualControlLoopEvent event) {
         Map<String, String> aai = event.getAai();
         return (isAaiTrue(aai.get(VSERVER_IS_CLOSED_LOOP_DISABLED))
                         || isAaiTrue(aai.get(GENERIC_VNF_IS_CLOSED_LOOP_DISABLED))
@@ -528,7 +528,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      * @return {@code true} if the provisioning status is neither ACTIVE nor {@code null},
      *         {@code false} otherwise
      */
-    protected static boolean isProvStatusInactive(VirtualControlLoopEvent event) {
+    private static boolean isProvStatusInactive(VirtualControlLoopEvent event) {
         Map<String, String> aai = event.getAai();
         return !(PROV_STATUS_ACTIVE.equals(aai.getOrDefault(VSERVER_PROV_STATUS, PROV_STATUS_ACTIVE))
                         && PROV_STATUS_ACTIVE.equals(aai.getOrDefault(GENERIC_VNF_PROV_STATUS, PROV_STATUS_ACTIVE)));
@@ -541,7 +541,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      * @return the boolean value represented by the field value, or {@code false} if the
      *         value is {@code null}
      */
-    protected static boolean isAaiTrue(String aaiValue) {
+    private static boolean isAaiTrue(String aaiValue) {
         return (aaiValue != null && TRUE_VALUES.contains(aaiValue.toLowerCase()));
     }
 
