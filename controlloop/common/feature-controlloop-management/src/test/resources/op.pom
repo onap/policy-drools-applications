@@ -25,14 +25,9 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.onap.policy.drools-pdp</groupId>
-        <artifactId>drools-pdp</artifactId>
-        <version>1.6.1-SNAPSHOT</version>
-    </parent>
-
     <groupId>org.onap.policy.drools.apps.test</groupId>
     <artifactId>op</artifactId>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>
