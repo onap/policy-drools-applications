@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f15ab74_61f49681",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-07T12:46:56Z",
+      "side": 1,
+      "message": "perhaps, to be consistent, rename this to testVpciSunnyDayLegacy",
+      "revId": "220b4772e2fe03f7c5667f28fddeed76eb68aada",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73629aec_3bcdc9fe",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-07T12:46:56Z",
+      "side": 1,
+      "message": "trailing space\n\nsame comment below",
+      "revId": "220b4772e2fe03f7c5667f28fddeed76eb68aada",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ad43d4c_99e2e076",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-07T12:46:56Z",
+      "side": 1,
+      "message": "perhaps, to be consistent, rename this to testVsonhSunnyDayLegacy",
+      "revId": "220b4772e2fe03f7c5667f28fddeed76eb68aada",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
