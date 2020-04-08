@@ -41,6 +41,7 @@ import lombok.ToString;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -137,6 +138,9 @@ public class ControlLoopOperationManager2 implements Serializable {
     private final transient ControlLoopOperationParams params;
     private final transient PipelineUtil taskUtil;
 
+    @Getter
+    private ControlLoopResponse controlLoopResponse;
+
     /**
      * Time when the lock was first requested.
      */
@@ -195,6 +199,7 @@ public class ControlLoopOperationManager2 implements Serializable {
         private int attempt;
         private PolicyResult policyResult;
         private ControlLoopOperation clOperation;
+        private ControlLoopResponse clResponse;
 
         /**
          * Constructs the object.
@@ -206,6 +211,7 @@ public class ControlLoopOperationManager2 implements Serializable {
             policyResult = outcome.getResult();
             clOperation = outcome.toControlLoopOperation();
             clOperation.setTarget(policy.getTarget().toString());
+            clResponse = outcome.getControlLoopResponse();
         }
     }
 
@@ -437,6 +443,7 @@ public class ControlLoopOperationManager2 implements Serializable {
         }
 
         if (outcome.isFinalOutcome() && outcome.isFor(actor, operation)) {
+            controlLoopResponse = null;
             return false;
         }
 
@@ -457,6 +464,8 @@ public class ControlLoopOperationManager2 implements Serializable {
     private synchronized void processOutcome() {
         OperationOutcome outcome = outcomes.peek();
         logger.debug("process outcome={} for {}", outcome, requestId);
+
+        controlLoopResponse = null;
 
         switch (outcome.getActor()) {
 
@@ -501,6 +510,7 @@ public class ControlLoopOperationManager2 implements Serializable {
                  */
                 state = (outcome.getResult() == PolicyResult.SUCCESS ? State.OPERATION_SUCCESS
                                 : State.OPERATION_FAILURE);
+                controlLoopResponse = outcome.getControlLoopResponse();
                 if (!operationHistory.isEmpty() && operationHistory.peekLast().getClOperation().getEnd() == null) {
                     operationHistory.removeLast();
                 }

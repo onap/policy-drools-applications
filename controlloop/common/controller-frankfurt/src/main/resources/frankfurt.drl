@@ -243,6 +243,20 @@ rule "EVENT.MANAGER.PROCESSING"
                 $manager, e);
     }
     //
+    // Generate Response notification
+    //
+    try {
+        ControlLoopResponse clResponse = $manager.getControlLoopResponse();
+        if (clResponse != null) {
+            PolicyEngineConstants.getManager().deliver("DCAE_CL_RSP", clResponse);
+        }
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating Response notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    //
     // Discard this message and wait for the next response.
     //
     $manager.nextStep();

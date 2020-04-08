@@ -49,6 +49,7 @@ import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
@@ -146,6 +147,8 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
 
     @Getter
     private VirtualControlLoopNotification notification;
+    @Getter
+    private ControlLoopResponse controlLoopResponse;
 
     @Getter
     private boolean updated = false;
@@ -225,6 +228,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
 
         logger.info("final={} oper state={} for {}", finalResult, currentOperation.get().getState(), requestId);
 
+        controlLoopResponse = null;
         notification = makeNotification();
         notification.setHistory(controlLoopHistory);
 
@@ -268,6 +272,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
             // processor problem - this is fatal
             logger.warn("{}: cannot start next step for {}", closedLoopControlName, requestId, e);
             finalResult = FinalResult.FINAL_FAILURE_EXCEPTION;
+            controlLoopResponse = null;
             notification = makeNotification();
             notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
             notification.setMessage("Policy processing aborted due to policy error");
@@ -296,6 +301,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
             return;
         }
 
+        controlLoopResponse = operation.getControlLoopResponse();
         notification = makeNotification();
 
         VirtualControlLoopEvent event = context.getEvent();
