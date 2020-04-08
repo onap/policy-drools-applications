@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a7d8674_988da375",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/tosca-compliant-vpci.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-08T12:13:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is correct. May not even be needed. SDNR works on PNF\u0027s.",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "e1741fd45315a8d9b3960ab0e245b4c46445a6e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0a5a3f_411b3a9d",
+        "filename": "controlloop/common/rules-test/src/main/resources/vsonh/tosca-compliant-vsonh.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-08T12:13:38Z",
+      "side": 1,
+      "message": "same - what did the old yaml policy have for a target?",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "e1741fd45315a8d9b3960ab0e245b4c46445a6e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
