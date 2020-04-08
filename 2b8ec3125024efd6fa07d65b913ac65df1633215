@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70493f48_4db53fdb",
+        "filename": "controlloop/common/rules-test/src/main/resources/vsonh/tosca-compliant-vsonh.json",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T20:10:10Z",
+      "side": 1,
+      "message": "once the actor change has been merged, this should be changed to \"ModifyConfigANR\"\n\nsame comment for the legacy policy",
+      "revId": "2b8ec3125024efd6fa07d65b913ac65df1633215",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
