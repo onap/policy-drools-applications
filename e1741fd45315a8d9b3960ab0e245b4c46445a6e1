@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1bb4e24f_2d08e325",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/tosca-compliant-vpci.json",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "should be \"PNF\".  The entityIds field is not needed.\n\nsame comments for legacy, as well as vsonh compliant \u0026 legacy",
+      "parentUuid": "3a7d8674_988da375",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "e1741fd45315a8d9b3960ab0e245b4c46445a6e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d0a5a3f_411b3a9d",
         "filename": "controlloop/common/rules-test/src/main/resources/vsonh/tosca-compliant-vsonh.json",
         "patchSetId": 10

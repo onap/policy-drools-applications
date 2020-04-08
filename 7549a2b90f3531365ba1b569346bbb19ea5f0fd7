@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fbd1695_6764eea8",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "the comments in this file should be applied to the vsonh onset, too",
+      "revId": "7549a2b90f3531365ba1b569346bbb19ea5f0fd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76ca914_23365d6f",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "PNF",
+      "revId": "7549a2b90f3531365ba1b569346bbb19ea5f0fd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79e7da82_59ba92b3",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "pnf.pnf-name",
+      "revId": "7549a2b90f3531365ba1b569346bbb19ea5f0fd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a28a44b_2bd2742d",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "add:\n\n  \"pnf.pnf-name\": \"OzPServer\" (or whatever name you want)",
+      "revId": "7549a2b90f3531365ba1b569346bbb19ea5f0fd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "218efa3d_3c5d3840",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "can be deleted",
+      "revId": "7549a2b90f3531365ba1b569346bbb19ea5f0fd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7488049e_8d1ea398",
+        "filename": "controlloop/common/rules-test/src/main/resources/vpci/vpci.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-08T19:12:18Z",
+      "side": 1,
+      "message": "can be deleted",
+      "revId": "7549a2b90f3531365ba1b569346bbb19ea5f0fd7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
