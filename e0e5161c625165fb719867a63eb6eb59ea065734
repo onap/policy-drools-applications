@@ -16,6 +16,24 @@
       "revId": "e0e5161c625165fb719867a63eb6eb59ea065734",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5e22eb3_ce2daa58",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/frankfurt-controller.properties",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-04-10T16:40:36Z",
+      "side": 1,
+      "message": "I am a bit confused now. Should I put in DCAE_CL_RSP properties (lines 64, 65 from earlier verison) back in?",
+      "parentUuid": "bb85444c_75cb26c7",
+      "revId": "e0e5161c625165fb719867a63eb6eb59ea065734",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
