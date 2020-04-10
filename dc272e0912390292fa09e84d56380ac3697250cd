@@ -217,6 +217,24 @@
       "revId": "dc272e0912390292fa09e84d56380ac3697250cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d907312_62f12c44",
+        "filename": "controlloop/common/feature-controlloop-frankfurt/src/main/feature/config/frankfurt-controller.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-04-10T19:37:49Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "920566f9_27fea94d",
+      "revId": "dc272e0912390292fa09e84d56380ac3697250cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
