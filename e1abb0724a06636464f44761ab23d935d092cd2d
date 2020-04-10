@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1585de1a_ca883208",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/frankfurt-controller.properties",
+        "patchSetId": 20
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-04-10T14:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f078a624_9074e3ce",
+      "revId": "e1abb0724a06636464f44761ab23d935d092cd2d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0baa6d8_dd78e86a",
         "filename": "controlloop/common/rules-test/src/main/resources/vsonh/tosca-vsonh.json",
         "patchSetId": 20
