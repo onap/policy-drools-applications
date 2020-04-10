@@ -22,6 +22,30 @@
       "revId": "e1abb0724a06636464f44761ab23d935d092cd2d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f7f9939_a0714517",
+        "filename": "controlloop/common/rules-test/src/main/resources/vsonh/tosca-vsonh.json",
+        "patchSetId": 20
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2020-04-10T14:38:05Z",
+      "side": 1,
+      "message": "I am not sure how to answer that. This is the old policy,",
+      "parentUuid": "b0baa6d8_dd78e86a",
+      "range": {
+        "startLine": 6,
+        "startChar": 498,
+        "endLine": 6,
+        "endChar": 639
+      },
+      "revId": "e1abb0724a06636464f44761ab23d935d092cd2d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
