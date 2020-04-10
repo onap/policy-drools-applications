@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0baa6d8_dd78e86a",
+        "filename": "controlloop/common/rules-test/src/main/resources/vsonh/tosca-vsonh.json",
+        "patchSetId": 20
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-10T14:34:09Z",
+      "side": 1,
+      "message": "this still has target and resourceID - I\u0027ll assume because the old YAML compiler? Or perhaps we leave it alone.",
+      "range": {
+        "startLine": 6,
+        "startChar": 498,
+        "endLine": 6,
+        "endChar": 639
+      },
+      "revId": "e1abb0724a06636464f44761ab23d935d092cd2d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
