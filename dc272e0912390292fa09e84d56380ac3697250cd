@@ -181,6 +181,24 @@
       "revId": "dc272e0912390292fa09e84d56380ac3697250cd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f112c2c3_25206175",
+        "filename": "controlloop/common/feature-controlloop-frankfurt/src/main/feature/config/frankfurt-controller.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-04-10T18:47:35Z",
+      "side": 0,
+      "message": "I am confused, in \"usecases\", these haven\u0027t been removed, and I will assume, the controller.properties, should be identical to this one with the exception of the maven artifact coordinates:\n\nhttps://git.onap.org/policy/drools-applications/tree/controlloop/common/feature-controlloop-usecases/src/main/feature/config/usecases-controller.properties\n\nThis file contains:\n\ndmaap.sink.topics.SDNR-CL.events\u003dorg.onap.policy.sdnr.PciRequestWrapper\ndmaap.sink.topics.SDNR-CL.events.custom.gson\u003dorg.onap.policy.sdnr.util.Serialization,gson\n\nThe comment is to keep both of these configuration files identical until we decomission \u0027usecases\u0027 (as it these are unnecessary for Frankfurt, it should be unnecessary for \u0027usecases\u0027).   They should be pretty easy changes, but let me know if I am missing something.",
+      "parentUuid": "58d5ac75_aeba3740",
+      "revId": "dc272e0912390292fa09e84d56380ac3697250cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
