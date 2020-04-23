@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "63b70fe2_32cf2240",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetricsFeatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-23T20:53:03Z",
+      "side": 1,
+      "message": "It\u0027s always better if there\u0027s an approach that doesn\u0027t involve sleeping.  However, nothing obvious comes to mind here, so I guess adding NOSONAR would be ok.  Ordinarily, I\u0027d use a latch to determine when something is done, but in this case, we\u0027re looking for the ABSENCE of something, so a latch wouldn\u0027t help.",
+      "parentUuid": "ed3cb539_2dc94010",
+      "revId": "6eabf1433ee24f54abeae1028ce3ac560ef534fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "874e42b6_656da6a9",
         "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/policy-cl-mgt-active.json",
         "patchSetId": 2
