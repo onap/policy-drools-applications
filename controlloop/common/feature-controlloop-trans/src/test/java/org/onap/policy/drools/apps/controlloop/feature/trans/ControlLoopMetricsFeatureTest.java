@@ -23,6 +23,7 @@ package org.onap.policy.drools.apps.controlloop.feature.trans;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -34,8 +35,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.util.Serialization;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngineConstants;
@@ -87,7 +90,7 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testValidActiveNotification() throws InterruptedException {
+    public void testValidActiveNotification() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
         UUID requestId = UUID.randomUUID();
@@ -99,7 +102,7 @@ public class ControlLoopMetricsFeatureTest {
         assertTrue(ControlLoopMetricsManager.getManager().getTransaction(requestId).getFrom()
                         .contains(testController.getName()));
         assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(requestId).getNotificationTime());
-        assertTrue(ControlLoopMetricsManager.getManager().getCacheOccupancy() == 1);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getCacheOccupancy());
 
         /* wait for the entries to expire */
         await().atMost(ControlLoopMetricsManager.getManager().getTransactionTimeout() + 1, TimeUnit.SECONDS)
@@ -135,7 +138,7 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testEviction() throws InterruptedException {
+    public void testEviction() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
         for (int i = 0; i < ControlLoopMetricsManager.getManager().getCacheSize(); i++) {
             VirtualControlLoopNotification notification = generateNotification();
@@ -151,10 +154,10 @@ public class ControlLoopMetricsFeatureTest {
         assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
                         ControlLoopMetricsManager.getManager().getCacheOccupancy());
         assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(overflowNotification.getRequestId()));
-        assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().size() == ControlLoopMetricsManager
-                        .getManager().getCacheSize());
-        assertTrue(ControlLoopMetricsManager.getManager().getCacheOccupancy() == ControlLoopMetricsManager.getManager()
-                        .getCacheSize());
+        assertEquals(ControlLoopMetricsManager.getManager().getTransactionIds().size(),
+                ControlLoopMetricsManager.getManager().getCacheSize());
+        assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
+                ControlLoopMetricsManager.getManager().getCacheSize());
         assertFalse(ControlLoopMetricsManager.getManager().getTransactionIds().isEmpty());
         assertFalse(ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
@@ -163,10 +166,10 @@ public class ControlLoopMetricsFeatureTest {
                         .until(() -> ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
         ControlLoopMetricsManager.getManager().refresh();
-        assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().size() == ControlLoopMetricsManager
-                        .getManager().getCacheOccupancy());
-        assertFalse(ControlLoopMetricsManager.getManager().getCacheOccupancy() == ControlLoopMetricsManager.getManager()
-                        .getCacheSize());
+        assertEquals(ControlLoopMetricsManager.getManager().getTransactionIds().size(),
+                ControlLoopMetricsManager.getManager().getCacheOccupancy());
+        assertNotEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
+                ControlLoopMetricsManager.getManager().getCacheSize());
         assertTrue(ControlLoopMetricsManager.getManager().getTransactionIds().isEmpty());
         assertTrue(ControlLoopMetricsManager.getManager().getTransactions().isEmpty());
 
@@ -184,6 +187,72 @@ public class ControlLoopMetricsFeatureTest {
     @Test
     public void getSequenceNumber() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
-        assertTrue(feature.getSequenceNumber() == ControlLoopMetricsFeature.FEATURE_SEQUENCE_PRIORITY);
+        assertEquals(feature.getSequenceNumber(), ControlLoopMetricsFeature.FEATURE_SEQUENCE_PRIORITY);
+    }
+
+    @Test
+    public void testSuccessControlLoop() {
+        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
+
+        String activeNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-active.json");
+        VirtualControlLoopNotification active =
+                Serialization.gsonPretty.fromJson(activeNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, active);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        String opStartNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-operation.json");
+        VirtualControlLoopNotification opStart =
+                Serialization.gsonPretty.fromJson(opStartNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, opStart);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        String permitNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-permit.json");
+        VirtualControlLoopNotification permit =
+                Serialization.gsonPretty.fromJson(permitNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, permit);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        String restartNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-restart.json");
+        VirtualControlLoopNotification restart =
+                Serialization.gsonPretty.fromJson(restartNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, restart);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        String restartSuccessNotification =
+                ResourceUtils.getResourceAsString("policy-cl-mgt-restart-success.json");
+        VirtualControlLoopNotification restartSuccess =
+                Serialization.gsonPretty.fromJson(restartSuccessNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, restartSuccess);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        String finalSuccessNotification =
+                ResourceUtils.getResourceAsString("policy-cl-mgt-final-success.json");
+        VirtualControlLoopNotification finalSuccess =
+                Serialization.gsonPretty.fromJson(finalSuccessNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, finalSuccess);
+        assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+    }
+
+    @Test
+    public void testUntrackedNotifications() throws InterruptedException {
+        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
+
+        String finalSuccessNotification =
+                ResourceUtils.getResourceAsString("policy-cl-mgt-final-success.json");
+        VirtualControlLoopNotification finalSuccess =
+                Serialization.gsonPretty.fromJson(finalSuccessNotification, VirtualControlLoopNotification.class);
+        finalSuccess.setRequestId(UUID.randomUUID());
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, finalSuccess);
+        assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        String opStartNotification =
+                ResourceUtils.getResourceAsString("policy-cl-mgt-operation.json");
+        VirtualControlLoopNotification opStart =
+                Serialization.gsonPretty.fromJson(opStartNotification, VirtualControlLoopNotification.class);
+        feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, opStart);
+        assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+
+        Thread.sleep((ControlLoopMetricsManager.getManager().getTransactionTimeout() + 1) * 1000L);  // NOSONAR
+        assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
     }
 }
