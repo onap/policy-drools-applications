@@ -1,0 +1,32 @@
+{
+    "AAI": {
+        "vserver.prov-status": "ACTIVE",
+        "vserver.is-closed-loop-disabled": "false",
+        "generic-vnf.vnf-id": "vCPE_Infrastructure_vGMUX_demo_app"
+    },
+    "closedLoopAlarmStart": 1463679805324,
+    "closedLoopControlName": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e",
+    "version": "1.0.2",
+    "requestId": "664be3d2-6c12-4f4b-a3e7-c349acced200",
+    "closedLoopEventClient": "DCAE_INSTANCE_ID.dcae-tca",
+    "targetType": "VNF",
+    "target": "generic-vnf.vnf-id",
+    "from": "policy",
+    "policyScope": "onap.policies.controlloop.operational.common.Drools:1.0.0",
+    "policyName": "operational.restart.EVENT.MANAGER.FINAL",
+    "policyVersion": "1.0.0",
+    "notification": "FINAL: SUCCESS",
+    "notificationTime": "2020-04-20 19:12:17.684718+00:00",
+    "history": [
+        {
+            "actor": "APPC",
+            "operation": "Restart",
+            "target": "Target [type=VM, resourceId=null]",
+            "start": 1587409937614,
+            "end": 1587409937679,
+            "subRequestId": "38ce5fcb-f16a-4cfc-abc6-8d8b78e2f959",
+            "outcome": "Success",
+            "message": "Restart Successful"
+        }
+    ]
+}

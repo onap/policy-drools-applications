@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.collections4.CollectionUtils;
+import org.jetbrains.annotations.NotNull;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
@@ -88,11 +90,10 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         this.cacheSize = cacheSize;
         this.transactionTimeout = transactionTimeout;
 
-        CacheLoader<UUID, VirtualControlLoopNotification> loader =
-                new CacheLoader<UUID, VirtualControlLoopNotification>() {
+        CacheLoader<UUID, VirtualControlLoopNotification> loader = new CacheLoader<>() {
 
             @Override
-            public VirtualControlLoopNotification load(UUID key) throws Exception {
+            public VirtualControlLoopNotification load(@NotNull UUID key) {
                 return null;
             }
         };
@@ -176,7 +177,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             notification.setNotificationTime(ZonedDateTime.now());
         }
 
-        notification.setFrom(notification.getFrom() + ":" + controller.getName());
+        notification.setFrom(notification.getFrom() + ":" + controller.getName()
+            + ":" + controller.getDrools().getCanonicalSessionNames());
     }
 
     @Override
@@ -218,7 +220,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
         this.transaction(notification, startTime);
         if (startNotification != null) {
-            cache.invalidate(startNotification);
+            removeTransaction(startNotification.getRequestId());
         }
     }
 
@@ -256,28 +258,20 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void metric(VirtualControlLoopNotification notification) {
-        MdcTransaction trans = MdcTransaction
-                .newTransaction(notification.getRequestId().toString(), notification.getFrom())
-                .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget());
-
+        MdcTransaction trans = getMdcTransaction(notification);
         List<ControlLoopOperation> operations = notification.getHistory();
         switch (notification.getNotification()) {
             case ACTIVE:
-                trans.setStatusCode(true);
-                trans.metric().resetTransaction();
+                trans.setStatusCode(true).metric().resetTransaction();
                 break;
             case OPERATION:
-                metricOperation(trans, operations);
+                operation(trans.setStatusCode(true), operations).metric().resetTransaction();
                 break;
             case OPERATION_SUCCESS:
-                trans.setStatusCode(true);
-                operation(trans, operations);
-                trans.transaction().resetTransaction();
+                operation(trans.setStatusCode(true), operations).metric().transaction().resetTransaction();
                 break;
             case OPERATION_FAILURE:
-                trans.setStatusCode(false);
-                operation(trans, operations);
-                trans.transaction().resetTransaction();
+                operation(trans.setStatusCode(false), operations).metric().transaction().resetTransaction();
                 break;
             default:
                 /* unexpected */
@@ -287,65 +281,66 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         }
     }
 
-    private void metricOperation(MdcTransaction trans, List<ControlLoopOperation> operations) {
-        trans.setStatusCode(true);
-        if (!operations.isEmpty()) {
-            ControlLoopOperation operation = operations.get(operations.size() - 1);
-            trans.setTargetEntity(operation.getTarget());
-            trans.setTargetServiceName(operation.getActor());
-        }
-        trans.metric().resetTransaction();
+    private MdcTransaction getMdcTransaction(VirtualControlLoopNotification notification) {
+        return MdcTransaction
+                .newTransaction(notification.getRequestId().toString(), notification.getFrom())
+                .setServiceName(notification.getClosedLoopControlName())
+                .setServiceInstanceId(notification.getPolicyScope()
+                    + ":" + notification.getPolicyName() + ":" + notification.getPolicyVersion())
+                .setProcessKey("" + notification.getAai())
+                .setTargetEntity(notification.getTargetType() + "." + notification.getTarget())
+                .setResponseCode((notification.getNotification() != null) ? notification.getNotification().name() : "-")
+                .setResponseDescription(notification.getMessage())
+                .setClientIpAddress(notification.getClosedLoopEventClient());
     }
 
-    protected void operation(MdcTransaction trans, List<ControlLoopOperation> operations) {
-        if (!operations.isEmpty()) {
-            ControlLoopOperation operation = operations.get(operations.size() - 1);
-
-            if (operation.getTarget() != null) {
-                trans.setTargetEntity(operation.getTarget());
-            }
-
-            if (operation.getActor() != null) {
-                trans.setTargetServiceName(operation.getActor());
-            }
-
-            if (operation.getMessage() != null) {
-                trans.setResponseDescription(operation.getMessage());
-            }
-
-            trans.setInvocationId(operation.getSubRequestId());
-
-            if (operation.getOutcome() != null) {
-                trans.setResponseCode(operation.getOutcome());
-            }
-
-            if (operation.getStart() != null) {
-                trans.setStartTime(operation.getStart());
-            }
-
-            if (operation.getEnd() != null) {
-                trans.setEndTime(operation.getEnd());
-            }
+    protected MdcTransaction operation(MdcTransaction trans, List<ControlLoopOperation> operations) {
+        if (CollectionUtils.isEmpty(operations)) {
+            return trans;
         }
+
+        ControlLoopOperation operation = operations.get(operations.size() - 1);
+
+        if (operation.getActor() != null) {
+            trans.setTargetServiceName(operation.getActor() + "." + operation.getOperation());
+        }
+
+        if (operation.getTarget() != null) {
+            trans.setTargetVirtualEntity(operation.getTarget());
+        }
+
+        if (operation.getSubRequestId() != null) {
+            trans.setInvocationId(operation.getSubRequestId());
+        }
+
+        if (operation.getOutcome() != null) {
+            trans.setResponseDescription(operation.getOutcome() + ":" + operation.getMessage());
+        }
+
+        if (operation.getStart() != null) {
+            trans.setStartTime(operation.getStart());
+        }
+
+        if (operation.getEnd() != null) {
+            trans.setEndTime(operation.getEnd());
+        }
+
+        return trans;
     }
 
     protected void transaction(VirtualControlLoopNotification notification, ZonedDateTime startTime) {
-        MdcTransaction trans = MdcTransaction
-                .newTransaction(notification.getRequestId().toString(), notification.getFrom())
-                .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
-                .setStartTime(startTime.toInstant()).setEndTime(notification.getNotificationTime().toInstant())
-                .setResponseDescription(notification.getMessage());
+        MdcTransaction trans = getMdcTransaction(notification)
+                .setStartTime(startTime.toInstant())
+                .setEndTime(notification.getNotificationTime().toInstant());
 
         switch (notification.getNotification()) {
             case FINAL_OPENLOOP:
-                trans.setStatusCode(true);
-                break;
+                /* fall through */
             case FINAL_SUCCESS:
                 trans.setStatusCode(true);
                 break;
             case FINAL_FAILURE:
-                trans.setStatusCode(false);
-                break;
+                /* fall through */
             case REJECTED:
                 trans.setStatusCode(false);
                 break;
@@ -361,11 +356,11 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("CacheBasedControlLoopMetricsManager{");
-        sb.append("cacheSize=").append(cacheSize);
-        sb.append(", transactionTimeout=").append(transactionTimeout);
-        sb.append('}');
-        return sb.toString();
+        return "CacheBasedControlLoopMetricsManager{" + "cacheSize=" + cacheSize
+                       + ",transactionTimeout="
+                       + transactionTimeout
+                       + ",cacheOccupancy="
+                       + getCacheOccupancy()
+                       + "}";
     }
 }
