@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fedd1396_a62f348f",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetricsFeatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-04-23T20:37:58Z",
+      "side": 1,
+      "message": "The purpose of this is the entry in the cache to be invalidated automatically, this is guaranteed by waiting the current transaction timeout time (added 1 second that is the smallest unit here just for buffer but not needed).   I think putting an await here is just obscures the point of the test, but I could do that, or remove this line and the one below.   I think it may best suited by putting a //NOSONAR - let me know your opinion.",
+      "parentUuid": "7fb1f140_a3370dc5",
+      "revId": "6eabf1433ee24f54abeae1028ce3ac560ef534fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "874e42b6_656da6a9",
         "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/policy-cl-mgt-active.json",
         "patchSetId": 2
