@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fb1f140_a3370dc5",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetricsFeatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-23T20:27:45Z",
+      "side": 1,
+      "message": "sonar: sleep in test\n\nhow long can this be?  Hopefully not more than a couple of seconds",
+      "revId": "6eabf1433ee24f54abeae1028ce3ac560ef534fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "874e42b6_656da6a9",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/policy-cl-mgt-active.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-23T20:27:45Z",
+      "side": 1,
+      "message": "maybe add newlines to the end of these files",
+      "revId": "6eabf1433ee24f54abeae1028ce3ac560ef534fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
