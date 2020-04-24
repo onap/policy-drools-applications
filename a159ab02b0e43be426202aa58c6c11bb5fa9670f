@@ -22,6 +22,30 @@
       "revId": "a159ab02b0e43be426202aa58c6c11bb5fa9670f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "518dc34f_d682e1fe",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-24T20:05:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4bf687e6_6963634b",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 41
+      },
+      "revId": "a159ab02b0e43be426202aa58c6c11bb5fa9670f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
