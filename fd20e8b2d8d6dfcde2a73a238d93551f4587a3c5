@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d62db68e_994d54e2",
+        "filename": "releases/1.6.3.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-27T14:11:14Z",
+      "side": 1,
+      "message": "New feature from LF - no need to tag the java. Leave it out if you want it. The docker release will tag the repo. Previously the docker would ignore warning that the tag was already there (eg done by this release job).\nI don\u0027t care - thought I would try it out.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "fd20e8b2d8d6dfcde2a73a238d93551f4587a3c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
