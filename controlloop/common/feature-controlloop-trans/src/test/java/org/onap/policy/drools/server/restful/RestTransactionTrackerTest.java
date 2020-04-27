@@ -46,6 +46,7 @@ import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.util.Serialization;
 import org.onap.policy.drools.apps.controlloop.feature.trans.ControlLoopMetricsFeature;
 import org.onap.policy.drools.apps.controlloop.feature.trans.ControlLoopMetricsManager;
+import org.onap.policy.drools.apps.controlloop.feature.trans.RestTransactionTracker;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngineConstants;

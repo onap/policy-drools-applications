@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.drools.server.restful;
+package org.onap.policy.drools.apps.controlloop.feature.trans;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +34,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.onap.policy.common.endpoints.http.server.YamlMessageBodyHandler;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.drools.apps.controlloop.feature.trans.ControlLoopMetricsManager;
 
 /**
  * REST Transaction Tracker.
