@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6019d5fd_3937f17e",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-28T12:56:01Z",
+      "side": 1,
+      "message": "FYI - also pointing to parent, common, models SNAPSHOTs.",
+      "revId": "80cea640a7b1f7ef751d993bc2e13dacb55d1d50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
