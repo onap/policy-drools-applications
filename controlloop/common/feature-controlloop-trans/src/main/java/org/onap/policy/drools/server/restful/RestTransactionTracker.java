@@ -40,7 +40,7 @@ import org.onap.policy.drools.apps.controlloop.feature.trans.ControlLoopMetricsM
  * REST Transaction Tracker.
  */
 
-@Path("/policy/pdp/engine/controllers")
+@Path("/policy/pdp/engine/controllers/transactions")
 @Produces({MediaType.APPLICATION_JSON, YamlMessageBodyHandler.APPLICATION_YAML})
 @Consumes({MediaType.APPLICATION_JSON, YamlMessageBodyHandler.APPLICATION_YAML})
 @Api
@@ -51,7 +51,7 @@ public class RestTransactionTracker {
      */
 
     @GET
-    @Path("transactions")
+    @Path("inprogress")
     @ApiOperation(value = "Retrieve in-progress transactions", responseContainer = "List")
     public Response transactions() {
         return Response.status(Response.Status.OK)
@@ -63,7 +63,7 @@ public class RestTransactionTracker {
      */
 
     @GET
-    @Path("transactions/{transactionId}")
+    @Path("inprogress/{transactionId}")
     @ApiOperation(value = "Retrieve an in-progress transaction", response = VirtualControlLoopNotification.class)
     public Response transactionId(
           @ApiParam(value = "UUID", required = true) @PathParam("transactionId") String transactionId) {
@@ -78,7 +78,7 @@ public class RestTransactionTracker {
      */
 
     @PUT
-    @Path("transactions/cacheSize/{cacheSize}")
+    @Path("cacheSize/{cacheSize}")
     @ApiOperation(value = "Sets the cache size", response = Integer.class)
     public Response cacheSize(
             @ApiParam(value = "cache size", required = true) @PathParam("cacheSize") int cacheSize) {
@@ -93,7 +93,7 @@ public class RestTransactionTracker {
      */
 
     @GET
-    @Path("transactions/cacheSize")
+    @Path("cacheSize")
     @ApiOperation(value = "Gets the cache size", response = Integer.class)
     public Response cacheSize() {
         return Response.status(Response.Status.OK)
@@ -105,7 +105,7 @@ public class RestTransactionTracker {
      */
 
     @PUT
-    @Path("transactions/timeout/{timeoutSecs}")
+    @Path("timeout/{timeoutSecs}")
     @ApiOperation(value = "Sets the timeout in seconds", response = Integer.class)
     public Response timeout(
             @ApiParam(value = "timeout", required = true) @PathParam("timeoutSecs") long timeoutSecs) {
@@ -120,7 +120,7 @@ public class RestTransactionTracker {
      */
 
     @GET
-    @Path("transactions/timeout")
+    @Path("timeout")
     @ApiOperation(value = "Gets the cache timeout", response = Long.class)
     public Response timeout() {
         return Response.status(Response.Status.OK)

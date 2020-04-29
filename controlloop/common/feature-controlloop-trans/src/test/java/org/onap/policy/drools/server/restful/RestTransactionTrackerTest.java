@@ -113,12 +113,12 @@ public class RestTransactionTrackerTest {
 
     @Test
     public void testTransactions() {
-        equals(get("/", Response.Status.OK.getStatusCode()), List.class, Collections.emptyList());
+        equals(get("/inprogress", Response.Status.OK.getStatusCode()), List.class, Collections.emptyList());
 
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
 
-        assertTrue(HttpClient.getBody(get("/", Response.Status.OK.getStatusCode()), List.class).isEmpty());
-        get("/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.NOT_FOUND.getStatusCode());
+        assertTrue(HttpClient.getBody(get("/inprogress", Response.Status.OK.getStatusCode()), List.class).isEmpty());
+        get("/inprogress/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.NOT_FOUND.getStatusCode());
 
         String activeNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-active.json");
         VirtualControlLoopNotification active =
@@ -126,8 +126,8 @@ public class RestTransactionTrackerTest {
         feature.beforeDeliver(testController, Topic.CommInfrastructure.DMAAP, "POLICY-CL-MGT", active);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        assertFalse(HttpClient.getBody(get("/", Response.Status.OK.getStatusCode()), List.class).isEmpty());
-        notNull(get("/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.OK.getStatusCode()), String.class);
+        assertFalse(HttpClient.getBody(get("/inprogress", Response.Status.OK.getStatusCode()), List.class).isEmpty());
+        notNull(get("/inprogress/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.OK.getStatusCode()), String.class);
     }
 
     private Response get(String contextPath, int statusCode) {
