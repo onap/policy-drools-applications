@@ -39,6 +39,7 @@
     <module>rules-test</module>
     <module>controller-frankfurt</module>
     <module>controller-usecases</module>
+    <module>controller-m3</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>
     <module>feature-controlloop-management</module>
