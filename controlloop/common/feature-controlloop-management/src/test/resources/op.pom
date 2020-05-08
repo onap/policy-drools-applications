@@ -29,12 +29,4 @@
     <artifactId>op</artifactId>
     <version>1.0.0</version>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-            <artifactId>events</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 </project>
