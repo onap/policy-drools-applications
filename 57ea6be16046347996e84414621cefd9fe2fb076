@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a621457b_4c8b8dae",
+        "filename": "controlloop/common/controller-m3/src/main/java/org/onap/policy/controlloop/m3/M3Controller.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "need to remove tsocaPolicies entry if it is now empty?",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d89921d3_6e3c78ee",
+        "filename": "controlloop/common/controller-m3/src/main/java/org/onap/policy/controlloop/m3/M3Controller.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "assignment is not needed",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f67ac20_851b2c6d",
+        "filename": "controlloop/common/controller-m3/src/main/java/org/onap/policy/controlloop/m3/M3Controller.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "sure we want to start/stop the consumer within the controller?",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d8a470a_ec4463a6",
+        "filename": "controlloop/common/controller-m3/src/main/java/org/onap/policy/controlloop/m3/SerialWorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "may need to peekFirst() in a synchronized block",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9092f1b_6f336047",
+        "filename": "controlloop/common/controller-m3/src/main/resources/frankfurt.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "probably rename this file to match the controller name\n\nsame comment for the other files whose names contain \"frankfurt\"",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b5a90c_9b7ca348",
+        "filename": "controlloop/common/controller-m3/src/main/resources/frankfurt.drl",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfafdcc5_0be22f4b",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-08T17:43:02Z",
+      "side": 1,
+      "message": "this should be split into two files: one that tests Manager2 and the other that tests Manager2Drools",
+      "revId": "57ea6be16046347996e84414621cefd9fe2fb076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
