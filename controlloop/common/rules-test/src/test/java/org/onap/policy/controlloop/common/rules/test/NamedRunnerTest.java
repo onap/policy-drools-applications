@@ -65,8 +65,7 @@ public class NamedRunnerTest {
      */
     @Test
     @Ignore
-    @SuppressWarnings("java:S1607")
-    public void testIgnore() {
+    public void testIgnore() {      // NOSONAR
         fail("should not run");
     }
 

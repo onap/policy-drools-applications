@@ -262,18 +262,32 @@ public class BaseRuleTestTest {
 
     @Test
     public void testTestDuplicatesEvents() {
+        // the test expects the count to be incremented by 2 between calls
+        base = new MyTest() {
+            long count = 0;
+
+            @Override
+            protected long getCreateCount() {
+                long old = count;
+                count += 2;
+                return old;
+            }
+        };
+
+        BaseRuleTest.initStatics(CONTROLLER_NAME);
+        base.init();
+
         enqueueAppcLcm("restart", "restart");
-        enqueueClMgt(ControlLoopNotificationType.FINAL_FAILURE);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
 
-        clMgtQueue.get(1).setAai(Map.of("generic-vnf.vnf-id", "duplicate-VNF"));
-        clMgtQueue.get(2).setAai(Map.of("generic-vnf.vnf-id", "vCPE_Infrastructure_vGMUX_demo_app"));
+        clMgtQueue.get(0).setAai(Map.of("generic-vnf.vnf-id", "duplicate-VNF"));
+        clMgtQueue.get(1).setAai(Map.of("generic-vnf.vnf-id", "vCPE_Infrastructure_vGMUX_demo_app"));
 
         base.testDuplicatesEvents();
 
         assertEquals(0, permitCount);
-        assertEquals(3, finalCount);
+        assertEquals(2, finalCount);
 
         assertTrue(appcLcmQueue.isEmpty());
         assertTrue(clMgtQueue.isEmpty());
