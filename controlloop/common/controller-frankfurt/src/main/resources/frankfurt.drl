@@ -100,7 +100,7 @@ rule "EVENT"
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $event : CanonicalOnset( closedLoopControlName == $clName )
         not ( ControlLoopEventManager2( closedLoopControlName == $event.getClosedLoopControlName(),
-            requestId == $event.getRequestId() ) )
+            getContext().getEvent() == $event ) )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -173,7 +173,7 @@ rule "EVENT.MANAGER.NEW.EVENT"
     when
         $event : VirtualControlLoopEvent( )
         $manager : ControlLoopEventManager2( closedLoopControlName == $event.getClosedLoopControlName(),
-            requestId == $event.getRequestId() )
+            getContext().getEvent() == $event )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -202,6 +202,8 @@ rule "EVENT.MANAGER.NEW.EVENT"
             //
             // TODO: handle the abatement.  Currently, it's just discarded.
             //
+            logger.info("{}: {}.{}: abatement",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName());
             break;
 
         case FIRST_ONSET:

@@ -36,6 +36,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -97,6 +98,12 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
 
     private static final Set<String> TRUE_VALUES = Set.of("true", "t", "yes", "y");
 
+    /**
+     * Counts the number of these objects that have been created.  This is used by junit
+     * tests.
+     */
+    private static final AtomicLong createCount = new AtomicLong(0);
+
     public enum NewEventStatus {
         FIRST_ONSET, SUBSEQUENT_ONSET, FIRST_ABATEMENT, SUBSEQUENT_ABATEMENT, SYNTAX_ERROR
     }
@@ -114,6 +121,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     @Getter
     @ToString.Include
     private final UUID requestId;
+    @Getter
     private final ControlLoopEventContext context;
     @ToString.Include
     private int numOnsets = 1;
@@ -169,6 +177,8 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     public ControlLoopEventManager2(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
                     throws ControlLoopException {
 
+        createCount.incrementAndGet();
+
         checkEventSyntax(event);
 
         if (isClosedLoopDisabled(event)) {
@@ -189,6 +199,14 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         this.processor = new ControlLoopProcessor(params.getToscaPolicy());
         this.workMem = workMem;
         this.endTimeMs = System.currentTimeMillis() + detmControlLoopTimeoutMs();
+    }
+
+    /**
+     * Gets the number of managers objects that have been created.
+     * @return the number of managers objects that have been created
+     */
+    public static long getCreateCount() {
+        return createCount.get();
     }
 
     /**

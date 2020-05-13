@@ -29,8 +29,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -39,6 +37,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
@@ -245,9 +244,6 @@ public abstract class BaseRuleTest {
      * to obtain a lock since it is a different target. After processing of all events
      * there should only be the policy and params objects left in memory.
      */
-    // Ignoring test due to TimeoutException (for some reason this test fails only on docker build)
-    // https://jenkins.onap.org/job/policy-drools-applications-maven-docker-stage-master/294/
-    @Ignore
     @Test
     public void testDuplicatesEvents() {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
@@ -257,6 +253,8 @@ public abstract class BaseRuleTest {
         policy = rules.setupPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
         assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
+        final long initCount = ControlLoopEventManager2.getCreateCount();
+
         /*
          * Inject ONSET events over the DCAE topic. First and last have the same target
          * entity, but different request IDs - only one should succeed. The middle one is
@@ -265,9 +263,6 @@ public abstract class BaseRuleTest {
         topics.inject(DCAE_TOPIC, DUPLICATES_ONSET_1, UUID.randomUUID().toString());
         topics.inject(DCAE_TOPIC, DUPLICATES_ONSET_2);
         topics.inject(DCAE_TOPIC, DUPLICATES_ONSET_1, UUID.randomUUID().toString());
-
-        // one should immediately generate a FINAL failure
-        waitForFinal(policy, policyClMgt, ControlLoopNotificationType.FINAL_FAILURE);
 
         // should see two restarts
         for (int count = 0; count < 2; ++count) {
@@ -287,6 +282,9 @@ public abstract class BaseRuleTest {
                         .sorted().collect(Collectors.toList());
 
         assertEquals(List.of("duplicate-VNF", "vCPE_Infrastructure_vGMUX_demo_app").toString(), actual.toString());
+
+        long added = ControlLoopEventManager2.getCreateCount() - initCount;
+        assertEquals(2, added);
     }
 
     // VCPE
