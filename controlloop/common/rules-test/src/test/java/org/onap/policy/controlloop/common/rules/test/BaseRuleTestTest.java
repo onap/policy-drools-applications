@@ -25,6 +25,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.when;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -262,18 +264,22 @@ public class BaseRuleTestTest {
 
     @Test
     public void testTestDuplicatesEvents() {
+        // the test expects the count to be incremented by 2 between calls
+        AtomicLong count = new AtomicLong(5);
+        base = spy(base);
+        when(base.getCreateCount()).thenAnswer(args -> count.getAndAdd(2));
+
         enqueueAppcLcm("restart", "restart");
-        enqueueClMgt(ControlLoopNotificationType.FINAL_FAILURE);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
 
-        clMgtQueue.get(1).setAai(Map.of("generic-vnf.vnf-id", "duplicate-VNF"));
-        clMgtQueue.get(2).setAai(Map.of("generic-vnf.vnf-id", "vCPE_Infrastructure_vGMUX_demo_app"));
+        clMgtQueue.get(0).setAai(Map.of("generic-vnf.vnf-id", "duplicate-VNF"));
+        clMgtQueue.get(1).setAai(Map.of("generic-vnf.vnf-id", "vCPE_Infrastructure_vGMUX_demo_app"));
 
         base.testDuplicatesEvents();
 
         assertEquals(0, permitCount);
-        assertEquals(3, finalCount);
+        assertEquals(2, finalCount);
 
         assertTrue(appcLcmQueue.isEmpty());
         assertTrue(clMgtQueue.isEmpty());
