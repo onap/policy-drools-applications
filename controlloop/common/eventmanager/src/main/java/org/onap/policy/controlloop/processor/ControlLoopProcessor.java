@@ -54,6 +54,7 @@ public class ControlLoopProcessor implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessor.class);
 
+    @Getter
     private final ControlLoopPolicy policy;
     private String currentNestedPolicyId;
 
