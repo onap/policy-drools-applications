@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.ophistory;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -78,10 +79,25 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     private final BlockingQueue<Record> operations = new LinkedBlockingQueue<>();
 
     /**
-     * Number of records that have been added to the DB by this data manager instance.
+     * Number of records that have been processed and committed into the DB by this data
+     * manager instance.
      */
     @Getter
-    private long recordsAdded = 0;
+    private long recordsCommitted = 0;
+
+    /**
+     * Number of records that have been inserted into the DB by this data manager
+     * instance, whether or not they were committed.
+     */
+    @Getter
+    private long recordsInserted = 0;
+
+    /**
+     * Number of records that have been updated within the DB by this data manager
+     * instance, whether or not they were committed.
+     */
+    @Getter
+    private long recordsUpdated = 0;
 
 
     /**
@@ -228,7 +244,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
             }
 
             trans.commit();
-            recordsAdded += nrecords;
+            recordsCommitted += nrecords;
         }
     }
 
@@ -239,29 +255,59 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      * @param record record to be stored
      */
     private void storeRecord(EntityManager entityMgr, Record record) {
-        Dbao newEntry = new Dbao();
 
         final VirtualControlLoopEvent event = record.getEvent();
         final ControlLoopOperation operation = record.getOperation();
 
         logger.info("store operation history record for {}", event.getRequestId());
 
-        newEntry.setClosedLoopName(event.getClosedLoopControlName());
-        newEntry.setRequestId(record.getRequestId());
-        newEntry.setActor(operation.getActor());
-        newEntry.setOperation(operation.getOperation());
-        newEntry.setTarget(record.getTargetEntity());
-        newEntry.setSubrequestId(operation.getSubRequestId());
-        newEntry.setMessage(operation.getMessage());
-        newEntry.setOutcome(operation.getOutcome());
+        List<Dbao> results =
+            entityMgr.createQuery("select e from Dbao e"
+                        + " where e.closedLoopName= ?1"
+                        + " and e.requestId= ?2"
+                        + " and e.subrequestId= ?3"
+                        + " and e.actor= ?4"
+                        + " and e.operation= ?5"
+                        + " and e.target= ?6",
+                        Dbao.class)
+                .setParameter(1, event.getClosedLoopControlName())
+                .setParameter(2, record.getRequestId())
+                .setParameter(3, operation.getSubRequestId())
+                .setParameter(4, operation.getActor())
+                .setParameter(5, operation.getOperation())
+                .setParameter(6, record.getTargetEntity())
+                .getResultList();
+
+        Dbao entry = (results.isEmpty() ? new Dbao() : results.get(0));
+
+        entry.setClosedLoopName(event.getClosedLoopControlName());
+        entry.setRequestId(record.getRequestId());
+        entry.setActor(operation.getActor());
+        entry.setOperation(operation.getOperation());
+        entry.setTarget(record.getTargetEntity());
+        entry.setSubrequestId(operation.getSubRequestId());
+        entry.setMessage(operation.getMessage());
+        entry.setOutcome(operation.getOutcome());
         if (operation.getStart() != null) {
-            newEntry.setStarttime(new Date(operation.getStart().toEpochMilli()));
+            entry.setStarttime(new Date(operation.getStart().toEpochMilli()));
+        } else {
+            entry.setStarttime(null);
         }
         if (operation.getEnd() != null) {
-            newEntry.setEndtime(new Date(operation.getEnd().toEpochMilli()));
+            entry.setEndtime(new Date(operation.getEnd().toEpochMilli()));
+        } else {
+            entry.setEndtime(null);
         }
 
-        entityMgr.persist(newEntry);
+        if (results.isEmpty()) {
+            logger.info("insert operation history record for {}", event.getRequestId());
+            ++recordsInserted;
+            entityMgr.persist(entry);
+        } else {
+            logger.info("update operation history record for {}", event.getRequestId());
+            ++recordsUpdated;
+            entityMgr.merge(entry);
+        }
     }
 
     /**

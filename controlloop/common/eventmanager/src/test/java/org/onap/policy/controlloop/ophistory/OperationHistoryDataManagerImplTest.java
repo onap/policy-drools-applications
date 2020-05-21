@@ -53,6 +53,9 @@ import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerParams.O
 public class OperationHistoryDataManagerImplTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
+    private static final String MY_LOOP_NAME = "my-loop-name";
+    private static final String MY_ACTOR = "my-actor";
+    private static final String MY_OPERATION = "my-operation";
     private static final String MY_TARGET = "my-target";
     private static final String MY_ENTITY = "my-entity";
     private static final String REQ_ID = "my-request-id";
@@ -109,10 +112,14 @@ public class OperationHistoryDataManagerImplTest {
         MockitoAnnotations.initMocks(this);
 
         event = new VirtualControlLoopEvent();
+        event.setClosedLoopControlName(MY_LOOP_NAME);
         event.setRequestId(UUID.randomUUID());
 
         operation = new ControlLoopOperation();
+        operation.setActor(MY_ACTOR);
+        operation.setOperation(MY_OPERATION);
         operation.setTarget(MY_TARGET);
+        operation.setSubRequestId(UUID.randomUUID().toString());
 
         threadFunction = null;
         finished = new CountDownLatch(1);
@@ -170,7 +177,7 @@ public class OperationHistoryDataManagerImplTest {
 
         runThread();
 
-        assertEquals(1, mgr.getRecordsAdded());
+        assertEquals(1, mgr.getRecordsCommitted());
     }
 
     /**
@@ -195,7 +202,7 @@ public class OperationHistoryDataManagerImplTest {
         // store
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
-        assertEquals(0, mgr.getRecordsAdded());
+        assertEquals(0, mgr.getRecordsCommitted());
     }
 
     /**
@@ -210,7 +217,7 @@ public class OperationHistoryDataManagerImplTest {
 
         runThread();
 
-        assertEquals(MAX_QUEUE_LENGTH, mgr.getRecordsAdded());
+        assertEquals(MAX_QUEUE_LENGTH, mgr.getRecordsCommitted());
     }
 
     @Test
@@ -234,7 +241,7 @@ public class OperationHistoryDataManagerImplTest {
 
         verify(emfSpy).close();
 
-        assertEquals(3, mgr.getRecordsAdded());
+        assertEquals(3, mgr.getRecordsCommitted());
     }
 
     private void waitForThread() {
@@ -286,28 +293,77 @@ public class OperationHistoryDataManagerImplTest {
 
     @Test
     public void testStoreRecord() throws InterruptedException {
+        /*
+         * Note: we change sub-request ID each time to guarantee that the records are
+         * unique.
+         */
+
         // no start time
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
-        // no start time
+        // no end time
         operation = new ControlLoopOperation(operation);
+        operation.setSubRequestId(UUID.randomUUID().toString());
         operation.setStart(Instant.now());
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // both start and end times
         operation = new ControlLoopOperation(operation);
+        operation.setSubRequestId(UUID.randomUUID().toString());
         operation.setEnd(Instant.now());
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // only end time
         operation = new ControlLoopOperation(operation);
+        operation.setSubRequestId(UUID.randomUUID().toString());
         operation.setStart(null);
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         runThread();
 
         // all of them should have been stored
-        assertEquals(4, mgr.getRecordsAdded());
+        assertEquals(4, mgr.getRecordsCommitted());
+
+        // each was unique
+        assertEquals(4, mgr.getRecordsInserted());
+        assertEquals(0, mgr.getRecordsUpdated());
+    }
+
+    /**
+     * Tests storeRecord() when records are updated.
+     */
+    @Test
+    public void testStoreRecordUpdate() throws InterruptedException {
+        /*
+         * Note: we do NOT change sub-request ID, so that records all refer to the same DB
+         * record.
+         */
+
+        // no start time
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+
+        // no end time
+        operation.setStart(Instant.now());
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+
+        // both start and end times
+        operation.setEnd(Instant.now());
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+
+        // only end time
+        operation.setStart(null);
+        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+
+        runThread();
+
+        // all of them should have been stored
+        assertEquals(4, mgr.getRecordsCommitted());
+
+        // only one new record
+        assertEquals(1, mgr.getRecordsInserted());
+
+        // remainder were updates
+        assertEquals(3, mgr.getRecordsUpdated());
     }
 
     private void runThread() throws InterruptedException {
