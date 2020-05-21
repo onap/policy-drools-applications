@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "defe561d_16eaf2ae",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ophistory/OperationHistoryDataManagerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-05-21T23:16:19Z",
+      "side": 1,
+      "message": "log a WARN if results size \u003e 1 is unexpected",
+      "revId": "b1091d8713089d0ab20c66123adf8b0b5ea6f613",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
