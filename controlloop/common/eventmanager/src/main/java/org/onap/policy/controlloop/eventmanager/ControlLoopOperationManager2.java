@@ -500,20 +500,20 @@ public class ControlLoopOperationManager2 implements Serializable {
                     // operation started
                     ++attempts;
                     state = State.OPERATION_STARTED;
-                    operationHistory.add(new Operation(outcome));
-                    break;
+
+                } else {
+                    /*
+                     * Operation completed. If the last entry was a "start" (i.e., "end" field
+                     * is null), then replace it. Otherwise, just add the completion.
+                     */
+                    state = (outcome.getResult() == PolicyResult.SUCCESS ? State.OPERATION_SUCCESS
+                                    : State.OPERATION_FAILURE);
+                    controlLoopResponse = outcome.getControlLoopResponse();
+                    if (!operationHistory.isEmpty() && operationHistory.peekLast().getClOperation().getEnd() == null) {
+                        operationHistory.removeLast();
+                    }
                 }
 
-                /*
-                 * Operation completed. If the last entry was a "start" (i.e., "end" field
-                 * is null), then replace it. Otherwise, just add the completion.
-                 */
-                state = (outcome.getResult() == PolicyResult.SUCCESS ? State.OPERATION_SUCCESS
-                                : State.OPERATION_FAILURE);
-                controlLoopResponse = outcome.getControlLoopResponse();
-                if (!operationHistory.isEmpty() && operationHistory.peekLast().getClOperation().getEnd() == null) {
-                    operationHistory.removeLast();
-                }
                 operationHistory.add(new Operation(outcome));
                 storeOperationInDataBase();
                 break;

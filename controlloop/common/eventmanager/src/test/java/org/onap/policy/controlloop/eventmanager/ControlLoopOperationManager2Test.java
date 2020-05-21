@@ -614,7 +614,7 @@ public class ControlLoopOperationManager2Test {
         assertFalse(mgr.nextStep());
         verify(mgrctx, times(4)).updated(mgr);
 
-        verifyDb(1, PolicyResult.SUCCESS, null);
+        verifyDb(2, PolicyResult.SUCCESS, null);
     }
 
     /**
@@ -640,7 +640,7 @@ public class ControlLoopOperationManager2Test {
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_FAILURE, mgr.getState());
-        verifyDb(1, PolicyResult.FAILURE, null);
+        verifyDb(2, PolicyResult.FAILURE, null);
 
         assertThat(mgr.toString()).contains("attempts=1");
 
@@ -653,7 +653,7 @@ public class ControlLoopOperationManager2Test {
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_FAILURE, mgr.getState());
-        verifyDb(2, PolicyResult.FAILURE, null);
+        verifyDb(4, PolicyResult.FAILURE, null);
 
         assertThat(mgr.toString()).contains("attempts=2");
 
@@ -665,7 +665,7 @@ public class ControlLoopOperationManager2Test {
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_SUCCESS, mgr.getState());
-        verifyDb(3, PolicyResult.SUCCESS, null);
+        verifyDb(6, PolicyResult.SUCCESS, null);
 
         assertThat(mgr.toString()).contains("attempts=3");
 
