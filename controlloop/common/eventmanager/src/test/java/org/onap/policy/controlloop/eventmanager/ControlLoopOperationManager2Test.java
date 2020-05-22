@@ -54,6 +54,7 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.ControlLoopOperation;
+import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.guard.GuardActorServiceProvider;
 import org.onap.policy.controlloop.actor.guard.GuardOperation;
@@ -340,6 +341,32 @@ public class ControlLoopOperationManager2Test {
         assertSame(target, params.getTarget());
         assertEquals(MY_TARGET, params.getTargetEntity());
         assertSame(POLICY_TIMEOUT, params.getTimeoutSec());
+    }
+
+    @Test
+    public void testMakeControlLoopResponse() {
+        // should always return its input, if non-null
+        ControlLoopResponse resp = new ControlLoopResponse();
+        assertSame(resp, mgr.makeControlLoopResponse(resp));
+
+        // not an SDNR action - should return null
+        assertNull(mgr.makeControlLoopResponse(null));
+
+        /*
+         * now work with SDNR actor
+         */
+        policy.setActor("SDNR");
+        mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
+
+        // should still return its input, if non-null
+        resp = new ControlLoopResponse();
+        assertSame(resp, mgr.makeControlLoopResponse(resp));
+
+        // should generate a response
+        resp = mgr.makeControlLoopResponse(null);
+        assertNotNull(resp);
+        assertEquals(REQ_ID, resp.getRequestId());
+        assertNull(resp.getPayload());
     }
 
     @Test
