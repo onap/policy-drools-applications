@@ -278,6 +278,10 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
                 .setParameter(6, record.getTargetEntity())
                 .getResultList();
 
+        if (results.size() > 1) {
+            logger.warn("unexpected operation history record count {} for {}", results.size(), event.getRequestId());
+        }
+
         Dbao entry = (results.isEmpty() ? new Dbao() : results.get(0));
 
         entry.setClosedLoopName(event.getClosedLoopControlName());
