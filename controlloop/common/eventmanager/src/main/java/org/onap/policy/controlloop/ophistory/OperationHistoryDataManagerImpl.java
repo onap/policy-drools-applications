@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.ophistory;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -278,6 +279,10 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
                 .setParameter(6, record.getTargetEntity())
                 .getResultList();
 
+        if (results.size() > 1) {
+            logger.warn("unexpected operation history record count {} for {}", results.size(), event.getRequestId());
+        }
+
         Dbao entry = (results.isEmpty() ? new Dbao() : results.get(0));
 
         entry.setClosedLoopName(event.getClosedLoopControlName());
@@ -287,7 +292,6 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         entry.setTarget(record.getTargetEntity());
         entry.setSubrequestId(operation.getSubRequestId());
         entry.setMessage(operation.getMessage());
-        entry.setOutcome(operation.getOutcome());
         if (operation.getStart() != null) {
             entry.setStarttime(new Date(operation.getStart().toEpochMilli()));
         } else {
@@ -295,8 +299,10 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         }
         if (operation.getEnd() != null) {
             entry.setEndtime(new Date(operation.getEnd().toEpochMilli()));
+            entry.setOutcome(Objects.toString(operation.getOutcome(), ""));
         } else {
             entry.setEndtime(null);
+            entry.setOutcome(null);
         }
 
         if (results.isEmpty()) {

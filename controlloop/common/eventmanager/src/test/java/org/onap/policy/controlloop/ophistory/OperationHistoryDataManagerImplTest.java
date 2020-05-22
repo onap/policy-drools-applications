@@ -340,17 +340,21 @@ public class OperationHistoryDataManagerImplTest {
          */
 
         // no start time
+        operation.setStart(null);
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // no end time
+        operation = new ControlLoopOperation(operation);
         operation.setStart(Instant.now());
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // both start and end times
+        operation = new ControlLoopOperation(operation);
         operation.setEnd(Instant.now());
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
         // only end time
+        operation = new ControlLoopOperation(operation);
         operation.setStart(null);
         mgr.store(REQ_ID, event, MY_ENTITY, operation);
 
