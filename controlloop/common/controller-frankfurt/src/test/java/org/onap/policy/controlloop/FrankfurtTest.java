@@ -39,7 +39,7 @@ import org.onap.policy.simulators.Util;
  * Note: this runs ALL tests (i.e., any whose names start with "test").
  */
 @RunWith(NamedRunner.class)
-@TestNames(prefixes = {"test"})
+@TestNames(prefixes = {"testVpci"})
 
 public class FrankfurtTest extends BaseRuleTest {
     protected static final String CONTROLLER_NAME = "frankfurt";
@@ -79,7 +79,7 @@ public class FrankfurtTest extends BaseRuleTest {
      * Tears down.
      */
     @After
-    public void tearDown() {
+    public void tearDown() throws InterruptedException {
         finish();
     }
 
