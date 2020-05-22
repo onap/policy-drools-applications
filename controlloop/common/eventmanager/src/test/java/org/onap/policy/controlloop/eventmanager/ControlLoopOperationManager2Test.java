@@ -240,7 +240,7 @@ public class ControlLoopOperationManager2Test {
     }
 
     /**
-     * Tests start() when the control loop times out.
+     * Tests start() when the control loop times out before the operation starts.
      */
     @Test
     public void testStartClTimeout_testHandleTimeout() throws InterruptedException {
@@ -276,8 +276,8 @@ public class ControlLoopOperationManager2Test {
         // should have called update() for operation-start, but not for any nextStep()
         verify(mgrctx).updated(mgr);
 
-        // should not have tried to store anything in the DB
-        verify(dataMgr, never()).store(any(), any(), any(), any());
+        // should have added a record to the DB
+        verify(dataMgr).store(any(), any(), any(), any());
     }
 
     @Test
