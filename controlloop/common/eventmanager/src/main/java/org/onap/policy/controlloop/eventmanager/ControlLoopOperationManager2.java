@@ -212,6 +212,12 @@ public class ControlLoopOperationManager2 implements Serializable {
             clOperation = outcome.toControlLoopOperation();
             clOperation.setTarget(policy.getTarget().toString());
             clResponse = outcome.getControlLoopResponse();
+
+            if (outcome.getEnd() == null) {
+                clOperation.setOutcome("Started");
+            } else if (clOperation.getOutcome() == null) {
+                clOperation.setOutcome("");
+            }
         }
     }
 
