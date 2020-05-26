@@ -42,6 +42,7 @@ import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -514,7 +515,7 @@ public class ControlLoopOperationManager2 implements Serializable {
                      */
                     state = (outcome.getResult() == PolicyResult.SUCCESS ? State.OPERATION_SUCCESS
                                     : State.OPERATION_FAILURE);
-                    controlLoopResponse = outcome.getControlLoopResponse();
+                    controlLoopResponse = makeControlLoopResponse(outcome.getControlLoopResponse());
                     if (!operationHistory.isEmpty() && operationHistory.peekLast().getClOperation().getEnd() == null) {
                         operationHistory.removeLast();
                     }
@@ -527,6 +528,36 @@ public class ControlLoopOperationManager2 implements Serializable {
 
         // indicate that this has changed
         operContext.updated(this);
+    }
+
+    /**
+     * Makes a control loop response.
+     *
+     * @param source original control loop response or {@code null}
+     * @return a new control loop response, or {@code null} none is required
+     */
+    protected ControlLoopResponse makeControlLoopResponse(ControlLoopResponse source) {
+        if (source != null) {
+            return source;
+        }
+
+        // only generate response for certain actors.
+        if (!actor.equals("SDNR")) {
+            return null;
+        }
+
+        VirtualControlLoopEvent event = eventContext.getEvent();
+
+        ControlLoopResponse clRsp = new ControlLoopResponse();
+        clRsp.setFrom(actor);
+        clRsp.setTarget("DCAE");
+        clRsp.setClosedLoopControlName(event.getClosedLoopControlName());
+        clRsp.setPolicyName(event.getPolicyName());
+        clRsp.setPolicyVersion(event.getPolicyVersion());
+        clRsp.setRequestId(event.getRequestId());
+        clRsp.setVersion(event.getVersion());
+
+        return clRsp;
     }
 
     /**
