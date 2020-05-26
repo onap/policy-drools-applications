@@ -16,6 +16,24 @@
       "revId": "18486d18e1a684cd4df27b335f565c1d985d4f06",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a69275a7_2275ac3f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-26T15:07:19Z",
+      "side": 1,
+      "message": "All I can say is that\u0027s what it was in the legacy code.  It will be sent to the DCAE_CL_RSP topic, so the value kind of makes sense from that perspective.",
+      "parentUuid": "4fabc062_9290a97a",
+      "revId": "18486d18e1a684cd4df27b335f565c1d985d4f06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
