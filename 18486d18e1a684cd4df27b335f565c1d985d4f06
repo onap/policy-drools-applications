@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fabc062_9290a97a",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-05-26T13:32:35Z",
+      "side": 1,
+      "message": "Is this right, target - dcae?",
+      "revId": "18486d18e1a684cd4df27b335f565c1d985d4f06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
