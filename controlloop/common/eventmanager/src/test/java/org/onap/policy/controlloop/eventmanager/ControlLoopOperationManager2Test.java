@@ -70,6 +70,9 @@ import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.sdnr.PciBody;
+import org.onap.policy.sdnr.PciMessage;
+import org.onap.policy.sdnr.PciResponse;
 
 public class ControlLoopOperationManager2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
@@ -345,12 +348,21 @@ public class ControlLoopOperationManager2Test {
 
     @Test
     public void testMakeControlLoopResponse() {
-        // should always return its input, if non-null
-        ControlLoopResponse resp = new ControlLoopResponse();
-        assertSame(resp, mgr.makeControlLoopResponse(resp));
+        final OperationOutcome outcome = new OperationOutcome();
+        PciMessage msg = new PciMessage();
+        outcome.setResponse(msg);
+
+        PciBody body = new PciBody();
+        msg.setBody(body);
+
+        PciResponse output = new PciResponse();
+        body.setOutput(output);
+
+        output.setPayload("my-payload");
+
 
         // not an SDNR action - should return null
-        assertNull(mgr.makeControlLoopResponse(null));
+        assertNull(mgr.makeControlLoopResponse(outcome));
 
         /*
          * now work with SDNR actor
@@ -358,15 +370,26 @@ public class ControlLoopOperationManager2Test {
         policy.setActor("SDNR");
         mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
 
-        // should still return its input, if non-null
-        resp = new ControlLoopResponse();
-        assertSame(resp, mgr.makeControlLoopResponse(resp));
+        // should return null for a null input
+        assertNull(mgr.makeControlLoopResponse(null));
 
-        // should generate a response
-        resp = mgr.makeControlLoopResponse(null);
-        assertNotNull(resp);
-        assertEquals(REQ_ID, resp.getRequestId());
-        assertNull(resp.getPayload());
+        // should generate a response, with a payload
+        checkResp(outcome, "my-payload");
+
+        /*
+         * these should generate a response, with null payload
+         */
+        output.setPayload(null);
+        checkResp(outcome, null);
+
+        body.setOutput(null);
+        checkResp(outcome, null);
+
+        msg.setBody(null);
+        checkResp(outcome, null);
+
+        outcome.setResponse(null);
+        checkResp(outcome, null);
     }
 
     @Test
@@ -975,6 +998,13 @@ public class ControlLoopOperationManager2Test {
         event.getAai().putAll(Map.of(ControlLoopOperationManager2.GENERIC_VNF_VNF_ID, MY_TARGET));
 
         target.setType(TargetType.VNF);
+    }
+
+    private void checkResp(OperationOutcome outcome, String expectedPayload) {
+        ControlLoopResponse resp = mgr.makeControlLoopResponse(outcome);
+        assertNotNull(resp);
+        assertEquals(REQ_ID, resp.getRequestId());
+        assertEquals(expectedPayload, resp.getPayload());
     }
 
     private void verifyDb(int nrecords, PolicyResult expectedResult, String expectedMsg) {

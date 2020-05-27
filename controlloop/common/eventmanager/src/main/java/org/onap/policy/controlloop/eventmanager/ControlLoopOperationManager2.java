@@ -49,6 +49,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineUtil;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.sdnr.PciMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -212,7 +213,7 @@ public class ControlLoopOperationManager2 implements Serializable {
             policyResult = outcome.getResult();
             clOperation = outcome.toControlLoopOperation();
             clOperation.setTarget(policy.getTarget().toString());
-            clResponse = outcome.getControlLoopResponse();
+            clResponse = makeControlLoopResponse(outcome);
 
             if (outcome.getEnd() == null) {
                 clOperation.setOutcome("Started");
@@ -516,7 +517,7 @@ public class ControlLoopOperationManager2 implements Serializable {
                      */
                     state = (outcome.getResult() == PolicyResult.SUCCESS ? State.OPERATION_SUCCESS
                                     : State.OPERATION_FAILURE);
-                    controlLoopResponse = makeControlLoopResponse(outcome.getControlLoopResponse());
+                    controlLoopResponse = makeControlLoopResponse(outcome);
                     if (!operationHistory.isEmpty() && operationHistory.peekLast().getClOperation().getEnd() == null) {
                         operationHistory.removeLast();
                     }
@@ -557,7 +558,7 @@ public class ControlLoopOperationManager2 implements Serializable {
             outcome.setStart(operOrig.getClOperation().getStart());
         }
 
-        controlLoopResponse = makeControlLoopResponse(outcome.getControlLoopResponse());
+        controlLoopResponse = makeControlLoopResponse(outcome);
 
         storeFailureInDataBase(outcome, result, message);
     }
@@ -565,16 +566,13 @@ public class ControlLoopOperationManager2 implements Serializable {
     /**
      * Makes a control loop response.
      *
-     * @param source original control loop response or {@code null}
+     * @param outcome operation outcome
      * @return a new control loop response, or {@code null} if none is required
      */
-    protected ControlLoopResponse makeControlLoopResponse(ControlLoopResponse source) {
-        if (source != null) {
-            return source;
-        }
+    protected ControlLoopResponse makeControlLoopResponse(OperationOutcome outcome) {
 
         // only generate response for certain actors.
-        if (!actor.equals("SDNR")) {
+        if (outcome == null || !actor.equals("SDNR")) {
             return null;
         }
 
@@ -588,6 +586,11 @@ public class ControlLoopOperationManager2 implements Serializable {
         clRsp.setPolicyVersion(event.getPolicyVersion());
         clRsp.setRequestId(event.getRequestId());
         clRsp.setVersion(event.getVersion());
+
+        PciMessage msg = outcome.getResponse();
+        if (msg != null && msg.getBody() != null && msg.getBody().getOutput() != null) {
+            clRsp.setPayload(msg.getBody().getOutput().getPayload());
+        }
 
         return clRsp;
     }
