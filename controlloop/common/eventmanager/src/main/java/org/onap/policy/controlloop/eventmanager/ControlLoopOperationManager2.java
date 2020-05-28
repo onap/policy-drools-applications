@@ -478,6 +478,7 @@ public class ControlLoopOperationManager2 implements Serializable {
 
             case CL_TIMEOUT_ACTOR:
                 state = State.CONTROL_LOOP_TIMEOUT;
+                processAbort(outcome, PolicyResult.FAILURE, "Control loop timed out");
                 break;
 
             case LOCK_ACTOR:
@@ -487,7 +488,7 @@ public class ControlLoopOperationManager2 implements Serializable {
                     storeFailureInDataBase(outcome, PolicyResult.FAILURE_GUARD, "Operation denied by Lock");
                 } else {
                     state = State.LOCK_LOST;
-                    storeFailureInDataBase(outcome, PolicyResult.FAILURE, "Operation aborted by Lock");
+                    processAbort(outcome, PolicyResult.FAILURE, "Operation aborted by Lock");
                 }
                 break;
 
@@ -531,10 +532,41 @@ public class ControlLoopOperationManager2 implements Serializable {
     }
 
     /**
+     * Processes an operation abort, updating the DB record, if an operation has been
+     * started.
+     *
+     * @param outcome operation outcome
+     * @param result result to put into the DB
+     * @param message message to put into the DB
+     */
+    private void processAbort(OperationOutcome outcome, PolicyResult result, String message) {
+        if (operationHistory.isEmpty() || operationHistory.peekLast().getClOperation().getEnd() != null) {
+            // last item was not a "start" operation
+
+            // NOTE: do NOT generate control loop response since operation was not started
+
+            storeFailureInDataBase(outcome, result, message);
+            return;
+        }
+
+        // last item was a "start" operation - replace it with a failure
+        final Operation operOrig = operationHistory.removeLast();
+
+        // use start time from the operation, itself
+        if (operOrig != null && operOrig.getClOperation() != null) {
+            outcome.setStart(operOrig.getClOperation().getStart());
+        }
+
+        controlLoopResponse = makeControlLoopResponse(outcome.getControlLoopResponse());
+
+        storeFailureInDataBase(outcome, result, message);
+    }
+
+    /**
      * Makes a control loop response.
      *
      * @param source original control loop response or {@code null}
-     * @return a new control loop response, or {@code null} none is required
+     * @return a new control loop response, or {@code null} if none is required
      */
     protected ControlLoopResponse makeControlLoopResponse(ControlLoopResponse source) {
         if (source != null) {
