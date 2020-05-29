@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4032876a_826c66cf",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-29T18:05:28Z",
+      "side": 1,
+      "message": "could avoid the function call by just checking (because we know the map doesn\u0027t contain any empty strings): code !\u003d null",
+      "revId": "cb93d1e57fc35e2ac447da5e9e610ecab76e7d42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
