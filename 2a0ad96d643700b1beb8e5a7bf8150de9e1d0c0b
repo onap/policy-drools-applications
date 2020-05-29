@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93d9a77d_7b8449b2",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-29T14:47:04Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "2a0ad96d643700b1beb8e5a7bf8150de9e1d0c0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a792d16_cf96e010",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-29T14:47:04Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "2a0ad96d643700b1beb8e5a7bf8150de9e1d0c0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8075b82_044bb4f9",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-29T14:47:04Z",
+      "side": 1,
+      "message": "perhaps a Map should be used to map the notificationType to the appropriate string.  Then the constants defined on lines 61-69 can be replaced with a map, something like:\n\n  private static final Map\u003cString,String\u003e note2code \u003d Map.of(\n    ControlLoopNotificationType.REJECTED, \"200\",\n    ControlLoopNotificationType.OPERATION, \"300\",\n    ...\n    );\n\nOnce that\u0027s done, this method becomes just two lines: 1) note2code.get()  2) return the value or the default value",
+      "revId": "2a0ad96d643700b1beb8e5a7bf8150de9e1d0c0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "518e50b7_fbb906e9",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/logback.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-05-29T14:47:04Z",
+      "side": 1,
+      "message": "should we just delete this line?",
+      "revId": "2a0ad96d643700b1beb8e5a7bf8150de9e1d0c0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
