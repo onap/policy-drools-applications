@@ -33,7 +33,6 @@
   <artifactId>drools-applications-common</artifactId>
 
   <modules>
-    <module>database</module>
     <module>guard</module>
     <module>coordination</module>
     <module>eventmanager</module>

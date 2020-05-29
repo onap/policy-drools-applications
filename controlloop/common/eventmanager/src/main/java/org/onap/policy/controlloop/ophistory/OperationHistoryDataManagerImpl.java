@@ -39,7 +39,7 @@ import org.onap.policy.common.utils.jpa.EntityMgrCloser;
 import org.onap.policy.common.utils.jpa.EntityTransCloser;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.database.operationshistory.Dbao;
+import org.onap.policy.guard.OperationsHistory;
 import org.onap.policy.guard.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -261,15 +261,15 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
 
         logger.info("store operation history record for {}", event.getRequestId());
 
-        List<Dbao> results =
-            entityMgr.createQuery("select e from Dbao e"
+        List<OperationsHistory> results =
+            entityMgr.createQuery("select e from OperationsHistory e"
                         + " where e.closedLoopName= ?1"
                         + " and e.requestId= ?2"
                         + " and e.subrequestId= ?3"
                         + " and e.actor= ?4"
                         + " and e.operation= ?5"
                         + " and e.target= ?6",
-                        Dbao.class)
+                        OperationsHistory.class)
                 .setParameter(1, event.getClosedLoopControlName())
                 .setParameter(2, record.getRequestId())
                 .setParameter(3, operation.getSubRequestId())
@@ -282,7 +282,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
             logger.warn("unexpected operation history record count {} for {}", results.size(), event.getRequestId());
         }
 
-        Dbao entry = (results.isEmpty() ? new Dbao() : results.get(0));
+        OperationsHistory entry = (results.isEmpty() ? new OperationsHistory() : results.get(0));
 
         entry.setClosedLoopName(event.getClosedLoopControlName());
         entry.setRequestId(record.getRequestId());

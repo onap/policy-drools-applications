@@ -58,9 +58,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-      <artifactId>database</artifactId>
-      <version>${project.version}</version>
+        <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+        <artifactId>guard</artifactId>
+        <version>${policy.models.version}</version>
     </dependency>
 
     <dependency>
