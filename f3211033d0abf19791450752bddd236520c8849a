@@ -16,6 +16,24 @@
       "revId": "f3211033d0abf19791450752bddd236520c8849a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68f5bc6f_dd864ac5",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-05-29T18:00:05Z",
+      "side": 1,
+      "message": "agree",
+      "parentUuid": "750b8629_9f78778a",
+      "revId": "f3211033d0abf19791450752bddd236520c8849a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
