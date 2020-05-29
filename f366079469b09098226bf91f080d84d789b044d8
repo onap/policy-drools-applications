@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e812848d_0f8ab3c2",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-05-29T19:37:37Z",
+      "side": 1,
+      "message": "could set the notification.getNotification() in one of the %CustomField you add it (this will require changes in the drools-pdp side.",
+      "revId": "f366079469b09098226bf91f080d84d789b044d8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "902f2563_78e4e538",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/logback.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-05-29T19:37:37Z",
+      "side": 1,
+      "message": "Change %X{ClassName} to %class\nRemove %mdc\nRemove %marker if not mandatory\nRemove the default for %ElapsedTime as 0 it is used in some computations by other tooling.  It should always be populated so no reason to put it.\n\nThis comment applies to this line and the one below.\nCan you also verify that none of these unwanted fields made it through in your previous drools-pdp review?\nFor the new fields that were added verify that the MdcTransactionImpl.java also contains way to set them, for example CustomField3, CustomField4, etc ..",
+      "revId": "f366079469b09098226bf91f080d84d789b044d8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
