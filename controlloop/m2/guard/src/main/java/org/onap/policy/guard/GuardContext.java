@@ -28,23 +28,19 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.function.Supplier;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import org.drools.core.WorkingMemory;
-
-import org.onap.policy.database.operationshistory.Dbao;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.core.PolicyContainer;
 import org.onap.policy.drools.core.PolicySession;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyControllerConstants;
 import org.onap.policy.drools.system.PolicyEngineConstants;
+import org.onap.policy.guard.OperationsHistory;
 import org.onap.policy.guard.Util;
 import org.onap.policy.util.DroolsSessionCommonSerializable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -317,7 +313,7 @@ public class GuardContext implements Serializable {
             em = createEntityManager();
 
             // create the new DB table entry
-            Dbao newEntry = new Dbao();
+            OperationsHistory newEntry = new OperationsHistory();
 
             // populate the new DB table entry
             newEntry.setClosedLoopName(closedLoopControlName);
