@@ -39,10 +39,10 @@ import org.kie.api.builder.ReleaseId;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.properties.DroolsPropertyConstants;
 import org.onap.policy.drools.system.PolicyControllerConstants;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
 import org.onap.policy.drools.utils.logging.LoggerUtil;
@@ -122,12 +122,10 @@ public class RestControlLoopManagerTest {
 
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive());
 
-        PolicyEngineConstants.getManager().setEnvironmentProperty(ControlLoopEventManager.AAI_URL,
-            "http://localhost:6666");
-        PolicyEngineConstants.getManager()
-            .setEnvironmentProperty(ControlLoopEventManager.AAI_USERNAME_PROPERTY, "AAI");
-        PolicyEngineConstants.getManager()
-            .setEnvironmentProperty(ControlLoopEventManager.AAI_PASS_PROPERTY, "AAI");
+        PolicyEngine mgr = PolicyEngineConstants.getManager();
+        mgr.setEnvironmentProperty("aai.url", "http://localhost:6666");
+        mgr.setEnvironmentProperty("aai.username", "AAI");
+        mgr.setEnvironmentProperty("aai.password", "AAI");
 
         Util.buildAaiSim();
     }
