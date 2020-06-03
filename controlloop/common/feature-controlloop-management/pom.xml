@@ -155,11 +155,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-            <artifactId>guard</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actorServiceProvider</artifactId>
             <version>${policy.models.version}</version>

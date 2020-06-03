@@ -47,10 +47,13 @@
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/feature/config</directory>
+			<directory>../controller-frankfurt/src/test/resources/config</directory>
 			<outputDirectory>config</outputDirectory>
 			<fileMode>0644</fileMode>
 			<excludes/>
+            <includes>
+                <include>frankfurt-http-client.properties</include>
+            </includes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/feature/bin</directory>
