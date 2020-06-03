@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * guard
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,14 +42,11 @@ public final class Util {
     public static final String PROP_GUARD_USER = "pdpx.username";
     public static final String PROP_GUARD_PASS = "pdpx.password";
     public static final String PROP_GUARD_DISABLED = "guard.disabled";
+    public static final String PROP_GUARD_PERSISTENCE_UNIT = "guard.persistenceUnit";
 
     /*
-     * Keys for eclipse link and ONAP properties
+     * Keys for ONAP properties
      */
-    public static final String ECLIPSE_LINK_KEY_URL = "javax.persistence.jdbc.url";
-    public static final String ECLIPSE_LINK_KEY_USER = "javax.persistence.jdbc.user";
-    public static final String ECLIPSE_LINK_KEY_PASS = "javax.persistence.jdbc.password";
-
     public static final String ONAP_KEY_URL = "guard.jdbc.url";
     public static final String ONAP_KEY_USER = "sql.db.username";
     public static final String ONAP_KEY_PASS = "sql.db.password";
