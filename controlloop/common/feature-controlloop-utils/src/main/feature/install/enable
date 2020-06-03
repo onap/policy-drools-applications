@@ -1,0 +1,55 @@
+#! /bin/bash
+
+###
+# ============LICENSE_START=======================================================
+# ONAP POLICY
+# ================================================================================
+# Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============LICENSE_END=========================================================
+##
+
+for actor in AAI GUARD SO SDNC VFC
+do
+    if [[ ${actor} == AAI ]]; then
+        AAI_PROP_FILE=${POLICY_HOME}/config/${actor}-http-client.properties
+        if [[ -f ${AAI_PROP_FILE} ]]; then
+            sed -i.ofc -e "s/^http.client.services.AAI.host=.*/localhost/g" -e 's/localhost/http.client.services.AAI.host=localhost/g' -e 's/http.client.services.AAI.port.*/http.client.services.AAI.port=6666/g' -e 's/http.client.services.AAI.userName.*/http.client.services.AAI.userName=policy/g' -e 's/http.client.services.AAI.password.*/http.client.services.AAI.password=policy/g' -e 's/http.client.services.AAI.contextUriPath.*/http.client.services.AAI.contextUriPath=/g' ${AAI_PROP_FILE}
+        fi
+    fi
+    if [[ ${actor} == SO ]]; then
+        SO_PROP_FILE=${POLICY_HOME}/config/${actor}-http-client.properties
+        if [[ -f ${SO_PROP_FILE} ]]; then
+             sed -i.ofc -e "s/^http.client.services.SO.host=.*/localhost/g" -e 's/localhost/http.client.services.SO.host=localhost/g' -e 's/http.client.services.SO.port.*/http.client.services.SO.port=6667/g' -e 's/http.client.services.SO.userName.*/http.client.services.SO.userName=policy/g' -e 's/http.client.services.SO.password.*/http.client.services.SO.password=policy/g' -e 's/http.client.services.SO.contextUriPath.*/http.client.services.SO.contextUriPath=/g' ${SO_PROP_FILE}
+        fi
+    fi
+    if [[ ${actor} == SDNC ]]; then
+        SDNC_PROP_FILE=${POLICY_HOME}/config/${actor}-http-client.properties
+        if [[ -f ${SDNC_PROP_FILE} ]]; then
+            sed -i.ofc -e "s/^http.client.services.SDNC.host=.*/localhost/g" -e 's/localhost/http.client.services.SDNC.host=localhost/g' -e 's/http.client.services.SDNC.port.*/http.client.services.SDNC.port=6670/g' -e 's/http.client.services.SDNC.userName.*/http.client.services.SDNC.userName=policy/g' -e 's/http.client.services.SDNC.password.*/http.client.services.SDNC.password=policy/g' -e 's/http.client.services.SDNC.contextUriPath.*/http.client.services.SDNC.contextUriPath=/g' ${SDNC_PROP_FILE}
+        fi
+    fi
+    if [[ ${actor} == VFC ]]; then
+        VFC_PROP_FILE=${POLICY_HOME}/config/${actor}-http-client.properties
+        if [[ -f ${VFC_PROP_FILE} ]]; then
+            sed -i.ofc -e "s/^http.client.services.VFC.host=.*/localhost/g" -e 's/localhost/http.client.services.VFC.host=localhost/g' -e 's/http.client.services.VFC.port.*/http.client.services.VFC.port=6668/g' -e 's/http.client.services.VFC.userName.*/http.client.services.VFC.userName=policy/g' -e 's/http.client.services.VFC.password.*/http.client.services.VFC.password=policy/g' -e 's/http.client.services.VFC.contextUriPath.*/http.client.services.VFC.contextUriPath=/g' ${VFC_PROP_FILE}
+        fi
+    fi
+    if [[ ${actor} == GUARD ]]; then
+        GUARD_PROP_FILE=${POLICY_HOME}/config/${actor}-http-client.properties
+        if [[ -f ${GUARD_PROP_FILE} ]]; then
+            sed -i.ofc -e "s/^http.client.services.GUARD.host=.*/localhost/g" -e 's/localhost/http.client.services.GUARD.host=localhost/g' -e 's/http.client.services.GUARD.port.*/http.client.services.GUARD.port=6669/g' -e 's/http.client.services.GUARD.contextUriPath.*/http.client.services.GUARD.contextUriPath=\/pdp\/api\/getDecision/g' -e 's/http.client.services.GUARD.userName.*/http.client.services.GUARD.userName=/g' -e 's/http.client.services.GUARD.password.*/http.client.services.GUARD.password=/g' ${GUARD_PROP_FILE}
+        fi
+    fi
+done
