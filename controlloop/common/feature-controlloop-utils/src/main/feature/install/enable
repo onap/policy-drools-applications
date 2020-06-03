@@ -1,0 +1,73 @@
+#! /bin/bash
+
+###
+# ============LICENSE_START=======================================================
+# ONAP POLICY
+# ================================================================================
+# Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============LICENSE_END=========================================================
+##
+
+echo ">>>>>>>>>>>ENABLE"
+AAI_PROP_FILE=${POLICY_HOME}/config/AAI-http-client.properties
+SO_PROP_FILE=${POLICY_HOME}/config/SO-http-client.properties
+SDNC_PROP_FILE=${POLICY_HOME}/config/SDNC-http-client.properties
+VFC_PROP_FILE=${POLICY_HOME}/config/VFC-http-client.properties
+GUARD_PROP_FILE=${POLICY_HOME}/config/GUARD-http-client.properties
+
+if [[ -f ${AAI_PROP_FILE} ]]; then
+    sed -i.ofc "s/^http.client.services.AAI.host=.*/localhost/g" ${AAI_PROP_FILE}
+    sed -i 's/localhost/http.client.services.AAI.host=localhost/g' ${AAI_PROP_FILE}
+    sed -i 's/${envd:AAI_PORT}/6666/g' ${AAI_PROP_FILE}
+    sed -i 's/${envd:AAI_USERNAME}/policy/g' ${AAI_PROP_FILE}
+    sed -i 's/${envd:AAI_PASSWORD}/policy/g' ${AAI_PROP_FILE}
+    sed -i 's/${envd:AAI_CONTEXT_URI}//g' ${AAI_PROP_FILE}
+fi
+
+if [[ -f ${SO_PROP_FILE} ]]; then
+    sed -i.ofc "s/^http.client.services.SO.host=.*/localhost/g" ${SO_PROP_FILE}
+    sed -i 's/localhost/http.client.services.SO.host=localhost/g' ${SO_PROP_FILE}
+    sed -i 's/${envd:SO_PORT}/6667/g' ${SO_PROP_FILE}
+    sed -i 's/${envd:SO_USERNAME}/policy/g' ${SO_PROP_FILE}
+    sed -i 's/${envd:SO_PASSWORD}/policy/g' ${SO_PROP_FILE}
+    sed -i 's/${envd:SO_CONTEXT_URI}//g' ${SO_PROP_FILE}
+fi
+
+if [[ -f ${SDNC_PROP_FILE} ]]; then
+    sed -i.ofc "s/^http.client.services.SDNC.host=.*/localhost/g" ${SDNC_PROP_FILE}
+    sed -i 's/localhost/http.client.services.SDNC.host=localhost/g' ${SDNC_PROP_FILE}
+    sed -i 's/${envd:SDNC_PORT}/6670/g' ${SDNC_PROP_FILE}
+    sed -i 's/${envd:SDNC_USERNAME}/policy/g' ${SDNC_PROP_FILE} 
+    sed -i 's/${envd:SDNC_PASSWORD}/policy/g' ${SDNC_PROP_FILE}
+    sed -i 's/${envd:SDNC_CONTEXT_URI}//g' ${SDNC_PROP_FILE}
+fi
+
+if [[ -f ${VFC_PROP_FILE} ]]; then
+    sed -i.ofc "s/^http.client.services.VFC.host=.*/localhost/g" ${VFC_PROP_FILE}
+    sed -i 's/localhost/http.client.services.VFC.host=localhost/g' ${VFC_PROP_FILE}
+    sed -i 's/${envd:VFC_PORT}/6668/g' ${VFC_PROP_FILE}
+    sed -i 's/${envd:VFC_USERNAME}/policy/g' ${VFC_PROP_FILE}
+    sed -i 's/${envd:VFC_PASSWORD}/policy/g' ${VFC_PROP_FILE}
+    sed -i 's/${envd:VFC_CONTEXT_URI:api\/nslcm\/v1\/}//g' ${VFC_PROP_FILE}
+fi
+
+if [[ -f ${GUARD_PROP_FILE} ]]; then
+    sed -i.ofc "s/^http.client.services.GUARD.host=.*/localhost/g" ${GUARD_PROP_FILE}
+    sed -i 's/localhost/http.client.services.GUARD.host=localhost/g' ${GUARD_PROP_FILE}
+    sed -i 's/${envd:PDP_PORT}/6669/g' ${GUARD_PROP_FILE}
+    sed -i 's/${envd:PDP_CONTEXT_URI:policy\/pdpx\/v1\/}/pdp\/api\/getDecision/g' ${GUARD_PROP_FILE}
+    sed -i 's/${envd:PDP_USERNAME}//g' ${GUARD_PROP_FILE}
+    sed -i 's/${envd:PDP_PASSWORD}//g' ${GUARD_PROP_FILE}
+fi
