@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a2b66b_e8f2d439",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-03T20:49:00Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01575955_5bd38c82",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-03T20:49:00Z",
+      "side": 1,
+      "message": "this is ok, but the list is long enough that it might make more sense to do this in a loop:\n\n  for actor in AAI SO SDNC VFC GUARD\n    ...",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "790a037e_0121ddbd",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-03T20:49:00Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03c34d2f_14e76afc",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-03T20:49:00Z",
+      "side": 1,
+      "message": "let\u0027s do this in a loop",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e97e660_42bc0ce6",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-03T20:49:00Z",
+      "side": 1,
+      "message": "could do this all in a single \"sed\" using \"-e\" option before each substitution",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b499ca_dafdc6f5",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-03T20:49:00Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
