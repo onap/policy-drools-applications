@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "42262e50_6cf59731",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-03T23:42:01Z",
+      "side": 1,
+      "message": "This should be \n\nAAI_PROP_FILE\u003d${POLICY_HOME}/config/AAI-http-client.properties.ofc\n\nnote the \".ofc\" at the end.\n\nGeneral comment",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "790a037e_0121ddbd",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 1
@@ -47,6 +64,23 @@
       "writtenOn": "2020-06-03T20:49:00Z",
       "side": 1,
       "message": "trailing space",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dce2fd7_59fc1f8d",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-03T23:42:01Z",
+      "side": 1,
+      "message": "delete the \"echo\"",
       "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -81,6 +115,23 @@
       "writtenOn": "2020-06-03T20:49:00Z",
       "side": 1,
       "message": "could do this all in a single \"sed\" using \"-e\" option before each substitution",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b22d2f64_bc66fad6",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-03T23:42:01Z",
+      "side": 1,
+      "message": "The pattern matching is not correct.   This is a general comment. Do this instead:\n\nsed -i.ofc \\\n\u003e -e \"s/http.client.services.AAI.host.*/http.client.services.AAI.host\u003dlocalhost/g\" \\\n\u003e -e \"s/http.client.services.AAI.port.*/http.client.services.AAI.port\u003d6666/g\" \\\n\u003e -e \"s/http.client.services.AAI.userName.*/http.client.services.AAI.userName\u003dpolicy/g\" \\\n\u003e -e \"s/http.client.services.AAI.password.*/http.client.services.AAI.password\u003dpolicy/g\" \\\n\u003e -e \"s/http.client.services.AAI.contextUriPath.*/http.client.services.AAI.contextUriPath\u003d/g\" \\\n\u003e AAI-http-client.properties\n\nNote also do not match, in \"env\" variables, installations may overriding outside of it,\nso the safest way to do it is to match the property name.\n\nSee the test below:\n\n---- BEFORE ----\n\npolicy@dev-drools-0:/opt/app/policy/config$ cat AAI-http-client.properties\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003dLICENSE_START\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n# ONAP\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n# Copyright (C) 2020 AT\u0026T Intellectual Property. All rights reserved.\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003dLICENSE_END\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nhttp.client.services\u003dAAI\n\nhttp.client.services.AAI.managed\u003dtrue\nhttp.client.services.AAI.https\u003dfalse\nhttp.client.services.AAI.host\u003d${envd:AAI_HOST}\nhttp.client.services.AAI.port\u003d${envd:AAI_PORT}\nhttp.client.services.AAI.userName\u003d${envd:AAI_USERNAME}\nhttp.client.services.AAI.password\u003d${envd:AAI_PASSWORD}\nhttp.client.services.AAI.contextUriPath\u003d${envd:AAI_CONTEXT_URI}\n\n---- AFTER ----\n\npolicy@dev-drools-0:/opt/app/policy/config$ sed \\\n\u003e -e \"s/http.client.services.AAI.host.*/http.client.services.AAI.host\u003dlocalhost/g\" \\\n\u003e -e \"s/http.client.services.AAI.port.*/http.client.services.AAI.port\u003d6666/g\" \\\n\u003e -e \"s/http.client.services.AAI.userName.*/http.client.services.AAI.userName\u003dpolicy/g\" \\\n\u003e -e \"s/http.client.services.AAI.password.*/http.client.services.AAI.password\u003dpolicy/g\" \\\n\u003e -e \"s/http.client.services.AAI.contextUriPath.*/http.client.services.AAI.contextUriPath\u003d/g\" \\\n\u003e AAI-http-client.properties\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003dLICENSE_START\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n# ONAP\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n# Copyright (C) 2020 AT\u0026T Intellectual Property. All rights reserved.\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n# \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003dLICENSE_END\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nhttp.client.services\u003dAAI\n\nhttp.client.services.AAI.managed\u003dtrue\nhttp.client.services.AAI.https\u003dfalse\nhttp.client.services.AAI.host\u003dlocalhost\nhttp.client.services.AAI.port\u003d6666\nhttp.client.services.AAI.userName\u003dpolicy\nhttp.client.services.AAI.password\u003dpolicy\nhttp.client.services.AAI.contextUriPath\u003d",
       "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
