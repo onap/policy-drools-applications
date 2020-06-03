@@ -42,6 +42,7 @@ public final class Util {
     public static final String PROP_GUARD_USER = "pdpx.username";
     public static final String PROP_GUARD_PASS = "pdpx.password";
     public static final String PROP_GUARD_DISABLED = "guard.disabled";
+    public static final String PROP_GUARD_PERSISTENCE_UNIT = "guard.persistenceUnit";
 
     /*
      * Keys for eclipse link and ONAP properties

@@ -36,6 +36,13 @@
       <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+      <artifactId>model-yaml</artifactId>
+      <version>${policy.models.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.onap.policy.drools-pdp</groupId>
@@ -52,20 +59,73 @@
     </dependency>
 
     <dependency>
-      <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-      <artifactId>guard</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
         <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
         <artifactId>guard</artifactId>
         <version>${policy.models.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.policy.models</groupId>
+      <artifactId>policy-models-decisions</artifactId>
+      <version>${policy.models.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+      <artifactId>rest</artifactId>
+      <version>${policy.models.version}</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.att.research.xacml</groupId>
+        <artifactId>xacml-pdp</artifactId>
+        <version>1.0.2</version>
+        <exclusions>
+            <!--
+                Exclude jars with an older version or that are insecure and not needed. 
+             -->
+            <exclusion>
+                <artifactId>commons-codec</artifactId>
+                <groupId>commons-codec</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-logging</artifactId>
+                <groupId>commons-logging</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>guava</artifactId>
+                <groupId>com.google.guava</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-lang3</artifactId>
+                <groupId>org.apache.commons</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>jackson-databind</artifactId>
+                <groupId>com.fasterxml.jackson.core</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-collections</artifactId>
+                <groupId>commons-collections</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>commons-lang</artifactId>
+                <groupId>commons-lang</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+      <artifactId>simulators</artifactId>
+      <version>${policy.models.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>

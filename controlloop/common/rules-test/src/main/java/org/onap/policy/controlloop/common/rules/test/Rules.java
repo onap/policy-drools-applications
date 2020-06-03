@@ -51,7 +51,6 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.persistence.SystemPersistence;
@@ -165,14 +164,6 @@ public class Rules {
             await(clazz.getSimpleName()).atMost(5, TimeUnit.SECONDS)
                             .until(() -> drools.facts(controllerName, clazz).isEmpty());
         }
-
-        /*
-         * We can't delete this class directly; we have to wait for the rules to clean it
-         * up, because the rule also cleans up a number of other associated objects.
-         */
-        Class<?> clazz = ControlLoopEventManager.class;
-        await(clazz.getSimpleName()).atMost(5, TimeUnit.SECONDS)
-                        .until(() -> drools.facts(controllerName, clazz).isEmpty());
     }
 
     /**

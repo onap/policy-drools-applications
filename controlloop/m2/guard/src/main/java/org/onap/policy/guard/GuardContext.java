@@ -27,19 +27,14 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.function.Supplier;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.drools.core.WorkingMemory;
-import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.core.PolicyContainer;
 import org.onap.policy.drools.core.PolicySession;
-import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyControllerConstants;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.guard.OperationsHistory;
-import org.onap.policy.guard.Util;
 import org.onap.policy.util.DroolsSessionCommonSerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,6 +165,8 @@ public class GuardContext implements Serializable {
         if (driver != null) {
             dbProperties.setProperty(ECLIPSE_LINK_KEY_DRIVER, driver);
         }
+        dbProperties.setProperty(Util.PROP_GUARD_PERSISTENCE_UNIT,
+                        properties.getProperty(Util.PROP_GUARD_PERSISTENCE_UNIT, "OperationsHistoryPU"));
 
         // if there are any errors, update 'errorMessage' & disable guard queries
         if (sb.length() != 0) {
@@ -271,7 +268,8 @@ public class GuardContext implements Serializable {
             propertiesMap.put("eclipselink.ddl-generation", "create-tables");
 
             // create entity manager factory
-            emf = Persistence.createEntityManagerFactory("OperationsHistoryPU", propertiesMap);
+            String persistenceUnit = dbProperties.getProperty(Util.PROP_GUARD_PERSISTENCE_UNIT);
+            emf = Persistence.createEntityManagerFactory(persistenceUnit, propertiesMap);
         }
 
         // create and return the 'EntityManager'

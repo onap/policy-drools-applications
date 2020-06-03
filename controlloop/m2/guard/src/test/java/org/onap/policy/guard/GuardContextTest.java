@@ -85,11 +85,12 @@ public class GuardContextTest {
     @Test
     public void testGuardDbResponse() throws InterruptedException {
         Properties props = new Properties(prop);
+        props.setProperty(Util.PROP_GUARD_PERSISTENCE_UNIT, "OperationsHistoryPUTest");
         props.setProperty("guard.disabled", "false");
         props.setProperty("guard.javax.persistence.jdbc.user", "user");
         props.setProperty("guard.javax.persistence.jdbc.password", "secret");
         props.setProperty("guard.javax.persistence.jdbc.driver", "org.h2.Driver");
-        props.setProperty("guard.javax.persistence.jdbc.url", "jdbc:h2:file:./H2DB");
+        props.setProperty("guard.javax.persistence.jdbc.url", "jdbc:h2:mem:testGuardDbResponse");
 
         guardContext = new GuardContext(props);
         assertNotNull(guardContext);
@@ -168,11 +169,12 @@ public class GuardContextTest {
 
     @Test
     public void testCreateDbEntry() {
-        Properties mockProperties = Mockito.mock(Properties.class);
+        Properties props = new Properties();
+        props.setProperty(Util.PROP_GUARD_PERSISTENCE_UNIT, "OperationsHistoryPUTest");
         Instant startTime = Instant.now();
         Instant endTime = Instant.now();
 
-        guardContext = new GuardContext(mockProperties);
+        guardContext = new GuardContext(props);
         assertFalse(guardContext.createDbEntry(startTime, endTime, "testClosedLoopControlName", "testActor",
                 "testRecipe", "testTarget", "testRequestId", "testSubRequestId", "testMessage", "testOutcome"));
 
@@ -181,10 +183,10 @@ public class GuardContextTest {
                 "testRecipe", "testTarget", "testRequestId", "testSubRequestId", "testMessage", "testOutcome"));
 
         PolicyEngineConstants.getManager().setEnvironmentProperty("guard.disabled", "");
-        PolicyEngineConstants.getManager().setEnvironmentProperty("guard.jdbc.url", "jdbc:h2:file:./H2DB");
+        PolicyEngineConstants.getManager().setEnvironmentProperty("guard.jdbc.url", "jdbc:h2:mem:testCreateDbEntry");
         PolicyEngineConstants.getManager().setEnvironmentProperty("sql.db.username", "user");
         PolicyEngineConstants.getManager().setEnvironmentProperty("sql.db.password", "secret");
-        guardContext = new GuardContext(mockProperties);
+        guardContext = new GuardContext(props);
         assertTrue(guardContext.createDbEntry(startTime, endTime, "testClosedLoopControlName", "testActor",
                 "testRecipe", "testTarget", "testRequestId", "testSubRequestId", "testMessage", "testOutcome"));
 

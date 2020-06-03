@@ -38,8 +38,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature;
+import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
@@ -124,16 +124,15 @@ public class RestControlLoopManager {
     @Path("engine/tools/controlloops/aai/customQuery/{vserverId}")
     @ApiOperation(value = "AAI Custom Query")
     public Response aaiCustomQuery(@ApiParam(value = "vserver Identifier") String vserverId) {
+        PolicyEngine mgr = PolicyEngineConstants.getManager();
+
         return Response
             .status(Status.OK)
             .entity(new AaiManager(new RestManager())
                 .getCustomQueryResponse(
-                    PolicyEngineConstants.getManager()
-                                    .getEnvironmentProperty(ControlLoopEventManager.AAI_URL),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty(
-                                    ControlLoopEventManager.AAI_USERNAME_PROPERTY),
-                    PolicyEngineConstants.getManager().getEnvironmentProperty(
-                                    ControlLoopEventManager.AAI_PASS_PROPERTY),
+                    mgr.getEnvironmentProperty("aai.url"),
+                    mgr.getEnvironmentProperty("aai.username"),
+                    mgr.getEnvironmentProperty("aai.password"),
                     UUID.randomUUID(),
                     vserverId))
             .build();
