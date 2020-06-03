@@ -40,7 +40,6 @@ import org.onap.policy.common.utils.jpa.EntityTransCloser;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.guard.OperationsHistory;
-import org.onap.policy.guard.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -322,9 +321,9 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      */
     private Properties toProperties(OperationHistoryDataManagerParams params) {
         Properties props = new Properties();
-        props.put(Util.ECLIPSE_LINK_KEY_URL, params.getUrl());
-        props.put(Util.ECLIPSE_LINK_KEY_USER, params.getUserName());
-        props.put(Util.ECLIPSE_LINK_KEY_PASS, params.getPassword());
+        props.put(PersistenceUnitProperties.JDBC_URL, params.getUrl());
+        props.put(PersistenceUnitProperties.JDBC_USER, params.getUserName());
+        props.put(PersistenceUnitProperties.JDBC_PASSWORD, params.getPassword());
         props.put(PersistenceUnitProperties.CLASSLOADER, getClass().getClassLoader());
 
         return props;

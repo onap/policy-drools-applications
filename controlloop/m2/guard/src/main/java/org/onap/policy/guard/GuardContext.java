@@ -31,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.drools.core.WorkingMemory;
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.drools.core.PolicyContainer;
 import org.onap.policy.drools.core.PolicySession;
 import org.onap.policy.drools.system.PolicyControllerConstants;
@@ -47,8 +48,6 @@ import org.slf4j.LoggerFactory;
  */
 public class GuardContext implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    private static final String ECLIPSE_LINK_KEY_DRIVER = "javax.persistence.jdbc.driver";
 
     private static Logger logger = LoggerFactory.getLogger(GuardContext.class);
 
@@ -158,13 +157,15 @@ public class GuardContext implements Serializable {
         // extract 'guard.java.persistence.jdbc.*' parameters,
         // which are all mandatory
         dbProperties = new Properties();
-        setProperty(dbProperties, Util.ONAP_KEY_URL, Util.ECLIPSE_LINK_KEY_URL, sb);
-        setProperty(dbProperties, Util.ONAP_KEY_USER, Util.ECLIPSE_LINK_KEY_USER, sb);
-        setProperty(dbProperties, Util.ONAP_KEY_PASS, Util.ECLIPSE_LINK_KEY_PASS, sb);
-        String driver = properties.getProperty("guard." + ECLIPSE_LINK_KEY_DRIVER);
+        setProperty(dbProperties, Util.ONAP_KEY_URL, PersistenceUnitProperties.JDBC_URL, sb);
+        setProperty(dbProperties, Util.ONAP_KEY_USER, PersistenceUnitProperties.JDBC_USER, sb);
+        setProperty(dbProperties, Util.ONAP_KEY_PASS, PersistenceUnitProperties.JDBC_PASSWORD, sb);
+        String driver = properties.getProperty("guard." + PersistenceUnitProperties.JDBC_DRIVER);
         if (driver != null) {
-            dbProperties.setProperty(ECLIPSE_LINK_KEY_DRIVER, driver);
+            dbProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, driver);
         }
+        dbProperties.setProperty(Util.PROP_GUARD_PERSISTENCE_UNIT,
+                        properties.getProperty(Util.PROP_GUARD_PERSISTENCE_UNIT, Util.PU_KEY));
 
         // if there are any errors, update 'errorMessage' & disable guard queries
         if (sb.length() != 0) {
@@ -266,7 +267,8 @@ public class GuardContext implements Serializable {
             propertiesMap.put("eclipselink.ddl-generation", "create-tables");
 
             // create entity manager factory
-            emf = Persistence.createEntityManagerFactory("OperationsHistoryPU", propertiesMap);
+            String persistenceUnit = dbProperties.getProperty(Util.PROP_GUARD_PERSISTENCE_UNIT);
+            emf = Persistence.createEntityManagerFactory(persistenceUnit, propertiesMap);
         }
 
         // create and return the 'EntityManager'
