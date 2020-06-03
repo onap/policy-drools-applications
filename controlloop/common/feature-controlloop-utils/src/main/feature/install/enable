@@ -1,0 +1,56 @@
+#! /bin/bash
+
+###
+# ============LICENSE_START=======================================================
+# ONAP POLICY
+# ================================================================================
+# Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============LICENSE_END=========================================================
+##
+
+for actor in AAI SO SDNC VFC GUARD
+do
+    FILE=${POLICY_HOME}/config/${actor}-http-client.properties
+    if [[ -f ${FILE} && ${actor} != GUARD ]]; then
+        case ${actor} in
+        AAI)
+            PORT=6666
+            ;;
+        SO)
+            PORT=6667
+            ;;
+        VFC)
+            PORT=6668
+            ;;
+        SDNC)
+            PORT=6670
+            ;;
+        esac
+        sed -i.ofc -e "s/^host=.*/localhost/g" \
+        -e "s/host.*/host=localhost/g" \
+        -e "s/userName.*/userName=policy/g" \
+        -e "s/password.*/password=policy/g" \
+        -e "s/port.*/port=${PORT}/g" \
+        -e "s/contextUriPath.*/contextUriPath=/g" \
+        ${FILE}
+    else
+        sed -i.ofc -e "s/^host=.*/localhost/g" \
+        -e "s/host.*/host=localhost/" \
+        -e "s/port.*/port=6669/g" \
+        -e "s!contextUriPath.*!contextUriPath=/pdp/api/getDecision!g" \
+        -e "s/userName.*/userName=/g" \
+        -e "s/password.*/password=/g" ${FILE}
+    fi
+done
