@@ -16,6 +16,24 @@
       "revId": "82bb79e4ce087665bf7dd7189039ecaea8b7cc8f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ca9e6ed_5a2d3c1e",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-04T21:12:37Z",
+      "side": 1,
+      "message": "there shouldn\u0027t be a bunch of separate blocks - only need one block for all of them.  Can move GUARD outside the loop into its own block since it doesn\u0027t follow the same pattern as the others.",
+      "parentUuid": "389c2ca7_02b92b1a",
+      "revId": "82bb79e4ce087665bf7dd7189039ecaea8b7cc8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
