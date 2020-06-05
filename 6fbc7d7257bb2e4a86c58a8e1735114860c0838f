@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8df675ec_c3ddafdc",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-05T14:14:30Z",
+      "side": 1,
+      "message": "note: since each file is actor-specific, these patterns can be shorted substantially.  Ex:\n\n  -e \"s/userName.*/userName\u003dpolicy/\"",
+      "revId": "6fbc7d7257bb2e4a86c58a8e1735114860c0838f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
