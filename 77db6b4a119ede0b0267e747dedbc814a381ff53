@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "323d3e50_f46c01d9",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a2b66b_e8f2d439",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01575955_5bd38c82",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af99b59_1337ceea",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01575955_5bd38c82",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "251ac7c3_e2c3d865",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "I may not change this variable as its been used as an original file name which .ofc file moves the content to.\nEx: mv $AAI_PROP_FILE.ofc $AAI_PROP_FILE (This would talk to itself)\n\nI think you mentioned to make it .ofc, as you want to check if .ofc file exists or not before the move operation. \nSo, for that i can check directly in if condition like:\nif [[ -f ${AAI_PROP_FILE}.ofc ]]; then",
+      "parentUuid": "42262e50_6cf59731",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790a037e_0121ddbd",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2205d04_b3ad57b4",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "790a037e_0121ddbd",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "396237b0_2cee5503",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dce2fd7_59fc1f8d",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03c34d2f_14e76afc",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 1
@@ -101,6 +191,24 @@
       "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fab8a3c_1f70003e",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03c34d2f_14e76afc",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "72342898_427b8bbc",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "OK, Done",
+      "parentUuid": "7e97e660_42bc0ce6",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b22d2f64_bc66fad6",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 1
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "b4b1352f_4080c7a1",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b22d2f64_bc66fad6",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b499ca_dafdc6f5",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 1
@@ -152,6 +296,24 @@
       "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c49f7357_88bb22f7",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1725
+      },
+      "writtenOn": "2020-06-05T21:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76b499ca_dafdc6f5",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
