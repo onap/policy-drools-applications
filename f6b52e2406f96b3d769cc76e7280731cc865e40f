@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8193c4d_15892304",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/event-manager.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-05T12:56:23Z",
+      "side": 1,
+      "message": "Is the operation for VFC the same as for SO then?",
+      "revId": "f6b52e2406f96b3d769cc76e7280731cc865e40f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
