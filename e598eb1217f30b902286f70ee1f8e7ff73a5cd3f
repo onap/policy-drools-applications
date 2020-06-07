@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97454e3c_650ed4cf",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-07T15:11:37Z",
+      "side": 1,
+      "message": "This is incorrect.  There is no line that starts with \"host\".",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76cacca7_2a7bcb6c",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-07T15:11:37Z",
+      "side": 1,
+      "message": "The previous line and this one, should be compacted into 1.",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec3289c_98340578",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-07T15:11:37Z",
+      "side": 1,
+      "message": "The shortening introduced here is too loose, in general, may introduce potential for problems as introduces room of ambiguity.\nIf it is only for cosmetics, at the cost of losing precision, I don\u0027t see much value.\n\nProvided we are not sure how these files are going to evolve over time, for example, if the word \"port\" appears anywhere in the file it will be blindly replaced regardless of the context, this may be OK if it is in a comment, but may not be OK if it is in an unintended field.\n\nI suggest to go back and match exactly what you are trying to replace to avoid ambiguities\n\n\"s/^http.client.services.${actor}.port[ ].*\u003d.*$/http.client.services.${actor}.port\u003d${PORT}/g\"  ($ can be left out)\n\nNote \"^\" and space handling.",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "448ecc4b_8c1c3972",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-07T15:11:37Z",
+      "side": 1,
+      "message": "This is inconsistent with the previous line",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ac01f19_13034578",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-07T15:11:37Z",
+      "side": 1,
+      "message": "See my previous comment the precision in the pattern matching is excessively loose in general",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

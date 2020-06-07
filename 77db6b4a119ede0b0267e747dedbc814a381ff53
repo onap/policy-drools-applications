@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "d21ca1dd_de6339f2",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/disable",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-07T15:11:37Z",
+      "side": 1,
+      "message": "Right, the intended point I made with this comment, and I thought I explained later in conversation, was that if you were making a \"mv\" in a file, but you were not checking of that file being moved, therefore the logic was flawed, as the \"-f\" statement may be true and the mv failed, so it does not provide sufficient guard.   Obviously, there are several ways to go about it, and thought wasn\u0027t necessary for me to spell them out in the review.",
+      "parentUuid": "251ac7c3_e2c3d865",
+      "revId": "77db6b4a119ede0b0267e747dedbc814a381ff53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790a037e_0121ddbd",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 1
