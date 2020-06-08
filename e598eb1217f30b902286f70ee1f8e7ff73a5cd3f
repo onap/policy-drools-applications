@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e7814484_ccb026cf",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-08T15:20:11Z",
+      "side": 1,
+      "message": "right, should remove the \"^\"",
+      "parentUuid": "97454e3c_650ed4cf",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76cacca7_2a7bcb6c",
         "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
         "patchSetId": 6
@@ -81,6 +99,23 @@
       "writtenOn": "2020-06-07T15:11:37Z",
       "side": 1,
       "message": "See my previous comment the precision in the pattern matching is excessively loose in general",
+      "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5a0864f_4f0622c0",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-08T15:20:11Z",
+      "side": 1,
+      "message": "maybe change \".*\" to \"\u003d.*\"",
       "revId": "e598eb1217f30b902286f70ee1f8e7ff73a5cd3f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
