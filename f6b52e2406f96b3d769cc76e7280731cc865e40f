@@ -16,6 +16,24 @@
       "revId": "f6b52e2406f96b3d769cc76e7280731cc865e40f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f4650a_595db54a",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/event-manager.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-06-08T12:23:58Z",
+      "side": 1,
+      "message": "I didn\u0027t think it was - thought it was a modify config or restart",
+      "parentUuid": "c8193c4d_15892304",
+      "revId": "f6b52e2406f96b3d769cc76e7280731cc865e40f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
