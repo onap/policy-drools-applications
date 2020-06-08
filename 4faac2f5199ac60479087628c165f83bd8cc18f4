@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c920d0c_6e9f4ef2",
+        "filename": "controlloop/common/controller-frankfurt/src/test/resources/config/event-manager.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-08T17:40:37Z",
+      "side": 1,
+      "message": "I am confused, in the models review the operation was call \"VF Module Create\" ?",
+      "revId": "4faac2f5199ac60479087628c165f83bd8cc18f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
