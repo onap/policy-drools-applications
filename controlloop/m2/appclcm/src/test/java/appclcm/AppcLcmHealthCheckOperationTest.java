@@ -158,7 +158,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.SUCCESS);
+        assertEquals(PolicyResult.SUCCESS, operation.getResult());
     }
 
     @Test
@@ -179,7 +179,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE);
+        assertEquals(PolicyResult.FAILURE, operation.getResult());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
     }
 
     @Test
@@ -221,7 +221,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
     }
 
     @Test
@@ -242,7 +242,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE);
+        assertEquals(PolicyResult.FAILURE, operation.getResult());
     }
 
     @Test
@@ -260,7 +260,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
     }
 
     @Test
@@ -278,7 +278,7 @@ public class AppcLcmHealthCheckOperationTest {
         AppcLcmDmaapWrapper healthCheckResp = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(healthCheckResp);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
     }
 
     @Test
