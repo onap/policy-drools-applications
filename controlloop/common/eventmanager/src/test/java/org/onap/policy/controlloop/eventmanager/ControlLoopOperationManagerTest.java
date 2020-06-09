@@ -226,7 +226,7 @@ public class ControlLoopOperationManagerTest {
         //
         PolicyResult result = manager.onResponse(dmaapResponse);
         logger.debug("{}", manager);
-        assertTrue(result == null);
+        assertNull(result);
         assertFalse(manager.isOperationComplete());
         assertTrue(manager.isOperationRunning());
         //
@@ -239,7 +239,7 @@ public class ControlLoopOperationManagerTest {
         dmaapResponse.setBody(outputBody);
         result = manager.onResponse(dmaapResponse);
         logger.debug("{}", manager);
-        assertTrue(result.equals(PolicyResult.FAILURE));
+        assertEquals(PolicyResult.FAILURE, result);
         assertFalse(manager.isOperationComplete());
         assertFalse(manager.isOperationRunning());
         //
@@ -268,7 +268,7 @@ public class ControlLoopOperationManagerTest {
         //
         result = manager.onResponse(dmaapResponse);
         logger.debug("{}", manager);
-        assertTrue(result == null);
+        assertNull(result);
         assertFalse(manager.isOperationComplete());
         assertTrue(manager.isOperationRunning());
         //
@@ -281,15 +281,15 @@ public class ControlLoopOperationManagerTest {
         dmaapResponse.setBody(outputBody);
         result = manager.onResponse(dmaapResponse);
         logger.debug("{}", manager);
-        assertTrue(result.equals(PolicyResult.FAILURE));
+        assertEquals(PolicyResult.FAILURE, result);
         //
         // Should be complete now
         //
         assertTrue(manager.isOperationComplete());
         assertFalse(manager.isOperationRunning());
         assertNotNull(manager.getOperationResult());
-        assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_RETRIES));
-        assertTrue(manager.getHistory().size() == 2);
+        assertEquals(PolicyResult.FAILURE_RETRIES, manager.getOperationResult());
+        assertEquals(2, manager.getHistory().size());
     }
 
     @Test
@@ -354,7 +354,7 @@ public class ControlLoopOperationManagerTest {
         //
         PolicyResult result = manager.onResponse(dmaapResponse);
         logger.debug("{}", manager);
-        assertTrue(result == null);
+        assertNull(result);
         assertFalse(manager.isOperationComplete());
         assertTrue(manager.isOperationRunning());
         //
@@ -364,8 +364,8 @@ public class ControlLoopOperationManagerTest {
         logger.debug("{}", manager);
         assertTrue(manager.isOperationComplete());
         assertFalse(manager.isOperationRunning());
-        assertTrue(manager.getHistory().size() == 1);
-        assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_TIMEOUT));
+        assertEquals(1, manager.getHistory().size());
+        assertEquals(PolicyResult.FAILURE_TIMEOUT, manager.getOperationResult());
         //
         // Now we are going to Fail the previous request
         //
@@ -381,8 +381,8 @@ public class ControlLoopOperationManagerTest {
         //
         assertTrue(manager.isOperationComplete());
         assertFalse(manager.isOperationRunning());
-        assertTrue(manager.getHistory().size() == 1);
-        assertTrue(manager.getOperationResult().equals(PolicyResult.FAILURE_TIMEOUT));
+        assertEquals(1, manager.getHistory().size());
+        assertEquals(PolicyResult.FAILURE_TIMEOUT, manager.getOperationResult());
     }
 
     @Test
