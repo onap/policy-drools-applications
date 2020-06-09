@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faa39ca8_b540609a",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-09T17:20:48Z",
+      "side": 1,
+      "message": "setCustomField1 better (starting with the first spare field)",
+      "revId": "d3418ef88f5e386ced5f6295cc93f58a525712a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12ce62c4_f0fb7fac",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-09T17:20:48Z",
+      "side": 1,
+      "message": "notification.getNotification().name()",
+      "revId": "d3418ef88f5e386ced5f6295cc93f58a525712a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79a5c3cf_e92309bb",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/logback.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-09T17:20:48Z",
+      "side": 1,
+      "message": "Please use exactly the same lines here that you have in the drools-pdp review down the policy-management directory.   These are different and we discussed the issues with the timestamps in different format, missing CustomField1, etc ..",
+      "revId": "d3418ef88f5e386ced5f6295cc93f58a525712a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
