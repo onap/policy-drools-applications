@@ -21,6 +21,7 @@
 package org.onap.policy.m2.adapters;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -39,15 +40,15 @@ public class VirtualOnsetAdapterTest {
         VirtualControlLoopEvent virtualControlLoopEvent = new VirtualControlLoopEvent();
         VirtualOnsetAdapter virtualOnsetAdapter =
             VirtualOnsetAdapter.class.cast(OnsetAdapter.get(virtualControlLoopEvent));
-        assertTrue(virtualOnsetAdapter != null);
+        assertNotNull(virtualOnsetAdapter);
 
         ControlLoopNotification notification = virtualOnsetAdapter.createNotification(virtualControlLoopEvent);
-        assertTrue(notification != null);
+        assertNotNull(notification);
         // we want an exact class match, so 'instanceOf' is not being used
         assertEquals(VirtualControlLoopNotification.class, notification.getClass());
 
         ControlLoopEvent controlLoopEvent = new ControlLoopEvent() {};
         notification = virtualOnsetAdapter.createNotification(controlLoopEvent);
-        assertTrue(notification != null);
+        assertNotNull(notification);
     }
 }
