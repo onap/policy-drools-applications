@@ -245,7 +245,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
      * the lock, but it has now became available.
      */
     public void lockAvailable() {
-        if (this.state == LCM_WAIT_FOR_LOCK) {
+        if (this.state.equals(LCM_WAIT_FOR_LOCK)) {
             // we have the lock -- invoke 'quardQuery()',
             // go to the appropriate state, and mark the transaction as modified
             guardQuery();
@@ -265,7 +265,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
      * obtained.
      */
     public void lockUnavailable() {
-        if (this.state == LCM_WAIT_FOR_LOCK) {
+        if (this.state.equals(LCM_WAIT_FOR_LOCK)) {
             try {
                 setErrorStatus("Already processing event with this target");
             } catch (ControlLoopException e) {
@@ -314,7 +314,6 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
                 payload = setRebootPayload();
                 break;
             default:
-                payload = null;
                 break;
         }
 
@@ -485,7 +484,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
     void incomingGuardMessage(PolicyGuardResponse response) {
         // this message is only meaningful if we are waiting for a
         // 'guard' response -- ignore it, if this isn't the case
-        if (this.state == LCM_GUARD_PENDING) {
+        if (this.state.equals(LCM_GUARD_PENDING)) {
             if ("Deny".equals(response.getResult())) {
                 // this is a guard failure
                 logger.error("LCM operation denied by 'Guard'");
