@@ -16,6 +16,24 @@
       "revId": "dcc7cac5f17dacf9a58b18b518574391cdc73925",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f02f84_45478a89",
+        "filename": "controlloop/m2/appclcm/src/main/java/org/onap/policy/m2/appclcm/AppcLcmHealthCheckOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-06-10T20:12:27Z",
+      "side": 0,
+      "message": "yeah. let me fix it",
+      "parentUuid": "035267b0_5df98d35",
+      "revId": "dcc7cac5f17dacf9a58b18b518574391cdc73925",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
