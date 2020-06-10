@@ -187,7 +187,7 @@ public class ControlLoopMetricsFeatureTest {
     @Test
     public void getSequenceNumber() {
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
-        assertEquals(feature.getSequenceNumber(), ControlLoopMetricsFeature.FEATURE_SEQUENCE_PRIORITY);
+        assertEquals(ControlLoopMetricsFeature.FEATURE_SEQUENCE_PRIORITY, feature.getSequenceNumber());
     }
 
     @Test
