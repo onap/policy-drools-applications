@@ -647,8 +647,8 @@ public class ControlLoopEventManagerTest {
         VirtualControlLoopEvent onsetEvent = getOnsetEvent();
 
         ControlLoopEventManager manager = makeManager(onsetEvent);
-        assertTrue(0 == manager.getControlLoopTimeout(null));
-        assertTrue(120 == manager.getControlLoopTimeout(120));
+        assertEquals(0, manager.getControlLoopTimeout(null));
+        assertEquals(120, manager.getControlLoopTimeout(120));
 
         InputStream is = new FileInputStream(new File(TEST_YAML));
         final String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
@@ -673,8 +673,8 @@ public class ControlLoopEventManagerTest {
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
-        assertTrue(0 == manager.getControlLoopTimeout(null));
-        assertTrue(120 == manager.getControlLoopTimeout(120));
+        assertEquals(0, manager.getControlLoopTimeout(null));
+        assertEquals(120, manager.getControlLoopTimeout(120));
     }
 
     @Test
@@ -690,8 +690,8 @@ public class ControlLoopEventManagerTest {
         assertNotNull(notification);
         assertEquals(ControlLoopNotificationType.ACTIVE, notification.getNotification());
 
-        assertTrue(0 == manager.getControlLoopTimeout(null));
-        assertTrue(120 == manager.getControlLoopTimeout(120));
+        assertEquals(0, manager.getControlLoopTimeout(null));
+        assertEquals(120, manager.getControlLoopTimeout(120));
     }
 
     @Test
