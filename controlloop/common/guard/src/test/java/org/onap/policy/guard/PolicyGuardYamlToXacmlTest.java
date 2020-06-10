@@ -179,11 +179,6 @@ public class PolicyGuardYamlToXacmlTest {
     }
 
     @Test
-    public void testFromYamlToXacmlBlacklist() {
-        // fail("Not yet implemented");
-    }
-
-    @Test
     public void testGenerateXacmlGuardBlacklist() throws IOException {
         final File tempYamlFile = File.createTempFile(ONAPPF_FILE, "yaml");
         tempYamlFile.deleteOnExit();

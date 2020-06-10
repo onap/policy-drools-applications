@@ -164,7 +164,7 @@ public class AppcLcmOperationTest {
         assertEquals("Restart", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNull(appcRequest.getPayload());
 
         logger.info("vnf restart request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
@@ -224,7 +224,7 @@ public class AppcLcmOperationTest {
         assertEquals("Rebuild", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNull(appcRequest.getPayload());
 
         logger.info("vnf rebuild request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
@@ -284,7 +284,7 @@ public class AppcLcmOperationTest {
         assertEquals("Migrate", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNull(appcRequest.getPayload());
 
         logger.info("vnf migrate request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
@@ -344,7 +344,7 @@ public class AppcLcmOperationTest {
         assertEquals("Evacuate", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNull(appcRequest.getPayload());
 
         logger.info("vnf evacuate request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
@@ -408,7 +408,7 @@ public class AppcLcmOperationTest {
         assertEquals("Reboot", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNotNull(appcRequest.getPayload());
 
         logger.info("vnf reboot request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
