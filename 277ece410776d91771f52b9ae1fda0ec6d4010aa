@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e93cb5e_69587efc",
+        "filename": "controlloop/m2/appclcm/src/main/java/org/onap/policy/m2/appclcm/AppcLcmOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-10T17:54:45Z",
+      "side": 1,
+      "message": "should probably reverse this to:\n\n  LCM_GUARD_PENDING.equals(...)",
+      "revId": "277ece410776d91771f52b9ae1fda0ec6d4010aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
