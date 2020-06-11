@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa558974_576e6b9b",
+        "filename": "controlloop/m2/appclcm/src/main/java/org/onap/policy/m2/appclcm/AppcLcmHealthCheckOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-06-11T13:05:57Z",
+      "side": 1,
+      "message": "This comment is probably incorrect now because you get to this line in normal execution now.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 2
+      },
+      "revId": "ad08d0685db264df653166fa784e8005e9d62619",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
