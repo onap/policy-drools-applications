@@ -57,7 +57,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.guard.GuardActorServiceProvider;
-import org.onap.policy.controlloop.actor.guard.GuardOperation;
+import org.onap.policy.controlloop.actor.guard.DecisionOperation;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -931,7 +931,7 @@ public class ControlLoopOperationManager2Test {
     private OperationOutcome genGuardOutcome(boolean permit) {
         OperationOutcome outcome = mgr.getParams().makeOutcome();
         outcome.setActor(GuardActorServiceProvider.NAME);
-        outcome.setOperation(GuardOperation.NAME);
+        outcome.setOperation(DecisionOperation.NAME);
         outcome.setStart(Instant.now());
         mgr.getParams().callbackStarted(new OperationOutcome(outcome));
 
