@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f20309af_ca6ffbcc",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-11T13:45:13Z",
+      "side": 1,
+      "message": "One additional comment, since you have removed TargetEntity from logback.xml transaction, this info will not be logged, find a new field home for this information - if not available use the next in sequence spare CustomField from the MDC.",
+      "revId": "ce8b96b199d08e56d6208bbd220bcc57aa4e39ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
