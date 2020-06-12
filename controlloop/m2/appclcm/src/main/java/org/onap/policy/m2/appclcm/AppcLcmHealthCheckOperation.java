@@ -28,7 +28,6 @@ import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.guard.PolicyGuardResponse;
@@ -88,7 +87,6 @@ public class AppcLcmHealthCheckOperation extends AppcLcmOperation {
         if (!(object instanceof AppcLcmDmaapWrapper)) {
             if (object instanceof PolicyGuardResponse) {
                 incomingGuardMessage((PolicyGuardResponse) object);
-                return;
             }
             // ignore this message (not sure why we even got it)
             return;
