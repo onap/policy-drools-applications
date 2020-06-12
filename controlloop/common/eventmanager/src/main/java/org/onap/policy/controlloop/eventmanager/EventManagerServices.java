@@ -25,10 +25,10 @@ import java.util.Properties;
 import lombok.Getter;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.properties.PropertyObjectUtils;
+import org.onap.policy.controlloop.actor.guard.DecisionOperation;
+import org.onap.policy.controlloop.actor.guard.DecisionOperator;
 import org.onap.policy.controlloop.actor.guard.GuardActorServiceProvider;
 import org.onap.policy.controlloop.actor.guard.GuardConfig;
-import org.onap.policy.controlloop.actor.guard.GuardOperation;
-import org.onap.policy.controlloop.actor.guard.GuardOperator;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
@@ -103,8 +103,8 @@ public class EventManagerServices {
      */
     public boolean isGuardEnabled() {
         try {
-            GuardOperator guard = (GuardOperator) getActorService().getActor(GuardActorServiceProvider.NAME)
-                            .getOperator(GuardOperation.NAME);
+            DecisionOperator guard = (DecisionOperator) getActorService().getActor(GuardActorServiceProvider.NAME)
+                            .getOperator(DecisionOperation.NAME);
             if (!guard.isConfigured()) {
                 logger.warn("cannot check 'disabled' property in GUARD actor - assuming disabled");
                 return false;
