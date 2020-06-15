@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efba13d_cf2c7235",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T17:42:43Z",
+      "side": 1,
+      "message": "change setCustomField3 to \"setCustomField1\".",
+      "revId": "b8c48beaccf096fcb412e3ce046f26d936cb4ee6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1c6fb4_8ff0ec0b",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/logback.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T17:42:43Z",
+      "side": 1,
+      "message": "1) Replace \"||\" with \"|\" (after %class)\n2) Leave CustomField4 as it was (identical to what you have in the drools-pdp side).",
+      "revId": "b8c48beaccf096fcb412e3ce046f26d936cb4ee6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
