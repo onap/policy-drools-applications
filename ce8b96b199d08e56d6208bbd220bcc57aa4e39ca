@@ -16,6 +16,24 @@
       "revId": "ce8b96b199d08e56d6208bbd220bcc57aa4e39ca",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd33862_f752926c",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1761
+      },
+      "writtenOn": "2020-06-15T14:11:26Z",
+      "side": 1,
+      "message": "Yes, log TargetEntity in customField4 for transaction log",
+      "parentUuid": "f20309af_ca6ffbcc",
+      "revId": "ce8b96b199d08e56d6208bbd220bcc57aa4e39ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
