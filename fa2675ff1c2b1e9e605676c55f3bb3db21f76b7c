@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0a5a28f_55ba3505",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T16:51:44Z",
+      "side": 1,
+      "message": "there is a typo- replace this subject line to something more accurate, for example:\n\n\"change audit and metric formats in feature-controlloop-trans\"",
+      "revId": "fa2675ff1c2b1e9e605676c55f3bb3db21f76b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca9a25e8_3fbaa454",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T16:51:44Z",
+      "side": 1,
+      "message": "Remove this line 248 (the target is logged already in line 247)",
+      "revId": "fa2675ff1c2b1e9e605676c55f3bb3db21f76b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25be4c88_212b1385",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T16:51:44Z",
+      "side": 1,
+      "message": "change setCustomField3 to \"setCustomField1\".   This is to start with the first spare field, and not in random order \n(this is an earlier comment not tackled yet in this review)",
+      "revId": "fa2675ff1c2b1e9e605676c55f3bb3db21f76b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "149614d3_f5f4679b",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T16:51:44Z",
+      "side": 1,
+      "message": "change \"toString()\" to \"name()\", this was the original value in original code (this is an earlier comment not tackled yet).",
+      "revId": "fa2675ff1c2b1e9e605676c55f3bb3db21f76b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96b1cfbd_f25b28c9",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T16:51:44Z",
+      "side": 1,
+      "message": "delete this line, this is a duplicate of line 309 above.",
+      "revId": "fa2675ff1c2b1e9e605676c55f3bb3db21f76b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0226bc6_235e2a54",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/resources/logback.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-15T16:51:44Z",
+      "side": 1,
+      "message": "change %class||%X{ProcessKey} to %class|%X{ProcessKey}.   Note the only one \"|\".",
+      "revId": "fa2675ff1c2b1e9e605676c55f3bb3db21f76b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
