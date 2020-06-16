@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46312f1c_97bcea7b",
+        "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-16T15:41:47Z",
+      "side": 1,
+      "message": "Correct the typo, use \"public\" instead :)",
+      "revId": "dd64c4f4eb48af2c85fc4767b8229bf2eeec3773",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
