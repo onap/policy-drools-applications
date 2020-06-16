@@ -20,10 +20,6 @@
 
 package org.onap.policy.m2.base;
 
-import java.util.List;
-
-import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
-import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.drools.core.PolicyContainer;
 import org.onap.policy.drools.core.PolicySession;
 import org.onap.policy.drools.system.PolicyController;
@@ -34,6 +30,11 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
  * This class contains static utility methods.
  */
 public class Util {
+    // Add a private Util to hide the implicit public one.
+    private Util() {
+        //not called
+    }
+
     /**
      * Find the PolicyController associated with the specified PolicySession.
      *
