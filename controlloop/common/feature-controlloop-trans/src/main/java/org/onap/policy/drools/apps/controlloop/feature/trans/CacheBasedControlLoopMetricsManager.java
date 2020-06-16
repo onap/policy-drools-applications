@@ -28,10 +28,12 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
@@ -53,6 +55,22 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     private long cacheSize = ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_DEFAULT;
 
     private long transactionTimeout = ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_DEFAULT;
+
+    /**
+     * Numeric response code.
+     */
+    private static final Map<String, String> note2code = Map.of(
+        ControlLoopNotificationType.ACTIVE.name(), "100",
+        ControlLoopNotificationType.REJECTED.name(), "200",
+        ControlLoopNotificationType.OPERATION.name(), "300",
+        ControlLoopNotificationType.OPERATION_SUCCESS.name(), "301",
+        ControlLoopNotificationType.OPERATION_FAILURE.name(), "302",
+        ControlLoopNotificationType.FINAL_FAILURE.name(), "400",
+        ControlLoopNotificationType.FINAL_SUCCESS.name(), "401",
+        ControlLoopNotificationType.FINAL_OPENLOOP.name(), "402"
+    );
+
+    private static final String UNKNOWN_RESPONSE_CODE = "900";
 
     public CacheBasedControlLoopMetricsManager() {
 
@@ -288,7 +306,11 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                     + ":" + notification.getPolicyName() + ":" + notification.getPolicyVersion())
                 .setProcessKey("" + notification.getAai())
                 .setTargetEntity(notification.getTargetType() + "." + notification.getTarget())
-                .setResponseCode((notification.getNotification() != null) ? notification.getNotification().name() : "-")
+                .setResponseCode((notification.getNotification() != null)
+                    ? notificationTypeToResponseCode(notification.getNotification().name())
+                    : UNKNOWN_RESPONSE_CODE)
+                .setCustomField1((notification.getNotification() != null)
+                    ? notification.getNotification().name() : "")
                 .setResponseDescription(notification.getMessage())
                 .setClientIpAddress(notification.getClosedLoopEventClient());
     }
@@ -361,5 +383,14 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                        + ",cacheOccupancy="
                        + getCacheOccupancy()
                        + "}";
+    }
+
+    private String notificationTypeToResponseCode(String notificationType) {
+        String code = note2code.get(notificationType);
+        if (code != null) {
+            return code;
+        } else {
+            return UNKNOWN_RESPONSE_CODE;
+        }
     }
 }
