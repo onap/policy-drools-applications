@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "a43100bf_fb6a2dcd",
+        "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-06-16T14:17:41Z",
+      "side": 1,
+      "message": "@Jim, what does it means for \"adding a suppression for \"rawtypes\".?",
+      "parentUuid": "5245fb21_e19b952c",
+      "revId": "c1659a78d7c44534539137fd9e9b0282707ea3cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f231d272_9c3a63e5",
         "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
         "patchSetId": 1
