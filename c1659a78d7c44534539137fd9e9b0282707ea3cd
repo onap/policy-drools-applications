@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f7d45e90_0af22afd",
+        "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-06-16T13:34:17Z",
+      "side": 1,
+      "message": "This comes with line #120: private Map\u003cClass, Adjunct\u003e adjuncts \u003d new HashMap\u003c\u003e();\nsonar complains \"Class\" : Provide the parametrized type for this generic. \nwondering if adding this line could fix the sonar complaints.",
+      "parentUuid": "53e05855_4d5392f9",
+      "revId": "c1659a78d7c44534539137fd9e9b0282707ea3cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f231d272_9c3a63e5",
         "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
         "patchSetId": 1
