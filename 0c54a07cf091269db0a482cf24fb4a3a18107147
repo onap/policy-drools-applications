@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d934f523_1f8d956a",
+        "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-16T16:06:08Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "0c54a07cf091269db0a482cf24fb4a3a18107147",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198b8f9c_da9b277d",
+        "filename": "controlloop/m2/base/src/main/java/org/onap/policy/m2/base/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-16T16:06:08Z",
+      "side": 1,
+      "message": "as with the other, try changing \"Class\" to \"Class\u003c?\u003e\"",
+      "revId": "0c54a07cf091269db0a482cf24fb4a3a18107147",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
