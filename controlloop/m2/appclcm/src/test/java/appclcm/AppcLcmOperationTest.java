@@ -438,7 +438,7 @@ public class AppcLcmOperationTest {
         assertEquals("Start", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNull(appcRequest.getPayload());
 
         logger.info("vnf start request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
@@ -498,7 +498,7 @@ public class AppcLcmOperationTest {
         assertEquals("Stop", appcRequest.getAction());
         assertNotNull(appcRequest.getActionIdentifiers());
         assertEquals(event.getAai().get("generic-vnf.vnf-id"), appcRequest.getActionIdentifiers().get("vnf-id"));
-        assertEquals(appcRequest.getActionIdentifiers().get("vserver-id"), null);
+        assertNull(appcRequest.getActionIdentifiers().get("vserver-id"));
         assertNull(appcRequest.getPayload());
 
         logger.info("vnf stop request: {}", Serialization.gson.toJson(request, AppcLcmDmaapWrapper.class));
@@ -553,7 +553,7 @@ public class AppcLcmOperationTest {
         AppcLcmDmaapWrapper restartResponse = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(restartResponse);
-        assertEquals(operation.getResult(), PolicyResult.SUCCESS);
+        assertEquals(PolicyResult.SUCCESS, operation.getResult());
     }
 
     @Test
@@ -568,13 +568,13 @@ public class AppcLcmOperationTest {
         /* Send in several partial success messages */
         for (int i = 0; i < 5; i++) {
             operation.incomingMessage(restartResponse);
-            assertEquals(operation.getResult(), null);
+            assertNull(operation.getResult());
         }
 
         /* Send in an operation success */
         restartResponse.getBody().getOutput().getStatus().setCode(400);
         operation.incomingMessage(restartResponse);
-        assertEquals(operation.getResult(), PolicyResult.SUCCESS);
+        assertEquals(PolicyResult.SUCCESS, operation.getResult());
     }
 
     @Test
@@ -587,7 +587,7 @@ public class AppcLcmOperationTest {
         AppcLcmDmaapWrapper restartResponse = Serialization.gson.fromJson(lcmRespJson, AppcLcmDmaapWrapper.class);
 
         operation.incomingMessage(restartResponse);
-        assertEquals(operation.getResult(), PolicyResult.FAILURE);
+        assertEquals(PolicyResult.FAILURE, operation.getResult());
     }
 
     @Test
@@ -602,7 +602,7 @@ public class AppcLcmOperationTest {
         /* Send in ALL failure messages */
         for (int i = 0; i < 5; i++) {
             operation.incomingMessage(restartResponse);
-            assertEquals(operation.getResult(), null);
+            assertNull(operation.getResult());
         }
 
         /* Send in an operation failure */
@@ -610,7 +610,7 @@ public class AppcLcmOperationTest {
         operation.incomingMessage(restartResponse);
 
         /* Because every VM failed in the VNF, it should be failure result */
-        assertEquals(operation.getResult(), PolicyResult.FAILURE);
+        assertEquals(PolicyResult.FAILURE, operation.getResult());
     }
 
     @Test
@@ -625,7 +625,7 @@ public class AppcLcmOperationTest {
         /* Send in several partial success messages */
         for (int i = 0; i < 5; i++) {
             operation.incomingMessage(restartResponse);
-            assertEquals(operation.getResult(), null);
+            assertNull(operation.getResult());
         }
 
         /* Change status to partial failure */
@@ -634,7 +634,7 @@ public class AppcLcmOperationTest {
         /* Send in several partial failures messages */
         for (int i = 0; i < 5; i++) {
             operation.incomingMessage(restartResponse);
-            assertEquals(operation.getResult(), null);
+            assertNull(operation.getResult());
         }
 
         /* Send in an operation failure */
@@ -645,7 +645,7 @@ public class AppcLcmOperationTest {
          * Only a subset of VMs failed in the VNF so the
          * result will be failure_exception
          */
-        assertEquals(operation.getResult(), PolicyResult.FAILURE_EXCEPTION);
+        assertEquals(PolicyResult.FAILURE_EXCEPTION, operation.getResult());
     }
 
     /* ===================================================================== */
@@ -671,7 +671,7 @@ public class AppcLcmOperationTest {
         VirtualControlLoopEvent noAaiTag = new VirtualControlLoopEvent();
         noAaiTag.setAai(null);
         assertFalse(AppcLcmOperation.isAaiValid(transaction, noAaiTag));
-        assertEquals(transaction.getNotificationMessage(), "No A&AI Subtag");
+        assertEquals("No A&AI Subtag", transaction.getNotificationMessage());
     }
 
     @Test
