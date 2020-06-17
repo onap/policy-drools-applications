@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e61a1e76_dd597999",
+        "filename": "controlloop/m2/lock/src/main/java/org/onap/policy/drools/m2/lock/LockAdjunct.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-06-17T15:24:16Z",
+      "side": 1,
+      "message": "not important but could just do \"return lock.isActive();\" and save one local var.",
+      "revId": "f833f36faf5869e694444f27e00176ac1a25b02d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
