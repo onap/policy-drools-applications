@@ -64,8 +64,7 @@ public class Transaction implements Serializable {
         // use 'ServiceLoader' to locate all of the 'Actor' implementations
         for (Actor actor :
                 ServiceLoader.load(Actor.class, Actor.class.getClassLoader())) {
-            logger.debug("Actor: " + actor.getName() + ", "
-                         + actor.getClass());
+            logger.debug("Actor: {}, {}", actor.getName(), actor.getClass());
             nameToActor.put(actor.getName(), actor);
         }
     }
@@ -117,7 +116,7 @@ public class Transaction implements Serializable {
     private String message = null;
 
     // this table maps a class name into the associated adjunct
-    private Map<Class, Adjunct> adjuncts = new HashMap<>();
+    private Map<Class<?>, Adjunct> adjuncts = new HashMap<>();
 
     /**
      * Constructor - initialize a 'Transaction' instance
@@ -268,7 +267,7 @@ public class Transaction implements Serializable {
             onsetAdapter.createNotification(event == null ? this.onset : event);
 
         // include entire history
-        notification.setHistory(new ArrayList<ControlLoopOperation>(history));
+        notification.setHistory(new ArrayList<>(history));
 
         return notification;
     }
@@ -290,8 +289,7 @@ public class Transaction implements Serializable {
             currentOperation.incomingMessage(object);
             notification = processResult(currentOperation.getResult());
         } else {
-            logger.error("'Transaction' received unexpected message: "
-                         + object);
+            logger.error("'Transaction' received unexpected message: {}", object);
         }
         return notification;
     }
@@ -342,7 +340,7 @@ public class Transaction implements Serializable {
             onsetAdapter.createNotification(onset);
         notification.setNotification(ControlLoopNotificationType.OPERATION);
         notification.setMessage(histEntry.toHistory());
-        notification.setHistory(new LinkedList<ControlLoopOperation>());
+        notification.setHistory(new LinkedList<>());
         for (ControlLoopOperation clo : history) {
             if (histEntry.getOperation().equals(clo.getOperation())
                     && histEntry.getActor().equals(clo.getActor())) {
@@ -417,7 +415,7 @@ public class Transaction implements Serializable {
         ControlLoopOperation saveHistEntry = histEntry;
         completeHistEntry(result);
 
-        final ControlLoopNotification notification = processResult_HistEntry(saveHistEntry, result);
+        final ControlLoopNotification notification = processResultHistEntry(saveHistEntry, result);
 
         // If there is a message from the operation then we set it to be
         // used by the control loop notifications
@@ -474,7 +472,7 @@ public class Transaction implements Serializable {
     }
 
     // returns a notification message based on the history entry
-    private ControlLoopNotification processResult_HistEntry(ControlLoopOperation hist, PolicyResult result) {
+    private ControlLoopNotification processResultHistEntry(ControlLoopOperation hist, PolicyResult result) {
         if (hist == null) {
             return null;
         }
@@ -489,7 +487,7 @@ public class Transaction implements Serializable {
 
         // include the subset of history that pertains to this
         // actor and operation
-        notification.setHistory(new LinkedList<ControlLoopOperation>());
+        notification.setHistory(new LinkedList<>());
         for (ControlLoopOperation clo : history) {
             if (hist.getOperation().equals(clo.getOperation())
                     && hist.getActor().equals(clo.getActor())) {
