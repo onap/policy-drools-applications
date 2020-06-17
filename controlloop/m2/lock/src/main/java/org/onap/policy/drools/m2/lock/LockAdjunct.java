@@ -21,7 +21,6 @@
 package org.onap.policy.drools.m2.lock;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
@@ -103,14 +102,10 @@ public class LockAdjunct implements Transaction.Adjunct, LockCallback,
         this.requestor = requestor;
 
         // try to allocate a new lock
-        if ((lock = PolicyEngineConstants.getManager().createLock(
-            key, ownerKey, 600, this, waitForLock)).isActive()) {
-            // the lock is good
-            return true;
-        }
-
-        // we need to wait for the lock -- return false,
-        return false;
+        lock = PolicyEngineConstants.getManager().createLock(
+               key, ownerKey, 600, this, waitForLock);
+        // return the boolean value of the lock.isactive
+        return lock.isActive();
     }
 
     /*=================================*/

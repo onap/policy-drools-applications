@@ -27,19 +27,15 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.function.Supplier;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.drools.core.WorkingMemory;
-import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.core.PolicyContainer;
 import org.onap.policy.drools.core.PolicySession;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyControllerConstants;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.guard.OperationsHistory;
-import org.onap.policy.guard.Util;
 import org.onap.policy.util.DroolsSessionCommonSerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +173,7 @@ public class GuardContext implements Serializable {
             sb.setLength(sb.length() - 2);
             errorMessage = sb.toString();
             disabled = true;
-            logger.error("Initialization failure: " + errorMessage);
+            logger.error("Initialization failure: {}", errorMessage);
         }
     }
 
@@ -301,7 +297,7 @@ public class GuardContext implements Serializable {
 
         if (disabled) {
             if (errorMessage != null) {
-                logger.error("Database update skipped: " + errorMessage);
+                logger.error("Database update skipped: {}", errorMessage);
             }
             return false;
         }
@@ -366,7 +362,7 @@ public class GuardContext implements Serializable {
         final String message, final String outcome) {
         if (disabled) {
             if (errorMessage != null) {
-                logger.error("Database update skipped: " + errorMessage);
+                logger.error("Database update skipped: {}", errorMessage);
             }
             return;
         }
