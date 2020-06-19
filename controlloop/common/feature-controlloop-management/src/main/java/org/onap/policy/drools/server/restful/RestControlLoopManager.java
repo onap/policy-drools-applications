@@ -94,7 +94,7 @@ public class RestControlLoopManager {
      */
     @GET
     @Path("engine/controllers/{controller}/drools/facts/{session}/controlloops/{controlLoopName}")
-    @ApiOperation( value = "Control Loop", notes = "Control Loop Parameters", responseContainer = "List")
+    @ApiOperation(value = "Control Loop", notes = "Control Loop Parameters", responseContainer = "List")
     @ApiResponses(value = {@ApiResponse(code = 404, message = "The Control Loop cannot be found")})
     public Response controlLoop(
         @ApiParam(value = "Policy Controller Name", required = true) @PathParam("controller") String controllerName,

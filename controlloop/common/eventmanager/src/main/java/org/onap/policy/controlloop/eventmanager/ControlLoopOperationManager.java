@@ -36,7 +36,6 @@ import java.util.Optional;
 import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.aai.domain.yang.GenericVnf;
@@ -103,7 +102,7 @@ public class ControlLoopOperationManager implements Serializable {
     private PolicyResult policyResult = null;
     private ControlLoopEventManager eventManager = null;
     private String targetEntity;
-    private String guardApprovalStatus = "NONE";// "NONE", "PERMIT", "DENY"
+    private String guardApprovalStatus = "NONE";    // "NONE", "PERMIT", "DENY"
     private AaiCqResponse aaiCqResponse;
     private transient Object operationRequest;
 

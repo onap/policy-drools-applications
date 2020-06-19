@@ -113,7 +113,7 @@ public class RulesTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        /**
+        /*
          * Attach appender to the logger.
          */
         appender.setContext(logger.getLoggerContext());

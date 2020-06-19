@@ -82,7 +82,7 @@ public class PolicyGuardXacmlHelperTest {
     }
 
     @Test
-    /**
+    /*
      * Tests PolicyGuardXacmlHelper.callPdp method to determine if it returns DENY, PERMIT, or
      * INDETERMINATE as expected.
      */
