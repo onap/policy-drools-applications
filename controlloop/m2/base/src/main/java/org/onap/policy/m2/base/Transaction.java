@@ -29,11 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.UUID;
-
 import lombok.Getter;
 import org.drools.core.WorkingMemory;
 import org.kie.api.runtime.rule.FactHandle;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -42,7 +40,6 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +55,7 @@ public class Transaction implements Serializable {
     // This table maps 'actor' names to objects implementing the
     // 'Actor' interface. 'ServiceLoader' is used to locate and create
     // these objects, and populate the table.
-    private static Map<String,Actor> nameToActor = new HashMap<>();
+    private static Map<String, Actor> nameToActor = new HashMap<>();
 
     static {
         // use 'ServiceLoader' to locate all of the 'Actor' implementations
@@ -428,7 +425,7 @@ public class Transaction implements Serializable {
                 break;
 
             case FAILURE:
-                nextPolicy = processResult_Failure();
+                nextPolicy = processResultFailure();
                 break;
 
             case FAILURE_TIMEOUT:
@@ -499,7 +496,7 @@ public class Transaction implements Serializable {
     }
 
     // returns the next policy if the current operation fails
-    private String processResult_Failure() {
+    private String processResultFailure() {
         String nextPolicy = null;
         int attempt = currentOperation.getAttempt();
         if (attempt <= currentPolicy.getRetry()) {
@@ -507,20 +504,19 @@ public class Transaction implements Serializable {
             Actor actor = nameToActor.get(currentPolicy.getActor());
             if (actor != null) {
                 attempt += 1;
-                logger.debug("found Actor, attempt " + attempt);
+                logger.debug("found Actor, attempt {}", attempt);
                 currentOperation =
                     actor.createOperation(this, currentPolicy, onset, attempt);
                 createHistEntry();
             } else {
-                logger.error("'Transaction' can't find actor "
-                             + currentPolicy.getActor());
+                logger.error("'Transaction' can't find actor {}", currentPolicy.getActor());
             }
         } else {
             // operation failed, and no retries (or no retries left)
             nextPolicy = (attempt == 1
                 ? currentPolicy.getFailure()
                 : currentPolicy.getFailure_retries());
-            logger.debug("moving to policy " + nextPolicy);
+            logger.debug("moving to policy {}", nextPolicy);
         }
         return nextPolicy;
     }
@@ -592,11 +588,10 @@ public class Transaction implements Serializable {
                     actor.createOperation(this, currentPolicy, onset, 1);
                 createHistEntry();
             } else {
-                logger.error("'Transaction' can't find actor "
-                             + currentPolicy.getActor());
+                logger.error("'Transaction' can't find actor {}", currentPolicy.getActor());
             }
         } else {
-            logger.error("Transaction' can't find policy " + id);
+            logger.error("Transaction' can't find policy {}", id);
         }
 
         if (currentOperation == null) {
@@ -670,7 +665,7 @@ public class Transaction implements Serializable {
             T adjunct = null;
             try {
                 // create the adjunct (may trigger an exception)
-                adjunct = clazz.newInstance();
+                adjunct = clazz.getDeclaredConstructor().newInstance();
 
                 // initialize the adjunct (may also trigger an exception */
                 adjunct.init(Transaction.this);

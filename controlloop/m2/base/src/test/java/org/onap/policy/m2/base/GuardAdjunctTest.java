@@ -26,14 +26,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.UUID;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.guard.GuardContext;
@@ -41,7 +38,6 @@ import org.powermock.reflect.Whitebox;
 
 public class GuardAdjunctTest {
     private static final String ADJUNCT_CONTEXT_FIELD = "context";
-    private static final String ADJUNCT_TRANSACTION_FIELD = "transaction";
 
     private static GuardAdjunct adjunct;
     private static Transaction transaction;
@@ -73,7 +69,7 @@ public class GuardAdjunctTest {
         assertTrue(adjunct.asyncQuery(policy, "testTarget", UUID.randomUUID().toString()));
 
         GuardContext savedContext = Whitebox.getInternalState(adjunct, ADJUNCT_CONTEXT_FIELD);
-        Whitebox.setInternalState(adjunct, ADJUNCT_CONTEXT_FIELD, (GuardContext)null);
+        Whitebox.setInternalState(adjunct, ADJUNCT_CONTEXT_FIELD, (GuardContext) null);
 
         try {
             assertFalse(adjunct.asyncQuery(policy, "testTarget", UUID.randomUUID().toString()));

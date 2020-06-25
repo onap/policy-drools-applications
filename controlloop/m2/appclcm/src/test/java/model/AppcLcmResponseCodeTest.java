@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
-
 import org.onap.policy.m2.appclcm.model.AppcLcmResponseCode;
 
 

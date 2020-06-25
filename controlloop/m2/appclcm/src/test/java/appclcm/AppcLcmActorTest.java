@@ -26,7 +26,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Properties;
 import java.util.UUID;
-
 import org.drools.core.WorkingMemory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -42,12 +41,8 @@ import org.onap.policy.m2.appclcm.AppcLcmActor;
 import org.onap.policy.m2.appclcm.AppcLcmHealthCheckOperation;
 import org.onap.policy.m2.appclcm.AppcLcmOperation;
 import org.onap.policy.m2.base.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AppcLcmActorTest {
-    private static Logger logger = LoggerFactory.getLogger(AppcLcmActorTest.class);
-
     public static Policy policy;
     public static VirtualControlLoopEvent event;
     public static Transaction transaction;

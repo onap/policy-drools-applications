@@ -33,7 +33,6 @@ import javax.persistence.Persistence;
 import org.drools.core.WorkingMemory;
 import org.onap.policy.drools.core.PolicyContainer;
 import org.onap.policy.drools.core.PolicySession;
-import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyControllerConstants;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.util.DroolsSessionCommonSerializable;
@@ -257,7 +256,7 @@ public class GuardContext implements Serializable {
             // 'EntityManagerFactory' does not exist yet -- create one
 
             // copy database properties to a 'HashMap'
-            HashMap<Object,Object> propertiesMap = new HashMap<>(dbProperties);
+            HashMap<Object, Object> propertiesMap = new HashMap<>(dbProperties);
 
             // use 'ClassLoader' from Drools session
             propertiesMap.put("eclipselink.classloader",

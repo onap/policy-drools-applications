@@ -30,13 +30,10 @@ import static org.mockito.Mockito.mock;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.UUID;
-
 import org.drools.core.WorkingMemory;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
 import org.onap.policy.appclcm.util.Serialization;
@@ -51,7 +48,6 @@ import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.m2.appclcm.AppcLcmOperation;
 import org.onap.policy.m2.base.Transaction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

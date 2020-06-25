@@ -22,7 +22,6 @@ package org.onap.policy.m2.appclcm;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -33,7 +32,6 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.guard.PolicyGuardResponse;
 import org.onap.policy.m2.appclcm.model.AppcLcmResponseCode;
 import org.onap.policy.m2.base.Transaction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +58,7 @@ public class AppcLcmHealthCheckOperation extends AppcLcmOperation {
      *            the appc lcm response json payload
      * @return the string that contains the state of the vnf
      */
+    @SuppressWarnings("unchecked")
     private String getVnfHealthState(String jsonPayload) {
         HashMap<String, Object> healthCheckPayloadMap;
         try {
@@ -96,7 +95,7 @@ public class AppcLcmHealthCheckOperation extends AppcLcmOperation {
         // The rest of this method is mostly copied from
         // 'ControlLoopOperationManager.onResponse'.
 
-        AppcLcmOutput response = ((AppcLcmDmaapWrapper)object).getBody().getOutput();
+        AppcLcmOutput response = ((AppcLcmDmaapWrapper) object).getBody().getOutput();
 
         //
         // Determine which subrequestID (ie. attempt)

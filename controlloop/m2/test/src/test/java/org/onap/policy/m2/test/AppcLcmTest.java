@@ -87,7 +87,7 @@ public class AppcLcmTest {
             "${notificationTopic}", "NOTIFICATION-APPCLCM-TOPIC",
             "${operationTopic}", "APPC-REQUEST-APPCLCM-TOPIC",
             "${policyName}", "appclcm",
-            "${policyScope}", "service=vUSP;resource=vCTS;type=operational" ,
+            "${policyScope}", "service=vUSP;resource=vCTS;type=operational",
             "${policyVersion}",
             "org.onap.policy.m2.test:appclcm:" + projectVersion,
             "${unique}", "2");

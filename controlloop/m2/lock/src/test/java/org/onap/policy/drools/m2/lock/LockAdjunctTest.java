@@ -26,22 +26,15 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
 import java.util.UUID;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.m2.base.Transaction;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class LockAdjunctTest {
-
-    private static Logger logger = LoggerFactory.getLogger(LockAdjunctTest.class);
 
     public class TestOwner implements LockCallback {
 

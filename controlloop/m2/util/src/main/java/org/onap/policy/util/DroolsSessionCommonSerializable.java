@@ -20,11 +20,9 @@
 
 package org.onap.policy.util;
 
-import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.HashMap;
-
 import org.onap.policy.drools.core.PolicySession;
 
 /**
@@ -116,7 +114,7 @@ public class DroolsSessionCommonSerializable implements Serializable {
                 session.setAdjunct(Adjunct.class, adjunct);
             } else {
                 // found the adjunct -- return it
-                adjunct = (Adjunct)adj;
+                adjunct = (Adjunct) adj;
                 //adjunct = Adjunct.class.cast(adj);
             }
         }
@@ -132,5 +130,6 @@ public class DroolsSessionCommonSerializable implements Serializable {
      * warnings.
      */
     private static class Adjunct extends HashMap<String, Object> {
+        private static final long serialVersionUID = 1L;
     }
 }

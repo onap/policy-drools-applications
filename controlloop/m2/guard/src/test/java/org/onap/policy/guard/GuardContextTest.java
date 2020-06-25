@@ -37,7 +37,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
 import org.drools.core.WorkingMemory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

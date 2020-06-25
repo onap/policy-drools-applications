@@ -21,12 +21,10 @@
 package org.onap.policy.m2.appclcm;
 
 import com.google.common.collect.ImmutableList;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
-
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -47,7 +45,6 @@ import org.onap.policy.m2.appclcm.model.AppcLcmResponseCode;
 import org.onap.policy.m2.base.GuardAdjunct;
 import org.onap.policy.m2.base.Operation;
 import org.onap.policy.m2.base.Transaction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,7 +161,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
             return;
         }
 
-        this.onset = (VirtualControlLoopEvent)onset;
+        this.onset = (VirtualControlLoopEvent) onset;
 
         // fetch or create the guard adjunct -- note that 'guard' operations are
         // only performed if a 'GuardContext' is present, and the adjunct was
@@ -508,7 +505,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
     public void incomingMessage(Object object) {
         if (! (object instanceof AppcLcmDmaapWrapper)) {
             if (object instanceof PolicyGuardResponse) {
-                incomingGuardMessage((PolicyGuardResponse)object);
+                incomingGuardMessage((PolicyGuardResponse) object);
             } else if (object instanceof ControlLoopEvent) {
                 incomingAbatedEvent((ControlLoopEvent) object);
             }
@@ -520,7 +517,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
         // The rest of this method is mostly copied from
         // 'ControlLoopOperationManager.onResponse'.
 
-        AppcLcmOutput response = ((AppcLcmDmaapWrapper)object).getBody().getOutput();
+        AppcLcmOutput response = ((AppcLcmDmaapWrapper) object).getBody().getOutput();
 
         //
         // Determine which subrequestID (ie. attempt)
