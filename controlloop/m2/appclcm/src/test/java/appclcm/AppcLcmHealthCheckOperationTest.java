@@ -23,18 +23,14 @@ package appclcm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.mock;
 
 import java.util.Properties;
 import java.util.UUID;
-
 import org.drools.core.WorkingMemory;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
 import org.onap.policy.appclcm.util.Serialization;

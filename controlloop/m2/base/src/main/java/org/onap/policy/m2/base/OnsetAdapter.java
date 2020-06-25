@@ -21,15 +21,12 @@
 package org.onap.policy.m2.base;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopNotification;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +39,7 @@ public class OnsetAdapter implements Serializable {
     private static Logger logger = LoggerFactory.getLogger(OnsetAdapter.class);
 
     // table mapping onset message class to 'OnsetAdapter' instance
-    private static Map<Class,OnsetAdapter> map = new ConcurrentHashMap<>();
+    private static Map<Class<?>, OnsetAdapter> map = new ConcurrentHashMap<>();
 
     /**
      * This method is called to add an entry to the table.
@@ -51,7 +48,7 @@ public class OnsetAdapter implements Serializable {
      * @param value an instance of 'OnsetAdapter' that should be
      *     associated with 'clazz'
      */
-    public static void register(Class clazz, OnsetAdapter value) {
+    public static void register(Class<?> clazz, OnsetAdapter value) {
         // only create an entry if one doesn't already exist
         map.putIfAbsent(clazz, value);
     }
@@ -79,14 +76,14 @@ public class OnsetAdapter implements Serializable {
         // one will be chosen "at random".
 
         // we need to look for the best match of 'clazz'
-        HashSet<Class> matches = new HashSet<>();
-        Class chosenMatch = null;
+        HashSet<Class<?>> matches = new HashSet<>();
+        Class<?> chosenMatch = null;
         synchronized (map) {
             for (Class<?> possibleMatch : map.keySet()) {
                 if (possibleMatch.isAssignableFrom(clazz)) {
                     // we have a match -- see if it is the best match
                     boolean add = true;
-                    for (Class<?> match : new ArrayList<Class>(matches)) {
+                    for (Class<?> match : new ArrayList<Class<?>>(matches)) {
                         if (match.isAssignableFrom(possibleMatch)) {
                             // 'possibleMatch' is a better match than 'match'
                             matches.remove(match);
@@ -134,6 +131,8 @@ public class OnsetAdapter implements Serializable {
 
     // the new 'ControlLoopNotification' is abstract
     public static class BaseControlLoopNotification extends ControlLoopNotification {
+        private static final long serialVersionUID = 1L;
+
         BaseControlLoopNotification(ControlLoopEvent event) {
             super(event);
         }

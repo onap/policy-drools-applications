@@ -25,14 +25,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.UUID;
-
 import org.drools.core.WorkingMemory;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.junit.BeforeClass;
@@ -46,7 +45,6 @@ import org.onap.policy.controlloop.policy.ControlLoopPolicy;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.m2.base.GuardAdjunct;
 
 public class TransactionTest {
 
@@ -61,7 +59,7 @@ public class TransactionTest {
     public static void setUpBeforeClass() {
         mockWorkingMemory = mock(WorkingMemory.class);
         FactHandle factHandle = mock(FactHandle.class);
-        when(mockWorkingMemory.getFactHandle(anyObject())).thenReturn(factHandle);
+        when(mockWorkingMemory.getFactHandle(any())).thenReturn(factHandle);
     }
 
     @Test
@@ -310,7 +308,7 @@ public class TransactionTest {
         Transaction transaction = new Transaction(mockWorkingMemory, CL_NAME, UUID.randomUUID(), createControlLoop());
         ControlLoopNotification notification = transaction.processError();
         assertNull(notification);
-        
+
         VirtualControlLoopEvent onset =
                 createControlLoopEvent(UUID.randomUUID(), CL_NAME, null, "VM", "vserver.vserver-name");
         transaction.setControlLoopEvent(onset);

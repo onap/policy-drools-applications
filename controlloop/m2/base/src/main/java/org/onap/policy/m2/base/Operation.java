@@ -21,7 +21,6 @@
 package org.onap.policy.m2.base;
 
 import java.io.Serializable;
-
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.policy.Policy;

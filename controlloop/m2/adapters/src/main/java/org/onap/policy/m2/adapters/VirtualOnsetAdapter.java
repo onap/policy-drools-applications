@@ -21,12 +21,10 @@
 package org.onap.policy.m2.adapters;
 
 import java.io.Serializable;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-
 import org.onap.policy.m2.base.OnsetAdapter;
 
 public class VirtualOnsetAdapter extends OnsetAdapter implements Serializable {
@@ -50,7 +48,7 @@ public class VirtualOnsetAdapter extends OnsetAdapter implements Serializable {
     @Override
     public ControlLoopNotification createNotification(ControlLoopEvent event) {
         if (event instanceof VirtualControlLoopEvent) {
-            return new VirtualControlLoopNotification((VirtualControlLoopEvent)event);
+            return new VirtualControlLoopNotification((VirtualControlLoopEvent) event);
         }
 
         // Right now, the onset event from the transaction is used to locate

@@ -28,13 +28,11 @@ import com.att.nsa.cambria.client.CambriaClientBuilders;
 import com.att.nsa.cambria.client.CambriaClientBuilders.ConsumerBuilder;
 import com.att.nsa.cambria.client.CambriaClientBuilders.PublisherBuilder;
 import com.att.nsa.cambria.client.CambriaConsumer;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,7 +45,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -165,7 +162,7 @@ public class Util {
     public static String openAndReplace(String fileName, String... args)
         throws IOException, FileNotFoundException {
         String text = fileToString(new File(fileName));
-        for (int i = 0 ; i < args.length ; i += 2) {
+        for (int i = 0; i < args.length; i += 2) {
             text = text.replace(args[i], args[i + 1]);
         }
         return text;
@@ -202,7 +199,7 @@ public class Util {
      */
     public static JsonObject json(Object... data) {
         JsonObject obj = new JsonObject();
-        for (int i = 0 ; i < data.length ; i += 2) {
+        for (int i = 0; i < data.length; i += 2) {
             obj.add(data[i].toString(), toJsonElement(data[i + 1]));
         }
         return obj;

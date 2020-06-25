@@ -21,10 +21,8 @@
 package org.onap.policy.m2.appclcm;
 
 import java.io.Serializable;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.policy.Policy;
-
 import org.onap.policy.m2.adapters.VirtualOnsetAdapter;
 import org.onap.policy.m2.base.Actor;
 import org.onap.policy.m2.base.Operation;

@@ -25,7 +25,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.Policy;
@@ -37,6 +36,7 @@ public class ActorOperationTest {
     public static final String STATE = "COMPLETE";
 
     public static class TestOperation implements Operation {
+        private static final long serialVersionUID = 1L;
 
         @Override
         public Object getRequest() throws ControlLoopException {

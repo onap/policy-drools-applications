@@ -21,7 +21,6 @@
 package org.onap.policy.drools.m2.lock;
 
 import java.io.Serializable;
-
 import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.system.PolicyEngineConstants;

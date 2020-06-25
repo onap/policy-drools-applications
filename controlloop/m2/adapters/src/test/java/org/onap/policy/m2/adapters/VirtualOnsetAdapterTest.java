@@ -22,10 +22,8 @@ package org.onap.policy.m2.adapters;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.ControlLoopNotification;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -47,7 +45,9 @@ public class VirtualOnsetAdapterTest {
         // we want an exact class match, so 'instanceOf' is not being used
         assertEquals(VirtualControlLoopNotification.class, notification.getClass());
 
-        ControlLoopEvent controlLoopEvent = new ControlLoopEvent() {};
+        ControlLoopEvent controlLoopEvent = new ControlLoopEvent() {
+            private static final long serialVersionUID = 1L;
+        };
         notification = virtualOnsetAdapter.createNotification(controlLoopEvent);
         assertNotNull(notification);
     }
