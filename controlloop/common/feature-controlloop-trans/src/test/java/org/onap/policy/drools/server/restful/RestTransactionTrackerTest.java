@@ -23,7 +23,6 @@ package org.onap.policy.drools.server.restful;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -149,10 +148,6 @@ public class RestTransactionTrackerTest {
 
     private <T> void notNull(Response response, Class<T> clazz) {
         assertNotNull(HttpClient.getBody(response, clazz));
-    }
-
-    private <T> void empty(Response response, Class<T> clazz) {
-        assertNull(HttpClient.getBody(response, clazz));
     }
 
     @NotNull
