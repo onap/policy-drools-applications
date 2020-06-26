@@ -108,14 +108,13 @@ public class DroolsSessionCommonSerializable implements Serializable {
         if (session != null) {
             // we found the 'PolicySession' -- now, look for the adjunct
             Object adj = session.getAdjunct(Adjunct.class);
-            if (adj == null || !(adj instanceof Adjunct)) {
+            if (!(adj instanceof Adjunct)) {
                 // adjunct does not exist, or has the wrong type -- create it
                 adjunct = new Adjunct();
                 session.setAdjunct(Adjunct.class, adjunct);
             } else {
                 // found the adjunct -- return it
                 adjunct = (Adjunct) adj;
-                //adjunct = Adjunct.class.cast(adj);
             }
         }
         return adjunct;
