@@ -24,6 +24,7 @@ package org.onap.policy.guard;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
@@ -33,7 +34,6 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.rest.RestManager;
-import org.onap.policy.rest.RestManager.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,10 +125,10 @@ public class PolicyGuardXacmlHelper {
             return Util.DENY;
         }
 
-        logger.info("Guard Decision REST Response {} {}", httpDetails.first, httpDetails.second);
+        logger.info("Guard Decision REST Response {} {}", httpDetails.getLeft(), httpDetails.getRight());
 
-        if (httpDetails.first == 200) {
-            DecisionResponse decision = coder.decode(httpDetails.second, DecisionResponse.class);
+        if (httpDetails.getLeft() == 200) {
+            DecisionResponse decision = coder.decode(httpDetails.getRight(), DecisionResponse.class);
             logger.info("Guard Decision {}", decision);
             return decision.getStatus();
         }
