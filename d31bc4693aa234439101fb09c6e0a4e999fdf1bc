@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "213700ed_a9bd8449",
+        "filename": "controlloop/m2/appclcm/src/main/java/org/onap/policy/m2/appclcm/AppcLcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-26T16:11:12Z",
+      "side": 1,
+      "message": "probably better to define a constant and reuse it in all three places",
+      "revId": "d31bc4693aa234439101fb09c6e0a4e999fdf1bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
