@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2375f49_7d21a41e",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/AppcLcmTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-26T16:09:20Z",
+      "side": 1,
+      "message": "while this may eliminate the sonar complaint, I don\u0027t think it really addresses it.  This should probably wait on something in particular (i.e., via \"until()\").  It would be even better if some type of concurrent object (e.g., CountDownLatch) were added to the code under test so this junit could then just wait for the code to indicate that the condition has been met.\n\nsame comment below",
+      "revId": "9c079af44f9da3c42df1919bc35979773e7db1b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
