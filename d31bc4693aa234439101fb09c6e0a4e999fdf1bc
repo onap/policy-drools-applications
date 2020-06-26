@@ -52,6 +52,24 @@
       "revId": "d31bc4693aa234439101fb09c6e0a4e999fdf1bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20afc258_a219c025",
+        "filename": "controlloop/m2/appclcm/src/main/java/org/onap/policy/m2/appclcm/AppcLcmOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-06-26T21:14:20Z",
+      "side": 1,
+      "message": "Yeah - I think still overall its for the best just to clear the sonar. Obviously we would setup our own rules if we could.",
+      "parentUuid": "9a458481_26bd1856",
+      "revId": "d31bc4693aa234439101fb09c6e0a4e999fdf1bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
