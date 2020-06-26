@@ -165,7 +165,7 @@ public class AppcLcmTest {
                 json("notification", "FINAL: SUCCESS"));
 
         // sleep to allow DB update
-        Thread.sleep(1000);
+        await().atMost(1000, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -197,7 +197,7 @@ public class AppcLcmTest {
                 json("notification", "FINAL: SUCCESS"));
 
         // sleep to allow DB update
-        Thread.sleep(1000);
+        await().atMost(1000, TimeUnit.MILLISECONDS);
     }
 
     private void awaitAndAssert(int maxWaitSecond, Duration pollIntervalMilli, Input notification,
