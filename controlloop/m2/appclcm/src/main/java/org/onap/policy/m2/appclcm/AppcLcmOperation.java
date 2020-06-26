@@ -171,7 +171,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
         // attempt to get a lock for the VM -- if we get it immediately,
         // we can go to the 'LCM_GUARD_PENDING' or 'LCM_BEGIN' state
 
-        target = this.onset.getAai().get(onset.getTarget()).toString();
+        target = this.onset.getAai().get(onset.getTarget());
         String key = onset.getTargetType() + ":" + target;
         if (transaction.getAdjunct(LockAdjunct.class).getLock(this, key,
                 transaction.getRequestId().toString(), false)) {
@@ -343,7 +343,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
                     if (entry.getValue() != null) {
                         payload.put(APPC_LCM_VM_ID_FIELD, entry.getValue());
                     } else {
-                        setErrorStatus("dcae onset is missing " + DCAE_VSERVER_SELF_LINK_FIELD);
+                        setErrorStatus("DCAE onset is missing " + DCAE_VSERVER_SELF_LINK_FIELD);
                     }
                     break;
                 case DCAE_IDENTITY_FIELD:
@@ -357,7 +357,7 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
                     if (entry.getValue() != null) {
                         payload.put(APPC_LCM_TENANT_ID_FIELD, entry.getValue());
                     } else {
-                        setErrorStatus("dcae onset is missing " + DCAE_TENANT_ID_FIELD);
+                        setErrorStatus("missing dcae onset " + DCAE_TENANT_ID_FIELD);
                     }
                     break;
                 default:
@@ -646,11 +646,8 @@ public class AppcLcmOperation implements Operation, LockAdjunct.Requestor, Seria
        * @param result the value to store in the 'result' field
        */
     void completeOperation(int attempt, String message, PolicyResult result) {
-        logger.debug("LCM: completeOperation("
-                     + "this.attempt=" + this.attempt
-                     + ", attempt=" + attempt
-                     + ", result=" + result
-                     + ", message=" + message);
+        logger.debug("LCM: completeOperation(this.attempt={}, attempt={}, result={}, message ={})",
+                      this.attempt, attempt, result, message);
         if (this.attempt == attempt) {
             // we need to verify that the attempt matches in order to reduce the
             // chances that we are reacting to a prior 'Response' message that
