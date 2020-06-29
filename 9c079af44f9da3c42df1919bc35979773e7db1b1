@@ -52,6 +52,24 @@
       "revId": "9c079af44f9da3c42df1919bc35979773e7db1b1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2211db24_af9527f3",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/AppcLcmTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-29T13:27:47Z",
+      "side": 1,
+      "message": "OK, so we should leave this junit test as is (i.e., still generating a sonar complaint) until we have the time to fix the underlying code.",
+      "parentUuid": "46cd0965_509b7787",
+      "revId": "9c079af44f9da3c42df1919bc35979773e7db1b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
