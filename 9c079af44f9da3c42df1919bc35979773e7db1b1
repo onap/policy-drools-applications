@@ -16,6 +16,24 @@
       "revId": "9c079af44f9da3c42df1919bc35979773e7db1b1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c66a512_cc34dca3",
+        "filename": "controlloop/m2/test/src/test/java/org/onap/policy/m2/test/AppcLcmTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-06-29T13:01:14Z",
+      "side": 1,
+      "message": "@Pam  Was your direction that we should go ahead and eliminate the sonar complaint, even if we just work around the complaint instead of addressing it by fixing the code under test?",
+      "parentUuid": "b2375f49_7d21a41e",
+      "revId": "9c079af44f9da3c42df1919bc35979773e7db1b1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
