@@ -20,6 +20,7 @@
 
 package org.onap.policy.m2.base;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -320,6 +321,7 @@ public class TransactionTest {
     public void testSetNotificationMessage() {
         Transaction transaction = new Transaction(mockWorkingMemory, CL_NAME, UUID.randomUUID(), createControlLoop());
         transaction.setNotificationMessage("test");
+        assertEquals("test", transaction.getNotificationMessage());
     }
 
     @Test
@@ -345,6 +347,7 @@ public class TransactionTest {
         GuardAdjunct adjunct2 = new GuardAdjunct();
         transaction.putAdjunct(adjunct2);
         transaction.cleanup();
+        assertThatCode(() -> transaction.cleanup()).doesNotThrowAnyException();
     }
 
     private VirtualControlLoopEvent createControlLoopEvent(UUID requestId, String closedLoopControlName,

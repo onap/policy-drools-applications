@@ -78,7 +78,7 @@ public class DroolsSessionCommonSerializable implements Serializable {
      * @return the local named object (if available), or the deserialized
      *     object
      */
-    private Object readResolve() throws ObjectStreamException {
+    protected Object readResolve() throws ObjectStreamException {
         Adjunct adjunct = getAdjunct();
         Object replacementObject;
 
