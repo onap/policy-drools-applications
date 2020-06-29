@@ -21,6 +21,8 @@
 
 package org.onap.policy.controlloop;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.CanonicalOnset;
@@ -50,7 +52,6 @@ import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.cds.CdsResponse;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.cds.properties.CdsServerProperties;
-import org.onap.policy.drools.utils.Pair;
 import org.onap.policy.sdnr.PciRequestWrapper;
 import org.onap.policy.sdnr.PciResponseWrapper;
 import org.onap.policy.sdnr.PciRequest;
@@ -432,15 +433,15 @@ rule "EVENT.MANAGER"
 
               Pair<Lock,Lock> oldNew = $manager.lockCurrentOperation(
                         new LockCallbackWorkingMemory($params.getClosedLoopControlName(), drools.getWorkingMemory()));
-              if(oldNew.first() != null) {
+              if(oldNew.getLeft() != null) {
                   logger.debug("{}: {}.{}: retracting lock={}", $clName,
-                              $params.getPolicyName(), drools.getRule().getName(), oldNew.first());
-                  retract(oldNew.first());
+                              $params.getPolicyName(), drools.getRule().getName(), oldNew.getLeft());
+                  retract(oldNew.getLeft());
               }
-              if(oldNew.second() != null) {
+              if(oldNew.getRight() != null) {
                   logger.debug("{}: {}.{}: inserting lock={}", $clName,
-                              $params.getPolicyName(), drools.getRule().getName(), oldNew.second());
-                  insert(oldNew.second());
+                              $params.getPolicyName(), drools.getRule().getName(), oldNew.getRight());
+                  insert(oldNew.getRight());
               }
 
               //

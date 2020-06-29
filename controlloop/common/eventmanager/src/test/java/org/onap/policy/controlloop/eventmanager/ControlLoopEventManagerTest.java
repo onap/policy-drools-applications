@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -66,7 +67,6 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.drools.utils.Pair;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.powermock.reflect.Whitebox;
 
@@ -454,15 +454,15 @@ public class ControlLoopEventManagerTest {
         assertNull(clom.getOperationResult());
 
         Pair<Lock, Lock> lockPair = manager.lockCurrentOperation(callback);
-        assertNull(lockPair.first());
-        assertNotNull(lockPair.second());
+        assertNull(lockPair.getLeft());
+        assertNotNull(lockPair.getRight());
 
         // pseudo lock - session should NOT have been notified of the change
         verify(callback, never()).lockAvailable(any());
         verify(callback, never()).lockUnavailable(any());
 
         // repeat - should cause an extension
-        Lock lock = lockPair.second();
+        Lock lock = lockPair.getRight();
         lockPair = manager.lockCurrentOperation(callback);
 
         /*
@@ -474,20 +474,20 @@ public class ControlLoopEventManagerTest {
 
         assertSame(lock, manager.unlockCurrentOperation());
 
-        assertNull(lockPair.first());
-        assertNull(lockPair.second());
+        assertNull(lockPair.getLeft());
+        assertNull(lockPair.getRight());
 
         // force it to use a pseudo lock
         manager.setUseTargetLock(false);
         lockPair = manager.lockCurrentOperation(callback);
-        assertNull(lockPair.first());
-        assertNotNull(lockPair.second());
+        assertNull(lockPair.getLeft());
+        assertNotNull(lockPair.getRight());
 
-        lock = lockPair.second();
+        lock = lockPair.getRight();
 
         lockPair = manager.lockCurrentOperation(callback);
-        assertNull(lockPair.first());
-        assertNull(lockPair.second());
+        assertNull(lockPair.getLeft());
+        assertNull(lockPair.getRight());
 
         // first lock uses a pseudo lock, so it will only update when extended
         verify(callback).lockAvailable(lock);
@@ -498,14 +498,14 @@ public class ControlLoopEventManagerTest {
         Whitebox.setInternalState(manager, TARGET_LOCK_FIELD, lock);
 
         lockPair = manager.lockCurrentOperation(callback);
-        assertSame(lock, lockPair.first());
-        assertNotNull(lockPair.second());
+        assertSame(lock, lockPair.getLeft());
+        assertNotNull(lockPair.getRight());
 
-        lock = lockPair.second();
+        lock = lockPair.getRight();
 
         lockPair = manager.lockCurrentOperation(callback);
-        assertNull(lockPair.first());
-        assertNull(lockPair.second());
+        assertNull(lockPair.getLeft());
+        assertNull(lockPair.getRight());
 
         // first lock uses a pseudo lock, so it won't do an update
         verify(callback).lockAvailable(lock);
@@ -515,8 +515,8 @@ public class ControlLoopEventManagerTest {
 
         // try again - this time don't return the fact handle- no change in count
         lockPair = manager.lockCurrentOperation(callback);
-        assertNull(lockPair.first());
-        assertNotNull(lockPair.second());
+        assertNull(lockPair.getLeft());
+        assertNotNull(lockPair.getRight());
     }
 
     @Test

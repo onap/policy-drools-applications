@@ -37,6 +37,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.aai.util.AaiException;
@@ -54,7 +55,6 @@ import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
 import org.onap.policy.drools.system.PolicyEngineConstants;
-import org.onap.policy.drools.utils.Pair;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
@@ -525,12 +525,12 @@ public class ControlLoopEventManager implements Serializable {
         if (this.targetLock != null) {
             // we have the lock - just extend it
             this.targetLock.extend(holdSec, callback);
-            return new Pair<>(oldLock, null);
+            return Pair.of(oldLock, null);
 
         } else if (this.useTargetLock) {
             this.targetLock = createRealLock(this.currentOperation.getTargetEntity(), this.onset.getRequestId(),
                             holdSec, callback);
-            return new Pair<>(oldLock, this.targetLock);
+            return Pair.of(oldLock, this.targetLock);
 
         } else {
             // Not using target locks - create a lock w/o actually locking.
@@ -540,7 +540,7 @@ public class ControlLoopEventManager implements Serializable {
 
             // Note: no need to invoke callback, as the lock is already ACTIVE
 
-            return new Pair<>(oldLock, this.targetLock);
+            return Pair.of(oldLock, this.targetLock);
         }
     }
 
