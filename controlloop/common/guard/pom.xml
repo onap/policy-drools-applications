@@ -4,6 +4,7 @@
   ================================================================================
   Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2020 Bell Canada.
+  Modifications Copyright (C) 2020 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -39,40 +40,7 @@
     <dependency>
         <groupId>com.att.research.xacml</groupId>
         <artifactId>xacml-pdp</artifactId>
-        <version>1.0.2</version>
-        <exclusions>
-            <!--
-                Exclude jars with an older version or that are insecure and not needed. 
-             -->
-            <exclusion>
-                <artifactId>commons-codec</artifactId>
-                <groupId>commons-codec</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>commons-logging</artifactId>
-                <groupId>commons-logging</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>guava</artifactId>
-                <groupId>com.google.guava</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>commons-lang3</artifactId>
-                <groupId>org.apache.commons</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>jackson-databind</artifactId>
-                <groupId>com.fasterxml.jackson.core</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>commons-collections</artifactId>
-                <groupId>commons-collections</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>commons-lang</artifactId>
-                <groupId>commons-lang</groupId>
-            </exclusion>
-        </exclusions>
+        <version>2.2.0</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
