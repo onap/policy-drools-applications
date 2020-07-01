@@ -40,9 +40,9 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager.NewEvent
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager;
 import org.onap.policy.controlloop.eventmanager.LockCallbackWorkingMemory;
 import org.onap.policy.controlloop.utils.ControlLoopUtils;
-import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
-import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider;
-import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider.CdsActorServiceManager;
+import org.onap.policy.controlloop.actor.so.SoActor;
+import org.onap.policy.controlloop.actor.cds.CdsActor;
+import org.onap.policy.controlloop.actor.cds.CdsActor.CdsActorServiceManager;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.appc.Request;
@@ -595,7 +595,7 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
                               drools.getWorkingMemory().insert(wrapper);
                           }
                       }
-                      SoActorServiceProvider.sendRequest($event.getRequestId().toString(),
+                      SoActor.sendRequest($event.getRequestId().toString(),
                           new mySoCallback(),
                           request,
                           PolicyEngineConstants.getManager().getEnvironmentProperty("so.url"),
@@ -649,8 +649,8 @@ rule "EVENT.MANAGER.OPERATION.LOCKED.GUARD_PERMITTED"
 
                       // Instantiate cds actor, service manager and grpc properties
 
-                      CdsActorServiceProvider cdsActor = new CdsActorServiceProvider();
-                      CdsActorServiceProvider.CdsActorServiceManager cdsActorServiceManager = cdsActor.new CdsActorServiceManager();
+                      CdsActor cdsActor = new CdsActor();
+                      CdsActor.CdsActorServiceManager cdsActorServiceManager = cdsActor.new CdsActorServiceManager();
 
                       CdsServerProperties props = new CdsServerProperties();
                       props.setHost(PolicyEngineConstants.getManager().getEnvironmentProperty("cds.grpcHost"));

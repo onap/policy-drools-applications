@@ -43,8 +43,8 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.guard.GuardActorServiceProvider;
-import org.onap.policy.controlloop.actor.sdnr.SdnrActorServiceProvider;
+import org.onap.policy.controlloop.actor.guard.GuardActor;
+import org.onap.policy.controlloop.actor.sdnr.SdnrActor;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -67,7 +67,7 @@ public class ControlLoopOperationManager2 implements Serializable {
     private static final String CL_TIMEOUT_ACTOR = "-CL-TIMEOUT-";
     public static final String LOCK_ACTOR = "LOCK";
     public static final String LOCK_OPERATION = "Lock";
-    private static final String GUARD_ACTOR = GuardActorServiceProvider.NAME;
+    private static final String GUARD_ACTOR = GuardActor.NAME;
     public static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
     public static final String GENERIC_VNF_VNF_NAME = "generic-vnf.vnf-name";
     public static final String GENERIC_VNF_VNF_ID = "generic-vnf.vnf-id";
@@ -574,7 +574,7 @@ public class ControlLoopOperationManager2 implements Serializable {
     protected ControlLoopResponse makeControlLoopResponse(OperationOutcome outcome) {
 
         // only generate response for certain actors.
-        if (outcome == null || !actor.equals(SdnrActorServiceProvider.NAME)) {
+        if (outcome == null || !actor.equals(SdnrActor.NAME)) {
             return null;
         }
 

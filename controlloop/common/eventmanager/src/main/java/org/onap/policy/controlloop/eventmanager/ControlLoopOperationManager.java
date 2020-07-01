@@ -52,14 +52,14 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.appc.AppcActorServiceProvider;
-import org.onap.policy.controlloop.actor.appclcm.AppcLcmActorServiceProvider;
-import org.onap.policy.controlloop.actor.cds.CdsActorServiceProvider;
+import org.onap.policy.controlloop.actor.appc.AppcActor;
+import org.onap.policy.controlloop.actor.appclcm.AppcLcmActor;
+import org.onap.policy.controlloop.actor.cds.CdsActor;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
-import org.onap.policy.controlloop.actor.sdnc.SdncActorServiceProvider;
-import org.onap.policy.controlloop.actor.sdnr.SdnrActorServiceProvider;
-import org.onap.policy.controlloop.actor.so.SoActorServiceProvider;
-import org.onap.policy.controlloop.actor.vfc.VfcActorServiceProvider;
+import org.onap.policy.controlloop.actor.sdnc.SdncActor;
+import org.onap.policy.controlloop.actor.sdnr.SdnrActor;
+import org.onap.policy.controlloop.actor.so.SoActor;
+import org.onap.policy.controlloop.actor.vfc.VfcActor;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.TargetType;
@@ -358,11 +358,11 @@ public class ControlLoopOperationManager implements Serializable {
         this.currentOperation = operation;
         if ("ModifyConfig".equalsIgnoreCase(policy.getRecipe())) {
             this.operationRequest =
-                AppcActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                AppcActor.constructRequest((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, this.targetEntity);
         } else {
             this.operationRequest =
-                AppcLcmActorServiceProvider.constructRequest((VirtualControlLoopEvent) onset,
+                AppcLcmActor.constructRequest((VirtualControlLoopEvent) onset,
                     operation.clOperation, this.policy, this.targetEntity);
         }
         //
@@ -373,7 +373,7 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
     private Object startSoOperation(ControlLoopEvent onset, Operation operation) {
-        SoActorServiceProvider soActorSp = new SoActorServiceProvider();
+        SoActor soActorSp = new SoActor();
         this.operationRequest = soActorSp.constructRequestCq((VirtualControlLoopEvent) onset,
             operation.clOperation, this.policy, this.aaiCqResponse);
 
@@ -389,7 +389,7 @@ public class ControlLoopOperationManager implements Serializable {
 
     private Object startVfcOperation(ControlLoopEvent onset, Operation operation) {
         this.operationRequest =
-            VfcActorServiceProvider.constructRequestCq((VirtualControlLoopEvent) onset,
+            VfcActor.constructRequestCq((VirtualControlLoopEvent) onset,
                 operation.clOperation, this.policy, this.aaiCqResponse);
         this.currentOperation = operation;
         if (this.operationRequest == null) {
@@ -403,7 +403,7 @@ public class ControlLoopOperationManager implements Serializable {
          * If the recipe is ModifyConfig or ModifyConfigANR, a SDNR request is constructed.
          */
         this.currentOperation = operation;
-        this.operationRequest = SdnrActorServiceProvider
+        this.operationRequest = SdnrActor
             .constructRequest((VirtualControlLoopEvent) onset, operation.clOperation, this.policy);
         //
         // Save the operation
@@ -416,7 +416,7 @@ public class ControlLoopOperationManager implements Serializable {
     }
 
     private Object startSdncOperation(ControlLoopEvent onset, Operation operation) {
-        SdncActorServiceProvider provider = new SdncActorServiceProvider();
+        SdncActor provider = new SdncActor();
         this.operationRequest = provider.constructRequest((VirtualControlLoopEvent) onset,
             operation.clOperation, this.policy);
         this.currentOperation = operation;
@@ -429,7 +429,7 @@ public class ControlLoopOperationManager implements Serializable {
     private Object startCdsOperation(ControlLoopEvent onset, Operation operation)
         throws AaiException {
 
-        CdsActorServiceProvider provider = new CdsActorServiceProvider();
+        CdsActor provider = new CdsActor();
         Optional<ExecutionServiceInput> optionalRequest =
             provider.constructRequest((VirtualControlLoopEvent) onset, operation.clOperation,
                 this.policy, this.buildAaiParams());
@@ -629,7 +629,7 @@ public class ControlLoopOperationManager implements Serializable {
         /*
          * Parse out the operation attempt using the subrequestid
          */
-        Integer operationAttempt = AppcLcmActorServiceProvider.parseOperationAttempt(
+        Integer operationAttempt = AppcLcmActor.parseOperationAttempt(
             dmaapResponse.getBody().getOutput().getCommonHeader().getSubRequestId());
         if (operationAttempt == null) {
             this.completeOperation(operationAttempt,
@@ -642,7 +642,7 @@ public class ControlLoopOperationManager implements Serializable {
          * Process the APPCLCM response to see what PolicyResult should be returned
          */
         AbstractMap.SimpleEntry<PolicyResult, String> result =
-            AppcLcmActorServiceProvider.processResponse(dmaapResponse);
+            AppcLcmActor.processResponse(dmaapResponse);
 
         if (result.getKey() != null) {
             this.completeOperation(operationAttempt, result.getValue(), result.getKey());
@@ -664,7 +664,7 @@ public class ControlLoopOperationManager implements Serializable {
         /*
          * Parse out the operation attempt using the subrequestid
          */
-        Integer operationAttempt = SdnrActorServiceProvider
+        Integer operationAttempt = SdnrActor
             .parseOperationAttempt(dmaapResponse.getBody().getCommonHeader().getSubRequestId());
         if (operationAttempt == null) {
             this.completeOperation(operationAttempt,
@@ -676,7 +676,7 @@ public class ControlLoopOperationManager implements Serializable {
          * Process the SDNR response to see what PolicyResult should be returned
          */
         Pair<PolicyResult, String> result =
-            SdnrActorServiceProvider.processResponse(dmaapResponse);
+            SdnrActor.processResponse(dmaapResponse);
 
         if (result.getLeft() != null) {
             this.completeOperation(operationAttempt, result.getRight(), result.getLeft());
@@ -1197,7 +1197,7 @@ public class ControlLoopOperationManager implements Serializable {
             //
             // Cast SDNR response and handle it
             //
-            return SdnrActorServiceProvider.getControlLoopResponse((PciResponseWrapper) response,
+            return SdnrActor.getControlLoopResponse((PciResponseWrapper) response,
                 event);
         } else {
             return null;
