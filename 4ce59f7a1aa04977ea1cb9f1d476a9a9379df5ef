@@ -34,6 +34,24 @@
       "revId": "4ce59f7a1aa04977ea1cb9f1d476a9a9379df5ef",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b57234_eb88e606",
+        "filename": "controlloop/common/guard/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-07-01T15:08:36Z",
+      "side": 1,
+      "message": "I think these were added as the xacml-pdp 1.0.2 version was using older version of dependencies that were considered insecure.   I would think that Pam probably cleaned them up in the 2.2.0 xacml-pdp version (external to ONAP).     Probably better to leave the exclusions in place, to make sure, and just follow up with Pam when she is back next week to see if they can be removed.   Sorry for not making it clear in my previous comment.",
+      "parentUuid": "4044ca17_84b51a90",
+      "revId": "4ce59f7a1aa04977ea1cb9f1d476a9a9379df5ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
