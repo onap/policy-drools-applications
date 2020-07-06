@@ -33,6 +33,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerImpl;
@@ -109,7 +110,8 @@ public class EventManagerServicesTest {
 
     @Test
     public void testMakeDataManager() {
-        assertThatThrownBy(() -> new EventManagerServices(FILEPFX + "event-svc-invalid-db"));
+        assertThatThrownBy(() -> new EventManagerServices(FILEPFX + "event-svc-invalid-db"))
+                        .isInstanceOf(IllegalArgumentException.class);
     }
 
 
