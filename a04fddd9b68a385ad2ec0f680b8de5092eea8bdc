@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30eae449_8debae29",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-07T21:25:01Z",
+      "side": 1,
+      "message": "need to remove the leading slash",
+      "range": {
+        "startLine": 52,
+        "startChar": 115,
+        "endLine": 52,
+        "endChar": 116
+      },
+      "revId": "a04fddd9b68a385ad2ec0f680b8de5092eea8bdc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
