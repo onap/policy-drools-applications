@@ -39,6 +39,7 @@ do
             ;;
         esac
         sed -i.ofc \
+        -e "s/^http.client.services.${actor}.https[\s\t]*=.*/http.client.services.${actor}.https=false/g" \
         -e "s/^http.client.services.${actor}.host[\s\t]*=.*/http.client.services.${actor}.host=localhost/g" \
         -e "s/^http.client.services.${actor}.userName[\s\t]*=.*/http.client.services.${actor}.userName=policy/g" \
         -e "s/^http.client.services.${actor}.password[\s\t]*=.*/http.client.services.${actor}.password=policy/g" \
@@ -47,9 +48,10 @@ do
         ${FILE}
     else
         sed -i.ofc \
+        -e "s/^http.client.services.${actor}.https[\s\t]*=.*/http.client.services.${actor}.https=false/g" \
         -e "s/^http.client.services.${actor}.host[\s\t]*=.*/http.client.services.${actor}.host=localhost/g" \
         -e "s/^http.client.services.${actor}.port[\s\t]*=.*/http.client.services.${actor}.port=6669/g" \
-        -e "s!^http.client.services.${actor}.contextUriPath[\s\t]*=.*!http.client.services.${actor}.contextUriPath=/pdp/api/getDecision!g" \
+        -e "s!^http.client.services.${actor}.contextUriPath[\s\t]*=.*!http.client.services.${actor}.contextUriPath=policy/pdpx/v1/!g" \
         -e "s/^http.client.services.${actor}.userName[\s\t]*=.*/http.client.services.${actor}.userName=/g" \
         -e "s/^http.client.services.${actor}.password[\s\t]*=.*/http.client.services.${actor}.password=/g" \
         ${FILE}
