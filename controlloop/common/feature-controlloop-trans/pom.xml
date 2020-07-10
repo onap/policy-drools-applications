@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
         <artifactId>drools-applications-common</artifactId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>feature-controlloop-trans</artifactId>
