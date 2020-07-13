@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc7396c9_2594189d",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-07-13T21:50:44Z",
+      "side": 1,
+      "message": "I am not sure this works, did you verify that the behavior is correct?\n\nIt seems to me that you are going to rename the \"simulator\" files that were placed before under $POLICY_HOME/config to ofc.\nIt seems to me too that the original files would not be saved as \".ofc\".\nIf you could verify proper working.",
+      "revId": "fd9f093d7b31bd490138f52b497b25b62fe6af59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
