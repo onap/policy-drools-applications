@@ -20,40 +20,13 @@
 # ============LICENSE_END=========================================================
 ##
 
+# This is to rename the original files as there is a single property file packaged
+# with different name, utilized to handle all http clients instead using originals.
+# So, no more overriding the official files and just keeping them safe during enable.
 for actor in AAI SO SDNC VFC GUARD
 do
     FILE=${POLICY_HOME}/config/${actor}-http-client.properties
-    if [[ -f ${FILE} && ${actor} != GUARD ]]; then
-        case ${actor} in
-        AAI)
-            PORT=6666
-            ;;
-        SO)
-            PORT=6667
-            ;;
-        VFC)
-            PORT=6668
-            ;;
-        SDNC)
-            PORT=6670
-            ;;
-        esac
-        sed -i.ofc \
-        -e "s/^http.client.services.${actor}.https[\s\t]*=.*/http.client.services.${actor}.https=false/g" \
-        -e "s/^http.client.services.${actor}.host[\s\t]*=.*/http.client.services.${actor}.host=localhost/g" \
-        -e "s/^http.client.services.${actor}.userName[\s\t]*=.*/http.client.services.${actor}.userName=policy/g" \
-        -e "s/^http.client.services.${actor}.password[\s\t]*=.*/http.client.services.${actor}.password=policy/g" \
-        -e "s/^http.client.services.${actor}.port[\s\t]*=.*/http.client.services.${actor}.port=${PORT}/g" \
-        -e "s/^http.client.services.${actor}.contextUriPath[\s\t]*=.*/http.client.services.${actor}.contextUriPath=/g" \
-        ${FILE}
-    else
-        sed -i.ofc \
-        -e "s/^http.client.services.${actor}.https[\s\t]*=.*/http.client.services.${actor}.https=false/g" \
-        -e "s/^http.client.services.${actor}.host[\s\t]*=.*/http.client.services.${actor}.host=localhost/g" \
-        -e "s/^http.client.services.${actor}.port[\s\t]*=.*/http.client.services.${actor}.port=6669/g" \
-        -e "s!^http.client.services.${actor}.contextUriPath[\s\t]*=.*!http.client.services.${actor}.contextUriPath=policy/pdpx/v1/!g" \
-        -e "s/^http.client.services.${actor}.userName[\s\t]*=.*/http.client.services.${actor}.userName=/g" \
-        -e "s/^http.client.services.${actor}.password[\s\t]*=.*/http.client.services.${actor}.password=/g" \
-        ${FILE}
+    if [[ ! -f ${FILE}.ofc ]]; then
+        mv ${FILE} ${FILE}.ofc
     fi
 done
