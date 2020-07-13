@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6aca202b_2f809efa",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/ControlLoopExceptionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-13T15:45:25Z",
+      "side": 1,
+      "message": "forgot to update this when checkstyle updates were made a couple of weeks ago",
+      "revId": "c49bd2de4644c7f59559db95a672bb4cf3a93e61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
