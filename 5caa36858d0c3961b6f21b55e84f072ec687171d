@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e334f7_41fd4ff0",
+        "filename": "controlloop/common/feature-controlloop-utils/src/assembly/assemble_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-13T20:20:14Z",
+      "side": 1,
+      "message": "maybe take this opportunity to change tabs to spaces so things line up",
+      "revId": "5caa36858d0c3961b6f21b55e84f072ec687171d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
