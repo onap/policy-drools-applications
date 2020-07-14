@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d89babf2_2b0aa2eb",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-07-14T20:37:44Z",
+      "side": 1,
+      "message": "could use \"document here\" for comments, but it is unusual.  We don\u0027t do it as such in the\ndrools source code repository base for shell scripts.   \n\nDo you mind to put the comments for readers as this (as we have in the drools repos)?  \n\n# blah line 1\n# blah line 2",
+      "revId": "baeb9e293b53ccdb925a2bdcd8b549141eb3b01a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
