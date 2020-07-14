@@ -16,6 +16,24 @@
       "revId": "fd9f093d7b31bd490138f52b497b25b62fe6af59",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440d1a27_8977ff06",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-07-14T13:48:20Z",
+      "side": 1,
+      "message": "looks right to me: if there isn\u0027t already an \"xxx.ofc\" file, then it moves the original, thus saving it.  It does not retain a copy of the original file, as it is not needed when this feature is enabled - the assembly ensures that the aggregated property file copied from the test directory is the one that is installed and used instead.",
+      "parentUuid": "fc7396c9_2594189d",
+      "revId": "fd9f093d7b31bd490138f52b497b25b62fe6af59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
