@@ -88,6 +88,7 @@ public abstract class BaseRuleTest {
     // VDNS
     private static final String VDNS_TOSCA_LEGACY_POLICY = "vdns/tosca-legacy-vdns.json";
     private static final String VDNS_TOSCA_COMPLIANT_POLICY = "vdns/tosca-compliant-vdns.json";
+    private static final String VDNS_TOSCA_COMPLIANT_RAINY_POLICY = "vdns/tosca-compliant-vdns-rainy.json";
     private static final String VDNS_ONSET = "vdns/vdns.onset.json";
 
     // VFW
@@ -333,6 +334,15 @@ public abstract class BaseRuleTest {
     public void testVdnsSunnyDayCompliant() {
         httpSunnyDay(VDNS_TOSCA_COMPLIANT_POLICY, VDNS_ONSET);
     }
+	
+    /**
+      * Vdns Rainy Day with Legacy Tosca Policy.
+      */
+    @Test
+    public void testVdnsRainyDayCompliant( ) {
+        httpRainyDay(VDNS_TOSCA_COMPLIANT_RAINY_POLICY, VDNS_ONSET);
+    }
+
 
     // VFW
 
@@ -645,6 +655,26 @@ public abstract class BaseRuleTest {
 
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+    }
+	
+    protected void httpRainyDay(String policyFile, String onsetFile) {
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+
+        /* Inject an ONSET event over the DCAE topic */
+        topics.inject(DCAE_TOPIC, onsetFile);
+
+        /* Wait to acquire a LOCK and a PDP-X PERMIT */
+        waitForLockAndPermit(policy, policyClMgt);
+
+        /* --- Operation Completed --- */
+        waitForOperationFailure();
+
+        /* --- Transaction Completed --- */
+        waitForFinalFailure(policy, policyClMgt);
     }
 
     protected long getCreateCount() {

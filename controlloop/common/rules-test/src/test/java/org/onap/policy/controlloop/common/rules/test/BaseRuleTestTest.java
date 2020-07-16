@@ -332,6 +332,11 @@ public class BaseRuleTestTest {
     public void testTestVdnsSunnyDayCompliant() {
         checkHttpPolicy(base::testVdnsSunnyDayCompliant);
     }
+	
+    @Test
+    public void testTestVdnsRainyDayCompliant() {
+        checkHttpPolicyCompliantFailure(base::testVdnsRainyDayCompliant);
+    }
 
     @Test
     public void testTestVfwSunnyDayLegacy() {
@@ -479,6 +484,21 @@ public class BaseRuleTestTest {
     protected void checkHttpPolicy(Runnable test) {
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
+
+        test.run();
+
+        assertEquals(1, permitCount);
+        assertEquals(1, finalCount);
+
+        assertTrue(clMgtQueue.isEmpty());
+
+        // initial event
+        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+    }
+	
+    protected void checkHttpPolicyCompliantFailure(Runnable test) {
+        enqueueClMgt(ControlLoopNotificationType.OPERATION_FAILURE);
+        enqueueClMgt(ControlLoopNotificationType.FINAL_FAILURE);
 
         test.run();
 
