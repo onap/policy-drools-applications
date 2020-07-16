@@ -16,58 +16,11 @@
 # limitations under the License.
 # ########################################################################
 
-function nexus {
-    if [[ ${DEBUG} == y ]]; then
-        echo "-- ${FUNCNAME[0]} --"
-        set -x
-    fi
-
-    if [[ -z ${RELEASE_REPOSITORY_URL} ]]; then
-        return 0
-    fi
-
-    # amsterdam legacy
-
-    echo
-    echo "checking if there are amsterdam policies already deployed .."
-    echo
-
-    local amsterdamVersion=$(curl --silent --connect-timeout 20 -X GET \
-        "http://nexus:8081/nexus/service/local/artifact/maven/resolve?r=releases&g=org.onap.policy-engine.drools.amsterdam&a=policy-amsterdam-rules&v=RELEASE" \
-        | grep -Po "(?<=<version>).*(?=</version>)")
-
-    if [[ -z ${amsterdamVersion} ]]; then
-        echo "no amsterdam policies have been found .."
-        exit 0
-    fi
-
-    echo
-    echo "The latest deployed amsterdam artifact in nexus has version ${amsterdamVersion}"
-    echo
-
-    sed -i.INSTALL \
-        -e "s/^rules.artifactId=.*/rules.artifactId=policy-amsterdam-rules/g" \
-        -e "s/^rules.groupId=.*/rules.groupId=org.onap.policy-engine.drools.amsterdam/g" \
-        -e "s/^rules.version=.*/rules.version=${amsterdamVersion}/g" "${POLICY_HOME}"/config/amsterdam-controller.properties
-
-    echo
-    echo "amsterdam controller will be started brained with maven coordinates:"
-    echo
-
-    grep "^rules" "${POLICY_HOME}"/config/amsterdam-controller.properties
-    echo
-    echo
-}
-
 if [[ ${DEBUG} == y ]]; then
     echo "-- $0 $* --"
     set -x
 fi
 
-operation="${1}"
-case "${operation}" in
-    nexus)      nexus
-                ;;
-    *)          ${POLICY_HOME}/bin/pdpd-entrypoint.sh "$@"
-                ;;
-esac
+# placeholder for customizations
+
+${POLICY_HOME}/bin/pdpd-entrypoint.sh "$@"
