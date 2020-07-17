@@ -26,6 +26,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2Drools;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2.NewEventStatus;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2;
 import org.onap.policy.controlloop.utils.ControlLoopUtils;
@@ -98,7 +99,7 @@ rule "EVENT"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $event : CanonicalOnset( closedLoopControlName == $clName )
-        not ( ControlLoopEventManager2( closedLoopControlName == $event.getClosedLoopControlName(),
+        not ( ControlLoopEventManager2Drools( closedLoopControlName == $event.getClosedLoopControlName(),
             getContext().getEvent() == $event ) )
     then
 
@@ -116,7 +117,7 @@ rule "EVENT"
     try {
         //
         // Check the event, because we need it to not be null when
-        // we create the ControlLoopEventManager2. The ControlLoopEventManager2
+        // we create the ControlLoopEventManager2Drools. The ControlLoopEventManager2Drools
         // will do extra syntax checking as well as check if the closed loop is disabled.
         //
         if ($event.getRequestId() == null) {
@@ -129,7 +130,7 @@ rule "EVENT"
             notification.setPolicyVersion($params.getPolicyVersion());
 
         } else {
-            ControlLoopEventManager2 manager = new ControlLoopEventManager2($params, $event, drools.getWorkingMemory());
+            ControlLoopEventManager2Drools manager = new ControlLoopEventManager2Drools($params, $event, drools.getWorkingMemory());
             insert(manager);
             try {
                 manager.start();
@@ -171,7 +172,7 @@ end
 rule "EVENT.MANAGER.NEW.EVENT"
     when
         $event : VirtualControlLoopEvent( )
-        $manager : ControlLoopEventManager2( closedLoopControlName == $event.getClosedLoopControlName(),
+        $manager : ControlLoopEventManager2Drools( closedLoopControlName == $event.getClosedLoopControlName(),
             getContext().getEvent() == $event )
     then
 
@@ -224,7 +225,7 @@ end
 */
 rule "EVENT.MANAGER.PROCESSING"
     when
-        $manager : ControlLoopEventManager2( isUpdated(), isActive(), $notification : getNotification() )
+        $manager : ControlLoopEventManager2Drools( isUpdated(), isActive(), $notification : getNotification() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
@@ -271,7 +272,7 @@ end
 */
 rule "EVENT.MANAGER.FINAL"
     when
-        $manager : ControlLoopEventManager2( !isActive(), $notification : getNotification() )
+        $manager : ControlLoopEventManager2Drools( !isActive(), $notification : getNotification() )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());

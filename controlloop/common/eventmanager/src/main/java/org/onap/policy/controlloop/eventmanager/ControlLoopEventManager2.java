@@ -44,8 +44,6 @@ import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
-import org.drools.core.WorkingMemory;
-import org.kie.api.runtime.rule.FactHandle;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -73,7 +71,7 @@ import org.slf4j.LoggerFactory;
  * {@link #isActive()} returns {@code false}, indicating that all steps have completed.
  */
 @ToString(onlyExplicitlyIncluded = true)
-public class ControlLoopEventManager2 implements ManagerContext, Serializable {
+public abstract class ControlLoopEventManager2 implements ManagerContext, Serializable {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager2.class);
     private static final long serialVersionUID = -1216568161322872641L;
 
@@ -161,20 +159,16 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     @Getter
     private boolean updated = false;
 
-    private final transient WorkingMemory workMem;
-    private transient FactHandle factHandle;
-
 
     /**
      * Constructs the object.
      *
      * @param params control loop parameters
      * @param event event to be managed by this object
-     * @param workMem working memory to update if this changes
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ControlLoopEventManager2(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
+    public ControlLoopEventManager2(ControlLoopParams params, VirtualControlLoopEvent event)
                     throws ControlLoopException {
 
         createCount.incrementAndGet();
@@ -197,7 +191,6 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         this.policyScope = params.getPolicyScope();
         this.policyVersion = params.getPolicyVersion();
         this.processor = new ControlLoopProcessor(params.getToscaPolicy());
-        this.workMem = workMem;
         this.endTimeMs = System.currentTimeMillis() + detmControlLoopTimeoutMs();
     }
 
@@ -219,9 +212,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
             throw new IllegalStateException("manager is no longer active");
         }
 
-        if ((factHandle = workMem.getFactHandle(this)) == null) {
-            throw new IllegalStateException("manager is not in working memory");
-        }
+        startHook();
 
         if (currentOperation.get() != null) {
             throw new IllegalStateException("manager already started");
@@ -373,7 +364,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         }
 
         updated = true;
-        workMem.update(factHandle, this);
+        notifyUpdate();
     }
 
     /**
@@ -637,4 +628,20 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     public OperationHistoryDataManager getDataManager() {
         return LazyInitData.DATA_MANAGER;
     }
+
+    /* ============================================================ */
+
+    /**
+     * This is a method, invoked from the 'start' method -- it gives subclasses
+     * the ability to add operations. The default implementation does nothing.
+     */
+    protected void startHook() {
+    }
+
+    /**
+     * This is an abstract method that is called after a notable update has
+     * occurred to the 'ControlLoopEventManager2' object. It gives subclasses
+     * the ability to add a callback method to process state changes.
+     */
+    protected abstract void notifyUpdate();
 }

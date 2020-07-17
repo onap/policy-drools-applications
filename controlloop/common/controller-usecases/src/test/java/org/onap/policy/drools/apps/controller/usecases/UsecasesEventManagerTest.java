@@ -77,6 +77,7 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2Drools;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.NewEventStatus;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
@@ -917,15 +918,15 @@ public class UsecasesEventManagerTest {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, ControlLoopEventManager2.PNF_IS_IN_MAINT, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -934,17 +935,17 @@ public class UsecasesEventManagerTest {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -954,15 +955,15 @@ public class UsecasesEventManagerTest {
 
         for (String value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
             event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
-            assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+            assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                             .isInstanceOf(IllegalStateException.class);
         }
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "false"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "no"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
     }
 
 
