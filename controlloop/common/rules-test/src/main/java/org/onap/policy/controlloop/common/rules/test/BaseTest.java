@@ -122,13 +122,12 @@ public abstract class BaseTest {
     protected static Supplier<Simulators> simMaker = Simulators::new;
     protected static Supplier<Topics> topicMaker = Topics::new;
 
-    protected static Rules rules;
     protected static HttpClients httpClients;
     protected static Simulators simulators;
 
     // used to inject and wait for messages
     @Getter(AccessLevel.PROTECTED)
-    protected static Topics topics;
+    protected Topics topics;
 
     // used to wait for messages on SINK topics
     protected Listener<VirtualControlLoopNotification> policyClMgt;
@@ -142,7 +141,7 @@ public abstract class BaseTest {
     protected ToscaPolicy policy;
 
     /**
-     * Initializes {@link #rules}, {@link #httpClients}, and {@link #simulators}.
+     * Initializes {@link #httpClients}, and {@link #simulators}.
      */
     public static void initStatics() {
         httpClients = httpClientMaker.get();
@@ -150,7 +149,7 @@ public abstract class BaseTest {
     }
 
     /**
-     * Destroys {@link #httpClients}, {@link #simulators}, and {@link #rules}.
+     * Destroys {@link #httpClients} and {@link #simulators}.
      */
     public static void finishStatics() {
         httpClients.destroy();
@@ -165,7 +164,7 @@ public abstract class BaseTest {
     }
 
     /**
-     * Destroys {@link #topics} and resets the rule facts.
+     * Destroys {@link #topics}.
      */
     public void finish() {
         topics.destroy();
