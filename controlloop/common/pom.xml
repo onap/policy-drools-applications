@@ -38,11 +38,13 @@
     <module>rules-test</module>
     <module>controller-frankfurt</module>
     <module>controller-usecases</module>
+    <module>controller-tdjam</module>
     <module>feature-controlloop-utils</module>
     <module>feature-controlloop-trans</module>
     <module>feature-controlloop-management</module>
     <module>feature-controlloop-frankfurt</module>
     <module>feature-controlloop-usecases</module>
+    <module>feature-controlloop-tdjam</module>
   </modules>
 
 
