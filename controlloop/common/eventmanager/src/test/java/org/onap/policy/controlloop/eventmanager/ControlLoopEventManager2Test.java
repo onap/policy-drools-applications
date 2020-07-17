@@ -47,7 +47,6 @@ import java.util.function.Consumer;
 import org.drools.core.WorkingMemory;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.kie.api.runtime.rule.FactHandle;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -122,7 +121,7 @@ public class ControlLoopEventManager2Test {
     private ControlLoopParams params;
     private VirtualControlLoopEvent event;
     private int updateCount;
-    private ControlLoopEventManager2 mgr;
+    private ControlLoopEventManager2Drools mgr;
 
     /**
      * Sets up.
@@ -187,11 +186,11 @@ public class ControlLoopEventManager2Test {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
         // valid
@@ -200,7 +199,7 @@ public class ControlLoopEventManager2Test {
 
         // invalid
         event.setTarget("unknown-target");
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(ControlLoopException.class);
     }
 
@@ -244,8 +243,8 @@ public class ControlLoopEventManager2Test {
     @Test
     public void testStartErrors() throws Exception {
         // wrong jvm
-        ControlLoopEventManager2 mgr2 = new ControlLoopEventManager2(params, event, workMem);
-        ControlLoopEventManager2 mgr3 = Serializer.roundTrip(mgr2);
+        ControlLoopEventManager2Drools mgr2 = new ControlLoopEventManager2Drools(params, event, workMem);
+        ControlLoopEventManager2Drools mgr3 = Serializer.roundTrip(mgr2);
         assertThatCode(() -> mgr3.start()).isInstanceOf(IllegalStateException.class)
                         .hasMessage("manager is no longer active");
 
@@ -324,10 +323,10 @@ public class ControlLoopEventManager2Test {
 
     @Test
     public void testIsActive() throws Exception {
-        mgr = new ControlLoopEventManager2(params, event, workMem);
+        mgr = new ControlLoopEventManager2Drools(params, event, workMem);
         assertTrue(mgr.isActive());
 
-        ControlLoopEventManager2 mgr2 = Serializer.roundTrip(mgr);
+        ControlLoopEventManager2Drools mgr2 = Serializer.roundTrip(mgr);
         assertFalse(mgr2.isActive());
     }
 
@@ -604,15 +603,15 @@ public class ControlLoopEventManager2Test {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, ControlLoopEventManager2.PNF_IS_IN_MAINT, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -627,17 +626,17 @@ public class ControlLoopEventManager2Test {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
  
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -647,15 +646,15 @@ public class ControlLoopEventManager2Test {
 
         for (String value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
             event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
-            assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
+            assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                             .isInstanceOf(IllegalStateException.class);
         }
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "false"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "no"));
-        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
     }
 
     @Test
@@ -691,7 +690,7 @@ public class ControlLoopEventManager2Test {
 
     @Test
     public void testGetBlockingExecutor() throws Exception {
-        mgr = new ControlLoopEventManager2(params, event, workMem);
+        mgr = new ControlLoopEventManager2Drools(params, event, workMem);
         assertThatCode(() -> mgr.getBlockingExecutor()).doesNotThrowAnyException();
     }
 
@@ -771,7 +770,7 @@ public class ControlLoopEventManager2Test {
     }
 
 
-    private class MyManager extends ControlLoopEventManager2 {
+    private class MyManager extends ControlLoopEventManager2Drools {
         private static final long serialVersionUID = 1L;
 
         public MyManager(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
