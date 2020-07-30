@@ -22,8 +22,6 @@ package org.onap.policy.controlloop.processor;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import org.apache.commons.beanutils.BeanUtils;
@@ -39,7 +37,6 @@ import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.policy.Target;
 import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.domain.models.DroolsPolicy;
-import org.onap.policy.drools.domain.models.legacy.LegacyPolicy;
 import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.drools.domain.models.operational.OperationalPolicy;
 import org.onap.policy.drools.domain.models.operational.OperationalTarget;
@@ -94,27 +91,13 @@ public class ControlLoopProcessor implements Serializable {
     public ControlLoopProcessor(ToscaPolicy toscaPolicy) throws ControlLoopException {
         try {
             // TODO: automate policy type to models mapping
-            this.policy =
-                ("onap.policies.controlloop.Operational".equals(toscaPolicy.getType()))
-                    ? buildPolicyFromToscaLegacy(toscaPolicy)
-                        : buildPolicyFromToscaCompliant(toscaPolicy);
+            this.policy = buildPolicyFromToscaCompliant(toscaPolicy);
 
             this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
             this.toscaOpPolicy = toscaPolicy;
         } catch (RuntimeException | CoderException e) {
             throw new ControlLoopException(e);
         }
-    }
-
-    protected ControlLoopPolicy buildPolicyFromToscaLegacy(ToscaPolicy policy)
-            throws CoderException {
-        LegacyPolicy legacyPolicy =
-                PolicyEngineConstants.getManager().getDomainMaker().convertTo(policy, LegacyPolicy.class);
-        this.domainOpPolicy = legacyPolicy;
-        String decodedPolicy = URLDecoder.decode(legacyPolicy.getProperties().getContent(), StandardCharsets.UTF_8);
-        return new Yaml(
-                new CustomClassLoaderConstructor(
-                        ControlLoopPolicy.class, ControlLoopPolicy.class.getClassLoader())).load(decodedPolicy);
     }
 
     private Target toStandardTarget(OperationalTarget opTarget) {
