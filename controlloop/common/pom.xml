@@ -42,6 +42,7 @@
     <module>feature-controlloop-trans</module>
     <module>feature-controlloop-management</module>
     <module>feature-controlloop-frankfurt</module>
+    <module>feature-controlloop-usecases</module>
   </modules>
 
 
