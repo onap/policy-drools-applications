@@ -147,6 +147,7 @@ public class StepTest {
     public void testConstructor() {
         assertTrue(step.isPolicyStep());
         assertSame(params, step.getParams());
+        assertNull(step.getParentStep());
 
         // check that it recorded the startTime by starting and checking it
         step.init();
@@ -163,6 +164,7 @@ public class StepTest {
     public void testConstructorWithOtherStep_testInitStartTime_testGetStartTimeRef() {
         Step step2 = new Step(step, "actorB", "operB");
         assertFalse(step2.isPolicyStep());
+        assertSame(step, step2.getParentStep());
 
         ControlLoopOperationParams params2 = step2.getParams();
         assertEquals("actorB", params2.getActor());
