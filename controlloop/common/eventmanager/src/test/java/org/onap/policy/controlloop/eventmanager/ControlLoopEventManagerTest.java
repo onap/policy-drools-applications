@@ -167,8 +167,7 @@ public class ControlLoopEventManagerTest {
     public void testDetmControlLoopTimeoutMs() throws Exception {
         long timeMs = 1200 * 1000L;
         long end = mgr.getEndTimeMs();
-        assertThat(end).isGreaterThanOrEqualTo(preCreateTimeMs + timeMs);
-        assertThat(end).isLessThan(preCreateTimeMs + timeMs + 5000);
+        assertThat(end).isGreaterThanOrEqualTo(preCreateTimeMs + timeMs).isLessThan(preCreateTimeMs + timeMs + 5000);
     }
 
     @Test

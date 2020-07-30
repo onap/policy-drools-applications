@@ -139,7 +139,7 @@ public class GuardStep2Test {
     @Test
     public void testLoadTargetEntity() {
         step.loadTargetEntity(OperationProperties.AAI_TARGET_ENTITY);
-        assertThat(step.getParams().getPayload().get(GuardStep2.PAYLOAD_KEY_TARGET_ENTITY)).isEqualTo(MY_TARGET);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_TARGET_ENTITY, MY_TARGET);
     }
 
     /**
@@ -149,7 +149,7 @@ public class GuardStep2Test {
     public void testLoadVfCountNotVfModuleCreate() {
         // should decrement the count
         step.loadVfCount("");
-        assertThat(step.getParams().getPayload().get(GuardStep2.PAYLOAD_KEY_VF_COUNT)).isEqualTo(VF_COUNT - 1);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VF_COUNT, VF_COUNT - 1);
     }
 
     /**
@@ -161,6 +161,6 @@ public class GuardStep2Test {
 
         // should increment the count
         step.loadVfCount("");
-        assertThat(step.getParams().getPayload().get(GuardStep2.PAYLOAD_KEY_VF_COUNT)).isEqualTo(VF_COUNT + 1);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VF_COUNT, VF_COUNT + 1);
     }
 }
