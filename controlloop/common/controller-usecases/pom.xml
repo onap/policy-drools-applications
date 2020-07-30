@@ -28,11 +28,11 @@
         <version>1.7.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>controller-frankfurt</artifactId>
+    <artifactId>controller-usecases</artifactId>
     <packaging>kjar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>Frankfurt Controller</description>
+    <description>Usecases Experimental Controller</description>
 
     <build>
         <plugins>
@@ -187,6 +187,12 @@
             <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
             <artifactId>rules-test</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils-test</artifactId>
+            <version>${version.policy.common}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
