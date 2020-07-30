@@ -1,0 +1,1052 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop;
+ 
+import java.util.Collections;
+import java.util.stream.Collectors;
+import org.onap.policy.controlloop.CanonicalOnset;
+import org.onap.policy.controlloop.VirtualControlLoopEvent;
+import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.ControlLoopNotificationType;
+import org.onap.policy.controlloop.actor.aai.AaiActor;
+import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
+import org.onap.policy.controlloop.actor.aai.AaiGetTenantOperation;
+import org.onap.policy.controlloop.actor.guard.GuardActor;
+import org.onap.policy.controlloop.actor.guard.DecisionOperation;
+import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.eventmanager.ActorConstants;
+import org.onap.policy.controlloop.eventmanager.Step;
+import org.onap.policy.controlloop.policy.Policy;
+import org.onap.policy.controlloop.policy.FinalResult;
+import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.utils.ControlLoopUtils;
+import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
+import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.State;
+import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.NewEventStatus;
+import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.OperationOutcome2;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+import org.onap.policy.drools.system.PolicyEngineConstants;
+
+/*
+*
+* Called when the ControlLoopParams object has been inserted into working memory from the BRMSGW.
+*
+*/
+rule "INSERT.PARAMS"
+    when
+        $params : ControlLoopParams()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
+        + drools.getRule().getName(), $params.getToscaPolicy());
+end
+
+/*
+*
+* Called when a Tosca Policy is present.
+*
+*/
+rule "NEW.TOSCA.POLICY"
+    when
+        $policy : ToscaPolicy()
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
+                $policy.getVersion(), $policy);
+
+    ControlLoopParams params = ControlLoopUtils.toControlLoopParams($policy);
+    if (params != null) {
+        insert(params);
+    }
+end
+
+/*
+ * Remove Control Loop Parameters.
+ */
+rule "REMOVE.PARAMS"
+    when
+        $params : ControlLoopParams( $policyName :  getPolicyName(), $policyVersion : getPolicyVersion() )
+        not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
+                $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
+
+    retract($params);
+end
+
+/*
+*
+* This rule responds to DCAE Events where there is no manager yet. Either it is
+* the first ONSET, or a subsequent badly formed Event (i.e. Syntax error, or is-closed-loop-disabled)
+*
+*/
+rule "EVENT"
+    when
+        $params : ControlLoopParams( $clName : getClosedLoopControlName() )
+        $event : CanonicalOnset( closedLoopControlName == $clName )
+        not ( UsecasesEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
+            getEvent() == $event ) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: event={}",
+                $clName, $params.getPolicyName(), drools.getRule().getName(),
+                $event);
+    //
+    // Retract the event from memory; it will be managed by the manager from now on
+    //
+    retract($event);
+
+    VirtualControlLoopNotification notification = null;
+
+    try {
+        //
+        // Check the event, because we need it to not be null when
+        // we create the UsecasesEventManager. The UsecasesEventManager
+        // will do extra syntax checking as well as check if the closed loop is disabled.
+        //
+        if ($event.getRequestId() == null) {
+            notification = new VirtualControlLoopNotification($event);
+            notification.setNotification(ControlLoopNotificationType.REJECTED);
+            notification.setFrom("policy");
+            notification.setMessage("Missing requestId");
+            notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+            notification.setPolicyVersion($params.getPolicyVersion());
+
+        } else {
+            UsecasesEventManager manager = new UsecasesEventManager($params, $event, drools.getWorkingMemory());
+            insert(manager);
+            try {
+                manager.start();
+
+                if (manager.getSteps().isEmpty()) {
+                    // no steps implies no policies, thus go straight to DONE state
+                    manager.setState(State.DONE);
+                    
+                    manager.setAccepted(true);
+                    
+                    notification = manager.makeNotification();
+                    notification.setNotification(ControlLoopNotificationType.ACTIVE);
+                    notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+            
+                } else {
+                    manager.setState(State.POLICY_LOADED);
+                }
+                
+            } catch(Exception e) {
+                retract(manager);
+                throw e;
+            }
+        }
+    } catch (Exception e) {
+        logger.warn("{}: {}.{}: error starting manager", $clName, $params.getPolicyName(),
+                        drools.getRule().getName(), e);
+        notification = new VirtualControlLoopNotification($event);
+        notification.setNotification(ControlLoopNotificationType.REJECTED);
+        notification.setMessage("Exception occurred: " + e.getMessage());
+        notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyVersion($params.getPolicyVersion());
+    }
+    //
+    // Generate notification
+    //
+    try {
+        if (notification != null) {
+            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+        }
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: event={} exception generating notification",
+                $clName, $params.getPolicyName(), drools.getRule().getName(),
+                $event, e);
+    }
+end
+
+/*
+*
+* This rule fires when we get a subsequent event.
+*
+*/
+rule "EVENT.MANAGER.NEW.EVENT"
+    when
+        $event : VirtualControlLoopEvent( )
+        $manager : UsecasesEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
+            getEvent() == $event )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: event={} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $event, $manager);
+    //
+    // Remove the event from memory
+    //
+    retract($event);
+
+    //
+    // Check what kind of event this is
+    //
+    switch($manager.onNewEvent($event)) {
+        case SYNTAX_ERROR:
+            //
+            // Ignore any bad syntax events
+            //
+            logger.warn("{}: {}.{}: syntax error",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName());
+            break;
+
+        case FIRST_ABATEMENT:
+        case SUBSEQUENT_ABATEMENT:
+            //
+            // TODO: handle the abatement.  Currently, it's just discarded.
+            //
+            logger.info("{}: {}.{}: abatement",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName());
+            break;
+
+        case FIRST_ONSET:
+        case SUBSEQUENT_ONSET:
+        default:
+            //
+            // We don't care about subsequent onsets
+            //
+            logger.warn("{}: {}.{}: subsequent onset",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName());
+            break;
+    }
+end
+
+/*
+*
+* All steps have been executed, load the next policy.
+*
+*/
+rule "EVENT.MANAGER.LOAD.NEXT.POLICY"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.POLICY_LOADED,
+                        getSteps().isEmpty() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+            
+    try {
+        $manager.loadNextPolicy($manager.getResult());
+        
+        if ($manager.getSteps().isEmpty()) {
+            // no steps - must be the final policy
+            $manager.setState(State.DONE);
+        }
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception loading next policy",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to load next policy");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Policy loaded, identify any preprocessor steps that need to be run first.
+*
+*/
+rule "EVENT.MANAGER.PREPROCESS"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.POLICY_LOADED,
+                        $step : getSteps().peek(),
+                        $step != null,
+                        !$step.isPreprocessed() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        /*
+         * Load any preprocessor steps.
+         *
+         * Note: this will not change the state of the manager, but it may change the
+         * state of the step.
+         */
+        $step.setPreprocessed(true);
+        $manager.loadPreprocessorSteps();
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception loading preprocessor steps",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to load preprocessing steps");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Accepts the event, when ready to execute a step of interest.
+*
+*/
+rule "EVENT.MANAGER.ACCEPT"
+    salience 200
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        !isAccepted(),
+                        getState() == State.POLICY_LOADED,
+                        $step : getSteps().peek(),
+                        $step != null,
+                        $step.isPreprocessed(),
+                        $step.acceptsEvent() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        $manager.setAccepted(true);
+        
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.ACTIVE);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to accept the event");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Ready to execute the step.
+*
+*/
+rule "EVENT.MANAGER.EXECUTE.STEP"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.POLICY_LOADED,
+                        $step : getSteps().peek(),
+                        $step != null,
+                        $step.isPreprocessed() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        $step.init();
+        $step.setProperties();
+        
+        if ($manager.executeStep()) {
+            $manager.setState(State.AWAITING_OUTCOME);
+            
+        } else {
+            // this step is no longer necessary - try the next one
+            $manager.nextStep();
+        }
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception executing a step",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to execute the next step");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Generate SDNR notification.  Does not discard the outcome from the queue, leaving it to be
+* done by rule "EVENT.MANAGER.PROCESS.OUTCOME". 
+*
+*/
+rule "EVENT.MANAGER.GENERATE.SDNR.NOTIFICATION"
+    // this should fire BEFORE the "EVENT.MANAGER.PROCESS.OUTCOME" rule
+    salience 100
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        $outcome.getEnd() != null,
+                        !isAbort($outcome),
+                        $step : getSteps().peek(),
+                        "SDNR".equals($step.getActorName()),
+                        $outcome.isFor("SDNR", $step.getOperation().getName()) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+    
+    try {
+        ControlLoopResponse clResponse = $manager.makeControlLoopResponse($outcome);
+        $manager.deliver("DCAE_CL_RSP", clResponse, "SDNR notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating SDNR Response notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+end
+
+/*
+*
+* Process a GUARD outcome.  Does not discard the outcome from the queue, leaving it to be
+* done by rule "EVENT.MANAGER.PROCESS.OUTCOME".
+*
+*/
+rule "EVENT.MANAGER.PROCESS.GUARD.OUTCOME"
+    salience 100
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        !isAbort($outcome),
+                        $step : getSteps().peek(),
+                        "GUARD".equals($step.getActorName()),
+                        $outcome.isFor("GUARD", $step.getOperation().getName()) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setHistory(Collections.emptyList());
+                                    
+        // get actor/operation name from the policy step, not from the guard step
+        Step step2 = $step.getParentStep();
+            
+        if ($outcome.getEnd() == null) {
+            // it's a "start" operation
+            notification.setMessage("Sending guard query for " + step2.getActorName() + " " + step2.getOperationName());
+            
+        } else if ($outcome.getResult() == PolicyResult.SUCCESS) {
+            notification.setMessage("Guard result for " + step2.getActorName() + " " + step2.getOperationName()
+                                        + " is Permit");            
+        } else {
+            // it's a failure
+            notification.setMessage("Guard result for " + step2.getActorName() + " " + step2.getOperationName()
+                                        + " is Deny");
+        }
+     
+        $manager.deliver("POLICY-CL-MGT", notification, "GUARD notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating GUARD notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+end
+
+/*
+*
+* Process an outcome when the policy's operation starts.
+*
+*/
+rule "EVENT.MANAGER.PROCESS.POLICY.STARTED"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        $outcome.getEnd() == null,
+                        $step : getSteps().peek(),
+                        $step.isPolicyStep(),
+                        $operation : getSteps().peek().getOperation(),
+                        $outcome.isFor($operation.getActorName(), $operation.getName()) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        $manager.getOutcomes().remove();
+        
+        // it's a "start" operation for the step
+        $manager.bumpAttempts();
+        
+        $manager.addToHistory($outcome);
+        $manager.storeInDataBase($manager.getPartialHistory().peekLast());
+        
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setHistory(Collections.emptyList());
+        notification.setMessage($manager.getOperationMessage());
+        
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'start' outcome");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Process an outcome when an arbitrary Preprocessor step starts.
+*
+*/
+rule "EVENT.MANAGER.PROCESS.PREPROCESSOR.STARTED"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        $outcome.getEnd() == null,
+                        $step : getSteps().peek(),
+                        !$step.isPolicyStep(),
+                        $operation : getSteps().peek().getOperation(),
+                        $outcome.isFor($operation.getActorName(), $operation.getName()) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        $manager.getOutcomes().remove();
+        
+        // it's a "start" operation for the step
+        $manager.bumpAttempts();
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle 'start' outcome");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Process an outcome when the policy's operation succeeds.
+*
+*/
+rule "EVENT.MANAGER.PROCESS.POLICY.SUCCESS"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        $outcome.getEnd() != null,
+                        $outcome.getResult() == PolicyResult.SUCCESS,
+                        $step : getSteps().peek(),
+                        $step.isPolicyStep(),
+                        $operation : getSteps().peek().getOperation(),
+                        $outcome.isFor($operation.getActorName(), $operation.getName()) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        $manager.getOutcomes().remove();
+        
+        // let the step record the response that's contained within the outcome
+        $step.success($outcome);
+        
+        $manager.addToHistory($outcome);
+        $manager.storeInDataBase($manager.getPartialHistory().peekLast());
+        
+        $manager.setResult($outcome.getResult());
+        
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
+                                .collect(Collectors.toList()));
+        
+        // trigger move to the next step - only remove this step
+        $manager.getSteps().remove();
+        
+        $manager.setState(State.POLICY_LOADED);
+        
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'success' outcome");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Process a final failure outcome, when the event has been accepted.
+*
+*/
+rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        isAccepted(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        !isAbort($outcome),
+                        $outcome.getEnd() != null,
+                        $outcome.isFinalOutcome(),
+                        $outcome.getResult() != PolicyResult.SUCCESS,
+                        $step : getSteps().peek() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        $manager.getOutcomes().remove();
+        
+        if (!$outcome.isFor($step.getActorName(), $step.getOperationName())) {
+            $outcome.setResult(PolicyResult.FAILURE_GUARD);
+            $outcome.setMessage("Operation denied by " + $outcome.getActor());
+        }
+    
+        // final failure for this policy
+        $manager.addToHistory($outcome);
+        $manager.storeInDataBase($manager.getPartialHistory().peekLast());
+        
+        $manager.setResult($outcome.getResult());
+        
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
+                                .collect(Collectors.toList()));
+        
+        // trigger move to the next policy - clear all steps
+        $manager.getSteps().clear();
+        $manager.setState(State.POLICY_LOADED);
+        
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'failure' outcome");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Process a final failure outcome, when the event has NOT been accepted.
+*
+*/
+rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        !isAccepted(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        !isAbort($outcome),
+                        $outcome.getEnd() != null,
+                        $outcome.isFinalOutcome(),
+                        $outcome.getResult() != PolicyResult.SUCCESS,
+                        $step : getSteps().peek() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    retract($manager);
+            
+    try {
+        // final failure for this policy
+        $manager.addToHistory($outcome);
+        
+        $manager.setResult($outcome.getResult());
+        
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.REJECTED);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
+                                .collect(Collectors.toList()));
+        
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to reject event");
+    }
+    
+    $manager.destroy();
+end
+
+/*
+*
+* Process an outcome when the policy's operation fails.
+*
+*/
+rule "EVENT.MANAGER.PROCESS.POLICY.FAILURE"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        !isAbort($outcome),
+                        $outcome.getEnd() != null,
+                        !$outcome.isFinalOutcome(),
+                        $outcome.getResult() != PolicyResult.SUCCESS,
+                        $step : getSteps().peek(),
+                        $step.isPolicyStep(),
+                        $operation : getSteps().peek().getOperation(),
+                        $outcome.isFor($operation.getActorName(), $operation.getName()) )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);
+            
+    try {
+        // not a final failure, thus it will be retried automatically
+    
+        $manager.getOutcomes().remove();
+        
+        // do NOT invoke manager.setResult()
+        
+        $manager.addToHistory($outcome);
+        $manager.storeInDataBase($manager.getPartialHistory().peekLast());
+        
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'failure' outcome");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Discard an outcome that was not handled by any other rule.
+*
+*/
+rule "EVENT.MANAGER.DISCARD.OUTCOME"
+    salience -10
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() == State.AWAITING_OUTCOME,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        $step : getSteps().peek() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $outcome.getResult(), $manager);
+            
+    try {
+        $manager.getOutcomes().remove();
+        
+        if ($outcome.getEnd() != null && $outcome.isFor($step.getActorName(), $step.getOperationName())) {
+            // it's a completion for the step
+            
+            // let the step record the response that's contained within the outcome
+            if ($outcome.getResult() == PolicyResult.SUCCESS) {
+                $step.success($outcome);
+            }
+        
+            // this step is complete - discard it
+            $manager.getSteps().remove();
+            
+            $manager.setState(State.POLICY_LOADED);
+        }
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle outcome");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Abort processing.  This can happen in any state (once the manager has been started).
+*
+*/
+rule "EVENT.MANAGER.ABORT"
+    when
+        $manager : UsecasesEventManager(
+                        isActive(),
+                        getState() != State.DONE,
+                        $outcome : getOutcomes().peek(),
+                        $outcome != null,
+                        isAbort($outcome),
+                        $step : getSteps().peek() )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: {} manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $step, $manager);        
+    
+    try {
+        // determine the final
+        String msg;
+        switch ($outcome.getActor()) {
+            case ActorConstants.CL_TIMEOUT_ACTOR:
+                msg = "Control Loop timed out";
+                break;
+            case ActorConstants.LOCK_ACTOR:
+                msg = "Target Lock was lost";
+                break;
+            default:
+                msg = "Processing aborted by " + $outcome.getActor();
+                break;
+        }
+        
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE, msg);
+    
+        if ($step != null && "SDNR".equals($step.getActorName())
+                && $outcome.isFor($step.getActorName(), $step.getOperationName())) {
+                
+            // aborted while processing the SDNR step - generate a notification
+            ControlLoopResponse clResponse = $manager.makeControlLoopResponse($outcome);
+            $manager.deliver("DCAE_CL_RSP", clResponse, "SDNR notification", drools.getRule().getName());
+        }
+        
+        if ($step != null) {
+            $outcome.setActor($step.getActorName());
+            $outcome.setOperation($step.getOperationName());
+            
+            $manager.addToHistory($outcome);            
+            $manager.storeInDataBase($manager.getPartialHistory().peekLast());
+        }
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception handling ABORT outcome",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle ABORT");
+    }
+    
+    update($manager);
+end
+
+/*
+*
+* Done processing.
+*
+*/
+rule "EVENT.MANAGER.FINAL"
+    when
+        $manager : UsecasesEventManager(
+                        !isActive() || getState() == State.DONE )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}.{}: manager={}",
+            $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+            $manager);
+            
+    retract($manager);
+    
+    try {           
+        VirtualControlLoopNotification notification = $manager.makeNotification();
+        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setHistory($manager.getFullHistory().stream().map(OperationOutcome2::getClOperation)
+                                    .collect(Collectors.toList()));
+                                    
+        FinalResult finalResult = $manager.getFinalResult();        
+        if (finalResult == null) {
+            finalResult = ($manager.isActive() ? FinalResult.FINAL_SUCCESS : FinalResult.FINAL_FAILURE);
+        }
+
+        switch (finalResult) {
+            case FINAL_FAILURE_EXCEPTION:
+                notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
+                notification.setMessage("Exception in processing closed loop");
+                break;
+            case FINAL_SUCCESS:
+                notification.setNotification(ControlLoopNotificationType.FINAL_SUCCESS);
+                break;
+            case FINAL_OPENLOOP:
+                notification.setNotification(ControlLoopNotificationType.FINAL_OPENLOOP);
+                break;
+            case FINAL_FAILURE:
+            default:
+                notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
+                break;
+        }
+        
+        if ($manager.getFinalMessage() != null) {
+            notification.setMessage($manager.getFinalMessage());
+        }
+
+        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: {}.{}: manager={} exception generating final notification",
+                $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
+                $manager, e);
+    }
+    
+    $manager.destroy();
+end
+
+/*
+*
+* This rule will clean up any rogue events where there is no
+* ControlLoopParams object corresponding to the onset event.
+*
+*/
+rule "EVENT.CLEANUP"
+    salience -100
+    when
+        $event : VirtualControlLoopEvent( $clName: closedLoopControlName )
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}: {}", $clName, drools.getRule().getName());
+    logger.debug("{}: {}: orphan event={}",
+                $clName, drools.getRule().getName(), $event);
+    //
+    // Retract the event
+    //
+    retract($event);
+end
+
+/*
+*
+* At this point, it appears that if we prevent the rules from getting messages from
+* topics, then that will also prevent the actors from getting them.  So the following
+* rules are here just to discard those messages.
+*
+* These have a higher salience so the objects are removed before the "FINAL" message
+* is processed, so that the junit test can assume things are done once they see the
+* "FINAL" message.  Otherwise, tests might fail sporadically.
+*
+*/
+rule "APPC.Response.CLEANUP"
+    salience 1
+    when
+        $msg : org.onap.policy.appc.Response( )
+    then
+        retract($msg);
+end
+
+rule "APPC.Request.CLEANUP"
+    salience 1
+    when
+        $msg : org.onap.policy.appc.Request( )
+    then
+        retract($msg);
+end
+
+rule "APPC-LCM.Response.CLEANUP"
+    salience 1
+    when
+        $msg : org.onap.policy.appclcm.AppcLcmDmaapWrapper( )
+    then
+        retract($msg);
+end
+
+rule "SDNR.Response.CLEANUP"
+    salience 1
+    when
+        $msg : org.onap.policy.sdnr.PciResponseWrapper( )
+    then
+        retract($msg);
+end
