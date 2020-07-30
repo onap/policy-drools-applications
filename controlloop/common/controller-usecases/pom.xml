@@ -29,9 +29,20 @@
     </parent>
 
     <artifactId>controller-usecases</artifactId>
+    <packaging>kjar</packaging>
 
     <name>${project.artifactId}</name>
     <description>Usecases Experimental Controller</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-maven-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
