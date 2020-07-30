@@ -18,9 +18,13 @@
   limitations under the License.
   ============LICENSE_END=========================================================
   -->
-<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
-    <kbase name="onap.policies.controlloop.operational.common.Drools" equalsBehavior="equality"
-           packages="org.onap.policy.controlloop">
-        <ksession name="rulesTest"/>
-    </kbase>
-</kmodule>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.onap.policy.controlloop</groupId>
+    <artifactId>usecases</artifactId>
+    <version>1.1.0</version>
+</project>
