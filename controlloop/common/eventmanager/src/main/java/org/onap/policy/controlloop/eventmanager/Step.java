@@ -55,10 +55,18 @@ public class Step {
     private final AtomicReference<Instant> startTime;
 
     /**
-     * {@code True} if this step is for the policy's actual operation, {@code false} if it's a preprocessor step.
+     * {@code True} if this step is for the policy's actual operation, {@code false} if
+     * it's a preprocessor step.
      */
     @Getter
     private final boolean policyStep;
+
+    /**
+     * The parent step from which this was constructed, or {@code null} if is was not
+     * constructed from another step.
+     */
+    @Getter
+    private final Step parentStep;
 
     /**
      * The operation for this step.
@@ -73,7 +81,8 @@ public class Step {
 
 
     /**
-     * Constructs the object.  This is used when constructing the step for the policy's actual operation.
+     * Constructs the object. This is used when constructing the step for the policy's
+     * actual operation.
      *
      * @param params operation parameters
      * @param startTime start time of the first step for the current policy, initially
@@ -83,21 +92,23 @@ public class Step {
         this.params = params;
         this.startTime = startTime;
         this.policyStep = true;
+        this.parentStep = null;
     }
 
     /**
-     * Constructs the object using information from another step.  This is used when constructing a preprocessing
-     * step.
+     * Constructs the object using information from another step. This is used when
+     * constructing a preprocessing step.
      *
-     * @param otherStep step whose information should be used
+     * @param parentStep parent step whose information should be used
      * @param actor actor name
      * @param operation operation name
      */
-    public Step(Step otherStep, String actor, String operation) {
-        this.params = otherStep.params.toBuilder().actor(actor).operation(operation).retry(null).timeoutSec(null)
+    public Step(Step parentStep, String actor, String operation) {
+        this.params = parentStep.params.toBuilder().actor(actor).operation(operation).retry(null).timeoutSec(null)
                         .payload(new LinkedHashMap<>()).build();
-        this.startTime = otherStep.startTime;
+        this.startTime = parentStep.startTime;
         this.policyStep = false;
+        this.parentStep = parentStep;
     }
 
     public String getActorName() {
