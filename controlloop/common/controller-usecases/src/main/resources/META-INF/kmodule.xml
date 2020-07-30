@@ -21,6 +21,6 @@
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
     <kbase name="onap.policies.controlloop.operational.common.Drools" equalsBehavior="equality"
            packages="org.onap.policy.controlloop">
-        <ksession name="rulesTest"/>
+        <ksession name="usecases"/>
     </kbase>
 </kmodule>
