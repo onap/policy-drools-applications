@@ -32,7 +32,7 @@
     <packaging>kjar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>Frankfurt Experimental Controller</description>
+    <description>Frankfurt Controller</description>
 
     <build>
         <plugins>
