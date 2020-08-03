@@ -113,7 +113,6 @@ public class BaseRuleTestTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        ruleMaker = Whitebox.getInternalState(BaseRuleTest.class, "ruleMaker");
         httpClientMaker = Whitebox.getInternalState(BaseRuleTest.class, "httpClientMaker");
         simMaker = Whitebox.getInternalState(BaseRuleTest.class, "simMaker");
         topicMaker = Whitebox.getInternalState(BaseRuleTest.class, "topicMaker");
@@ -124,7 +123,6 @@ public class BaseRuleTestTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        Whitebox.setInternalState(BaseRuleTest.class, "ruleMaker", ruleMaker);
         Whitebox.setInternalState(BaseRuleTest.class, "httpClientMaker", httpClientMaker);
         Whitebox.setInternalState(BaseRuleTest.class, "simMaker", simMaker);
         Whitebox.setInternalState(BaseRuleTest.class, "topicMaker", topicMaker);
@@ -164,7 +162,6 @@ public class BaseRuleTestTest {
         Supplier<Simulators> simMaker = this::makeSim;
         Supplier<Topics> topicMaker = this::makeTopics;
 
-        Whitebox.setInternalState(BaseRuleTest.class, "ruleMaker", ruleMaker);
         Whitebox.setInternalState(BaseRuleTest.class, "httpClientMaker", httpClientMaker);
         Whitebox.setInternalState(BaseRuleTest.class, "simMaker", simMaker);
         Whitebox.setInternalState(BaseRuleTest.class, "topicMaker", topicMaker);
@@ -207,30 +204,14 @@ public class BaseRuleTestTest {
 
         base = new MyTest();
 
-        BaseRuleTest.initStatics(CONTROLLER_NAME);
         base.init();
-    }
-
-    @Test
-    public void testInitStatics() {
-        assertSame(rules, BaseRuleTest.rules);
-        assertSame(httpClients, BaseRuleTest.httpClients);
-        assertSame(simulators, BaseRuleTest.simulators);
-    }
-
-    @Test
-    public void testFinishStatics() {
-        BaseRuleTest.finishStatics();
-
-        verify(rules).destroy();
-        verify(httpClients).destroy();
-        verify(simulators).destroy();
     }
 
     @Test
     public void testInit() {
         assertSame(topics, base.getTopics());
-        assertSame(controller, base.controller);
+        assertSame(httpClients, BaseRuleTest.httpClients);
+        assertSame(simulators, BaseRuleTest.simulators);
     }
 
     @Test
@@ -238,7 +219,8 @@ public class BaseRuleTestTest {
         base.finish();
 
         verify(topics).destroy();
-        verify(rules).resetFacts();
+        verify(httpClients).destroy();
+        verify(simulators).destroy();
     }
 
     @Test

@@ -222,8 +222,11 @@ public class Rules {
             throw new IllegalArgumentException(POLICY_MSG + policyPath, e);
         }
     }
-
-    private ToscaPolicy getPolicyFromFile(String policyPath) throws CoderException {
+ 
+    /**
+     * get policy from file.
+     */
+    public static ToscaPolicy getPolicyFromFile(String policyPath) throws CoderException {
         String policyJson = ResourceUtils.getResourceAsString(policyPath);
         if (policyJson == null) {
             throw new CoderException(new FileNotFoundException(policyPath));
