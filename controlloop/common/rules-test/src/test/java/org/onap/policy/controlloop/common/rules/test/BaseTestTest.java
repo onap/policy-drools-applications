@@ -34,7 +34,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import org.junit.AfterClass;
@@ -55,7 +54,6 @@ import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.controller.DroolsController;
-import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyIdentifier;
 import org.onap.policy.sdnr.PciBody;
@@ -64,17 +62,15 @@ import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
 import org.powermock.reflect.Whitebox;
 
-public class BaseRuleTestTest {
-    private static final String CONTROLLER_NAME = "my-controller-name";
+public class BaseTestTest {
     private static final String POLICY_NAME = "my-policy-name";
 
     // saved values
-    private static Function<String, Rules> ruleMaker;
     private static Supplier<HttpClients> httpClientMaker;
     private static Supplier<Simulators> simMaker;
     private static Supplier<Topics> topicMaker;
 
-    private BaseRuleTest base;
+    private BaseTest base;
     private LinkedList<VirtualControlLoopNotification> clMgtQueue;
     private Queue<AppcLcmDmaapWrapper> appcLcmQueue;
     private Queue<Request> appcLegacyQueue;
@@ -82,10 +78,6 @@ public class BaseRuleTestTest {
     private int permitCount;
     private int finalCount;
 
-    @Mock
-    private PolicyController controller;
-    @Mock
-    private Rules rules;
     @Mock
     private HttpClients httpClients;
     @Mock
@@ -113,10 +105,9 @@ public class BaseRuleTestTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        ruleMaker = Whitebox.getInternalState(BaseRuleTest.class, "ruleMaker");
-        httpClientMaker = Whitebox.getInternalState(BaseRuleTest.class, "httpClientMaker");
-        simMaker = Whitebox.getInternalState(BaseRuleTest.class, "simMaker");
-        topicMaker = Whitebox.getInternalState(BaseRuleTest.class, "topicMaker");
+        httpClientMaker = Whitebox.getInternalState(BaseTest.class, "httpClientMaker");
+        simMaker = Whitebox.getInternalState(BaseTest.class, "simMaker");
+        topicMaker = Whitebox.getInternalState(BaseTest.class, "topicMaker");
     }
 
     /**
@@ -124,10 +115,9 @@ public class BaseRuleTestTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        Whitebox.setInternalState(BaseRuleTest.class, "ruleMaker", ruleMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "topicMaker", topicMaker);
+        Whitebox.setInternalState(BaseTest.class, "httpClientMaker", httpClientMaker);
+        Whitebox.setInternalState(BaseTest.class, "simMaker", simMaker);
+        Whitebox.setInternalState(BaseTest.class, "topicMaker", topicMaker);
     }
 
     /**
@@ -140,34 +130,22 @@ public class BaseRuleTestTest {
         when(policy.getIdentifier()).thenReturn(policyIdent);
         when(policyIdent.getName()).thenReturn(POLICY_NAME);
 
-        when(drools.factCount(CONTROLLER_NAME)).thenReturn(0L);
-        when(controller.getDrools()).thenReturn(drools);
-
-        when(rules.getControllerName()).thenReturn(CONTROLLER_NAME);
-        when(rules.getController()).thenReturn(controller);
-        when(rules.setupPolicyFromFile(any())).thenAnswer(args -> {
-            when(drools.factCount(CONTROLLER_NAME)).thenReturn(2L);
-            return policy;
-        });
-
-        when(topics.createListener(BaseRuleTest.POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller))
-                        .thenReturn(policyClMgt);
-        when(topics.createListener(eq(BaseRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
+        when(topics.createListener(eq(BaseTest.POLICY_CL_MGT_TOPIC), eq(VirtualControlLoopNotification.class), 
+                        any(StandardCoder.class))).thenReturn(policyClMgt);
+        when(topics.createListener(eq(BaseTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
-        when(topics.createListener(eq(BaseRuleTest.APPC_CL_TOPIC), eq(Request.class),
+        when(topics.createListener(eq(BaseTest.APPC_CL_TOPIC), eq(Request.class),
                         any(StandardCoderInstantAsMillis.class))).thenReturn(appcClSink);
-        when(topics.createListener(eq(BaseRuleTest.SDNR_CL_TOPIC), eq(PciMessage.class),
+        when(topics.createListener(eq(BaseTest.SDNR_CL_TOPIC), eq(PciMessage.class),
             any(StandardCoder.class))).thenReturn(sdnrClSink);
 
-        Function<String, Rules> ruleMaker = this::makeRules;
         Supplier<HttpClients> httpClientMaker = this::makeHttpClients;
         Supplier<Simulators> simMaker = this::makeSim;
         Supplier<Topics> topicMaker = this::makeTopics;
 
-        Whitebox.setInternalState(BaseRuleTest.class, "ruleMaker", ruleMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "topicMaker", topicMaker);
+        Whitebox.setInternalState(BaseTest.class, "httpClientMaker", httpClientMaker);
+        Whitebox.setInternalState(BaseTest.class, "simMaker", simMaker);
+        Whitebox.setInternalState(BaseTest.class, "topicMaker", topicMaker);
 
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();
@@ -207,22 +185,19 @@ public class BaseRuleTestTest {
 
         base = new MyTest();
 
-        BaseRuleTest.initStatics(CONTROLLER_NAME);
+        BaseTest.initStatics();
         base.init();
     }
 
     @Test
     public void testInitStatics() {
-        assertSame(rules, BaseRuleTest.rules);
-        assertSame(httpClients, BaseRuleTest.httpClients);
-        assertSame(simulators, BaseRuleTest.simulators);
+        assertSame(httpClients, BaseTest.httpClients);
+        assertSame(simulators, BaseTest.simulators);
     }
 
     @Test
     public void testFinishStatics() {
-        BaseRuleTest.finishStatics();
-
-        verify(rules).destroy();
+        BaseTest.finishStatics();
         verify(httpClients).destroy();
         verify(simulators).destroy();
     }
@@ -230,15 +205,12 @@ public class BaseRuleTestTest {
     @Test
     public void testInit() {
         assertSame(topics, base.getTopics());
-        assertSame(controller, base.controller);
     }
 
     @Test
     public void testFinish() {
         base.finish();
-
         verify(topics).destroy();
-        verify(rules).resetFacts();
     }
 
     @Test
@@ -256,10 +228,10 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // replies to each APPC request
-        verify(topics, times(6)).inject(eq(BaseRuleTest.APPC_LCM_WRITE_TOPIC), any(), any());
+        verify(topics, times(6)).inject(eq(BaseTest.APPC_LCM_WRITE_TOPIC), any(), any());
     }
 
     @Test
@@ -285,11 +257,11 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial events
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
-        verify(topics, times(2)).inject(eq(BaseRuleTest.DCAE_TOPIC), any(), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
+        verify(topics, times(2)).inject(eq(BaseTest.DCAE_TOPIC), any(), any());
 
         // two restarts
-        verify(topics, times(2)).inject(eq(BaseRuleTest.APPC_LCM_WRITE_TOPIC), any(), any());
+        verify(topics, times(2)).inject(eq(BaseTest.APPC_LCM_WRITE_TOPIC), any(), any());
     }
 
     @Test
@@ -317,10 +289,10 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial events
-        verify(topics, times(3)).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics, times(3)).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // one restart
-        verify(topics).inject(eq(BaseRuleTest.APPC_LCM_WRITE_TOPIC), any(), any());
+        verify(topics).inject(eq(BaseTest.APPC_LCM_WRITE_TOPIC), any(), any());
     }
 
     @Test
@@ -397,10 +369,10 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // reply to each APPC request
-        verify(topics).inject(eq(BaseRuleTest.APPC_LCM_WRITE_TOPIC), any(), any());
+        verify(topics).inject(eq(BaseTest.APPC_LCM_WRITE_TOPIC), any(), any());
     }
 
     protected void checkAppcLegacyPolicy(String operation, Runnable test) {
@@ -417,10 +389,10 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // reply to each APPC request
-        verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
+        verify(topics).inject(eq(BaseTest.APPC_CL_TOPIC), any(), any());
     }
 
     protected void checkAppcLegacyPolicyOperationFailure(String operation, Runnable test) {
@@ -437,10 +409,10 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // reply to each APPC request
-        verify(topics).inject(eq(BaseRuleTest.APPC_CL_TOPIC), any(), any());
+        verify(topics).inject(eq(BaseTest.APPC_CL_TOPIC), any(), any());
     }
 
     protected void checkAppcLegacyPolicyFinalFailure(String operation, Runnable test) {
@@ -456,7 +428,7 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // There were no requests sent
     }
@@ -475,10 +447,10 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
 
         // reply to each SDNR request
-        verify(topics).inject(eq(BaseRuleTest.SDNR_CL_RSP_TOPIC), any(), any());
+        verify(topics).inject(eq(BaseTest.SDNR_CL_RSP_TOPIC), any(), any());
     }
 
     protected void checkHttpPolicy(Runnable test) {
@@ -493,7 +465,7 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
     }
 
     protected void checkHttpPolicyCompliantFailure(Runnable test) {
@@ -508,7 +480,7 @@ public class BaseRuleTestTest {
         assertTrue(clMgtQueue.isEmpty());
 
         // initial event
-        verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
+        verify(topics).inject(eq(BaseTest.DCAE_TOPIC), any());
     }
 
     private void enqueueClMgt(ControlLoopNotificationType type) {
@@ -570,10 +542,6 @@ public class BaseRuleTestTest {
         }
     }
 
-    private Rules makeRules(String controllerName) {
-        return rules;
-    }
-
     private HttpClients makeHttpClients() {
         return httpClients;
     }
@@ -590,7 +558,7 @@ public class BaseRuleTestTest {
      * We don't want junit trying to run this, so it's marked "Ignore".
      */
     @Ignore
-    private class MyTest extends BaseRuleTest {
+    private class MyTest extends BaseTest {
 
         @Override
         protected void waitForLockAndPermit(ToscaPolicy policy, Listener<VirtualControlLoopNotification> policyClMgt) {
