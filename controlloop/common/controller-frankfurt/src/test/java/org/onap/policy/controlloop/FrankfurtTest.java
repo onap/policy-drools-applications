@@ -25,7 +25,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
-import org.onap.policy.controlloop.common.rules.test.BaseRuleTest;
+import org.onap.policy.controlloop.common.rules.test.DroolsRuleTest;
 import org.onap.policy.controlloop.common.rules.test.Listener;
 import org.onap.policy.controlloop.common.rules.test.NamedRunner;
 import org.onap.policy.controlloop.common.rules.test.TestNames;
@@ -41,7 +41,7 @@ import org.onap.policy.simulators.Util;
 @RunWith(NamedRunner.class)
 @TestNames(prefixes = {"test"})
 
-public class FrankfurtTest extends BaseRuleTest {
+public class FrankfurtTest extends DroolsRuleTest {
     protected static final String CONTROLLER_NAME = "frankfurt";
 
 
