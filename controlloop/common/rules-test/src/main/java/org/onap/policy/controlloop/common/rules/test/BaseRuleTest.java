@@ -33,6 +33,7 @@ import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -141,14 +142,13 @@ public abstract class BaseRuleTest {
     protected Listener<Request> appcClSink;
     protected Listener<AppcLcmDmaapWrapper> appcLcmRead;
     protected Listener<PciMessage> sdnrClSink;
-
+    
     protected PolicyController controller;
-
+    
     /*
      * Tosca Policy that was loaded.
      */
     protected ToscaPolicy policy;
-
 
     /**
      * Initializes {@link #rules}, {@link #httpClients}, and {@link #simulators}.
@@ -186,6 +186,7 @@ public abstract class BaseRuleTest {
         rules.resetFacts();
     }
 
+
     // Service123 (i.e., Policy with multiple operations)
 
     /**
@@ -196,9 +197,11 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(SERVICE123_TOSCA_COMPLIANT_POLICY);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(SERVICE123_TOSCA_COMPLIANT_POLICY);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(SERVICE123_TOSCA_COMPLIANT_POLICY, e);
+        }
 
         // inject an ONSET event over the DCAE topic
         topics.inject(DCAE_TOPIC, SERVICE123_ONSET);
@@ -250,9 +253,11 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(DUPLICATES_TOSCA_COMPLIANT_POLICY, e);
+        }
 
         final long initCount = getCreateCount();
 
@@ -442,9 +447,11 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         // inject several ONSET events over the DCAE topic
         for (String onsetFile : onsetFiles) {
@@ -485,9 +492,11 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -526,9 +535,11 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -566,9 +577,11 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -597,13 +610,14 @@ public abstract class BaseRuleTest {
      * @param operation expected SDNR operation request
      */
     protected void sdnrSunnyDay(String policyFile, String onsetFile, String successFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
-            VirtualControlLoopNotification.class, controller);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         sdnrClSink = topics.createListener(SDNR_CL_TOPIC, PciMessage.class, SDNR_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -639,9 +653,11 @@ public abstract class BaseRuleTest {
     protected void httpSunnyDay(String policyFile, String onsetFile) {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -667,9 +683,11 @@ public abstract class BaseRuleTest {
     protected void httpRainyDay(String policyFile, String onsetFile) {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        try {
+            policy = Rules.getPolicyFromFile(policyFile);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(policyFile, e);
+        }
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -740,4 +758,15 @@ public abstract class BaseRuleTest {
      */
     protected abstract VirtualControlLoopNotification waitForFinal(ToscaPolicy policy,
                     Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType);
+    
+    /**
+     * Use Coder instead using PolicyController.
+     *
+     */
+    public static class PolicyClMgtCoder extends StandardCoder {
+        public PolicyClMgtCoder() {
+            super(org.onap.policy.controlloop.util.Serialization.gson,
+                  org.onap.policy.controlloop.util.Serialization.gsonPretty);
+        }
+    }
 }

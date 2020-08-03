@@ -140,9 +140,6 @@ public class BaseRuleTestTest {
         when(policy.getIdentifier()).thenReturn(policyIdent);
         when(policyIdent.getName()).thenReturn(POLICY_NAME);
 
-        when(drools.factCount(CONTROLLER_NAME)).thenReturn(0L);
-        when(controller.getDrools()).thenReturn(drools);
-
         when(rules.getControllerName()).thenReturn(CONTROLLER_NAME);
         when(rules.getController()).thenReturn(controller);
         when(rules.setupPolicyFromFile(any())).thenAnswer(args -> {
@@ -206,7 +203,7 @@ public class BaseRuleTestTest {
         finalCount = 0;
 
         base = new MyTest();
-
+        
         BaseRuleTest.initStatics(CONTROLLER_NAME);
         base.init();
     }
