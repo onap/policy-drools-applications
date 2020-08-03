@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.common.utils.coder.Coder;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -46,9 +45,9 @@ import org.onap.policy.sdnr.PciMessage;
 /**
  * Superclass used for rule tests.
  */
-public abstract class BaseRuleTest {
-    protected static final String APPC_RESTART_OP = "restart";
-    protected static final String APPC_MODIFY_CONFIG_OP = "ModifyConfig";
+public abstract class DroolsRuleTest {
+    private static final String APPC_RESTART_OP = "restart";
+    private static final String APPC_MODIFY_CONFIG_OP = "ModifyConfig";
 
     /*
      * Canonical Topic Names.
@@ -66,62 +65,62 @@ public abstract class BaseRuleTest {
      */
 
     // service123 (i.e., multi-operation policy)
-    protected static final String SERVICE123_TOSCA_COMPLIANT_POLICY = "service123/tosca-compliant-service123.json";
-    protected static final String SERVICE123_ONSET = "service123/service123.onset.json";
-    protected static final String SERVICE123_APPC_RESTART_FAILURE = "service123/service123.appc.restart.failure.json";
-    protected static final String SERVICE123_APPC_REBUILD_FAILURE = "service123/service123.appc.rebuild.failure.json";
-    protected static final String SERVICE123_APPC_MIGRATE_SUCCESS = "service123/service123.appc.migrate.success.json";
+    private static final String SERVICE123_TOSCA_COMPLIANT_POLICY = "service123/tosca-compliant-service123.json";
+    private static final String SERVICE123_ONSET = "service123/service123.onset.json";
+    private static final String SERVICE123_APPC_RESTART_FAILURE = "service123/service123.appc.restart.failure.json";
+    private static final String SERVICE123_APPC_REBUILD_FAILURE = "service123/service123.appc.rebuild.failure.json";
+    private static final String SERVICE123_APPC_MIGRATE_SUCCESS = "service123/service123.appc.migrate.success.json";
 
     // duplicates (i.e., mutliple events in the engine at the same time)
-    protected static final String DUPLICATES_TOSCA_COMPLIANT_POLICY = "duplicates/tosca-compliant-duplicates.json";
-    protected static final String DUPLICATES_ONSET_1 = "duplicates/duplicates.onset.1.json";
-    protected static final String DUPLICATES_ONSET_2 = "duplicates/duplicates.onset.2.json";
-    protected static final String DUPLICATES_APPC_SUCCESS = "duplicates/duplicates.appc.success.json";
+    private static final String DUPLICATES_TOSCA_COMPLIANT_POLICY = "duplicates/tosca-compliant-duplicates.json";
+    private static final String DUPLICATES_ONSET_1 = "duplicates/duplicates.onset.1.json";
+    private static final String DUPLICATES_ONSET_2 = "duplicates/duplicates.onset.2.json";
+    private static final String DUPLICATES_APPC_SUCCESS = "duplicates/duplicates.appc.success.json";
 
     // VCPE
-    protected static final String VCPE_TOSCA_LEGACY_POLICY = "vcpe/tosca-legacy-vcpe.json";
-    protected static final String VCPE_TOSCA_COMPLIANT_POLICY = "vcpe/tosca-compliant-vcpe.json";
-    protected static final String VCPE_ONSET_1 = "vcpe/vcpe.onset.1.json";
-    protected static final String VCPE_ONSET_2 = "vcpe/vcpe.onset.2.json";
-    protected static final String VCPE_ONSET_3 = "vcpe/vcpe.onset.3.json";
-    protected static final String VCPE_APPC_SUCCESS = "vcpe/vcpe.appc.success.json";
+    private static final String VCPE_TOSCA_LEGACY_POLICY = "vcpe/tosca-legacy-vcpe.json";
+    private static final String VCPE_TOSCA_COMPLIANT_POLICY = "vcpe/tosca-compliant-vcpe.json";
+    private static final String VCPE_ONSET_1 = "vcpe/vcpe.onset.1.json";
+    private static final String VCPE_ONSET_2 = "vcpe/vcpe.onset.2.json";
+    private static final String VCPE_ONSET_3 = "vcpe/vcpe.onset.3.json";
+    private static final String VCPE_APPC_SUCCESS = "vcpe/vcpe.appc.success.json";
 
     // VDNS
-    protected static final String VDNS_TOSCA_LEGACY_POLICY = "vdns/tosca-legacy-vdns.json";
-    protected static final String VDNS_TOSCA_COMPLIANT_POLICY = "vdns/tosca-compliant-vdns.json";
-    protected static final String VDNS_TOSCA_COMPLIANT_RAINY_POLICY = "vdns/tosca-compliant-vdns-rainy.json";
-    protected static final String VDNS_ONSET = "vdns/vdns.onset.json";
+    private static final String VDNS_TOSCA_LEGACY_POLICY = "vdns/tosca-legacy-vdns.json";
+    private static final String VDNS_TOSCA_COMPLIANT_POLICY = "vdns/tosca-compliant-vdns.json";
+    private static final String VDNS_TOSCA_COMPLIANT_RAINY_POLICY = "vdns/tosca-compliant-vdns-rainy.json";
+    private static final String VDNS_ONSET = "vdns/vdns.onset.json";
 
     // VFW
-    protected static final String VFW_TOSCA_LEGACY_POLICY = "vfw/tosca-vfw.json";
-    protected static final String VFW_TOSCA_COMPLIANT_POLICY = "vfw/tosca-compliant-vfw.json";
-    protected static final String VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY = "vfw/tosca-compliant-timeout-vfw.json";
-    protected static final String VFW_ONSET = "vfw/vfw.onset.json";
-    protected static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
-    protected static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
+    private static final String VFW_TOSCA_LEGACY_POLICY = "vfw/tosca-vfw.json";
+    private static final String VFW_TOSCA_COMPLIANT_POLICY = "vfw/tosca-compliant-vfw.json";
+    private static final String VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY = "vfw/tosca-compliant-timeout-vfw.json";
+    private static final String VFW_ONSET = "vfw/vfw.onset.json";
+    private static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
+    private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
 
     // VPCI
-    protected static final String VPCI_TOSCA_POLICY = "vpci/tosca-vpci.json";
-    protected static final String VPCI_TOSCA_COMPLIANT_POLICY = "vpci/tosca-compliant-vpci.json";
-    protected static final String VPCI_ONSET = "vpci/vpci.onset.json";
-    protected static final String VPCI_SDNR_SUCCESS = "vpci/vpci.sdnr.success.json";
+    private static final String VPCI_TOSCA_POLICY = "vpci/tosca-vpci.json";
+    private static final String VPCI_TOSCA_COMPLIANT_POLICY = "vpci/tosca-compliant-vpci.json";
+    private static final String VPCI_ONSET = "vpci/vpci.onset.json";
+    private static final String VPCI_SDNR_SUCCESS = "vpci/vpci.sdnr.success.json";
 
     // VSONH
-    protected static final String VSONH_TOSCA_POLICY = "vsonh/tosca-vsonh.json";
-    protected static final String VSONH_TOSCA_COMPLIANT_POLICY = "vsonh/tosca-compliant-vsonh.json";
-    protected static final String VSONH_ONSET = "vsonh/vsonh.onset.json";
-    protected static final String VSONH_SDNR_SUCCESS = "vsonh/vsonh.sdnr.success.json";
+    private static final String VSONH_TOSCA_POLICY = "vsonh/tosca-vsonh.json";
+    private static final String VSONH_TOSCA_COMPLIANT_POLICY = "vsonh/tosca-compliant-vsonh.json";
+    private static final String VSONH_ONSET = "vsonh/vsonh.onset.json";
+    private static final String VSONH_SDNR_SUCCESS = "vsonh/vsonh.sdnr.success.json";
 
     /*
      * Coders used to decode requests and responses.
      */
-    protected static final Coder APPC_LEGACY_CODER = new StandardCoderInstantAsMillis();
-    protected static final Coder APPC_LCM_CODER = new StandardCoder();
+    private static final Coder APPC_LEGACY_CODER = new StandardCoderInstantAsMillis();
+    private static final Coder APPC_LCM_CODER = new StandardCoder();
 
     /*
      * Coders used to decode requests and responses.
      */
-    protected static final Coder SDNR_CODER = new StandardCoder();
+    private static final Coder SDNR_CODER = new StandardCoder();
 
     // these may be overridden by junit tests
     private static Function<String, Rules> ruleMaker = Rules::new;
@@ -142,13 +141,14 @@ public abstract class BaseRuleTest {
     protected Listener<Request> appcClSink;
     protected Listener<AppcLcmDmaapWrapper> appcLcmRead;
     protected Listener<PciMessage> sdnrClSink;
-    
+
     protected PolicyController controller;
-    
+
     /*
      * Tosca Policy that was loaded.
      */
     protected ToscaPolicy policy;
+
 
     /**
      * Initializes {@link #rules}, {@link #httpClients}, and {@link #simulators}.
@@ -186,7 +186,6 @@ public abstract class BaseRuleTest {
         rules.resetFacts();
     }
 
-
     // Service123 (i.e., Policy with multiple operations)
 
     /**
@@ -197,11 +196,9 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(SERVICE123_TOSCA_COMPLIANT_POLICY);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(SERVICE123_TOSCA_COMPLIANT_POLICY, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(SERVICE123_TOSCA_COMPLIANT_POLICY);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         // inject an ONSET event over the DCAE topic
         topics.inject(DCAE_TOPIC, SERVICE123_ONSET);
@@ -253,11 +250,9 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(DUPLICATES_TOSCA_COMPLIANT_POLICY, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         final long initCount = getCreateCount();
 
@@ -447,11 +442,9 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         // inject several ONSET events over the DCAE topic
         for (String onsetFile : onsetFiles) {
@@ -492,11 +485,9 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -535,11 +526,9 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -577,11 +566,9 @@ public abstract class BaseRuleTest {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -610,14 +597,13 @@ public abstract class BaseRuleTest {
      * @param operation expected SDNR operation request
      */
     protected void sdnrSunnyDay(String policyFile, String onsetFile, String successFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, controller);
         sdnrClSink = topics.createListener(SDNR_CL_TOPIC, PciMessage.class, SDNR_CODER);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -653,11 +639,9 @@ public abstract class BaseRuleTest {
     protected void httpSunnyDay(String policyFile, String onsetFile) {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -683,11 +667,9 @@ public abstract class BaseRuleTest {
     protected void httpRainyDay(String policyFile, String onsetFile) {
         policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
 
-        try {
-            policy = Rules.getPolicyFromFile(policyFile);
-        } catch (CoderException e) {
-            throw new IllegalArgumentException(policyFile, e);
-        }
+        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
+        policy = rules.setupPolicyFromFile(policyFile);
+        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -758,15 +740,4 @@ public abstract class BaseRuleTest {
      */
     protected abstract VirtualControlLoopNotification waitForFinal(ToscaPolicy policy,
                     Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType);
-    
-    /**
-     * Use Coder instead using PolicyController.
-     *
-     */
-    public static class PolicyClMgtCoder extends StandardCoder {
-        public PolicyClMgtCoder() {
-            super(org.onap.policy.controlloop.util.Serialization.gson,
-                  org.onap.policy.controlloop.util.Serialization.gsonPretty);
-        }
-    }
 }
