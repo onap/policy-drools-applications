@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -33,21 +32,21 @@ import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.common.utils.coder.Coder;
+import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
-import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
 
 /**
  * Superclass used for rule tests.
  */
-public abstract class BaseRuleTest {
-    private static final String APPC_RESTART_OP = "restart";
-    private static final String APPC_MODIFY_CONFIG_OP = "ModifyConfig";
+public abstract class BaseTest {
+    protected static final String APPC_RESTART_OP = "restart";
+    protected static final String APPC_MODIFY_CONFIG_OP = "ModifyConfig";
 
     /*
      * Canonical Topic Names.
@@ -114,8 +113,9 @@ public abstract class BaseRuleTest {
     /*
      * Coders used to decode requests and responses.
      */
-    private static final Coder APPC_LEGACY_CODER = new StandardCoderInstantAsMillis();
-    private static final Coder APPC_LCM_CODER = new StandardCoder();
+    protected static final Coder APPC_LEGACY_CODER = new StandardCoderInstantAsMillis();
+    protected static final Coder APPC_LCM_CODER = new StandardCoder();
+    protected static final Coder POLICY_CL_MGT_CODER = new PolicyClMgtCoder();
 
     /*
      * Coders used to decode requests and responses.
@@ -123,10 +123,9 @@ public abstract class BaseRuleTest {
     private static final Coder SDNR_CODER = new StandardCoder();
 
     // these may be overridden by junit tests
-    private static Function<String, Rules> ruleMaker = Rules::new;
-    private static Supplier<HttpClients> httpClientMaker = HttpClients::new;
-    private static Supplier<Simulators> simMaker = Simulators::new;
-    private static Supplier<Topics> topicMaker = Topics::new;
+    protected static Supplier<HttpClients> httpClientMaker = HttpClients::new;
+    protected static Supplier<Simulators> simMaker = Simulators::new;
+    protected static Supplier<Topics> topicMaker = Topics::new;
 
     protected static Rules rules;
     protected static HttpClients httpClients;
@@ -134,7 +133,7 @@ public abstract class BaseRuleTest {
 
     // used to inject and wait for messages
     @Getter(AccessLevel.PROTECTED)
-    private Topics topics;
+    protected static Topics topics;
 
     // used to wait for messages on SINK topics
     protected Listener<VirtualControlLoopNotification> policyClMgt;
@@ -142,21 +141,15 @@ public abstract class BaseRuleTest {
     protected Listener<AppcLcmDmaapWrapper> appcLcmRead;
     protected Listener<PciMessage> sdnrClSink;
 
-    protected PolicyController controller;
-
     /*
      * Tosca Policy that was loaded.
      */
     protected ToscaPolicy policy;
 
-
     /**
      * Initializes {@link #rules}, {@link #httpClients}, and {@link #simulators}.
-     *
-     * @param controllerName the rule controller name
      */
-    public static void initStatics(String controllerName) {
-        rules = ruleMaker.apply(controllerName);
+    public static void initStatics() {
         httpClients = httpClientMaker.get();
         simulators = simMaker.get();
     }
@@ -167,7 +160,6 @@ public abstract class BaseRuleTest {
     public static void finishStatics() {
         httpClients.destroy();
         simulators.destroy();
-        rules.destroy();
     }
 
     /**
@@ -175,7 +167,6 @@ public abstract class BaseRuleTest {
      */
     public void init() {
         topics = topicMaker.get();
-        controller = rules.getController();
     }
 
     /**
@@ -183,7 +174,6 @@ public abstract class BaseRuleTest {
      */
     public void finish() {
         topics.destroy();
-        rules.resetFacts();
     }
 
     // Service123 (i.e., Policy with multiple operations)
@@ -193,17 +183,14 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testService123Compliant() {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
-
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(SERVICE123_TOSCA_COMPLIANT_POLICY);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(SERVICE123_TOSCA_COMPLIANT_POLICY);
 
         // inject an ONSET event over the DCAE topic
         topics.inject(DCAE_TOPIC, SERVICE123_ONSET);
-
         /* Wait to acquire a LOCK and a PDP-X PERMIT */
+
         waitForLockAndPermit(policy, policyClMgt);
 
         // restart request should be sent and fail four times (i.e., because retry=3)
@@ -213,23 +200,16 @@ public abstract class BaseRuleTest {
             topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_RESTART_FAILURE,
                             appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
         }
-
         // rebuild request should be sent and fail once
         AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> "rebuild".equals(req.getRpcName()));
-
         topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_REBUILD_FAILURE,
                         appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
-
         // migrate request should be sent and succeed
         appcreq = appcLcmRead.await(req -> "migrate".equals(req.getRpcName()));
-
         topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_MIGRATE_SUCCESS,
                         appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
-
         /* --- Operation Completed --- */
-
         waitForOperationSuccess();
-
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
     }
@@ -247,12 +227,10 @@ public abstract class BaseRuleTest {
      */
     @Test
     public void testDuplicatesEvents() {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(DUPLICATES_TOSCA_COMPLIANT_POLICY);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(DUPLICATES_TOSCA_COMPLIANT_POLICY);
 
         final long initCount = getCreateCount();
 
@@ -439,12 +417,11 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void appcLcmSunnyDay(String policyFile, List<String> onsetFiles, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
+        
 
         // inject several ONSET events over the DCAE topic
         for (String onsetFile : onsetFiles) {
@@ -482,12 +459,10 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void appcLegacySunnyDay(String policyFile, String onsetFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -523,12 +498,10 @@ public abstract class BaseRuleTest {
      * @param checkOperation flag to determine whether or not to wait for operation timeout
      */
     protected void appcLegacyRainyDay(String policyFile, String onsetFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -563,12 +536,10 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void appcLegacyRainyDayNoResponse(String policyFile, String onsetFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
         appcClSink = topics.createListener(APPC_CL_TOPIC, Request.class, APPC_LEGACY_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -597,13 +568,11 @@ public abstract class BaseRuleTest {
      * @param operation expected SDNR operation request
      */
     protected void sdnrSunnyDay(String policyFile, String onsetFile, String successFile, String operation) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC,
-            VirtualControlLoopNotification.class, controller);
+        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, 
+                VirtualControlLoopNotification.class, POLICY_CL_MGT_CODER);
         sdnrClSink = topics.createListener(SDNR_CL_TOPIC, PciMessage.class, SDNR_CODER);
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -637,11 +606,9 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void httpSunnyDay(String policyFile, String onsetFile) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -665,11 +632,9 @@ public abstract class BaseRuleTest {
      * @param operation expected APPC operation request
      */
     protected void httpRainyDay(String policyFile, String onsetFile) {
-        policyClMgt = topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller);
+        policyClMgt = createTopicFromListenser();
 
-        assertEquals(0, controller.getDrools().factCount(rules.getControllerName()));
-        policy = rules.setupPolicyFromFile(policyFile);
-        assertEquals(2, controller.getDrools().factCount(rules.getControllerName()));
+        policy = checkPolicy(policyFile);
 
         /* Inject an ONSET event over the DCAE topic */
         topics.inject(DCAE_TOPIC, onsetFile);
@@ -740,4 +705,38 @@ public abstract class BaseRuleTest {
      */
     protected abstract VirtualControlLoopNotification waitForFinal(ToscaPolicy policy,
                     Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType);
+
+    /**
+     * Returns ToscaPolicy from File.
+     *
+     * @param fileName a path name
+     * @return ToscaPolicy
+     */
+    protected ToscaPolicy checkPolicy(String fileName)  {
+        try {
+            return Rules.getPolicyFromFile(fileName);
+        } catch (CoderException e) {
+            throw new IllegalArgumentException(fileName, e);
+        }
+    }
+
+    /**
+     * Creates a Coder for PolicyClMgt from StandardCoder.
+     *
+     */
+    public static class PolicyClMgtCoder extends StandardCoder {
+        public PolicyClMgtCoder() {
+            super(org.onap.policy.controlloop.util.Serialization.gson,
+                  org.onap.policy.controlloop.util.Serialization.gsonPretty);
+        }
+    }
+
+    /**
+     * Returns Listener from createListner based on Coder.
+     * @return the Listener
+     */
+    protected Listener<VirtualControlLoopNotification> createTopicFromListenser() {
+        return topics.createListener(POLICY_CL_MGT_TOPIC,
+            VirtualControlLoopNotification.class, POLICY_CL_MGT_CODER);
+    }
 }
