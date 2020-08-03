@@ -64,7 +64,8 @@ import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
 import org.powermock.reflect.Whitebox;
 
-public class BaseRuleTestTest {
+public class DroolsRuleTestTest {
+
     private static final String CONTROLLER_NAME = "my-controller-name";
     private static final String POLICY_NAME = "my-policy-name";
 
@@ -74,7 +75,7 @@ public class BaseRuleTestTest {
     private static Supplier<Simulators> simMaker;
     private static Supplier<Topics> topicMaker;
 
-    private BaseRuleTest base;
+    private DroolsRuleTest base;
     private LinkedList<VirtualControlLoopNotification> clMgtQueue;
     private Queue<AppcLcmDmaapWrapper> appcLcmQueue;
     private Queue<Request> appcLegacyQueue;
@@ -113,10 +114,10 @@ public class BaseRuleTestTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() {
-        ruleMaker = Whitebox.getInternalState(BaseRuleTest.class, "ruleMaker");
-        httpClientMaker = Whitebox.getInternalState(BaseRuleTest.class, "httpClientMaker");
-        simMaker = Whitebox.getInternalState(BaseRuleTest.class, "simMaker");
-        topicMaker = Whitebox.getInternalState(BaseRuleTest.class, "topicMaker");
+        ruleMaker = Whitebox.getInternalState(DroolsRuleTest.class, "ruleMaker");
+        httpClientMaker = Whitebox.getInternalState(DroolsRuleTest.class, "httpClientMaker");
+        simMaker = Whitebox.getInternalState(DroolsRuleTest.class, "simMaker");
+        topicMaker = Whitebox.getInternalState(DroolsRuleTest.class, "topicMaker");
     }
 
     /**
@@ -124,10 +125,10 @@ public class BaseRuleTestTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        Whitebox.setInternalState(BaseRuleTest.class, "ruleMaker", ruleMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "topicMaker", topicMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "ruleMaker", ruleMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "simMaker", simMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "topicMaker", topicMaker);
     }
 
     /**
@@ -140,6 +141,9 @@ public class BaseRuleTestTest {
         when(policy.getIdentifier()).thenReturn(policyIdent);
         when(policyIdent.getName()).thenReturn(POLICY_NAME);
 
+        when(drools.factCount(CONTROLLER_NAME)).thenReturn(0L);
+        when(controller.getDrools()).thenReturn(drools);
+
         when(rules.getControllerName()).thenReturn(CONTROLLER_NAME);
         when(rules.getController()).thenReturn(controller);
         when(rules.setupPolicyFromFile(any())).thenAnswer(args -> {
@@ -147,13 +151,13 @@ public class BaseRuleTestTest {
             return policy;
         });
 
-        when(topics.createListener(BaseRuleTest.POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, controller))
-                        .thenReturn(policyClMgt);
-        when(topics.createListener(eq(BaseRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
+        when(topics.createListener(DroolsRuleTest.POLICY_CL_MGT_TOPIC, 
+             VirtualControlLoopNotification.class, controller)).thenReturn(policyClMgt);
+        when(topics.createListener(eq(DroolsRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
-        when(topics.createListener(eq(BaseRuleTest.APPC_CL_TOPIC), eq(Request.class),
+        when(topics.createListener(eq(DroolsRuleTest.APPC_CL_TOPIC), eq(Request.class),
                         any(StandardCoderInstantAsMillis.class))).thenReturn(appcClSink);
-        when(topics.createListener(eq(BaseRuleTest.SDNR_CL_TOPIC), eq(PciMessage.class),
+        when(topics.createListener(eq(DroolsRuleTest.SDNR_CL_TOPIC), eq(PciMessage.class),
             any(StandardCoder.class))).thenReturn(sdnrClSink);
 
         Function<String, Rules> ruleMaker = this::makeRules;
@@ -161,10 +165,10 @@ public class BaseRuleTestTest {
         Supplier<Simulators> simMaker = this::makeSim;
         Supplier<Topics> topicMaker = this::makeTopics;
 
-        Whitebox.setInternalState(BaseRuleTest.class, "ruleMaker", ruleMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(BaseRuleTest.class, "topicMaker", topicMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "ruleMaker", ruleMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "simMaker", simMaker);
+        Whitebox.setInternalState(DroolsRuleTest.class, "topicMaker", topicMaker);
 
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();
@@ -202,22 +206,21 @@ public class BaseRuleTestTest {
         permitCount = 0;
         finalCount = 0;
 
-        base = new MyTest();
-        
-        BaseRuleTest.initStatics(CONTROLLER_NAME);
+        base = new MyDroolsTest();
+        DroolsRuleTest.initStatics(CONTROLLER_NAME);
         base.init();
     }
 
     @Test
     public void testInitStatics() {
-        assertSame(rules, BaseRuleTest.rules);
-        assertSame(httpClients, BaseRuleTest.httpClients);
-        assertSame(simulators, BaseRuleTest.simulators);
+        assertSame(rules, DroolsRuleTest.rules);
+        assertSame(httpClients, DroolsRuleTest.httpClients);
+        assertSame(simulators, DroolsRuleTest.simulators);
     }
 
     @Test
     public void testFinishStatics() {
-        BaseRuleTest.finishStatics();
+        DroolsRuleTest.finishStatics();
 
         verify(rules).destroy();
         verify(httpClients).destroy();
@@ -229,17 +232,9 @@ public class BaseRuleTestTest {
         assertSame(topics, base.getTopics());
         assertSame(controller, base.controller);
     }
-
+    
     @Test
-    public void testFinish() {
-        base.finish();
-
-        verify(topics).destroy();
-        verify(rules).resetFacts();
-    }
-
-    @Test
-    public void testTestService123Compliant() {
+    public void testDroolsTestService123Compliant() {
         enqueueAppcLcm("restart", "restart", "restart", "restart", "rebuild", "migrate");
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
@@ -508,6 +503,7 @@ public class BaseRuleTestTest {
         verify(topics).inject(eq(BaseRuleTest.DCAE_TOPIC), any());
     }
 
+
     private void enqueueClMgt(ControlLoopNotificationType type) {
         VirtualControlLoopNotification notif = new VirtualControlLoopNotification();
         notif.setNotification(type);
@@ -582,12 +578,12 @@ public class BaseRuleTestTest {
     private Topics makeTopics() {
         return topics;
     }
-
     /*
      * We don't want junit trying to run this, so it's marked "Ignore".
      */
+
     @Ignore
-    private class MyTest extends BaseRuleTest {
+    private class MyDroolsTest extends DroolsRuleTest {
 
         @Override
         protected void waitForLockAndPermit(ToscaPolicy policy, Listener<VirtualControlLoopNotification> policyClMgt) {
