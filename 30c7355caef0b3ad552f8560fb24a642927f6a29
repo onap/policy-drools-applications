@@ -1,0 +1,380 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59d4c2ab_c2a75b17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "that isn\u0027t the intention - class derivation should be used to avoid duplication of code.  Most of the code should remain in BaseRuleTest and DroolsRuleTest should only have a overridden methods",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f3b9eba_5aeae23a",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "this line should be removed; it should only appear in DroolsRuleTest",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6eee72c_6f3ceed2",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "this line should be removed; it should only appear in DroolsRuleTest",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fef1ecc_9456c424",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c232c1_593caf32",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3c1c3a5_065f0f80",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete this",
+      "range": {
+        "startLine": 174,
+        "startChar": 34,
+        "endLine": 174,
+        "endChar": 58
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a034515_a8f43a31",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "838e6a0a_05b2fc2a",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b12b98f_8a88c991",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "these lines should be moved to a new method, checkPolicy(policyName) within BaseRuleTest\n\nsame comment for all similar blocks below",
+      "range": {
+        "startLine": 199,
+        "startChar": 7,
+        "endLine": 203,
+        "endChar": 9
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa455ab5_578cd9f9",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "this class should be mostly empty",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29a27955_80b1359c",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "this should extend BaseRuleTest",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "152834bf_d52a102d",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete these lines and invoke BaseRuleTest.initStatics() instead",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 36
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "761bcad9_b0beeab3",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete these lines and invoke BaseRuleTest.finishStatics() instead",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 29
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46706456_ddf2c032",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete these lines and invoke super.init() instead",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 34
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2287f19c_2b316ede",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "delete these lines and invoke super.finish() instead",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 185,
+        "endChar": 25
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa71857b_762d4033",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "most of the remaining lines should be deleted",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e4f7af_dccaa6ca",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/Rules.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "remove trailing spaces",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05bf7f9a_8b128be6",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/Rules.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "sonar: the first character of the javadoc comment should be capitalized.",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd68ccaf_8c897995",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTestTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "trailing spaces - there\u0027s an eclipse setting to remove trailing spaces when a java file is saved",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91030ed9_af78a96e",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTestTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-06T22:13:08Z",
+      "side": 1,
+      "message": "most of these methods can be removed.  Maybe keep one just to ensure that it works with rules.\n\nwould, of course, need to add tests for any new methods, for example, checkPolicy()",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
