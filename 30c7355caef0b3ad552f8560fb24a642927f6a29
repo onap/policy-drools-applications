@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "17c06eb5_07a07eea",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-07T15:01:25Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "39553a75_8db9f792",
+      "range": {
+        "startLine": 49,
+        "startChar": 22,
+        "endLine": 49,
+        "endChar": 34
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f3b9eba_5aeae23a",
         "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
         "patchSetId": 7
@@ -399,6 +423,24 @@
       "side": 1,
       "message": "lines 199-201 would be replaced by a single call to checkPolicy(policyName), which would make it identical to what should be in BaseRuleTest, thus no need for these test methods to appear in both BaseRuleTest and DroolsRuleTest.",
       "parentUuid": "32334856_2b6f5b02",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a09aad9a_9b61d29e",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-07T15:01:25Z",
+      "side": 1,
+      "message": "not just only checkPolicy() itself. if BaseRuleTest does not use controller in line #196 below, but DroolsRuleTest would still use line #196.",
+      "parentUuid": "996ea258_eaa55376",
       "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
