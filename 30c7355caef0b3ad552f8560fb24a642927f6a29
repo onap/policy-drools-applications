@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "39553a75_8db9f792",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-07T14:42:26Z",
+      "side": 1,
+      "message": "we should probably rename this to BaseTest, since it is no longer specific to rules",
+      "range": {
+        "startLine": 49,
+        "startChar": 22,
+        "endLine": 49,
+        "endChar": 34
+      },
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f3b9eba_5aeae23a",
         "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
         "patchSetId": 7
@@ -358,6 +381,24 @@
       "side": 1,
       "message": "The remaining lines some test case code would be different from BaseRuleTest. For example, line 200 would use setupPolicyFromFile instead of getPolicyFromFile in BaseRuleTest, and using controller as well.",
       "parentUuid": "fa71857b_762d4033",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996ea258_eaa55376",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-07T14:42:26Z",
+      "side": 1,
+      "message": "lines 199-201 would be replaced by a single call to checkPolicy(policyName), which would make it identical to what should be in BaseRuleTest, thus no need for these test methods to appear in both BaseRuleTest and DroolsRuleTest.",
+      "parentUuid": "32334856_2b6f5b02",
       "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
