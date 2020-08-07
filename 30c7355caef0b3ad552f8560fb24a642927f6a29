@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "5d797167_9ded034c",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-07T13:44:42Z",
+      "side": 1,
+      "message": "the controller is using on the test below. For example: line 196",
+      "parentUuid": "4a034515_a8f43a31",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "838e6a0a_05b2fc2a",
         "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
         "patchSetId": 7
