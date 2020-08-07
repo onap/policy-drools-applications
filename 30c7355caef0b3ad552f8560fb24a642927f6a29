@@ -346,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "32334856_2b6f5b02",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-07T14:28:12Z",
+      "side": 1,
+      "message": "The remaining lines some test case code would be different from BaseRuleTest. For example, line 200 would use setupPolicyFromFile instead of getPolicyFromFile in BaseRuleTest, and using controller as well.",
+      "parentUuid": "fa71857b_762d4033",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0e4f7af_dccaa6ca",
         "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/Rules.java",
         "patchSetId": 7
