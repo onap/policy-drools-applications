@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "5b53ac6c_bd16bc19",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-07T13:46:37Z",
+      "side": 1,
+      "message": "BaseRuleTest should have no drools-type objects, which includes the controller.  The code below can be modified to work without a controller",
+      "parentUuid": "5d797167_9ded034c",
+      "revId": "30c7355caef0b3ad552f8560fb24a642927f6a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "838e6a0a_05b2fc2a",
         "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseRuleTest.java",
         "patchSetId": 7
