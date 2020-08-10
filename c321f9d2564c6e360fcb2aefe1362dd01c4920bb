@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3faabac_c74f297d",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-10T16:28:36Z",
+      "side": 1,
+      "message": "I\u0027m thinking most of these can still be private, except for \"topics\" and \"POLICY_CL_MGT_CODER\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 14
+      },
+      "revId": "c321f9d2564c6e360fcb2aefe1362dd01c4920bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "104ff6a9_72ba78dc",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-10T16:28:36Z",
+      "side": 1,
+      "message": "invoke createTopicFromListenser() instead",
+      "revId": "c321f9d2564c6e360fcb2aefe1362dd01c4920bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82967436_eb02f5da",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-10T16:28:36Z",
+      "side": 1,
+      "message": "invoke super.init() instead",
+      "revId": "c321f9d2564c6e360fcb2aefe1362dd01c4920bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d3e4500_ea81035f",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-10T16:28:36Z",
+      "side": 1,
+      "message": "invoke super.finish() instead",
+      "revId": "c321f9d2564c6e360fcb2aefe1362dd01c4920bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2608b2f4_48612d70",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-10T16:28:36Z",
+      "side": 1,
+      "message": "don\u0027t need to redeclare these abstract methods",
+      "revId": "c321f9d2564c6e360fcb2aefe1362dd01c4920bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2fc19d7_476f32e1",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/BaseTestTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-10T16:28:36Z",
+      "side": 1,
+      "message": "go ahead and delete the lines referring to rules, ruleMaker, controller, etc",
+      "revId": "c321f9d2564c6e360fcb2aefe1362dd01c4920bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
