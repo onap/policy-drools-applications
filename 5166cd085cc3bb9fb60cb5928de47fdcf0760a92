@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c354ef3_1312fdc1",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-10T19:03:04Z",
+      "side": 1,
+      "message": "ok. will change",
+      "parentUuid": "e7f99702_d4f56703",
+      "revId": "5166cd085cc3bb9fb60cb5928de47fdcf0760a92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef90deb0_edcc3087",
         "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2020-08-10T17:24:47Z",
       "side": 1,
       "message": "It seems that here, is calling the line explicitly createListner, vs. the method \"createTopicFromListener\" that was used before.",
+      "revId": "5166cd085cc3bb9fb60cb5928de47fdcf0760a92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "778290cb_290d43fa",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-10T19:03:04Z",
+      "side": 1,
+      "message": "yes. fixed already on next patch.",
+      "parentUuid": "ef90deb0_edcc3087",
       "revId": "5166cd085cc3bb9fb60cb5928de47fdcf0760a92",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
