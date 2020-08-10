@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0bac3353_d03631b1",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-10T20:59:33Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "0aafb485_417a901d",
+      "revId": "238247630f16982660ade5c718d9668bc9de0d0c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89dceb6e_f0084ed5",
         "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/BaseTestTest.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2020-08-10T20:12:39Z",
       "side": 1,
       "message": "trailing space",
+      "revId": "238247630f16982660ade5c718d9668bc9de0d0c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fb903d5_e682c905",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/BaseTestTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-10T20:59:33Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "89dceb6e_f0084ed5",
       "revId": "238247630f16982660ade5c718d9668bc9de0d0c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
