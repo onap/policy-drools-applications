@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e3fac42_beadaad2",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-11T00:13:26Z",
+      "side": 1,
+      "message": "createListener",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 42
+      },
+      "revId": "3e2f9b1824512990ba08e080a90af1c82f6c341b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a054f18c_ec609ab3",
+        "filename": "controlloop/common/rules-test/src/test/java/org/onap/policy/controlloop/common/rules/test/DroolsRuleTestTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-11T00:13:26Z",
+      "side": 1,
+      "message": "those extra spaces are annoying",
+      "range": {
+        "startLine": 145,
+        "startChar": 70,
+        "endLine": 145,
+        "endChar": 71
+      },
+      "revId": "3e2f9b1824512990ba08e080a90af1c82f6c341b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
