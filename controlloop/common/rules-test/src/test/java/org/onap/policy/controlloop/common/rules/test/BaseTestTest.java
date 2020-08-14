@@ -136,8 +136,8 @@ public class BaseTestTest {
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
         when(topics.createListener(eq(BaseTest.APPC_CL_TOPIC), eq(Request.class),
                         any(StandardCoderInstantAsMillis.class))).thenReturn(appcClSink);
-        when(topics.createListener(eq(BaseTest.SDNR_CL_TOPIC), eq(PciMessage.class),
-            any(StandardCoder.class))).thenReturn(sdnrClSink);
+        when(topics.createListener(eq(BaseTest.SDNR_CL_TOPIC), eq(PciMessage.class), any(StandardCoder.class)))
+                        .thenReturn(sdnrClSink);
 
         Supplier<HttpClients> httpClientMaker = this::makeHttpClients;
         Supplier<Simulators> simMaker = this::makeSim;
@@ -204,7 +204,7 @@ public class BaseTestTest {
 
     @Test
     public void testInit() {
-        assertSame(topics, base.getTopics());
+        assertSame(topics, BaseTest.getTopics());
     }
 
     @Test
@@ -265,11 +265,6 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestVcpeSunnyDayLegacy() {
-        checkAppcLcmPolicy("restart", base::testVcpeSunnyDayLegacy);
-    }
-
-    @Test
     public void testTestVcpeSunnyDayCompliant() {
         checkAppcLcmPolicy("restart", base::testVcpeSunnyDayCompliant);
     }
@@ -296,11 +291,6 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestVdnsSunnyDayLegacy() {
-        checkHttpPolicy(base::testVdnsSunnyDayLegacy);
-    }
-
-    @Test
     public void testTestVdnsSunnyDayCompliant() {
         checkHttpPolicy(base::testVdnsSunnyDayCompliant);
     }
@@ -311,18 +301,8 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestVfwSunnyDayLegacy() {
-        checkAppcLegacyPolicy("ModifyConfig", base::testVfwSunnyDayLegacy);
-    }
-
-    @Test
     public void testTestVfwSunnyDayCompliant() {
         checkAppcLegacyPolicy("ModifyConfig", base::testVfwSunnyDayCompliant);
-    }
-
-    @Test
-    public void testTestVfwRainyDayLegacyFailure() {
-        checkAppcLegacyPolicyOperationFailure("ModifyConfig", base::testVfwRainyDayLegacyFailure);
     }
 
     @Test
@@ -336,18 +316,8 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestVpciSunnyDayLegacy() {
-        checkSdnrPolicy("ModifyConfig", base::testVpciSunnyDayLegacy);
-    }
-
-    @Test
     public void testTestVpciSunnyDayCompliant() {
         checkSdnrPolicy("ModifyConfig", base::testVpciSunnyDayCompliant);
-    }
-
-    @Test
-    public void testTestVsonhSunnyDayLegacy() {
-        checkSdnrPolicy("ModifyConfigANR", base::testVsonhSunnyDayLegacy);
     }
 
     @Test
