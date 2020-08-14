@@ -204,7 +204,7 @@ public class DroolsRuleTestTest {
 
     @Test
     public void testInit() {
-        assertSame(topics, base.getTopics());
+        assertSame(topics, BaseTest.getTopics());
         assertSame(controller, base.controller);
     }
 

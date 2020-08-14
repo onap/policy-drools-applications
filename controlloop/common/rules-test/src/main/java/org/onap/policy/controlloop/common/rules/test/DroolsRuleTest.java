@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.common.rules.test;
 
 import java.util.function.Function;
-import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;

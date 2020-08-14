@@ -77,7 +77,6 @@ public abstract class BaseTest {
     private static final String DUPLICATES_APPC_SUCCESS = "duplicates/duplicates.appc.success.json";
 
     // VCPE
-    private static final String VCPE_TOSCA_LEGACY_POLICY = "vcpe/tosca-legacy-vcpe.json";
     private static final String VCPE_TOSCA_COMPLIANT_POLICY = "vcpe/tosca-compliant-vcpe.json";
     private static final String VCPE_ONSET_1 = "vcpe/vcpe.onset.1.json";
     private static final String VCPE_ONSET_2 = "vcpe/vcpe.onset.2.json";
@@ -85,13 +84,11 @@ public abstract class BaseTest {
     private static final String VCPE_APPC_SUCCESS = "vcpe/vcpe.appc.success.json";
 
     // VDNS
-    private static final String VDNS_TOSCA_LEGACY_POLICY = "vdns/tosca-legacy-vdns.json";
     private static final String VDNS_TOSCA_COMPLIANT_POLICY = "vdns/tosca-compliant-vdns.json";
     private static final String VDNS_TOSCA_COMPLIANT_RAINY_POLICY = "vdns/tosca-compliant-vdns-rainy.json";
     private static final String VDNS_ONSET = "vdns/vdns.onset.json";
 
     // VFW
-    private static final String VFW_TOSCA_LEGACY_POLICY = "vfw/tosca-vfw.json";
     private static final String VFW_TOSCA_COMPLIANT_POLICY = "vfw/tosca-compliant-vfw.json";
     private static final String VFW_TOSCA_COMPLIANT_TIME_OUT_POLICY = "vfw/tosca-compliant-timeout-vfw.json";
     private static final String VFW_ONSET = "vfw/vfw.onset.json";
@@ -99,13 +96,11 @@ public abstract class BaseTest {
     private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
 
     // VPCI
-    private static final String VPCI_TOSCA_POLICY = "vpci/tosca-vpci.json";
     private static final String VPCI_TOSCA_COMPLIANT_POLICY = "vpci/tosca-compliant-vpci.json";
     private static final String VPCI_ONSET = "vpci/vpci.onset.json";
     private static final String VPCI_SDNR_SUCCESS = "vpci/vpci.sdnr.success.json";
 
     // VSONH
-    private static final String VSONH_TOSCA_POLICY = "vsonh/tosca-vsonh.json";
     private static final String VSONH_TOSCA_COMPLIANT_POLICY = "vsonh/tosca-compliant-vsonh.json";
     private static final String VSONH_ONSET = "vsonh/vsonh.onset.json";
     private static final String VSONH_SDNR_SUCCESS = "vsonh/vsonh.sdnr.success.json";
@@ -269,14 +264,6 @@ public abstract class BaseTest {
     // VCPE
 
     /**
-     * Sunny Day with Legacy Tosca Policy.
-     */
-    @Test
-    public void testVcpeSunnyDayLegacy() {
-        appcLcmSunnyDay(VCPE_TOSCA_LEGACY_POLICY, VCPE_ONSET_1, APPC_RESTART_OP);
-    }
-
-    /**
      * Sunny Day with Tosca Compliant Policy.
      */
     @Test
@@ -298,14 +285,6 @@ public abstract class BaseTest {
     // VDNS
 
     /**
-     * Sunny Day with Legacy Tosca Policy.
-     */
-    @Test
-    public void testVdnsSunnyDayLegacy() {
-        httpSunnyDay(VDNS_TOSCA_LEGACY_POLICY, VDNS_ONSET);
-    }
-
-    /**
      * Sunny Day with Tosca Compliant Policy.
      */
     @Test
@@ -325,27 +304,11 @@ public abstract class BaseTest {
     // VFW
 
     /**
-     * VFW Sunny Day with Legacy Tosca Policy.
-     */
-    @Test
-    public void testVfwSunnyDayLegacy() {
-        appcLegacySunnyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
-    }
-
-    /**
      * VFW Sunny Day with Tosca Compliant Policy.
      */
     @Test
     public void testVfwSunnyDayCompliant() {
         appcLegacySunnyDay(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
-    }
-
-    /**
-     * VFW Rainy Day using legacy tosca policy (operation and final failure).
-     */
-    @Test
-    public void testVfwRainyDayLegacyFailure() {
-        appcLegacyRainyDay(VFW_TOSCA_LEGACY_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
 
     /**
@@ -365,14 +328,6 @@ public abstract class BaseTest {
     }
 
     /**
-     * VPCI Sunny Day with Legacy Tosca Policy.
-     */
-    @Test
-    public void testVpciSunnyDayLegacy() {
-        sdnrSunnyDay(VPCI_TOSCA_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS, "ModifyConfig");
-    }
-
-    /**
      * VPCI Sunny Day Tosca Policy.
      */
     @Test
@@ -381,14 +336,6 @@ public abstract class BaseTest {
     }
 
     // VSONH
-
-    /**
-     * VSONH Sunny Day with Legacy Tosca Policy.
-     */
-    @Test
-    public void testVsonhSunnyDayLegacy() {
-        sdnrSunnyDay(VSONH_TOSCA_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, "ModifyConfigANR");
-    }
 
     /**
      * VSONH Sunny Day with Tosca Policy.
