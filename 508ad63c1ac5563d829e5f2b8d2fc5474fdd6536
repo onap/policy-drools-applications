@@ -93,6 +93,30 @@
       "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fb709ce_5baf7dee",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T15:35:47Z",
+      "side": 1,
+      "message": "hmmm - yes maybe that\u0027s ok then. I\u0027ll think that through then.",
+      "parentUuid": "8857cc84_28299b1c",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
