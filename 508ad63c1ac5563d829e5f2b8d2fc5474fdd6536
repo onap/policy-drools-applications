@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1868c81b_933ecae3",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-20T15:26:03Z",
+      "side": 1,
+      "message": "yes, it was cloned from ControlLoopEventManager2 and then a lot was stripped out.",
+      "parentUuid": "4ee53cb8_5340fdd1",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a951d416_f8d03c23",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-20T14:51:12Z",
       "side": 1,
       "message": "Is scope still around? I didn\u0027t think so - the old policy-yaml should have that removed. At one time we had pie-in-the-sky hopes for this field, but I think ultimately it was unnecessary.",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8857cc84_28299b1c",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-20T15:26:03Z",
+      "side": 1,
+      "message": "Ack.  Note: if this is removed, then it will no longer be included in the notifications that are published on the POLICY-CL-MGT topic.",
+      "parentUuid": "a951d416_f8d03c23",
       "range": {
         "startLine": 94,
         "startChar": 2,
