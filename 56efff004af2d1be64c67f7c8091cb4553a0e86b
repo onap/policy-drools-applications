@@ -16,6 +16,24 @@
       "revId": "56efff004af2d1be64c67f7c8091cb4553a0e86b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b0c2042_f8bffa72",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-20T16:50:36Z",
+      "side": 1,
+      "message": "this particular method was cloned, thus unchanged.  However, your question is a valid one.  When I wrote the original code from which it was cloned, I assumed that the overall control loop timeout superseded the individual operations.  Is that not a correct assumption?",
+      "parentUuid": "88d23ce3_2d2ce681",
+      "revId": "56efff004af2d1be64c67f7c8091cb4553a0e86b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
