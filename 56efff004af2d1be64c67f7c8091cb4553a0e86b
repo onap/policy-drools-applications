@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88d23ce3_2d2ce681",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-20T16:06:07Z",
+      "side": 1,
+      "message": "Q: not sure if a check of control loop timeout would apply too \u003e\u003d sum of individual operations control loops timeouts in the policy ?",
+      "revId": "56efff004af2d1be64c67f7c8091cb4553a0e86b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

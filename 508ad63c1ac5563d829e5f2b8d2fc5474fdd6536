@@ -117,6 +117,30 @@
       "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f3b6177_9c48e2db",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-20T16:06:07Z",
+      "side": 1,
+      "message": "I think it is good to remove, it\u0027s a remnant from policy/engine, may be want to check feature-controlloop-trans and drl to make sure not used too ?",
+      "parentUuid": "0fb709ce_5baf7dee",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
