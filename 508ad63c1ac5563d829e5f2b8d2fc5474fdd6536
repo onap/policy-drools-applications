@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ee53cb8_5340fdd1",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T14:51:12Z",
+      "side": 1,
+      "message": "If new, then no need for this. If you are actually copying, then ignore.",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a951d416_f8d03c23",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T14:51:12Z",
+      "side": 1,
+      "message": "Is scope still around? I didn\u0027t think so - the old policy-yaml should have that removed. At one time we had pie-in-the-sky hopes for this field, but I think ultimately it was unnecessary.",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "508ad63c1ac5563d829e5f2b8d2fc5474fdd6536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
