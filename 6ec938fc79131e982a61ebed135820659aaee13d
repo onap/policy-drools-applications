@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be2bcd06_838b5f71",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T16:56:46Z",
+      "side": 1,
+      "message": "commented out code - remove so sonar does not flag. More cases below.",
+      "range": {
+        "startLine": 297,
+        "startChar": 8,
+        "endLine": 297,
+        "endChar": 54
+      },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc848f2_25257b31",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/AltKieSession.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T16:56:46Z",
+      "side": 1,
+      "message": "commented out code here and above",
+      "range": {
+        "startLine": 340,
+        "startChar": 3,
+        "endLine": 342,
+        "endChar": 68
+      },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b1f7036_5c5a3095",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T16:56:46Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 4
+      },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32715140_f8c5b716",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/extension/system/NonDroolsPolicyControllerTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-20T16:56:46Z",
+      "side": 1,
+      "message": "extra tab",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 7
+      },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
