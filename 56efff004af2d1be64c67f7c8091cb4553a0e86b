@@ -34,6 +34,24 @@
       "revId": "56efff004af2d1be64c67f7c8091cb4553a0e86b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6194b467_cf0cf8a3",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-20T16:55:46Z",
+      "side": 1,
+      "message": "I think that would be the expected behavior.   I don\u0027t think though that there are any checks across these fields neither in clamp nor policy that the aggregate of the timeout values for the individual operations, and the overall one are somewhat consistent (would be up to the designer to ensure that make sense).    If we were to do something about it, I agree it would be out of the scope of this work.",
+      "parentUuid": "3b0c2042_f8bffa72",
+      "revId": "56efff004af2d1be64c67f7c8091cb4553a0e86b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
