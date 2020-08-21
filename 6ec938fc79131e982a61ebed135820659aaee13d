@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "05aef8e8_1364eb6b",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/AltKieSession.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete this class",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ccc848f2_25257b31",
         "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/AltKieSession.java",
         "patchSetId": 17
@@ -42,6 +59,176 @@
         "endLine": 342,
         "endChar": 68
       },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4219276f_2210b69b",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/AltTdjamController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete this class",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e49649e3_851e1abd",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "should not need this",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b1edf6_26789586",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "make this static",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa1b701_0c3c3134",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "should not need this class",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7fdf8bd_978c0a26",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete lines 87-90",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0d7c19_f00902bb",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "Delete this line and extract the relevant lines from the rules.configure() method straight into here",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b73844fc_4a9a2035",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "Delete this line and add a line to create and start the controller object",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cecd27d_fa2129af",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete this and add a line to destroy the controller",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6ab4f72_fa7f59eb",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete this",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9f825c4_04536bfb",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "use whatever is appropriate for the controller",
       "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -71,6 +258,46 @@
     },
     {
       "key": {
+        "uuid": "625e6ddf_7fa61361",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete the comment lines since this is an override\n\nsame comment for the next method",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6acf6390_5950ba8f",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "should be able to use getPolicyFromFile to get the policy.  Then just stick it into the controller and return it",
+      "range": {
+        "startLine": 163,
+        "startChar": 21,
+        "endLine": 163,
+        "endChar": 40
+      },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32715140_f8c5b716",
         "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/extension/system/NonDroolsPolicyControllerTest.java",
         "patchSetId": 17
@@ -88,6 +315,40 @@
         "endLine": 186,
         "endChar": 7
       },
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31013ffb_3f86e175",
+        "filename": "controlloop/common/controller-tdjam/src/test/resources/META-INF/services/org.onap.policy.drools.features.DroolsControllerFeatureApi",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479a8d6c_8f65eaea",
+        "filename": "controlloop/common/controller-tdjam/src/test/resources/META-INF/services/org.onap.policy.drools.features.PolicyControllerFeatureApi",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-21T21:49:36Z",
+      "side": 1,
+      "message": "delete this line",
       "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
