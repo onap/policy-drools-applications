@@ -37,7 +37,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
 
@@ -596,7 +596,7 @@ public abstract class BaseTest {
     }
 
     protected long getCreateCount() {
-        return ControlLoopEventManager2.getCreateCount();
+        return ControlLoopEventManager.getCreateCount();
     }
 
     /**

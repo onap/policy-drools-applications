@@ -132,8 +132,8 @@ public class LockDataTest {
 
         assertTrue(future.isDone());
         OperationOutcome outcome = future.get();
-        assertEquals(ControlLoopOperationManager2.LOCK_ACTOR, outcome.getActor());
-        assertEquals(ControlLoopOperationManager2.LOCK_OPERATION, outcome.getOperation());
+        assertEquals(ActorConstants.LOCK_ACTOR, outcome.getActor());
+        assertEquals(ActorConstants.LOCK_OPERATION, outcome.getOperation());
         assertEquals(ENTITY, outcome.getTarget());
         assertEquals(PolicyResult.SUCCESS, outcome.getResult());
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
@@ -173,8 +173,8 @@ public class LockDataTest {
         assertTrue(future2.isDone());
         assertSame(outcome, future2.get());
 
-        assertEquals(ControlLoopOperationManager2.LOCK_ACTOR, outcome.getActor());
-        assertEquals(ControlLoopOperationManager2.LOCK_OPERATION, outcome.getOperation());
+        assertEquals(ActorConstants.LOCK_ACTOR, outcome.getActor());
+        assertEquals(ActorConstants.LOCK_OPERATION, outcome.getOperation());
         assertEquals(ENTITY, outcome.getTarget());
         assertEquals(PolicyResult.FAILURE, outcome.getResult());
         assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage());

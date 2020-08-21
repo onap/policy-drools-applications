@@ -29,7 +29,6 @@ import org.onap.policy.controlloop.common.rules.test.DroolsRuleTest;
 import org.onap.policy.controlloop.common.rules.test.Listener;
 import org.onap.policy.controlloop.common.rules.test.NamedRunner;
 import org.onap.policy.controlloop.common.rules.test.TestNames;
-import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.simulators.Util;
 
@@ -110,10 +109,5 @@ public class UsecasesTest extends DroolsRuleTest {
 
         return policyClMgt.await(notif -> notif.getNotification() == finalType
                         && (policy.getIdentifier().getName() + ".EVENT.MANAGER.FINAL").equals(notif.getPolicyName()));
-    }
-
-    @Override
-    protected long getCreateCount() {
-        return UsecasesEventManager.getCreateCount();
     }
 }

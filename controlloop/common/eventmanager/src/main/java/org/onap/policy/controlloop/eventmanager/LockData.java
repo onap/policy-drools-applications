@@ -169,8 +169,8 @@ public class LockData implements LockCallback {
      */
     private OperationOutcome makeOutcome() {
         OperationOutcome outcome = new OperationOutcome();
-        outcome.setActor(ControlLoopOperationManager2.LOCK_ACTOR);
-        outcome.setOperation(ControlLoopOperationManager2.LOCK_OPERATION);
+        outcome.setActor(ActorConstants.LOCK_ACTOR);
+        outcome.setOperation(ActorConstants.LOCK_OPERATION);
         outcome.setTarget(targetEntity);
         outcome.setFinalOutcome(true);
         outcome.setStart(createTime);

@@ -40,7 +40,6 @@ import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.so.VfModuleCreate;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.StepContext;
@@ -53,8 +52,6 @@ public class GuardStep2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final int VF_COUNT = 10;
 
-    @Mock
-    private ControlLoopEventContext context;
     @Mock
     private StepContext stepContext;
     @Mock
@@ -75,14 +72,12 @@ public class GuardStep2Test {
 
         when(event.getRequestId()).thenReturn(REQ_ID);
 
-        when(context.getEvent()).thenReturn(event);
-
         when(stepContext.contains(OperationProperties.DATA_VF_COUNT)).thenReturn(true);
         when(stepContext.getProperty(OperationProperties.DATA_VF_COUNT)).thenReturn(VF_COUNT);
 
 
         params = ControlLoopOperationParams.builder().actor(MASTER_ACTOR).operation(MASTER_OPERATION)
-                        .targetEntity(MY_TARGET).context(context).build();
+                        .targetEntity(MY_TARGET).requestId(REQ_ID).build();
 
         master = new Step2(stepContext, params, event) {
             @Override

@@ -62,10 +62,8 @@ import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.Target;
@@ -103,7 +101,6 @@ public class Step2Test {
     private Map<String, String> payload;
     private Policy policy;
     private VirtualControlLoopEvent event;
-    private ControlLoopEventContext context;
     private BlockingQueue<OperationOutcome> starts;
     private BlockingQueue<OperationOutcome> completions;
     private ControlLoopOperationParams params;
@@ -144,16 +141,14 @@ public class Step2Test {
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
-        event.setTarget(ControlLoopOperationManager2.VSERVER_VSERVER_NAME);
-        event.setAai(new TreeMap<>(Map.of(ControlLoopOperationManager2.VSERVER_VSERVER_NAME, MY_TARGET)));
-
-        context = new ControlLoopEventContext(event);
+        event.setTarget(UsecasesConstants.VSERVER_VSERVER_NAME);
+        event.setAai(new TreeMap<>(Map.of(UsecasesConstants.VSERVER_VSERVER_NAME, MY_TARGET)));
 
         starts = new LinkedBlockingQueue<>();
         completions = new LinkedBlockingQueue<>();
 
         params = ControlLoopOperationParams.builder().actor(POLICY_ACTOR).actorService(actors)
-                        .completeCallback(completions::add).context(context).executor(ForkJoinPool.commonPool())
+                        .completeCallback(completions::add).requestId(REQ_ID).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
                         .target(target).targetEntity(MY_TARGET).build();
 
