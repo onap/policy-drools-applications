@@ -80,19 +80,6 @@ public class ControlLoopProcessorTest {
     }
 
     @Test
-    public void testControlLoopFromToscaLegacy() throws IOException, CoderException, ControlLoopException {
-        String policy =
-                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vcpe.json")));
-        assertNotNull(
-                new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
-
-        policy =
-                new String(Files.readAllBytes(Paths.get("src/test/resources/tosca-policy-legacy-vdns.json")));
-        assertNotNull(
-                new ControlLoopProcessor(coder.decode(policy, ToscaPolicy.class)).getCurrentPolicy());
-    }
-
-    @Test
     public void testControlLoopFromToscaCompliant()
             throws CoderException, ControlLoopException {
         assertNotNull(
@@ -119,7 +106,7 @@ public class ControlLoopProcessorTest {
     public void testControlLoopFromToscaCompliantBad() throws CoderException {
         ToscaPolicy toscaPolicy = getPolicyFromResource(
                 "policies/vCPE.policy.operational.input.tosca.json", "operational.restart");
-        toscaPolicy.setType("onap.policies.controlloop.Operational");
+        toscaPolicy.setVersion(null);
         assertThatThrownBy(() -> new ControlLoopProcessor(toscaPolicy)).hasCauseInstanceOf(CoderException.class);
     }
 

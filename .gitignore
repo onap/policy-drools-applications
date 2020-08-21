@@ -13,3 +13,4 @@ target
 *.iws
 **/*.trace.db
 **/*.mv.db
+**/*.log

@@ -19,8 +19,7 @@
   ============LICENSE_END=========================================================
   -->
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
-    <kbase name="onap.policies.controlloop.operational.common.Drools" default="false" equalsBehavior="equality"/>
-    <kbase name="onap.policies.controlloop.Operational" equalsBehavior="equality"
+    <kbase name="onap.policies.controlloop.operational.common.Drools" equalsBehavior="equality"
            packages="org.onap.policy.controlloop" includes="onap.policies.controlloop.operational.common.Drools">
         <ksession name="frankfurt"/>
     </kbase>

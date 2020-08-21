@@ -28,15 +28,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 public class ControlLoopUtilsTest {
 
     @Test
     public void testToControlLoopParams() throws Exception {
-        String policy = Files.readString(Paths.get("src/test/resources/tosca-policy-legacy-vcpe.json"));
-        ToscaPolicy toscaPolicy = new StandardCoder().decode(policy, ToscaPolicy.class);
+        String policyJson =
+            ResourceUtils.getResourceAsString("policies/vCPE.policy.operational.input.tosca.json");
+        ToscaServiceTemplate serviceTemplate = new StandardCoder().decode(policyJson, ToscaServiceTemplate.class);
+        ToscaPolicy toscaPolicy =
+            serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get("operational.restart");
 
         ControlLoopParams params = ControlLoopUtils.toControlLoopParams(toscaPolicy);
         assertEquals("ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e", params.getClosedLoopControlName());
