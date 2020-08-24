@@ -28,21 +28,10 @@
         <version>1.7.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>controller-frankfurt</artifactId>
-    <packaging>kjar</packaging>
+    <artifactId>controller-usecases</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>Frankfurt Controller</description>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.kie</groupId>
-                <artifactId>kie-maven-plugin</artifactId>
-                <extensions>true</extensions>
-            </plugin>
-        </plugins>
-    </build>
+    <description>Usecases Experimental Controller</description>
 
     <dependencies>
         <dependency>
@@ -187,6 +176,12 @@
             <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
             <artifactId>rules-test</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils-test</artifactId>
+            <version>${version.policy.common}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
