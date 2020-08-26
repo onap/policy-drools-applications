@@ -35,6 +35,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,26 +63,21 @@ import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2;
 import org.onap.policy.controlloop.eventmanager.StepContext;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
 public class Step2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
-    private static final String POLICY_ID = "my-policy";
     private static final String POLICY_ACTOR = "my-actor";
     private static final String POLICY_OPERATION = "my-operation";
     private static final String MY_TARGET = "my-target";
     private static final String PAYLOAD_KEY = "payload-key";
     private static final String PAYLOAD_VALUE = "payload-value";
-    private static final Integer POLICY_RETRY = 3;
-    private static final Integer POLICY_TIMEOUT = 20;
     private static final String NO_SLASH = "noslash";
     private static final String ONE_SLASH = "/one";
 
@@ -99,9 +95,7 @@ public class Step2Test {
     private AaiCqResponse aaicq;
 
     private CompletableFuture<OperationOutcome> future;
-    private Target target;
     private Map<String, String> payload;
-    private Policy policy;
     private VirtualControlLoopEvent event;
     private ControlLoopEventContext context;
     private BlockingQueue<OperationOutcome> starts;
@@ -128,19 +122,7 @@ public class Step2Test {
 
         when(stepContext.getProperty(AaiCqResponse.CONTEXT_KEY)).thenReturn(aaicq);
 
-        target = new Target();
-        target.setType(TargetType.VM);
-
         payload = Map.of(PAYLOAD_KEY, PAYLOAD_VALUE);
-
-        policy = new Policy();
-        policy.setId(POLICY_ID);
-        policy.setActor(POLICY_ACTOR);
-        policy.setRecipe(POLICY_OPERATION);
-        policy.setTarget(target);
-        policy.setPayload(payload);
-        policy.setRetry(POLICY_RETRY);
-        policy.setTimeout(POLICY_TIMEOUT);
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
@@ -152,10 +134,13 @@ public class Step2Test {
         starts = new LinkedBlockingQueue<>();
         completions = new LinkedBlockingQueue<>();
 
+        Map<String, String> entityIds = new HashMap<>();
+
         params = ControlLoopOperationParams.builder().actor(POLICY_ACTOR).actorService(actors)
                         .completeCallback(completions::add).context(context).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
-                        .target(target).targetEntity(MY_TARGET).build();
+                        .targetType(TargetType.VM).targetEntityIds(entityIds).targetEntity(MY_TARGET)
+                        .build();
 
         step = new Step2(stepContext, params, event);
         step.init();
@@ -268,7 +253,7 @@ public class Step2Test {
 
     @Test
     public void testLoadResourceVnf_testGetResourceVnf() {
-        target.setResourceID("my-resource");
+        params.getTargetEntityIds().put(Step2.TARGET_RESOURCE_ID, "my-resource");
         GenericVnf data = new GenericVnf();
         when(aaicq.getGenericVnfByModelInvariantId("my-resource")).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_RESOURCE_VNF));
@@ -277,12 +262,12 @@ public class Step2Test {
         verify(policyOperation).setProperty(OperationProperties.AAI_RESOURCE_VNF, data);
 
         // missing resource ID
-        target.setResourceID(null);
+        params.getTargetEntityIds().put(Step2.TARGET_RESOURCE_ID, null);
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
                         .withMessageContaining("missing Target resource ID");
 
-        // missing target
-        params = params.toBuilder().target(null).build();
+        // missing target entity IDs
+        params = params.toBuilder().targetEntityIds(null).build();
         step = new Step2(stepContext, params, event);
         step.init();
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
@@ -315,7 +300,7 @@ public class Step2Test {
 
     @Test
     public void testLoadVnf_testGetVnf() {
-        target.setModelInvariantId("my-model-invariant");
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, "my-model-invariant");
         GenericVnf data = new GenericVnf();
         when(aaicq.getGenericVnfByVfModuleModelInvariantId("my-model-invariant")).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_VNF));
@@ -324,12 +309,12 @@ public class Step2Test {
         verify(policyOperation).setProperty(OperationProperties.AAI_VNF, data);
 
         // missing model invariant ID
-        target.setModelInvariantId(null);
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, null);
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
                         .withMessageContaining("missing modelInvariantId");
 
         // missing target
-        params = params.toBuilder().target(null).build();
+        params = params.toBuilder().targetEntityIds(null).build();
         step = new Step2(stepContext, params, event);
         step.init();
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
@@ -338,7 +323,7 @@ public class Step2Test {
 
     @Test
     public void testLoadVnfModel_testGetVnfModel() {
-        target.setModelInvariantId("my-model-invariant");
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, "my-model-invariant");
         GenericVnf vnf = new GenericVnf();
         when(aaicq.getGenericVnfByVfModuleModelInvariantId("my-model-invariant")).thenReturn(vnf);
 
@@ -388,9 +373,9 @@ public class Step2Test {
 
     @Test
     public void testLoadVfCount_testGetVfCount() {
-        target.setModelCustomizationId("vf-count-customization");
-        target.setModelInvariantId("vf-count-invariant");
-        target.setModelVersionId("vf-count-version");
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_CUSTOMIZATION_ID, "vf-count-customization");
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, "vf-count-invariant");
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_VERSION_ID, "vf-count-version");
         when(aaicq.getVfModuleCount("vf-count-customization", "vf-count-invariant", "vf-count-version")).thenReturn(11);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.DATA_VF_COUNT));
 
@@ -398,22 +383,22 @@ public class Step2Test {
         verify(policyOperation).setProperty(OperationProperties.DATA_VF_COUNT, 11);
 
         // missing model version id
-        target.setModelVersionId(null);
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_VERSION_ID, null);
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
                         .withMessageContaining("missing target modelVersionId");
 
         // missing model invariant id
-        target.setModelInvariantId(null);
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, null);
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
                         .withMessageContaining("missing target modelInvariantId");
 
         // missing model customization id
-        target.setModelCustomizationId(null);
+        params.getTargetEntityIds().put(Step2.TARGET_MODEL_CUSTOMIZATION_ID, null);
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
                         .withMessageContaining("missing target modelCustomizationId");
 
         // missing target
-        params = params.toBuilder().target(null).build();
+        params = params.toBuilder().targetEntityIds(null).build();
         step = new Step2(stepContext, params, event);
         step.init();
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())

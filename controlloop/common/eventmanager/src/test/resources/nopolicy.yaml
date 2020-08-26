@@ -1,4 +1,4 @@
-# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Copyright 2018, 2020 AT&T Intellectual Property. All rights reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,21 +11,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-controlLoop:
-  version: 1.0.0
-  controlLoopName: ControlLoop-vService-cbed919f-2212-4ef7-8051-fe6308da1bda
-  services: 
-    - serviceName: service1
-  resources: 
-    - resourceName: resource1
-      resourceType: VF
-    - resourceName: resource2
-      resourceType: VF
-    - resourceName: resource3
-      resourceType: VF
-    - resourceName: resource4
-      resourceType: VF
-    - resourceName: resource5
-      resourceType: VF
-  trigger_policy: a-policy-that-does-not-exist
-  timeout: 60
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+    policies:
+    -   operational.scaleout:
+            type: onap.policies.controlloop.operational.common.Drools
+            type_version: 1.0.0
+            version: 1.0.0
+            name: operational.scaleout
+            metadata:
+                policy-id: operational.scaleout
+            properties:
+                id: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
+                timeout: 1200
+                abatement: false
+                trigger: unique-policy-id-1-scale-up
+                operations: []
+                controllerName: frankfurt

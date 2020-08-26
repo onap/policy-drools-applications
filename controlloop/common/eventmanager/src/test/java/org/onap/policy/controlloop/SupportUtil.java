@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
-import org.onap.policy.controlloop.policy.ControlLoopPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -53,15 +53,15 @@ public final class SupportUtil {
      * @return a Pair
      * @throws IOException if the file cannot be read
      */
-    public static Pair<ControlLoopPolicy, String> loadYaml(String testFile) throws IOException {
+    public static Pair<ToscaPolicy, String> loadYaml(String testFile) throws IOException {
         try (InputStream is = new FileInputStream(new File(testFile))) {
             String contents = IOUtils.toString(is, StandardCharsets.UTF_8);
             //
             // Read the yaml into our Java Object
             //
-            Yaml yaml = new Yaml(new Constructor(ControlLoopPolicy.class));
-            Object obj = yaml.load(contents);
-            return new Pair<>((ControlLoopPolicy) obj, contents);
+            Yaml yaml = new Yaml(new Constructor(ToscaPolicy.class));
+            ToscaPolicy obj = yaml.load(contents);
+            return new Pair<>(obj, contents);
         }
     }
 

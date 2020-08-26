@@ -43,7 +43,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.drools.core.lock.Lock;
 
 public class LockDataTest {
@@ -135,7 +135,7 @@ public class LockDataTest {
         assertEquals(ControlLoopOperationManager2.LOCK_ACTOR, outcome.getActor());
         assertEquals(ControlLoopOperationManager2.LOCK_OPERATION, outcome.getOperation());
         assertEquals(ENTITY, outcome.getTarget());
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
 
         Instant start = outcome.getStart();
@@ -176,7 +176,7 @@ public class LockDataTest {
         assertEquals(ControlLoopOperationManager2.LOCK_ACTOR, outcome.getActor());
         assertEquals(ControlLoopOperationManager2.LOCK_OPERATION, outcome.getOperation());
         assertEquals(ENTITY, outcome.getTarget());
-        assertEquals(PolicyResult.FAILURE, outcome.getResult());
+        assertEquals(OperationResult.FAILURE, outcome.getResult());
         assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage());
 
         Instant start = outcome.getStart();

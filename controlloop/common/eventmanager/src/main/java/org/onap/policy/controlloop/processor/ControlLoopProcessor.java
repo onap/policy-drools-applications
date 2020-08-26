@@ -21,47 +21,34 @@
 package org.onap.policy.controlloop.processor;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.util.stream.Collectors;
 import lombok.Getter;
-import org.apache.commons.beanutils.BeanUtils;
 import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardYamlCoder;
 import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.policy.ControlLoop;
-import org.onap.policy.controlloop.policy.ControlLoopPolicy;
-import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyParam;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
-import org.onap.policy.drools.domain.models.DroolsPolicy;
 import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.drools.domain.models.operational.OperationalPolicy;
-import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 public class ControlLoopProcessor implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessor.class);
+
+    private static final StandardYamlCoder coder = new StandardYamlCoder();
 
     @Getter
-    private final ControlLoopPolicy policy;
+    private final OperationalPolicy policy;
     private String currentNestedPolicyId;
 
     // not serializable, thus must be transient
     @Getter
     private transient ToscaPolicy toscaOpPolicy;
 
-    // not serializable, thus must be transient
-    @Getter
-    private transient DroolsPolicy domainOpPolicy;
+    //@Getter
+    //private ControlLoop controlLoop;
 
     /**
      * Construct an instance from yaml.
@@ -70,13 +57,32 @@ public class ControlLoopProcessor implements Serializable {
      * @throws ControlLoopException if an error occurs
      */
     public ControlLoopProcessor(String yaml) throws ControlLoopException {
-        try {
-            final Yaml y = new Yaml(new CustomClassLoaderConstructor(ControlLoopPolicy.class,
-                    ControlLoopPolicy.class.getClassLoader()));
-            final Object obj = y.load(yaml);
+        this(decodeTosca(yaml));
+    }
 
-            this.policy = (ControlLoopPolicy) obj;
-            this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
+    /**
+     * Create an instance from a Tosca Policy.
+     */
+    public ControlLoopProcessor(ToscaPolicy toscaPolicy) throws ControlLoopException {
+        try {
+            this.policy =
+                    PolicyEngineConstants.getManager().getDomainMaker().convertTo(toscaPolicy, OperationalPolicy.class);
+            this.currentNestedPolicyId = this.policy.getProperties().getTrigger();
+            this.toscaOpPolicy = toscaPolicy;
+        } catch (RuntimeException | CoderException e) {
+            throw new ControlLoopException(e);
+        }
+    }
+
+    private static ToscaPolicy decodeTosca(String yaml) throws ControlLoopException {
+        try {
+            ToscaServiceTemplate template = coder.decode(yaml, ToscaServiceTemplate.class);
+            if (template == null || template.getToscaTopologyTemplate() == null) {
+                throw new IllegalArgumentException("Cannot decode yaml into ToscaServiceTemplate");
+            }
+
+            return template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+
         } catch (final Exception e) {
             //
             // Most likely this is a YAML Exception
@@ -86,99 +92,22 @@ public class ControlLoopProcessor implements Serializable {
     }
 
     /**
-     * Create an instance from a Tosca Policy.
-     */
-    public ControlLoopProcessor(ToscaPolicy toscaPolicy) throws ControlLoopException {
-        try {
-            this.policy = buildPolicyFromToscaCompliant(toscaPolicy);
-
-            this.currentNestedPolicyId = this.policy.getControlLoop().getTrigger_policy();
-            this.toscaOpPolicy = toscaPolicy;
-        } catch (RuntimeException | CoderException e) {
-            throw new ControlLoopException(e);
-        }
-    }
-
-    private Target toStandardTarget(OperationalTarget opTarget) {
-        Target target = new Target(TargetType.valueOf(opTarget.getTargetType()));
-        try {
-            BeanUtils.populate(target, opTarget.getEntityIds());
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            logger.warn("target entityIds cannot be mapped (unexpected): {}", opTarget, e);
-        }
-        return target;
-    }
-
-    protected ControlLoopPolicy buildPolicyFromToscaCompliant(ToscaPolicy policy) throws CoderException {
-        OperationalPolicy domainPolicy =
-                PolicyEngineConstants.getManager().getDomainMaker().convertTo(policy, OperationalPolicy.class);
-
-        ControlLoopPolicy backwardsCompatiblePolicy = new ControlLoopPolicy();
-
-        // @formatter:off
-        backwardsCompatiblePolicy.setPolicies(
-            domainPolicy.getProperties().getOperations().stream().map(this::convertPolicy)
-                    .collect(Collectors.toList()));
-        // @formatter:on
-
-        ControlLoop controlLoop = new ControlLoop();
-        controlLoop.setAbatement(domainPolicy.getProperties().isAbatement());
-        controlLoop.setControlLoopName(domainPolicy.getProperties().getId());
-        controlLoop.setTimeout(domainPolicy.getProperties().getTimeout());
-        controlLoop.setTrigger_policy(domainPolicy.getProperties().getTrigger());
-        controlLoop.setVersion(domainPolicy.getVersion());
-
-        backwardsCompatiblePolicy.setControlLoop(controlLoop);
-        this.domainOpPolicy = domainPolicy;
-        return backwardsCompatiblePolicy;
-    }
-
-    private Policy convertPolicy(Operation operation) {
-        // @formatter:off
-        Policy newPolicy = new Policy(PolicyParam.builder()
-                .id(operation.getId())
-                .name(operation.getActorOperation().getOperation())
-                .description(operation.getDescription())
-                .actor(operation.getActorOperation().getActor())
-                .payload(operation.getActorOperation().getPayload())
-                .recipe(operation.getActorOperation().getOperation())
-                .retries(operation.getRetries())
-                .timeout(operation.getTimeout())
-                .target(toStandardTarget(operation.getActorOperation().getTarget()))
-            .build());
-        // @formatter:on
-
-        newPolicy.setSuccess(operation.getSuccess());
-        newPolicy.setFailure(operation.getFailure());
-        newPolicy.setFailure_exception(operation.getFailureException());
-        newPolicy.setFailure_guard(operation.getFailureGuard());
-        newPolicy.setFailure_retries(operation.getFailureRetries());
-        newPolicy.setFailure_timeout(operation.getFailureTimeout());
-
-        return newPolicy;
-    }
-
-    /**
      * Get ControlLoopParams.
      */
     public ControlLoopParams getControlLoopParams() {
         ControlLoopParams controlLoopParams = new ControlLoopParams();
 
-        controlLoopParams.setClosedLoopControlName(this.getControlLoop().getControlLoopName());
-        controlLoopParams.setPolicyScope(domainOpPolicy.getType() + ":" + domainOpPolicy.getTypeVersion());
-        controlLoopParams.setPolicyName(domainOpPolicy.getName());
-        controlLoopParams.setPolicyVersion(domainOpPolicy.getVersion());
+        controlLoopParams.setClosedLoopControlName(this.policy.getProperties().getId());
+        controlLoopParams.setPolicyScope(policy.getType() + ":" + policy.getTypeVersion());
+        controlLoopParams.setPolicyName(policy.getName());
+        controlLoopParams.setPolicyVersion(policy.getVersion());
         controlLoopParams.setToscaPolicy(toscaOpPolicy);
 
         return controlLoopParams;
     }
 
-    public ControlLoop getControlLoop() {
-        return this.policy.getControlLoop();
-    }
-
-    public FinalResult checkIsCurrentPolicyFinal() {
-        return FinalResult.toResult(this.currentNestedPolicyId);
+    public OperationFinalResult checkIsCurrentPolicyFinal() {
+        return OperationFinalResult.toResult(this.currentNestedPolicyId);
     }
 
     /**
@@ -187,12 +116,14 @@ public class ControlLoopProcessor implements Serializable {
      * @return the current policy
      * @throws ControlLoopException if an error occurs
      */
-    public Policy getCurrentPolicy() throws ControlLoopException {
-        if (this.policy == null || this.policy.getPolicies() == null) {
+    public Operation getCurrentPolicy() throws ControlLoopException {
+        if (this.policy == null || this.policy.getProperties() == null
+                        || this.policy.getProperties().getOperations() == null
+                        || this.policy.getProperties().getOperations().isEmpty()) {
             throw new ControlLoopException("There are no policies defined.");
         }
 
-        for (final Policy nestedPolicy : this.policy.getPolicies()) {
+        for (final Operation nestedPolicy : this.policy.getProperties().getOperations()) {
             if (nestedPolicy.getId().equals(this.currentNestedPolicyId)) {
                 return nestedPolicy;
             }
@@ -206,8 +137,8 @@ public class ControlLoopProcessor implements Serializable {
      * @param result the result of the current policy
      * @throws ControlLoopException if an error occurs
      */
-    public void nextPolicyForResult(PolicyResult result) throws ControlLoopException {
-        final Policy currentPolicy = this.getCurrentPolicy();
+    public void nextPolicyForResult(OperationResult result) throws ControlLoopException {
+        final Operation currentPolicy = this.getCurrentPolicy();
         try {
             if (currentPolicy == null) {
                 throw new ControlLoopException("There is no current policy to determine where to go to.");
@@ -220,21 +151,21 @@ public class ControlLoopProcessor implements Serializable {
                     this.currentNestedPolicyId = currentPolicy.getFailure();
                     break;
                 case FAILURE_TIMEOUT:
-                    this.currentNestedPolicyId = currentPolicy.getFailure_timeout();
+                    this.currentNestedPolicyId = currentPolicy.getFailureTimeout();
                     break;
                 case FAILURE_RETRIES:
-                    this.currentNestedPolicyId = currentPolicy.getFailure_retries();
+                    this.currentNestedPolicyId = currentPolicy.getFailureRetries();
                     break;
                 case FAILURE_EXCEPTION:
-                    this.currentNestedPolicyId = currentPolicy.getFailure_exception();
+                    this.currentNestedPolicyId = currentPolicy.getFailureException();
                     break;
                 case FAILURE_GUARD:
                 default:
-                    this.currentNestedPolicyId = currentPolicy.getFailure_guard();
+                    this.currentNestedPolicyId = currentPolicy.getFailureGuard();
                     break;
             }
         } catch (final ControlLoopException e) {
-            this.currentNestedPolicyId = FinalResult.FINAL_FAILURE_EXCEPTION.toString();
+            this.currentNestedPolicyId = OperationFinalResult.FINAL_FAILURE_EXCEPTION.toString();
             throw e;
         }
     }

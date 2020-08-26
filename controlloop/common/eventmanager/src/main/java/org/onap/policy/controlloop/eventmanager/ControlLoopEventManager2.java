@@ -54,14 +54,14 @@ import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
+import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
-import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.core.lock.LockCallback;
+import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,7 +151,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
     private final ControlLoopProcessor processor;
     private final AtomicReference<ControlLoopOperationManager2> currentOperation = new AtomicReference<>();
 
-    private FinalResult finalResult = null;
+    private OperationFinalResult finalResult = null;
 
     @Getter
     private VirtualControlLoopNotification notification;
@@ -289,7 +289,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
         } catch (ControlLoopException | RuntimeException e) {
             // processor problem - this is fatal
             logger.warn("{}: cannot start next step for {}", closedLoopControlName, requestId, e);
-            finalResult = FinalResult.FINAL_FAILURE_EXCEPTION;
+            finalResult = OperationFinalResult.FINAL_FAILURE_EXCEPTION;
             controlLoopResponse = null;
             notification = makeNotification();
             notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
@@ -363,7 +363,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
                 notification.setNotification(ControlLoopNotificationType.FINAL_FAILURE);
                 notification.setMessage("Control Loop timed out");
                 notification.setHistory(controlLoopHistory);
-                finalResult = FinalResult.FINAL_FAILURE;
+                finalResult = OperationFinalResult.FINAL_FAILURE;
                 break;
 
             case OPERATION_FAILURE:
@@ -460,7 +460,7 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
      */
     private long detmControlLoopTimeoutMs() {
         // validation checks preclude null or 0 timeout values in the policy
-        Integer timeout = processor.getControlLoop().getTimeout();
+        Integer timeout = processor.getPolicy().getProperties().getTimeout();
         return TimeUnit.MILLISECONDS.convert(timeout, TimeUnit.SECONDS);
     }
 
@@ -612,8 +612,8 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
 
     // the following methods may be overridden by junit tests
 
-    protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Policy policy) {
-        return new ControlLoopOperationManager2(this, ctx, policy, getExecutor());
+    protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Operation operation) {
+        return new ControlLoopOperationManager2(this, ctx, operation, getExecutor());
     }
 
     protected Executor getExecutor() {

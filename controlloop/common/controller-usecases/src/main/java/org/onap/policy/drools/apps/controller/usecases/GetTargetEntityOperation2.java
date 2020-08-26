@@ -33,10 +33,10 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
-import org.onap.policy.controlloop.policy.Target;
 
 /**
  * An operation to get the target entity. This is a "pseudo" operation; it is not found
@@ -65,7 +65,7 @@ public class GetTargetEntityOperation2 extends OperationPartial {
 
     @Override
     public List<String> getPropertyNames() {
-        String propName = detmTarget(params.getTarget());
+        String propName = detmTarget(params.getTargetType());
         return (propName == null ? Collections.emptyList() : List.of(propName));
     }
 
@@ -77,26 +77,22 @@ public class GetTargetEntityOperation2 extends OperationPartial {
     /**
      * Determines the target entity.
      *
-     * @param target policy target
+     * @param targetType policy target type
      *
      * @return the property containing the target entity, or {@code null} if the target
      *         entity is already known
      */
-    private String detmTarget(Target target) {
+    private String detmTarget(TargetType targetType) {
         if (stepContext.contains(OperationProperties.AAI_TARGET_ENTITY)) {
             // the target entity has already been determined
             return null;
         }
 
-        if (target == null) {
-            throw new IllegalArgumentException("The target is null");
-        }
-
-        if (target.getType() == null) {
+        if (targetType == null) {
             throw new IllegalArgumentException("The target type is null");
         }
 
-        switch (target.getType()) {
+        switch (targetType) {
             case PNF:
                 return detmPnfTarget();
             case VM:

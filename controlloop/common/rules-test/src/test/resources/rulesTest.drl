@@ -25,7 +25,6 @@ import org.onap.policy.controlloop.CanonicalOnset;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2.NewEventStatus;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2;
