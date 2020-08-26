@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "5621224d_470ecbf2",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/test/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecasesFeatureTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-26T19:47:33Z",
+      "side": 1,
+      "message": "Ah I see, I don\u0027t know .. I have no issue then with licenses.",
+      "parentUuid": "25f9efcc_9f9fd649",
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0aa06f6_11b8da37",
         "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
         "patchSetId": 4
