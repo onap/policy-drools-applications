@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aace1d6f_9368f663",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-26T21:59:12Z",
+      "side": 1,
+      "message": "delete the \"includes\" as is pointing to itself",
+      "revId": "61ef9c732774474f1279a74f5a78c37efa6cd086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
