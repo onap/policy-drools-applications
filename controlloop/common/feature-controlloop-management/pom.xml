@@ -257,21 +257,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions</groupId>
-            <artifactId>model-yaml</artifactId>
-            <version>${policy.models.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>snakeyaml</artifactId>
-                    <groupId>org.yaml</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.drools-pdp</groupId>
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>

@@ -59,9 +59,9 @@ import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopE
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.core.lock.LockCallback;
+import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -612,8 +612,8 @@ public class ControlLoopEventManager2 implements ManagerContext, Serializable {
 
     // the following methods may be overridden by junit tests
 
-    protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Policy policy) {
-        return new ControlLoopOperationManager2(this, ctx, policy, getExecutor());
+    protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Operation operation) {
+        return new ControlLoopOperationManager2(this, ctx, operation, getExecutor());
     }
 
     protected Executor getExecutor() {

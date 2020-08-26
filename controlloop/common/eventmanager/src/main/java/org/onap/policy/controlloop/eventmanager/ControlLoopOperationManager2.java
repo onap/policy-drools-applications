@@ -23,11 +23,17 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import static org.onap.policy.controlloop.ControlLoopTargetType.PNF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VM;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VNF;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -49,8 +55,8 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineUtil;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.sdnr.PciMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +96,7 @@ public class ControlLoopOperationManager2 implements Serializable {
 
     private final transient ManagerContext operContext;
     private final transient ControlLoopEventContext eventContext;
-    private final Policy policy;
+    private final org.onap.policy.drools.domain.models.operational.Operation policy;
 
     @Getter
     @ToString.Include
@@ -156,25 +162,35 @@ public class ControlLoopOperationManager2 implements Serializable {
     @Getter
     private final String operation;
 
+    private final String targetStr;
+    private final OperationalTarget target;
+
 
     /**
      * Construct an instance.
      *
      * @param operContext this operation's context
      * @param context event context
-     * @param policy operation's policy
+     * @param operation2 operation's policy
      * @param executor executor for the Operation
      */
-    public ControlLoopOperationManager2(ManagerContext operContext, ControlLoopEventContext context, Policy policy,
-                    Executor executor) {
+    public ControlLoopOperationManager2(ManagerContext operContext, ControlLoopEventContext context,
+                    org.onap.policy.drools.domain.models.operational.Operation operation2, Executor executor) {
 
         this.operContext = operContext;
         this.eventContext = context;
-        this.policy = policy;
+        this.policy = operation2;
         this.requestId = context.getEvent().getRequestId().toString();
-        this.policyId = "" + policy.getId();
-        this.actor = policy.getActor();
-        this.operation = policy.getRecipe();
+        this.policyId = "" + operation2.getId();
+        this.actor = operation2.getActorOperation().getActor();
+        this.operation = operation2.getActorOperation().getOperation();
+        this.target = operation2.getActorOperation().getTarget();
+
+        String targetType = (target != null ? target.getTargetType() : null);
+        Map<String, String> entityIds = (target != null ? target.getEntityIds() : null);
+
+        // TODO encode()?
+        this.targetStr = (target != null ? target.toString() : null);
 
         // @formatter:off
         params = ControlLoopOperationParams.builder()
@@ -183,7 +199,8 @@ public class ControlLoopOperationManager2 implements Serializable {
                         .operation(operation)
                         .context(context)
                         .executor(executor)
-                        .target(policy.getTarget())
+                        .targetType(targetType)
+                        .targetEntityIds(entityIds)
                         .startCallback(this::onStart)
                         .completeCallback(this::onComplete)
                         .build();
@@ -214,7 +231,7 @@ public class ControlLoopOperationManager2 implements Serializable {
             attempt = ControlLoopOperationManager2.this.attempts;
             policyResult = outcome.getResult();
             clOperation = outcome.toControlLoopOperation();
-            clOperation.setTarget(policy.getTarget().toString());
+            clOperation.setTarget(targetStr);
             clResponse = makeControlLoopResponse(outcome);
 
             if (outcome.getEnd() == null) {
@@ -268,14 +285,14 @@ public class ControlLoopOperationManager2 implements Serializable {
         // @formatter:off
         ControlLoopOperationParams params2 = params.toBuilder()
                     .payload(new LinkedHashMap<>())
-                    .retry(policy.getRetry())
+                    .retry(policy.getRetries())
                     .timeoutSec(policy.getTimeout())
                     .targetEntity(targetEntity)
                     .build();
         // @formatter:on
 
-        if (policy.getPayload() != null) {
-            params2.getPayload().putAll(policy.getPayload());
+        if (policy.getActorOperation().getPayload() != null) {
+            params2.getPayload().putAll(policy.getActorOperation().getPayload());
         }
 
         return params2.start();
@@ -680,20 +697,20 @@ public class ControlLoopOperationManager2 implements Serializable {
      *         already been determined
      */
     protected CompletableFuture<OperationOutcome> detmTarget() {
-        if (policy.getTarget() == null) {
+        if (target == null) {
             throw new IllegalArgumentException("The target is null");
         }
 
-        if (policy.getTarget().getType() == null) {
+        if (target.getTargetType() == null) {
             throw new IllegalArgumentException("The target type is null");
         }
 
-        switch (policy.getTarget().getType()) {
+        switch (target.getTargetType()) {
             case PNF:
                 return detmPnfTarget();
             case VM:
             case VNF:
-            case VFMODULE:
+            case VF:
                 return detmVfModuleTarget();
             default:
                 throw new IllegalArgumentException("The target type is not supported");

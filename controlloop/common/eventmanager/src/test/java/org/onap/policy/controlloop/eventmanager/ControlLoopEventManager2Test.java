@@ -47,7 +47,6 @@ import java.util.function.Consumer;
 import org.drools.core.WorkingMemory;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.kie.api.runtime.rule.FactHandle;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -71,13 +70,11 @@ import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2.NewEventStatus;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2.State;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
+import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
@@ -117,7 +114,6 @@ public class ControlLoopEventManager2Test {
 
     private long preCreateTimeMs;
     private List<LockImpl> locks;
-    private Target target;
     private ToscaPolicy tosca;
     private ControlLoopParams params;
     private VirtualControlLoopEvent event;
@@ -158,10 +154,7 @@ public class ControlLoopEventManager2Test {
         event.setAai(new TreeMap<>(Map.of(ControlLoopOperationManager2.VSERVER_VSERVER_NAME, MY_TARGET)));
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setClosedLoopControlName(CL_NAME);
-        event.setTargetType(TargetType.VNF.toString());
-
-        target = new Target();
-        target.setType(TargetType.VNF);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
@@ -635,7 +628,7 @@ public class ControlLoopEventManager2Test {
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
         assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
- 
+
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
@@ -814,8 +807,8 @@ public class ControlLoopEventManager2Test {
         }
 
         @Override
-        protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Policy policy) {
-            switch (policy.getActor()) {
+        protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Operation policy) {
+            switch (policy.getActorOperation().getActor()) {
                 case "First":
                     return oper1;
                 case "Second":
@@ -823,7 +816,7 @@ public class ControlLoopEventManager2Test {
                 case "Third":
                     return oper3;
                 default:
-                    throw new IllegalArgumentException("unknown policy actor " + policy.getActor());
+                    throw new IllegalArgumentException("unknown policy actor " + policy.getActorOperation().getActor());
             }
         }
     }

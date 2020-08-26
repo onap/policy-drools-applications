@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -39,8 +38,8 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
@@ -52,8 +51,7 @@ public class ControlLoopProcessorTest {
 
     @Test
     public void testControlLoopProcessor() throws IOException, ControlLoopException {
-        InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
-        String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+        String yamlString = Files.readString(new File("src/test/resources/test.yaml").toPath(), StandardCharsets.UTF_8);
         this.testSuccess(yamlString);
         this.testFailure(yamlString);
     }
@@ -116,13 +114,13 @@ public class ControlLoopProcessorTest {
         String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
         assertThatThrownBy(() -> new ControlLoopProcessor(yamlString))
-            .hasMessageStartingWith("Cannot create property=string for JavaBean=ControlLoopPolicy");
+            .hasMessageEndingWith("Cannot decode yaml into ToscaServiceTemplate");
     }
 
     @Test
     public void testControlLoopProcessorBadTriggerYaml() throws IOException, ControlLoopException {
-        InputStream is = new FileInputStream(new File("src/test/resources/badtriggerpolicy.yaml"));
-        String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+        String yamlString = Files.readString(new File("src/test/resources/badtriggerpolicy.yaml").toPath(),
+                        StandardCharsets.UTF_8);
 
         ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
         assertNull(clProcessor.getCurrentPolicy());
@@ -172,9 +170,9 @@ public class ControlLoopProcessorTest {
                 logger.debug("{}", result);
                 break;
             }
-            Policy policy = processor.getCurrentPolicy();
+            Operation policy = processor.getCurrentPolicy();
             assertNotNull(policy);
-            logger.debug("current policy is: {} {}", policy.getId(), policy.getName());
+            logger.debug("current policy is: {}", policy.getId());
             processor.nextPolicyForResult(PolicyResult.SUCCESS);
         }
     }
@@ -194,9 +192,9 @@ public class ControlLoopProcessorTest {
                 logger.debug("{}", result);
                 break;
             }
-            Policy policy = processor.getCurrentPolicy();
+            Operation policy = processor.getCurrentPolicy();
             assertNotNull(policy);
-            logger.debug("current policy is: {} {}", policy.getId(), policy.getName());
+            logger.debug("current policy is: {}", policy.getId());
             processor.nextPolicyForResult(PolicyResult.FAILURE);
         }
     }

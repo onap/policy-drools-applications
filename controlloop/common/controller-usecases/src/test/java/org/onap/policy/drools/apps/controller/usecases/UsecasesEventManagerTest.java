@@ -77,8 +77,6 @@ import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.controlloop.policy.FinalResult;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.NewEventStatus;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiGetPnfStep2;
@@ -137,7 +135,6 @@ public class UsecasesEventManagerTest {
     private Step2 stepb;
 
     private List<LockImpl> locks;
-    private Target target;
     private ToscaPolicy tosca;
     private ControlLoopParams params;
     private VirtualControlLoopEvent event;
@@ -163,10 +160,7 @@ public class UsecasesEventManagerTest {
         event.setAai(new TreeMap<>(Map.of(UsecasesConstants.VSERVER_VSERVER_NAME, MY_TARGET)));
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setClosedLoopControlName(CL_NAME);
-        event.setTargetType(TargetType.VNF.toString());
-
-        target = new Target();
-        target.setType(TargetType.VNF);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
@@ -354,7 +348,8 @@ public class UsecasesEventManagerTest {
         assertSame(actors, params2.getActorService());
         assertSame(REQ_ID, params2.getRequestId());
         assertSame(ForkJoinPool.commonPool(), params2.getExecutor());
-        assertNotNull(params2.getTarget());
+        assertNotNull(params2.getTargetType());
+        assertNotNull(params2.getTargetEntityIds());
         assertEquals(Integer.valueOf(300), params2.getTimeoutSec());
         assertEquals(Integer.valueOf(0), params2.getRetry());
         assertThat(params2.getPayload()).isEmpty();
@@ -508,7 +503,8 @@ public class UsecasesEventManagerTest {
      */
     @Test
     public void testLoadPreprocessorStepsNeedTargetEntity() {
-        stepa = new Step2(mgr, ControlLoopOperationParams.builder().target(target).build(), event) {
+        stepa = new Step2(mgr, ControlLoopOperationParams.builder().targetType(event.getTargetType())
+                        .targetEntityIds(Map.of()).build(), event) {
             @Override
             public List<String> getPropertyNames() {
                 return List.of(OperationProperties.AAI_TARGET_ENTITY);

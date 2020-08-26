@@ -55,6 +55,7 @@ import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.guard.DecisionOperation;
 import org.onap.policy.controlloop.actor.guard.GuardActor;
@@ -66,10 +67,9 @@ import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopE
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.domain.models.operational.ActorOperation;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
@@ -114,9 +114,11 @@ public class ControlLoopOperationManager2Test {
 
     private CompletableFuture<OperationOutcome> lockFuture;
     private CompletableFuture<OperationOutcome> policyFuture;
-    private Target target;
+    private ActorOperation operation;
+    private OperationalTarget target;
+    private Map<String, String> entityIds;
     private Map<String, String> payload;
-    private Policy policy;
+    private org.onap.policy.drools.domain.models.operational.Operation policy;
     private VirtualControlLoopEvent event;
     private ControlLoopEventContext context;
     private PseudoExecutor executor;
@@ -145,19 +147,28 @@ public class ControlLoopOperationManager2Test {
         when(vnf.getVnfId()).thenReturn(MY_VNF_ID);
         when(cqdata.getDefaultGenericVnf()).thenReturn(vnf);
 
-        target = new Target();
-        target.setType(TargetType.VM);
+        entityIds = Map.of("entity-name-A", "entity-value-A");
+
+        target = OperationalTarget.builder()
+                        .targetType(ControlLoopTargetType.VM)
+                        .entityIds(entityIds)
+                        .build();
 
         payload = Map.of(PAYLOAD_KEY, PAYLOAD_VALUE);
 
-        policy = new Policy();
-        policy.setId(POLICY_ID);
-        policy.setActor(POLICY_ACTOR);
-        policy.setRecipe(POLICY_OPERATION);
-        policy.setTarget(target);
-        policy.setPayload(payload);
-        policy.setRetry(POLICY_RETRY);
-        policy.setTimeout(POLICY_TIMEOUT);
+        operation = ActorOperation.builder()
+                        .actor(POLICY_ACTOR)
+                        .operation(POLICY_OPERATION)
+                        .payload(payload)
+                        .target(target)
+                        .build();
+
+        policy = org.onap.policy.drools.domain.models.operational.Operation.builder()
+                        .id(POLICY_ID)
+                        .actorOperation(operation)
+                        .retries(POLICY_RETRY)
+                        .timeout(POLICY_TIMEOUT)
+                        .build();
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
@@ -211,7 +222,8 @@ public class ControlLoopOperationManager2Test {
      */
     @Test
     public void testStartDetmTargetException() {
-        policy.setTarget(new Target());
+        operation.setTarget(OperationalTarget.builder().build());
+        mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
         mgr.start(REMAINING_MS);
 
         runToCompletion();
@@ -309,14 +321,15 @@ public class ControlLoopOperationManager2Test {
         assertSame(REQ_ID, params.getRequestId());
         assertSame(POLICY_RETRY, params.getRetry());
         assertNotNull(params.getStartCallback());
-        assertSame(target, params.getTarget());
+        assertEquals(target.getTargetType(), params.getTargetType());
+        assertSame(entityIds, params.getTargetEntityIds());
         assertEquals(MY_TARGET, params.getTargetEntity());
         assertSame(POLICY_TIMEOUT, params.getTimeoutSec());
     }
 
     @Test
     public void testStartOperationNullPayload() {
-        policy.setPayload(null);
+        operation.setPayload(null);
         mgr.start(REMAINING_MS);
 
         lockFuture.complete(new OperationOutcome());
@@ -341,7 +354,8 @@ public class ControlLoopOperationManager2Test {
         assertSame(REQ_ID, params.getRequestId());
         assertSame(POLICY_RETRY, params.getRetry());
         assertNotNull(params.getStartCallback());
-        assertSame(target, params.getTarget());
+        assertEquals(target.getTargetType(), params.getTargetType());
+        assertSame(entityIds, params.getTargetEntityIds());
         assertEquals(MY_TARGET, params.getTargetEntity());
         assertSame(POLICY_TIMEOUT, params.getTimeoutSec());
     }
@@ -367,7 +381,7 @@ public class ControlLoopOperationManager2Test {
         /*
          * now work with SDNR actor
          */
-        policy.setActor("SDNR");
+        operation.setActor("SDNR");
         mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
 
         // should return null for a null input
@@ -744,29 +758,30 @@ public class ControlLoopOperationManager2Test {
 
     @Test
     public void testDetmTargetVm() {
-        target.setType(TargetType.VM);
+        target.setTargetType(ControlLoopTargetType.VM);
         assertNull(mgr.detmTarget());
         assertEquals(MY_TARGET, mgr.getTargetEntity());
 
-        target.setType(TargetType.VNF);
+        target.setTargetType(ControlLoopTargetType.VNF);
         assertNull(mgr.detmTarget());
         assertEquals(MY_TARGET, mgr.getTargetEntity());
 
-        target.setType(TargetType.VFMODULE);
+        target.setTargetType(ControlLoopTargetType.VF);
         assertNull(mgr.detmTarget());
         assertEquals(MY_TARGET, mgr.getTargetEntity());
 
         // unsupported type
-        target.setType(TargetType.VFC);
+        target.setTargetType(ControlLoopTargetType.VFC);
         assertThatIllegalArgumentException().isThrownBy(() -> mgr.detmTarget())
                         .withMessage("The target type is not supported");
 
         // null type
-        target.setType(null);
+        target.setTargetType(null);
         assertThatIllegalArgumentException().isThrownBy(() -> mgr.detmTarget()).withMessage("The target type is null");
 
         // null target
-        policy.setTarget(null);
+        operation.setTarget(null);
+        mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
         assertThatIllegalArgumentException().isThrownBy(() -> mgr.detmTarget()).withMessage("The target is null");
     }
 
@@ -986,7 +1001,7 @@ public class ControlLoopOperationManager2Test {
         event.getAai().clear();
         event.getAai().putAll(Map.of(ControlLoopOperationManager2.PNF_NAME, MY_TARGET));
 
-        target.setType(TargetType.PNF);
+        target.setTargetType(ControlLoopTargetType.PNF);
     }
 
     /**
@@ -997,7 +1012,7 @@ public class ControlLoopOperationManager2Test {
         event.getAai().clear();
         event.getAai().putAll(Map.of(ControlLoopOperationManager2.GENERIC_VNF_VNF_ID, MY_TARGET));
 
-        target.setType(TargetType.VNF);
+        target.setTargetType(ControlLoopTargetType.VNF);
     }
 
     private void checkResp(OperationOutcome outcome, String expectedPayload) {

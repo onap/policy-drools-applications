@@ -49,8 +49,6 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
@@ -73,7 +71,6 @@ public class ControlLoopEventManagerTest {
 
     private long preCreateTimeMs;
     private List<LockImpl> locks;
-    private Target target;
     private ToscaPolicy tosca;
     private ControlLoopParams params;
     private ControlLoopEventManager mgr;
@@ -84,9 +81,6 @@ public class ControlLoopEventManagerTest {
     @Before
     public void setUp() throws ControlLoopException, CoderException {
         MockitoAnnotations.initMocks(this);
-
-        target = new Target();
-        target.setType(TargetType.VNF);
 
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);

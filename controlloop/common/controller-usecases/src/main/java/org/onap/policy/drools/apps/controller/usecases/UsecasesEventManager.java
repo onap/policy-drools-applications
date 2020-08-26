@@ -66,7 +66,6 @@ import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.Policy;
 import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiGetPnfStep2;
@@ -75,6 +74,9 @@ import org.onap.policy.drools.apps.controller.usecases.step.GetTargetEntityStep2
 import org.onap.policy.drools.apps.controller.usecases.step.GuardStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.LockStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.Step2;
+import org.onap.policy.drools.domain.models.operational.ActorOperation;
+import org.onap.policy.drools.domain.models.operational.Operation;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.sdnr.PciMessage;
@@ -172,7 +174,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
     /**
      * Policy currently being processed.
      */
-    private Policy policy;
+    private Operation policy;
 
     /**
      * Result of the last policy operation. This is just a place where the rules can store
@@ -317,23 +319,30 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
 
         policy = getProcessor().getCurrentPolicy();
 
+        ActorOperation actor = policy.getActorOperation();
+
+        OperationalTarget target = actor.getTarget();
+        String targetType = (target != null ? target.getTargetType() : null);
+        Map<String, String> entityIds = (target != null ? target.getEntityIds() : null);
+
         // convert policy payload from Map<String,String> to Map<String,Object>
         Map<String, Object> payload = new LinkedHashMap<>();
-        if (policy.getPayload() != null) {
-            payload.putAll(policy.getPayload());
+        if (actor.getPayload() != null) {
+            payload.putAll(actor.getPayload());
         }
 
         // @formatter:off
         ControlLoopOperationParams params = ControlLoopOperationParams.builder()
                         .actorService(getActorService())
-                        .actor(policy.getActor())
-                        .operation(policy.getRecipe())
+                        .actor(actor.getActor())
+                        .operation(actor.getOperation())
                         .requestId(event.getRequestId())
                         .preprocessed(true)
                         .executor(getExecutor())
-                        .target(policy.getTarget())
-                        .retry(policy.getRetry())
+                        .retry(policy.getRetries())
                         .timeoutSec(policy.getTimeout())
+                        .targetType(targetType)
+                        .targetEntityIds(entityIds)
                         .payload(payload)
                         .startCallback(this::onStart)
                         .completeCallback(this::onComplete)
@@ -741,7 +750,11 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
             this.attempt = attempts;
 
             clOperation = outcome.toControlLoopOperation();
-            clOperation.setTarget(policy.getTarget().toString());
+
+            // TODO encode()?
+            OperationalTarget target = policy.getActorOperation().getTarget();
+            String targetStr = (target != null ? target.toString() : null);
+            clOperation.setTarget(targetStr);
 
             if (outcome.getEnd() == null) {
                 clOperation.setOutcome("Started");
