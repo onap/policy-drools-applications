@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80ce0e30_529c1c69",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T18:04:00Z",
+      "side": 1,
+      "message": "ok, so this needs more properties than just the target entity.  So when it returns the list of property names, it should also return:\nUsecasesConstants.AAI_DEFAULT_GENERIC_VNF - because it needs the generic VNF\nOperationProperties.AAI_DEFAULT_CLOUD_REGION - because it needs the cloud region\n\nthen override:\nloadDefaultGenericVnf() - to set all of the payload values that depend on the vnf\n  (i.e., lines 106-108)\nloadCloudRegion() - to set all of the payload values that depend on the cloud region\n  (line 110)\n\nand maybe override setProperties() to:\n- invoke super.setProperties()\n- get the vserver id from the enrichment data\n  (line 109)",
+      "revId": "cef164d075ee53519bb60d7a9ed9dad8bb36c0a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
