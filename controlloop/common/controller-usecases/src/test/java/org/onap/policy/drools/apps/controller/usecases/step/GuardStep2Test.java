@@ -27,6 +27,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -34,6 +35,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.onap.aai.domain.yang.CloudRegion;
+import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.guard.DecisionOperation;
 import org.onap.policy.controlloop.actor.guard.GuardActor;
@@ -49,6 +53,11 @@ public class GuardStep2Test {
     private static final String MASTER_ACTOR = "master-actor";
     private static final String MASTER_OPERATION = "master-operation";
     private static final String MY_TARGET = "my-target";
+    private static final String MY_NAME = "my-name";
+    private static final String MY_TYPE = "my-type";
+    private static final String MY_CODE = "my-code";
+    private static final String MY_SERVER = "my-server";
+    private static final String MY_REGION = "my-region";
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final int VF_COUNT = 10;
 
@@ -60,6 +69,14 @@ public class GuardStep2Test {
     private VirtualControlLoopEvent event;
     @Mock
     private Operation policyOper;
+    @Mock
+    private AaiCqResponse customQuery;
+    @Mock
+    private GenericVnf genericVnf;
+    @Mock
+    private CloudRegion cloudRegion;
+
+    private Map<String, String> aai = new HashMap<>();
 
     private ControlLoopOperationParams params;
     private Step2 master;
@@ -73,13 +90,25 @@ public class GuardStep2Test {
         MockitoAnnotations.initMocks(this);
 
         when(event.getRequestId()).thenReturn(REQ_ID);
+        when(event.getAai()).thenReturn(aai);
+        aai.put(GuardStep2.PAYLOAD_KEY_VSERVER_ID, MY_SERVER);
 
         when(context.getEvent()).thenReturn(event);
 
+        when(genericVnf.getVnfId()).thenReturn(MY_TARGET);
+        when(genericVnf.getVnfName()).thenReturn(MY_NAME);
+        when(genericVnf.getVnfType()).thenReturn(MY_TYPE);
+        when(genericVnf.getNfNamingCode()).thenReturn(MY_CODE);
+        when(customQuery.getDefaultGenericVnf()).thenReturn(genericVnf);
+
+        when(cloudRegion.getCloudRegionId()).thenReturn(MY_REGION);
+        when(customQuery.getDefaultCloudRegion()).thenReturn(cloudRegion);
+
         when(stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY)).thenReturn(MY_TARGET);
+        when(stepContext.getProperty(AaiCqResponse.CONTEXT_KEY)).thenReturn(customQuery);
+
         when(stepContext.contains(OperationProperties.DATA_VF_COUNT)).thenReturn(true);
         when(stepContext.getProperty(OperationProperties.DATA_VF_COUNT)).thenReturn(VF_COUNT);
-
 
         params = ControlLoopOperationParams.builder().actor(MASTER_ACTOR).operation(MASTER_OPERATION)
                         .targetEntity(MY_TARGET).context(context).build();
@@ -140,6 +169,14 @@ public class GuardStep2Test {
     public void testLoadTargetEntity() {
         step.loadTargetEntity(OperationProperties.AAI_TARGET_ENTITY);
         assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_TARGET_ENTITY, MY_TARGET);
+
+        // filter attributes should be there
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VNF_ID, MY_TARGET);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VNF_NAME, MY_NAME);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VNF_TYPE, MY_TYPE);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_NF_NAMING_CODE, MY_CODE);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VSERVER_ID, MY_SERVER);
+        assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_CLOUD_REGION_ID, MY_REGION);
     }
 
     /**
