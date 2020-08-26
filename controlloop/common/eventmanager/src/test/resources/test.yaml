@@ -1,4 +1,4 @@
-# Copyright 2018 AT&T Intellectual Property. All rights reserved
+# Copyright 2018, 2020 AT&T Intellectual Property. All rights reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,65 +11,44 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-controlLoop:
-  version: 1.0.0
-  controlLoopName: ControlLoop-vService-cbed919f-2212-4ef7-8051-fe6308da1bda
-  services: 
-    - serviceName: service1
-  resources: 
-    - resourceName: resource1
-      resourceType: VF
-    - resourceName: resource2
-      resourceType: VF
-    - resourceName: resource3
-      resourceType: VF
-    - resourceName: resource4
-      resourceType: VF
-    - resourceName: resource5
-      resourceType: VF
-  trigger_policy: unique-policy-id-1-restart
-  timeout: 60
-
-policies:
-  - id: unique-policy-id-1-restart
-    name: Restart Policy
-    description:
-    actor: APPC
-    recipe: Restart
-    target:
-      type: VNF
-    retry: 1
-    timeout: 20
-    success: final_success
-    failure: unique-policy-id-2-rebuild
-    failure_timeout: unique-policy-id-2-rebuild
-    failure_retries: unique-policy-id-2-rebuild
-    failure_exception: final_failure_exception
-  
-  - id: unique-policy-id-2-rebuild
-    name: Rebuild Policy
-    description:
-    actor: APPC
-    recipe: Rebuild
-    target: VM
-    retry: 0
-    timeout: 10
-    success: final_success
-    failure: unique-policy-id-3-migrate
-    failure_timeout: unique-policy-id-3-migrate
-    failure_retries: unique-policy-id-3-migrate
-    failure_exception: final_failure_exception
-  
-  - id: unique-policy-id-3-migrate
-    name: Migrate Policy
-    description:
-    actor: APPC
-    recipe: Migrate
-    target: VM
-    retry: 0
-    timeout: 30
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+    policies:
+    -   operational.scaleout:
+            type: onap.policies.controlloop.operational.common.Drools
+            type_version: 1.0.0
+            version: 1.0.0
+            name: operational.scaleout
+            metadata:
+                policy-id: operational.scaleout
+            properties:
+                id: ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
+                timeout: 1200
+                abatement: false
+                trigger: unique-policy-id-1-scale-up
+                operations:
+                -   id: unique-policy-id-1-scale-up
+                    description: Create a new VF Module
+                    operation:
+                        actor: SO
+                        operation: VF Module Create
+                        target:
+                            targetType: VFMODULE
+                            entityIds:
+                                modelInvariantId: e6130d03-56f1-4b0a-9a1d-e1b2ebc30e0e
+                                modelVersionId: 94b18b1d-cc91-4f43-911a-e6348665f292
+                                modelName: VfwclVfwsnkBbefb8ce2bde..base_vfw..module-0
+                                modelVersion: "1"
+                                modelCustomizationId: 47958575-138f-452a-8c8d-d89b595f8164
+                        payload:
+                            requestParameters: '{"usePreload":true,"userParams":[]}'
+                            configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[9]","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[16]","enabled":"$.vf-module-topology.vf-module-parameters.param[23]"}]'
+                    timeout: 1200
+                    retries: 0
+                    success: final_success
+                    failure: final_failure
+                    failure_timeout: final_failure_timeout
+                    failure_retries: final_failure_retries
+                    failure_exception: final_failure_exception
+                    failure_guard: final_failure_guard
+                controllerName: frankfurt

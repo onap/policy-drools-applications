@@ -23,11 +23,17 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import static org.onap.policy.controlloop.ControlLoopTargetType.PNF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VM;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VNF;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -46,11 +52,11 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.sdnr.SdnrActor;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineUtil;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.sdnr.PciMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +96,7 @@ public class ControlLoopOperationManager2 implements Serializable {
 
     private final transient ManagerContext operContext;
     private final transient ControlLoopEventContext eventContext;
-    private final Policy policy;
+    private final org.onap.policy.drools.domain.models.operational.Operation policy;
 
     @Getter
     @ToString.Include
@@ -156,25 +162,35 @@ public class ControlLoopOperationManager2 implements Serializable {
     @Getter
     private final String operation;
 
+    private final String targetStr;
+    private final OperationalTarget target;
+
 
     /**
      * Construct an instance.
      *
      * @param operContext this operation's context
      * @param context event context
-     * @param policy operation's policy
+     * @param operation2 operation's policy
      * @param executor executor for the Operation
      */
-    public ControlLoopOperationManager2(ManagerContext operContext, ControlLoopEventContext context, Policy policy,
-                    Executor executor) {
+    public ControlLoopOperationManager2(ManagerContext operContext, ControlLoopEventContext context,
+                    org.onap.policy.drools.domain.models.operational.Operation operation2, Executor executor) {
 
         this.operContext = operContext;
         this.eventContext = context;
-        this.policy = policy;
+        this.policy = operation2;
         this.requestId = context.getEvent().getRequestId().toString();
-        this.policyId = "" + policy.getId();
-        this.actor = policy.getActor();
-        this.operation = policy.getRecipe();
+        this.policyId = "" + operation2.getId();
+        this.actor = operation2.getActorOperation().getActor();
+        this.operation = operation2.getActorOperation().getOperation();
+        this.target = operation2.getActorOperation().getTarget();
+
+        String targetType = (target != null ? target.getTargetType() : null);
+        Map<String, String> entityIds = (target != null ? target.getEntityIds() : null);
+
+        // TODO encode()?
+        this.targetStr = (target != null ? target.toString() : null);
 
         // @formatter:off
         params = ControlLoopOperationParams.builder()
@@ -183,7 +199,8 @@ public class ControlLoopOperationManager2 implements Serializable {
                         .operation(operation)
                         .context(context)
                         .executor(executor)
-                        .target(policy.getTarget())
+                        .targetType(targetType)
+                        .targetEntityIds(entityIds)
                         .startCallback(this::onStart)
                         .completeCallback(this::onComplete)
                         .build();
@@ -201,7 +218,7 @@ public class ControlLoopOperationManager2 implements Serializable {
         private static final long serialVersionUID = 1L;
 
         private int attempt;
-        private PolicyResult policyResult;
+        private OperationResult policyResult;
         private ControlLoopOperation clOperation;
         private ControlLoopResponse clResponse;
 
@@ -214,7 +231,7 @@ public class ControlLoopOperationManager2 implements Serializable {
             attempt = ControlLoopOperationManager2.this.attempts;
             policyResult = outcome.getResult();
             clOperation = outcome.toControlLoopOperation();
-            clOperation.setTarget(policy.getTarget().toString());
+            clOperation.setTarget(targetStr);
             clResponse = makeControlLoopResponse(outcome);
 
             if (outcome.getEnd() == null) {
@@ -268,14 +285,14 @@ public class ControlLoopOperationManager2 implements Serializable {
         // @formatter:off
         ControlLoopOperationParams params2 = params.toBuilder()
                     .payload(new LinkedHashMap<>())
-                    .retry(policy.getRetry())
+                    .retry(policy.getRetries())
                     .timeoutSec(policy.getTimeout())
                     .targetEntity(targetEntity)
                     .build();
         // @formatter:on
 
-        if (policy.getPayload() != null) {
-            params2.getPayload().putAll(policy.getPayload());
+        if (policy.getActorOperation().getPayload() != null) {
+            params2.getPayload().putAll(policy.getActorOperation().getPayload());
         }
 
         return params2.start();
@@ -481,28 +498,28 @@ public class ControlLoopOperationManager2 implements Serializable {
 
             case CL_TIMEOUT_ACTOR:
                 state = State.CONTROL_LOOP_TIMEOUT;
-                processAbort(outcome, PolicyResult.FAILURE, "Control loop timed out");
+                processAbort(outcome, OperationResult.FAILURE, "Control loop timed out");
                 break;
 
             case LOCK_ACTOR:
                 // lock is no longer available
                 if (state == State.ACTIVE) {
                     state = State.LOCK_DENIED;
-                    storeFailureInDataBase(outcome, PolicyResult.FAILURE_GUARD, "Operation denied by Lock");
+                    storeFailureInDataBase(outcome, OperationResult.FAILURE_GUARD, "Operation denied by Lock");
                 } else {
                     state = State.LOCK_LOST;
-                    processAbort(outcome, PolicyResult.FAILURE, "Operation aborted by Lock");
+                    processAbort(outcome, OperationResult.FAILURE, "Operation aborted by Lock");
                 }
                 break;
 
             case GUARD_ACTOR:
                 if (outcome.getEnd() == null) {
                     state = State.GUARD_STARTED;
-                } else if (outcome.getResult() == PolicyResult.SUCCESS) {
+                } else if (outcome.getResult() == OperationResult.SUCCESS) {
                     state = State.GUARD_PERMITTED;
                 } else {
                     state = State.GUARD_DENIED;
-                    storeFailureInDataBase(outcome, PolicyResult.FAILURE_GUARD, "Operation denied by Guard");
+                    storeFailureInDataBase(outcome, OperationResult.FAILURE_GUARD, "Operation denied by Guard");
                 }
                 break;
 
@@ -517,7 +534,7 @@ public class ControlLoopOperationManager2 implements Serializable {
                      * Operation completed. If the last entry was a "start" (i.e., "end" field
                      * is null), then replace it. Otherwise, just add the completion.
                      */
-                    state = (outcome.getResult() == PolicyResult.SUCCESS ? State.OPERATION_SUCCESS
+                    state = (outcome.getResult() == OperationResult.SUCCESS ? State.OPERATION_SUCCESS
                                     : State.OPERATION_FAILURE);
                     controlLoopResponse = makeControlLoopResponse(outcome);
                     if (!operationHistory.isEmpty() && operationHistory.peekLast().getClOperation().getEnd() == null) {
@@ -542,7 +559,7 @@ public class ControlLoopOperationManager2 implements Serializable {
      * @param result result to put into the DB
      * @param message message to put into the DB
      */
-    private void processAbort(OperationOutcome outcome, PolicyResult result, String message) {
+    private void processAbort(OperationOutcome outcome, OperationResult result, String message) {
         if (operationHistory.isEmpty() || operationHistory.peekLast().getClOperation().getEnd() != null) {
             // last item was not a "start" operation
 
@@ -612,9 +629,9 @@ public class ControlLoopOperationManager2 implements Serializable {
      *
      * @return the operation result
      */
-    public PolicyResult getOperationResult() {
+    public OperationResult getOperationResult() {
         Operation last = operationHistory.peekLast();
-        return (last == null ? PolicyResult.FAILURE_EXCEPTION : last.getPolicyResult());
+        return (last == null ? OperationResult.FAILURE_EXCEPTION : last.getPolicyResult());
     }
 
     /**
@@ -652,7 +669,7 @@ public class ControlLoopOperationManager2 implements Serializable {
      * @param result result to put into the DB
      * @param message message to put into the DB
      */
-    private void storeFailureInDataBase(OperationOutcome outcome, PolicyResult result, String message) {
+    private void storeFailureInDataBase(OperationOutcome outcome, OperationResult result, String message) {
         // don't include this in history yet
         holdLast = true;
 
@@ -680,20 +697,20 @@ public class ControlLoopOperationManager2 implements Serializable {
      *         already been determined
      */
     protected CompletableFuture<OperationOutcome> detmTarget() {
-        if (policy.getTarget() == null) {
+        if (target == null) {
             throw new IllegalArgumentException("The target is null");
         }
 
-        if (policy.getTarget().getType() == null) {
+        if (target.getTargetType() == null) {
             throw new IllegalArgumentException("The target type is null");
         }
 
-        switch (policy.getTarget().getType()) {
+        switch (target.getTargetType()) {
             case PNF:
                 return detmPnfTarget();
             case VM:
             case VNF:
-            case VFMODULE:
+            case VF:
                 return detmVfModuleTarget();
             default:
                 throw new IllegalArgumentException("The target type is not supported");

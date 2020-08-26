@@ -20,6 +20,10 @@
 
 package org.onap.policy.drools.apps.controller.usecases;
 
+import static org.onap.policy.controlloop.ControlLoopTargetType.PNF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VF;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VM;
+import static org.onap.policy.controlloop.ControlLoopTargetType.VNF;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.AAI_DEFAULT_GENERIC_VNF;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.GENERIC_VNF_VNF_ID;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.GENERIC_VNF_VNF_NAME;
@@ -36,7 +40,6 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
-import org.onap.policy.controlloop.policy.Target;
 
 /**
  * An operation to get the target entity. This is a "pseudo" operation; it is not found
@@ -65,7 +68,7 @@ public class GetTargetEntityOperation2 extends OperationPartial {
 
     @Override
     public List<String> getPropertyNames() {
-        String propName = detmTarget(params.getTarget());
+        String propName = detmTarget(params.getTargetType());
         return (propName == null ? Collections.emptyList() : List.of(propName));
     }
 
@@ -77,31 +80,27 @@ public class GetTargetEntityOperation2 extends OperationPartial {
     /**
      * Determines the target entity.
      *
-     * @param target policy target
+     * @param targetType policy target type
      *
      * @return the property containing the target entity, or {@code null} if the target
      *         entity is already known
      */
-    private String detmTarget(Target target) {
+    private String detmTarget(String targetType) {
         if (stepContext.contains(OperationProperties.AAI_TARGET_ENTITY)) {
             // the target entity has already been determined
             return null;
         }
 
-        if (target == null) {
-            throw new IllegalArgumentException("The target is null");
-        }
-
-        if (target.getType() == null) {
+        if (targetType == null) {
             throw new IllegalArgumentException("The target type is null");
         }
 
-        switch (target.getType()) {
+        switch (targetType) {
             case PNF:
                 return detmPnfTarget();
             case VM:
             case VNF:
-            case VFMODULE:
+            case VF:
                 return detmVfModuleTarget();
             default:
                 throw new IllegalArgumentException("The target type is not supported");

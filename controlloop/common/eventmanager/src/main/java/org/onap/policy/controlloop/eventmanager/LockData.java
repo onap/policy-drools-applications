@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
-import org.onap.policy.controlloop.policy.PolicyResult;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.drools.core.lock.Lock;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.slf4j.Logger;
@@ -130,7 +130,7 @@ public class LockData implements LockCallback {
         theLock = lock;
 
         OperationOutcome outcome = makeOutcome();
-        outcome.setResult(PolicyResult.SUCCESS);
+        outcome.setResult(OperationResult.SUCCESS);
         outcome.setMessage(ControlLoopOperation.SUCCESS_MSG);
 
         future.get().complete(outcome);
@@ -141,7 +141,7 @@ public class LockData implements LockCallback {
         synchronized (this) {
             logger.warn("lock unavailable on {} for {}", targetEntity, requestId);
             failedOutcome = makeOutcome();
-            failedOutcome.setResult(PolicyResult.FAILURE);
+            failedOutcome.setResult(OperationResult.FAILURE);
             failedOutcome.setMessage(ControlLoopOperation.FAILED_MSG);
         }
 

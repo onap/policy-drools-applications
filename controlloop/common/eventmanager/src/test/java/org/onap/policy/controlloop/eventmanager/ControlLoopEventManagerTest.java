@@ -47,10 +47,8 @@ import org.onap.policy.common.utils.io.Serializer;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
@@ -73,7 +71,6 @@ public class ControlLoopEventManagerTest {
 
     private long preCreateTimeMs;
     private List<LockImpl> locks;
-    private Target target;
     private ToscaPolicy tosca;
     private ControlLoopParams params;
     private ControlLoopEventManager mgr;
@@ -84,9 +81,6 @@ public class ControlLoopEventManagerTest {
     @Before
     public void setUp() throws ControlLoopException, CoderException {
         MockitoAnnotations.initMocks(this);
-
-        target = new Target();
-        target.setType(TargetType.VNF);
 
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
@@ -189,11 +183,11 @@ public class ControlLoopEventManagerTest {
         // indicate that the first lock failed
         locks.get(0).notifyUnavailable();
 
-        verifyLock(PolicyResult.FAILURE);
+        verifyLock(OperationResult.FAILURE);
         assertTrue(mgr.getOutcomes().isEmpty());
     }
 
-    private void verifyLock(PolicyResult result) {
+    private void verifyLock(OperationResult result) {
         OperationOutcome outcome = mgr.getOutcomes().poll();
         assertNotNull(outcome);
         assertEquals(ActorConstants.LOCK_ACTOR, outcome.getActor());

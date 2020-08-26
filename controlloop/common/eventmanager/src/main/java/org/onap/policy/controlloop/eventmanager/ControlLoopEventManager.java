@@ -178,7 +178,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      */
     private long detmControlLoopTimeoutMs() {
         // validation checks preclude null or 0 timeout values in the policy
-        Integer timeout = processor.getControlLoop().getTimeout();
+        Integer timeout = processor.getPolicy().getProperties().getTimeout();
         return TimeUnit.MILLISECONDS.convert(timeout, TimeUnit.SECONDS);
     }
 
@@ -221,6 +221,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      * @param name name of the property of interest
      * @return {@code true} if the context contains the property, {@code false} otherwise
      */
+    @Override
     public boolean contains(String name) {
         return properties.containsKey(name);
     }
@@ -232,6 +233,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      * @param name name of the property whose value is to be retrieved
      * @return the property's value, or {@code null} if it does not yet have a value
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T getProperty(String name) {
         return (T) properties.get(name);
@@ -243,6 +245,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      * @param name property name
      * @param value new property value
      */
+    @Override
     public void setProperty(String name, Serializable value) {
         logger.error("set property {}={} manager={}", name, value, this);
         properties.put(name, value);
@@ -253,6 +256,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      *
      * @param name property name
      */
+    @Override
     public void removeProperty(String name) {
         properties.remove(name);
     }

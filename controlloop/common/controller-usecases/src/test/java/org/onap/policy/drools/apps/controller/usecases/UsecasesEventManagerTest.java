@@ -66,8 +66,10 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
@@ -75,10 +77,6 @@ import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
-import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.NewEventStatus;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiGetPnfStep2;
@@ -137,7 +135,6 @@ public class UsecasesEventManagerTest {
     private Step2 stepb;
 
     private List<LockImpl> locks;
-    private Target target;
     private ToscaPolicy tosca;
     private ControlLoopParams params;
     private VirtualControlLoopEvent event;
@@ -163,10 +160,7 @@ public class UsecasesEventManagerTest {
         event.setAai(new TreeMap<>(Map.of(UsecasesConstants.VSERVER_VSERVER_NAME, MY_TARGET)));
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setClosedLoopControlName(CL_NAME);
-        event.setTargetType(TargetType.VNF.toString());
-
-        target = new Target();
-        target.setType(TargetType.VNF);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
@@ -299,14 +293,14 @@ public class UsecasesEventManagerTest {
 
     @Test
     public void testAbort() {
-        mgr.abort(UsecasesEventManager.State.DONE, FinalResult.FINAL_FAILURE_GUARD, "some message");
+        mgr.abort(UsecasesEventManager.State.DONE, OperationFinalResult.FINAL_FAILURE_GUARD, "some message");
 
         assertEquals(UsecasesEventManager.State.DONE, mgr.getState());
-        assertEquals(FinalResult.FINAL_FAILURE_GUARD, mgr.getFinalResult());
+        assertEquals(OperationFinalResult.FINAL_FAILURE_GUARD, mgr.getFinalResult());
         assertEquals("some message", mgr.getFinalMessage());
 
         // try null state
-        assertThatThrownBy(() -> mgr.abort(null, FinalResult.FINAL_FAILURE_GUARD, ""))
+        assertThatThrownBy(() -> mgr.abort(null, OperationFinalResult.FINAL_FAILURE_GUARD, ""))
                         .isInstanceOf(NullPointerException.class).hasMessageContaining("finalState");
     }
 
@@ -325,7 +319,7 @@ public class UsecasesEventManagerTest {
         mgr.addToHistory(outcome);
 
         // indicate success and load next policy
-        mgr.loadNextPolicy(PolicyResult.SUCCESS);
+        mgr.loadNextPolicy(OperationResult.SUCCESS);
         assertEquals("OperationB", mgr.getSteps().poll().getOperationName());
         assertNull(mgr.getFinalResult());
 
@@ -334,8 +328,8 @@ public class UsecasesEventManagerTest {
         assertThat(mgr.getFullHistory()).hasSize(1);
 
         // indicate failure - should go to final failure
-        mgr.loadNextPolicy(PolicyResult.FAILURE);
-        assertEquals(FinalResult.FINAL_FAILURE, mgr.getFinalResult());
+        mgr.loadNextPolicy(OperationResult.FAILURE);
+        assertEquals(OperationFinalResult.FINAL_FAILURE, mgr.getFinalResult());
     }
 
     @Test
@@ -354,7 +348,8 @@ public class UsecasesEventManagerTest {
         assertSame(actors, params2.getActorService());
         assertSame(REQ_ID, params2.getRequestId());
         assertSame(ForkJoinPool.commonPool(), params2.getExecutor());
-        assertNotNull(params2.getTarget());
+        assertNotNull(params2.getTargetType());
+        assertNotNull(params2.getTargetEntityIds());
         assertEquals(Integer.valueOf(300), params2.getTimeoutSec());
         assertEquals(Integer.valueOf(0), params2.getRetry());
         assertThat(params2.getPayload()).isEmpty();
@@ -508,7 +503,8 @@ public class UsecasesEventManagerTest {
      */
     @Test
     public void testLoadPreprocessorStepsNeedTargetEntity() {
-        stepa = new Step2(mgr, ControlLoopOperationParams.builder().target(target).build(), event) {
+        stepa = new Step2(mgr, ControlLoopOperationParams.builder().targetType(event.getTargetType())
+                        .targetEntityIds(Map.of()).build(), event) {
             @Override
             public List<String> getPropertyNames() {
                 return List.of(OperationProperties.AAI_TARGET_ENTITY);
@@ -586,7 +582,7 @@ public class UsecasesEventManagerTest {
     @Test
     public void testIsAbort() {
         OperationOutcome outcome = makeCompletedOutcome();
-        outcome.setResult(PolicyResult.FAILURE);
+        outcome.setResult(OperationResult.FAILURE);
 
         // closed loop timeout
         outcome.setActor(ActorConstants.CL_TIMEOUT_ACTOR);
@@ -597,7 +593,7 @@ public class UsecasesEventManagerTest {
         assertTrue(mgr.isAbort(outcome));
 
         // no effect for success
-        outcome.setResult(PolicyResult.SUCCESS);
+        outcome.setResult(OperationResult.SUCCESS);
         assertFalse(mgr.isAbort(outcome));
     }
 
@@ -673,7 +669,7 @@ public class UsecasesEventManagerTest {
         assertThat(notif.getHistory()).hasSize(3);
 
         // indicate success and load the next policy - should clear the partial history
-        mgr.loadNextPolicy(PolicyResult.SUCCESS);
+        mgr.loadNextPolicy(OperationResult.SUCCESS);
 
         // check notification
         notif = mgr.makeNotification();
@@ -691,7 +687,7 @@ public class UsecasesEventManagerTest {
         assertThat(notif.getHistory()).hasSize(2);
 
         // indicate failure - should go to final state
-        mgr.loadNextPolicy(PolicyResult.FAILURE);
+        mgr.loadNextPolicy(OperationResult.FAILURE);
 
         // check notification
         notif = mgr.makeNotification();
@@ -1016,7 +1012,7 @@ public class UsecasesEventManagerTest {
         outcome.setActor(SIMPLE_ACTOR);
         outcome.setOperation(SIMPLE_OPERATION);
         outcome.setMessage(OUTCOME_MSG);
-        outcome.setResult(PolicyResult.SUCCESS);
+        outcome.setResult(OperationResult.SUCCESS);
         outcome.setStart(Instant.now());
         outcome.setTarget(MY_TARGET);
 

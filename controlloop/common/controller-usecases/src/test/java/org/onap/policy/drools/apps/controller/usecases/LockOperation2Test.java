@@ -36,13 +36,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 
 public class LockOperation2Test {
     private static final String MY_PNF = "my-pnf";
@@ -56,7 +55,6 @@ public class LockOperation2Test {
     private ControlLoopOperationParams params;
 
     private VirtualControlLoopEvent event;
-    private Target target;
     private CompletableFuture<OperationOutcome> future;
     private GenericVnf vnf;
     private LockOperation2 oper;
@@ -72,9 +70,6 @@ public class LockOperation2Test {
         event.setTarget("pnf.pnf-name");
         event.setAai(Map.of("pnf.pnf-name", MY_PNF));
 
-        target = new Target();
-        target.setType(TargetType.PNF);
-
         future = new CompletableFuture<>();
 
         vnf = new GenericVnf();
@@ -82,7 +77,7 @@ public class LockOperation2Test {
 
         when(stepContext.requestLock(anyString())).thenReturn(future);
 
-        when(params.getTarget()).thenReturn(target);
+        when(params.getTargetType()).thenReturn(ControlLoopTargetType.PNF);
         when(params.getActor()).thenReturn(MY_ACTOR);
         when(params.getOperation()).thenReturn(MY_OPERATION);
 
