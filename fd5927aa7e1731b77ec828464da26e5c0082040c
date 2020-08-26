@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d177318d_386d752c",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/GetTargetEntityOperation2Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T18:40:06Z",
+      "side": 1,
+      "message": "These imports shouldn\u0027t be used - perhaps the dependencies are there and need to be cleaned out.\n\nThe TOSCA Policy Type does not have these fields.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "fd5927aa7e1731b77ec828464da26e5c0082040c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
