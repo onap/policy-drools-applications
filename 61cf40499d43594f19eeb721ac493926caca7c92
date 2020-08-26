@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "317fab44_e2335d51",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T18:45:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e09e06e5_e49ef6e2",
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8fe00ff_c69c7980",
         "filename": "controlloop/common/feature-controlloop-usecases/src/main/feature/config/usecases-controller.properties",
         "patchSetId": 4
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "25f9efcc_9f9fd649",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/test/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecasesFeatureTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T18:45:49Z",
+      "side": 1,
+      "message": "this file is unchanged from when it was deleted - should the license be updated anyway?",
+      "parentUuid": "8226a169_e5236e44",
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0aa06f6_11b8da37",
         "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
         "patchSetId": 4
@@ -117,6 +153,24 @@
       "writtenOn": "2020-08-26T18:31:43Z",
       "side": 1,
       "message": "Add a deploy-artifact line before this one (or delete this line) .. the script does not support multiple \"-a\" ..\nit may be good to compare for reference with the version of the dockerfile that we had frankfurt where we had the two controllers coexisting to make sure.",
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6200ebef_4eb8310d",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T18:45:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a0aa06f6_11b8da37",
       "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
