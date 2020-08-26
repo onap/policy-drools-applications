@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "789887bb_e1ccdc82",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T17:21:19Z",
+      "side": 1,
+      "message": "hmm.  this should copy the list to a new list before returning it, because the real list may change after this returns.\n\nsame comment below",
+      "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dcb041e_bb88847c",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T17:21:19Z",
+      "side": 1,
+      "message": "\"reset\" \u003d\u003e \"Resets\"",
+      "range": {
+        "startLine": 293,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 14
+      },
+      "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776958a1_7c4d67a4",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T17:21:19Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

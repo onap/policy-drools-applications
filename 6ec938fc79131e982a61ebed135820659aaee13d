@@ -275,6 +275,24 @@
     },
     {
       "key": {
+        "uuid": "01668f3e_13da48b0",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T17:21:19Z",
+      "side": 1,
+      "message": "still need to delete these comment lines, and on the next method, too",
+      "parentUuid": "625e6ddf_7fa61361",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6acf6390_5950ba8f",
         "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
         "patchSetId": 17
@@ -338,6 +356,24 @@
     },
     {
       "key": {
+        "uuid": "d21b05c6_73257e82",
+        "filename": "controlloop/common/controller-tdjam/src/test/resources/META-INF/services/org.onap.policy.drools.features.DroolsControllerFeatureApi",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T17:21:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31013ffb_3f86e175",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "479a8d6c_8f65eaea",
         "filename": "controlloop/common/controller-tdjam/src/test/resources/META-INF/services/org.onap.policy.drools.features.PolicyControllerFeatureApi",
         "patchSetId": 17
@@ -352,6 +388,24 @@
       "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc9e2786_5ddb2927",
+        "filename": "controlloop/common/controller-tdjam/src/test/resources/META-INF/services/org.onap.policy.drools.features.PolicyControllerFeatureApi",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T17:21:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "479a8d6c_8f65eaea",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
