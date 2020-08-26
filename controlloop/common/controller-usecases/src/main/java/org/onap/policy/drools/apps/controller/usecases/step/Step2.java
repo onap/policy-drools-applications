@@ -36,6 +36,7 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
+import org.onap.aai.domain.yang.Vserver;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -316,6 +317,11 @@ public class Step2 extends Step {
         AaiCqResponse aaicq = getCustomQueryData();
         ServiceInstance service = aaicq.getServiceInstance();
         return aaicq.getModelVerByVersionId(service.getModelVersionId());
+    }
+
+    protected Vserver getVServer() {
+        AaiCqResponse aaicq = getCustomQueryData();
+        return aaicq.getVserver();
     }
 
     /**
