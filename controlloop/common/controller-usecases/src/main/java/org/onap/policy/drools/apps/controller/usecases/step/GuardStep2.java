@@ -29,6 +29,7 @@ import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.so.VfModuleCreate;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.policy.TargetType;
 
 /**
  * Wrapper for a Guard operation. Note: this makes a clone of the operation parameters,
@@ -41,6 +42,12 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 public class GuardStep2 extends Step2 {
     public static final String PAYLOAD_KEY_TARGET_ENTITY = "target";
     public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
+    public static final String PAYLOAD_KEY_VNF_NAME = "generic-vnf.vnf-name";
+    public static final String PAYLOAD_KEY_VNF_ID = "generic-vnf.vnf-id";
+    public static final String PAYLOAD_KEY_VNF_TYPE = "generic-vnf.vnf-type";
+    public static final String PAYLOAD_KEY_NF_NAMING_CODE = "generic-vnf.nf-naming-code";
+    public static final String PAYLOAD_KEY_VSERVER_ID = "vserver.vserver-id";
+    public static final String PAYLOAD_KEY_CLOUD_REGION_ID = "cloud-region.cloud-region-id";
 
     private final Operation policyOper;
 
@@ -94,6 +101,19 @@ public class GuardStep2 extends Step2 {
     @Override
     protected void loadTargetEntity(String propName) {
         params.getPayload().put(PAYLOAD_KEY_TARGET_ENTITY, getTargetEntity());
+
+        // PNF does not support guard filters
+        if (TargetType.PNF.equals(params.getTarget().getType())) {
+            return;
+        }
+
+        // add in properties needed for filters
+        params.getPayload().put(PAYLOAD_KEY_VNF_ID, getTargetEntity());
+        params.getPayload().put(PAYLOAD_KEY_VNF_NAME, getDefaultGenericVnf().getVnfName());
+        params.getPayload().put(PAYLOAD_KEY_VNF_TYPE, getDefaultGenericVnf().getVnfType());
+        params.getPayload().put(PAYLOAD_KEY_NF_NAMING_CODE, getDefaultGenericVnf().getNfNamingCode());
+        params.getPayload().put(PAYLOAD_KEY_VSERVER_ID, getEnrichment(OperationProperties.ENRICHMENT_VSERVER_ID));
+        params.getPayload().put(PAYLOAD_KEY_CLOUD_REGION_ID, getCloudRegion().getCloudRegionId());
     }
 
     /**
