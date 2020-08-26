@@ -16,6 +16,24 @@
       "revId": "61ef9c732774474f1279a74f5a78c37efa6cd086",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a68e1c29_1d155fc0",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T22:04:44Z",
+      "side": 1,
+      "message": "Ack.  That means that the frankfurt controller is incorrect, too.",
+      "parentUuid": "aace1d6f_9368f663",
+      "revId": "61ef9c732774474f1279a74f5a78c37efa6cd086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
