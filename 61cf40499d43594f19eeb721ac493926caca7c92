@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3bc027a7_560588c3",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/main/feature/config/usecases-controller.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-26T18:26:55Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure of the right answer.  All I did for these files was to roll back to a previous commit before they were deleted and then copy them forward.  So they are unchanged from before, other than removing tabs and trailing spaces.",
+      "parentUuid": "d8fe00ff_c69c7980",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26793d31_d6da1a00",
         "filename": "controlloop/common/feature-controlloop-usecases/src/main/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecasesFeature.java",
         "patchSetId": 4
