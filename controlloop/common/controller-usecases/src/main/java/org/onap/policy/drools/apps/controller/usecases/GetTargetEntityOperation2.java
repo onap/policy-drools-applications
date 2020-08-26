@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +25,7 @@ import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.GENERIC_VNF_VNF_ID;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.GENERIC_VNF_VNF_NAME;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.PNF_NAME;
+import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.SERVICE_INSTANCE_NAME;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.VSERVER_VSERVER_NAME;
 
 import java.util.Collections;
@@ -99,6 +101,8 @@ public class GetTargetEntityOperation2 extends OperationPartial {
         switch (target.getType()) {
             case PNF:
                 return detmPnfTarget();
+            case SERVICEINSTANCE:
+                return detmServiceInstanceTarget();
             case VM:
             case VNF:
             case VFMODULE:
@@ -106,6 +110,27 @@ public class GetTargetEntityOperation2 extends OperationPartial {
             default:
                 throw new IllegalArgumentException("The target type is not supported");
         }
+    }
+
+    /**
+     * Determines the Service Instance target entity.
+     *
+     * @return the property containing the target entity, or {@code null} if the target
+     *         entity is already known
+     */
+    private String detmServiceInstanceTarget() {
+        if (!SERVICE_INSTANCE_NAME.equalsIgnoreCase(event.getTarget())) {
+            throw new IllegalArgumentException("Target does not match target type");
+        }
+
+        String targetEntity = event.getAai().get(SERVICE_INSTANCE_NAME);
+        if (targetEntity == null) {
+            throw new IllegalArgumentException("AAI section is missing " + SERVICE_INSTANCE_NAME);
+        }
+
+        setTargetEntity(targetEntity);
+
+        return null;
     }
 
     /**

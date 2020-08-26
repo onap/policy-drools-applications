@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020 Wipro Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -329,6 +330,15 @@ public class GetTargetEntityOperation2Test {
     public void testGetActorName_testGetName() {
         assertEquals(MY_ACTOR, oper.getActorName());
         assertEquals(MY_OPERATION, oper.getName());
+    }
+
+    @Test
+    public void testDetmServiceInstanceTarget() {
+        target.setType(TargetType.SERVICEINSTANCE);
+        event.setTarget("service-instance.service-instance-name");
+        event.setAai(Map.of("service-instance.service-instance-name", "nssi"));
+        assertThat(oper.getPropertyNames()).isEmpty();
+        verifyTarget("nssi");
     }
 
     private void verifyTarget(String targetEntity) {
