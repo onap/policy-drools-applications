@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e09e06e5_e49ef6e2",
+        "filename": "controlloop/common/controller-usecases/src/main/resources/META-INF/kmodule.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-26T18:31:43Z",
+      "side": 1,
+      "message": "Delete this line \"onap.policies.controlloop.Operational\" as it relates to deprecated legacy policy types",
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8fe00ff_c69c7980",
         "filename": "controlloop/common/feature-controlloop-usecases/src/main/feature/config/usecases-controller.properties",
         "patchSetId": 4
@@ -66,6 +83,40 @@
         "endLine": 5,
         "endChar": 22
       },
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8226a169_e5236e44",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/test/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecasesFeatureTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-26T18:31:43Z",
+      "side": 1,
+      "message": "license",
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0aa06f6_11b8da37",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-26T18:31:43Z",
+      "side": 1,
+      "message": "Add a deploy-artifact line before this one (or delete this line) .. the script does not support multiple \"-a\" ..\nit may be good to compare for reference with the version of the dockerfile that we had frankfurt where we had the two controllers coexisting to make sure.",
       "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
