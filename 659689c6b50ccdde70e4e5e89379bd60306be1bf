@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d369e04f_9b2e12d4",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-26T18:23:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "789887bb_e1ccdc82",
+      "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dcb041e_bb88847c",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
         "patchSetId": 19
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9ed55bcb_9e15c4ed",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-26T18:23:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dcb041e_bb88847c",
+      "range": {
+        "startLine": 293,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 14
+      },
+      "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "776958a1_7c4d67a4",
         "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
         "patchSetId": 19
@@ -56,6 +98,24 @@
       "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b5cf7f_8123cb7d",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-26T18:23:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "776958a1_7c4d67a4",
+      "revId": "659689c6b50ccdde70e4e5e89379bd60306be1bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
