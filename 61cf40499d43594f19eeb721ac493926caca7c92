@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8fe00ff_c69c7980",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/main/feature/config/usecases-controller.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T18:16:21Z",
+      "side": 1,
+      "message": "new file may not need this",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26793d31_d6da1a00",
+        "filename": "controlloop/common/feature-controlloop-usecases/src/main/java/org/onap/policy/drools/apps/controlloop/feature/usecases/UsecasesFeature.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-26T18:16:21Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "61cf40499d43594f19eeb721ac493926caca7c92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
