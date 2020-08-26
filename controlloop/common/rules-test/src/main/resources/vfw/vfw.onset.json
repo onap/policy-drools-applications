@@ -10,7 +10,7 @@
     "vserver.is-closed-loop-disabled": "false",
     "vserver.prov-status": "ACTIVE",
     "generic-vnf.vnf-name": "fw0002vm002fw002",
-    "vserver.vserver-name": "OzVServer"
+    "vserver.vserver-name": "Ete_vFWCLvFWSNK_7ba1fbde_0"
   },
   "from": "DCAE",
   "version": "1.0.2"
