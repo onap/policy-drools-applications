@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3875e156_7398ac15",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T21:45:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "430105d5_b428e5e3",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62517914_58abf1dc",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
         "patchSetId": 20
@@ -50,6 +68,24 @@
       "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dd2e86a_36e7fcd4",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T21:45:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "62517914_58abf1dc",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "d41e855a_1e269278",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T21:45:19Z",
+      "side": 1,
+      "message": "POLICY-2805 created",
+      "parentUuid": "614396f4_1697b533",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ac4b702_eb17a095",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 20
@@ -101,6 +155,24 @@
       "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1de74a6e_c69b9d6c",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T21:45:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ac4b702_eb17a095",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -135,6 +207,24 @@
       "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "314dcc9b_e75b7993",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2Drools.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T21:45:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2e24ba65_06a8ff76",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
