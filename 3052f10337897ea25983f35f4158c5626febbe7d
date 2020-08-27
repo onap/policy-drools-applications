@@ -22,6 +22,81 @@
       "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5832b718_d4c13b09",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/UsecasesEventManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T20:24:02Z",
+      "side": 1,
+      "message": "Target.toString() formatted the target for use in a notification.  OperationalTarget.toString() just uses lombok, so not sure if it\u0027s format is acceptable in a notification or not.  Although I guess we could remove this comment and fix the toString() method (in drools-pdp) if it\u0027s an issue.",
+      "parentUuid": "860f9368_e1a0b497",
+      "range": {
+        "startLine": 755,
+        "startChar": 12,
+        "endLine": 755,
+        "endChar": 29
+      },
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7abed1e8_034c3a09",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T20:24:02Z",
+      "side": 1,
+      "message": "hmm.  I guess next go round, we should update OperationalTarget to use the enum",
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a96cfe2_4a00bb49",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T20:24:02Z",
+      "side": 1,
+      "message": "is toString() really needed here?  As is, won\u0027t it compare two enums of the same type?",
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "325939e7_c196a235",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/StepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T20:24:02Z",
+      "side": 1,
+      "message": "same comment as before",
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
