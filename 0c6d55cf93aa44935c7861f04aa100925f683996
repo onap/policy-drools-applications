@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2143f72e_5c085e58",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T14:26:55Z",
+      "side": 1,
+      "message": "I think this is ok",
+      "range": {
+        "startLine": 463,
+        "startChar": 8,
+        "endLine": 463,
+        "endChar": 77
+      },
+      "revId": "0c6d55cf93aa44935c7861f04aa100925f683996",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93141853_6a0ab4b8",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T14:26:55Z",
+      "side": 1,
+      "message": "Maybe instead of String it should be an enum? Since there are constraints defined in the Policy Type",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "0c6d55cf93aa44935c7861f04aa100925f683996",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
