@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "860f9368_e1a0b497",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/UsecasesEventManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T18:48:15Z",
+      "side": 1,
+      "message": "?? I don\u0027t think there needs to be any encoding anymore with the removal of legacy",
+      "range": {
+        "startLine": 755,
+        "startChar": 12,
+        "endLine": 755,
+        "endChar": 29
+      },
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

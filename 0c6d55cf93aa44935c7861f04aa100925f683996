@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "8f8339c8_2d0f58ae",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T18:48:15Z",
+      "side": 1,
+      "message": "I didn\u0027t address this - but that\u0027s because the tests started working again instead of timing out.",
+      "parentUuid": "80f96b76_cedc279f",
+      "range": {
+        "startLine": 463,
+        "startChar": 8,
+        "endLine": 463,
+        "endChar": 16
+      },
+      "revId": "0c6d55cf93aa44935c7861f04aa100925f683996",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93141853_6a0ab4b8",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
         "patchSetId": 2
