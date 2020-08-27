@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "359542b7_5f753280",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2020-08-27T17:52:22Z",
+      "side": 1,
+      "message": "In regards to all references to \u0027VirtualControlLoopEvent\u0027, will this eventually be updated to support more general control loop event types? Would be nice if there was a way to configure the expected class type or have all control loop event types inherit from a \u0027bare bones\u0027 super type that could be referenced here.",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be2bcd06_838b5f71",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 17
