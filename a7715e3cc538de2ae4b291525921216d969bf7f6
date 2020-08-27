@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6c641e8_7de80b69",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/SerialWorkQueue.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "Not sure about this .. seems to me that this public method when invoked by 2 or more threads could get to the processQueue method an invoke \"run()\" on the same runnable on line 111.   Note that the element is not removed from the queue until line 118, hence I read correctly, the potential for processing the same tasks multiple times.",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "430105d5_b428e5e3",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "should all of these fields have an access modified, sonar may give issues",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62517914_58abf1dc",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "These should be marked as final",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c42e11_2a1c91ac",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "Not sure how topic data is used but topics are typically global entities that are started by the framework ..   Controllers registers for messages and topics are shared.   Not sure how this works and manages automatically, but I tend to think that it shouldn\u0027t and share the infrastructure.",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614396f4_1697b533",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "would be good to add to telemetry api similar functionality",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac4b702_eb17a095",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "IllegalStateException probably better",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b61371d0_45a305f6",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "The following methods seem duplicated functionality with MavenDroolsController - consider if they can be consolidated in the drools-pdp somewhere",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e24ba65_06a8ff76",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2Drools.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T20:24:12Z",
+      "side": 1,
+      "message": "2020",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
