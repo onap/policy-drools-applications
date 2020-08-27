@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "97bb9d94_b40df6df",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T22:39:05Z",
+      "side": 1,
+      "message": "What it really boils down to is, we can make the actors event-agnostic, but not the rules/application.  That\u0027s true of the new rules, even though they use event-agnostic actors, and it\u0027s also true of the TDJAM controller.  The new rules DO separate a lot of the utility code (i.e., java code) from the control (i.e., rules), but both the rules and most of the utility code are still specific to the ONAP usecases - hence they\u0027re placed inside controller-usecases.\n\nEven at the simplest level, the rules can\u0027t be event-agnostic, because they have to extract the request ID and enrichment data from the event, something that may not even be appropriate for other event types.\n\nIn other words, TDJAM is an interesting POC, but may not see a lot of use outside of straight-forward TOSCAs using plain VirtualControlLoopEvent.  Perhaps it can evolve into a more generic tool, but that would take a great deal of thought (and probably a lot of meta-programming in the TOSCA).",
+      "parentUuid": "6b7616c8_4f3025d8",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be2bcd06_838b5f71",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 17

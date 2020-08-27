@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "603e8aa4_f77a0943",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/SerialWorkQueue.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T22:39:05Z",
+      "side": 1,
+      "message": "I don\u0027t think so.\n\nscenario A) two threads invoke start(): only the first invokes processQueue(), because the second returns via line 68\n\nscenario B) one thread invokes start(), another invokes queueAndRun() after synchronized block begins: first thread gets null on line 72 and does not invoke processQueue().  Second thread does not hit line 92 thus invokes processQueue()\n\nscenario C) one thread invokes start(), another invokes queueAndRun() and enters synchronized block first: second thread returns on line 92 when it finds it isn\u0027t running.  First thread gets the item added by the second thread and executes it on line 76\n\nscenario D) after start() completes, two threads invoke queueAndRun(): the first thread to synchronize will add an item and then process it.  Second thread will add its item and return via line 92 when it finds that the queue contains more than one item",
+      "parentUuid": "b6c641e8_7de80b69",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "430105d5_b428e5e3",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
         "patchSetId": 20
@@ -100,6 +118,24 @@
       "writtenOn": "2020-08-27T20:24:12Z",
       "side": 1,
       "message": "Not sure how topic data is used but topics are typically global entities that are started by the framework ..   Controllers registers for messages and topics are shared.   Not sure how this works and manages automatically, but I tend to think that it shouldn\u0027t and share the infrastructure.",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5815b489_81178806",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T22:39:05Z",
+      "side": 1,
+      "message": "I think this is OK, as the TopicData is just a TopicListener",
+      "parentUuid": "96c42e11_2a1c91ac",
       "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
