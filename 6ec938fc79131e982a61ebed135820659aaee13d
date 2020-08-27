@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e34922f5_83f5fa96",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T21:57:23Z",
+      "side": 1,
+      "message": "As far as I know from source code, \u0027VirtualControlLoopEvent\u0027 is inherited from ControlLoopEvent, and mainly using for ONSET in vCPE use case. I am not sure that a super type that could be referenced here would get any benefit for any other events. If you could explain more...",
+      "parentUuid": "359542b7_5f753280",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be2bcd06_838b5f71",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 17
