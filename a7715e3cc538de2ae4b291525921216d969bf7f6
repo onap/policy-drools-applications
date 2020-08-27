@@ -193,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "f693fa31_ac1f063f",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-27T22:38:06Z",
+      "side": 1,
+      "message": "POLICY-2806 to track on this. I put it on H-Rel",
+      "parentUuid": "b61371d0_45a305f6",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e24ba65_06a8ff76",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2Drools.java",
         "patchSetId": 20
