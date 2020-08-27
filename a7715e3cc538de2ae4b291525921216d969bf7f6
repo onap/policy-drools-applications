@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "24aff03e_5716bc62",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/SerialWorkQueue.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-08-27T22:53:28Z",
+      "side": 1,
+      "message": "Right, thanks for taking the time to write it down.  I retract my comment, I obviated the \"running\" if on line 66 when I was modeling the overlapping scenarios on my head.",
+      "parentUuid": "603e8aa4_f77a0943",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "430105d5_b428e5e3",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
         "patchSetId": 20
