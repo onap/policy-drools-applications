@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1823891_7514bc28",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/EventManagerServicesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T15:06:59Z",
+      "side": 1,
+      "message": "thx - I keep meaning to fix this, but never get around to it",
+      "revId": "a3a271b57de476f8653d911ff4b8ea37dd2e6c83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

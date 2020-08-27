@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "80f96b76_cedc279f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopEventManager2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-27T15:06:59Z",
+      "side": 1,
+      "message": "not sure why I made this an Integer since line 464 assumes it\u0027s a plain \"int\"",
+      "range": {
+        "startLine": 463,
+        "startChar": 8,
+        "endLine": 463,
+        "endChar": 16
+      },
+      "revId": "0c6d55cf93aa44935c7861f04aa100925f683996",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93141853_6a0ab4b8",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
         "patchSetId": 2
