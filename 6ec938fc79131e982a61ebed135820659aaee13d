@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6b7616c8_4f3025d8",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2020-08-27T22:07:09Z",
+      "side": 1,
+      "message": "In terms of event types, the standard \u0027VirtualControlLoopEvent\u0027 class used in the ONAP use cases may not be suitable for the onsets used inside of a particular company. There can be vastly different event types that don\u0027t match the \u0027VirtualControlLoopEvent\u0027 schema. This was one of the motivations behind the recent work Jim has been doing with the rules restructuring, to be able to support different event types with different event managers. So it would be nice if the TDJAM controller could work for other use cases that are not ONAP specific. At least for my use cases, this feature would not be usable and I would think that is the case for other companies with custom event types as well.",
+      "parentUuid": "e34922f5_83f5fa96",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be2bcd06_838b5f71",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 17
