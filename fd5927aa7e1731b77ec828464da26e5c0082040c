@@ -22,6 +22,29 @@
       "revId": "fd5927aa7e1731b77ec828464da26e5c0082040c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b544e0c_5ef173b3",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/GetTargetEntityOperation2Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-27T19:22:07Z",
+      "side": 1,
+      "message": "We can\u0027t add new target types\u0027s, the operation policy type has set constraints that do not include this. Changing the version and supporting multiple versions is too risky this late. I don\u0027t think you need this anyway - VM or VNF would suffice. Also, you are using enriched data that is guaranteed (correct me if I\u0027m wrong) to be in the event. Not requiring any A\u0026AI custom query traversal.",
+      "range": {
+        "startLine": 337,
+        "startChar": 23,
+        "endLine": 337,
+        "endChar": 49
+      },
+      "revId": "fd5927aa7e1731b77ec828464da26e5c0082040c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
