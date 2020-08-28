@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "11e92260_d90fb10e",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T12:16:41Z",
+      "side": 1,
+      "message": "that\u0027s what I was thinking - unless we want to go into the Drools Domain code and change that right now. I was thinking maybe just keep this a simple upgrade to start to get the code back in order.",
+      "parentUuid": "7abed1e8_034c3a09",
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a96cfe2_4a00bb49",
         "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2Test.java",
         "patchSetId": 3
@@ -83,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "917e923f_22476d90",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T12:16:41Z",
+      "side": 1,
+      "message": "They aren\u0027t the same type unfortunately you are using Drools domain code to represent the policy which doesn\u0027t know about the new TargetType class. We could address that later in the drools-pdp code, or just get it back working.",
+      "parentUuid": "4a96cfe2_4a00bb49",
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "325939e7_c196a235",
         "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/StepTest.java",
         "patchSetId": 3
@@ -94,6 +130,24 @@
       "writtenOn": "2020-08-27T20:24:02Z",
       "side": 1,
       "message": "same comment as before",
+      "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2716646f_c52b90a3",
+        "filename": "controlloop/common/eventmanager/src/test/java/org/onap/policy/controlloop/eventmanager/StepTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T12:16:41Z",
+      "side": 1,
+      "message": "same reason",
+      "parentUuid": "325939e7_c196a235",
       "revId": "3052f10337897ea25983f35f4158c5626febbe7d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
