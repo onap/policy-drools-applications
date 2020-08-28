@@ -47,30 +47,27 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 
 public class StepTest {
     private static final UUID REQ_ID = UUID.randomUUID();
-    private static final String POLICY_ID = "my-policy";
     private static final String POLICY_ACTOR = "my-actor";
     private static final String POLICY_OPERATION = "my-operation";
     private static final String MY_TARGET = "my-target";
     private static final String PAYLOAD_KEY = "payload-key";
     private static final String PAYLOAD_VALUE = "payload-value";
     private static final long REMAINING_MS = 5000;
-    private static final Integer POLICY_RETRY = 3;
-    private static final Integer POLICY_TIMEOUT = 20;
     private static final String EXPECTED_EXCEPTION = "expected exception";
 
     @Mock
@@ -83,9 +80,9 @@ public class StepTest {
     private ActorService actors;
 
     private CompletableFuture<OperationOutcome> future;
-    private Target target;
+    private OperationalTarget target;
+    private Map<String, String> entityIds;
     private Map<String, String> payload;
-    private Policy policy;
     private VirtualControlLoopEvent event;
     private ControlLoopEventContext context;
     private BlockingQueue<OperationOutcome> starts;
@@ -109,19 +106,14 @@ public class StepTest {
         when(policyOperator.buildOperation(any())).thenReturn(policyOperation);
         when(policyOperation.start()).thenReturn(future);
 
-        target = new Target();
-        target.setType(TargetType.VM);
+        entityIds = Map.of("entity-name-A", "entity-value-A");
+
+        target = OperationalTarget.builder()
+                        .targetType(ControlLoopTargetType.VM)
+                        .entityIds(entityIds)
+                        .build();
 
         payload = Map.of(PAYLOAD_KEY, PAYLOAD_VALUE);
-
-        policy = new Policy();
-        policy.setId(POLICY_ID);
-        policy.setActor(POLICY_ACTOR);
-        policy.setRecipe(POLICY_OPERATION);
-        policy.setTarget(target);
-        policy.setPayload(payload);
-        policy.setRetry(POLICY_RETRY);
-        policy.setTimeout(POLICY_TIMEOUT);
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
@@ -136,7 +128,8 @@ public class StepTest {
         params = ControlLoopOperationParams.builder().actor(POLICY_ACTOR).actorService(actors)
                         .completeCallback(completions::add).context(context).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
-                        .target(target).targetEntity(MY_TARGET).build();
+                        .targetType(TargetType.valueOf(target.getTargetType())).targetEntityIds(target.getEntityIds())
+                        .targetEntity(MY_TARGET).build();
 
         startTime = new AtomicReference<>();
 
@@ -171,7 +164,8 @@ public class StepTest {
         assertEquals("operB", params2.getOperation());
         assertNull(params2.getRetry());
         assertNull(params2.getTimeoutSec());
-        assertSame(target, params2.getTarget());
+        assertEquals(target.getTargetType().toString(), params2.getTargetType().toString());
+        assertSame(entityIds, params2.getTargetEntityIds());
         assertEquals(MY_TARGET, params2.getTargetEntity());
         assertTrue(params2.getPayload().isEmpty());
 
@@ -257,7 +251,7 @@ public class StepTest {
         OperationOutcome outcome = completions.poll();
         assertNotNull(outcome);
 
-        assertNotEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(POLICY_ACTOR, outcome.getActor());
         assertTrue(outcome.isFinalOutcome());
     }
@@ -276,7 +270,7 @@ public class StepTest {
         OperationOutcome outcome = completions.poll();
         assertNotNull(outcome);
 
-        assertNotEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(POLICY_ACTOR, outcome.getActor());
         assertTrue(outcome.isFinalOutcome());
     }
@@ -318,7 +312,7 @@ public class StepTest {
         OperationOutcome outcome = completions.poll();
         assertNotNull(outcome);
 
-        assertNotEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(POLICY_ACTOR, outcome.getActor());
         assertTrue(outcome.isFinalOutcome());
         assertEquals(POLICY_OPERATION, outcome.getOperation());
@@ -348,7 +342,7 @@ public class StepTest {
         // verify that the future was cancelled
         assertTrue(future.isCancelled());
 
-        assertNotEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(ActorConstants.CL_TIMEOUT_ACTOR, outcome.getActor());
         assertTrue(outcome.isFinalOutcome());
         assertNull(outcome.getOperation());

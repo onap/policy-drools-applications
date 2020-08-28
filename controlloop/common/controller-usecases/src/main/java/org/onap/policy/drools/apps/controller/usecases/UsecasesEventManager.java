@@ -58,16 +58,16 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
+import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.StepContext;
-import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiGetPnfStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiGetTenantStep2;
@@ -75,6 +75,9 @@ import org.onap.policy.drools.apps.controller.usecases.step.GetTargetEntityStep2
 import org.onap.policy.drools.apps.controller.usecases.step.GuardStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.LockStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.Step2;
+import org.onap.policy.drools.domain.models.operational.ActorOperation;
+import org.onap.policy.drools.domain.models.operational.Operation;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.sdnr.PciMessage;
@@ -172,7 +175,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
     /**
      * Policy currently being processed.
      */
-    private Policy policy;
+    private Operation policy;
 
     /**
      * Result of the last policy operation. This is just a place where the rules can store
@@ -180,7 +183,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
      */
     @Getter
     @Setter
-    private PolicyResult result = PolicyResult.SUCCESS;
+    private OperationResult result = OperationResult.SUCCESS;
 
     @ToString.Include
     private int numOnsets = 1;
@@ -205,7 +208,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
     private final transient Deque<OperationOutcome2> partialHistory = new LinkedList<>();
 
     @Getter
-    private FinalResult finalResult = null;
+    private OperationFinalResult finalResult = null;
 
     /**
      * Message to be placed into the final notification. Typically used when something
@@ -284,7 +287,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
      * @param finalResult final result
      * @param finalMessage final message
      */
-    public void abort(@NonNull State finalState, FinalResult finalResult, String finalMessage) {
+    public void abort(@NonNull State finalState, OperationFinalResult finalResult, String finalMessage) {
         this.state = finalState;
         this.finalResult = finalResult;
         this.finalMessage = finalMessage;
@@ -297,7 +300,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
      *
      * @throws ControlLoopException if the processor cannot get a policy
      */
-    public void loadNextPolicy(@NonNull PolicyResult lastResult) throws ControlLoopException {
+    public void loadNextPolicy(@NonNull OperationResult lastResult) throws ControlLoopException {
         getProcessor().nextPolicyForResult(lastResult);
         loadPolicy();
     }
@@ -317,23 +320,30 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
 
         policy = getProcessor().getCurrentPolicy();
 
+        ActorOperation actor = policy.getActorOperation();
+
+        OperationalTarget target = actor.getTarget();
+        String targetType = (target != null ? target.getTargetType() : null);
+        Map<String, String> entityIds = (target != null ? target.getEntityIds() : null);
+
         // convert policy payload from Map<String,String> to Map<String,Object>
         Map<String, Object> payload = new LinkedHashMap<>();
-        if (policy.getPayload() != null) {
-            payload.putAll(policy.getPayload());
+        if (actor.getPayload() != null) {
+            payload.putAll(actor.getPayload());
         }
 
         // @formatter:off
         ControlLoopOperationParams params = ControlLoopOperationParams.builder()
                         .actorService(getActorService())
-                        .actor(policy.getActor())
-                        .operation(policy.getRecipe())
+                        .actor(actor.getActor())
+                        .operation(actor.getOperation())
                         .requestId(event.getRequestId())
                         .preprocessed(true)
                         .executor(getExecutor())
-                        .target(policy.getTarget())
-                        .retry(policy.getRetry())
+                        .retry(policy.getRetries())
                         .timeoutSec(policy.getTimeout())
+                        .targetType(TargetType.toTargetType(targetType))
+                        .targetEntityIds(entityIds)
                         .payload(payload)
                         .startCallback(this::onStart)
                         .completeCallback(this::onComplete)
@@ -450,7 +460,7 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
      * @return {@code true} if the TOSCA should be aborted, {@code false} otherwise
      */
     public boolean isAbort(OperationOutcome outcome) {
-        return (outcome.getResult() != PolicyResult.SUCCESS && ABORT_ACTORS.contains(outcome.getActor()));
+        return (outcome.getResult() != OperationResult.SUCCESS && ABORT_ACTORS.contains(outcome.getActor()));
     }
 
     /**
@@ -741,7 +751,11 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
             this.attempt = attempts;
 
             clOperation = outcome.toControlLoopOperation();
-            clOperation.setTarget(policy.getTarget().toString());
+
+            // TODO encode()?
+            OperationalTarget target = policy.getActorOperation().getTarget();
+            String targetStr = (target != null ? target.toString() : null);
+            clOperation.setTarget(targetStr);
 
             if (outcome.getEnd() == null) {
                 clOperation.setOutcome("Started");

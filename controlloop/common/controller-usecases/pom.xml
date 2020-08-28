@@ -171,12 +171,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions</groupId>
-            <artifactId>model-yaml</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.drools-pdp</groupId>
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>

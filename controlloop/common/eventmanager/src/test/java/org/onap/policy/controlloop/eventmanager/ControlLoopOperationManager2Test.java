@@ -61,15 +61,15 @@ import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
+import org.onap.policy.drools.domain.models.operational.ActorOperation;
+import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
@@ -114,9 +114,11 @@ public class ControlLoopOperationManager2Test {
 
     private CompletableFuture<OperationOutcome> lockFuture;
     private CompletableFuture<OperationOutcome> policyFuture;
-    private Target target;
+    private ActorOperation operation;
+    private OperationalTarget target;
+    private Map<String, String> entityIds;
     private Map<String, String> payload;
-    private Policy policy;
+    private org.onap.policy.drools.domain.models.operational.Operation policy;
     private VirtualControlLoopEvent event;
     private ControlLoopEventContext context;
     private PseudoExecutor executor;
@@ -145,19 +147,28 @@ public class ControlLoopOperationManager2Test {
         when(vnf.getVnfId()).thenReturn(MY_VNF_ID);
         when(cqdata.getDefaultGenericVnf()).thenReturn(vnf);
 
-        target = new Target();
-        target.setType(TargetType.VM);
+        entityIds = Map.of("entity-name-A", "entity-value-A");
+
+        target = OperationalTarget.builder()
+                        .targetType(TargetType.VM.toString())
+                        .entityIds(entityIds)
+                        .build();
 
         payload = Map.of(PAYLOAD_KEY, PAYLOAD_VALUE);
 
-        policy = new Policy();
-        policy.setId(POLICY_ID);
-        policy.setActor(POLICY_ACTOR);
-        policy.setRecipe(POLICY_OPERATION);
-        policy.setTarget(target);
-        policy.setPayload(payload);
-        policy.setRetry(POLICY_RETRY);
-        policy.setTimeout(POLICY_TIMEOUT);
+        operation = ActorOperation.builder()
+                        .actor(POLICY_ACTOR)
+                        .operation(POLICY_OPERATION)
+                        .payload(payload)
+                        .target(target)
+                        .build();
+
+        policy = org.onap.policy.drools.domain.models.operational.Operation.builder()
+                        .id(POLICY_ID)
+                        .actorOperation(operation)
+                        .retries(POLICY_RETRY)
+                        .timeout(POLICY_TIMEOUT)
+                        .build();
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
@@ -200,7 +211,7 @@ public class ControlLoopOperationManager2Test {
         assertFalse(mgr.nextStep());
 
         OperationOutcome outcome = mgr.getOutcomes().peek();
-        assertEquals(PolicyResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertTrue(outcome.isFinalOutcome());
 
         verify(mgrctx, times(4)).updated(mgr);
@@ -211,7 +222,8 @@ public class ControlLoopOperationManager2Test {
      */
     @Test
     public void testStartDetmTargetException() {
-        policy.setTarget(new Target());
+        operation.setTarget(OperationalTarget.builder().build());
+        mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
         mgr.start(REMAINING_MS);
 
         runToCompletion();
@@ -309,14 +321,15 @@ public class ControlLoopOperationManager2Test {
         assertSame(REQ_ID, params.getRequestId());
         assertSame(POLICY_RETRY, params.getRetry());
         assertNotNull(params.getStartCallback());
-        assertSame(target, params.getTarget());
+        assertEquals(target.getTargetType().toString(), params.getTargetType().toString());
+        assertSame(entityIds, params.getTargetEntityIds());
         assertEquals(MY_TARGET, params.getTargetEntity());
         assertSame(POLICY_TIMEOUT, params.getTimeoutSec());
     }
 
     @Test
     public void testStartOperationNullPayload() {
-        policy.setPayload(null);
+        operation.setPayload(null);
         mgr.start(REMAINING_MS);
 
         lockFuture.complete(new OperationOutcome());
@@ -341,7 +354,8 @@ public class ControlLoopOperationManager2Test {
         assertSame(REQ_ID, params.getRequestId());
         assertSame(POLICY_RETRY, params.getRetry());
         assertNotNull(params.getStartCallback());
-        assertSame(target, params.getTarget());
+        assertEquals(target.getTargetType().toString(), params.getTargetType().toString());
+        assertSame(entityIds, params.getTargetEntityIds());
         assertEquals(MY_TARGET, params.getTargetEntity());
         assertSame(POLICY_TIMEOUT, params.getTimeoutSec());
     }
@@ -367,7 +381,7 @@ public class ControlLoopOperationManager2Test {
         /*
          * now work with SDNR actor
          */
-        policy.setActor("SDNR");
+        operation.setActor("SDNR");
         mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
 
         // should return null for a null input
@@ -407,7 +421,7 @@ public class ControlLoopOperationManager2Test {
         assertNotNull(mgr.getOperationResult());
 
         runCyle();
-        assertEquals(PolicyResult.SUCCESS, mgr.getOperationResult());
+        assertEquals(OperationResult.SUCCESS, mgr.getOperationResult());
     }
 
     /**
@@ -420,7 +434,7 @@ public class ControlLoopOperationManager2Test {
         genLockFailure();
         runToCompletion();
 
-        assertEquals(PolicyResult.FAILURE_GUARD, mgr.getOperationResult());
+        assertEquals(OperationResult.FAILURE_GUARD, mgr.getOperationResult());
     }
 
     /**
@@ -490,7 +504,7 @@ public class ControlLoopOperationManager2Test {
         // generate failure outcome for ANOTHER actor - should be ignored
         OperationOutcome outcome = mgr.getParams().makeOutcome();
         outcome.setActor(OTHER_ACTOR);
-        outcome.setResult(PolicyResult.FAILURE);
+        outcome.setResult(OperationResult.FAILURE);
         outcome.setStart(Instant.now());
         mgr.getParams().callbackStarted(new OperationOutcome(outcome));
 
@@ -514,7 +528,7 @@ public class ControlLoopOperationManager2Test {
 
         assertFalse(mgr.nextStep());
 
-        assertEquals(PolicyResult.SUCCESS, mgr.getOutcomes().peek().getResult());
+        assertEquals(OperationResult.SUCCESS, mgr.getOutcomes().peek().getResult());
 
         verify(mgrctx, times(4)).updated(mgr);
     }
@@ -556,7 +570,7 @@ public class ControlLoopOperationManager2Test {
         assertFalse(mgr.nextStep());
         verify(mgrctx).updated(mgr);
 
-        verifyDb(1, PolicyResult.FAILURE_GUARD, "Operation denied by Lock");
+        verifyDb(1, OperationResult.FAILURE_GUARD, "Operation denied by Lock");
     }
 
     /**
@@ -588,7 +602,7 @@ public class ControlLoopOperationManager2Test {
         assertFalse(mgr.nextStep());
         verify(mgrctx, times(3)).updated(mgr);
 
-        verifyDb(1, PolicyResult.FAILURE, "Operation aborted by Lock");
+        verifyDb(1, OperationResult.FAILURE, "Operation aborted by Lock");
     }
 
     /**
@@ -634,7 +648,7 @@ public class ControlLoopOperationManager2Test {
         assertFalse(mgr.nextStep());
         verify(mgrctx, times(2)).updated(mgr);
 
-        verifyDb(1, PolicyResult.FAILURE_GUARD, "Operation denied by Guard");
+        verifyDb(1, OperationResult.FAILURE_GUARD, "Operation denied by Guard");
     }
 
     /**
@@ -664,7 +678,7 @@ public class ControlLoopOperationManager2Test {
         assertFalse(mgr.nextStep());
         verify(mgrctx, times(4)).updated(mgr);
 
-        verifyDb(2, PolicyResult.SUCCESS, null);
+        verifyDb(2, OperationResult.SUCCESS, null);
     }
 
     /**
@@ -690,7 +704,7 @@ public class ControlLoopOperationManager2Test {
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_FAILURE, mgr.getState());
-        verifyDb(2, PolicyResult.FAILURE, null);
+        verifyDb(2, OperationResult.FAILURE, null);
 
         assertThat(mgr.toString()).contains("attempts=1");
 
@@ -703,7 +717,7 @@ public class ControlLoopOperationManager2Test {
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_FAILURE, mgr.getState());
-        verifyDb(4, PolicyResult.FAILURE, null);
+        verifyDb(4, OperationResult.FAILURE, null);
 
         assertThat(mgr.toString()).contains("attempts=2");
 
@@ -715,7 +729,7 @@ public class ControlLoopOperationManager2Test {
 
         assertTrue(mgr.nextStep());
         assertEquals(ControlLoopOperationManager2.State.OPERATION_SUCCESS, mgr.getState());
-        verifyDb(6, PolicyResult.SUCCESS, null);
+        verifyDb(6, OperationResult.SUCCESS, null);
 
         assertThat(mgr.toString()).contains("attempts=3");
 
@@ -744,29 +758,30 @@ public class ControlLoopOperationManager2Test {
 
     @Test
     public void testDetmTargetVm() {
-        target.setType(TargetType.VM);
+        target.setTargetType(TargetType.VM.toString());
         assertNull(mgr.detmTarget());
         assertEquals(MY_TARGET, mgr.getTargetEntity());
 
-        target.setType(TargetType.VNF);
+        target.setTargetType(TargetType.VNF.toString());
         assertNull(mgr.detmTarget());
         assertEquals(MY_TARGET, mgr.getTargetEntity());
 
-        target.setType(TargetType.VFMODULE);
+        target.setTargetType(TargetType.VFMODULE.toString());
         assertNull(mgr.detmTarget());
         assertEquals(MY_TARGET, mgr.getTargetEntity());
 
         // unsupported type
-        target.setType(TargetType.VFC);
+        target.setTargetType(TargetType.VFC.toString());
         assertThatIllegalArgumentException().isThrownBy(() -> mgr.detmTarget())
                         .withMessage("The target type is not supported");
 
         // null type
-        target.setType(null);
+        target.setTargetType(null);
         assertThatIllegalArgumentException().isThrownBy(() -> mgr.detmTarget()).withMessage("The target type is null");
 
         // null target
-        policy.setTarget(null);
+        operation.setTarget(null);
+        mgr = new ControlLoopOperationManager2(mgrctx, context, policy, executor);
         assertThatIllegalArgumentException().isThrownBy(() -> mgr.detmTarget()).withMessage("The target is null");
     }
 
@@ -899,7 +914,7 @@ public class ControlLoopOperationManager2Test {
         OperationOutcome outcome = new OperationOutcome();
         outcome.setActor(ControlLoopOperationManager2.LOCK_ACTOR);
         outcome.setOperation(ControlLoopOperationManager2.LOCK_OPERATION);
-        outcome.setResult(PolicyResult.FAILURE);
+        outcome.setResult(OperationResult.FAILURE);
         outcome.setStart(Instant.now());
         outcome.setEnd(Instant.now());
         outcome.setFinalOutcome(true);
@@ -936,7 +951,7 @@ public class ControlLoopOperationManager2Test {
         mgr.getParams().callbackStarted(new OperationOutcome(outcome));
 
         if (!permit) {
-            outcome.setResult(PolicyResult.FAILURE);
+            outcome.setResult(OperationResult.FAILURE);
         }
 
         outcome.setEnd(Instant.now());
@@ -969,7 +984,7 @@ public class ControlLoopOperationManager2Test {
         if (success) {
             outcome.setFinalOutcome(true);
         } else {
-            outcome.setResult(PolicyResult.FAILURE);
+            outcome.setResult(OperationResult.FAILURE);
         }
 
         outcome.setEnd(Instant.now());
@@ -986,7 +1001,7 @@ public class ControlLoopOperationManager2Test {
         event.getAai().clear();
         event.getAai().putAll(Map.of(ControlLoopOperationManager2.PNF_NAME, MY_TARGET));
 
-        target.setType(TargetType.PNF);
+        target.setTargetType(TargetType.PNF.toString());
     }
 
     /**
@@ -997,7 +1012,7 @@ public class ControlLoopOperationManager2Test {
         event.getAai().clear();
         event.getAai().putAll(Map.of(ControlLoopOperationManager2.GENERIC_VNF_VNF_ID, MY_TARGET));
 
-        target.setType(TargetType.VNF);
+        target.setTargetType(TargetType.VNF.toString());
     }
 
     private void checkResp(OperationOutcome outcome, String expectedPayload) {
@@ -1007,7 +1022,7 @@ public class ControlLoopOperationManager2Test {
         assertEquals(expectedPayload, resp.getPayload());
     }
 
-    private void verifyDb(int nrecords, PolicyResult expectedResult, String expectedMsg) {
+    private void verifyDb(int nrecords, OperationResult expectedResult, String expectedMsg) {
         ArgumentCaptor<String> entityCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<ControlLoopOperation> opCaptor = ArgumentCaptor.forClass(ControlLoopOperation.class);
         verify(dataMgr, times(nrecords)).store(any(), any(), entityCaptor.capture(), opCaptor.capture());

@@ -47,7 +47,6 @@ import java.util.function.Consumer;
 import org.drools.core.WorkingMemory;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.kie.api.runtime.rule.FactHandle;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -66,18 +65,16 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2.NewEventStatus;
 import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2.State;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.PolicyResult;
-import org.onap.policy.controlloop.policy.Target;
-import org.onap.policy.controlloop.policy.TargetType;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
+import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
@@ -117,7 +114,6 @@ public class ControlLoopEventManager2Test {
 
     private long preCreateTimeMs;
     private List<LockImpl> locks;
-    private Target target;
     private ToscaPolicy tosca;
     private ControlLoopParams params;
     private VirtualControlLoopEvent event;
@@ -158,10 +154,7 @@ public class ControlLoopEventManager2Test {
         event.setAai(new TreeMap<>(Map.of(ControlLoopOperationManager2.VSERVER_VSERVER_NAME, MY_TARGET)));
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         event.setClosedLoopControlName(CL_NAME);
-        event.setTargetType(TargetType.VNF.toString());
-
-        target = new Target();
-        target.setType(TargetType.VNF);
+        event.setTargetType(ControlLoopTargetType.VNF);
 
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
@@ -217,11 +210,11 @@ public class ControlLoopEventManager2Test {
 
         for (ControlLoopOperationManager2 oper : Arrays.asList(oper1, oper2, oper3)) {
             assertTrue(mgr.isActive());
-            nextStep(oper, true, PolicyResult.SUCCESS);
+            nextStep(oper, true, OperationResult.SUCCESS);
             runRule();
 
             assertTrue(mgr.isActive());
-            nextStep(oper, false, PolicyResult.SUCCESS);
+            nextStep(oper, false, OperationResult.SUCCESS);
             runRule();
         }
 
@@ -257,7 +250,7 @@ public class ControlLoopEventManager2Test {
 
     @Test
     public void testNextStep_testStartOperationSuccess() throws ControlLoopException {
-        runOperation(PolicyResult.SUCCESS);
+        runOperation(OperationResult.SUCCESS);
 
         VirtualControlLoopNotification notif = mgr.getNotification();
         assertEquals(ControlLoopNotificationType.FINAL_SUCCESS, notif.getNotification());
@@ -291,7 +284,7 @@ public class ControlLoopEventManager2Test {
      */
     @Test
     public void testStartOperationException() throws ControlLoopException {
-        runOperation(PolicyResult.FAILURE_EXCEPTION);
+        runOperation(OperationResult.FAILURE_EXCEPTION);
 
         VirtualControlLoopNotification notif = mgr.getNotification();
         assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notif.getNotification());
@@ -303,7 +296,7 @@ public class ControlLoopEventManager2Test {
      */
     @Test
     public void testStartOperationFailure() throws ControlLoopException {
-        runOperation(PolicyResult.FAILURE);
+        runOperation(OperationResult.FAILURE);
 
         VirtualControlLoopNotification notif = mgr.getNotification();
         assertEquals(ControlLoopNotificationType.FINAL_FAILURE, notif.getNotification());
@@ -315,7 +308,7 @@ public class ControlLoopEventManager2Test {
      */
     @Test
     public void testStartOperationOpenLoop() throws ControlLoopException {
-        runOperation(PolicyResult.FAILURE_GUARD);
+        runOperation(OperationResult.FAILURE_GUARD);
 
         VirtualControlLoopNotification notif = mgr.getNotification();
         assertEquals(ControlLoopNotificationType.FINAL_OPENLOOP, notif.getNotification());
@@ -441,7 +434,7 @@ public class ControlLoopEventManager2Test {
 
         mgr.start();
 
-        nextStep(oper1, true, PolicyResult.SUCCESS);
+        nextStep(oper1, true, OperationResult.SUCCESS);
         runRule();
 
         // check notification while running
@@ -451,7 +444,7 @@ public class ControlLoopEventManager2Test {
         List<ControlLoopOperation> history = notif.getHistory();
         assertNotNull(history);
 
-        nextStep(oper1, false, PolicyResult.SUCCESS);
+        nextStep(oper1, false, OperationResult.SUCCESS);
         runRule();
 
         assertFalse(mgr.isActive());
@@ -635,7 +628,7 @@ public class ControlLoopEventManager2Test {
 
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
         assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
- 
+
         event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
@@ -701,11 +694,11 @@ public class ControlLoopEventManager2Test {
     }
 
 
-    private void nextStep(ControlLoopOperationManager2 oper, boolean moreSteps, PolicyResult result) {
+    private void nextStep(ControlLoopOperationManager2 oper, boolean moreSteps, OperationResult result) {
         when(oper.nextStep()).thenReturn(moreSteps);
         when(oper.getOperationResult()).thenReturn(result);
 
-        if (result == PolicyResult.SUCCESS) {
+        if (result == OperationResult.SUCCESS) {
             when(oper.getState()).thenReturn(State.OPERATION_SUCCESS);
         } else {
             when(oper.getState()).thenReturn(State.OPERATION_FAILURE);
@@ -723,13 +716,13 @@ public class ControlLoopEventManager2Test {
         mgr.nextStep();
     }
 
-    private void runOperation(PolicyResult finalResult) throws ControlLoopException {
+    private void runOperation(OperationResult finalResult) throws ControlLoopException {
         mgr.start();
         verify(oper1).start(anyLong());
 
         assertTrue(mgr.isActive());
 
-        nextStep(oper1, true, PolicyResult.SUCCESS);
+        nextStep(oper1, true, OperationResult.SUCCESS);
         runRule();
 
         nextStep(oper1, false, finalResult);
@@ -814,8 +807,8 @@ public class ControlLoopEventManager2Test {
         }
 
         @Override
-        protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Policy policy) {
-            switch (policy.getActor()) {
+        protected ControlLoopOperationManager2 makeOperationManager(ControlLoopEventContext ctx, Operation policy) {
+            switch (policy.getActorOperation().getActor()) {
                 case "First":
                     return oper1;
                 case "Second":
@@ -823,7 +816,7 @@ public class ControlLoopEventManager2Test {
                 case "Third":
                     return oper3;
                 default:
-                    throw new IllegalArgumentException("unknown policy actor " + policy.getActor());
+                    throw new IllegalArgumentException("unknown policy actor " + policy.getActorOperation().getActor());
             }
         }
     }

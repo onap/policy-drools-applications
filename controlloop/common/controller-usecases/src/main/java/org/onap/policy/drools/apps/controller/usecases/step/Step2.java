@@ -59,7 +59,11 @@ import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
  * steps.
  */
 public class Step2 extends Step {
-    public static final String TARGET_INFO_MSG = "Target information";
+    public static final String TARGET_MODEL_VERSION_ID = "modelVersionId";
+    public static final String TARGET_MODEL_CUSTOMIZATION_ID = "modelCustomizationId";
+    public static final String TARGET_MODEL_INVARIANT_ID = "modelInvariantId";
+    public static final String TARGET_RESOURCE_ID = "resourceID";
+    public static final String TARGET_INFO_MSG = "Target Entity IDs";
     public static final String ENRICHMENT_PREFIX = "enrichment/";
     public static final String VSERVER_VSERVER_NAME = "vserver.vserver-name";
     public static final String RESOURCE_LINK = "resource-link";
@@ -293,9 +297,9 @@ public class Step2 extends Step {
     }
 
     protected GenericVnf getResourceVnf() {
-        verifyNotNull(TARGET_INFO_MSG, params.getTarget());
+        verifyNotNull(TARGET_INFO_MSG, params.getTargetEntityIds());
 
-        String resourceId = params.getTarget().getResourceID();
+        String resourceId = params.getTargetEntityIds().get(TARGET_RESOURCE_ID);
 
         verifyNotNull("Target resource ID", resourceId);
 
@@ -323,11 +327,11 @@ public class Step2 extends Step {
     }
 
     protected GenericVnf getVnf() {
-        verifyNotNull(TARGET_INFO_MSG, params.getTarget());
+        verifyNotNull(TARGET_INFO_MSG, params.getTargetEntityIds());
 
-        String modelInvariantId = params.getTarget().getModelInvariantId();
+        String modelInvariantId = params.getTargetEntityIds().get(TARGET_MODEL_INVARIANT_ID);
 
-        verifyNotNull("modelInvariantId", modelInvariantId);
+        verifyNotNull(TARGET_MODEL_INVARIANT_ID, modelInvariantId);
 
         AaiCqResponse aaicq = getCustomQueryData();
         return aaicq.getGenericVnfByVfModuleModelInvariantId(modelInvariantId);
@@ -359,11 +363,11 @@ public class Step2 extends Step {
             return stepContext.getProperty(OperationProperties.DATA_VF_COUNT);
         }
 
-        verifyNotNull(TARGET_INFO_MSG, params.getTarget());
+        verifyNotNull(TARGET_INFO_MSG, params.getTargetEntityIds());
 
-        String modelCustomizationId = params.getTarget().getModelCustomizationId();
-        String modelInvariantId = params.getTarget().getModelInvariantId();
-        String modelVersionId = params.getTarget().getModelVersionId();
+        String modelCustomizationId = params.getTargetEntityIds().get(TARGET_MODEL_CUSTOMIZATION_ID);
+        String modelInvariantId = params.getTargetEntityIds().get(TARGET_MODEL_INVARIANT_ID);
+        String modelVersionId = params.getTargetEntityIds().get(TARGET_MODEL_VERSION_ID);
 
         verifyNotNull("target modelCustomizationId", modelCustomizationId);
         verifyNotNull("target modelInvariantId", modelInvariantId);
