@@ -59,6 +59,29 @@
     },
     {
       "key": {
+        "uuid": "e229a249_c8150914",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/extension/system/NonDroolsPolicyControllerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T20:35:52Z",
+      "side": 1,
+      "message": "assertThatIllegalStateException",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 42
+      },
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd87ac98_c3382ed3",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/UsecasesEventManagerTest.java",
         "patchSetId": 21
