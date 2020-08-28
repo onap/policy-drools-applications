@@ -59,12 +59,12 @@
             <excludes/>
         </fileSet>
         <fileSet>
-            <directory>../controller-frankfurt/src/test/resources/config</directory>
+            <directory>../controller-usecases/src/test/resources/config</directory>
             <outputDirectory>config</outputDirectory>
             <fileMode>0644</fileMode>
             <excludes/>
             <includes>
-                <include>frankfurt-http-client.properties</include>
+                <include>usecases-http-client.properties</include>
             </includes>
         </fileSet>
         <fileSet>

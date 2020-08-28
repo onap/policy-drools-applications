@@ -247,7 +247,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      */
     @Override
     public void setProperty(String name, Serializable value) {
-        logger.error("set property {}={} manager={}", name, value, this);
+        logger.info("set property {}={} manager={}", name, value, this);
         properties.put(name, value);
     }
 

@@ -126,7 +126,7 @@ public class LockData implements LockCallback {
 
     @Override
     public synchronized void lockAvailable(Lock lock) {
-        logger.warn("lock granted on {} for {}", targetEntity, requestId);
+        logger.info("lock granted on {} for {}", targetEntity, requestId);
         theLock = lock;
 
         OperationOutcome outcome = makeOutcome();
