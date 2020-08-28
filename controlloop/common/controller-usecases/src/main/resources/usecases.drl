@@ -32,13 +32,12 @@ import org.onap.policy.controlloop.actor.aai.AaiGetTenantOperation;
 import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.guard.DecisionOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.Step;
-import org.onap.policy.controlloop.policy.Policy;
-import org.onap.policy.controlloop.policy.FinalResult;
-import org.onap.policy.controlloop.policy.PolicyResult;
 import org.onap.policy.controlloop.utils.ControlLoopUtils;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.State;
@@ -277,7 +276,7 @@ rule "EVENT.MANAGER.LOAD.NEXT.POLICY"
         logger.warn("{}: {}.{}: manager={} exception loading next policy",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to load next policy");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to load next policy");
     }
 
     update($manager);
@@ -317,7 +316,7 @@ rule "EVENT.MANAGER.PREPROCESS"
         logger.warn("{}: {}.{}: manager={} exception loading preprocessor steps",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to load preprocessing steps");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to load preprocessing steps");
     }
 
     update($manager);
@@ -359,7 +358,7 @@ rule "EVENT.MANAGER.ACCEPT"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to accept the event");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to accept the event");
     }
 
     update($manager);
@@ -401,7 +400,7 @@ rule "EVENT.MANAGER.EXECUTE.STEP"
         logger.warn("{}: {}.{}: manager={} exception executing a step",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to execute the next step");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to execute the next step");
     }
 
     update($manager);
@@ -483,7 +482,7 @@ rule "EVENT.MANAGER.PROCESS.GUARD.OUTCOME"
             // it's a "start" operation
             notification.setMessage("Sending guard query for " + step2.getActorName() + " " + step2.getOperationName());
 
-        } else if ($outcome.getResult() == PolicyResult.SUCCESS) {
+        } else if ($outcome.getResult() == OperationResult.SUCCESS) {
             notification.setMessage("Guard result for " + step2.getActorName() + " " + step2.getOperationName()
                                         + " is Permit");
         } else {
@@ -545,7 +544,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.STARTED"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'start' outcome");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'start' outcome");
     }
 
     update($manager);
@@ -584,7 +583,7 @@ rule "EVENT.MANAGER.PROCESS.PREPROCESSOR.STARTED"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle 'start' outcome");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle 'start' outcome");
     }
 
     update($manager);
@@ -603,7 +602,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.SUCCESS"
                         $outcome : getOutcomes().peek(),
                         $outcome != null,
                         $outcome.getEnd() != null,
-                        $outcome.getResult() == PolicyResult.SUCCESS,
+                        $outcome.getResult() == OperationResult.SUCCESS,
                         $step : getSteps().peek(),
                         $step.isPolicyStep(),
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
@@ -642,7 +641,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.SUCCESS"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'success' outcome");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'success' outcome");
     }
 
     update($manager);
@@ -664,7 +663,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
                         !isAbort($outcome),
                         $outcome.getEnd() != null,
                         $outcome.isFinalOutcome(),
-                        $outcome.getResult() != PolicyResult.SUCCESS,
+                        $outcome.getResult() != OperationResult.SUCCESS,
                         $step : getSteps().peek() )
     then
 
@@ -677,7 +676,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
         $manager.getOutcomes().remove();
 
         if (!$outcome.isFor($step.getActorName(), $step.getOperationName())) {
-            $outcome.setResult(PolicyResult.FAILURE_GUARD);
+            $outcome.setResult(OperationResult.FAILURE_GUARD);
             $outcome.setMessage("Operation denied by " + $outcome.getActor());
         }
 
@@ -703,7 +702,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'failure' outcome");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'failure' outcome");
     }
 
     update($manager);
@@ -727,7 +726,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
                         !isAbort($outcome),
                         $outcome.getEnd() != null,
                         $outcome.isFinalOutcome(),
-                        $outcome.getResult() != PolicyResult.SUCCESS,
+                        $outcome.getResult() != OperationResult.SUCCESS,
                         $step : getSteps().peek() )
     then
 
@@ -756,7 +755,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to reject event");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to reject event");
     }
 
     $manager.destroy();
@@ -777,7 +776,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.FAILURE"
                         !isAbort($outcome),
                         $outcome.getEnd() != null,
                         !$outcome.isFinalOutcome(),
-                        $outcome.getResult() != PolicyResult.SUCCESS,
+                        $outcome.getResult() != OperationResult.SUCCESS,
                         $step : getSteps().peek(),
                         $step.isPolicyStep(),
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
@@ -808,7 +807,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.FAILURE"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'failure' outcome");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle policy 'failure' outcome");
     }
 
     update($manager);
@@ -842,7 +841,7 @@ rule "EVENT.MANAGER.DISCARD.OUTCOME"
             // it's a completion for the step
 
             // let the step record the response that's contained within the outcome
-            if ($outcome.getResult() == PolicyResult.SUCCESS) {
+            if ($outcome.getResult() == OperationResult.SUCCESS) {
                 $step.success($outcome);
             }
 
@@ -856,7 +855,7 @@ rule "EVENT.MANAGER.DISCARD.OUTCOME"
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle outcome");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle outcome");
     }
 
     update($manager);
@@ -898,7 +897,7 @@ rule "EVENT.MANAGER.ABORT"
                 break;
         }
 
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE, msg);
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE, msg);
 
         if ($step != null && "SDNR".equals($step.getActorName())
                 && $outcome.isFor($step.getActorName(), $step.getOperationName())) {
@@ -920,7 +919,7 @@ rule "EVENT.MANAGER.ABORT"
         logger.warn("{}: {}.{}: manager={} exception handling ABORT outcome",
                 $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
                 $manager, e);
-        $manager.abort(State.DONE, FinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle ABORT");
+        $manager.abort(State.DONE, OperationFinalResult.FINAL_FAILURE_EXCEPTION, "failed to handle ABORT");
     }
 
     update($manager);
@@ -950,9 +949,9 @@ rule "EVENT.MANAGER.FINAL"
         notification.setHistory($manager.getFullHistory().stream().map(OperationOutcome2::getClOperation)
                                     .collect(Collectors.toList()));
 
-        FinalResult finalResult = $manager.getFinalResult();
+        OperationFinalResult finalResult = $manager.getFinalResult();
         if (finalResult == null) {
-            finalResult = ($manager.isActive() ? FinalResult.FINAL_SUCCESS : FinalResult.FINAL_FAILURE);
+            finalResult = ($manager.isActive() ? OperationFinalResult.FINAL_SUCCESS : OperationFinalResult.FINAL_FAILURE);
         }
 
         switch (finalResult) {
