@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "895471d1_ddddd600",
+        "filename": "controlloop/common/controller-frankfurt/src/main/resources/frankfurt.drl",
+        "patchSetId": 21
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T20:34:36Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed",
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8bbd729_3470c02f",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T20:34:36Z",
+      "side": 1,
+      "message": "maybe make these final, too",
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321b617f_db574ff3",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T20:34:36Z",
+      "side": 1,
+      "message": "IllegalStateException",
+      "range": {
+        "startLine": 443,
+        "startChar": 18,
+        "endLine": 443,
+        "endChar": 42
+      },
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd87ac98_c3382ed3",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/UsecasesEventManagerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T20:34:36Z",
+      "side": 1,
+      "message": "is this still needed?",
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
