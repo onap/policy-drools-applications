@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "14ba8d90_6f44bf25",
+        "filename": "controlloop/common/controller-frankfurt/src/main/resources/frankfurt.drl",
+        "patchSetId": 21
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-28T20:56:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "895471d1_ddddd600",
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8bbd729_3470c02f",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
         "patchSetId": 21
@@ -33,6 +51,24 @@
       "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f5976bb_7bb7373c",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-28T20:56:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e8bbd729_3470c02f",
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "46cfb6ff_72ad5277",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-28T20:56:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "321b617f_db574ff3",
+      "range": {
+        "startLine": 443,
+        "startChar": 18,
+        "endLine": 443,
+        "endChar": 42
+      },
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e229a249_c8150914",
         "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/extension/system/NonDroolsPolicyControllerTest.java",
         "patchSetId": 21
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "4f44a98e_57b13165",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/extension/system/NonDroolsPolicyControllerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-28T20:56:53Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "e229a249_c8150914",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 42
+      },
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd87ac98_c3382ed3",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/UsecasesEventManagerTest.java",
         "patchSetId": 21
@@ -93,6 +177,24 @@
       "writtenOn": "2020-08-28T20:34:36Z",
       "side": 1,
       "message": "is this still needed?",
+      "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebbb08c0_fc09873d",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/UsecasesEventManagerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-08-28T20:56:53Z",
+      "side": 1,
+      "message": "there are still some lines using. line 891 for example. unless change all to ControlLoopEventManage2Drools.",
+      "parentUuid": "cd87ac98_c3382ed3",
       "revId": "6ad17c1950420c382dee16fc70ab14fe12ec15c4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
