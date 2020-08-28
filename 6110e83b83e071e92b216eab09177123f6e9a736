@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a342f279_4d553aeb",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T17:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34d2ad0c_9b95a269",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7386f5_fd4ae99d",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2020-08-28T17:17:34Z",
       "side": 1,
       "message": "don\u0027t need this",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63cb5df_a6419991",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T17:51:34Z",
+      "side": 1,
+      "message": "hmm - I get NPE. The methods seem to need the cq to return objects from it.",
+      "parentUuid": "de7386f5_fd4ae99d",
       "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "30cc0e3c_adb03fb1",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T17:51:34Z",
+      "side": 1,
+      "message": "changed to new targetType",
+      "parentUuid": "02189f5f_28424a9f",
+      "range": {
+        "startLine": 116,
+        "startChar": 65,
+        "endLine": 116,
+        "endChar": 80
+      },
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51af5fed_1cfce530",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
@@ -90,6 +150,24 @@
       "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6e53a87_5c2c89c0",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T17:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51af5fed_1cfce530",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
