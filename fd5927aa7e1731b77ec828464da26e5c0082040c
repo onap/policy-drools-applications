@@ -45,6 +45,30 @@
       "revId": "fd5927aa7e1731b77ec828464da26e5c0082040c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eb39993_9fa46b68",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/GetTargetEntityOperation2Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-08-28T05:06:38Z",
+      "side": 1,
+      "message": "Yes Pam, we don\u0027t need any info from AAI. So, there won\u0027t be any issue in using the VNF as the target type from the policy side, isn\u0027t it?",
+      "parentUuid": "5b544e0c_5ef173b3",
+      "range": {
+        "startLine": 337,
+        "startChar": 23,
+        "endLine": 337,
+        "endChar": 49
+      },
+      "revId": "fd5927aa7e1731b77ec828464da26e5c0082040c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
