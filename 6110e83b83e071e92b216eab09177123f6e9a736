@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9c47dec_fbb42303",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T17:17:34Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34d2ad0c_9b95a269",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T17:17:34Z",
+      "side": 1,
+      "message": "maybe only add these if it\u0027s PNF?",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de7386f5_fd4ae99d",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T17:17:34Z",
+      "side": 1,
+      "message": "don\u0027t need this",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02189f5f_28424a9f",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T17:17:34Z",
+      "side": 1,
+      "message": "shouldn\u0027t need this - it\u0027s going away",
+      "range": {
+        "startLine": 116,
+        "startChar": 65,
+        "endLine": 116,
+        "endChar": 80
+      },
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51af5fed_1cfce530",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T17:17:34Z",
+      "side": 1,
+      "message": "I think sonar will say that these lines should be changed together:\n\n  xxx.containsEntry(...).containsEntry(...)",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
