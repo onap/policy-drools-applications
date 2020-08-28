@@ -266,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "7a8b99f5_c4e460bd",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-28T20:23:02Z",
+      "side": 1,
+      "message": "it has to be changed here and in the corresponding junit test",
+      "parentUuid": "ab3870f2_d1ba0974",
+      "revId": "a7715e3cc538de2ae4b291525921216d969bf7f6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b61371d0_45a305f6",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 20
