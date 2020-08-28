@@ -16,6 +16,24 @@
       "revId": "cef164d075ee53519bb60d7a9ed9dad8bb36c0a3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ccb188b_0553f41c",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-28T16:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80ce0e30_529c1c69",
+      "revId": "cef164d075ee53519bb60d7a9ed9dad8bb36c0a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
