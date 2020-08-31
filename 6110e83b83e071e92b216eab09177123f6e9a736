@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "663d5c36_6b460b0d",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-08-31T11:05:14Z",
+      "side": 1,
+      "message": "You are absolutely right - I was mixing up the Operation from the Step.  The Operation only requires the extracted data (e.g., GenericVnf, CloudRegion), but it\u0027s the Step that provides it by pulling from the custom query, so yes, it is required by the Step to make these tests work.\n\nRegarding the timeouts, if you look at the output from UsecasesTest, then you\u0027ll see things like:\njava.lang.IllegalArgumentException: missing vserver.vserver-name in enrichment data\n\tat org.onap.policy.drools.apps.controller.usecases.step.AaiGetTenantStep2.\u003cinit\u003e(AaiGetTenantStep2.java:53)\n\njava.lang.IllegalArgumentException: missing enrichment/vserver.vserver-id for GUARD.Decision\n\tat org.onap.policy.drools.apps.controller.usecases.step.Step2.verifyNotNull(Step2.java:419)\n\nThe first is occurring, because the Guard now requires the custom query in all of the non-PNF cases, but to run the custom query, the Tenant query must be run first.  However, the Tenant query will not work unless the vserver.vserver-name is provided in the enrichment data.  In other words, this will not work unless DCAE provides the vserver.vserver-name for all of the non-PNF cases - currently, our tests only assume it\u0027s provided in certain cases, but maybe DCAE, in reality, always provides it?  If that\u0027s true then we can add it to the onset json files for all of the test cases.\n\nThe second is occurring, because the Decision guard now requires the enrichment data to contain the vserver.vserver-id.  Once again, is this something we always expect DCAE to provide?  If so, then we can simply add it to the onset json files for all of the test cases.  If not, then we\u0027d have to figure out how to get it (perhaps from the output of the custom query?).",
+      "parentUuid": "432e1832_f29c6cfa",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fed21c7a_bd38a451",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
