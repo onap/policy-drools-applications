@@ -1,0 +1,11 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Pamela Dragosh <pdragosh@research.att.com>
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Code-Review+1: Ajith Sreekumar <ajith.sreekumar@bell.ca>
+Submitted-by: Pamela Dragosh <pdragosh@research.att.com>
+Submitted-at: Mon, 31 Aug 2020 11:07:08 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/drools-applications/+/111852
+Project: policy/drools-applications
+Branch: refs/heads/master
