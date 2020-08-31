@@ -107,6 +107,47 @@
     },
     {
       "key": {
+        "uuid": "432e1832_f29c6cfa",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-31T10:21:46Z",
+      "side": 1,
+      "message": "added that but the use usecases.drl breaks - timeouts everywhere.\nWe are adding attributes from the custom query, so not sure why you wouldn\u0027t want to mock it?",
+      "parentUuid": "7350a40a_9e758405",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed21c7a_bd38a451",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-08-31T10:21:46Z",
+      "side": 1,
+      "message": "These require the custom query and line 106-107",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 63
+      },
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02189f5f_28424a9f",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
