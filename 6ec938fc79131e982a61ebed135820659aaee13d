@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "9b21595a_9e0abeba",
+        "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/controlloop/tdjam/TdjamController.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2020-08-31T16:47:26Z",
+      "side": 1,
+      "message": "I see. I had a different understanding of what this was going to look like. It turns out that the controller and application event processing are tightly coupled here. I thought the TDJAM controller was going to be added to the Drools-PDP repo, and it was going to have no knowledge of the application data (control loop events, params, etc). It would simply receive events from topics and then forward to some registered \"event handler\", similar to how \u0027offer\u0027 passes events to the kie session for rules processing. That \"event handler\" would be a feature in the drools applications repo that hooks into a TDJAM controller and serves as the replacement of the drools rules layer. It would have understanding of application specific data and handle tracking events and associated event managers, etc. I have no issue with the current design if it is intended for the ONAP use cases only.",
+      "parentUuid": "97bb9d94_b40df6df",
+      "revId": "6ec938fc79131e982a61ebed135820659aaee13d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be2bcd06_838b5f71",
         "filename": "controlloop/common/controller-tdjam/src/main/java/org/onap/policy/extension/system/NonDroolsPolicyController.java",
         "patchSetId": 17
