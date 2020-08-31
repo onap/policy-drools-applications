@@ -20,6 +20,7 @@
 
 package org.onap.policy.controlloop;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import org.onap.policy.controlloop.CanonicalOnset;
@@ -32,6 +33,7 @@ import org.onap.policy.controlloop.actor.aai.AaiGetTenantOperation;
 import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.guard.DecisionOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
+import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -388,7 +390,19 @@ rule "EVENT.MANAGER.EXECUTE.STEP"
         $step.init();
         $step.setProperties();
 
-        if ($manager.executeStep()) {
+        boolean guardDisabled = "true".equalsIgnoreCase(
+                    PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
+
+        if (guardDisabled && "GUARD".equals($step.getActorName())) {
+            // guard is disabled - just enqueue a "SUCCESS" (i.e., "Permit")
+            OperationOutcome outcome = $step.getParams().makeOutcome();
+            outcome.setStart(Instant.now());
+            outcome.setEnd(outcome.getStart());
+
+            $manager.getOutcomes().add(outcome);
+            $manager.setState(State.AWAITING_OUTCOME);
+
+        } else if ($manager.executeStep()) {
             $manager.setState(State.AWAITING_OUTCOME);
 
         } else {
