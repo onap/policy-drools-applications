@@ -86,6 +86,30 @@
       "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3231ff07_1e00d8d6",
+        "filename": "controlloop/common/rules-test/src/main/resources/vfw/vfw.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T21:52:32Z",
+      "side": 1,
+      "message": "I uploaded a patch for aaiGetVserverQuery() as part of your other review: https://gerrit.onap.org/r/c/policy/models/+/112016/2",
+      "parentUuid": "07070196_b829fb15",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
