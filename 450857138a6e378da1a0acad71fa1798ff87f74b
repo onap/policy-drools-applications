@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "f080eeab_c7649577",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T21:11:14Z",
+      "side": 1,
+      "message": "reverse the equals() calls",
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ce849e5_7b89a47b",
         "filename": "controlloop/common/rules-test/src/main/resources/vfw/vfw.onset.json",
         "patchSetId": 12
@@ -36,6 +53,30 @@
       "writtenOn": "2020-09-01T20:37:34Z",
       "side": 1,
       "message": "The custom query has this for the value of the vserver-name, no OzVServer. However now I can\u0027t get past getting Tenant. Somewhere the code must magically mock or assume OzVServer.",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07070196_b829fb15",
+        "filename": "controlloop/common/rules-test/src/main/resources/vfw/vfw.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T21:11:14Z",
+      "side": 1,
+      "message": "simulator aaiGetVserverQuery() method only matches a few values here, OzVServer being one of them.  As you noticed, though, the vserver-name in the CQ response has the Ete_xxx value.  However, as nothing pulls that out of the CQ response (since that\u0027s the query key), it doesn\u0027t typically matter what the value is in the CQ response.\n\nIn this case though, you\u0027re examining the vserver name that\u0027s in the GenericVnf, which is also Ete_xxx, thus it has to match the same name used in the original query.  Probably need to modify aaiGetVserverQuery() in the simulator to also match the Ete_xxx name.",
+      "parentUuid": "5ce849e5_7b89a47b",
       "range": {
         "startLine": 13,
         "startChar": 28,
