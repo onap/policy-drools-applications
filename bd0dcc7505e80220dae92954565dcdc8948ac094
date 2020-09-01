@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11938003_451ed325",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T16:04:52Z",
+      "side": 1,
+      "message": "a couple of things:\n1) did you decide we only need the vserver id from the top level vserver?  If so, then this is fine\n2) now that the guard needs the vserver, it should let the manager know that it needs the vserver property, so getPropertyNames() should be updated to return a new property name, perhaps UsecasesConstants.AAI_VSERVER\n3) the new property name should also be added to UsecasesEventManager.CQ_PROPERTIES so that the manager knows it will have to do a CQ to retrieve it\n\nIf you decide to go with one of the VNFs instead of the Vserver, then #1, 2, \u0026 3 would have to change to reflect the VNF of interest.  In that case, you may find one of the existing VNF properties is the one you want (e.g, based on target resource ID or model invariant ID) - if that turns out to be true, then you wouldn\u0027t have to do step #3 because the manager already knows about those two types of VNFs.",
+      "parentUuid": "5387fcf1_bf337a5b",
+      "range": {
+        "startLine": 155,
+        "startChar": 8,
+        "endLine": 155,
+        "endChar": 85
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a285766_cb509cdb",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 10
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "fac39ff3_cfaee6a5",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T16:04:52Z",
+      "side": 1,
+      "message": "This line only impacts this junit tests; it doesn\u0027t affect the rules tests.\n\nvCPE never required a CQ before, thus vserver-name was not required in the enrichment data in the onset.  Now, since the guard requires the CQ, vCPE now requires the CQ, too (indirectly), thus vserver-name must be included within the onset json that is used in the rules tests - should probably verify that it appears in all of the onsets in rules-test.",
+      "parentUuid": "c8ce58d3_e50a8c5d",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 128,
+        "endChar": 39
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb4b9331_55c7da19",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 10
@@ -82,6 +130,30 @@
       "writtenOn": "2020-09-01T15:46:47Z",
       "side": 1,
       "message": "Need to add vserver-id",
+      "range": {
+        "startLine": 196,
+        "startChar": 16,
+        "endLine": 196,
+        "endChar": 41
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f98934b9_22fa5c8a",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T16:04:52Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "eb4b9331_55c7da19",
       "range": {
         "startLine": 196,
         "startChar": 16,
