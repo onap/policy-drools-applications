@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "c1d66f35_66ec582f",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T12:07:56Z",
+      "side": 1,
+      "message": "Ok thanks for digging in to this. So yes and no, we aren\u0027t guaranteed for DCAE to provide vserver.vserver-name, most likely they will. But if they fail to make the A\u0026AI call (their connection is down), then they won\u0027t send it. So we kind of have to support both situations. Its possible if A\u0026AI is down for DCAE, it is for Policy also. Albeit not necessarily true. I did not see in the custom query where the vserver.vserver-name was. If it isn\u0027t provided, then just sending null should be sufficient. If the attribute is unavailable, then the guard decision comes back DENY. Which would be correct, since we cannot tell and should just err on the safe side. Not sure that vserver.vserver-name is going to be widely used anyway. I could consider not using it.",
+      "parentUuid": "663d5c36_6b460b0d",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fed21c7a_bd38a451",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
