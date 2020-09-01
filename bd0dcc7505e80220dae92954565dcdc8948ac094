@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "780a12a1_bef73064",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T16:26:27Z",
+      "side": 1,
+      "message": "I\u0027ll have to check the vFirewall case.\n\nAs for test json, in rules-test/src/main/resources, you\u0027ll find a subdirectory for vcpe, vdns, etc.  Each one contains the xxx.onset.json that is used for the corresponding rules test",
+      "parentUuid": "dfdb8cfb_df20e75d",
+      "range": {
+        "startLine": 155,
+        "startChar": 8,
+        "endLine": 155,
+        "endChar": 85
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a285766_cb509cdb",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 10
