@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "e368359b_8c0b0f89",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T12:44:49Z",
+      "side": 1,
+      "message": "OK, so then we need a new property.  You have the choice of always going to CQ for it, or for trying to get it from the enrichment data first, and only going to CQ if it isn\u0027t there.  That type of logic doesn\u0027t exist yet and would have to be added.  Not difficult, but for now may want to always stick with CQ.\n\nA second choice you have is whether to make the new property name general so that other apps can use it.  If so, then it would go in OperationProperties within policy-models.  Otherwise, it could go in UsecasesConstants within drools-apps.\n\nNo matter what choices you make above, you\u0027ll need to update UsecasesEventManager to add the new property to the set of those requiring a CQ.  In addition, a new pair of loadXxx() and getXxx() methods would be added to Step2, and the Step2.PROPERTY_LOADER map updated.\n\nThere\u0027s still the question of vserver name, though.  If CQ is always needed now, then DCAE will always have to provide the vserver name in the enrichment data, or the usecases code will have to be updated to determine it via another mechanism.  If we go the enrichment route, then it will have to be added to several of the onset json files in rules-test under drools-apps.",
+      "parentUuid": "bbb1489a_4ff0e78d",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fed21c7a_bd38a451",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
