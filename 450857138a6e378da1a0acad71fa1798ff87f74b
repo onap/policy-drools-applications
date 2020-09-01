@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "7c12951e_1e149813",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T23:05:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f080eeab_c7649577",
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ce849e5_7b89a47b",
         "filename": "controlloop/common/rules-test/src/main/resources/vfw/vfw.onset.json",
         "patchSetId": 12
@@ -110,6 +128,30 @@
       "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8903e236_f9146bea",
+        "filename": "controlloop/common/rules-test/src/main/resources/vfw/vfw.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-01T23:05:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3231ff07_1e00d8d6",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
