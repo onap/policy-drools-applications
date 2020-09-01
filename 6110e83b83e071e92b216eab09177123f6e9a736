@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "bbb1489a_4ff0e78d",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T12:26:41Z",
+      "side": 1,
+      "message": "Actually - wait a minute. I did re-check the CQ, and vserver.vserver-id is in there. I better switch to grabbing it from there instead.",
+      "parentUuid": "c1d66f35_66ec582f",
+      "revId": "6110e83b83e071e92b216eab09177123f6e9a736",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fed21c7a_bd38a451",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 5
