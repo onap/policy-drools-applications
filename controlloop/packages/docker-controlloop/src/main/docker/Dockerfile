@@ -14,6 +14,7 @@ RUN unzip apps-controlloop.zip && \
     $POLICY_HOME/bin/features install controlloop-utils controlloop-trans controlloop-management && \
     $POLICY_HOME/bin/features install controlloop-frankfurt && \
     $POLICY_HOME/bin/features install controlloop-usecases && \
+    $POLICY_HOME/bin/features install controlloop-tdjam && \
     $POLICY_HOME/bin/features enable healthcheck distributed-locking lifecycle && \
     $POLICY_HOME/bin/features enable controlloop-trans controlloop-management && \
     $POLICY_HOME/bin/features enable controlloop-frankfurt && \
