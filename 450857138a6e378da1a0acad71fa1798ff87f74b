@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3c13ec_c49dfe1b",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T20:37:34Z",
+      "side": 1,
+      "message": "This fails because the ONSET value isn\u0027t correct. Again, can\u0027t figure out where the CQ JSON is coming from.",
+      "range": {
+        "startLine": 170,
+        "startChar": 5,
+        "endLine": 170,
+        "endChar": 69
+      },
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce849e5_7b89a47b",
+        "filename": "controlloop/common/rules-test/src/main/resources/vfw/vfw.onset.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T20:37:34Z",
+      "side": 1,
+      "message": "The custom query has this for the value of the vserver-name, no OzVServer. However now I can\u0027t get past getting Tenant. Somewhere the code must magically mock or assume OzVServer.",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "450857138a6e378da1a0acad71fa1798ff87f74b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
