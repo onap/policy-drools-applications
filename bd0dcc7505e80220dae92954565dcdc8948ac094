@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5387fcf1_bf337a5b",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T15:46:47Z",
+      "side": 1,
+      "message": "I think you were saying just do this - I hope it works.",
+      "range": {
+        "startLine": 155,
+        "startChar": 8,
+        "endLine": 155,
+        "endChar": 85
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a285766_cb509cdb",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T15:46:47Z",
+      "side": 1,
+      "message": "I\u0027ll remove this in the next patch when I fix the vCPE tests.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 64
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8ce58d3_e50a8c5d",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T15:46:47Z",
+      "side": 1,
+      "message": "Maybe this is why vCPE tests fail?",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 128,
+        "endChar": 39
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4b9331_55c7da19",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T15:46:47Z",
+      "side": 1,
+      "message": "Need to add vserver-id",
+      "range": {
+        "startLine": 196,
+        "startChar": 16,
+        "endLine": 196,
+        "endChar": 41
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
