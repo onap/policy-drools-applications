@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "dfdb8cfb_df20e75d",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-01T16:15:12Z",
+      "side": 1,
+      "message": "1) Was the easiest to do since I couldn\u0027t really decipher the code. It also looks like the test policy for vFirewall is also incorrect, it has the resourceID set to a modelinvariantId if I\u0027m seeing correctly when scanning the custom query information. I can\u0027t really tell which test json is being used so I have to look at the console log. That is totally wrong. There is too much for me to validate here, perhaps testing with Integration will reveal if these problems are all really there.",
+      "parentUuid": "11938003_451ed325",
+      "range": {
+        "startLine": 155,
+        "startChar": 8,
+        "endLine": 155,
+        "endChar": 85
+      },
+      "revId": "bd0dcc7505e80220dae92954565dcdc8948ac094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a285766_cb509cdb",
         "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
         "patchSetId": 10
