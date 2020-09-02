@@ -34,6 +34,24 @@
       "revId": "9920eaef65b0c3a0b906efb5754d664485f3cca8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096c555e_5ec843a8",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-02T12:40:02Z",
+      "side": 1,
+      "message": "eclipse generates a warning with \"vServerName\", it wants \"vserverName\".  I had fixed that on the previous review.",
+      "parentUuid": "76c4fe25_27803272",
+      "revId": "9920eaef65b0c3a0b906efb5754d664485f3cca8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
