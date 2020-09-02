@@ -22,6 +22,30 @@
       "revId": "ec09821cb2a4280101c9baae41610212b8e530dc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76079906_1305352e",
+        "filename": "controlloop/common/controller-usecases/src/main/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-09-02T00:16:51Z",
+      "side": 1,
+      "message": "oops - ok. Need to re-factor a bit also, too complex for sonar.",
+      "parentUuid": "cfb55e64_0643f91f",
+      "range": {
+        "startLine": 167,
+        "startChar": 74,
+        "endLine": 167,
+        "endChar": 85
+      },
+      "revId": "ec09821cb2a4280101c9baae41610212b8e530dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
