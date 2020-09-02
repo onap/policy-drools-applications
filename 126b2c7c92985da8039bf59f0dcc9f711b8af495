@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ec47eb1_d337de27",
+        "filename": "controlloop/packages/apps-controlloop/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-02T11:08:31Z",
+      "side": 1,
+      "message": "Copyright date.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 1
+      },
+      "revId": "126b2c7c92985da8039bf59f0dcc9f711b8af495",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb62bd7_5fef02ce",
+        "filename": "controlloop/packages/docker-controlloop/src/main/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2020-09-02T11:08:31Z",
+      "side": 1,
+      "message": "We probably should have a copyright on this file as well. You can use bash-style comments starting with a # character in docker files.",
+      "revId": "126b2c7c92985da8039bf59f0dcc9f711b8af495",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
