@@ -49,6 +49,7 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
@@ -239,6 +240,22 @@ public class ControlLoopEventManagerTest {
 
         mgr.removeProperty(MY_KEY);
         assertFalse(mgr.contains(MY_KEY));
+    }
+
+    /**
+     * Tests getDataManager() when guard.disabled=true.
+     */
+    @Test
+    public void testGetDataManagerDisabled() throws ControlLoopException {
+        mgr = new MyManager(params, REQ_ID) {
+            private static final long serialVersionUID = 1L;
+            @Override
+            protected String getEnvironmentProperty(String propName) {
+                return ("guard.disabled".equals(propName) ? "true" : null);
+            }
+        };
+
+        assertThat(mgr.getDataManager()).isInstanceOf(OperationHistoryDataManagerStub.class);
     }
 
     @Test

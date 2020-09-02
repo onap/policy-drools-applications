@@ -41,6 +41,7 @@ import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
+import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.system.PolicyEngineConstants;
@@ -59,6 +60,12 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager.class);
     private static final long serialVersionUID = -1216568161322872641L;
 
+    /**
+     * Data manager used when the policy engine's guard.disabled property is "true".
+     */
+    private static final OperationHistoryDataManager STUB_DATA_MANAGER = new OperationHistoryDataManagerStub();
+
+    private static final String GUARD_DISABLED_PROPERTY = "guard.disabled";
     private static final String EVENT_MANAGER_SERVICE_CONFIG = "event-manager";
 
     /**
@@ -269,8 +276,6 @@ public class ControlLoopEventManager implements StepContext, Serializable {
         private static final ActorService ACTOR_SERVICE;
 
         static {
-            // TODO how to dynamically change data manager, depending whether or not
-            // guards are enabled?
             EventManagerServices services = new EventManagerServices(EVENT_MANAGER_SERVICE_CONFIG);
             ACTOR_SERVICE = services.getActorService();
             DATA_MANAGER = services.getDataManager();
@@ -296,6 +301,11 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     }
 
     public OperationHistoryDataManager getDataManager() {
-        return LazyInitData.DATA_MANAGER;
+        boolean guardDisabled = "true".equalsIgnoreCase(getEnvironmentProperty(GUARD_DISABLED_PROPERTY));
+        return (guardDisabled ? STUB_DATA_MANAGER : LazyInitData.DATA_MANAGER);
+    }
+
+    protected String getEnvironmentProperty(String propName) {
+        return PolicyEngineConstants.getManager().getEnvironmentProperty(propName);
     }
 }
