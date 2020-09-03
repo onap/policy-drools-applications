@@ -24,11 +24,18 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.onap.aai.domain.yang.GenericVnf;
+import org.onap.aai.domain.yang.RelatedToProperty;
+import org.onap.aai.domain.yang.Relationship;
+import org.onap.aai.domain.yang.RelationshipData;
+import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.actor.guard.DecisionOperation;
 import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.so.VfModuleCreate;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
+import org.onap.policy.controlloop.actorserviceprovider.TargetType;
+import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
 /**
  * Wrapper for a Guard operation. Note: this makes a clone of the operation parameters,
@@ -41,6 +48,12 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 public class GuardStep2 extends Step2 {
     public static final String PAYLOAD_KEY_TARGET_ENTITY = "target";
     public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
+    public static final String PAYLOAD_KEY_VNF_NAME = "generic-vnf.vnf-name";
+    public static final String PAYLOAD_KEY_VNF_ID = "generic-vnf.vnf-id";
+    public static final String PAYLOAD_KEY_VNF_TYPE = "generic-vnf.vnf-type";
+    public static final String PAYLOAD_KEY_NF_NAMING_CODE = "generic-vnf.nf-naming-code";
+    public static final String PAYLOAD_KEY_VSERVER_ID = "vserver.vserver-id";
+    public static final String PAYLOAD_KEY_CLOUD_REGION_ID = "cloud-region.cloud-region-id";
 
     private final Operation policyOper;
 
@@ -85,6 +98,12 @@ public class GuardStep2 extends Step2 {
             names.add(OperationProperties.DATA_VF_COUNT);
         }
 
+        // Only get filter properties if the vserver-name exists, which is needed to call cq
+        if (event.getAai().get("vserver.vserver-name") != null) {
+            names.add(UsecasesConstants.AAI_DEFAULT_GENERIC_VNF);
+            names.add(OperationProperties.AAI_DEFAULT_CLOUD_REGION);
+        }
+
         return names;
     }
 
@@ -112,4 +131,67 @@ public class GuardStep2 extends Step2 {
 
         params.getPayload().put(PAYLOAD_KEY_VF_COUNT, count);
     }
+
+    @Override
+    protected void loadCloudRegion(String propName) {
+        // PNF does not support guard filters
+        if (TargetType.PNF.equals(params.getTargetType())) {
+            return;
+        }
+
+        params.getPayload().put(PAYLOAD_KEY_CLOUD_REGION_ID, getCloudRegion().getCloudRegionId());
+    }
+
+    @Override
+    protected void loadDefaultGenericVnf(String propName) {
+        // PNF does not support guard filters
+        if (TargetType.PNF.equals(params.getTargetType())) {
+            return;
+        }
+
+        // add in properties needed for filters
+        String targetEntity = getTargetEntity();
+        params.getPayload().put(PAYLOAD_KEY_VNF_ID, targetEntity);
+
+        AaiCqResponse cq = this.getCustomQueryData();
+        GenericVnf vnf = cq.getGenericVnfByVnfId(targetEntity);
+        if (vnf == null) {
+            return;
+        }
+        params.getPayload().put(PAYLOAD_KEY_VNF_NAME, vnf.getVnfName());
+        params.getPayload().put(PAYLOAD_KEY_VNF_TYPE, vnf.getVnfType());
+        params.getPayload().put(PAYLOAD_KEY_NF_NAMING_CODE, vnf.getNfNamingCode());
+
+        String vserverName = getEnrichment(OperationProperties.ENRICHMENT_VSERVER_NAME);
+
+        params.getPayload().put(PAYLOAD_KEY_VSERVER_ID, findServerId(vnf, vserverName));
+    }
+
+    private String findServerId(GenericVnf vnf, String vserverName) {
+        for (Relationship relationship : vnf.getRelationshipList().getRelationship()) {
+            if (!"vserver".equals(relationship.getRelatedTo())) {
+                continue;
+            }
+            String vserverId = findServerId(relationship, vserverName);
+            if (vserverId != null) {
+                return vserverId;
+            }
+        }
+        return null;
+    }
+
+    private String findServerId(Relationship relationship, String vserverName) {
+        for (RelatedToProperty to : relationship.getRelatedToProperty()) {
+            if ("vserver.vserver-name".equals(to.getPropertyKey()) && vserverName.equals(to.getPropertyValue())) {
+                // Found the right relationship server-name, now find the server-id
+                for (RelationshipData data : relationship.getRelationshipData()) {
+                    if (PAYLOAD_KEY_VSERVER_ID.equals(data.getRelationshipKey())) {
+                        return data.getRelationshipValue();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 }
