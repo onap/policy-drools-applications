@@ -145,11 +145,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-            <artifactId>sdc</artifactId>
-            <version>${policy.models.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
             <artifactId>eventmanager</artifactId>
             <version>${project.version}</version>

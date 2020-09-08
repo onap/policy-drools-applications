@@ -77,12 +77,6 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-            <artifactId>sdc</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>sdnc</artifactId>
             <version>${policy.models.version}</version>
             <scope>provided</scope>
