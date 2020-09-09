@@ -26,6 +26,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.common.rules.test.BaseTest;
@@ -53,6 +54,7 @@ import org.onap.policy.simulators.Util;
 @RunWith(NamedRunner.class)
 @TestNames(prefixes = {"test"})
 
+@Ignore
 public class TdjamTest extends BaseTest {
     protected static final String CONTROLLER_NAME = "tdjam";
     protected static PolicyController controller;
