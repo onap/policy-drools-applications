@@ -75,12 +75,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
-            <artifactId>guard</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>sdnc</artifactId>
             <version>${policy.models.version}</version>
