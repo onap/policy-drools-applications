@@ -39,6 +39,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.controlloop.CanonicalOnset;
+import org.onap.policy.controlloop.TdjamTestUtil;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.drools.controller.DroolsControllerConstants;
 import org.onap.policy.drools.system.PolicyControllerConstants;
@@ -61,7 +62,8 @@ public class TdjamControllerTest {
         logger.setLevel(Level.DEBUG);
         logger.addAppender(appender);
 
-        prop = PropertyUtil.getProperties("src/test/resources/config/tdjam-controller.properties");
+        TdjamTestUtil.makeConfigFile();
+        prop = PropertyUtil.getProperties(TdjamTestUtil.CONFIG_FILE);
         prop.setProperty(PROPERTY_CONTROLLER_TYPE, "tdjam");
 
         PolicyEngineConstants.getManager().configure(new Properties());

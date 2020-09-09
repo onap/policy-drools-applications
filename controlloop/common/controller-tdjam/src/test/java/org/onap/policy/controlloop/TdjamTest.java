@@ -20,13 +20,13 @@
 
 package org.onap.policy.controlloop;
 
+import java.io.IOException;
 import java.util.Properties;
 import lombok.Getter;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.common.rules.test.BaseTest;
@@ -54,7 +54,6 @@ import org.onap.policy.simulators.Util;
 @RunWith(NamedRunner.class)
 @TestNames(prefixes = {"test"})
 
-@Ignore
 public class TdjamTest extends BaseTest {
     protected static final String CONTROLLER_NAME = "tdjam";
     protected static PolicyController controller;
@@ -67,11 +66,14 @@ public class TdjamTest extends BaseTest {
 
     /**
      * Sets up statics.
+     * @throws IOException if the config file cannot be copied
      */
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setUpBeforeClass() throws IOException {
         initStatics();
-        pdpdRepo.setConfigurationDir("src/test/resources/config");
+        TdjamTestUtil.makeConfigFile();
+
+        pdpdRepo.setConfigurationDir(TdjamTestUtil.CONFIG_DIR);
         pdpd.configure(new Properties());
         controller = pdpd.createPolicyController(CONTROLLER_NAME, pdpdRepo.getControllerProperties(CONTROLLER_NAME));
         pdpd.start();
@@ -95,7 +97,7 @@ public class TdjamTest extends BaseTest {
      */
     @Before
     public void setUp() {
-        topics = topicMaker.get();
+        init();
     }
 
     /**
@@ -103,7 +105,7 @@ public class TdjamTest extends BaseTest {
      */
     @After
     public void tearDown() {
-        topics.destroy();
+        finish();
     }
 
     protected static PolicyEngine makeEngine() {

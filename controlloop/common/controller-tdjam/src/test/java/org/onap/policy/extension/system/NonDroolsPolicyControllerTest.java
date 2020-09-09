@@ -39,6 +39,7 @@ import java.util.function.Function;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.controlloop.TdjamTestUtil;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.features.DroolsControllerFeatureApi;
@@ -54,7 +55,8 @@ public class NonDroolsPolicyControllerTest {
 
     @BeforeClass
     public static void setupClass() throws Exception {
-        prop = PropertyUtil.getProperties("src/test/resources/config/tdjam-controller.properties");
+        TdjamTestUtil.makeConfigFile();
+        prop = PropertyUtil.getProperties(TdjamTestUtil.CONFIG_FILE);
     }
 
     @Test

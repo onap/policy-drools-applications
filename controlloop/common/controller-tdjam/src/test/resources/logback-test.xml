@@ -23,16 +23,16 @@
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            <Pattern>%d %level  %msg%n</Pattern>
         </encoder>
     </appender>
 
     <!-- the following line doesn't seem necessary, but it is needed for some reason  -->
-    <logger name="org.onap.policy.controlloop.tdjam" level="debug" additivity="false">
+    <logger name="org.onap.policy.controlloop.tdjam" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
