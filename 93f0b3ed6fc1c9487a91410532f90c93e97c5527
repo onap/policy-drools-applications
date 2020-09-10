@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "963f04b4_f9c7897b",
+        "filename": "controlloop/common/rules-test/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-09-10T21:39:25Z",
+      "side": 1,
+      "message": "shall we keep \"test\"?",
+      "range": {
+        "startLine": 113,
+        "startChar": 19,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "93f0b3ed6fc1c9487a91410532f90c93e97c5527",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a89c773d_3c7ced4c",
+        "filename": "controlloop/common/rules-test/src/main/java/org/onap/policy/controlloop/common/rules/test/BaseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2020-09-10T21:39:25Z",
+      "side": 1,
+      "message": "would it be nicer to have force clear locks, if after \"await\",there is still locks !\u003d empty?",
+      "range": {
+        "startLine": 726,
+        "startChar": 23,
+        "endLine": 726,
+        "endChar": 28
+      },
+      "revId": "93f0b3ed6fc1c9487a91410532f90c93e97c5527",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
