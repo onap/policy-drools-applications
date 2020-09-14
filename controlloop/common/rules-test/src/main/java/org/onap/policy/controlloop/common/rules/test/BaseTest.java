@@ -23,11 +23,14 @@ package org.onap.policy.controlloop.common.rules.test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.awaitility.Awaitility;
 import org.junit.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -38,8 +41,12 @@ import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.drools.system.PolicyEngineConstants;
+import org.onap.policy.drools.system.internal.SimpleLockManager;
+import org.onap.policy.drools.system.internal.SimpleLockManager.SimpleLock;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
+import org.powermock.reflect.Whitebox;
 
 /**
  * Superclass used for rule tests.
@@ -162,6 +169,11 @@ public abstract class BaseTest {
      */
     public void init() {
         topics = topicMaker.get();
+
+        Map<String, SimpleLock> locks = getLockMap();
+        if (locks != null) {
+            locks.clear();
+        }
     }
 
     /**
@@ -207,6 +219,8 @@ public abstract class BaseTest {
         waitForOperationSuccess();
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     // Duplicate events
@@ -259,6 +273,8 @@ public abstract class BaseTest {
 
         long added = getCreateCount() - initCount;
         assertEquals(2, added);
+
+        verifyUnlocked();
     }
 
     // VCPE
@@ -293,8 +309,8 @@ public abstract class BaseTest {
     }
 
     /**
-      * Vdns Rainy Day with Compliant Tosca Policy.
-      */
+     * Vdns Rainy Day with Compliant Tosca Policy.
+     */
     @Test
     public void testVdnsRainyDayCompliant() {
         httpRainyDay(VDNS_TOSCA_COMPLIANT_RAINY_POLICY, VDNS_ONSET);
@@ -396,6 +412,8 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     /**
@@ -434,6 +452,8 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     /**
@@ -442,7 +462,8 @@ public abstract class BaseTest {
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
      * @param operation expected APPC operation request
-     * @param checkOperation flag to determine whether or not to wait for operation timeout
+     * @param checkOperation flag to determine whether or not to wait for operation
+     *        timeout
      */
     protected void appcLegacyRainyDay(String policyFile, String onsetFile, String operation) {
         policyClMgt = createNoficationTopicListener();
@@ -472,11 +493,13 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalFailure(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     /**
-     * Rainy day scenario for use cases that use Legacy APPC.
-     * Expected to fail due to timeout.
+     * Rainy day scenario for use cases that use Legacy APPC. Expected to fail due to
+     * timeout.
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
@@ -505,6 +528,8 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalFailure(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     /**
@@ -542,6 +567,8 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     /**
@@ -568,6 +595,8 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalSuccess(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     /**
@@ -593,6 +622,8 @@ public abstract class BaseTest {
 
         /* --- Transaction Completed --- */
         waitForFinalFailure(policy, policyClMgt);
+
+        verifyUnlocked();
     }
 
     protected long getCreateCount() {
@@ -658,7 +689,7 @@ public abstract class BaseTest {
      * @param fileName a path name
      * @return ToscaPolicy
      */
-    protected ToscaPolicy checkPolicy(String fileName)  {
+    protected ToscaPolicy checkPolicy(String fileName) {
         try {
             return Rules.getPolicyFromFile(fileName);
         } catch (CoderException e) {
@@ -673,16 +704,35 @@ public abstract class BaseTest {
     public static class PolicyClMgtCoder extends StandardCoder {
         public PolicyClMgtCoder() {
             super(org.onap.policy.controlloop.util.Serialization.gson,
-                  org.onap.policy.controlloop.util.Serialization.gsonPretty);
+                            org.onap.policy.controlloop.util.Serialization.gsonPretty);
         }
     }
 
     /**
      * Returns Listener from createListner based on Coder.
+     *
      * @return the Listener
      */
     protected Listener<VirtualControlLoopNotification> createNoficationTopicListener() {
-        return topics.createListener(POLICY_CL_MGT_TOPIC,
-            VirtualControlLoopNotification.class, POLICY_CL_MGT_CODER);
+        return topics.createListener(POLICY_CL_MGT_TOPIC, VirtualControlLoopNotification.class, POLICY_CL_MGT_CODER);
+    }
+
+    /**
+     * Verifies that all locks have been released, waiting a bit, if necessary.
+     */
+    private void verifyUnlocked() {
+        Map<String, SimpleLock> locks = getLockMap();
+        if (locks != null) {
+            Awaitility.await().atMost(5, TimeUnit.SECONDS).until(locks::isEmpty);
+        }
+    }
+
+    private Map<String, SimpleLock> getLockMap() {
+        Object lockMgr = Whitebox.getInternalState(PolicyEngineConstants.getManager(), "lockManager");
+        if (lockMgr instanceof SimpleLockManager) {
+            return Whitebox.getInternalState(lockMgr, "resource2lock");
+        }
+
+        return null;
     }
 }
