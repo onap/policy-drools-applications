@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "447ba20f_191431d5",
+        "filename": "controlloop/common/controller-tdjam/src/test/java/org/onap/policy/controlloop/TdjamTestUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-14T13:24:49Z",
+      "side": 1,
+      "message": "the best answer is probably to avoid rewriting the property file altogether, then this wouldn\u0027t even be needed.  Maybe I\u0027ll back out this part of the review and spend a little more time figuring out why the file is being rewritten by the junit test.",
+      "parentUuid": "21a350df_53221377",
+      "revId": "93f0b3ed6fc1c9487a91410532f90c93e97c5527",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "963f04b4_f9c7897b",
         "filename": "controlloop/common/rules-test/pom.xml",
         "patchSetId": 1
@@ -78,6 +96,30 @@
       "side": 1,
       "message": "or maybe move all this code into a test sub-module?",
       "parentUuid": "c89fe1a8_e0cfc337",
+      "range": {
+        "startLine": 113,
+        "startChar": 19,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "93f0b3ed6fc1c9487a91410532f90c93e97c5527",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d7a967_a277186b",
+        "filename": "controlloop/common/rules-test/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-14T13:24:49Z",
+      "side": 1,
+      "message": "how could that be done, given that this module is used to test three other modules (frankfurt, usecases, and tdjam)?",
+      "parentUuid": "763e1271_d518c99c",
       "range": {
         "startLine": 113,
         "startChar": 19,
