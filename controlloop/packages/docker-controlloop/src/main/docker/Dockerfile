@@ -38,7 +38,6 @@ RUN unzip apps-controlloop.zip && \
     $POLICY_HOME/bin/features install controlloop-tdjam && \
     $POLICY_HOME/bin/features enable healthcheck distributed-locking lifecycle && \
     $POLICY_HOME/bin/features enable controlloop-trans controlloop-management && \
-    $POLICY_HOME/bin/features enable controlloop-frankfurt && \
     $POLICY_HOME/bin/features enable controlloop-usecases && \
     $POLICY_HOME/bin/deploy-artifact -l -d -s $POLICY_HOME/etc/m2/standalone-settings.xml \
         -a $POLICY_HOME/features/controlloop-management/lib/feature/feature-controlloop-management-$BUILD_VERSION_APP_CL.jar && \
