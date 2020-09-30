@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "371f8d90_615be8d7",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-30T20:39:20Z",
+      "side": 1,
+      "message": "does this sonar apply to method in line 330 or only these ones with the CancellationException checks?",
+      "revId": "fb9bd637567096f6174bbc2e52a5e149a4eed882",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
