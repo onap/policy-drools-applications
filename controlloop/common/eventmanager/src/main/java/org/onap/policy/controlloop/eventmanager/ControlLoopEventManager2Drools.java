@@ -33,6 +33,8 @@ import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
  * {@link #isActive()} returns {@code false}, indicating that all steps have completed.
  */
 public class ControlLoopEventManager2Drools extends ControlLoopEventManager2 {
+    private static final long serialVersionUID = 1L;
+
     private final transient WorkingMemory workMem;
     private transient FactHandle factHandle;
 

@@ -143,12 +143,13 @@ public class NonDroolsPolicyController extends AggregatedPolicyController implem
         return buildInProgress.get();
     }
 
+    @Override
     protected void initDrools(Properties properties) {
         try {
             // Register with drools factory
             buildInProgress.set(this);
             this.droolsController.set(getDroolsFactory().build(properties, sources, sinks));
-            buildInProgress.set(null);
+            buildInProgress.remove();
         } catch (Exception | LinkageError e) {
             logger.error("{}: cannot init-drools", this);
             throw new IllegalArgumentException(e);
@@ -198,9 +199,6 @@ public class NonDroolsPolicyController extends AggregatedPolicyController implem
         logger.info("START: {}", this);
 
         synchronized (this) {
-            if (this.alive) {
-                return true;
-            }
             this.alive = true;
         }
 
@@ -213,9 +211,6 @@ public class NonDroolsPolicyController extends AggregatedPolicyController implem
         logger.info("STOP: {}", this);
 
         synchronized (this) {
-            if (!this.alive) {
-                return true;
-            }
             this.alive = false;
         }
 
