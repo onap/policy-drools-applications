@@ -55,4 +55,3 @@ cds.grpcHost=${envd:CDS_GRPC_HOST}
 cds.grpcPort=${envd:CDS_GRPC_PORT}
 cds.grpcUsername=${envd:CDS_GRPC_USERNAME}
 cds.grpcPassword=${envd:CDS_GRPC_PASSWORD}
-cds.grpcTimeout=10
