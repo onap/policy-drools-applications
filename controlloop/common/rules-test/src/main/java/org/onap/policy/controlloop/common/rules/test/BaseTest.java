@@ -30,6 +30,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.awaitility.Awaitility;
 import org.junit.Test;
 import org.onap.policy.appc.Request;
@@ -54,6 +55,7 @@ import org.powermock.reflect.Whitebox;
 public abstract class BaseTest {
     private static final String APPC_RESTART_OP = "restart";
     private static final String APPC_MODIFY_CONFIG_OP = "ModifyConfig";
+    private static final String APPC_MODIFY_CONFIG_ANR_OP = "ModifyConfigANR";
 
     /*
      * Canonical Topic Names.
@@ -135,6 +137,7 @@ public abstract class BaseTest {
 
     // used to inject and wait for messages
     @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
     protected static Topics topics;
 
     // used to wait for messages on SINK topics
@@ -168,7 +171,7 @@ public abstract class BaseTest {
      * Initializes {@link #topics} and {@link #controller}.
      */
     public void init() {
-        topics = topicMaker.get();
+        setTopics(topicMaker.get());
 
         Map<String, SimpleLock> locks = getLockMap();
         if (locks != null) {
@@ -348,7 +351,7 @@ public abstract class BaseTest {
      */
     @Test
     public void testVpciSunnyDayCompliant() {
-        sdnrSunnyDay(VPCI_TOSCA_COMPLIANT_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS, "ModifyConfig");
+        sdnrSunnyDay(VPCI_TOSCA_COMPLIANT_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS, APPC_MODIFY_CONFIG_OP);
     }
 
     // VSONH
@@ -358,7 +361,7 @@ public abstract class BaseTest {
      */
     @Test
     public void testVsonhSunnyDayCompliant() {
-        sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, "ModifyConfigANR");
+        sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, APPC_MODIFY_CONFIG_ANR_OP);
     }
 
     /**

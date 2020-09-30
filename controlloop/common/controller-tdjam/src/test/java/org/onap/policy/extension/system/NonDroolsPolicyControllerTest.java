@@ -36,6 +36,8 @@ import static org.onap.policy.drools.properties.DroolsPropertyConstants.PROPERTY
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Function;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
@@ -52,15 +54,31 @@ public class NonDroolsPolicyControllerTest {
     //public static boolean loop = true;
     private static Properties prop;
 
+    private NonDroolsPolicyController controller;
+
     @BeforeClass
     public static void setupClass() throws Exception {
         prop = PropertyUtil.getProperties("src/test/resources/config/tdjam-controller.properties");
     }
 
+    @Before
+    public void setUp() {
+        DroolsControllerFeatureHandler.resetStats();
+
+        controller = buildController("tdjam");
+    }
+
+    @After
+    public void tearDown() {
+        String name = controller.getName();
+        assertSame(controller, PolicyControllerConstants.getFactory().get(name));
+        PolicyControllerConstants.getFactory().destroy(controller);
+        assertThatIllegalArgumentException().isThrownBy(
+            () -> PolicyControllerConstants.getFactory().get(name));
+    }
+
     @Test
     public void testState() {
-        NonDroolsPolicyController controller = buildController("tdjam");
-
         assertEquals("nondrools", controller.getName());
         assertEquals("NonDroolsPolicyController", controller.getGroupId());
         assertEquals("nondrools", controller.getArtifactId());
@@ -81,27 +99,8 @@ public class NonDroolsPolicyControllerTest {
         assertFalse(controller.isLocked());
 
         // test a few stubbed-off methods
-        assertTrue(controller.getSessionNames().isEmpty());
-        assertTrue(controller.getCanonicalSessionNames().isEmpty());
-        assertTrue(controller.getBaseDomainNames().isEmpty());
-        assertFalse(controller.offer("topic", "event"));
-        assertFalse(controller.offer("event"));
-        assertEquals(0, controller.getRecentSourceEvents().length);
-        assertEquals(0, controller.getRecentSinkEvents().length);
         assertNull(controller.getContainer());
-        assertThatIllegalArgumentException().isThrownBy(
-            () -> controller.fetchModelClass("NoSuchClass"));
-        assertThatIllegalStateException().isThrownBy(
-            () -> controller.updateToVersion(null, null, null, null, null));
-        assertTrue(controller.factClassNames(null).isEmpty());
-        assertEquals(0, controller.factCount(null));
-        assertTrue(controller.facts(null, null, false).isEmpty());
-        assertTrue(controller.facts("sessionName", String.class).isEmpty());
-        assertTrue(controller.factQuery(null, null, null, false).isEmpty());
-        assertFalse(controller.delete("sessionName", "fact"));
-        assertFalse(controller.delete("fact"));
-        assertFalse(controller.delete("sessionName", String.class));
-        assertFalse(controller.delete(String.class));
+        assertThatIllegalStateException().isThrownBy(() -> controller.updateToVersion(null, null, null, null, null));
 
         controller.lock();
         assertTrue(controller.isAlive());
@@ -114,15 +113,46 @@ public class NonDroolsPolicyControllerTest {
         controller.unlock();
         assertFalse(controller.isAlive());
         assertFalse(controller.isLocked());
-
-        destroy(controller);
     }
 
     @Test
-    public void deliverTest() {
-        DroolsControllerFeatureHandler.resetStats();
-        final NonDroolsPolicyController controller = buildController("tdjam");
+    public void testNames() {
+        assertTrue(controller.getSessionNames().isEmpty());
+        assertTrue(controller.getCanonicalSessionNames().isEmpty());
+        assertTrue(controller.getBaseDomainNames().isEmpty());
+    }
 
+    @Test
+    public void testOffer() {
+        controller.start();
+
+        assertFalse(controller.offer("topic", "event"));
+        assertFalse(controller.offer("event"));
+        assertEquals(0, controller.getRecentSourceEvents().length);
+        assertEquals(0, controller.getRecentSinkEvents().length);
+    }
+
+    @Test
+    public void testFacts() {
+        assertThatIllegalArgumentException().isThrownBy(
+            () -> controller.fetchModelClass("NoSuchClass"));
+        assertTrue(controller.factClassNames(null).isEmpty());
+        assertEquals(0, controller.factCount(null));
+        assertTrue(controller.facts(null, null, false).isEmpty());
+        assertTrue(controller.facts("sessionName", String.class).isEmpty());
+        assertTrue(controller.factQuery(null, null, null, false).isEmpty());
+    }
+
+    @Test
+    public void testDelete() {
+        assertFalse(controller.delete("sessionName", "fact"));
+        assertFalse(controller.delete("fact"));
+        assertFalse(controller.delete("sessionName", String.class));
+        assertFalse(controller.delete(String.class));
+    }
+
+    @Test
+    public void testDeliver() {
         final TopicSink topicSink = mock(TopicSink.class);
         when(topicSink.getTopic()).thenReturn("POLICY-CL-MGT");
         when(topicSink.send(any())).thenReturn(false);
@@ -201,8 +231,6 @@ public class NonDroolsPolicyControllerTest {
 
         assertFalse(signal.apply("nothing in particular"));
         assertEquals(1, DroolsControllerFeatureHandler.afterDeliverFalse);
-
-        destroy(controller);
     }
 
     private NonDroolsPolicyController buildController(String type) {
@@ -211,14 +239,6 @@ public class NonDroolsPolicyControllerTest {
             PolicyControllerConstants.getFactory().build("nondrools", prop);
         assertTrue(controller instanceof NonDroolsPolicyController);
         return (NonDroolsPolicyController) controller;
-    }
-
-    private void destroy(PolicyController controller) {
-        String name = controller.getName();
-        assertSame(controller, PolicyControllerConstants.getFactory().get(name));
-        PolicyControllerConstants.getFactory().destroy(controller);
-        assertThatIllegalArgumentException().isThrownBy(
-            () -> PolicyControllerConstants.getFactory().get(name));
     }
 
     /* ============================================================ */

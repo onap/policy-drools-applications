@@ -24,6 +24,7 @@ import static org.onap.policy.drools.properties.DroolsPropertyConstants.PROPERTY
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -71,6 +72,9 @@ public class TdjamController extends NonDroolsPolicyController {
 
     // the 'controller.type' property is set to this value
     private static final String TDJAM_CONTROLLER_BUILDER_TAG = "tdjam";
+
+    // topic on which to publish event notifications
+    private static final String POLICY_CL_MGT = "POLICY-CL-MGT";
 
     // additional data associated with session
     private final String groupId;
@@ -352,7 +356,9 @@ public class TdjamController extends NonDroolsPolicyController {
                        cp.getClosedLoopControlName());
         }
 
-        logger.debug(new String(bos.toByteArray()));
+        if (logger.isDebugEnabled()) {
+            logger.debug(new String(bos.toByteArray(), StandardCharsets.UTF_8));
+        }
     }
 
     /**
@@ -454,7 +460,7 @@ public class TdjamController extends NonDroolsPolicyController {
         // Generate notification
         //
         try {
-            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+            PolicyEngineConstants.getManager().deliver(POLICY_CL_MGT, notification);
 
         } catch (RuntimeException e) {
             logger.warn("{}: {}.{}: event={} exception generating notification",
@@ -609,18 +615,14 @@ public class TdjamController extends NonDroolsPolicyController {
                 // we create the ControlLoopEventManager. The ControlLoopEventManager
                 // will do extra syntax checking as well as check if the closed loop is disabled.
                 //
-                try {
-                    start();
-                } catch (Exception e) {
-                    eventManagers.remove(requestId, this);
-                    onsetToEventManager.remove(event, this);
-                    throw e;
-                }
+                start();
                 notification = makeNotification();
                 notification.setNotification(ControlLoopNotificationType.ACTIVE);
                 notification.setPolicyName(params.getPolicyName() + "." + ruleName);
             } catch (Exception e) {
                 logger.warn("{}: {}.{}", clName, params.getPolicyName(), ruleName, e);
+                eventManagers.remove(requestId, this);
+                onsetToEventManager.remove(event, this);
                 notification = new VirtualControlLoopNotification(event);
                 notification.setNotification(ControlLoopNotificationType.REJECTED);
                 notification.setMessage("Exception occurred: " + e.getMessage());
@@ -632,7 +634,7 @@ public class TdjamController extends NonDroolsPolicyController {
             // Generate notification
             //
             try {
-                PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+                PolicyEngineConstants.getManager().deliver(POLICY_CL_MGT, notification);
 
             } catch (RuntimeException e) {
                 logger.warn("{}: {}.{}: event={} exception generating notification",
@@ -719,7 +721,7 @@ public class TdjamController extends NonDroolsPolicyController {
             //
             try {
                 notification.setPolicyName(getPolicyName() + "." + ruleName);
-                PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+                PolicyEngineConstants.getManager().deliver(POLICY_CL_MGT, notification);
 
             } catch (RuntimeException e) {
                 logger.warn("{}: {}.{}: manager={} exception generating notification",
@@ -766,7 +768,7 @@ public class TdjamController extends NonDroolsPolicyController {
             //
             try {
                 notification.setPolicyName(getPolicyName() + "." + ruleName);
-                PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+                PolicyEngineConstants.getManager().deliver(POLICY_CL_MGT, notification);
             } catch (RuntimeException e) {
                 logger.warn("{}: {}.{}: manager={} exception generating notification",
                             getClosedLoopControlName(), getPolicyName(), ruleName,
@@ -825,7 +827,7 @@ public class TdjamController extends NonDroolsPolicyController {
                                       List<TopicCoderFilterConfiguration> encoderConfigurations) throws LinkageError {
 
             if (TDJAM_CONTROLLER_BUILDER_TAG.equals(properties.getProperty(PROPERTY_CONTROLLER_TYPE))) {
-                return TdjamController.getBuildInProgress();
+                return NonDroolsPolicyController.getBuildInProgress();
             }
             return null;
         }

@@ -300,7 +300,12 @@ public class ControlLoopOperationManager2 implements Serializable {
      * @param thrown exception that was generated
      * @return {@code null}
      */
-    private OperationOutcome handleException(Throwable thrown) {
+    private OperationOutcome handleException(Throwable thrown) { // NOSONAR
+        /*
+         * disabling sonar about returning the same value because we prefer the code to be
+         * structured this way
+         */
+
         if (thrown instanceof CancellationException || thrown.getCause() instanceof CancellationException) {
             return null;
         }
