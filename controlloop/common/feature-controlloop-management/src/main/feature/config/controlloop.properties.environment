@@ -55,4 +55,5 @@ cds.grpcHost=${envd:CDS_GRPC_HOST}
 cds.grpcPort=${envd:CDS_GRPC_PORT}
 cds.grpcUsername=${envd:CDS_GRPC_USERNAME}
 cds.grpcPassword=${envd:CDS_GRPC_PASSWORD}
+# The timeout defined in policy will take preference over the one below always. This timeout will be removed in Honolulu along with related code.
 cds.grpcTimeout=10
