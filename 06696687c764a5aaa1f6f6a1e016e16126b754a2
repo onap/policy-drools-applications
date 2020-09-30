@@ -16,6 +16,24 @@
       "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4b6c4fc_9708ff48",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-09-30T22:12:19Z",
+      "side": 0,
+      "message": "Got it, so this value is still used if the timeout is not defined in policy.\n\nI think Jorge implemented a JSON schema validation in drools-pdp which validates if all the required fields are specified in the policy before deployment.",
+      "parentUuid": "543dad55_42013cd7",
+      "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
