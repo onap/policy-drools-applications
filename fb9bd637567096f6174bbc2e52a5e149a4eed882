@@ -16,6 +16,24 @@
       "revId": "fb9bd637567096f6174bbc2e52a5e149a4eed882",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7600ca1e_d6d5d555",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ControlLoopOperationManager2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-30T20:45:59Z",
+      "side": 1,
+      "message": "not sure.  SonarLint highlights the method name and the sonar item only goes away if I put \"NOSONAR\" on line 303.  Not sure if that only impacts the sonar reported there, or if it impacts any sonars that might be found within the method.",
+      "parentUuid": "371f8d90_615be8d7",
+      "revId": "fb9bd637567096f6174bbc2e52a5e149a4eed882",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
