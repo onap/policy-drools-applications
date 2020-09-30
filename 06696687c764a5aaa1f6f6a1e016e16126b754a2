@@ -34,6 +34,24 @@
       "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60bfde09_0d8d367d",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-30T22:15:32Z",
+      "side": 0,
+      "message": "Yep, the timeout is a mandatory, 1 second or larger parameter in the policy.\n\nWould this issue apply to other operations with a timeout in the properties that may causes ambiguities with the policy ones?",
+      "parentUuid": "543dad55_42013cd7",
+      "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
