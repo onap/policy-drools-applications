@@ -168,7 +168,6 @@
             <artifactId>policy-management</artifactId>
             <version>${version.policy.drools-pdp}</version>
             <scope>provided</scope>
-            <!-- <optional>true</optional> -->
         </dependency>
         <dependency>
             <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>

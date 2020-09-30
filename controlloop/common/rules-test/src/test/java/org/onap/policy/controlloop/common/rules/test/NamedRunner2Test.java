@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
  * executed.
  */
 @RunWith(NamedRunner.class)
-public class NamedRunnerTest2 {
+public class NamedRunner2Test {
 
     private static int testCount = 0;
 
