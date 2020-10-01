@@ -16,6 +16,24 @@
       "revId": "00780365f13006ba86f429438a2b49db1c118cc7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b1f1a6_57f504aa",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-10-01T22:20:40Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5928e91e_ec89b616",
+      "revId": "00780365f13006ba86f429438a2b49db1c118cc7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
