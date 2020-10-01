@@ -52,6 +52,24 @@
       "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad09fe6_f7ec08d5",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-10-01T12:36:34Z",
+      "side": 0,
+      "message": "if it\u0027s defined in the policy, then it typically overrides what\u0027s defined in the properties, so I think we should be fine.  With that in mind, is this change even needed?\n\n(the one caveat: it\u0027s up to the app developer to ensure that the timeout is extracted from the policy and passed to the actor via the ControlLoopOperationParams.  In drools-apps, this happens at UsecasesEventManager.java:344.  In Honolulu, we could make this a mandatory value within the Params.  Then we could remove it altogether from the actor properties.)",
+      "parentUuid": "60bfde09_0d8d367d",
+      "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
