@@ -22,6 +22,7 @@ package org.onap.policy.controlloop.tdjam;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -211,7 +212,7 @@ public class TdjamControllerTest {
         clp.setClosedLoopControlName(closedLoopControlName);
 
         if (tc != null) {
-            assertTrue(tc.addControlLoopParams(clp) != clp);
+            assertNotSame(clp, tc.addControlLoopParams(clp));
         }
 
         return clp;
