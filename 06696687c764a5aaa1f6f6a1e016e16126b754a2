@@ -88,6 +88,24 @@
       "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a0750e5_3bd15554",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/controlloop.properties.environment",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2020-10-01T15:06:51Z",
+      "side": 0,
+      "message": "Yes, apex is using the timeout defined in CdsServerProperties java class in cds actor code. It is not using the actor itself (operator, operation etc) but the CdsProcessorGrpcClient part of it. And there also it is set by the policy itself.\nI wanted to remove it from this controlloop.properties.environment to remove the ambiguity in drools-pdp for configuring cds operation timeout.\nBut I am okay if we want to leave it until Honolulu.",
+      "parentUuid": "fd303f65_bfa53c5b",
+      "revId": "06696687c764a5aaa1f6f6a1e016e16126b754a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
