@@ -1,0 +1,5 @@
+distribution_type: 'maven'
+version: '1.7.3'
+project: 'policy-drools-applications'
+tag_release: false
+log_dir: 'policy-drools-applications-maven-stage-master/517/'
