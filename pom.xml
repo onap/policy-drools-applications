@@ -47,7 +47,7 @@
         <!-- Project common dependency versions -->
         <version.policy.common>1.7.1</version.policy.common>
         <policy.models.version>2.3.5</policy.models.version>
-        <version.policy.drools-pdp>1.7.4-SNAPSHOT</version.policy.drools-pdp>
+        <version.policy.drools-pdp>1.7.4</version.policy.drools-pdp>
     </properties>
 
     <build>
