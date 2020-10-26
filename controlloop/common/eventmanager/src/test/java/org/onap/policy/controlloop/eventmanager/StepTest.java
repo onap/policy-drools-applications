@@ -55,7 +55,6 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.drools.domain.models.operational.OperationalTarget;
@@ -84,7 +83,6 @@ public class StepTest {
     private Map<String, String> entityIds;
     private Map<String, String> payload;
     private VirtualControlLoopEvent event;
-    private ControlLoopEventContext context;
     private BlockingQueue<OperationOutcome> starts;
     private BlockingQueue<OperationOutcome> completions;
     private ControlLoopOperationParams params;
@@ -117,19 +115,15 @@ public class StepTest {
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
-        event.setTarget(ControlLoopOperationManager2.VSERVER_VSERVER_NAME);
-        event.setAai(new TreeMap<>(Map.of(ControlLoopOperationManager2.VSERVER_VSERVER_NAME, MY_TARGET)));
-
-        context = new ControlLoopEventContext(event);
 
         starts = new LinkedBlockingQueue<>();
         completions = new LinkedBlockingQueue<>();
 
         params = ControlLoopOperationParams.builder().actor(POLICY_ACTOR).actorService(actors)
-                        .completeCallback(completions::add).context(context).executor(ForkJoinPool.commonPool())
+                        .completeCallback(completions::add).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
                         .targetType(TargetType.valueOf(target.getTargetType())).targetEntityIds(target.getEntityIds())
-                        .targetEntity(MY_TARGET).build();
+                        .requestId(REQ_ID).targetEntity(MY_TARGET).build();
 
         startTime = new AtomicReference<>();
 

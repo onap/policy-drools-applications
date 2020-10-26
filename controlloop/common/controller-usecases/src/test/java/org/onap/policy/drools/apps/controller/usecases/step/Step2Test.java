@@ -64,10 +64,8 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
-import org.onap.policy.controlloop.eventmanager.ControlLoopOperationManager2;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
@@ -97,7 +95,6 @@ public class Step2Test {
     private CompletableFuture<OperationOutcome> future;
     private Map<String, String> payload;
     private VirtualControlLoopEvent event;
-    private ControlLoopEventContext context;
     private BlockingQueue<OperationOutcome> starts;
     private BlockingQueue<OperationOutcome> completions;
     private ControlLoopOperationParams params;
@@ -126,10 +123,6 @@ public class Step2Test {
 
         event = new VirtualControlLoopEvent();
         event.setRequestId(REQ_ID);
-        event.setTarget(ControlLoopOperationManager2.VSERVER_VSERVER_NAME);
-        event.setAai(new TreeMap<>(Map.of(ControlLoopOperationManager2.VSERVER_VSERVER_NAME, MY_TARGET)));
-
-        context = new ControlLoopEventContext(event);
 
         starts = new LinkedBlockingQueue<>();
         completions = new LinkedBlockingQueue<>();
@@ -137,10 +130,10 @@ public class Step2Test {
         Map<String, String> entityIds = new HashMap<>();
 
         params = ControlLoopOperationParams.builder().actor(POLICY_ACTOR).actorService(actors)
-                        .completeCallback(completions::add).context(context).executor(ForkJoinPool.commonPool())
+                        .completeCallback(completions::add).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
                         .targetType(TargetType.VM).targetEntityIds(entityIds).targetEntity(MY_TARGET)
-                        .build();
+                        .requestId(REQ_ID).build();
 
         step = new Step2(stepContext, params, event);
         step.init();

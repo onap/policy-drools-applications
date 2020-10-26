@@ -63,7 +63,7 @@ import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.system.PolicyController;
@@ -239,7 +239,7 @@ public class RulesTest {
 
         verify(drools).delete(ToscaPolicy.class);
         verify(drools).delete(ControlLoopParams.class);
-        verify(drools).delete(ControlLoopEventManager2.class);
+        verify(drools).delete(ControlLoopEventManager.class);
         verify(drools).delete(ControlLoopEvent.class);
     }
 
