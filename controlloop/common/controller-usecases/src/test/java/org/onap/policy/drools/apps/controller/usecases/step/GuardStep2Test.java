@@ -50,7 +50,6 @@ import org.onap.policy.controlloop.actor.so.VfModuleCreate;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
-import org.onap.policy.controlloop.actorserviceprovider.controlloop.ControlLoopEventContext;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
@@ -72,8 +71,6 @@ public class GuardStep2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final int VF_COUNT = 10;
 
-    @Mock
-    private ControlLoopEventContext context;
     @Mock
     private StepContext stepContext;
     @Mock
@@ -105,8 +102,6 @@ public class GuardStep2Test {
         aai.put("vserver.vserver-name", MY_SERVERNAME);
         when(event.getRequestId()).thenReturn(REQ_ID);
         when(event.getAai()).thenReturn(aai);
-
-        when(context.getEvent()).thenReturn(event);
 
         when(genericVnf.getVnfId()).thenReturn(MY_TARGET);
         when(genericVnf.getVnfName()).thenReturn(MY_NAME);
@@ -174,7 +169,7 @@ public class GuardStep2Test {
                     .actor(MASTER_ACTOR)
                     .operation(MASTER_OPERATION)
                     .targetEntity(MY_TARGET)
-                    .context(context)
+                    .requestId(REQ_ID)
                     .targetType(target)
                     .build();
         // @formatter:on
