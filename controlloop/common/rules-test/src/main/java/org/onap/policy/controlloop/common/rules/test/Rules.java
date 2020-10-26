@@ -51,7 +51,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.persistence.SystemPersistence;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
@@ -152,7 +152,7 @@ public class Rules {
      * as any event managers and events.
      */
     public void resetFacts() {
-        List<Class<?>> classes = List.of(ToscaPolicy.class, ControlLoopParams.class, ControlLoopEventManager2.class,
+        List<Class<?>> classes = List.of(ToscaPolicy.class, ControlLoopParams.class, ControlLoopEventManager.class,
                         ControlLoopEvent.class);
 
         // delete all objects of the listed classes
