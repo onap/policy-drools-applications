@@ -41,7 +41,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.system.internal.SimpleLockManager;
 import org.onap.policy.drools.system.internal.SimpleLockManager.SimpleLock;
@@ -632,7 +632,7 @@ public abstract class BaseTest {
     }
 
     protected long getCreateCount() {
-        return ControlLoopEventManager2.getCreateCount();
+        return ControlLoopEventManager.getCreateCount();
     }
 
     /**

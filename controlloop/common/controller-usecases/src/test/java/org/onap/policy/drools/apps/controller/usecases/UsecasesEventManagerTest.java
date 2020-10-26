@@ -76,8 +76,6 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2;
-import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager2Drools;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.NewEventStatus;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
@@ -888,7 +886,7 @@ public class UsecasesEventManagerTest {
 
         // VM case
         event.setTargetType(ControlLoopTargetType.VM);
-        event.setAai(Map.of(ControlLoopEventManager2.GENERIC_VNF_VNF_ID, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.GENERIC_VNF_VNF_ID, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
         event.setAai(Map.of());
@@ -896,7 +894,7 @@ public class UsecasesEventManagerTest {
 
         // VNF case
         event.setTargetType(ControlLoopTargetType.VNF);
-        event.setAai(Map.of(ControlLoopEventManager2.GENERIC_VNF_VNF_ID, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.GENERIC_VNF_VNF_ID, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
         event.setAai(Map.of());
@@ -904,7 +902,7 @@ public class UsecasesEventManagerTest {
 
         // PNF case
         event.setTargetType(ControlLoopTargetType.PNF);
-        event.setAai(Map.of(ControlLoopEventManager2.PNF_NAME, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.PNF_NAME, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
         event.setAai(Map.of());
@@ -914,13 +912,13 @@ public class UsecasesEventManagerTest {
     @Test
     public void testValidateAaiVmVnfData() {
         event.setTargetType(ControlLoopTargetType.VM);
-        event.setAai(Map.of(ControlLoopEventManager2.GENERIC_VNF_VNF_ID, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.GENERIC_VNF_VNF_ID, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
-        event.setAai(Map.of(ControlLoopEventManager2.VSERVER_VSERVER_NAME, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.VSERVER_VSERVER_NAME, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
-        event.setAai(Map.of(ControlLoopEventManager2.GENERIC_VNF_VNF_NAME, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.GENERIC_VNF_VNF_NAME, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
         event.setAai(Map.of());
@@ -931,7 +929,7 @@ public class UsecasesEventManagerTest {
     @Test
     public void testValidateAaiPnfData() {
         event.setTargetType(ControlLoopTargetType.PNF);
-        event.setAai(Map.of(ControlLoopEventManager2.PNF_NAME, MY_TARGET));
+        event.setAai(Map.of(UsecasesConstants.PNF_NAME, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
         event.setAai(Map.of());
@@ -943,16 +941,16 @@ public class UsecasesEventManagerTest {
     public void testIsClosedLoopDisabled() {
         Map<String, String> orig = event.getAai();
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
+        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+        event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, "true"));
+        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.PNF_IS_IN_MAINT, "true"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+        event.setAai(addAai(orig, UsecasesConstants.PNF_IS_IN_MAINT, "true"));
+        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -960,18 +958,18 @@ public class UsecasesEventManagerTest {
     public void testIsProvStatusInactive() {
         Map<String, String> orig = event.getAai();
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "ACTIVE"));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "inactive"));
+        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+        event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+        event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "inactive"));
+        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -980,16 +978,16 @@ public class UsecasesEventManagerTest {
         Map<String, String> orig = event.getAai();
 
         for (String value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
-            event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
-            assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+            event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
+            assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                             .isInstanceOf(IllegalStateException.class);
         }
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "false"));
-        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "false"));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
 
-        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_IS_CLOSED_LOOP_DISABLED, "no"));
-        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "no"));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
     }
 
 

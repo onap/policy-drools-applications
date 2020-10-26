@@ -2,7 +2,7 @@
 # ============LICENSE_START=======================================================
 # ONAP
 # ================================================================================
-# Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+# Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
 # Modifications Copyright (C) 2019-2020 Bell Canada.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,38 +23,10 @@
 # directory, it will be automatically loaded by PDP-D, after being expanded
 # by installation scripts.
 
-sql.db.host=${envd:SQL_HOST}
-sql.db.username=${envd:SQL_USER}
-sql.db.password=${envd:SQL_PASSWORD}
-
+# these can be removed once RestControlLoopManager is modified to use the Actor
+# model instead of using AaiManager
 aai.url=https://${envd:AAI_HOST}:${envd:AAI_PORT:443}/${envd:AAI_CONTEXT_URI}
 aai.username=${envd:AAI_USERNAME}
 aai.password=${envd:AAI_PASSWORD}
 
-so.url=${envd:SO_URL}
-so.username=${envd:SO_USERNAME}
-so.password=${envd:SO_PASSWORD}
-
-vfc.url=https://${envd:VFC_HOST}:${envd:VFC_PORT:443}/${envd:VFC_CONTEXT_URI}
-vfc.username=${envd:VFC_USERNAME}
-vfc.password=${envd:VFC_PASSWORD}
-
-pdpx.host=${envd:PDP_HOST}
-pdpx.username=${envd:PDP_USERNAME}
-pdpx.password=${envd:PDP_PASSWORD}
-
-guard.url=https://${envd:PDP_HOST}:${envd:PDP_PORT:443}/${envd:PDP_CONTEXT_URI}decision
-guard.jdbc.url=jdbc:mariadb://${envd:SQL_HOST}:3306/operationshistory
 guard.disabled=false
-
-sdnc.url=https://${envd:SDNC_HOST}:${envd:SDNC_PORT:443}/${envd:SDNC_CONTEXT_URI}
-sdnc.username=${envd:SDNC_USERNAME}
-sdnc.password=${envd:SDNC_PASSWORD}
-
-cds.grpcHost=${envd:CDS_GRPC_HOST}
-cds.grpcPort=${envd:CDS_GRPC_PORT}
-cds.grpcUsername=${envd:CDS_GRPC_USERNAME}
-cds.grpcPassword=${envd:CDS_GRPC_PASSWORD}
-# The timeout defined in policy will take preference over the one below always.
-# This timeout will be removed in Honolulu along with related code.
-cds.grpcTimeout=10
