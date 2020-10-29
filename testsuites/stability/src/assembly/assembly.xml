@@ -3,6 +3,7 @@
   stability
   ================================================================================
   Copyright (C) 2018 Ericsson. All rights reserved.
+  Modifications Copyright (C) 2020 AT&T. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,7 +29,7 @@
     <baseDirectory>/drools-applications/stability</baseDirectory>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/src/main/resources/amsterdam/</directory>
+            <directory>${project.basedir}/src/main/resources/</directory>
             <outputDirectory>tests/amsterdam</outputDirectory>
             <includes>
                 <include>*.jmx</include>

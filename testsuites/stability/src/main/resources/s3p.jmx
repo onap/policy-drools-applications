@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP Policy Drools-Application
+  ================================================================================
+  Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.1.1 r1855137">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="PDP-D Stability" enabled="true">
@@ -10,27 +27,27 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="API_HOST" elementType="Argument">
             <stringProp name="Argument.name">API_HOST</stringProp>
-            <stringProp name="Argument.value">10.12.5.193</stringProp>
+            <stringProp name="Argument.value">10.12.5.232</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="API_PORT" elementType="Argument">
             <stringProp name="Argument.name">API_PORT</stringProp>
-            <stringProp name="Argument.value">30709</stringProp>
+            <stringProp name="Argument.value">30044</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PAP_HOST" elementType="Argument">
             <stringProp name="Argument.name">PAP_HOST</stringProp>
-            <stringProp name="Argument.value">10.12.5.193</stringProp>
+            <stringProp name="Argument.value">10.12.5.232</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PAP_PORT" elementType="Argument">
             <stringProp name="Argument.name">PAP_PORT</stringProp>
-            <stringProp name="Argument.value">32425</stringProp>
+            <stringProp name="Argument.value">30656</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DMAAP_HOST" elementType="Argument">
             <stringProp name="Argument.name">DMAAP_HOST</stringProp>
-            <stringProp name="Argument.value">10.12.5.193</stringProp>
+            <stringProp name="Argument.value">10.12.5.232</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DMAAP_PORT" elementType="Argument">
@@ -40,12 +57,12 @@
           </elementProp>
           <elementProp name="DROOLS_HOST" elementType="Argument">
             <stringProp name="Argument.name">DROOLS_HOST</stringProp>
-            <stringProp name="Argument.value">10.12.5.193</stringProp>
+            <stringProp name="Argument.value">10.12.5.232</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DROOLS_PORT" elementType="Argument">
             <stringProp name="Argument.name">DROOLS_PORT</stringProp>
-            <stringProp name="Argument.value">30789</stringProp>
+            <stringProp name="Argument.value">32161</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration" elementType="Argument">
@@ -209,7 +226,7 @@
                 &quot;failure_guard&quot;: &quot;final_failure_guard&quot;&#xd;
               }&#xd;
             ],&#xd;
-            &quot;controllerName&quot;: &quot;frankfurt&quot;&#xd;
+            &quot;controllerName&quot;: &quot;usecases&quot;&#xd;
           }&#xd;
         }&#xd;
       }&#xd;
@@ -290,7 +307,7 @@
                 &quot;failure_guard&quot;: &quot;final_failure_guard&quot;&#xd;
               }&#xd;
             ],&#xd;
-            &quot;controllerName&quot;: &quot;frankfurt&quot;&#xd;
+            &quot;controllerName&quot;: &quot;usecases&quot;&#xd;
           }&#xd;
         }&#xd;
       }&#xd;
@@ -377,7 +394,7 @@
                                 &quot;failure_guard&quot;: &quot;final_failure_guard&quot;&#xd;
                             }&#xd;
                         ],&#xd;
-                        &quot;controllerName&quot;: &quot;frankfurt&quot;&#xd;
+                        &quot;controllerName&quot;: &quot;usecases&quot;&#xd;
                     }&#xd;
                 }&#xd;
             }&#xd;
@@ -469,7 +486,7 @@
                                 &quot;failure_guard&quot;: &quot;final_failure_guard&quot;&#xd;
                             }&#xd;
                         ],&#xd;
-                        &quot;controllerName&quot;: &quot;frankfurt&quot;&#xd;
+                        &quot;controllerName&quot;: &quot;usecases&quot;&#xd;
                     }&#xd;
                 }&#xd;
             }&#xd;
@@ -561,7 +578,7 @@
                                 &quot;failure_guard&quot;: &quot;final_failure_guard&quot;&#xd;
                             }&#xd;
                         ],&#xd;
-                        &quot;controllerName&quot;: &quot;frankfurt&quot;&#xd;
+                        &quot;controllerName&quot;: &quot;usecases&quot;&#xd;
                     }&#xd;
                 }&#xd;
             }&#xd;
@@ -984,7 +1001,7 @@
           <stringProp name="HTTPSampler.port">${DROOLS_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/frankfurt/drools/facts</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdp/engine/controllers/usecases/drools/facts</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1006,7 +1023,7 @@
           </ResponseAssertion>
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
-            <stringProp name="JSON_PATH">$.frankfurt</stringProp>
+            <stringProp name="JSON_PATH">$.usecases</stringProp>
             <stringProp name="EXPECTED_VALUE">10</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
@@ -1218,7 +1235,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 10) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of 10 attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vCPE Success APPCL Failure, reached maximum number of 10 attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -1389,7 +1406,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 60) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vCPE Success POLICYCL Failure, reached maximum number of attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -1638,7 +1655,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 10) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of 10 attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vCPE Failure APPCL Failure, reached maximum number of 10 attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -1808,7 +1825,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 60) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of 10 attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vCPE Failure POLICYCL Failure, reached maximum number of 10 attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -2048,7 +2065,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 60) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of attempts &quot;);
+        AssertionResult.setFailureMessage(&quot;vDNS Success POLICYCL Failure, reached maximum number of attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -2287,7 +2304,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 60) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vDNS Failure POLICYCL Failure, reached maximum number of attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -2527,7 +2544,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 10) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of 10 attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vFW Success APPCCL Failure, reached maximum number of 10 attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
@@ -2692,7 +2709,7 @@ int counterTemp = Integer.parseInt(counter) +1;
 if (transaction == &quot;FINAL&quot;) {
 	counterTemp = 99;
 } else if (counterTemp &gt;= 60) {
-	AssertionResult.setFailureMessage(&quot;Failure, reached maximum number of attempts &quot;);
+	AssertionResult.setFailureMessage(&quot;vFW Success POLICYCL Failure, reached maximum number of attempts &quot;);
 	AssertionResult.setFailure(true);		
 }
 
