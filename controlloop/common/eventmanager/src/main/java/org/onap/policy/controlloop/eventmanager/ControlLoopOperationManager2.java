@@ -275,7 +275,7 @@ public class ControlLoopOperationManager2 implements Serializable {
     /**
      * Start the operation, after the lock has been acquired.
      *
-     * @return
+     * @return CompletableFuture for the operation being started
      */
     private CompletableFuture<OperationOutcome> startOperation() {
         // @formatter:off
