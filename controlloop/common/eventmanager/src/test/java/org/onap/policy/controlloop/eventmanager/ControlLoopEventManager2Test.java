@@ -193,6 +193,19 @@ public class ControlLoopEventManager2Test {
         assertThatThrownBy(() -> new ControlLoopEventManager2(params, event, workMem))
                         .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
+        // test with both prov-status flags, with mixed case
+        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "ACTIVE"));
+        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+
+        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "active"));
+        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+
+        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
+        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+
+        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "active"));
+        assertThatCode(() -> new ControlLoopEventManager2(params, event, workMem)).doesNotThrowAnyException();
+
         // valid
         event.setAai(orig);
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();

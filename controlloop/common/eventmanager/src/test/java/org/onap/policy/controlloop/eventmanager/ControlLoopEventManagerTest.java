@@ -733,13 +733,25 @@ public class ControlLoopEventManagerTest {
         aai.remove(ControlLoopEventManager.VSERVER_PROV_STATUS);
         assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
 
+        // null, ACTIVE
+        aai.remove(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS);
+        aai.put(ControlLoopEventManager.VSERVER_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE.toUpperCase());
+        assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
+
         // null, active
         aai.remove(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS);
-        aai.put(ControlLoopEventManager.VSERVER_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        aai.put(ControlLoopEventManager.VSERVER_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE.toLowerCase());
+        assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
+
+        // ACTIVE, null
+        aai.put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS,
+                        ControlLoopEventManager.PROV_STATUS_ACTIVE.toUpperCase());
+        aai.remove(ControlLoopEventManager.VSERVER_PROV_STATUS);
         assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
 
         // active, null
-        aai.put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS, ControlLoopEventManager.PROV_STATUS_ACTIVE);
+        aai.put(ControlLoopEventManager.GENERIC_VNF_PROV_STATUS,
+                        ControlLoopEventManager.PROV_STATUS_ACTIVE.toLowerCase());
         aai.remove(ControlLoopEventManager.VSERVER_PROV_STATUS);
         assertFalse(ControlLoopEventManager.isProvStatusInactive(onset));
 
