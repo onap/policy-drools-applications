@@ -183,7 +183,33 @@ public class ControlLoopEventManager2Test {
         assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
 
+        // vserver ACTIVE
+        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS,
+                        ControlLoopEventManager2.PROV_STATUS_ACTIVE.toUpperCase()));
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+
+        // vserver active
+        event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS,
+                        ControlLoopEventManager2.PROV_STATUS_ACTIVE.toLowerCase()));
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+
+        // vserver inactive
         event.setAai(addAai(orig, ControlLoopEventManager2.VSERVER_PROV_STATUS, "inactive"));
+        assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
+                        .hasMessage("prov-status is not ACTIVE on VServer or VNF");
+
+        // vnf ACTIVE
+        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS,
+                        ControlLoopEventManager2.PROV_STATUS_ACTIVE.toUpperCase()));
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+
+        // vnf active
+        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS,
+                        ControlLoopEventManager2.PROV_STATUS_ACTIVE.toLowerCase()));
+        assertThatCode(() -> new ControlLoopEventManager2Drools(params, event, workMem)).doesNotThrowAnyException();
+
+        // vnf inactive
+        event.setAai(addAai(orig, ControlLoopEventManager2.GENERIC_VNF_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new ControlLoopEventManager2Drools(params, event, workMem))
                         .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 

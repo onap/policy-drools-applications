@@ -545,8 +545,9 @@ public abstract class ControlLoopEventManager2 implements ManagerContext, Serial
      */
     private static boolean isProvStatusInactive(VirtualControlLoopEvent event) {
         Map<String, String> aai = event.getAai();
-        return !(PROV_STATUS_ACTIVE.equals(aai.getOrDefault(VSERVER_PROV_STATUS, PROV_STATUS_ACTIVE))
-                        && PROV_STATUS_ACTIVE.equals(aai.getOrDefault(GENERIC_VNF_PROV_STATUS, PROV_STATUS_ACTIVE)));
+        return !(PROV_STATUS_ACTIVE.equalsIgnoreCase(aai.getOrDefault(VSERVER_PROV_STATUS, PROV_STATUS_ACTIVE))
+                        && PROV_STATUS_ACTIVE.equalsIgnoreCase(
+                                        aai.getOrDefault(GENERIC_VNF_PROV_STATUS, PROV_STATUS_ACTIVE)));
     }
 
     /**

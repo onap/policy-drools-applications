@@ -188,7 +188,33 @@ public class UsecasesEventManagerTest {
         assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
 
+        // vserver ACTIVE
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS,
+                        UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+
+        // vserver active
+        event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS,
+                        UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+
+        // vserver inactive
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "inactive"));
+        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+                        .hasMessage("prov-status is not ACTIVE on VServer or VNF");
+
+        // vnf ACTIVE
+        event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS,
+                        UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+
+        // vnf active
+        event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS,
+                        UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
+        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+
+        // vnf inactive
+        event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
                         .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
