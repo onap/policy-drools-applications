@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '1.7.5'
+project: 'policy-drools-applications'
+log_dir: 'policy-drools-applications-maven-docker-stage-guilin/18'
+ref: 3844185d231d454eddea38d45c80a3c142fa7cf0
+containers:
+    - name: 'policy-pdpd-cl'
+      version: '1.7.5-20201112T1936'
