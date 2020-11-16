@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env ash
 
 # ########################################################################
 # Copyright 2019-2020 AT&T Intellectual Property. All rights reserved
@@ -16,7 +16,7 @@
 # limitations under the License.
 # ########################################################################
 
-if [[ ${DEBUG} == y ]]; then
+if [ "${DEBUG}" = "y" ]; then
     echo "-- $0 $* --"
     set -x
 fi
