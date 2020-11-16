@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a9b4b0_4c74feb6",
+        "filename": "controlloop/common/feature-controlloop-utils/src/main/feature/install/enable",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-11-16T20:48:24Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "3c69be91a33f9ee9c31dfcca96bc7a127836cb71",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
