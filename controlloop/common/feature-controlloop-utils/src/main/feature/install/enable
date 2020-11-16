@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env ash
 
 ###
 # ============LICENSE_START=======================================================
@@ -27,7 +27,7 @@
 for actor in AAI SO SDNC VFC GUARD
 do
     FILE=${POLICY_HOME}/config/${actor}-http-client.properties
-    if [[ ! -f ${FILE}.ofc ]]; then
+    if [ ! -f ${FILE}.ofc ]; then
         mv ${FILE} ${FILE}.ofc
     fi
 done
