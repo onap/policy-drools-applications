@@ -338,7 +338,6 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
                         .actor(actor.getActor())
                         .operation(actor.getOperation())
                         .requestId(event.getRequestId())
-                        .preprocessed(true)
                         .executor(getExecutor())
                         .retry(policy.getRetries())
                         .timeoutSec(policy.getTimeout())

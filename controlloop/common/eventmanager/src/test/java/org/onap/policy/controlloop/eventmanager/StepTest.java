@@ -52,6 +52,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
@@ -103,6 +104,7 @@ public class StepTest {
         when(policyActor.getOperator(POLICY_OPERATION)).thenReturn(policyOperator);
         when(policyOperator.buildOperation(any())).thenReturn(policyOperation);
         when(policyOperation.start()).thenReturn(future);
+        when(policyOperation.getProperty(OperationProperties.AAI_TARGET_ENTITY)).thenReturn(MY_TARGET);
 
         entityIds = Map.of("entity-name-A", "entity-value-A");
 
@@ -123,7 +125,7 @@ public class StepTest {
                         .completeCallback(completions::add).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
                         .targetType(TargetType.valueOf(target.getTargetType())).targetEntityIds(target.getEntityIds())
-                        .requestId(REQ_ID).targetEntity(MY_TARGET).build();
+                        .requestId(REQ_ID).build();
 
         startTime = new AtomicReference<>();
 
@@ -160,7 +162,6 @@ public class StepTest {
         assertNull(params2.getTimeoutSec());
         assertEquals(target.getTargetType().toString(), params2.getTargetType().toString());
         assertSame(entityIds, params2.getTargetEntityIds());
-        assertEquals(MY_TARGET, params2.getTargetEntity());
         assertTrue(params2.getPayload().isEmpty());
 
         when(actors.getActor(params2.getActor())).thenReturn(policyActor);
@@ -361,6 +362,12 @@ public class StepTest {
     @Test
     public void testBuildOperation() {
         assertSame(policyOperation, step.buildOperation());
+    }
+
+    @Test
+    public void testMakeOutcome() {
+        step.init();
+        assertEquals(MY_TARGET, step.makeOutcome().getTarget());
     }
 
     @Test

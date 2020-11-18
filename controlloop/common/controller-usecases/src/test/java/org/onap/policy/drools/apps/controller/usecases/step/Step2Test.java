@@ -132,7 +132,7 @@ public class Step2Test {
         params = ControlLoopOperationParams.builder().actor(POLICY_ACTOR).actorService(actors)
                         .completeCallback(completions::add).executor(ForkJoinPool.commonPool())
                         .operation(POLICY_OPERATION).payload(new TreeMap<>(payload)).startCallback(starts::add)
-                        .targetType(TargetType.VM).targetEntityIds(entityIds).targetEntity(MY_TARGET)
+                        .targetType(TargetType.VM).targetEntityIds(entityIds)
                         .requestId(REQ_ID).build();
 
         step = new Step2(stepContext, params, event);

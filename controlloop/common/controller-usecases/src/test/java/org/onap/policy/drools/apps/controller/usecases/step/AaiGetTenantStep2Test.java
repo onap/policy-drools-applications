@@ -84,7 +84,7 @@ public class AaiGetTenantStep2Test {
         future = new CompletableFuture<>();
 
         when(params.toBuilder()).thenReturn(ControlLoopOperationParams.builder().actorService(actors)
-                        .targetEntity("my-target").requestId(REQ_ID));
+                        .requestId(REQ_ID));
 
         // configure policy operation
         when(actors.getActor(AaiActor.NAME)).thenReturn(policyActor);
