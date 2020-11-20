@@ -48,7 +48,6 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
 public class AaiCqStep2Test {
-    private static final String MY_TARGET = "my-target";
     private static final UUID REQ_ID = UUID.randomUUID();
 
     @Mock
@@ -80,7 +79,7 @@ public class AaiCqStep2Test {
         future = new CompletableFuture<>();
 
         when(params.toBuilder()).thenReturn(ControlLoopOperationParams.builder().actorService(actors)
-                        .targetEntity(MY_TARGET).requestId(REQ_ID));
+                        .requestId(REQ_ID));
 
         // configure policy operation
         when(actors.getActor(AaiActor.NAME)).thenReturn(policyActor);

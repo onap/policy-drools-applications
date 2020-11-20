@@ -107,7 +107,7 @@ public class LockStep2Test {
         assertTrue(step.start(100));
 
         // complete the operation's future
-        OperationOutcome outcome = params.makeOutcome();
+        OperationOutcome outcome = step.makeOutcome();
         outcome.setTarget(MY_TARGET);
 
         future.complete(outcome);

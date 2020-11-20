@@ -30,6 +30,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineUtil;
 import org.slf4j.Logger;
@@ -190,7 +191,7 @@ public class Step {
 
         logger.warn("{}.{}: exception starting operation for {}", params.getActor(), params.getOperation(),
                         params.getRequestId(), thrown);
-        OperationOutcome outcome = new PipelineUtil(params).setOutcome(params.makeOutcome(), thrown);
+        OperationOutcome outcome = new PipelineUtil(params).setOutcome(makeOutcome(), thrown);
         outcome.setStart(startTime.get());
         outcome.setEnd(Instant.now());
         outcome.setFinalOutcome(true);
@@ -210,7 +211,7 @@ public class Step {
         logger.warn("{}.{}: control loop timeout for {}", params.getActor(), params.getOperation(),
                         params.getRequestId(), thrown);
 
-        OperationOutcome outcome = new PipelineUtil(params).setOutcome(params.makeOutcome(), thrown);
+        OperationOutcome outcome = new PipelineUtil(params).setOutcome(makeOutcome(), thrown);
         outcome.setActor(ActorConstants.CL_TIMEOUT_ACTOR);
         outcome.setOperation(null);
         outcome.setStart(startTime.get());
@@ -260,6 +261,16 @@ public class Step {
      */
     protected Operation buildOperation() {
         return params.build();
+    }
+
+    /**
+     * Makes an operation outcome, populating the target entity from the operation's
+     * properties.
+     *
+     * @return a new operation outcome
+     */
+    public OperationOutcome makeOutcome() {
+        return params.makeOutcome(operation.getProperty(OperationProperties.AAI_TARGET_ENTITY));
     }
 
     @Override

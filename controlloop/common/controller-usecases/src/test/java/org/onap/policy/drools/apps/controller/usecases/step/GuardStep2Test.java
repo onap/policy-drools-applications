@@ -168,7 +168,6 @@ public class GuardStep2Test {
         params = ControlLoopOperationParams.builder()
                     .actor(MASTER_ACTOR)
                     .operation(MASTER_OPERATION)
-                    .targetEntity(MY_TARGET)
                     .requestId(REQ_ID)
                     .targetType(target)
                     .build();
