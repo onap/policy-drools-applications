@@ -270,7 +270,10 @@ public class Step {
      * @return a new operation outcome
      */
     public OperationOutcome makeOutcome() {
-        return params.makeOutcome(operation.getProperty(OperationProperties.AAI_TARGET_ENTITY));
+        OperationOutcome outcome = params.makeOutcome();
+        outcome.setTarget(operation.getProperty(OperationProperties.AAI_TARGET_ENTITY));
+
+        return outcome;
     }
 
     @Override

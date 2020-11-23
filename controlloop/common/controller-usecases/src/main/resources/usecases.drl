@@ -395,7 +395,7 @@ rule "EVENT.MANAGER.EXECUTE.STEP"
 
         if (guardDisabled && "GUARD".equals($step.getActorName())) {
             // guard is disabled - just enqueue a "SUCCESS" (i.e., "Permit")
-            OperationOutcome outcome = $step.getParams().makeOutcome(null);
+            OperationOutcome outcome = $step.getParams().makeOutcome();
             outcome.setStart(Instant.now());
             outcome.setEnd(outcome.getStart());
 
