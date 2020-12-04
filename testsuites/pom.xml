@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications</groupId>
         <artifactId>drools-applications</artifactId>
-        <version>1.6.5-SNAPSHOT</version>
+        <version>1.6.5</version>
     </parent>
     <artifactId>drools-applications-testsuites</artifactId>
     <packaging>pom</packaging>

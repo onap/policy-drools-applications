@@ -24,7 +24,7 @@
   <parent>
     <artifactId>m2</artifactId>
     <groupId>org.onap.policy.drools-applications.controlloop.m2</groupId>
-    <version>1.6.5-SNAPSHOT</version>
+    <version>1.6.5</version>
   </parent>
 
   <artifactId>lock</artifactId>
