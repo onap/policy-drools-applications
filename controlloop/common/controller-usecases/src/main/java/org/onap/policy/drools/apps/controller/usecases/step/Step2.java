@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -285,16 +285,17 @@ public class Step2 extends Step {
 
     protected CloudRegion getCloudRegion() {
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getDefaultCloudRegion();
+        return verifyNotNull("default cloud region in A&AI response", aaicq.getDefaultCloudRegion());
     }
 
     protected Tenant getTenant() {
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getDefaultTenant();
+        return verifyNotNull("default tenant in A&AI response", aaicq.getDefaultTenant());
     }
 
     protected StandardCoderObject getPnf() {
-        return stepContext.getProperty(AaiGetPnfOperation.getKey(getTargetEntity()));
+        String target = getTargetEntity();
+        return verifyNotNull("PNF for " + target, stepContext.getProperty(AaiGetPnfOperation.getKey(target)));
     }
 
     protected GenericVnf getResourceVnf() {
@@ -305,23 +306,25 @@ public class Step2 extends Step {
         verifyNotNull("Target resource ID", resourceId);
 
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getGenericVnfByModelInvariantId(resourceId);
+        return verifyNotNull("VNF for " + resourceId, aaicq.getGenericVnfByModelInvariantId(resourceId));
     }
 
     protected ServiceInstance getService() {
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getServiceInstance();
+        return verifyNotNull("service instance in A&AI response", aaicq.getServiceInstance());
     }
 
     protected ModelVer getServiceModel() {
         AaiCqResponse aaicq = getCustomQueryData();
-        ServiceInstance service = aaicq.getServiceInstance();
-        return aaicq.getModelVerByVersionId(service.getModelVersionId());
+        ServiceInstance service = getService();
+        String modelVersionId = verifyNotNull("service model version ID in A&AI response", service.getModelVersionId());
+        return verifyNotNull("model version for service in A&AI response",
+                        aaicq.getModelVerByVersionId(modelVersionId));
     }
 
     protected Vserver getVServer() {
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getVserver();
+        return verifyNotNull("vserver in A&AI response", aaicq.getVserver());
     }
 
     /**
@@ -329,7 +332,7 @@ public class Step2 extends Step {
      * within the step's context.
      */
     protected String getTargetEntity() {
-        return stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY);
+        return verifyNotNull("A&AI target entity", stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY));
     }
 
     protected GenericVnf getVnf() {
@@ -340,13 +343,17 @@ public class Step2 extends Step {
         verifyNotNull(TARGET_MODEL_INVARIANT_ID, modelInvariantId);
 
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getGenericVnfByVfModuleModelInvariantId(modelInvariantId);
+        return verifyNotNull("generic VNF in A&AI response for " + modelInvariantId,
+                        aaicq.getGenericVnfByVfModuleModelInvariantId(modelInvariantId));
     }
 
     protected ModelVer getVnfModel() {
         GenericVnf vnf = getVnf();
+        String modelVersionId =
+                        verifyNotNull("model version ID for generic VNF in A&AI response", vnf.getModelVersionId());
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getModelVerByVersionId(vnf.getModelVersionId());
+        return verifyNotNull("model version for generic VNF in A&AI response",
+                        aaicq.getModelVerByVersionId(modelVersionId));
     }
 
     protected String getVserverLink() {
@@ -401,7 +408,7 @@ public class Step2 extends Step {
 
     protected GenericVnf getDefaultGenericVnf() {
         AaiCqResponse aaicq = getCustomQueryData();
-        return aaicq.getDefaultGenericVnf();
+        return verifyNotNull("generic VNF in A&AI response", aaicq.getDefaultGenericVnf());
     }
 
     protected AaiCqResponse getCustomQueryData() {
@@ -420,11 +427,13 @@ public class Step2 extends Step {
         stepContext.setProperty(OperationProperties.DATA_VF_COUNT, vfcount);
     }
 
-    protected void verifyNotNull(String propName, Object value) {
+    protected <T> T verifyNotNull(String propName, T value) {
         if (value == null) {
             throw new IllegalArgumentException(
                             "missing " + propName + " for " + getActorName() + "." + getOperationName());
         }
+
+        return value;
     }
 
     protected static String stripPrefix(String resourceLink, int ncomponents) {

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,7 @@ import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
+import org.onap.aai.domain.yang.Vserver;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
@@ -221,6 +222,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_DEFAULT_CLOUD_REGION, data);
+
+        when(aaicq.getDefaultCloudRegion()).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getCloudRegion())
+                        .withMessageContaining("missing default cloud region in A&AI response");
     }
 
     @Test
@@ -231,6 +236,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_DEFAULT_TENANT, data);
+
+        when(aaicq.getDefaultTenant()).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getTenant())
+                        .withMessageContaining("missing default tenant in A&AI response");
     }
 
     @Test
@@ -242,6 +251,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_PNF, data);
+
+        when(stepContext.getProperty(AaiGetPnfOperation.getKey(MY_TARGET))).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getPnf())
+                        .withMessageContaining("missing PNF for my-target");
     }
 
     @Test
@@ -253,6 +266,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_RESOURCE_VNF, data);
+
+        when(aaicq.getGenericVnfByModelInvariantId("my-resource")).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getResourceVnf())
+                        .withMessageContaining("missing VNF for my-resource");
 
         // missing resource ID
         params.getTargetEntityIds().put(Step2.TARGET_RESOURCE_ID, null);
@@ -275,6 +292,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_SERVICE, data);
+
+        when(aaicq.getServiceInstance()).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getService())
+                        .withMessageContaining("missing service instance in A&AI response");
     }
 
     @Test
@@ -289,6 +310,41 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_SERVICE_MODEL, data);
+
+        when(aaicq.getModelVerByVersionId("my-service-version")).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getServiceModel())
+                        .withMessageContaining("missing model version for service in A&AI response");
+
+        service.setModelVersionId(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getServiceModel())
+                        .withMessageContaining("missing service model version ID in A&AI response");
+
+        when(aaicq.getServiceInstance()).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getServiceModel())
+                        .withMessageContaining("missing service instance in A&AI response");
+    }
+
+    @Test
+    public void testGetVserver() {
+        Vserver vserver = new Vserver();
+        when(aaicq.getVserver()).thenReturn(vserver);
+
+        assertSame(vserver, step.getVServer());
+
+        when(aaicq.getVserver()).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getVServer())
+                        .withMessageContaining("missing vserver in A&AI response");
+    }
+
+    @Test
+    public void testGetTargetEntity() {
+        when(stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY)).thenReturn(MY_TARGET);
+
+        assertEquals(MY_TARGET, step.getTargetEntity());
+
+        when(stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY)).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getTargetEntity())
+                        .withMessageContaining("missing A&AI target entity");
     }
 
     @Test
@@ -300,6 +356,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_VNF, data);
+
+        when(aaicq.getGenericVnfByVfModuleModelInvariantId("my-model-invariant")).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getVnf())
+                        .withMessageContaining("missing generic VNF in A&AI response for my-model-invariant");
 
         // missing model invariant ID
         params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, null);
@@ -327,6 +387,14 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(OperationProperties.AAI_VNF_MODEL, data);
+
+        when(aaicq.getModelVerByVersionId("my-vnf-model-version-id")).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getVnfModel())
+                        .withMessageContaining("missing model version for generic VNF in A&AI response");
+
+        vnf.setModelVersionId(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getVnfModel())
+                        .withMessageContaining("missing model version ID for generic VNF in A&AI response");
     }
 
     @Test
@@ -452,6 +520,10 @@ public class Step2Test {
 
         step.setProperties();
         verify(policyOperation).setProperty(UsecasesConstants.AAI_DEFAULT_GENERIC_VNF, data);
+
+        when(aaicq.getDefaultGenericVnf()).thenReturn(null);
+        assertThatIllegalArgumentException().isThrownBy(() -> step.getDefaultGenericVnf())
+                        .withMessageContaining("missing generic VNF in A&AI response");
     }
 
     @Test
