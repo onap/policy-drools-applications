@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   drools-applications
   ================================================================================
-  Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@
 
   <properties>
    <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
-   <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
    <property name="eclipselink.logging.level" value="WARNING" />
   </properties>
  </persistence-unit>

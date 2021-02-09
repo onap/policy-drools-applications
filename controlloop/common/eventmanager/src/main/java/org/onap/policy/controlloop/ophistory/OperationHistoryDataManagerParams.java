@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,8 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 @AllArgsConstructor
 public class OperationHistoryDataManagerParams {
     public static final String DEFAULT_PU = "OperationsHistoryPU";
+    public static final String DEFAULT_DRIVER = "org.mariadb.jdbc.Driver";
+    public static final String DEFAULT_TYPE = "MySQL";
 
     @NotBlank
     private String url;
@@ -51,6 +53,12 @@ public class OperationHistoryDataManagerParams {
 
     @Builder.Default
     private String persistenceUnit = DEFAULT_PU;
+
+    @Builder.Default
+    private String driver = DEFAULT_DRIVER;
+
+    @Builder.Default
+    private String dbType = DEFAULT_TYPE;
 
     /**
      * Maximum number of records that can be waiting to be inserted into the DB. When the
