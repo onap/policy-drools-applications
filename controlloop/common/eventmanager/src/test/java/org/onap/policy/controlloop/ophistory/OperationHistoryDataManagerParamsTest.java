@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ public class OperationHistoryDataManagerParamsTest {
     private static final int MAX_QUEUE_LENGTH = 20;
     private static final String MY_PASS = "my-pass";
     private static final String MY_PU = "my-pu";
+    private static final String MY_DRIVER = "my-driver";
+    private static final String MY_DB_TYPE = "my-db-type";
     private static final String MY_URL = "my-url";
     private static final String MY_USER = "my-user";
 
@@ -53,11 +55,19 @@ public class OperationHistoryDataManagerParamsTest {
         assertEquals(MAX_QUEUE_LENGTH, params.getMaxQueueLength());
         assertEquals(MY_PASS, params.getPassword());
         assertEquals(OperationHistoryDataManagerParams.DEFAULT_PU, params.getPersistenceUnit());
+        assertEquals(OperationHistoryDataManagerParams.DEFAULT_DRIVER, params.getDriver());
+        assertEquals(OperationHistoryDataManagerParams.DEFAULT_TYPE, params.getDbType());
         assertEquals(MY_URL, params.getUrl());
         assertEquals(MY_USER, params.getUserName());
 
         // use specified PU
         assertEquals(MY_PU, makeBuilder().persistenceUnit(MY_PU).build().getPersistenceUnit());
+
+        // use specified driver
+        assertEquals(MY_DRIVER, makeBuilder().driver(MY_DRIVER).build().getDriver());
+
+        // use specified DB type
+        assertEquals(MY_DB_TYPE, makeBuilder().dbType(MY_DB_TYPE).build().getDbType());
     }
 
     @Test
@@ -68,6 +78,8 @@ public class OperationHistoryDataManagerParamsTest {
         testValidateField("userName", "null", params2 -> params2.setUserName(null));
         testValidateField("password", "null", params2 -> params2.setPassword(null));
         testValidateField("persistenceUnit", "null", params2 -> params2.setPersistenceUnit(null));
+        testValidateField("driver", "null", params2 -> params2.setDriver(null));
+        testValidateField("dbType", "null", params2 -> params2.setDbType(null));
 
         // check edge cases
         params.setBatchSize(0);
