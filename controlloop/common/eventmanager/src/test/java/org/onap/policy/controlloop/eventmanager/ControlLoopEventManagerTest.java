@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +37,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
@@ -56,6 +57,7 @@ import org.onap.policy.drools.core.lock.LockState;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ControlLoopEventManagerTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String CL_NAME = "my-closed-loop-name";
@@ -81,8 +83,6 @@ public class ControlLoopEventManagerTest {
      */
     @Before
     public void setUp() throws ControlLoopException, CoderException {
-        MockitoAnnotations.initMocks(this);
-
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
         params.setPolicyName(POLICY_NAME);

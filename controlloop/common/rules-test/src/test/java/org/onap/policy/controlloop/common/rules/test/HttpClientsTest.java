@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,15 +29,16 @@ import java.util.Properties;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientConfigException;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.controlloop.common.rules.test.HttpClients;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HttpClientsTest {
     private static final String CLIENT_NAME = "MY-CLIENT";
 
@@ -57,8 +58,6 @@ public class HttpClientsTest {
 
     @Test
     public void test() throws HttpClientConfigException {
-        MockitoAnnotations.initMocks(this);
-
         HttpClientFactoryInstance.getClientFactory().destroy();
 
         HttpClients clients = new HttpClients();

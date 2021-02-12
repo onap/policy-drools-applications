@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,9 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.RelatedToProperty;
@@ -54,6 +55,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GuardStep2Test {
     private static final String SOME_OTHER_VALUE = "some-other-value";
     private static final String SOME_OTHER_KEY = "some-other-key";
@@ -64,7 +66,6 @@ public class GuardStep2Test {
     private static final String MY_NAME = "my-name";
     private static final String MY_TYPE = "my-type";
     private static final String MY_CODE = "my-code";
-    private static final String MY_SERVER = "my-server";
     private static final String MY_SERVER2 = "my-server-2";
     private static final String MY_SERVERNAME = "my-server-name";
     private static final String MY_REGION = "my-region";
@@ -97,13 +98,9 @@ public class GuardStep2Test {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         aai.put("vserver.vserver-name", MY_SERVERNAME);
-        when(event.getRequestId()).thenReturn(REQ_ID);
         when(event.getAai()).thenReturn(aai);
 
-        when(genericVnf.getVnfId()).thenReturn(MY_TARGET);
         when(genericVnf.getVnfName()).thenReturn(MY_NAME);
         when(genericVnf.getVnfType()).thenReturn(MY_TYPE);
         when(genericVnf.getNfNamingCode()).thenReturn(MY_CODE);
@@ -150,9 +147,6 @@ public class GuardStep2Test {
         relData.setRelationshipValue(MY_SERVER2);
 
         when(customQuery.getGenericVnfByVnfId(MY_TARGET)).thenReturn(genericVnf);
-
-        when(theVserver.getVserverId()).thenReturn(MY_SERVER);
-        when(customQuery.getVserver()).thenReturn(theVserver);
 
         when(cloudRegion.getCloudRegionId()).thenReturn(MY_REGION);
         when(customQuery.getDefaultCloudRegion()).thenReturn(cloudRegion);

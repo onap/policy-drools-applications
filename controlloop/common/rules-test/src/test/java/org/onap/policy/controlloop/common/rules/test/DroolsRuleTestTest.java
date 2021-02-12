@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,15 +40,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.controller.DroolsController;
@@ -58,6 +58,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
 import org.powermock.reflect.Whitebox;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DroolsRuleTestTest {
 
     private static final String CONTROLLER_NAME = "my-controller-name";
@@ -128,29 +129,13 @@ public class DroolsRuleTestTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        when(policy.getIdentifier()).thenReturn(policyIdent);
-        when(policyIdent.getName()).thenReturn(POLICY_NAME);
-
-        when(drools.factCount(CONTROLLER_NAME)).thenReturn(0L);
-        when(controller.getDrools()).thenReturn(drools);
-
-        when(rules.getControllerName()).thenReturn(CONTROLLER_NAME);
         when(rules.getController()).thenReturn(controller);
-        when(rules.setupPolicyFromFile(any())).thenAnswer(args -> {
-            when(drools.factCount(CONTROLLER_NAME)).thenReturn(2L);
-            return policy;
-        });
+        when(rules.setupPolicyFromFile(any())).thenReturn(policy);
 
         when(topics.createListener(DroolsRuleTest.POLICY_CL_MGT_TOPIC,
              VirtualControlLoopNotification.class, controller)).thenReturn(policyClMgt);
         when(topics.createListener(eq(DroolsRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
-        when(topics.createListener(eq(DroolsRuleTest.APPC_CL_TOPIC), eq(Request.class),
-                        any(StandardCoderInstantAsMillis.class))).thenReturn(appcClSink);
-        when(topics.createListener(eq(DroolsRuleTest.SDNR_CL_TOPIC), eq(PciMessage.class),
-            any(StandardCoder.class))).thenReturn(sdnrClSink);
 
         Function<String, Rules> ruleMaker = this::makeRules;
         Supplier<HttpClients> httpClientMaker = this::makeHttpClients;

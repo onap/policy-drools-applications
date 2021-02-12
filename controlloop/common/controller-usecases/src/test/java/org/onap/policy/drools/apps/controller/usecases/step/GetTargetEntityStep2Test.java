@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,9 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -38,6 +39,7 @@ import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.GetTargetEntityOperation2;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GetTargetEntityStep2Test {
     @Mock
     private ControlLoopOperationParams params;
@@ -54,8 +56,6 @@ public class GetTargetEntityStep2Test {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         when(params.toBuilder()).thenReturn(ControlLoopOperationParams.builder());
 
         master = new Step2(stepContext, params, event);

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -41,6 +42,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LockStep2Test {
     private static final String MY_TARGET = "my-target";
 
@@ -63,8 +65,6 @@ public class LockStep2Test {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         future = new CompletableFuture<>();
 
         when(stepContext.requestLock(MY_TARGET)).thenReturn(future);

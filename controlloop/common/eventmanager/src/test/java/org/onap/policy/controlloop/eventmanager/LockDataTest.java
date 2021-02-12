@@ -38,13 +38,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.drools.core.lock.Lock;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LockDataTest {
 
     private static final String ENTITY = "my-entity";
@@ -66,8 +68,6 @@ public class LockDataTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         data = new LockData(ENTITY, REQ_ID);
     }
 

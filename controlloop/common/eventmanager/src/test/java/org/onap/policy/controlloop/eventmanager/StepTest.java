@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,8 +45,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
@@ -60,6 +61,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 
+@RunWith(MockitoJUnitRunner.class)
 public class StepTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String POLICY_ACTOR = "my-actor";
@@ -95,8 +97,6 @@ public class StepTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         future = new CompletableFuture<>();
 
         // configure policy operation

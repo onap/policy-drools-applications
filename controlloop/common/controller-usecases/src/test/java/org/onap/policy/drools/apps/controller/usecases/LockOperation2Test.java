@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,16 +33,17 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LockOperation2Test {
     private static final String MY_PNF = "my-pnf";
     private static final String MY_VNF = "my-vnf";
@@ -64,8 +65,6 @@ public class LockOperation2Test {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         event = new VirtualControlLoopEvent();
         event.setTarget("pnf.pnf-name");
         event.setAai(Map.of("pnf.pnf-name", MY_PNF));
@@ -77,7 +76,6 @@ public class LockOperation2Test {
 
         when(stepContext.requestLock(anyString())).thenReturn(future);
 
-        when(params.getTargetType()).thenReturn(TargetType.PNF);
         when(params.getActor()).thenReturn(MY_ACTOR);
         when(params.getOperation()).thenReturn(MY_OPERATION);
 

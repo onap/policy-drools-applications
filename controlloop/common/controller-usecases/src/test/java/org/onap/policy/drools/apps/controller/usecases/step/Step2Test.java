@@ -41,13 +41,13 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -70,6 +70,7 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
+@RunWith(MockitoJUnitRunner.class)
 public class Step2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String POLICY_ACTOR = "my-actor";
@@ -93,7 +94,6 @@ public class Step2Test {
     @Mock
     private AaiCqResponse aaicq;
 
-    private CompletableFuture<OperationOutcome> future;
     private Map<String, String> payload;
     private VirtualControlLoopEvent event;
     private BlockingQueue<OperationOutcome> starts;
@@ -106,15 +106,10 @@ public class Step2Test {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        future = new CompletableFuture<>();
-
         // configure policy operation
         when(actors.getActor(POLICY_ACTOR)).thenReturn(policyActor);
         when(policyActor.getOperator(POLICY_OPERATION)).thenReturn(policyOperator);
         when(policyOperator.buildOperation(any())).thenReturn(policyOperation);
-        when(policyOperation.start()).thenReturn(future);
 
         when(policyOperation.getPropertyNames()).thenReturn(List.of());
 

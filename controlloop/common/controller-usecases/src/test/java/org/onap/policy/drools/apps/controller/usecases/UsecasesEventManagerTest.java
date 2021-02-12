@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ import static org.mockito.Mockito.when;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +49,10 @@ import java.util.concurrent.ForkJoinPool;
 import org.drools.core.WorkingMemory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kie.api.runtime.rule.FactHandle;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
@@ -94,6 +94,7 @@ import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UsecasesEventManagerTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String CL_NAME = "my-closed-loop-name";
@@ -145,13 +146,6 @@ public class UsecasesEventManagerTest {
      */
     @Before
     public void setUp() throws ControlLoopException, CoderException {
-        MockitoAnnotations.initMocks(this);
-
-        when(actors.getActor(SIMPLE_ACTOR)).thenReturn(policyActor);
-        when(policyActor.getOperator(SIMPLE_OPERATION)).thenReturn(policyOperator);
-        when(policyOperator.buildOperation(any())).thenReturn(policyOperation);
-        when(policyOperation.getPropertyNames()).thenReturn(Collections.emptyList());
-
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
 
         event = new VirtualControlLoopEvent();

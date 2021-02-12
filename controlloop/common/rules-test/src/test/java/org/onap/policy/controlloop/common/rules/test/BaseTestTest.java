@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,8 +42,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmBody;
@@ -63,6 +64,7 @@ import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
 import org.powermock.reflect.Whitebox;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BaseTestTest {
     private static final String POLICY_NAME = "my-policy-name";
 
@@ -126,11 +128,6 @@ public class BaseTestTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        when(policy.getIdentifier()).thenReturn(policyIdent);
-        when(policyIdent.getName()).thenReturn(POLICY_NAME);
-
         when(topics.createListener(eq(BaseTest.POLICY_CL_MGT_TOPIC), eq(VirtualControlLoopNotification.class),
                         any(StandardCoder.class))).thenReturn(policyClMgt);
         when(topics.createListener(eq(BaseTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),

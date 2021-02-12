@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
@@ -59,7 +60,7 @@ import org.kie.api.event.rule.RuleRuntimeEventListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.Match;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
@@ -72,6 +73,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.slf4j.LoggerFactory;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RulesTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String CONTROLLER_NAME = "rulesTest";
@@ -135,8 +137,6 @@ public class RulesTest {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         facts = new LinkedList<>();
         ruleListeners = new LinkedList<>();
         agendaListeners = new LinkedList<>();
@@ -192,11 +192,6 @@ public class RulesTest {
             agendaListeners.add(args.getArgument(0));
             return null;
         }).when(kieSession).addEventListener(any(AgendaEventListener.class));
-
-        doAnswer(args -> {
-            agendaListeners.remove(args.getArgument(0));
-            return null;
-        }).when(kieSession).removeEventListener(any(AgendaEventListener.class));
 
         rules = new MyRules();
 

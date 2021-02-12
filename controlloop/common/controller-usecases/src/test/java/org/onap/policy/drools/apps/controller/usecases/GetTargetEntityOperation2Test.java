@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,9 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -43,6 +44,7 @@ import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GetTargetEntityOperation2Test {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
     private static final String VSERVER_NAME = "vserver.vserver-name";
@@ -66,8 +68,6 @@ public class GetTargetEntityOperation2Test {
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         event = new VirtualControlLoopEvent();
         event.setTarget("pnf.pnf-name");
         event.setAai(Map.of("pnf.pnf-name", MY_PNF));
@@ -296,7 +296,6 @@ public class GetTargetEntityOperation2Test {
 
     @Test
     public void testSetProperty() {
-        when(params.getTargetType()).thenReturn(TargetType.VM);
         event.setTarget(GENERIC_VNF_NAME);
 
         // not a property of interest - should be ignored
