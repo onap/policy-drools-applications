@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@
 
 package org.onap.policy.controlloop.ophistory;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
@@ -292,12 +292,12 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         entry.setMessage(operation.getMessage());
         entry.setOutcome(operation.getOutcome());
         if (operation.getStart() != null) {
-            entry.setStarttime(new Date(operation.getStart().toEpochMilli()));
+            entry.setStarttime(operation.getStart());
         } else {
             entry.setStarttime(null);
         }
         if (operation.getEnd() != null) {
-            entry.setEndtime(new Date(operation.getEnd().toEpochMilli()));
+            entry.setEndtime(operation.getEnd());
         } else {
             entry.setEndtime(null);
         }
