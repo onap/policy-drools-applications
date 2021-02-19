@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
@@ -65,6 +66,18 @@ public class ControlLoopMetricsFeatureTest {
     @AfterClass
     public static void tearDown() {
         SystemPersistenceConstants.getManager().setConfigurationDir(configPath.toString());
+    }
+
+    @Before
+    public void beforeTest() {
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setAverageExecutionTime(0d);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setLastExecutionTime(0L);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setLastStart(0L);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setAverageExecutionTime(0d);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setPolicyExecutedCount(0L);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setPolicyExecutedFailCount(0L);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setPolicyExecutedSuccessCount(0L);
+        PolicyEngineConstants.getManager().getStats().getGroupStat().setTotalElapsedTime(0d);
     }
 
     @Test
@@ -231,6 +244,19 @@ public class ControlLoopMetricsFeatureTest {
                 Serialization.gsonPretty.fromJson(finalSuccessNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, finalSuccess);
         assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
+        assertEquals(1,
+                PolicyEngineConstants.getManager().getStats().getGroupStat().getPolicyExecutedSuccessCount());
+        assertEquals(0,
+                PolicyEngineConstants.getManager().getStats().getGroupStat().getPolicyExecutedFailCount());
+        assertEquals(1, PolicyEngineConstants.getManager().getStats().getGroupStat().getPolicyExecutedCount());
+        assertEquals(1587409937684L,
+                PolicyEngineConstants.getManager().getStats().getGroupStat().getLastExecutionTime());
+        assertEquals(461d,
+                PolicyEngineConstants.getManager().getStats().getGroupStat().getAverageExecutionTime(), 0.0d);
+        assertEquals(1587409937223L,
+                PolicyEngineConstants.getManager().getStats().getGroupStat().getLastStart());
+        assertEquals(461d,
+                PolicyEngineConstants.getManager().getStats().getGroupStat().getTotalElapsedTime(), 0.0d);
     }
 
     @Test
