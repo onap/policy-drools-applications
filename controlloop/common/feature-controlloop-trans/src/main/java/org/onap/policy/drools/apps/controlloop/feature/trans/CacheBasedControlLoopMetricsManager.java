@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +39,7 @@ import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.system.PolicyController;
+import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.utils.logging.MdcTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,7 +165,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
             case FINAL_FAILURE:
             case FINAL_SUCCESS:
             case FINAL_OPENLOOP:
-                endTransaction(notification);
+                endTransaction(controller, notification);
                 break;
             case ACTIVE:
             case OPERATION:
@@ -224,18 +226,15 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     /**
      * End of a control loop transaction.
      *
+     * @param controller controller
      * @param notification control loop notification
      */
-    protected void endTransaction(VirtualControlLoopNotification notification) {
+    protected void endTransaction(PolicyController controller, VirtualControlLoopNotification notification) {
         ZonedDateTime startTime;
         VirtualControlLoopNotification startNotification = cache.getIfPresent(notification.getRequestId());
-        if (startNotification != null) {
-            startTime = startNotification.getNotificationTime();
-        } else {
-            startTime = notification.getNotificationTime();
-        }
+        startTime = Objects.requireNonNullElse(startNotification, notification).getNotificationTime();
 
-        this.transaction(notification, startTime);
+        this.transaction(controller, notification, startTime);
         if (startNotification != null) {
             removeTransaction(startNotification.getRequestId());
         }
@@ -349,7 +348,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         return trans;
     }
 
-    protected void transaction(VirtualControlLoopNotification notification, ZonedDateTime startTime) {
+    protected void transaction(PolicyController controller,
+            VirtualControlLoopNotification notification, ZonedDateTime startTime) {
         MdcTransaction trans = getMdcTransaction(notification)
                 .setStartTime(startTime.toInstant())
                 .setEndTime(notification.getNotificationTime().toInstant());
@@ -372,6 +372,13 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 break;
         }
 
+        try {
+            PolicyEngineConstants.getManager().transaction(controller.getName(),
+                    notification.getClosedLoopControlName(), trans.getMetric());
+        } catch (RuntimeException rex) {
+            logger.info("error pegging control loop transaction: {}", trans.getMetric(), rex);
+        }
+
         trans.transaction().resetTransaction();
     }
 
@@ -387,10 +394,6 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     private String notificationTypeToResponseCode(String notificationType) {
         String code = note2code.get(notificationType);
-        if (code != null) {
-            return code;
-        } else {
-            return UNKNOWN_RESPONSE_CODE;
-        }
+        return Objects.requireNonNullElse(code, UNKNOWN_RESPONSE_CODE);
     }
 }
