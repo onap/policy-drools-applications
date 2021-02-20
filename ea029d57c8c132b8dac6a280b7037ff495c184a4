@@ -22,6 +22,30 @@
       "revId": "ea029d57c8c132b8dac6a280b7037ff495c184a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12529ebf_3f6ff971",
+        "filename": "controlloop/common/feature-controlloop-trans/src/main/java/org/onap/policy/drools/apps/controlloop/feature/trans/CacheBasedControlLoopMetricsManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-02-20T20:15:15Z",
+      "side": 1,
+      "message": "Me too!",
+      "parentUuid": "00a6ae5f_e6a5ad57",
+      "range": {
+        "startLine": 235,
+        "startChar": 28,
+        "endLine": 235,
+        "endChar": 46
+      },
+      "revId": "ea029d57c8c132b8dac6a280b7037ff495c184a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
