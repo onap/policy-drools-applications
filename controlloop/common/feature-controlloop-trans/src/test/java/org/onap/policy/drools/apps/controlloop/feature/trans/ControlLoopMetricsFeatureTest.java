@@ -57,7 +57,6 @@ public class ControlLoopMetricsFeatureTest {
         PolicyEngineConstants.getManager().getStats().getGroupStat().setAverageExecutionTime(0d);
         PolicyEngineConstants.getManager().getStats().getGroupStat().setLastExecutionTime(0L);
         PolicyEngineConstants.getManager().getStats().getGroupStat().setLastStart(0L);
-        PolicyEngineConstants.getManager().getStats().getGroupStat().setAverageExecutionTime(0d);
         PolicyEngineConstants.getManager().getStats().getGroupStat().setPolicyExecutedCount(0L);
         PolicyEngineConstants.getManager().getStats().getGroupStat().setPolicyExecutedFailCount(0L);
         PolicyEngineConstants.getManager().getStats().getGroupStat().setPolicyExecutedSuccessCount(0L);
