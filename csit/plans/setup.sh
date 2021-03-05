@@ -46,7 +46,7 @@ echo XACML IP IS ${XACML_IP}
 echo SIMULATORS IP IS ${SIM_IP}
 
 # wait for the app to start up
-${SCRIPTS}/policy/wait_for_port.sh ${DROOLS_IP} 6969
+${SCRIPTS}/wait_for_port.sh ${DROOLS_IP} 6969
 
 # give enough time for the controllers to come up
 sleep 15
