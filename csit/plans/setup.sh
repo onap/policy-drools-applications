@@ -25,8 +25,8 @@ pip install -U docker==2.7.0
 
 sudo apt-get -y install libxml2-utils
 
-bash ${SCRIPTS}/policy/get-models-examples.sh
-source ${SCRIPTS}/policy/detmVers.sh
+bash ${SCRIPTS}/get-models-examples.sh
+source ${SCRIPTS}/detmVers.sh
 
 docker-compose -f ${SCRIPTS}/docker-compose-all.yml up -d drools-apps
 
