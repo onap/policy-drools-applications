@@ -117,7 +117,7 @@ DeployXacmlPolicies
     [Documentation]    Deploys the Policies to Xacml
     ${auth}=    Create List    healthcheck    zb!XztG34
     Log    Creating session https://${PAP_IP}:6969
-    ${postjson}=  Get file  ${SCR2}/deploy.xacml.policies.json
+    ${postjson}=  Get file  ${DATA2}/deploy.xacml.policies.json
     ${session}=    Create Session      policy  https://${PAP_IP}:6969   auth=${auth}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
     ${resp}=   Post Request     policy  /policy/pap/v1/pdps/deployments/batch    data=${postjson}     headers=${headers}
@@ -135,7 +135,7 @@ DeployDroolsPolicies
     [Documentation]    Deploys the Policies to Drools
     ${auth}=    Create List    healthcheck    zb!XztG34
     Log    Creating session https://${PAP_IP}:6969
-    ${postjson}=  Get file  ${SCR2}/deploy.drools.policies.json
+    ${postjson}=  Get file  ${DATA2}/deploy.drools.policies.json
     ${session}=    Create Session      policy  https://${PAP_IP}:6969   auth=${auth}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
     ${resp}=   Post Request     policy  /policy/pap/v1/pdps/deployments/batch    data=${postjson}     headers=${headers}
@@ -152,7 +152,7 @@ DeployDroolsPolicies
 
 VcpeExecute
     [Documentation]    Executes VCPE Policy
-    ${result}=     Run Process        ${SCR2}/onset.sh     ${SCR2}/vcpeOnset.json
+    ${result}=     Run Process        ${SCR2}/onset.sh     ${DATA2}/vcpeOnset.json
     Should Be Equal As Integers        ${result.rc}    0
     ${result}=     Run Process        ${SCR2}/wait_topic.sh     POLICY-CL-MGT
     ...            ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e
@@ -194,7 +194,7 @@ VcpeExecute
 
 VdnsExecute
     [Documentation]    Executes VDNS Policy
-    ${result}=     Run Process        ${SCR2}/onset.sh     ${SCR2}/vdnsOnset.json
+    ${result}=     Run Process        ${SCR2}/onset.sh     ${DATA2}/vdnsOnset.json
     Should Be Equal As Integers        ${result.rc}    0
     ${result}=     Run Process        ${SCR2}/wait_topic.sh     POLICY-CL-MGT
     ...            ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3
@@ -235,7 +235,7 @@ VdnsExecute
 
 VfwExecute
     [Documentation]    Executes VFW Policy
-    ${result}=     Run Process        ${SCR2}/onset.sh     ${SCR2}/vfwOnset.json
+    ${result}=     Run Process        ${SCR2}/onset.sh     ${DATA2}/vfwOnset.json
     Should Be Equal As Integers        ${result.rc}    0
     ${result}=     Run Process        ${SCR2}/wait_topic.sh     POLICY-CL-MGT
     ...            ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
