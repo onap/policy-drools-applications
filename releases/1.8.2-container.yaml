@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '1.8.2'
+project: 'policy-drools-applications'
+log_dir: 'policy-drools-applications-maven-docker-stage-honolulu/16/'
+ref: 1fc8004cb60c9dc71af7d880f95c1166af4607fa
+containers:
+    - name: 'policy-pdpd-cl'
+      version: '1.8.2-20210324T1719'
