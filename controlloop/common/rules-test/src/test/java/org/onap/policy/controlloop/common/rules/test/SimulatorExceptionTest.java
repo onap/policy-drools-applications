@@ -1,9 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * eventmanager
+ * ONAP
  * ================================================================================
- * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2019-20201 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop;
+package org.onap.policy.controlloop.common.rules.test;
 
 import org.junit.Test;
 import org.onap.policy.common.utils.test.ExceptionsTester;
 
-public class ControlLoopExceptionTest {
+public class SimulatorExceptionTest {
 
     @Test
-    public void testControlLoopException() {
-        new ExceptionsTester().test(ControlLoopException.class);
+    public void test() {
+        new ExceptionsTester().test(SimulatorException.class);
     }
 }
