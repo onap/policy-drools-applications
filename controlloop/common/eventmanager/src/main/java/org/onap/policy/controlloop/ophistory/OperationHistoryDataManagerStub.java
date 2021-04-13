@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.ophistory;
 
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 
 /**
  * Stub implementation of a data manager; all methods return without doing anything.
@@ -29,7 +28,7 @@ import org.onap.policy.controlloop.VirtualControlLoopEvent;
 public class OperationHistoryDataManagerStub implements OperationHistoryDataManager {
 
     @Override
-    public void store(String requestId, VirtualControlLoopEvent event, String targetEntity,
+    public void store(String requestId, String clName, Object event, String targetEntity,
                     ControlLoopOperation operation) {
         // do nothing
     }

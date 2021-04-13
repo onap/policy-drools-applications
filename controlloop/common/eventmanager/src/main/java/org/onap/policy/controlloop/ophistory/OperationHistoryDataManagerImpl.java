@@ -38,7 +38,6 @@ import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.jpa.EntityMgrCloser;
 import org.onap.policy.common.utils.jpa.EntityTransCloser;
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.guard.OperationsHistory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +148,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     }
 
     @Override
-    public synchronized void store(String requestId, VirtualControlLoopEvent event, String targetEntity,
+    public synchronized void store(String requestId, String clName, Object event, String targetEntity,
                     ControlLoopOperation operation) {
 
         if (stopped) {
@@ -158,7 +157,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
             return;
         }
 
-        operations.add(new Record(requestId, event, targetEntity, operation));
+        operations.add(new Record(requestId, clName, event, targetEntity, operation));
 
         if (operations.size() > maxQueueLength) {
             Record discarded = operations.remove();
@@ -255,35 +254,28 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      */
     private void storeRecord(EntityManager entityMgr, Record record) {
 
-        final VirtualControlLoopEvent event = record.getEvent();
+        final String reqId = record.getRequestId();
+        final String clName = record.getClName();
         final ControlLoopOperation operation = record.getOperation();
 
-        logger.info("store operation history record for {}", event.getRequestId());
+        logger.info("store operation history record for {}", reqId);
 
-        List<OperationsHistory> results =
-            entityMgr.createQuery("select e from OperationsHistory e"
-                        + " where e.closedLoopName= ?1"
-                        + " and e.requestId= ?2"
-                        + " and e.subrequestId= ?3"
-                        + " and e.actor= ?4"
-                        + " and e.operation= ?5"
-                        + " and e.target= ?6",
-                        OperationsHistory.class)
-                .setParameter(1, event.getClosedLoopControlName())
-                .setParameter(2, record.getRequestId())
-                .setParameter(3, operation.getSubRequestId())
-                .setParameter(4, operation.getActor())
-                .setParameter(5, operation.getOperation())
-                .setParameter(6, record.getTargetEntity())
-                .getResultList();
+        List<OperationsHistory> results = entityMgr
+                        .createQuery("select e from OperationsHistory e" + " where e.closedLoopName= ?1"
+                                        + " and e.requestId= ?2" + " and e.subrequestId= ?3" + " and e.actor= ?4"
+                                        + " and e.operation= ?5" + " and e.target= ?6", OperationsHistory.class)
+                        .setParameter(1, clName).setParameter(2, record.getRequestId())
+                        .setParameter(3, operation.getSubRequestId()).setParameter(4, operation.getActor())
+                        .setParameter(5, operation.getOperation()).setParameter(6, record.getTargetEntity())
+                        .getResultList();
 
         if (results.size() > 1) {
-            logger.warn("unexpected operation history record count {} for {}", results.size(), event.getRequestId());
+            logger.warn("unexpected operation history record count {} for {}", results.size(), reqId);
         }
 
         OperationsHistory entry = (results.isEmpty() ? new OperationsHistory() : results.get(0));
 
-        entry.setClosedLoopName(event.getClosedLoopControlName());
+        entry.setClosedLoopName(clName);
         entry.setRequestId(record.getRequestId());
         entry.setActor(operation.getActor());
         entry.setOperation(operation.getOperation());
@@ -303,11 +295,11 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         }
 
         if (results.isEmpty()) {
-            logger.info("insert operation history record for {}", event.getRequestId());
+            logger.info("insert operation history record for {}", reqId);
             ++recordsInserted;
             entityMgr.persist(entry);
         } else {
-            logger.info("update operation history record for {}", event.getRequestId());
+            logger.info("update operation history record for {}", reqId);
             ++recordsUpdated;
             entityMgr.merge(entry);
         }
@@ -337,7 +329,8 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     @ToString
     private static class Record {
         private String requestId;
-        private VirtualControlLoopEvent event;
+        private String clName;
+        private Object event;
         private String targetEntity;
         private ControlLoopOperation operation;
     }

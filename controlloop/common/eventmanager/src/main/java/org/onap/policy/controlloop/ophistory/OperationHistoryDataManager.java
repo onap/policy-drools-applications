@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 package org.onap.policy.controlloop.ophistory;
 
 import org.onap.policy.controlloop.ControlLoopOperation;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 
 /**
  * Data manager for the Operation History table.
@@ -33,11 +32,13 @@ public interface OperationHistoryDataManager {
      * discarded.
      *
      * @param requestId request ID
-     * @param event event with which the operation is associated
+     * @param clName control loop name
+     * @param event event with which the operation is associated, typically just used for
+     *        logging
      * @param targetEntity target entity associated with the operation
      * @param operation operation to be stored
      */
-    void store(String requestId, VirtualControlLoopEvent event, String targetEntity, ControlLoopOperation operation);
+    void store(String requestId, String clName, Object event, String targetEntity, ControlLoopOperation operation);
 
     /**
      * Starts the background thread.

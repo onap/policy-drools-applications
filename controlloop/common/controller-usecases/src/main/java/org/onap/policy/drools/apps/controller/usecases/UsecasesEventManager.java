@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -550,7 +550,8 @@ public class UsecasesEventManager extends ControlLoopEventManager implements Ste
     public void storeInDataBase(OperationOutcome2 outcome) {
         String targetEntity = getProperty(OperationProperties.AAI_TARGET_ENTITY);
 
-        getDataManager().store(requestIdStr, event, targetEntity, outcome.getClOperation());
+        getDataManager().store(requestIdStr, event.getClosedLoopControlName(), event, targetEntity,
+                        outcome.getClOperation());
     }
 
     /**

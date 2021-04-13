@@ -523,10 +523,9 @@ public class UsecasesEventManagerTest {
      */
     @Test
     public void testLoadPreprocessorStepsNeedTargetEntity() {
-        stepa = new Step2(mgr,
-                ControlLoopOperationParams.builder()
-                        .targetType(TargetType.toTargetType(event.getTargetType()))
-                        .targetEntityIds(Map.of()).build(), event) {
+        stepa = new Step2(mgr, ControlLoopOperationParams.builder()
+                        .targetType(TargetType.toTargetType(event.getTargetType())).targetEntityIds(Map.of()).build(),
+                        event) {
             @Override
             public List<String> getPropertyNames() {
                 return List.of(OperationProperties.AAI_TARGET_ENTITY);
@@ -758,7 +757,8 @@ public class UsecasesEventManagerTest {
 
         mgr.storeInDataBase(mgr.getPartialHistory().peekLast());
 
-        verify(dataMgr).store(REQ_ID.toString(), event, null, mgr.getPartialHistory().peekLast().getClOperation());
+        verify(dataMgr).store(REQ_ID.toString(), event.getClosedLoopControlName(), event, null,
+                        mgr.getPartialHistory().peekLast().getClOperation());
     }
 
     @Test

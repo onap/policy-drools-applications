@@ -173,7 +173,7 @@ public class OperationHistoryDataManagerImplTest {
     @Test
     public void testStore_testStop() throws InterruptedException {
         // store
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         runThread();
 
@@ -200,7 +200,7 @@ public class OperationHistoryDataManagerImplTest {
         mgr.stop();
 
         // store
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         assertEquals(0, mgr.getRecordsCommitted());
     }
@@ -212,7 +212,7 @@ public class OperationHistoryDataManagerImplTest {
     public void testStoreTooManyItems() throws InterruptedException {
         final int nextra = 5;
         for (int nitems = 0; nitems < MAX_QUEUE_LENGTH + nextra; ++nitems) {
-            mgr.store(REQ_ID, event, MY_ENTITY, operation);
+            mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
         }
 
         runThread();
@@ -233,9 +233,9 @@ public class OperationHistoryDataManagerImplTest {
         mgr = new RealThread();
         mgr.start();
 
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         waitForThread();
 
@@ -269,9 +269,9 @@ public class OperationHistoryDataManagerImplTest {
         mgr = new RealThread();
         mgr.start();
 
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         waitForThread();
 
@@ -286,7 +286,7 @@ public class OperationHistoryDataManagerImplTest {
         // arrange to throw an exception
         when(emfSpy.createEntityManager()).thenThrow(EXPECTED_EXCEPTION);
 
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         runThread();
     }
@@ -299,25 +299,25 @@ public class OperationHistoryDataManagerImplTest {
          */
 
         // no start time
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         // no end time
         operation = new ControlLoopOperation(operation);
         operation.setSubRequestId(UUID.randomUUID().toString());
         operation.setStart(Instant.now());
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         // both start and end times
         operation = new ControlLoopOperation(operation);
         operation.setSubRequestId(UUID.randomUUID().toString());
         operation.setEnd(Instant.now());
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         // only end time
         operation = new ControlLoopOperation(operation);
         operation.setSubRequestId(UUID.randomUUID().toString());
         operation.setStart(null);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         runThread();
 
@@ -341,22 +341,22 @@ public class OperationHistoryDataManagerImplTest {
 
         // no start time
         operation.setStart(null);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         // no end time
         operation = new ControlLoopOperation(operation);
         operation.setStart(Instant.now());
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         // both start and end times
         operation = new ControlLoopOperation(operation);
         operation.setEnd(Instant.now());
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         // only end time
         operation = new ControlLoopOperation(operation);
         operation.setStart(null);
-        mgr.store(REQ_ID, event, MY_ENTITY, operation);
+        mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
         runThread();
 
