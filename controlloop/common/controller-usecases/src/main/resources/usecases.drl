@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,9 @@ import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.Step;
 import org.onap.policy.controlloop.utils.ControlLoopUtils;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
-import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.State;
-import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.NewEventStatus;
-import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager.OperationOutcome2;
+import org.onap.policy.controlloop.eventmanager.ClEventManagerWithSteps.State;
+import org.onap.policy.controlloop.eventmanager.ClEventManagerWithSteps.OperationOutcome2;
+import org.onap.policy.controlloop.eventmanager.ClEventManagerWithEvent.NewEventStatus;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 import org.slf4j.LoggerFactory;
