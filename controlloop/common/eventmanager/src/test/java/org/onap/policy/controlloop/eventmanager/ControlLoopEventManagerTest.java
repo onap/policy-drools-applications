@@ -60,6 +60,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 @RunWith(MockitoJUnitRunner.class)
 public class ControlLoopEventManagerTest {
     private static final UUID REQ_ID = UUID.randomUUID();
+    private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String CL_NAME = "my-closed-loop-name";
     private static final String POLICY_NAME = "my-policy-name";
     private static final String POLICY_SCOPE = "my-scope";
@@ -184,15 +185,96 @@ public class ControlLoopEventManagerTest {
         // indicate that the first lock failed
         locks.get(0).notifyUnavailable();
 
-        verifyLock(OperationResult.FAILURE);
+        verifyLock(OperationResult.FAILURE, ActorConstants.LOCK_OPERATION);
         assertTrue(mgr.getOutcomes().isEmpty());
     }
 
-    private void verifyLock(OperationResult result) {
+    @Test
+    public void testReleaseLock() {
+        mgr.requestLock(LOCK1);
+        mgr.requestLock(LOCK2);
+
+        // release one lock
+        final CompletableFuture<OperationOutcome> future = mgr.releaseLock(LOCK1);
+
+        // asynchronous, thus should not have executed yet
+        assertThat(future.isDone()).isFalse();
+
+        // asynchronous, thus everything should still be locked
+        for (LockImpl lock : locks) {
+            assertThat(lock.isUnavailable()).isFalse();
+        }
+
+        runExecutor();
+
+        verifyLock(OperationResult.SUCCESS, ActorConstants.UNLOCK_OPERATION);
+        assertThat(mgr.getOutcomes()).isEmpty();
+
+        // first lock should have been released, thus no longer available to the manager
+        assertThat(locks.get(0).isUnavailable()).isTrue();
+
+        // second should still be locked
+        assertThat(locks.get(1).isUnavailable()).isFalse();
+    }
+
+    /**
+     * Tests releaseLock() when there is no lock.
+     */
+    @Test
+    public void testReleaseLockNotLocked() {
+        final CompletableFuture<OperationOutcome> future = mgr.releaseLock(LOCK1);
+
+        // lock didn't exist, so the request should already be complete
+        assertThat(future.isDone()).isTrue();
+
+        verifyLock(OperationResult.SUCCESS, ActorConstants.UNLOCK_OPERATION);
+        assertThat(mgr.getOutcomes()).isEmpty();
+    }
+
+    /**
+     * Tests releaseLock() when lock.free() throws an exception.
+     */
+    @Test
+    public void testReleaseLockException() throws ControlLoopException {
+        mgr = new MyManager(params, REQ_ID) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void makeLock(String targetEntity, String requestId, int holdSec, LockCallback callback) {
+
+                LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback) {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public boolean free() {
+                        throw new RuntimeException(EXPECTED_EXCEPTION);
+                    }
+                };
+
+                locks.add(lock);
+                callback.lockAvailable(lock);
+            }
+        };
+
+        mgr.requestLock(LOCK1);
+
+        // release the lock
+        final CompletableFuture<OperationOutcome> future = mgr.releaseLock(LOCK1);
+
+        // asynchronous, thus should not have executed yet
+        assertThat(future.isDone()).isFalse();
+
+        runExecutor();
+
+        verifyLock(OperationResult.FAILURE_EXCEPTION, ActorConstants.UNLOCK_OPERATION);
+        assertThat(mgr.getOutcomes()).isEmpty();
+    }
+
+    private void verifyLock(OperationResult result, String lockOperation) {
         OperationOutcome outcome = mgr.getOutcomes().poll();
         assertNotNull(outcome);
         assertEquals(ActorConstants.LOCK_ACTOR, outcome.getActor());
-        assertEquals(ActorConstants.LOCK_OPERATION, outcome.getOperation());
+        assertEquals(lockOperation, outcome.getOperation());
         assertNotNull(outcome.getEnd());
         assertTrue(outcome.isFinalOutcome());
         assertEquals(result, outcome.getResult());
@@ -249,6 +331,7 @@ public class ControlLoopEventManagerTest {
     public void testGetDataManagerDisabled() throws ControlLoopException {
         mgr = new MyManager(params, REQ_ID) {
             private static final long serialVersionUID = 1L;
+
             @Override
             protected String getEnvironmentProperty(String propName) {
                 return ("guard.disabled".equals(propName) ? "true" : null);
@@ -285,8 +368,7 @@ public class ControlLoopEventManagerTest {
         private static ExecutorService executor;
         private static List<LockImpl> locks;
 
-        public MyManager(ControlLoopParams params, UUID requestId)
-                        throws ControlLoopException {
+        public MyManager(ControlLoopParams params, UUID requestId) throws ControlLoopException {
             super(params, requestId);
         }
 
