@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,4 +69,17 @@ public interface StepContext {
      * @return a future that can be used to await the lock
      */
     public CompletableFuture<OperationOutcome> requestLock(String targetEntity);
+
+    /**
+     * Releases a lock.
+     * <p/>
+     * Note: once this has been invoked, whether or not the "release" operation succeeds,
+     * subsequent calls to {@link #requestLock(String)} for the same target entity may
+     * always fail, and subsequent calls to {@link #releaseLock(String)} may always
+     * succeed, depending on the implementation.
+     *
+     * @param targetEntity entity to be locked
+     * @return a future that can be used to await the release operation
+     */
+    public CompletableFuture<OperationOutcome> releaseLock(String targetEntity);
 }

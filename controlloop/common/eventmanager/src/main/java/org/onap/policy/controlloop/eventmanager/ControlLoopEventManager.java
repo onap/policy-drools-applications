@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 package org.onap.policy.controlloop.eventmanager;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +38,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.ToString;
 import org.onap.policy.controlloop.ControlLoopException;
+import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
+import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
@@ -189,13 +192,6 @@ public class ControlLoopEventManager implements StepContext, Serializable {
         return TimeUnit.MILLISECONDS.convert(timeout, TimeUnit.SECONDS);
     }
 
-    /**
-     * Requests a lock. This requests the lock for the time that remains before the
-     * timeout expires. This avoids having to extend the lock.
-     *
-     * @param targetEntity entity to be locked
-     * @return a future that can be used to await the lock
-     */
     @Override
     public synchronized CompletableFuture<OperationOutcome> requestLock(String targetEntity) {
 
@@ -212,6 +208,58 @@ public class ControlLoopEventManager implements StepContext, Serializable {
         });
 
         return data.getFuture();
+    }
+
+    @Override
+    public synchronized CompletableFuture<OperationOutcome> releaseLock(String targetEntity) {
+        LockData data = target2lock.remove(targetEntity);
+
+        if (data == null) {
+            // lock did not exist - immediately return a success
+            OperationOutcome outcome = makeUnlockOutcome(targetEntity);
+            outcome.setEnd(outcome.getStart());
+            onComplete(outcome);
+
+            return CompletableFuture.completedFuture(outcome);
+        }
+
+        /*
+         * previous lock operation may not have completed yet, thus we tack the unlock
+         * operation onto it.
+         *
+         * Note: we must invoke free(), asynchronously (i.e., using whenCompleteAsync()),
+         * as it may block
+         */
+
+        return data.getFuture().whenCompleteAsync((lockOutcome, thrown) -> {
+
+            OperationOutcome outcome = makeUnlockOutcome(targetEntity);
+
+            try {
+                data.free();
+
+            } catch (RuntimeException e) {
+                logger.warn("failed to unlock {}", targetEntity, e);
+                outcome.setResult(OperationResult.FAILURE_EXCEPTION);
+                outcome.setMessage(ControlLoopOperation.FAILED_MSG + ": " + e.getMessage());
+            }
+
+            outcome.setEnd(Instant.now());
+            onComplete(outcome);
+
+        }, getBlockingExecutor());
+    }
+
+    private OperationOutcome makeUnlockOutcome(String targetEntity) {
+        OperationOutcome outcome = new OperationOutcome();
+        outcome.setActor(ActorConstants.LOCK_ACTOR);
+        outcome.setOperation(ActorConstants.UNLOCK_OPERATION);
+        outcome.setTarget(targetEntity);
+        outcome.setResult(OperationResult.SUCCESS);
+        outcome.setMessage(ControlLoopOperation.SUCCESS_MSG);
+        outcome.setFinalOutcome(true);
+        outcome.setStart(Instant.now());
+        return outcome;
     }
 
     public void onStart(OperationOutcome outcome) {
