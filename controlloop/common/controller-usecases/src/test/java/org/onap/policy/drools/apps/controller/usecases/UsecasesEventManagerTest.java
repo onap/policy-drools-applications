@@ -165,37 +165,37 @@ public class UsecasesEventManagerTest {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
 
         // vserver ACTIVE
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS,
                         UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         // vserver active
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS,
                         UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         // vserver inactive
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
         // vnf ACTIVE
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS,
                         UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         // vnf active
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS,
                         UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         // vnf inactive
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
         // valid
@@ -204,7 +204,7 @@ public class UsecasesEventManagerTest {
 
         // invalid
         event.setTarget("unknown-target");
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .isInstanceOf(ControlLoopException.class);
     }
 
@@ -541,15 +541,15 @@ public class UsecasesEventManagerTest {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, "true"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, UsecasesConstants.PNF_IS_IN_MAINT, "true"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -558,17 +558,17 @@ public class UsecasesEventManagerTest {
         Map<String, String> orig = event.getAai();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "inactive"));
-        assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+        assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                         .isInstanceOf(IllegalStateException.class);
     }
 
@@ -578,15 +578,15 @@ public class UsecasesEventManagerTest {
 
         for (String value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
             event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
-            assertThatThrownBy(() -> new UsecasesEventManager(params, event, workMem))
+            assertThatThrownBy(() -> new UsecasesEventManager(null, params, event, workMem))
                             .isInstanceOf(IllegalStateException.class);
         }
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "false"));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "no"));
-        assertThatCode(() -> new UsecasesEventManager(params, event, workMem)).doesNotThrowAnyException();
+        assertThatCode(() -> new UsecasesEventManager(null, params, event, workMem)).doesNotThrowAnyException();
     }
 
 
@@ -668,7 +668,7 @@ public class UsecasesEventManagerTest {
         public MyManager(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
                         throws ControlLoopException {
 
-            super(params, event, workMem);
+            super(null, params, event, workMem);
         }
 
         @Override

@@ -66,7 +66,6 @@ import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
@@ -105,11 +104,11 @@ public class ClEventManagerWithStepsTest {
     @Mock
     private Actor policyActor;
     @Mock
-    private ActorService actors;
-    @Mock
-    private OperationHistoryDataManager dataMgr;
-    @Mock
     private ExecutorService executor;
+    @Mock
+    protected EventManagerServices services;
+    @Mock
+    private ActorService actors;
     @Mock
     private MyStep stepa;
     @Mock
@@ -125,6 +124,8 @@ public class ClEventManagerWithStepsTest {
      */
     @Before
     public void setUp() throws ControlLoopException, CoderException {
+        when(services.getActorService()).thenReturn(actors);
+
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
 
         params = new ControlLoopParams();
@@ -137,7 +138,7 @@ public class ClEventManagerWithStepsTest {
 
         locks = new ArrayList<>();
 
-        mgr = new MyManager(params, REQ_ID, workMem);
+        mgr = new MyManager(services, params, REQ_ID, workMem);
     }
 
     @Test
@@ -145,7 +146,8 @@ public class ClEventManagerWithStepsTest {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
 
         // invalid
-        assertThatThrownBy(() -> new MyManager(params, null, workMem)).isInstanceOf(ControlLoopException.class);
+        assertThatThrownBy(() -> new MyManager(services, params, null, workMem))
+                        .isInstanceOf(ControlLoopException.class);
     }
 
     @Test
@@ -222,7 +224,7 @@ public class ClEventManagerWithStepsTest {
     @Test
     public void testStartInactive() throws Exception {
         // make an inactive manager by deserializing it
-        RealManager mgr2 = Serializer.roundTrip(new RealManager(params, REQ_ID, workMem));
+        RealManager mgr2 = Serializer.roundTrip(new RealManager(services, params, REQ_ID, workMem));
         mgr = mgr2;
 
         // cannot re-start
@@ -246,7 +248,7 @@ public class ClEventManagerWithStepsTest {
     @Test
     public void testLoadNextPolicy() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
-        mgr = new MyManager(params, REQ_ID, workMem);
+        mgr = new MyManager(services, params, REQ_ID, workMem);
 
         // start and load step for first policy
         mgr.start();
@@ -420,9 +422,10 @@ public class ClEventManagerWithStepsTest {
     private class MyManager extends ClEventManagerWithSteps<MyStep> {
         private static final long serialVersionUID = 1L;
 
-        public MyManager(ControlLoopParams params, UUID requestId, WorkingMemory workMem) throws ControlLoopException {
+        public MyManager(EventManagerServices services, ControlLoopParams params, UUID requestId, WorkingMemory workMem)
+                        throws ControlLoopException {
 
-            super(params, requestId, workMem);
+            super(services, params, requestId, workMem);
         }
 
         @Override
@@ -435,16 +438,6 @@ public class ClEventManagerWithStepsTest {
             LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
-        }
-
-        @Override
-        public ActorService getActorService() {
-            return actors;
-        }
-
-        @Override
-        public OperationHistoryDataManager getDataManager() {
-            return dataMgr;
         }
 
         @Override
@@ -462,10 +455,10 @@ public class ClEventManagerWithStepsTest {
     private static class RealManager extends ClEventManagerWithSteps<MyStep> {
         private static final long serialVersionUID = 1L;
 
-        public RealManager(ControlLoopParams params, UUID requestId, WorkingMemory workMem)
-                        throws ControlLoopException {
+        public RealManager(EventManagerServices services, ControlLoopParams params, UUID requestId,
+                        WorkingMemory workMem) throws ControlLoopException {
 
-            super(params, requestId, workMem);
+            super(services, params, requestId, workMem);
         }
 
         @Override
