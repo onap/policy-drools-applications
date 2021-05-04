@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3544d26_98ff630f",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-04T22:34:30Z",
+      "side": 1,
+      "message": "yes!  meant to make it protected in the first place",
+      "parentUuid": "ebda2620_f57eb88c",
+      "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "511fc416_071c51d4",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d22e8d27_a59537f2",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-04T22:34:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "511fc416_071c51d4",
+      "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b1abdde_9e1da8e6",
         "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2021-05-04T20:56:08Z",
       "side": 1,
       "message": "I think maybe it would be best for the operation outcome to be handled by the specific use case. There can be cases where this logic as-is is not sufficient for a particular use case.",
+      "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37fdffe1_f5bc4f02",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-04T22:34:30Z",
+      "side": 1,
+      "message": "the makeOperationOutcome2() method below allows you to modify the object after it has been created or even to subclass it, either of which should provide the needed flexibility.  Nevertheless, I also refactored this class, moving the operation outcome code into another subclass so you could completely replace the OperationOutcome2 class, if so desired (though I think the flexibility provided by makeOperationOutcome2() is probably enough)",
+      "parentUuid": "3b1abdde_9e1da8e6",
       "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
