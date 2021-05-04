@@ -45,12 +45,34 @@ import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithSteps.State;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithOutcome.OperationOutcome2;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithEvent.NewEventStatus;
+import org.onap.policy.controlloop.eventmanager.EventManagerServices;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import org.onap.policy.drools.system.PolicyEngineConstants;
+
+
+/*
+* Called at initial start-up, to create the event services that will be used by all
+* event managers in this rule engine instance.
+*/
+rule "CREATE.EVENT.SERVICES"
+    when
+        not (EventManagerServices())
+    then
+
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    logger.info("{}", drools.getRule().getName());
+
+    try {
+        insert(new EventManagerServices("event-manager"));
+
+    } catch(RuntimeException e) {
+        logger.warn("{}: cannot create event services", drools.getRule().getName(), e);
+    }
+end
 
 /*
 *
@@ -114,6 +136,7 @@ rule "EVENT"
     when
         $params : ControlLoopParams( $clName : getClosedLoopControlName() )
         $event : CanonicalOnset( closedLoopControlName == $clName )
+        $services : EventManagerServices()
         not ( UsecasesEventManager( closedLoopControlName == $event.getClosedLoopControlName(),
             getEvent() == $event ) )
     then
@@ -144,7 +167,8 @@ rule "EVENT"
             notification.setPolicyVersion($params.getPolicyVersion());
 
         } else {
-            UsecasesEventManager manager = new UsecasesEventManager($params, $event, drools.getWorkingMemory());
+            UsecasesEventManager manager =
+                new UsecasesEventManager($services, $params, $event, drools.getWorkingMemory());
             insert(manager);
             try {
                 // load the first policy/step

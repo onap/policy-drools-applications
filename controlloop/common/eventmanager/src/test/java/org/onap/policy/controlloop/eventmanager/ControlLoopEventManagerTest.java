@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
+import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
@@ -72,6 +74,10 @@ public class ControlLoopEventManagerTest {
 
     @Mock
     private ExecutorService executor;
+    @Mock
+    protected EventManagerServices services;
+    @Mock
+    private OperationHistoryDataManager dataMgr;
 
     private long preCreateTimeMs;
     private List<LockImpl> locks;
@@ -84,6 +90,8 @@ public class ControlLoopEventManagerTest {
      */
     @Before
     public void setUp() throws ControlLoopException, CoderException {
+        when(services.getDataManager()).thenReturn(dataMgr);
+
         params = new ControlLoopParams();
         params.setClosedLoopControlName(CL_NAME);
         params.setPolicyName(POLICY_NAME);
@@ -99,7 +107,7 @@ public class ControlLoopEventManagerTest {
         MyManager.executor = executor;
         MyManager.locks = locks;
 
-        mgr = new MyManager(params, REQ_ID);
+        mgr = new MyManager(services, params, REQ_ID);
     }
 
     @Test
@@ -119,16 +127,16 @@ public class ControlLoopEventManagerTest {
     public void testGetCreateCount() throws ControlLoopException {
         long original = ControlLoopEventManager.getCreateCount();
 
-        new MyManager(params, REQ_ID);
+        new MyManager(services, params, REQ_ID);
         assertEquals(original + 1, ControlLoopEventManager.getCreateCount());
 
-        new MyManager(params, REQ_ID);
+        new MyManager(services, params, REQ_ID);
         assertEquals(original + 2, ControlLoopEventManager.getCreateCount());
     }
 
     @Test
     public void testIsActive() throws Exception {
-        mgr = new ControlLoopEventManager(params, REQ_ID);
+        mgr = new ControlLoopEventManager(services, params, REQ_ID);
         assertTrue(mgr.isActive());
 
         ControlLoopEventManager mgr2 = Serializer.roundTrip(mgr);
@@ -236,7 +244,7 @@ public class ControlLoopEventManagerTest {
      */
     @Test
     public void testReleaseLockException() throws ControlLoopException {
-        mgr = new MyManager(params, REQ_ID) {
+        mgr = new MyManager(services, params, REQ_ID) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -325,11 +333,19 @@ public class ControlLoopEventManagerTest {
     }
 
     /**
+     * Tests getDataManager() when not disabled.
+     */
+    @Test
+    public void testGetDataManagerNotDisabled() throws ControlLoopException {
+        assertThat(mgr.getDataManager()).isSameAs(dataMgr);
+    }
+
+    /**
      * Tests getDataManager() when guard.disabled=true.
      */
     @Test
     public void testGetDataManagerDisabled() throws ControlLoopException {
-        mgr = new MyManager(params, REQ_ID) {
+        mgr = new MyManager(services, params, REQ_ID) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -368,8 +384,9 @@ public class ControlLoopEventManagerTest {
         private static ExecutorService executor;
         private static List<LockImpl> locks;
 
-        public MyManager(ControlLoopParams params, UUID requestId) throws ControlLoopException {
-            super(params, requestId);
+        public MyManager(EventManagerServices services, ControlLoopParams params, UUID requestId)
+                        throws ControlLoopException {
+            super(services, params, requestId);
         }
 
         @Override

@@ -130,16 +130,17 @@ public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoo
     /**
      * Constructs the object.
      *
+     * @param services services the manager should use when processing the event
      * @param params control loop parameters
      * @param requestId event request ID
      * @param workMem working memory to update if this changes
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ClEventManagerWithSteps(ControlLoopParams params, UUID requestId, WorkingMemory workMem)
-                    throws ControlLoopException {
+    public ClEventManagerWithSteps(EventManagerServices services, ControlLoopParams params, UUID requestId,
+                    WorkingMemory workMem) throws ControlLoopException {
 
-        super(params, requestId);
+        super(services, params, requestId);
 
         if (requestId == null) {
             throw new ControlLoopException("No request ID");
