@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebda2620_f57eb88c",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2021-05-04T20:56:08Z",
+      "side": 1,
+      "message": "Can this be protected? In case there is a use case that comes along that may need to override this method to do some custom logic for loading policies.",
+      "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511fc416_071c51d4",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2021-05-04T20:56:08Z",
+      "side": 1,
+      "message": "See comment about operation outcomes below.",
+      "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b1abdde_9e1da8e6",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/eventmanager/ClEventManagerWithSteps.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1677
+      },
+      "writtenOn": "2021-05-04T20:56:08Z",
+      "side": 1,
+      "message": "I think maybe it would be best for the operation outcome to be handled by the specific use case. There can be cases where this logic as-is is not sufficient for a particular use case.",
+      "revId": "a3d99cbafc1c3e32ebf54f77389038c611f6027e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
