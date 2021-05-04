@@ -104,6 +104,8 @@ public class ClEventManagerWithEventTest {
     @Mock
     private Actor policyActor;
     @Mock
+    private EventManagerServices services;
+    @Mock
     private ActorService actors;
     @Mock
     private OperationHistoryDataManager dataMgr;
@@ -125,6 +127,9 @@ public class ClEventManagerWithEventTest {
      */
     @Before
     public void setUp() throws ControlLoopException, CoderException {
+        when(services.getActorService()).thenReturn(actors);
+        when(services.getDataManager()).thenReturn(dataMgr);
+
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
 
         event = new VirtualControlLoopEvent();
@@ -145,7 +150,7 @@ public class ClEventManagerWithEventTest {
 
         locks = new ArrayList<>();
 
-        mgr = new MyManager(params, event, workMem);
+        mgr = new MyManager(services, params, event, workMem);
     }
 
     @Test
@@ -158,13 +163,14 @@ public class ClEventManagerWithEventTest {
 
         // invalid
         event.setTarget("");
-        assertThatThrownBy(() -> new MyManager(params, event, workMem)).isInstanceOf(ControlLoopException.class);
+        assertThatThrownBy(() -> new MyManager(services, params, event, workMem))
+                        .isInstanceOf(ControlLoopException.class);
     }
 
     @Test
     public void testPopulateNotification() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
-        mgr = new MyManager(params, event, workMem);
+        mgr = new MyManager(services, params, event, workMem);
 
         // before started
         assertNotNull(mgr.makeNotification());
@@ -333,10 +339,10 @@ public class ClEventManagerWithEventTest {
     private class MyManager extends ClEventManagerWithEvent<MyStep> {
         private static final long serialVersionUID = 1L;
 
-        public MyManager(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
-                        throws ControlLoopException {
+        public MyManager(EventManagerServices services, ControlLoopParams params, VirtualControlLoopEvent event,
+                        WorkingMemory workMem) throws ControlLoopException {
 
-            super(params, event, workMem);
+            super(services, params, event, workMem);
         }
 
         @Override
@@ -349,16 +355,6 @@ public class ClEventManagerWithEventTest {
             LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
-        }
-
-        @Override
-        public ActorService getActorService() {
-            return actors;
-        }
-
-        @Override
-        public OperationHistoryDataManager getDataManager() {
-            return dataMgr;
         }
 
         @Override

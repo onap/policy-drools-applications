@@ -51,7 +51,6 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -59,7 +58,6 @@ import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
 import org.onap.policy.drools.core.lock.LockState;
@@ -97,9 +95,7 @@ public class ClEventManagerWithOutcomeTest {
     @Mock
     private Actor policyActor;
     @Mock
-    private ActorService actors;
-    @Mock
-    private OperationHistoryDataManager dataMgr;
+    private EventManagerServices services;
     @Mock
     private ExecutorService executor;
     @Mock
@@ -129,7 +125,7 @@ public class ClEventManagerWithOutcomeTest {
 
         locks = new ArrayList<>();
 
-        mgr = new MyManager(params, REQ_ID, workMem);
+        mgr = new MyManager(services, params, REQ_ID, workMem);
     }
 
     @Test
@@ -137,13 +133,14 @@ public class ClEventManagerWithOutcomeTest {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
 
         // invalid
-        assertThatThrownBy(() -> new MyManager(params, null, workMem)).isInstanceOf(ControlLoopException.class);
+        assertThatThrownBy(() -> new MyManager(services, params, null, workMem))
+                        .isInstanceOf(ControlLoopException.class);
     }
 
     @Test
     public void testLoadNextPolicy_testGetFullHistory_testGetPartialHistory() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
-        mgr = new MyManager(params, REQ_ID, workMem);
+        mgr = new MyManager(services, params, REQ_ID, workMem);
 
         // start and load step for first policy
         mgr.start();
@@ -249,7 +246,7 @@ public class ClEventManagerWithOutcomeTest {
     @Test
     public void testMakeNotification() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
-        mgr = new MyManager(params, REQ_ID, workMem);
+        mgr = new MyManager(services, params, REQ_ID, workMem);
 
         // before started
         assertNotNull(mgr.makeNotification());
@@ -353,9 +350,10 @@ public class ClEventManagerWithOutcomeTest {
     private class MyManager extends ClEventManagerWithOutcome<MyStep> {
         private static final long serialVersionUID = 1L;
 
-        public MyManager(ControlLoopParams params, UUID requestId, WorkingMemory workMem) throws ControlLoopException {
+        public MyManager(EventManagerServices services, ControlLoopParams params, UUID requestId, WorkingMemory workMem)
+                        throws ControlLoopException {
 
-            super(params, requestId, workMem);
+            super(services, params, requestId, workMem);
         }
 
         @Override
@@ -368,16 +366,6 @@ public class ClEventManagerWithOutcomeTest {
             LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
-        }
-
-        @Override
-        public ActorService getActorService() {
-            return actors;
-        }
-
-        @Override
-        public OperationHistoryDataManager getDataManager() {
-            return dataMgr;
         }
 
         @Override
