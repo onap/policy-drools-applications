@@ -61,16 +61,17 @@ public abstract class ClEventManagerWithEvent<T extends Step> extends ClEventMan
     /**
      * Constructs the object.
      *
+     * @param services services the manager should use when processing the event
      * @param params control loop parameters
      * @param event event to be managed by this object
      * @param workMem working memory to update if this changes
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ClEventManagerWithEvent(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
-                    throws ControlLoopException {
+    public ClEventManagerWithEvent(EventManagerServices services, ControlLoopParams params,
+                    VirtualControlLoopEvent event, WorkingMemory workMem) throws ControlLoopException {
 
-        super(params, event.getRequestId(), workMem);
+        super(services, params, event.getRequestId(), workMem);
 
         checkEventSyntax(event);
 

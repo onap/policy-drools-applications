@@ -51,6 +51,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithEvent;
+import org.onap.policy.controlloop.eventmanager.EventManagerServices;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiCqStep2;
 import org.onap.policy.drools.apps.controller.usecases.step.AaiGetPnfStep2;
@@ -105,16 +106,17 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
     /**
      * Constructs the object.
      *
+     * @param services services the manager should use when processing the event
      * @param params control loop parameters
      * @param event event to be managed by this object
      * @param workMem working memory to update if this changes
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public UsecasesEventManager(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
-                    throws ControlLoopException {
+    public UsecasesEventManager(EventManagerServices services, ControlLoopParams params, VirtualControlLoopEvent event,
+                    WorkingMemory workMem) throws ControlLoopException {
 
-        super(params, event, workMem);
+        super(services, params, event, workMem);
 
         if (isClosedLoopDisabled(event)) {
             throw new IllegalStateException("is-closed-loop-disabled is set to true on VServer or VNF");
