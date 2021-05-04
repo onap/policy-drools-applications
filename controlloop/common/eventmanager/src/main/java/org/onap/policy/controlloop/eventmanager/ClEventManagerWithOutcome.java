@@ -70,16 +70,17 @@ public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventM
     /**
      * Constructs the object.
      *
+     * @param services services the manager should use when processing the event
      * @param params control loop parameters
      * @param requestId event request ID
      * @param workMem working memory to update if this changes
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ClEventManagerWithOutcome(ControlLoopParams params, UUID requestId, WorkingMemory workMem)
-                    throws ControlLoopException {
+    public ClEventManagerWithOutcome(EventManagerServices services, ControlLoopParams params, UUID requestId,
+                    WorkingMemory workMem) throws ControlLoopException {
 
-        super(params, requestId, workMem);
+        super(services, params, requestId, workMem);
     }
 
     @Override
