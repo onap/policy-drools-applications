@@ -336,7 +336,7 @@ public class ClEventManagerWithEventTest {
         public MyManager(ControlLoopParams params, VirtualControlLoopEvent event, WorkingMemory workMem)
                         throws ControlLoopException {
 
-            super(params, event, workMem);
+            super(null, params, event, workMem);
         }
 
         @Override

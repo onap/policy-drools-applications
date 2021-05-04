@@ -128,7 +128,7 @@ public class ControlLoopEventManagerTest {
 
     @Test
     public void testIsActive() throws Exception {
-        mgr = new ControlLoopEventManager(params, REQ_ID);
+        mgr = new ControlLoopEventManager(null, params, REQ_ID);
         assertTrue(mgr.isActive());
 
         ControlLoopEventManager mgr2 = Serializer.roundTrip(mgr);
@@ -369,7 +369,7 @@ public class ControlLoopEventManagerTest {
         private static List<LockImpl> locks;
 
         public MyManager(ControlLoopParams params, UUID requestId) throws ControlLoopException {
-            super(params, requestId);
+            super(null, params, requestId);
         }
 
         @Override

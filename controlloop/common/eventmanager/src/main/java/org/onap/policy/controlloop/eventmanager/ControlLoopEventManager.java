@@ -69,7 +69,6 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     private static final OperationHistoryDataManager STUB_DATA_MANAGER = new OperationHistoryDataManagerStub();
 
     private static final String GUARD_DISABLED_PROPERTY = "guard.disabled";
-    private static final String EVENT_MANAGER_SERVICE_CONFIG = "event-manager";
 
     /**
      * Counts the number of these objects that have been created. This is used by junit
@@ -83,6 +82,8 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      * persistent store or by transfer from another server.
      */
     private transient boolean createdByThisJvmInstance;
+
+    private final EventManagerServices services;
 
     @Getter
     @ToString.Include
@@ -128,16 +129,19 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     /**
      * Constructs the object.
      *
+     * @param services services the manager should use when processing the event
      * @param params control loop parameters
      * @param requestId event request ID
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ControlLoopEventManager(ControlLoopParams params, UUID requestId) throws ControlLoopException {
+    public ControlLoopEventManager(EventManagerServices services, ControlLoopParams params, UUID requestId)
+                    throws ControlLoopException {
 
         createCount.incrementAndGet();
 
         this.createdByThisJvmInstance = true;
+        this.services = services;
         this.closedLoopControlName = params.getClosedLoopControlName();
         this.requestId = requestId;
         this.policyName = params.getPolicyName();
@@ -316,20 +320,6 @@ public class ControlLoopEventManager implements StepContext, Serializable {
         properties.remove(name);
     }
 
-    /**
-     * Initializes various components, on demand.
-     */
-    private static class LazyInitData {
-        private static final OperationHistoryDataManager DATA_MANAGER;
-        private static final ActorService ACTOR_SERVICE;
-
-        static {
-            EventManagerServices services = new EventManagerServices(EVENT_MANAGER_SERVICE_CONFIG);
-            ACTOR_SERVICE = services.getActorService();
-            DATA_MANAGER = services.getDataManager();
-        }
-    }
-
     // the following methods may be overridden by junit tests
 
     public Executor getExecutor() {
@@ -345,12 +335,12 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     }
 
     public ActorService getActorService() {
-        return LazyInitData.ACTOR_SERVICE;
+        return services.getActorService();
     }
 
     public OperationHistoryDataManager getDataManager() {
         boolean guardDisabled = "true".equalsIgnoreCase(getEnvironmentProperty(GUARD_DISABLED_PROPERTY));
-        return (guardDisabled ? STUB_DATA_MANAGER : LazyInitData.DATA_MANAGER);
+        return (guardDisabled ? STUB_DATA_MANAGER : services.getDataManager());
     }
 
     protected String getEnvironmentProperty(String propName) {

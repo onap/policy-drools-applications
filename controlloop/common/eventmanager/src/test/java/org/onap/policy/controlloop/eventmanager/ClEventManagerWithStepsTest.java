@@ -422,7 +422,7 @@ public class ClEventManagerWithStepsTest {
 
         public MyManager(ControlLoopParams params, UUID requestId, WorkingMemory workMem) throws ControlLoopException {
 
-            super(params, requestId, workMem);
+            super(null, params, requestId, workMem);
         }
 
         @Override
@@ -465,7 +465,7 @@ public class ClEventManagerWithStepsTest {
         public RealManager(ControlLoopParams params, UUID requestId, WorkingMemory workMem)
                         throws ControlLoopException {
 
-            super(params, requestId, workMem);
+            super(null, params, requestId, workMem);
         }
 
         @Override

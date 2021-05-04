@@ -355,7 +355,7 @@ public class ClEventManagerWithOutcomeTest {
 
         public MyManager(ControlLoopParams params, UUID requestId, WorkingMemory workMem) throws ControlLoopException {
 
-            super(params, requestId, workMem);
+            super(null, params, requestId, workMem);
         }
 
         @Override
