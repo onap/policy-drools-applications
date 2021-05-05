@@ -414,10 +414,7 @@ rule "EVENT.MANAGER.EXECUTE.STEP"
         $step.init();
         $step.setProperties();
 
-        boolean guardDisabled = "true".equalsIgnoreCase(
-                    PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
-
-        if (guardDisabled && "GUARD".equals($step.getActorName())) {
+        if ($manager.isGuardDisabled() && "GUARD".equals($step.getActorName())) {
             // guard is disabled - just enqueue a "SUCCESS" (i.e., "Permit")
             OperationOutcome outcome = $step.getParams().makeOutcome();
             outcome.setStart(Instant.now());
