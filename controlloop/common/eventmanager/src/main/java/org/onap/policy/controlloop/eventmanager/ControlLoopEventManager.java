@@ -86,6 +86,9 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     private final transient EventManagerServices services;
 
     @Getter
+    private final transient OperationHistoryDataManager dataManager;
+
+    @Getter
     @ToString.Include
     public final String closedLoopControlName;
     @Getter
@@ -97,6 +100,10 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      */
     @Getter
     private final long endTimeMs;
+
+    @Getter
+    @ToString.Include
+    private final boolean guardDisabled;
 
     // fields extracted from the ControlLoopParams
     @Getter
@@ -148,6 +155,11 @@ public class ControlLoopEventManager implements StepContext, Serializable {
         this.policyVersion = params.getPolicyVersion();
         this.processor = new ControlLoopProcessor(params.getToscaPolicy());
         this.endTimeMs = System.currentTimeMillis() + detmControlLoopTimeoutMs();
+
+        // Note: must do this AFTER setting this.processor
+        this.guardDisabled = "true".equalsIgnoreCase(getEnvironmentProperty(GUARD_DISABLED_PROPERTY))
+                        || this.processor.getPolicy().getProperties().isGuardDisabled();
+        this.dataManager = (guardDisabled ? STUB_DATA_MANAGER : services.getDataManager());
     }
 
     /**
@@ -336,11 +348,6 @@ public class ControlLoopEventManager implements StepContext, Serializable {
 
     public ActorService getActorService() {
         return services.getActorService();
-    }
-
-    public OperationHistoryDataManager getDataManager() {
-        boolean guardDisabled = "true".equalsIgnoreCase(getEnvironmentProperty(GUARD_DISABLED_PROPERTY));
-        return (guardDisabled ? STUB_DATA_MANAGER : services.getDataManager());
     }
 
     protected String getEnvironmentProperty(String propName) {

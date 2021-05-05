@@ -121,6 +121,7 @@ public class ControlLoopEventManagerTest {
         assertEquals(POLICY_VERSION, mgr.getPolicyVersion());
         assertNotNull(mgr.getProcessor());
         assertThat(mgr.getEndTimeMs()).isGreaterThanOrEqualTo(preCreateTimeMs);
+        assertThat(mgr.isGuardDisabled()).isFalse();
     }
 
     @Test
@@ -337,6 +338,7 @@ public class ControlLoopEventManagerTest {
      */
     @Test
     public void testGetDataManagerNotDisabled() throws ControlLoopException {
+        assertThat(mgr.isGuardDisabled()).isFalse();
         assertThat(mgr.getDataManager()).isSameAs(dataMgr);
     }
 
@@ -344,7 +346,7 @@ public class ControlLoopEventManagerTest {
      * Tests getDataManager() when guard.disabled=true.
      */
     @Test
-    public void testGetDataManagerDisabled() throws ControlLoopException {
+    public void testGetDataManagerDisabledByEnvProp() throws ControlLoopException {
         mgr = new MyManager(services, params, REQ_ID) {
             private static final long serialVersionUID = 1L;
 
@@ -354,6 +356,19 @@ public class ControlLoopEventManagerTest {
             }
         };
 
+        assertThat(mgr.isGuardDisabled()).isTrue();
+        assertThat(mgr.getDataManager()).isInstanceOf(OperationHistoryDataManagerStub.class);
+    }
+
+    /**
+     * Tests getDataManager() when guard is disabled by the policy.
+     */
+    @Test
+    public void testGetDataManagerDisabledByPolicyProp() throws ControlLoopException, CoderException {
+        loadPolicy("eventManager/event-mgr-guard-disabled.yaml");
+        mgr = new MyManager(services, params, REQ_ID);
+
+        assertThat(mgr.isGuardDisabled()).isTrue();
         assertThat(mgr.getDataManager()).isInstanceOf(OperationHistoryDataManagerStub.class);
     }
 
