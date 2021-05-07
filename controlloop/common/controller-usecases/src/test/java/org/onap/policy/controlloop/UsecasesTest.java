@@ -54,10 +54,11 @@ public class UsecasesTest extends DroolsRuleTest {
         initStatics(CONTROLLER_NAME);
 
         rules.configure("src/main/resources");
-        rules.start();
         httpClients.addClients("usecases");
         simulators.start(Util::buildAaiSim, Util::buildSoSim, Util::buildVfcSim, Util::buildGuardSim,
                         Util::buildSdncSim);
+
+        rules.start();
     }
 
     /**
