@@ -22,6 +22,30 @@
       "revId": "97cd011206d0f74c877faee8e09ab15d42ea38d9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6d3be26_fab8e67b",
+        "filename": "csit/tests/drools-applications-test.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-07T22:05:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a4294d3_a868397e",
+      "range": {
+        "startLine": 216,
+        "startChar": 118,
+        "endLine": 216,
+        "endChar": 120
+      },
+      "revId": "97cd011206d0f74c877faee8e09ab15d42ea38d9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
