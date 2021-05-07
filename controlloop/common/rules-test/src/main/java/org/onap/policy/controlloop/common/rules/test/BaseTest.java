@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -206,7 +206,7 @@ public abstract class BaseTest {
         waitForLockAndPermit(policy, policyClMgt);
 
         // restart request should be sent and fail four times (i.e., because retry=3)
-        for (int count = 0; count < 4; ++count) {
+        for (var count = 0; count < 4; ++count) {
             AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_RESTART_FAILURE,
@@ -258,7 +258,7 @@ public abstract class BaseTest {
         topics.inject(DCAE_TOPIC, DUPLICATES_ONSET_1, UUID.randomUUID().toString());
 
         // should see two restarts
-        for (int count = 0; count < 2; ++count) {
+        for (var count = 0; count < 2; ++count) {
             AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             // indicate success

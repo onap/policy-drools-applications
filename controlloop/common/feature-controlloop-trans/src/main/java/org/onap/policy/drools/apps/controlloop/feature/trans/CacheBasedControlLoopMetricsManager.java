@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
@@ -76,7 +75,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     public CacheBasedControlLoopMetricsManager() {
 
-        Properties properties = SystemPersistenceConstants.getManager()
+        var properties = SystemPersistenceConstants.getManager()
                         .getProperties(ControlLoopMetricsFeature.CONFIGURATION_PROPERTIES_NAME);
 
         /* cache size */
@@ -274,7 +273,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     protected void metric(VirtualControlLoopNotification notification) {
-        MdcTransaction trans = getMdcTransaction(notification);
+        var trans = getMdcTransaction(notification);
         List<ControlLoopOperation> operations = notification.getHistory();
         switch (notification.getNotification()) {
             case ACTIVE:

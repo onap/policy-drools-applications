@@ -113,7 +113,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         this.batchSize = params.getBatchSize();
 
         // create the factory using the properties
-        Properties props = toProperties(params);
+        var props = toProperties(params);
         this.emFactory = makeEntityManagerFactory(params.getPersistenceUnit(), props);
     }
 
@@ -225,20 +225,20 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     private void storeBatch(EntityManager entityManager, Record firstRecord) {
         logger.info("store operation history record batch");
 
-        try (EntityMgrCloser emc = new EntityMgrCloser(entityManager);
-                        EntityTransCloser trans = new EntityTransCloser(entityManager.getTransaction())) {
+        try (var emc = new EntityMgrCloser(entityManager);
+                        var trans = new EntityTransCloser(entityManager.getTransaction())) {
 
-            int nrecords = 0;
-            Record record = firstRecord;
+            var nrecords = 0;
+            var rec = firstRecord;
 
-            while (record != null && record != END_MARKER) {
-                storeRecord(entityManager, record);
+            while (rec != null && rec != END_MARKER) {
+                storeRecord(entityManager, rec);
 
                 if (++nrecords >= batchSize) {
                     break;
                 }
 
-                record = operations.poll();
+                rec = operations.poll();
             }
 
             trans.commit();
@@ -250,13 +250,13 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      * Stores a record.
      *
      * @param entityManager entity manager
-     * @param record record to be stored
+     * @param rec record to be stored
      */
-    private void storeRecord(EntityManager entityMgr, Record record) {
+    private void storeRecord(EntityManager entityMgr, Record rec) {
 
-        final String reqId = record.getRequestId();
-        final String clName = record.getClName();
-        final ControlLoopOperation operation = record.getOperation();
+        final String reqId = rec.getRequestId();
+        final String clName = rec.getClName();
+        final ControlLoopOperation operation = rec.getOperation();
 
         logger.info("store operation history record for {}", reqId);
 
@@ -264,9 +264,9 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
                         .createQuery("select e from OperationsHistory e" + " where e.closedLoopName= ?1"
                                         + " and e.requestId= ?2" + " and e.subrequestId= ?3" + " and e.actor= ?4"
                                         + " and e.operation= ?5" + " and e.target= ?6", OperationsHistory.class)
-                        .setParameter(1, clName).setParameter(2, record.getRequestId())
+                        .setParameter(1, clName).setParameter(2, rec.getRequestId())
                         .setParameter(3, operation.getSubRequestId()).setParameter(4, operation.getActor())
-                        .setParameter(5, operation.getOperation()).setParameter(6, record.getTargetEntity())
+                        .setParameter(5, operation.getOperation()).setParameter(6, rec.getTargetEntity())
                         .getResultList();
 
         if (results.size() > 1) {
@@ -276,10 +276,10 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         OperationsHistory entry = (results.isEmpty() ? new OperationsHistory() : results.get(0));
 
         entry.setClosedLoopName(clName);
-        entry.setRequestId(record.getRequestId());
+        entry.setRequestId(rec.getRequestId());
         entry.setActor(operation.getActor());
         entry.setOperation(operation.getOperation());
-        entry.setTarget(record.getTargetEntity());
+        entry.setTarget(rec.getTargetEntity());
         entry.setSubrequestId(operation.getSubRequestId());
         entry.setMessage(operation.getMessage());
         entry.setOutcome(operation.getOutcome());
@@ -312,7 +312,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      * @return a new property set
      */
     private Properties toProperties(OperationHistoryDataManagerParams params) {
-        Properties props = new Properties();
+        var props = new Properties();
         props.put(PersistenceUnitProperties.JDBC_DRIVER, params.getDriver());
         props.put(PersistenceUnitProperties.JDBC_URL, params.getUrl());
         props.put(PersistenceUnitProperties.JDBC_USER, params.getUserName());

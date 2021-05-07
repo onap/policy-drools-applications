@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ import javax.ws.rs.core.Response.Status;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature;
-import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.rest.RestManager;
 import org.slf4j.Logger;
@@ -124,7 +123,7 @@ public class RestControlLoopManager {
     @Path("engine/tools/controlloops/aai/customQuery/{vserverId}")
     @ApiOperation(value = "AAI Custom Query")
     public Response aaiCustomQuery(@ApiParam(value = "vserver Identifier") String vserverId) {
-        PolicyEngine mgr = PolicyEngineConstants.getManager();
+        var mgr = PolicyEngineConstants.getManager();
 
         return Response
             .status(Status.OK)

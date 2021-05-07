@@ -92,7 +92,7 @@ public class ControlLoopProcessor implements Serializable {
      * Get ControlLoopParams.
      */
     public ControlLoopParams getControlLoopParams() {
-        ControlLoopParams controlLoopParams = new ControlLoopParams();
+        var controlLoopParams = new ControlLoopParams();
 
         controlLoopParams.setClosedLoopControlName(this.policy.getProperties().getId());
         controlLoopParams.setPolicyScope(policy.getType() + ":" + policy.getTypeVersion());

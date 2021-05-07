@@ -365,7 +365,7 @@ public class Step2 extends Step {
         StandardCoderObject tenant = stepContext.getProperty(AaiGetTenantOperation.getKey(vserver));
         verifyNotNull("tenant data", tenant);
 
-        String resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);
+        var resourceLink = tenant.getString(RESULT_DATA, 0, RESOURCE_LINK);
         verifyNotNull("tenant data resource-link", resourceLink);
 
         return stripPrefix(resourceLink, 3);
@@ -391,7 +391,7 @@ public class Step2 extends Step {
     }
 
     protected String getEnrichment(String propName) {
-        String enrichmentKey = propName.substring(ENRICHMENT_PREFIX.length());
+        var enrichmentKey = propName.substring(ENRICHMENT_PREFIX.length());
         String value = event.getAai().get(enrichmentKey);
         verifyNotNull(propName, value);
 
@@ -438,7 +438,7 @@ public class Step2 extends Step {
 
     protected static String stripPrefix(String resourceLink, int ncomponents) {
         int previdx = -1;
-        for (int nslashes = 0; nslashes < ncomponents; ++nslashes) {
+        for (var nslashes = 0; nslashes < ncomponents; ++nslashes) {
             int idx = resourceLink.indexOf('/', previdx + 1);
             if (idx < 0) {
                 break;

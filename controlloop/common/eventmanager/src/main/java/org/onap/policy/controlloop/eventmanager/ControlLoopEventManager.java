@@ -203,7 +203,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
         int remainingSec = 15 + Math.max(0, (int) TimeUnit.SECONDS.convert(remainingMs, TimeUnit.MILLISECONDS));
 
         LockData data = target2lock.computeIfAbsent(targetEntity, key -> {
-            LockData data2 = new LockData(key, requestId);
+            var data2 = new LockData(key, requestId);
             makeLock(targetEntity, requestId.toString(), remainingSec, data2);
 
             data2.addUnavailableCallback(this::onComplete);
@@ -255,7 +255,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     }
 
     private OperationOutcome makeUnlockOutcome(String targetEntity) {
-        OperationOutcome outcome = new OperationOutcome();
+        var outcome = new OperationOutcome();
         outcome.setActor(ActorConstants.LOCK_ACTOR);
         outcome.setOperation(ActorConstants.UNLOCK_OPERATION);
         outcome.setTarget(targetEntity);

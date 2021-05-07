@@ -39,7 +39,6 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
-import org.onap.policy.drools.domain.models.operational.ActorOperation;
 import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 import org.onap.policy.drools.system.PolicyEngine;
@@ -137,7 +136,7 @@ public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoo
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ClEventManagerWithSteps(EventManagerServices services, ControlLoopParams params, UUID requestId,
+    protected ClEventManagerWithSteps(EventManagerServices services, ControlLoopParams params, UUID requestId,
                     WorkingMemory workMem) throws ControlLoopException {
 
         super(services, params, requestId);
@@ -218,7 +217,7 @@ public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoo
 
         policy = getProcessor().getCurrentPolicy();
 
-        ActorOperation actor = policy.getActorOperation();
+        var actor = policy.getActorOperation();
 
         OperationalTarget target = actor.getTarget();
         String targetType = (target != null ? target.getTargetType() : null);

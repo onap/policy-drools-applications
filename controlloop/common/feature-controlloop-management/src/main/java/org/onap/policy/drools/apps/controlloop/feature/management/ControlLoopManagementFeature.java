@@ -60,7 +60,7 @@ public class ControlLoopManagementFeature implements PolicyEngineFeatureApi {
         return controller.getDrools()
             .facts(sessionName, ControlLoopParams.class.getName(), false)
             .stream()
-            .filter(c -> c instanceof ControlLoopParams)
+            .filter(ControlLoopParams.class::isInstance)
             .map(ControlLoopParams.class::cast);
     }
 

@@ -68,7 +68,7 @@ public abstract class ClEventManagerWithEvent<T extends Step> extends ClEventMan
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ClEventManagerWithEvent(EventManagerServices services, ControlLoopParams params,
+    protected ClEventManagerWithEvent(EventManagerServices services, ControlLoopParams params,
                     VirtualControlLoopEvent event, WorkingMemory workMem) throws ControlLoopException {
 
         super(services, params, event.getRequestId(), workMem);
@@ -108,7 +108,7 @@ public abstract class ClEventManagerWithEvent<T extends Step> extends ClEventMan
 
     @Override
     public ControlLoopResponse makeControlLoopResponse(OperationOutcome outcome) {
-        ControlLoopResponse clRsp = super.makeControlLoopResponse(outcome);
+        var clRsp = super.makeControlLoopResponse(outcome);
         clRsp.setTarget("DCAE");
 
         clRsp.setClosedLoopControlName(event.getClosedLoopControlName());

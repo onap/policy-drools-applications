@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ package org.onap.policy.coordination;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -52,12 +51,12 @@ public final class Util {
      * @return the CoordinationDirective
      */
     public static CoordinationDirective loadCoordinationDirectiveFromFile(String directiveFilename) {
-        try (InputStream is = new FileInputStream(new File(directiveFilename))) {
-            String contents = IOUtils.toString(is, StandardCharsets.UTF_8);
+        try (var is = new FileInputStream(new File(directiveFilename))) {
+            var contents = IOUtils.toString(is, StandardCharsets.UTF_8);
             //
             // Read the yaml into our Java Object
             //
-            Yaml yaml = new Yaml(new Constructor(CoordinationDirective.class));
+            var yaml = new Yaml(new Constructor(CoordinationDirective.class));
             Object obj = yaml.load(contents);
 
             logger.debug(contents);
@@ -86,7 +85,7 @@ public final class Util {
         /*
          * Values to be used for placeholders
          */
-        final String uniqueId = UUID.randomUUID().toString();
+        final var uniqueId = UUID.randomUUID().toString();
         final String cLOne = cd.getControlLoop(0);
         final String cLTwo = cd.getControlLoop(1);
         /*

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ public class EventManagerServices {
      */
     public Properties startActorService(String configFileName) {
         try {
-            Properties props = SystemPersistenceConstants.getManager().getProperties(configFileName);
+            var props = SystemPersistenceConstants.getManager().getProperties(configFileName);
 
             Map<String, Object> parameters = PropertyObjectUtils.toObject(props, ACTOR_SERVICE_PROPERTIES);
             PropertyObjectUtils.compressLists(parameters);
@@ -145,7 +145,7 @@ public class EventManagerServices {
                 throw new IllegalArgumentException("invalid data manager properties:\n" + result.getResult());
             }
 
-            OperationHistoryDataManagerImpl mgr = new OperationHistoryDataManagerImpl(params);
+            var mgr = new OperationHistoryDataManagerImpl(params);
             mgr.start();
 
             return mgr;

@@ -77,7 +77,7 @@ public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventM
      * @throws ControlLoopException if the event is invalid or if a YAML processor cannot
      *         be created
      */
-    public ClEventManagerWithOutcome(EventManagerServices services, ControlLoopParams params, UUID requestId,
+    protected ClEventManagerWithOutcome(EventManagerServices services, ControlLoopParams params, UUID requestId,
                     WorkingMemory workMem) throws ControlLoopException {
 
         super(services, params, requestId, workMem);
@@ -130,7 +130,7 @@ public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventM
             }
         }
 
-        OperationOutcome2 outcome2 = makeOperationOutcome2(outcome);
+        var outcome2 = makeOperationOutcome2(outcome);
         partialHistory.add(outcome2);
         fullHistory.add(outcome2);
     }
@@ -141,7 +141,7 @@ public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventM
      * @return a new notification
      */
     public VirtualControlLoopNotification makeNotification() {
-        VirtualControlLoopNotification notif = new VirtualControlLoopNotification();
+        var notif = new VirtualControlLoopNotification();
         populateNotification(notif);
 
         if (getFinalResult() != null) {
@@ -187,7 +187,7 @@ public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventM
      * @return a new control loop response, or {@code null} if none is required
      */
     public ControlLoopResponse makeControlLoopResponse(OperationOutcome outcome) {
-        ControlLoopResponse clRsp = new ControlLoopResponse();
+        var clRsp = new ControlLoopResponse();
         clRsp.setFrom(outcome.getActor());
 
         return clRsp;

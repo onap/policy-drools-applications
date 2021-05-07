@@ -128,16 +128,14 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
     }
 
     /*
-     * This is needed to satisfy drools.
+     * This is needed to satisfy drools, thus disabling sonar.
      */
     @Override
-    public Deque<Step2> getSteps() {
+    public Deque<Step2> getSteps() {    // NOSONAR
         return super.getSteps();
     }
 
-    /**
-     * Loads the preprocessor steps needed by the step that's at the front of the queue.
-     */
+    @Override
     public void loadPreprocessorSteps() {
         super.loadPreprocessorSteps();
 
@@ -145,10 +143,10 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
         final Step2 step = getSteps().peek();
 
         // determine if any A&AI queries are needed
-        boolean needCq = false;
-        boolean needPnf = false;
-        boolean needTenant = false;
-        boolean needTargetEntity = false;
+        var needCq = false;
+        var needPnf = false;
+        var needTenant = false;
+        var needTargetEntity = false;
 
         for (String propName : step.getPropertyNames()) {
             needCq = needCq || CQ_PROPERTIES.contains(propName);
@@ -199,12 +197,7 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
         }
     }
 
-    /**
-     * Determines if the TOSCA should be aborted due to the given outcome.
-     *
-     * @param outcome outcome to examine
-     * @return {@code true} if the TOSCA should be aborted, {@code false} otherwise
-     */
+    @Override
     public boolean isAbort(OperationOutcome outcome) {
         return (super.isAbort(outcome) && ABORT_ACTORS.contains(outcome.getActor()));
     }
@@ -218,14 +211,9 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
         storeInDataBase(outcome, getProperty(OperationProperties.AAI_TARGET_ENTITY));
     }
 
-    /**
-     * Makes a control loop response.
-     *
-     * @param outcome operation outcome
-     * @return a new control loop response, or {@code null} if none is required
-     */
+    @Override
     public ControlLoopResponse makeControlLoopResponse(OperationOutcome outcome) {
-        ControlLoopResponse clRsp = super.makeControlLoopResponse(outcome);
+        var clRsp = super.makeControlLoopResponse(outcome);
 
         Object obj = outcome.getResponse();
         if (!(obj instanceof PciMessage)) {
@@ -240,12 +228,7 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
         return clRsp;
     }
 
-    /**
-     * Check an event syntax.
-     *
-     * @param event the event syntax
-     * @throws ControlLoopException if an error occurs
-     */
+    @Override
     protected void checkEventSyntax(VirtualControlLoopEvent event) throws ControlLoopException {
         super.checkEventSyntax(event);
         validateAaiData(event);

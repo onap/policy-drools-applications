@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,10 +113,10 @@ public class Rules {
         pdpdRepo.setConfigurationDir("src/test/resources/config");
 
         try {
-            File kmoduleFile = new File(resourceDir + "/META-INF/kmodule.xml");
-            File pomFile = new File("src/test/resources/" + controllerName + ".pom");
-            String resourceDir2 = resourceDir + "/org/onap/policy/controlloop/";
-            File ruleFile = new File(resourceDir + File.separator + controllerName + ".drl");
+            var kmoduleFile = new File(resourceDir + "/META-INF/kmodule.xml");
+            var pomFile = new File("src/test/resources/" + controllerName + ".pom");
+            var resourceDir2 = resourceDir + "/org/onap/policy/controlloop/";
+            var ruleFile = new File(resourceDir + File.separator + controllerName + ".drl");
             List<File> ruleFiles = Collections.singletonList(ruleFile);
 
             installArtifact(kmoduleFile, pomFile, resourceDir2, ruleFiles);
@@ -183,7 +183,7 @@ public class Rules {
     }
 
     private ToscaPolicy getPolicyFromTemplate(String resourcePath, String policyName) throws CoderException {
-        String policyJson = ResourceUtils.getResourceAsString(resourcePath);
+        var policyJson = ResourceUtils.getResourceAsString(resourcePath);
         if (policyJson == null) {
             throw new CoderException(new FileNotFoundException(resourcePath));
         }
@@ -227,7 +227,7 @@ public class Rules {
      * Get policy from file.
      */
     public static ToscaPolicy getPolicyFromFile(String policyPath) throws CoderException {
-        String policyJson = ResourceUtils.getResourceAsString(policyPath);
+        var policyJson = ResourceUtils.getResourceAsString(policyPath);
         if (policyJson == null) {
             throw new CoderException(new FileNotFoundException(policyPath));
         }
@@ -267,7 +267,7 @@ public class Rules {
      * Sets up Drools Logging for events of interest.
      */
     private void setupDroolsLogging() {
-        KieSession session = getKieSession();
+        var session = getKieSession();
 
         session.addEventListener(new RuleListenerLogger());
         session.addEventListener(new AgendaListenerLogger());
