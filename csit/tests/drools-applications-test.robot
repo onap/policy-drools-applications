@@ -9,36 +9,18 @@ Library     json
 *** Test Cases ***
 Alive
     [Documentation]    Runs Policy PDP Alive Check
-    ${auth}=    Create List    demo@people.osaaf.org    demo123456!
-    Log    Creating session https://${DROOLS_IP}:9696
-    ${session}=    Create Session      policy  https://${DROOLS_IP}:9696   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Get Request     policy  /policy/pdp/engine     headers=${headers}
-    Log    Received response from policy ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}     200
+    ${resp}=  PeformGetRequest  /policy/pdp/engine  ${DROOLS_IP}  9696  200
     Should Be Equal As Strings    ${resp.json()['alive']}  True
 
 Healthcheck
     [Documentation]    Runs Policy PDP-D Health check
-    ${auth}=    Create List    demo@people.osaaf.org    demo123456!
-    Log    Creating session https://${DROOLS_IP}:6969/healthcheck
-    ${session}=    Create Session      policy  https://${DROOLS_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Get Request     policy  /healthcheck     headers=${headers}
-    Log    Received response from policy ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}     200
+    ${resp}=  PeformGetRequest  /healthcheck  ${DROOLS_IP}  6969  200
     Should Be Equal As Strings    ${resp.json()['healthy']}  True
 
 Controller
     [Documentation]    Checks controller is up
-    ${auth}=    Create List    demo@people.osaaf.org    demo123456!
-    Log    Creating session https://${DROOLS_IP}:9696
-    ${session}=    Create Session      policy  https://${DROOLS_IP}:9696   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Get Request     policy  /policy/pdp/engine/controllers/usecases/drools/facts     headers=${headers}
-    Log    Received response from policy ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}     200
-    Should Be Equal As Strings    ${resp.json()['usecases']}  0
+    ${resp}=  PeformGetRequest  /policy/pdp/engine/controllers/usecases/drools/facts  ${DROOLS_IP}  9696  200
+    Should Be Equal As Strings    ${resp.json()['usecases']}  1
 
 MakeTopics
     [Documentation]    Creates the Policy topics
@@ -49,80 +31,31 @@ MakeTopics
 
 CreateVcpeXacmlPolicy
     [Documentation]    Create VCPE Policy for Xacml
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    ${postyaml}=  Get file  ${DATA}/vCPE.policy.monitoring.input.tosca.yaml
-    Log    Creating session https://${API_IP}:6969
-    ${session}=    Create Session      policy  https://${API_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/yaml    Content-Type=application/yaml
-    ${resp}=   Post Request   policy  /policy/api/v1/policies  data=${postyaml}   headers=${headers}
-    Log    Received response from api ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    PerformPostRequest  /policy/api/v1/policies  null  ${API_IP}  6969  vCPE.policy.monitoring.input.tosca.yaml  ${DATA}  yaml  200
 
 CreateVcpeDroolsPolicy
     [Documentation]    Create VCPE Policy for Drools
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    ${postyaml}=  Get file  ${DATA}/vCPE.policy.operational.input.tosca.yaml
-    Log    Creating session https://${API_IP}:6969
-    ${session}=    Create Session      policy  https://${API_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/yaml    Content-Type=application/yaml
-    ${resp}=   Post Request   policy  /policy/api/v1/policies  data=${postyaml}   headers=${headers}
-    Log    Received response from api ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    PerformPostRequest  /policy/api/v1/policies  null  ${API_IP}  6969  vCPE.policy.operational.input.tosca.yaml  ${DATA}  yaml  200
 
 CreateVdnsXacmlPolicy
     [Documentation]    Create VDNS Policy for Xacml
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    ${postyaml}=  Get file  ${DATA}/vDNS.policy.monitoring.input.tosca.yaml
-    Log    Creating session https://${API_IP}:6969
-    ${session}=    Create Session      policy  https://${API_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/yaml    Content-Type=application/yaml
-    ${resp}=   Post Request   policy  /policy/api/v1/policies  data=${postyaml}   headers=${headers}
-    Log    Received response from api ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    PerformPostRequest  /policy/api/v1/policies  null  ${API_IP}  6969  vDNS.policy.monitoring.input.tosca.yaml  ${DATA}  yaml  200
 
 CreateVdnsDroolsPolicy
     [Documentation]    Create VDNS Policy for Drools
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    ${postjson}=  Get file  ${DATA}/vDNS.policy.operational.input.tosca.json
-    Log    Creating session https://${API_IP}:6969
-    ${session}=    Create Session      policy  https://${API_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Post Request   policy  /policy/api/v1/policies  data=${postjson}   headers=${headers}
-    Log    Received response from api ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    PerformPostRequest  /policy/api/v1/policies  null  ${API_IP}  6969  vDNS.policy.operational.input.tosca.json  ${DATA}  json  200
 
 CreateVfwXacmlPolicy
     [Documentation]    Create VFW Policy for Xacml
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    ${postyaml}=  Get file  ${DATA}/vFirewall.policy.monitoring.input.tosca.yaml
-    Log    Creating session https://${API_IP}:6969
-    ${session}=    Create Session      policy  https://${API_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/yaml    Content-Type=application/yaml
-    ${resp}=   Post Request   policy  /policy/api/v1/policies  data=${postyaml}   headers=${headers}
-    Log    Received response from api ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    PerformPostRequest  /policy/api/v1/policies  null  ${API_IP}  6969  vFirewall.policy.monitoring.input.tosca.yaml  ${DATA}  yaml  200
 
 CreateVfwDroolsPolicy
     [Documentation]    Create VFW Policy for Drools
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    ${postjson}=  Get file  ${DATA}/vFirewall.policy.operational.input.tosca.json
-    Log    Creating session https://${API_IP}:6969
-    ${session}=    Create Session      policy  https://${API_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Post Request   policy  /policy/api/v1/policies  data=${postjson}   headers=${headers}
-    Log    Received response from api ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    PerformPostRequest  /policy/api/v1/policies  null  ${API_IP}  6969  vFirewall.policy.operational.input.tosca.json  ${DATA}  json  200
 
 DeployXacmlPolicies
     [Documentation]    Deploys the Policies to Xacml
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    Log    Creating session https://${PAP_IP}:6969
-    ${postjson}=  Get file  ${DATA2}/deploy.xacml.policies.json
-    ${session}=    Create Session      policy  https://${PAP_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Post Request     policy  /policy/pap/v1/pdps/deployments/batch    data=${postjson}     headers=${headers}
-    Log    Received response from pap ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}     202
+    PerformPostRequest  /policy/pap/v1/pdps/deployments/batch  null  ${PAP_IP}  6969  deploy.xacml.policies.json  ${DATA2}  json  202
     ${result}=     Run Process        ${SCR2}/wait_topic.sh     POLICY-PDP-PAP
     ...            responseTo    xacml    ACTIVE    restart
     Log    Received status ${result.stdout}
@@ -133,14 +66,7 @@ DeployXacmlPolicies
 
 DeployDroolsPolicies
     [Documentation]    Deploys the Policies to Drools
-    ${auth}=    Create List    healthcheck    zb!XztG34
-    Log    Creating session https://${PAP_IP}:6969
-    ${postjson}=  Get file  ${DATA2}/deploy.drools.policies.json
-    ${session}=    Create Session      policy  https://${PAP_IP}:6969   auth=${auth}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Post Request     policy  /policy/pap/v1/pdps/deployments/batch    data=${postjson}     headers=${headers}
-    Log    Received response from pap ${resp.text}
-    Should Be Equal As Strings    ${resp.status_code}     202
+    PerformPostRequest  /policy/pap/v1/pdps/deployments/batch  null  ${PAP_IP}  6969  deploy.drools.policies.json  ${DATA2}  json  202
     ${result}=     Run Process        ${SCR2}/wait_topic.sh     POLICY-PDP-PAP
     ...            responseTo    drools    ACTIVE
     Log    Received status ${result.stdout}
@@ -273,3 +199,26 @@ VfwExecute
     Should Contain    ${result.stdout}    FINAL: SUCCESS
     Should Contain    ${result.stdout}    APPC
     Should Contain    ${result.stdout}    ModifyConfig
+
+*** Keywords ***
+
+PeformGetRequest
+     [Arguments]  ${url}  ${hostname}  ${port}  ${expectedstatus}
+     ${auth}=  Create List  demo@people.osaaf.org  demo123456!
+     Log  Creating session https://${hostname}:${port}
+     ${session}=  Create Session  policy  https://${hostname}:${port}  auth=${auth}
+     ${headers}=  Create Dictionary  Accept=application/json  Content-Type=application/json
+     ${resp}=  GET On Session  policy  ${url}  headers=${headers}  expected_status=${expectedstatus}
+     Log  Received response from policy ${resp.text}
+     [return]  ${resp}
+
+PerformPostRequest
+     [Arguments]  ${url}  ${params}  ${hostname}  ${port}  ${jsonfile}  ${filepath}  ${contenttype}  ${expectedstatus}  
+     ${auth}=  Create List  healthcheck  zb!XztG34
+     ${postjson}=  Get file  ${filepath}/${jsonfile}
+     Log  Creating session https://${hostname}:6969
+     ${session}=  Create Session  policy  https://${hostname}:6969  auth=${auth}
+     ${headers}=  Create Dictionary  Accept=application/${contenttype}  Content-Type=application/${contenttype}
+     ${resp}=  POST On Session  policy  ${url}  params=${params}  data=${postjson}  headers=${headers}  expected_status=${expectedstatus}
+     Log  Received response from policy ${resp.text}
+     [return]  ${resp}
