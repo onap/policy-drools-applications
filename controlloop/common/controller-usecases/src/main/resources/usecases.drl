@@ -59,7 +59,9 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
 * event managers in this rule engine instance.
 */
 rule "CREATE.EVENT.SERVICES"
+    salience 200
     when
+        $params : ControlLoopParams()
         not (EventManagerServices())
     then
 
