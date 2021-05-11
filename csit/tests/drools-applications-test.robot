@@ -19,8 +19,7 @@ Healthcheck
 
 Controller
     [Documentation]    Checks controller is up
-    ${resp}=  PeformGetRequest  /policy/pdp/engine/controllers/usecases/drools/facts  ${DROOLS_IP}  9696  200
-    Should Be Equal As Strings    ${resp.json()['usecases']}  1
+    Wait Until Keyword Succeeds  2 min  15 sec  VerifyController
 
 MakeTopics
     [Documentation]    Creates the Policy topics
@@ -201,6 +200,10 @@ VfwExecute
     Should Contain    ${result.stdout}    ModifyConfig
 
 *** Keywords ***
+
+VerifyController
+    ${resp}=  PeformGetRequest  /policy/pdp/engine/controllers/usecases/drools/facts  ${DROOLS_IP}  9696  200
+    Should Be Equal As Strings  ${resp.json()['usecases']}  1
 
 PeformGetRequest
      [Arguments]  ${url}  ${hostname}  ${port}  ${expectedstatus}
