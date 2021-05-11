@@ -39,6 +39,30 @@
       "revId": "5e66dc4619b34e44603ba77ebdf96aca80eac0c1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50fd0b8_3c52c805",
+        "filename": "csit/tests/drools-applications-test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-11T15:05:45Z",
+      "side": 1,
+      "message": "Oh yes! you are correct. We need to make the PerformGetRequest periodically. Let me fix this in next patch.",
+      "parentUuid": "4306ce05_ff275159",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 105
+      },
+      "revId": "5e66dc4619b34e44603ba77ebdf96aca80eac0c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
