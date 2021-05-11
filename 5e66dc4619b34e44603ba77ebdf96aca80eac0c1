@@ -16,6 +16,29 @@
       "revId": "5e66dc4619b34e44603ba77ebdf96aca80eac0c1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4306ce05_ff275159",
+        "filename": "csit/tests/drools-applications-test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-05-11T14:21:13Z",
+      "side": 1,
+      "message": "Just wondering if \"Wait Until Keyword Succeeds\" is just enough here, because PeformGetRequest might only be called once, and the same response is checked here for the entire 75 seconds?(Maybe I am wrong)",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 105
+      },
+      "revId": "5e66dc4619b34e44603ba77ebdf96aca80eac0c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
