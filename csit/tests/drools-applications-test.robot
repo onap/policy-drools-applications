@@ -20,7 +20,7 @@ Healthcheck
 Controller
     [Documentation]    Checks controller is up
     ${resp}=  PeformGetRequest  /policy/pdp/engine/controllers/usecases/drools/facts  ${DROOLS_IP}  9696  200
-    Should Be Equal As Strings    ${resp.json()['usecases']}  1
+    Wait Until Keyword Succeeds  1 min  15 sec  Should Be Equal As Strings  ${resp.json()['usecases']}  1
 
 MakeTopics
     [Documentation]    Creates the Policy topics
