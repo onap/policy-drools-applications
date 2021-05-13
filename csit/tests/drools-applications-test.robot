@@ -203,7 +203,7 @@ VfwExecute
 
 VerifyController
     ${resp}=  PeformGetRequest  /policy/pdp/engine/controllers/usecases/drools/facts  ${DROOLS_IP}  9696  200
-    Should Be Equal As Strings  ${resp.json()['usecases']}  1
+    Should Be Equal As Strings  ${resp.json()['usecases']}  0
 
 PeformGetRequest
      [Arguments]  ${url}  ${hostname}  ${port}  ${expectedstatus}
