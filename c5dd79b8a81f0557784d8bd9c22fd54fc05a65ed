@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c12cac4_54ff3821",
+        "filename": "csit/tests/drools-applications-test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-13T17:30:58Z",
+      "side": 0,
+      "message": "yes, this only applies in master, not honolulu - good eye!",
+      "range": {
+        "startLine": 206,
+        "startChar": 60,
+        "endLine": 206,
+        "endChar": 61
+      },
+      "revId": "c5dd79b8a81f0557784d8bd9c22fd54fc05a65ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
