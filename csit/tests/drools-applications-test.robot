@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (a1415e change csits robots to expect 0 facts)
 *** Settings ***
 Library     Collections
 Library     String
@@ -225,3 +226,5 @@ PerformPostRequest
      ${resp}=  POST On Session  policy  ${url}  params=${params}  data=${postjson}  headers=${headers}  expected_status=${expectedstatus}
      Log  Received response from policy ${resp.text}
      [return]  ${resp}
+=======
+>>>>>>> CHANGE (c7bf8c Remove csit folder from policy/drools-apps)
