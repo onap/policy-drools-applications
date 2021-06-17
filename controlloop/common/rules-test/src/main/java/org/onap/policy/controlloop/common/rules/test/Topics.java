@@ -49,14 +49,6 @@ public class Topics {
      */
     private final List<Listener<?>> listeners = new LinkedList<>();
 
-
-    /**
-     * Constructs the object.
-     */
-    public Topics() {
-        super();
-    }
-
     /**
      * Unregisters all of the listeners.
      */

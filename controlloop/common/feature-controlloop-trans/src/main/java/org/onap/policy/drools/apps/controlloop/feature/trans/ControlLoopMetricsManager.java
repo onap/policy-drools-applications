@@ -20,11 +20,14 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Control Loop Metrics Tracker.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ControlLoopMetricsManager {
 
     /**
@@ -32,8 +35,4 @@ public class ControlLoopMetricsManager {
      */
     @Getter
     private static final ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
-
-    private ControlLoopMetricsManager() {
-        // do nothing
-    }
 }

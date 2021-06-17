@@ -38,13 +38,6 @@ public class Simulators {
     private final List<HttpServletServer> servers = new LinkedList<>();
 
     /**
-     * Constructs the object.
-     */
-    public Simulators() {
-        super();
-    }
-
-    /**
      * Invokes the given functions to start the simulators. Destroys <i>all</i> of the
      * simulators if any fail to start.
      *

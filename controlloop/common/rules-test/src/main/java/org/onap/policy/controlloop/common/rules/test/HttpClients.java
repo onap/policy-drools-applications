@@ -31,14 +31,6 @@ import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 public class HttpClients {
 
     /**
-     * Constructs the object.
-     */
-    public HttpClients() {
-        super();
-    }
-
-
-    /**
      * Adds Http Clients specified in the property file.
      *
      * @param propFilePrefix prefix prepended to "-http-client.properties" to yield the

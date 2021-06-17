@@ -20,7 +20,11 @@
 
 package org.onap.policy.drools.apps.controller.usecases;
 
-public class UsecasesConstants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class UsecasesConstants {
 
     public static final String GET_TARGET_ENTITY_ACTOR = "pseudo/getTargetEntity";
     public static final String GET_TARGET_ENTITY_OPERATION = "pseudo/getTargetEntity";
@@ -42,8 +46,4 @@ public class UsecasesConstants {
     //  additional properties that the Operations may need
 
     public static final String AAI_DEFAULT_GENERIC_VNF = "AAI/default/genericVnf";
-
-    private UsecasesConstants() {
-        super();
-    }
 }

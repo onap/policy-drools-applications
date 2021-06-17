@@ -32,6 +32,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.ControlLoopOperation;
@@ -53,8 +55,12 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     private static final Logger logger = LoggerFactory.getLogger(CacheBasedControlLoopMetricsManager.class);
 
     private LoadingCache<UUID, VirtualControlLoopNotification> cache;
+
+    @Getter
     private long cacheSize = ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_DEFAULT;
 
+    @Getter
+    @Setter
     private long transactionTimeout = ControlLoopMetricsFeature.CL_CACHE_TRANS_TIMEOUT_SECONDS_DEFAULT;
 
     /**
@@ -248,23 +254,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     }
 
     @Override
-    public long getCacheSize() {
-        return this.cacheSize;
-    }
-
-    @Override
     public void setMaxCacheSize(long cacheSize) {
         this.cacheSize = cacheSize;
-    }
-
-    @Override
-    public long getTransactionTimeout() {
-        return this.transactionTimeout;
-    }
-
-    @Override
-    public void setTransactionTimeout(long transactionTimeout) {
-        this.transactionTimeout = transactionTimeout;
     }
 
     @Override
