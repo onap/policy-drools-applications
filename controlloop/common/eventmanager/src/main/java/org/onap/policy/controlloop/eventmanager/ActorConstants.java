@@ -20,16 +20,15 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-public class ActorConstants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ActorConstants {
     public static final String CL_TIMEOUT_ACTOR = "-CL-TIMEOUT-";
     public static final String LOCK_ACTOR = "LOCK";
     public static final String LOCK_OPERATION = "Lock";
     public static final String UNLOCK_OPERATION = "Unlock";
 
     public static final String PAYLOAD_KEY_VF_COUNT = "vfCount";
-
-
-    private ActorConstants() {
-        // do nothing
-    }
 }

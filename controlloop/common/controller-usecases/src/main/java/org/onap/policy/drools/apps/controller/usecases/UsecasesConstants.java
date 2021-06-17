@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,11 @@
 
 package org.onap.policy.drools.apps.controller.usecases;
 
-public class UsecasesConstants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class UsecasesConstants {
 
     public static final String GET_TARGET_ENTITY_ACTOR = "pseudo/getTargetEntity";
     public static final String GET_TARGET_ENTITY_OPERATION = "pseudo/getTargetEntity";
@@ -42,8 +46,4 @@ public class UsecasesConstants {
     //  additional properties that the Operations may need
 
     public static final String AAI_DEFAULT_GENERIC_VNF = "AAI/default/genericVnf";
-
-    private UsecasesConstants() {
-        super();
-    }
 }

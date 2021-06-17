@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,13 +36,6 @@ public class Simulators {
 
     @Getter(AccessLevel.PROTECTED)
     private final List<HttpServletServer> servers = new LinkedList<>();
-
-    /**
-     * Constructs the object.
-     */
-    public Simulators() {
-        super();
-    }
 
     /**
      * Invokes the given functions to start the simulators. Destroys <i>all</i> of the

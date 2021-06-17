@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 
 package org.onap.policy.controlloop.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.controlloop.ControlLoopException;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.processor.ControlLoopProcessor;
@@ -28,13 +30,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Control Loop Utils.
  */
-public class ControlLoopUtils {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ControlLoopUtils {
 
     public static final Logger logger = LoggerFactory.getLogger(ControlLoopUtils.class);
-
-    private ControlLoopUtils() {
-        super();
-    }
 
     /**
      * Get a Control Loop Parameters object from a Tosca Policy.

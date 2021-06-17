@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,14 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Control Loop Metrics Tracker.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ControlLoopMetricsManager {
 
     /**
@@ -32,8 +35,4 @@ public class ControlLoopMetricsManager {
      */
     @Getter
     private static final ControlLoopMetrics manager = new CacheBasedControlLoopMetricsManager();
-
-    private ControlLoopMetricsManager() {
-        // do nothing
-    }
 }
