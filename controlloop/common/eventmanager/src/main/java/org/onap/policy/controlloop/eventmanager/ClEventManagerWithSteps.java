@@ -254,7 +254,6 @@ public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoo
      * Makes the step associated with the given parameters.
      *
      * @param params operation's parameters
-     * @return a new step
      */
     protected abstract void loadPolicyStep(ControlLoopOperationParams params);
 

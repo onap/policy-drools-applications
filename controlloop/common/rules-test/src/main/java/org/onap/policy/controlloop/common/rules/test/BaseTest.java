@@ -467,8 +467,6 @@ public abstract class BaseTest {
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
      * @param operation expected APPC operation request
-     * @param checkOperation flag to determine whether or not to wait for operation
-     *        timeout
      */
     protected void appcLegacyRainyDay(String policyFile, String onsetFile, String operation) {
         policyClMgt = createNoficationTopicListener();
@@ -581,7 +579,6 @@ public abstract class BaseTest {
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
-     * @param operation expected APPC operation request
      */
     protected void httpSunnyDay(String policyFile, String onsetFile) {
         policyClMgt = createNoficationTopicListener();
@@ -609,7 +606,6 @@ public abstract class BaseTest {
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
-     * @param operation expected APPC operation request
      */
     protected void httpRainyDay(String policyFile, String onsetFile) {
         policyClMgt = createNoficationTopicListener();
