@@ -249,7 +249,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     /**
      * Stores a record.
      *
-     * @param entityManager entity manager
+     * @param entityMgr entity manager
      * @param rec record to be stored
      */
     private void storeRecord(EntityManager entityMgr, Record rec) {
