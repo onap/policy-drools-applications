@@ -85,7 +85,7 @@
                             <includeScope>runtime</includeScope>
                             <excludeScope>provided</excludeScope>
                             <excludeTransitive>false</excludeTransitive>
-                            <excludeGroupIds>org.glassfish.hk2.external,org.glassfish.hk2</excludeGroupIds>
+                            <excludeGroupIds>org.glassfish.hk2.external,org.glassfish.hk2,io.swagger</excludeGroupIds>
                         </configuration>
                     </execution>
                 </executions>
