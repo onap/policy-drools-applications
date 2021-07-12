@@ -86,6 +86,7 @@
                             <excludeScope>provided</excludeScope>
                             <excludeTransitive>false</excludeTransitive>
                             <excludeGroupIds>org.glassfish.hk2.external,org.glassfish.hk2,io.swagger</excludeGroupIds>
+                            <excludeArtifactIds>jackson-annotations</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
