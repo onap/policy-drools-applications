@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP
   ================================================================================
-  Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2019-2020 Bell Canada.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +41,6 @@
         <docker.skip>false</docker.skip>
         <docker.skip.build>false</docker.skip.build>
         <docker.skip.push>false</docker.skip.push>
-        <docker.pull.registry>nexus3.onap.org:10001</docker.pull.registry>
-        <docker.push.registry>nexus3.onap.org:10003</docker.push.registry>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
         <docker.buildArg.BUILD_VERSION_APP_CL>${project.version}</docker.buildArg.BUILD_VERSION_APP_CL>
     </properties>
