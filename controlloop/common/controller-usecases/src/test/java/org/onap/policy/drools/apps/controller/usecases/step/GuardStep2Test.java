@@ -45,9 +45,9 @@ import org.onap.aai.domain.yang.RelationshipList;
 import org.onap.aai.domain.yang.Vserver;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actor.guard.DecisionOperation;
-import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.so.VfModuleCreate;
+import org.onap.policy.controlloop.actor.xacml.GuardOperation;
+import org.onap.policy.controlloop.actor.xacml.XacmlActor;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
@@ -182,8 +182,8 @@ public class GuardStep2Test {
 
     @Test
     public void testConstructor() {
-        assertEquals(GuardActor.NAME, step.getActorName());
-        assertEquals(DecisionOperation.NAME, step.getOperationName());
+        assertEquals(XacmlActor.NAME, step.getActorName());
+        assertEquals(GuardOperation.NAME, step.getOperationName());
         assertSame(stepContext, step.stepContext);
         assertSame(event, step.event);
 

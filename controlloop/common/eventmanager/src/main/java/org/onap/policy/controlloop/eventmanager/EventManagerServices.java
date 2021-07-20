@@ -25,10 +25,10 @@ import java.util.Properties;
 import lombok.Getter;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.properties.PropertyObjectUtils;
-import org.onap.policy.controlloop.actor.guard.DecisionOperation;
-import org.onap.policy.controlloop.actor.guard.DecisionOperator;
-import org.onap.policy.controlloop.actor.guard.GuardActor;
-import org.onap.policy.controlloop.actor.guard.GuardConfig;
+import org.onap.policy.controlloop.actor.xacml.DecisionConfig;
+import org.onap.policy.controlloop.actor.xacml.DecisionOperator;
+import org.onap.policy.controlloop.actor.xacml.GuardOperation;
+import org.onap.policy.controlloop.actor.xacml.XacmlActor;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
@@ -103,14 +103,14 @@ public class EventManagerServices {
      */
     public boolean isGuardEnabled() {
         try {
-            DecisionOperator guard = (DecisionOperator) getActorService().getActor(GuardActor.NAME)
-                            .getOperator(DecisionOperation.NAME);
+            DecisionOperator guard = (DecisionOperator) getActorService().getActor(XacmlActor.NAME)
+                            .getOperator(GuardOperation.NAME);
             if (!guard.isConfigured()) {
                 logger.warn("cannot check 'disabled' property in GUARD actor - assuming disabled");
                 return false;
             }
 
-            GuardConfig config = (GuardConfig) guard.getCurrentConfig();
+            DecisionConfig config = (DecisionConfig) guard.getCurrentConfig();
             if (config.isDisabled()) {
                 logger.warn("guard disabled");
                 return false;

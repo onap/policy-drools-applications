@@ -68,7 +68,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      */
     private static final OperationHistoryDataManager STUB_DATA_MANAGER = new OperationHistoryDataManagerStub();
 
-    private static final String GUARD_DISABLED_PROPERTY = "guard.disabled";
+    public static final String GUARD_DISABLED_PROPERTY = "guard.disabled";
 
     /**
      * Counts the number of these objects that have been created. This is used by junit

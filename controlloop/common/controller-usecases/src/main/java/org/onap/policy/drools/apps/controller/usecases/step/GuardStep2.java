@@ -29,9 +29,9 @@ import org.onap.aai.domain.yang.RelatedToProperty;
 import org.onap.aai.domain.yang.Relationship;
 import org.onap.aai.domain.yang.RelationshipData;
 import org.onap.policy.aai.AaiCqResponse;
-import org.onap.policy.controlloop.actor.guard.DecisionOperation;
-import org.onap.policy.controlloop.actor.guard.GuardActor;
 import org.onap.policy.controlloop.actor.so.VfModuleCreate;
+import org.onap.policy.controlloop.actor.xacml.GuardOperation;
+import org.onap.policy.controlloop.actor.xacml.XacmlActor;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
@@ -64,7 +64,7 @@ public class GuardStep2 extends Step2 {
      * @param otherStep step whose information should be used
      */
     public GuardStep2(Step2 otherStep, String closedLoopControlName) {
-        super(otherStep, GuardActor.NAME, DecisionOperation.NAME);
+        super(otherStep, XacmlActor.NAME, GuardOperation.NAME);
 
         if (!otherStep.isInitialized()) {
             throw new IllegalStateException("policy operation must be initialized before the guard operation");

@@ -27,11 +27,7 @@ import org.onap.policy.controlloop.CanonicalOnset;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
-import org.onap.policy.controlloop.actor.aai.AaiActor;
-import org.onap.policy.controlloop.actor.aai.AaiGetPnfOperation;
-import org.onap.policy.controlloop.actor.aai.AaiGetTenantOperation;
-import org.onap.policy.controlloop.actor.guard.GuardActor;
-import org.onap.policy.controlloop.actor.guard.DecisionOperation;
+import org.onap.policy.controlloop.actor.xacml.XacmlActor;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
@@ -45,6 +41,7 @@ import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithSteps.State;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithOutcome.OperationOutcome2;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithEvent.NewEventStatus;
+import org.onap.policy.controlloop.eventmanager.ControlLoopEventManager;
 import org.onap.policy.controlloop.eventmanager.EventManagerServices;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
@@ -415,9 +412,10 @@ rule "EVENT.MANAGER.EXECUTE.STEP"
         $step.setProperties();
 
         boolean guardDisabled = "true".equalsIgnoreCase(
-                    PolicyEngineConstants.getManager().getEnvironmentProperty("guard.disabled"));
+                    PolicyEngineConstants.getManager().getEnvironmentProperty(
+                        ControlLoopEventManager.GUARD_DISABLED_PROPERTY));
 
-        if (guardDisabled && "GUARD".equals($step.getActorName())) {
+        if (guardDisabled && XacmlActor.NAME.equals($step.getActorName())) {
             // guard is disabled - just enqueue a "SUCCESS" (i.e., "Permit")
             OperationOutcome outcome = $step.getParams().makeOutcome();
             outcome.setStart(Instant.now());
@@ -498,8 +496,8 @@ rule "EVENT.MANAGER.PROCESS.GUARD.OUTCOME"
                         $outcome != null,
                         !isAbort($outcome),
                         $step : getSteps().peek(),
-                        "GUARD".equals($step.getActorName()),
-                        $outcome.isFor("GUARD", $step.getOperationName()) )
+                        XacmlActor.NAME.equals($step.getActorName()),
+                        $outcome.isFor($step.getActorName(), $step.getOperationName()) )
     then
 
     Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
