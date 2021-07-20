@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class ControlLoopUtilsFeatureTest {
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.AAISIM_SERVER_PORT));
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));
-        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.GUARDSIM_SERVER_PORT));
+        assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.XACMLSIM_SERVER_PORT));
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SDNCSIM_SERVER_PORT));
     }
 
