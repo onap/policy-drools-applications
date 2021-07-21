@@ -150,7 +150,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.ccsdk.cds.blueprintsprocessor</groupId>
+            <groupId>org.onap.ccsdk.cds.blueprintsprocessor.modules</groupId>
             <artifactId>blueprint-proto</artifactId>
         </dependency>
         <dependency>
