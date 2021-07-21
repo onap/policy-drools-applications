@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d52a3f58_a613d15c",
+        "filename": "controlloop/common/eventmanager/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-07-21T20:13:42Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "768c68e1d29ebd5e44e2232df57f88cadf5340e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
