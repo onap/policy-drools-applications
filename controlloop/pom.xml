@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.onap.policy.drools-applications</groupId>
     <artifactId>drools-applications</artifactId>
-    <version>1.8.4-SNAPSHOT</version>
+    <version>1.8.4</version>
   </parent>
 
   <groupId>org.onap.policy.drools-applications.controlloop</groupId>
