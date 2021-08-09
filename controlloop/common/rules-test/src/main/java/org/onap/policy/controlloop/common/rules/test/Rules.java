@@ -48,6 +48,7 @@ import org.kie.api.event.rule.RuleRuntimeEventListener;
 import org.kie.api.runtime.KieSession;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
+import org.onap.policy.common.utils.logging.LoggerUtils;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
@@ -61,7 +62,6 @@ import org.onap.policy.drools.system.PolicyControllerFactory;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
-import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
@@ -257,10 +257,10 @@ public class Rules {
      * Sets up overall logging.
      */
     private void setupLogging() {
-        LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "WARN");
-        LoggerUtil.setLevel("org.eclipse.jetty", "WARN");
-        LoggerUtil.setLevel("org.onap.policy.controlloop", "INFO");
-        LoggerUtil.setLevel("network", "INFO");
+        LoggerUtils.setLevel(LoggerUtils.ROOT_LOGGER, "WARN");
+        LoggerUtils.setLevel("org.eclipse.jetty", "WARN");
+        LoggerUtils.setLevel("org.onap.policy.controlloop", "INFO");
+        LoggerUtils.setLevel("network", "INFO");
     }
 
     /**

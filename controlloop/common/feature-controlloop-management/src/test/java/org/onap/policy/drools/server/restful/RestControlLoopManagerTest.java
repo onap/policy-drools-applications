@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.kie.api.builder.ReleaseId;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.logging.LoggerUtils;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.properties.DroolsPropertyConstants;
@@ -45,7 +46,6 @@ import org.onap.policy.drools.system.PolicyControllerConstants;
 import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 import org.onap.policy.drools.util.KieUtils;
-import org.onap.policy.drools.utils.logging.LoggerUtil;
 import org.onap.policy.simulators.Util;
 
 /**
@@ -94,7 +94,7 @@ public class RestControlLoopManagerTest {
     @BeforeClass
     public static void setUp() throws Exception {
         System.setProperty("kie.maven.settings.custom", "src/test/resources/settings.xml");
-        LoggerUtil.setLevel(LoggerUtil.ROOT_LOGGER, "WARN");
+        LoggerUtils.setLevel(LoggerUtils.ROOT_LOGGER, "WARN");
 
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
         PolicyEngineConstants.getManager()
