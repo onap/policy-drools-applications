@@ -90,18 +90,23 @@ public class UsecasesTest extends DroolsRuleTest {
         String policyName = policy.getIdentifier().getName();
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.ACTIVE
-                        && (policyName + ".EVENT.MANAGER.ACCEPT").equals(notif.getPolicyName()));
+                        && "EVENT.MANAGER.ACCEPT".equals(notif.getPolicyScope())
+                        && policyName.equals(notif.getPolicyName()));
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
-                        && (policyName + ".EVENT.MANAGER.PROCESS.GUARD.OUTCOME").equals(notif.getPolicyName())
+                        && "EVENT.MANAGER.PROCESS.GUARD.OUTCOME".equals(notif.getPolicyScope())
+                        && policyName.equals(notif.getPolicyName())
                         && notif.getMessage().startsWith("Sending guard query"));
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
-                        && (policyName + ".EVENT.MANAGER.PROCESS.GUARD.OUTCOME").equals(notif.getPolicyName())
-                        && notif.getMessage().startsWith("Guard result") && notif.getMessage().endsWith("Permit"));
+                        && "EVENT.MANAGER.PROCESS.GUARD.OUTCOME".equals(notif.getPolicyScope())
+                        && policyName.equals(notif.getPolicyName())
+                        && notif.getMessage().startsWith("Guard result")
+                        && notif.getMessage().endsWith("Permit"));
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
-                        && (policyName + ".EVENT.MANAGER.PROCESS.POLICY.STARTED").equals(notif.getPolicyName())
+                        && "EVENT.MANAGER.PROCESS.POLICY.STARTED".equals(notif.getPolicyScope())
+                        && policyName.equals(notif.getPolicyName())
                         && notif.getMessage().startsWith("actor="));
     }
 
@@ -110,7 +115,8 @@ public class UsecasesTest extends DroolsRuleTest {
                     Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType) {
 
         return policyClMgt.await(notif -> notif.getNotification() == finalType
-                        && (policy.getIdentifier().getName() + ".EVENT.MANAGER.FINAL").equals(notif.getPolicyName()));
+                        && "EVENT.MANAGER.FINAL".equals(notif.getPolicyScope())
+                        && (policy.getIdentifier().getName()).equals(notif.getPolicyName()));
     }
 
     @Override

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -160,7 +160,8 @@ rule "EVENT"
             notification.setNotification(ControlLoopNotificationType.REJECTED);
             notification.setFrom("policy");
             notification.setMessage("Missing requestId");
-            notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+            notification.setPolicyScope(drools.getRule().getName());
+            notification.setPolicyName($params.getPolicyName());
             notification.setPolicyVersion($params.getPolicyVersion());
 
         } else {
@@ -179,7 +180,9 @@ rule "EVENT"
 
                     notification = manager.makeNotification();
                     notification.setNotification(ControlLoopNotificationType.ACTIVE);
-                    notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+                    notification.setPolicyScope(drools.getRule().getName());
+                    notification.setPolicyName($params.getPolicyName());
+                    notification.setPolicyVersion($params.getPolicyVersion());
 
                 } else {
                     // Note: the notification will be generated lazily
@@ -197,7 +200,8 @@ rule "EVENT"
         notification = new VirtualControlLoopNotification($event);
         notification.setNotification(ControlLoopNotificationType.REJECTED);
         notification.setMessage("Exception occurred: " + e.getMessage());
-        notification.setPolicyName($params.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($params.getPolicyName());
         notification.setPolicyVersion($params.getPolicyVersion());
     }
     //
@@ -374,7 +378,9 @@ rule "EVENT.MANAGER.ACCEPT"
 
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
@@ -508,7 +514,9 @@ rule "EVENT.MANAGER.PROCESS.GUARD.OUTCOME"
     try {
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.OPERATION);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory(Collections.emptyList());
 
         // get actor/operation name from the policy step, not from the guard step
@@ -570,7 +578,9 @@ rule "EVENT.MANAGER.PROCESS.POLICY.STARTED"
 
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.OPERATION);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory(Collections.emptyList());
         notification.setMessage($manager.getOperationMessage());
 
@@ -662,7 +672,9 @@ rule "EVENT.MANAGER.PROCESS.POLICY.SUCCESS"
 
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.OPERATION_SUCCESS);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
                                 .collect(Collectors.toList()));
 
@@ -724,7 +736,9 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
 
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
                                 .collect(Collectors.toList()));
 
@@ -781,7 +795,9 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
 
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.REJECTED);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
                                 .collect(Collectors.toList()));
 
@@ -835,7 +851,9 @@ rule "EVENT.MANAGER.PROCESS.POLICY.FAILURE"
 
         VirtualControlLoopNotification notification = $manager.makeNotification();
         notification.setNotification(ControlLoopNotificationType.OPERATION_FAILURE);
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
 
         $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
 
@@ -981,7 +999,9 @@ rule "EVENT.MANAGER.FINAL"
 
     try {
         VirtualControlLoopNotification notification = $manager.makeNotification();
-        notification.setPolicyName($manager.getPolicyName() + "." + drools.getRule().getName());
+        notification.setPolicyScope(drools.getRule().getName());
+        notification.setPolicyName($manager.getPolicyName());
+        notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getFullHistory().stream().map(OperationOutcome2::getClOperation)
                                     .collect(Collectors.toList()));
 
