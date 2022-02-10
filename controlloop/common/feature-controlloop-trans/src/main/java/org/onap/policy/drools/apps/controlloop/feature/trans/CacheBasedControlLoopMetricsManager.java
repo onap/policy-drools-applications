@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -248,9 +248,22 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
     protected void evicted(VirtualControlLoopNotification notification) {
         MdcTransaction
                 .newTransaction(notification.getRequestId().toString(), notification.getFrom())
-                .setServiceName(notification.getClosedLoopControlName()).setTargetEntity(notification.getTarget())
-                .setStartTime(notification.getNotificationTime().toInstant()).setEndTime(Instant.now())
-                .setResponseDescription("EVICTED").setStatusCode(false).metric().resetTransaction();
+                .setServiceName(notification.getClosedLoopControlName())
+                .setServiceInstanceId(notification.getPolicyName() + ":" + notification.getPolicyVersion())
+                .setProcessKey("" + notification.getAai())
+                .setTargetEntity(notification.getTargetType() + "." + notification.getTarget())
+                .setResponseCode(UNKNOWN_RESPONSE_CODE)
+                .setStartTime(notification.getNotificationTime().toInstant())
+                .setEndTime(Instant.now())
+                .setResponseDescription("EVICTED")
+                .setStatusCode(false)
+                .setCustomField1((notification.getNotification() != null)
+                                         ? notification.getNotification().name() : "")
+                .setCustomField2(notification.getPolicyScope())
+                .setClientIpAddress(notification.getClosedLoopEventClient())
+                .metric()
+                .resetTransaction();
+
     }
 
     @Override
@@ -291,8 +304,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         return MdcTransaction
                 .newTransaction(notification.getRequestId().toString(), notification.getFrom())
                 .setServiceName(notification.getClosedLoopControlName())
-                .setServiceInstanceId(notification.getPolicyScope()
-                    + ":" + notification.getPolicyName() + ":" + notification.getPolicyVersion())
+                .setServiceInstanceId(notification.getPolicyName() + ":" + notification.getPolicyVersion())
                 .setProcessKey("" + notification.getAai())
                 .setTargetEntity(notification.getTargetType() + "." + notification.getTarget())
                 .setResponseCode((notification.getNotification() != null)
@@ -300,6 +312,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                     : UNKNOWN_RESPONSE_CODE)
                 .setCustomField1((notification.getNotification() != null)
                     ? notification.getNotification().name() : "")
+                .setCustomField2(notification.getPolicyScope())
                 .setResponseDescription(notification.getMessage())
                 .setClientIpAddress(notification.getClosedLoopEventClient());
     }
