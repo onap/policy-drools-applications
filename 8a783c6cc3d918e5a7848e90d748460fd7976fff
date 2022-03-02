@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5984346_0dfc5658",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/event-manager.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-03-02T15:05:40Z",
+      "side": 1,
+      "message": "add copyrights",
+      "revId": "8a783c6cc3d918e5a7848e90d748460fd7976fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
