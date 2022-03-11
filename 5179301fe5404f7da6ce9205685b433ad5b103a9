@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7664a24d_336e6e56",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/event-manager.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-03-11T13:47:18Z",
+      "side": 1,
+      "message": "Put back to original, add \"Modifications ....\" to line below.",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "5179301fe5404f7da6ce9205685b433ad5b103a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
