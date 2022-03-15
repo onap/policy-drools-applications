@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications.controlloop.packages</groupId>
         <artifactId>drools-applications-packages</artifactId>
-        <version>1.10.1-SNAPSHOT</version>
+        <version>1.10.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>basex-controlloop</artifactId>
