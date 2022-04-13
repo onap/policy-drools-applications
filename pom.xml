@@ -25,13 +25,13 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.5.2</version>
+        <version>3.5.3-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.policy.drools-applications</groupId>
     <artifactId>drools-applications</artifactId>
-    <version>1.10.2-SNAPSHOT</version>
+    <version>1.10.3-SNAPSHOT</version>
 
     <name>policy-drools-applications</name>
     <packaging>pom</packaging>
@@ -45,9 +45,9 @@
         <staging.path>content/repositories/staging/</staging.path>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>1.10.2</version.policy.common>
-        <policy.models.version>2.6.2</policy.models.version>
-        <version.policy.drools-pdp>1.10.2</version.policy.drools-pdp>
+        <version.policy.common>1.10.3-SNAPSHOT</version.policy.common>
+        <policy.models.version>2.6.3-SNAPSHOT</policy.models.version>
+        <version.policy.drools-pdp>1.10.3-SNAPSHOT</version.policy.drools-pdp>
     </properties>
 
     <build>
