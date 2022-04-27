@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac823d6_421c3efd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-04-27T16:15:07Z",
+      "side": 1,
+      "message": "remove \"fix:\"",
+      "revId": "d6ada969c4483b086ef452e789bb91df3d7ee532",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d67efc1f_5ae9278b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-04-27T16:15:07Z",
+      "side": 1,
+      "message": "Use POLICY-4106 instead of REQ-1074",
+      "revId": "d6ada969c4483b086ef452e789bb91df3d7ee532",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
