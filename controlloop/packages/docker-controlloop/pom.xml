@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications.controlloop.packages</groupId>
         <artifactId>drools-applications-packages</artifactId>
-        <version>1.10.3-SNAPSHOT</version>
+        <version>1.10.3</version>
     </parent>
     <artifactId>docker-controlloop</artifactId>
     <packaging>pom</packaging>
