@@ -4,6 +4,7 @@
   ================================================================================
   Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2019-2020 Bell Canada.
+  Modifications Copyright (C) 2022 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -64,6 +65,31 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skipPoms>false</skipPoms>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                </configuration>
+            </plugin>
+
             <!--fabric8.io docker-maven-plugin does not support ARG usage in the FROM statement of Dockerfile
              even though docker supports it: https://github.com/fabric8io/docker-maven-plugin/issues/859.
              As a workaround we shall use maven-antrun-plugin to copy the Dockerfile and apply filters to
