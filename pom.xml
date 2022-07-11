@@ -46,7 +46,7 @@
 
         <!-- Project common dependency versions -->
         <version.policy.common>1.9.3-SNAPSHOT</version.policy.common>
-        <policy.models.version>2.5.3-SNAPSHOT</policy.models.version>
+        <policy.models.version>2.5.4-SNAPSHOT</policy.models.version>
         <version.policy.drools-pdp>1.9.3-SNAPSHOT</version.policy.drools-pdp>
     </properties>
 
