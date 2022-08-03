@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020,2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -467,8 +467,6 @@ public abstract class BaseTest {
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
      * @param operation expected APPC operation request
-     * @param checkOperation flag to determine whether or not to wait for operation
-     *        timeout
      */
     protected void appcLegacyRainyDay(String policyFile, String onsetFile, String operation) {
         policyClMgt = createNoficationTopicListener();
@@ -581,7 +579,6 @@ public abstract class BaseTest {
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
-     * @param operation expected APPC operation request
      */
     protected void httpSunnyDay(String policyFile, String onsetFile) {
         policyClMgt = createNoficationTopicListener();
@@ -609,7 +606,6 @@ public abstract class BaseTest {
      *
      * @param policyFile file containing the ToscaPolicy to be loaded
      * @param onsetFile file containing the ONSET to be injected
-     * @param operation expected APPC operation request
      */
     protected void httpRainyDay(String policyFile, String onsetFile) {
         policyClMgt = createNoficationTopicListener();
