@@ -1,0 +1,9 @@
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Ram Krishna Verma <ram_krishna.verma@bell.ca>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Liam Fallon <liam.fallon@est.tech>
+Submitted-at: Thu, 08 Sep 2022 21:24:16 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/drools-applications/+/130611
+Project: policy/drools-applications
+Branch: refs/heads/istanbul
