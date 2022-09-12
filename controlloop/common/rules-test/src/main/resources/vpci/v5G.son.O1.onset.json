@@ -1,0 +1,20 @@
+{
+  "closedLoopControlName": "ControlLoop-SONO1-fb41f388-a5f2-11e8-98d0-529269fb1459",
+  "closedLoopAlarmStart": 1606806580487,
+  "closedLoopEventClient": "microservice.PCI",
+  "closedLoopEventStatus": "ONSET",
+  "requestID": "427e68b6-3946-4cc6-bbf9-602aff28ac3a",
+  "target_type": "PNF",
+  "target": "pnf.pnf-name",
+  "AAI": {
+    "generic-vnf.prov-status": "ACTIVE",
+    "generic-vnf.is-closed-loop-disabled": "false",
+    "pnf.pnf-name": "ncserver1"
+  },
+  "from": "PCIMS",
+  "version": "1.0.2",
+  "policyName": "SONO1",
+  "policyVersion": "1.0.2",
+  "Action": "ModifyO1Config",
+  "payload": "{\"Configurations\":[{\"data\":{\"FAPService\":{\"alias\":\"Chn0330\",\"X0005b9Lte\":{\"phyCellIdInUse\":6,\"pnfName\":\"ncserver23\"},\"CellConfig\":{\"LTE\":{\"RAN\":{\"Common\":{\"CellIdentity\":\"Chn0330\"}}}}}}},{\"data\":{\"FAPService\":{\"alias\":\"Chn0331\",\"X0005b9Lte\":{\"phyCellIdInUse\":7,\"pnfName\":\"ncserver23\"},\"CellConfig\":{\"LTE\":{\"RAN\":{\"Common\":{\"CellIdentity\":\"Chn0331\"}}}}}}}]}"
+}

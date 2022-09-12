@@ -1,0 +1,23 @@
+{
+    "body": {
+        "output": {
+            "CommonHeader": {
+                "TimeStamp": "2022-08-10T07:10:05.614Z",
+                "APIver": "1.0",
+                "RequestID": "427e68b6-3946-4cc6-bbf9-602aff28ac3a",
+                "SubRequestID": "${replaceMe}",
+                "RequestTrack": [],
+                "Flags": []
+            },
+            "Status": {
+                "Code": 200,
+                "Value": "SUCCESS"
+            },
+            "Payload": "{ \"Configurations\":[ { \"Status\": { \"Code\": 200, \"Value\": \"SUCCESS\" }, \"data\":{\"FAPService\":{\"alias\":\"Chn0330\",\"X0005b9Lte\":{\"phyCellIdInUse\":6,\"pnfName\":\"ncserver23\"},\"CellConfig\":{\"LTE\":{\"RAN\":{\"Common\":{\"CellIdentity\":\"Chn0330\"}}}}}} } ] }"
+        }
+    },
+    "version": "1.0",
+    "rpc-name": "ModifyO1Config",
+    "correlation-id": "427e68b6-3946-4cc6-bbf9-602aff28ac3a",
+    "type": "response"
+}

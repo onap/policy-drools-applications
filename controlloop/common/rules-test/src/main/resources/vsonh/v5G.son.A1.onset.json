@@ -1,0 +1,20 @@
+{
+  "closedLoopControlName": "ControlLoop-SONA1-7d4baf04-8875-4d1f-946d-06b874048b61",
+  "closedLoopAlarmStart": 1606805921693,
+  "closedLoopEventClient": "microservice.SONH",
+  "closedLoopEventStatus": "ONSET",
+  "requestID": "82feb01e-4f3e-40e2-b8df-683adabae893",
+  "target_type": "PNF",
+  "target": "pnf.pnf-name",
+  "AAI": {
+    "generic-vnf.prov-status": "ACTIVE",
+    "generic-vnf.is-closed-loop-disabled": "false",
+    "pnf.pnf-name": "ncserver1"
+  },
+  "from": "SONHMS",
+  "version": "1.0.2",
+  "policyName": "SONA1",
+  "policyVersion": "1.0.2",
+  "Action": "ModifyA1Policy",
+  "payload": "{ \"Configurations\":[ { \"data\":{ \"FAPService\":{ \"alias\":\"Cell1\", \"CellConfig\":{ \"LTE\":{ \"RAN\":{ \"Common\":{ \"CellIdentity\":\"1\" }, \"NeighborListInUse\" : { \"LTECellNumberOfEntries\" : \"1\" , \"LTECell\" : [{ \"PLMNID\" :\"plmnid1\", \"CID\":\"Chn0001\", \"PhyCellID\":\"3\", \"PNFName\":\"ncserver01\", \"Blacklisted\":\"false\"}] } } } } } } } ] }"
+}
