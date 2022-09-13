@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,18 @@ package org.onap.policy.controlloop.common.rules.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections.MapUtils;
 import org.awaitility.Awaitility;
 import org.junit.Test;
 import org.onap.policy.appc.Request;
@@ -106,16 +109,27 @@ public abstract class BaseTest {
     private static final String VFW_APPC_SUCCESS = "vfw/vfw.appc.success.json";
     private static final String VFW_APPC_FAILURE = "vfw/vfw.appc.failure.json";
 
-    // VPCI
+    // 5G SON Legacy - PCI
     private static final String VPCI_TOSCA_COMPLIANT_POLICY = "vpci/tosca-compliant-vpci.json";
     private static final String VPCI_ONSET = "vpci/vpci.onset.json";
     private static final String VPCI_SDNR_SUCCESS = "vpci/vpci.sdnr.success.json";
 
-    // VSONH
+    // 5G SON Legacy - ANR
     private static final String VSONH_TOSCA_COMPLIANT_POLICY = "vsonh/tosca-compliant-vsonh.json";
     private static final String VSONH_ONSET = "vsonh/vsonh.onset.json";
     private static final String VSONH_SDNR_SUCCESS = "vsonh/vsonh.sdnr.success.json";
 
+    // 5G SON Use case Policies (Kohn+)
+
+    private static final String V5G_SON_O1_TOSCA_POLICY = "policies/v5gSonO1.policy.operational.input.tosca.json";
+    private static final String V5G_SON_O1_ONSET = "vpci/v5G.son.O1.onset.json";
+    private static final String V5G_SON_O1_SDNR_SUCCESS = "vpci/v5G.son.O1.sdnr.success.json";
+    private static final String MODIFY_O1_CONFIG_OPERATION = "ModifyO1Config";
+
+    private static final String V5G_SON_A1_TOSCA_POLICY = "policies/v5gSonA1.policy.operational.input.tosca.json";
+    private static final String V5G_SON_A1_ONSET = "vsonh/v5G.son.A1.onset.json";
+    private static final String V5G_SON_A1_SDNR_SUCCESS = "vsonh/v5G.son.A1.sdnr.success.json";
+    private static final String MODIFY_A1_POLICY_OPERATION = "ModifyA1Policy";
     /*
      * Coders used to decode requests and responses.
      */
@@ -170,13 +184,13 @@ public abstract class BaseTest {
     }
 
     /**
-     * Initializes {@link #topics} and {@link #controller}.
+     * Initializes {@link #topics}.
      */
     public void init() {
         setTopics(topicMaker.get());
 
         Map<String, SimpleLock> locks = getLockMap();
-        if (locks != null) {
+        if (!MapUtils.isEmpty(locks)) {
             locks.clear();
         }
     }
@@ -270,8 +284,8 @@ public abstract class BaseTest {
         VirtualControlLoopNotification notif1 = waitForFinalSuccess(policy, policyClMgt);
         VirtualControlLoopNotification notif2 = waitForFinalSuccess(policy, policyClMgt);
 
-        // get the list of target names so we can ensure there's one of each
-        List<String> actual = List.of(notif1, notif2).stream().map(notif -> notif.getAai().get("generic-vnf.vnf-id"))
+        // get the list of target names, so we can ensure there's one of each
+        List<String> actual = Stream.of(notif1, notif2).map(notif -> notif.getAai().get("generic-vnf.vnf-id"))
                         .sorted().collect(Collectors.toList());
 
         assertEquals(List.of("duplicate-VNF", "vCPE_Infrastructure_vGMUX_demo_app").toString(), actual.toString());
@@ -364,6 +378,22 @@ public abstract class BaseTest {
     @Test
     public void testVsonhSunnyDayCompliant() {
         sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, SNDR_MODIFY_CONFIG_ANR_OP);
+    }
+
+    /**
+     * Sunny day 5G SON 01 Modify01Config Operational Policy.
+     */
+    @Test
+    public void test5gSonO1SunnyDayCompliant() {
+        sdnrSunnyDay(V5G_SON_O1_TOSCA_POLICY, V5G_SON_O1_ONSET, V5G_SON_O1_SDNR_SUCCESS, MODIFY_O1_CONFIG_OPERATION);
+    }
+
+    /**
+     * Sunny day 5G SON A1 ModifyA1Policy Operational Policy.
+     */
+    @Test
+    public void test5gSonA1SunnyDayCompliant() {
+        sdnrSunnyDay(V5G_SON_A1_TOSCA_POLICY, V5G_SON_A1_ONSET, V5G_SON_A1_SDNR_SUCCESS, MODIFY_A1_POLICY_OPERATION);
     }
 
     /**
@@ -710,7 +740,7 @@ public abstract class BaseTest {
     }
 
     /**
-     * Returns Listener from createListner based on Coder.
+     * Returns Listener from createListener based on Coder.
      *
      * @return the Listener
      */
@@ -723,7 +753,7 @@ public abstract class BaseTest {
      */
     private void verifyUnlocked() {
         Map<String, SimpleLock> locks = getLockMap();
-        if (locks != null) {
+        if (!MapUtils.isEmpty(locks)) {
             Awaitility.await().atMost(5, TimeUnit.SECONDS).until(locks::isEmpty);
         }
     }
@@ -734,6 +764,6 @@ public abstract class BaseTest {
             return Whitebox.getInternalState(lockMgr, "resource2lock");
         }
 
-        return null;
+        return Collections.emptyMap();
     }
 }

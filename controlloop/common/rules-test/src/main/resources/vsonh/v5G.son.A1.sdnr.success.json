@@ -1,0 +1,23 @@
+{
+    "body": {
+        "output": {
+            "CommonHeader": {
+                "TimeStamp": "2022-09-10T07:10:05.614Z",
+                "APIver": "1.0",
+                "RequestID": "82feb01e-4f3e-40e2-b8df-683adabae893",
+                "SubRequestID": "${replaceMe}",
+                "RequestTrack": [],
+                "Flags": []
+            },
+            "Status": {
+                "Code": 200,
+                "Value": "SUCCESS"
+            },
+            "Payload": "{ \"Configurations\":[ { \"Status\": { \"Code\": 200, \"Value\": \"SUCCESS\" }, \"data\":{ \"FAPService\":{ \"alias\":\"Cell1\", \"CellConfig\":{ \"LTE\":{ \"RAN\":{ \"Common\":{ \"CellIdentity\":\"1\" }, \"NeighborListInUse\" : { \"LTECellNumberOfEntries\" : \"1\" , \"LTECell\" : [{ \"PLMNID\" :\"plmnid1\", \"CID\":\"Chn0001\", \"PhyCellID\":\"3\", \"PNFName\":\"ncserver01\", \"Blacklisted\":\"false\"}] } } } } } } } ] }"
+        }
+    },
+    "version": "1.0",
+    "rpc-name": "ModifyA1Policy",
+    "correlation-id": "82feb01e-4f3e-40e2-b8df-683adabae893",
+    "type": "response"
+}
