@@ -216,6 +216,12 @@
                                                 <artifactId>kie-maven-plugin</artifactId>
                                                 <goals>
                                                     <goal>build</goal>
+                                                    <goal>generateANC</goal>
+                                                    <goal>generateDMNModel</goal>
+                                                    <goal>generateModel</goal>
+                                                    <goal>generatePMMLModel</goal>
+                                                    <goal>injectreactive</goal>
+                                                    <goal>validateDMN</goal>
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
