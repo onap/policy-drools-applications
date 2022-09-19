@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0a5ec30_a7355e8b",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-09-19T15:03:26Z",
+      "side": 1,
+      "message": "Just doublechecking Liam with you that this is indeed an issue as we don\u0027t use these new goals?   They don\u0027t show as an issue in my set up.",
+      "revId": "d065f5d1f2f36a44f849064393f901070e6df432",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
