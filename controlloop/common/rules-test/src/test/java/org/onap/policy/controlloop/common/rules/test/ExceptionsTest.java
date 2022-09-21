@@ -24,8 +24,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.onap.policy.common.utils.test.ExceptionsTester;
-import org.onap.policy.controlloop.common.rules.test.SimulatorException;
-import org.onap.policy.controlloop.common.rules.test.TopicException;
 
 public class ExceptionsTest {
 
