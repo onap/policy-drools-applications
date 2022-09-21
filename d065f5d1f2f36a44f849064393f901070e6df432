@@ -34,6 +34,24 @@
       "revId": "d065f5d1f2f36a44f849064393f901070e6df432",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0003d626_55f4c628",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-09-21T13:30:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "315051a7_ceae5a5f",
+      "revId": "d065f5d1f2f36a44f849064393f901070e6df432",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
