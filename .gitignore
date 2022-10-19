@@ -15,3 +15,4 @@ target
 **/*.trace.db
 **/*.mv.db
 **/*.log
+**/logs
