@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '1.11.1'
+project: 'policy-drools-applications'
+log_dir: 'policy-drools-applications-maven-docker-stage-master/1281'
+ref: 52d20b582f547ca5d8b3397f37a39d65c9d8cef1
+containers:
+    - name: 'policy-pdpd-cl'
+      version: '1.11.1-20221021T1353'
