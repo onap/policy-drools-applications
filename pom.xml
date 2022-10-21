@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.6.1-SNAPSHOT</version>
+        <version>3.6.1</version>
         <relativePath />
     </parent>
 
@@ -45,9 +45,9 @@
         <staging.path>content/repositories/staging/</staging.path>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>1.11.1-SNAPSHOT</version.policy.common>
-        <policy.models.version>2.7.1-SNAPSHOT</policy.models.version>
-        <version.policy.drools-pdp>1.11.1-SNAPSHOT</version.policy.drools-pdp>
+        <version.policy.common>1.11.1</version.policy.common>
+        <policy.models.version>2.7.1</policy.models.version>
+        <version.policy.drools-pdp>1.11.1</version.policy.drools-pdp>
     </properties>
 
     <build>
