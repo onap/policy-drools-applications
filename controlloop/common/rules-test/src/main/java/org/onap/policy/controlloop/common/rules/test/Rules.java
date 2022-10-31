@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -230,6 +230,16 @@ public class Rules {
         var policyJson = ResourceUtils.getResourceAsString(policyPath);
         if (policyJson == null) {
             throw new CoderException(new FileNotFoundException(policyPath));
+        }
+
+        if (policyPath.startsWith("policies/")) {
+            // using policy/models examples where policies are wrapped with the ToscaServiceTemplate
+            // for API component provisioning
+            logger.info("retrieving policy from policy models examples");
+            ToscaServiceTemplate template = coder.decode(policyJson, ToscaServiceTemplate.class);
+            if (template.getToscaTopologyTemplate().getPolicies().size() == 1) {
+                return template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+            }
         }
 
         return coder.decode(policyJson, ToscaPolicy.class);
