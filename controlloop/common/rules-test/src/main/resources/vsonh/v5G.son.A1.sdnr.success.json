@@ -17,7 +17,7 @@
         }
     },
     "version": "1.0",
-    "rpc-name": "ModifyA1Policy",
+    "rpc-name": "puta1policy",
     "correlation-id": "82feb01e-4f3e-40e2-b8df-683adabae893",
     "type": "response"
 }
