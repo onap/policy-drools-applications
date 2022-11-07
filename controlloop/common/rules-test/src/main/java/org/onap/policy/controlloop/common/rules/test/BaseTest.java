@@ -72,6 +72,8 @@ public abstract class BaseTest {
     protected static final String APPC_CL_TOPIC = "APPC-CL";
     protected static final String SDNR_CL_TOPIC = "SDNR-CL";
     protected static final String SDNR_CL_RSP_TOPIC = "SDNR-CL-RSP";
+    protected static final String A1P_CL_TOPIC = "A1-P";
+    protected static final String A1P_CL_RSP_TOPIC = "A1-P-RSP";
 
     /*
      * Constants for each test case.
@@ -129,7 +131,7 @@ public abstract class BaseTest {
     private static final String V5G_SON_A1_TOSCA_POLICY = "policies/v5gSonA1.policy.operational.input.tosca.json";
     private static final String V5G_SON_A1_ONSET = "vsonh/v5G.son.A1.onset.json";
     private static final String V5G_SON_A1_SDNR_SUCCESS = "vsonh/v5G.son.A1.sdnr.success.json";
-    private static final String MODIFY_A1_POLICY_OPERATION = "ModifyA1Policy";
+    private static final String PUT_A1_POLICY_OPERATION = "PutA1Policy";
     /*
      * Coders used to decode requests and responses.
      */
@@ -367,7 +369,8 @@ public abstract class BaseTest {
      */
     @Test
     public void testVpciSunnyDayCompliant() {
-        sdnrSunnyDay(VPCI_TOSCA_COMPLIANT_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS, SDNR_MODIFY_CONFIG_OP);
+        sdnrSunnyDay(VPCI_TOSCA_COMPLIANT_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS,
+            SDNR_MODIFY_CONFIG_OP, SDNR_CL_TOPIC, SDNR_CL_RSP_TOPIC);
     }
 
     // VSONH
@@ -377,7 +380,8 @@ public abstract class BaseTest {
      */
     @Test
     public void testVsonhSunnyDayCompliant() {
-        sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS, SNDR_MODIFY_CONFIG_ANR_OP);
+        sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS,
+            SNDR_MODIFY_CONFIG_ANR_OP, SDNR_CL_TOPIC, SDNR_CL_RSP_TOPIC);
     }
 
     /**
@@ -385,7 +389,8 @@ public abstract class BaseTest {
      */
     @Test
     public void test5gSonO1SunnyDayCompliant() {
-        sdnrSunnyDay(V5G_SON_O1_TOSCA_POLICY, V5G_SON_O1_ONSET, V5G_SON_O1_SDNR_SUCCESS, MODIFY_O1_CONFIG_OPERATION);
+        sdnrSunnyDay(V5G_SON_O1_TOSCA_POLICY, V5G_SON_O1_ONSET, V5G_SON_O1_SDNR_SUCCESS,
+            MODIFY_O1_CONFIG_OPERATION, SDNR_CL_TOPIC, SDNR_CL_RSP_TOPIC);
     }
 
     /**
@@ -393,7 +398,8 @@ public abstract class BaseTest {
      */
     @Test
     public void test5gSonA1SunnyDayCompliant() {
-        sdnrSunnyDay(V5G_SON_A1_TOSCA_POLICY, V5G_SON_A1_ONSET, V5G_SON_A1_SDNR_SUCCESS, MODIFY_A1_POLICY_OPERATION);
+        sdnrSunnyDay(V5G_SON_A1_TOSCA_POLICY, V5G_SON_A1_ONSET, V5G_SON_A1_SDNR_SUCCESS,
+            PUT_A1_POLICY_OPERATION, A1P_CL_TOPIC, A1P_CL_RSP_TOPIC);
     }
 
     /**
@@ -572,9 +578,11 @@ public abstract class BaseTest {
      * @param onsetFile file containing the ONSET to be injected
      * @param operation expected SDNR operation request
      */
-    protected void sdnrSunnyDay(String policyFile, String onsetFile, String successFile, String operation) {
+    protected void sdnrSunnyDay(String policyFile, String onsetFile,
+                                String successFile, String operation,
+                                String requestTopic, String responseTopic) {
         policyClMgt = createNoficationTopicListener();
-        sdnrClSink = topics.createListener(SDNR_CL_TOPIC, PciMessage.class, SDNR_CODER);
+        sdnrClSink = topics.createListener(requestTopic, PciMessage.class, SDNR_CODER);
 
         policy = checkPolicy(policyFile);
 
@@ -592,7 +600,7 @@ public abstract class BaseTest {
         /*
          * Inject response.
          */
-        topics.inject(SDNR_CL_RSP_TOPIC, successFile, pcireq.getBody().getInput().getCommonHeader().getSubRequestId());
+        topics.inject(responseTopic, successFile, pcireq.getBody().getInput().getCommonHeader().getSubRequestId());
 
         /* --- Operation Completed --- */
 
