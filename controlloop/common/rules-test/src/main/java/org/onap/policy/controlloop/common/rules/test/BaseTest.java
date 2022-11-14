@@ -131,7 +131,7 @@ public abstract class BaseTest {
     private static final String V5G_SON_A1_TOSCA_POLICY = "policies/v5gSonA1.policy.operational.input.tosca.json";
     private static final String V5G_SON_A1_ONSET = "vsonh/v5G.son.A1.onset.json";
     private static final String V5G_SON_A1_SDNR_SUCCESS = "vsonh/v5G.son.A1.sdnr.success.json";
-    private static final String PUT_A1_POLICY_OPERATION = "PutA1Policy";
+    private static final String PUT_A1_POLICY_OPERATION = "putA1Policy";
     /*
      * Coders used to decode requests and responses.
      */
