@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,10 +45,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
 import org.drools.core.WorkingMemory;
+import org.drools.core.common.InternalFactHandle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.api.runtime.rule.FactHandle;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.Coder;
@@ -96,7 +96,7 @@ public class ClEventManagerWithStepsTest {
     @Mock
     private WorkingMemory workMem;
     @Mock
-    private FactHandle factHandle;
+    private InternalFactHandle factHandle;
     @Mock
     private Operator policyOperator;
     @Mock
