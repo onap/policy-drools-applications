@@ -38,10 +38,10 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
 import org.drools.core.WorkingMemory;
+import org.drools.core.common.InternalFactHandle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.api.runtime.rule.FactHandle;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.Coder;
@@ -87,7 +87,7 @@ public class ClEventManagerWithOutcomeTest {
     @Mock
     private WorkingMemory workMem;
     @Mock
-    private FactHandle factHandle;
+    private InternalFactHandle factHandle;
     @Mock
     private Operator policyOperator;
     @Mock
