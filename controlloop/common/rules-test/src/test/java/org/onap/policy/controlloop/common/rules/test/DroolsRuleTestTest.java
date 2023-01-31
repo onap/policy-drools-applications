@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021,2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DroolsRuleTestTest {
@@ -105,12 +105,13 @@ public class DroolsRuleTestTest {
     /**
      * Saves static values from the class.
      */
+    @SuppressWarnings("unchecked")
     @BeforeClass
     public static void setUpBeforeClass() {
-        ruleMaker = Whitebox.getInternalState(DroolsRuleTest.class, "ruleMaker");
-        httpClientMaker = Whitebox.getInternalState(DroolsRuleTest.class, "httpClientMaker");
-        simMaker = Whitebox.getInternalState(DroolsRuleTest.class, "simMaker");
-        topicMaker = Whitebox.getInternalState(DroolsRuleTest.class, "topicMaker");
+        ruleMaker = (Function<String, Rules>) ReflectionTestUtils.getField(DroolsRuleTest.class, "ruleMaker");
+        httpClientMaker = (Supplier<HttpClients>) ReflectionTestUtils.getField(DroolsRuleTest.class, "httpClientMaker");
+        simMaker = (Supplier<Simulators>) ReflectionTestUtils.getField(DroolsRuleTest.class, "simMaker");
+        topicMaker = (Supplier<Topics>) ReflectionTestUtils.getField(DroolsRuleTest.class, "topicMaker");
     }
 
     /**
@@ -118,10 +119,10 @@ public class DroolsRuleTestTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        Whitebox.setInternalState(DroolsRuleTest.class, "ruleMaker", ruleMaker);
-        Whitebox.setInternalState(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(DroolsRuleTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(DroolsRuleTest.class, "topicMaker", topicMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "ruleMaker", ruleMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "simMaker", simMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "topicMaker", topicMaker);
     }
 
     /**
@@ -142,10 +143,10 @@ public class DroolsRuleTestTest {
         Supplier<Simulators> simMaker = this::makeSim;
         Supplier<Topics> topicMaker = this::makeTopics;
 
-        Whitebox.setInternalState(DroolsRuleTest.class, "ruleMaker", ruleMaker);
-        Whitebox.setInternalState(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(DroolsRuleTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(DroolsRuleTest.class, "topicMaker", topicMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "ruleMaker", ruleMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "simMaker", simMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "topicMaker", topicMaker);
 
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();

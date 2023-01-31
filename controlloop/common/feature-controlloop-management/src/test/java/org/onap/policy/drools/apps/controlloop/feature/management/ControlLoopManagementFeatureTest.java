@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 package org.onap.policy.drools.apps.controlloop.feature.management;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +34,7 @@ import org.junit.Test;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature.Factory;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.system.PolicyController;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Control Loop Management Feature Test.
@@ -47,12 +48,12 @@ public class ControlLoopManagementFeatureTest {
 
     @BeforeClass
     public static void setUpBeforeClass() {
-        saveFactory = Whitebox.getInternalState(ControlLoopManagementFeature.class, FACTORY_FIELD);
+        saveFactory = (Factory) ReflectionTestUtils.getField(ControlLoopManagementFeature.class, FACTORY_FIELD);
     }
 
     @After
     public void tearDown() {
-        Whitebox.setInternalState(ControlLoopManagementFeature.class, FACTORY_FIELD, saveFactory);
+        ReflectionTestUtils.setField(ControlLoopManagementFeature.class, FACTORY_FIELD, saveFactory);
     }
 
     /**
@@ -74,7 +75,7 @@ public class ControlLoopManagementFeatureTest {
     @Test
     public void testControlLoops_InvalidArgs() {
         Factory factory = mock(Factory.class);
-        Whitebox.setInternalState(ControlLoopManagementFeature.class, FACTORY_FIELD, factory);
+        ReflectionTestUtils.setField(ControlLoopManagementFeature.class, FACTORY_FIELD, factory);
 
         // returns null controller
         when(factory.getController(any())).thenReturn(null);

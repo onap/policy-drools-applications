@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020, 2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 public abstract class DroolsRuleTest extends BaseTest {
 
     // these may be overridden by junit tests
-    private static final Function<String, Rules> ruleMaker = Rules::new;
+    private static Function<String, Rules> ruleMaker = Rules::new;
 
     protected static Rules rules;
 

@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021,2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciCommonHeader;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseTestTest {
@@ -106,11 +106,12 @@ public class BaseTestTest {
     /**
      * Saves static values from the class.
      */
+    @SuppressWarnings("unchecked")
     @BeforeClass
     public static void setUpBeforeClass() {
-        httpClientMaker = Whitebox.getInternalState(BaseTest.class, "httpClientMaker");
-        simMaker = Whitebox.getInternalState(BaseTest.class, "simMaker");
-        topicMaker = Whitebox.getInternalState(BaseTest.class, "topicMaker");
+        httpClientMaker = (Supplier<HttpClients>) ReflectionTestUtils.getField(BaseTest.class, "httpClientMaker");
+        simMaker = (Supplier<Simulators>) ReflectionTestUtils.getField(BaseTest.class, "simMaker");
+        topicMaker = (Supplier<Topics>) ReflectionTestUtils.getField(BaseTest.class, "topicMaker");
     }
 
     /**
@@ -118,9 +119,9 @@ public class BaseTestTest {
      */
     @AfterClass
     public static void tearDownAfterClass() {
-        Whitebox.setInternalState(BaseTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(BaseTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(BaseTest.class, "topicMaker", topicMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "httpClientMaker", httpClientMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "simMaker", simMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "topicMaker", topicMaker);
     }
 
     /**
@@ -141,9 +142,9 @@ public class BaseTestTest {
         Supplier<Simulators> simMaker = this::makeSim;
         Supplier<Topics> topicMaker = this::makeTopics;
 
-        Whitebox.setInternalState(BaseTest.class, "httpClientMaker", httpClientMaker);
-        Whitebox.setInternalState(BaseTest.class, "simMaker", simMaker);
-        Whitebox.setInternalState(BaseTest.class, "topicMaker", topicMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "httpClientMaker", httpClientMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "simMaker", simMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "topicMaker", topicMaker);
 
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();

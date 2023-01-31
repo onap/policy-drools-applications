@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +51,7 @@ import org.onap.policy.drools.system.internal.SimpleLockManager;
 import org.onap.policy.drools.system.internal.SimpleLockManager.SimpleLock;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciMessage;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * Superclass used for rule tests.
@@ -766,10 +767,11 @@ public abstract class BaseTest {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, SimpleLock> getLockMap() {
-        Object lockMgr = Whitebox.getInternalState(PolicyEngineConstants.getManager(), "lockManager");
+        Object lockMgr = ReflectionTestUtils.getField(PolicyEngineConstants.getManager(), "lockManager");
         if (lockMgr instanceof SimpleLockManager) {
-            return Whitebox.getInternalState(lockMgr, "resource2lock");
+            return (Map<String, SimpleLock>) ReflectionTestUtils.getField(lockMgr, "resource2lock");
         }
 
         return Collections.emptyMap();
