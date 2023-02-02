@@ -41,7 +41,7 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 public class OperationHistoryDataManagerParams {
     public static final String DEFAULT_PU = "OperationsHistoryPU";
     public static final String DEFAULT_DRIVER = "org.mariadb.jdbc.Driver";
-    public static final String DEFAULT_TYPE = "MySQL";
+    public static final String DEFAULT_TYPE = "MariaDB";
 
     @NotBlank
     private String url;
@@ -84,5 +84,13 @@ public class OperationHistoryDataManagerParams {
      */
     public ValidationResult validate(String resultName) {
         return new BeanValidator().validateTop(resultName, this);
+    }
+
+    /**
+     * Return the Hibernate dialect for the database type.
+     * @return the dialect
+     */
+    public Object getDbHibernateDialect() {
+        return "org.hibernate.dialect." + dbType + "Dialect";
     }
 }

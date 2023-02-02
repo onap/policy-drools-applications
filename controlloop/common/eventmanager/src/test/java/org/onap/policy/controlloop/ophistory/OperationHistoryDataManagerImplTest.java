@@ -392,6 +392,8 @@ public class OperationHistoryDataManagerImplTest {
         // @formatter:off
         return OperationHistoryDataManagerParams.builder()
                         .url("jdbc:h2:mem:" + OperationHistoryDataManagerImplTest.class.getSimpleName())
+                        .dbType("H2")
+                        .driver("org.h2.Driver")
                         .userName("sa")
                         .password("")
                         .batchSize(BATCH_SIZE)
