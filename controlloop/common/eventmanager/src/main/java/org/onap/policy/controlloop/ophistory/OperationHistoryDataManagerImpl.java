@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +34,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.jpa.EntityMgrCloser;
 import org.onap.policy.common.utils.jpa.EntityTransCloser;
@@ -97,7 +97,6 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     @Getter
     private long recordsUpdated = 0;
 
-
     /**
      * Constructs the object.
      *
@@ -149,11 +148,11 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
 
     @Override
     public synchronized void store(String requestId, String clName, Object event, String targetEntity,
-                    ControlLoopOperation operation) {
+        ControlLoopOperation operation) {
 
         if (stopped) {
             logger.warn("operation history thread is stopped, discarding requestId={} event={} operation={}", requestId,
-                            event, operation);
+                event, operation);
             return;
         }
 
@@ -226,7 +225,7 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         logger.info("store operation history record batch");
 
         try (var emc = new EntityMgrCloser(entityManager);
-                        var trans = new EntityTransCloser(entityManager.getTransaction())) {
+            var trans = new EntityTransCloser(entityManager.getTransaction())) {
 
             var nrecords = 0;
             var rec = firstRecord;
@@ -261,13 +260,13 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         logger.info("store operation history record for {}", reqId);
 
         List<OperationsHistory> results = entityMgr
-                        .createQuery("select e from OperationsHistory e" + " where e.closedLoopName= ?1"
-                                        + " and e.requestId= ?2" + " and e.subrequestId= ?3" + " and e.actor= ?4"
-                                        + " and e.operation= ?5" + " and e.target= ?6", OperationsHistory.class)
-                        .setParameter(1, clName).setParameter(2, rec.getRequestId())
-                        .setParameter(3, operation.getSubRequestId()).setParameter(4, operation.getActor())
-                        .setParameter(5, operation.getOperation()).setParameter(6, rec.getTargetEntity())
-                        .getResultList();
+            .createQuery("select e from OperationsHistory e" + " where e.closedLoopName= ?1"
+                + " and e.requestId= ?2" + " and e.subrequestId= ?3" + " and e.actor= ?4"
+                + " and e.operation= ?5" + " and e.target= ?6", OperationsHistory.class)
+            .setParameter(1, clName).setParameter(2, rec.getRequestId())
+            .setParameter(3, operation.getSubRequestId()).setParameter(4, operation.getActor())
+            .setParameter(5, operation.getOperation()).setParameter(6, rec.getTargetEntity())
+            .getResultList();
 
         if (results.size() > 1) {
             logger.warn("unexpected operation history record count {} for {}", results.size(), reqId);
@@ -313,12 +312,11 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      */
     private Properties toProperties(OperationHistoryDataManagerParams params) {
         var props = new Properties();
-        props.put(PersistenceUnitProperties.JDBC_DRIVER, params.getDriver());
-        props.put(PersistenceUnitProperties.JDBC_URL, params.getUrl());
-        props.put(PersistenceUnitProperties.JDBC_USER, params.getUserName());
-        props.put(PersistenceUnitProperties.JDBC_PASSWORD, params.getPassword());
-        props.put(PersistenceUnitProperties.TARGET_DATABASE, params.getDbType());
-        props.put(PersistenceUnitProperties.CLASSLOADER, getClass().getClassLoader());
+        props.put("javax.persistence.jdbc.driver",   params.getDriver());
+        props.put("javax.persistence.jdbc.url",      params.getUrl());
+        props.put("javax.persistence.jdbc.user",     params.getUserName());
+        props.put("javax.persistence.jdbc.password", params.getPassword());
+        props.put("hibernate.dialect",               params.getDbHibernateDialect());
 
         return props;
     }

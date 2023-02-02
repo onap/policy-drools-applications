@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ============LICENSE_START=======================================================
   drools-applications
   ================================================================================
   Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2023 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,19 +19,15 @@
   limitations under the License.
   ============LICENSE_END=========================================================
   -->
-<persistence version="2.1"
- xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
- <persistence-unit name="OperationsHistoryPU"
-  transaction-type="RESOURCE_LOCAL">
-  <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <persistence-unit name="OperationsHistoryPU" transaction-type="RESOURCE_LOCAL">
+        <class>org.onap.policy.guard.OperationsHistory</class>
 
-  <class>org.onap.policy.guard.OperationsHistory</class>
-
-  <properties>
-   <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
-   <property name="eclipselink.logging.level" value="WARNING" />
-  </properties>
- </persistence-unit>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="create" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect" />
+            <property name="hibernate.show_sql" value="false" />
+        </properties>
+    </persistence-unit>
 </persistence>
