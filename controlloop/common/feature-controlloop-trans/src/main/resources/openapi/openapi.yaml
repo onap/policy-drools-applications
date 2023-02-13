@@ -1,0 +1,654 @@
+#  ============LICENSE_START=======================================================
+#  Copyright (C) 2023 Nordix Foundation
+#  ================================================================================
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#  ============LICENSE_END=========================================================
+openapi: 3.0.1
+info:
+  title: "PDP APPS Documentation"
+  description: PDP-D Telemetry Services
+  version: Swagger Server
+servers:
+- url: http://{drools-apps}:9696
+  variables:
+    drools-apps:
+      default: 0.0.0.0
+tags:
+- name: TransactionTracker
+paths:
+  /policy/pdp/engine/controllers/transactions/inprogress:
+    get:
+      tags:
+          - TransactionTracker
+      summary: Retrieve in-progress transactions
+      operationId: transactions
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /policy/pdp/engine/controllers/transactions/inprogress/{transactionId}:
+    get:
+      tags:
+          - TransactionTracker
+      summary: Retrieve an in-progress transaction
+      operationId: transactionId
+      parameters:
+      - name: transactionId
+        in: path
+        description: UUID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /policy/pdp/engine/controllers/transactions/cacheSize:
+    get:
+      tags:
+          - TransactionTracker
+      summary: Gets the cache size
+      operationId: cacheSize
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /policy/pdp/engine/controllers/transactions/cacheSize/{cacheSize}:
+    put:
+      tags:
+          - TransactionTracker
+      summary: Sets the cache size
+      operationId: cacheSize_1
+      parameters:
+      - name: cacheSize
+        in: path
+        description: cache size
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /policy/pdp/engine/controllers/transactions/timeout/{timeoutSecs}:
+    put:
+      tags:
+          - TransactionTracker
+      summary: Sets the timeout in seconds
+      operationId: timeout
+      parameters:
+      - name: timeoutSecs
+        in: path
+        description: timeout
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /policy/pdp/engine/controllers/transactions/timeout:
+    get:
+      tags:
+          - TransactionTracker
+      summary: Gets the cache timeout
+      operationId: timeout_1
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Agenda:
+      type: object
+    AgendaEventListener:
+      type: object
+    Annotation:
+      type: object
+    Calendars:
+      type: object
+    Channel:
+      type: object
+    ClassLoader:
+      type: object
+      properties:
+        parent:
+          $ref: '#/components/schemas/ClassLoader'
+        name:
+          type: string
+        unnamedModule:
+          $ref: '#/components/schemas/Module'
+        registeredAsParallelCapable:
+          type: boolean
+        definedPackages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+    EntryPoint:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            type: object
+            properties: {}
+        entryPointId:
+          type: string
+        factHandles:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactHandle'
+        factCount:
+          type: integer
+          format: int64
+    Environment:
+      type: object
+    FactField:
+      type: object
+      properties:
+        fieldAnnotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        metaData:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        key:
+          type: boolean
+        name:
+          type: string
+        index:
+          type: integer
+          format: int32
+    FactHandle:
+      type: object
+    FactType:
+      type: object
+      properties:
+        classAnnotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        superClass:
+          type: string
+        metaData:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        name:
+          type: string
+        packageName:
+          type: string
+        simpleName:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactField'
+    Global:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    Globals:
+      type: object
+      properties:
+        globalKeys:
+          type: array
+          items:
+            type: string
+    InputStream:
+      type: object
+    KieBase:
+      type: object
+      properties:
+        entryPointIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        kieSessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/KieSession'
+        processes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Process'
+        kiePackages:
+          type: array
+          items:
+            $ref: '#/components/schemas/KiePackage'
+        kieBaseEventListeners:
+          type: array
+          items:
+            $ref: '#/components/schemas/KieBaseEventListener'
+    KieBaseEventListener:
+      type: object
+    KieContainer:
+      type: object
+      properties:
+        releaseId:
+          $ref: '#/components/schemas/ReleaseId'
+        kieBase:
+          $ref: '#/components/schemas/KieBase'
+        kieBaseNames:
+          type: array
+          items:
+            type: string
+        kieSessionConfiguration:
+          $ref: '#/components/schemas/KieSessionConfiguration'
+        classLoader:
+          $ref: '#/components/schemas/ClassLoader'
+    KiePackage:
+      type: object
+      properties:
+        functionNames:
+          type: array
+          items:
+            type: string
+        globalVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/Global'
+        processes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Process'
+        queries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Query'
+        factTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactType'
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
+        name:
+          type: string
+    KieRuntimeLogger:
+      type: object
+    KieSession:
+      type: object
+      properties:
+        identifier:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int32
+        sessionConfiguration:
+          $ref: '#/components/schemas/KieSessionConfiguration'
+        channels:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Channel'
+        sessionClock:
+          $ref: '#/components/schemas/SessionClock'
+        globals:
+          $ref: '#/components/schemas/Globals'
+        calendars:
+          $ref: '#/components/schemas/Calendars'
+        kieBase:
+          $ref: '#/components/schemas/KieBase'
+        environment:
+          $ref: '#/components/schemas/Environment'
+        agenda:
+          $ref: '#/components/schemas/Agenda'
+        entryPoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntryPoint'
+        objects:
+          type: array
+          items:
+            type: object
+            properties: {}
+        entryPointId:
+          type: string
+        factHandles:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactHandle'
+        factCount:
+          type: integer
+          format: int64
+        workItemManager:
+          $ref: '#/components/schemas/WorkItemManager'
+        processInstances:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessInstance'
+        logger:
+          $ref: '#/components/schemas/KieRuntimeLogger'
+        ruleRuntimeEventListeners:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleRuntimeEventListener'
+        agendaEventListeners:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgendaEventListener'
+        processEventListeners:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessEventListener'
+    KieSessionConfiguration:
+      type: object
+    Module:
+      type: object
+      properties:
+        layer:
+          $ref: '#/components/schemas/ModuleLayer'
+        name:
+          type: string
+        descriptor:
+          $ref: '#/components/schemas/ModuleDescriptor'
+        classLoader:
+          $ref: '#/components/schemas/ClassLoader'
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        declaredAnnotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        named:
+          type: boolean
+        packages:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    ModuleDescriptor:
+      type: object
+      properties:
+        open:
+          type: boolean
+        automatic:
+          type: boolean
+    ModuleLayer:
+      type: object
+    Package:
+      type: object
+      properties:
+        name:
+          type: string
+        specificationTitle:
+          type: string
+        specificationVersion:
+          type: string
+        specificationVendor:
+          type: string
+        implementationTitle:
+          type: string
+        implementationVersion:
+          type: string
+        implementationVendor:
+          type: string
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        declaredAnnotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        sealed:
+          type: boolean
+    PolicyContainer:
+      type: object
+      properties:
+        kieContainer:
+          $ref: '#/components/schemas/KieContainer'
+        artifactId:
+          type: string
+        groupId:
+          type: string
+        policySessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicySession'
+        version:
+          type: string
+        name:
+          type: string
+        classLoader:
+          $ref: '#/components/schemas/ClassLoader'
+        alive:
+          type: boolean
+    PolicySession:
+      type: object
+      properties:
+        name:
+          type: string
+        container:
+          $ref: '#/components/schemas/PolicyContainer'
+        kieSession:
+          $ref: '#/components/schemas/KieSession'
+        fullName:
+          type: string
+    Process:
+      type: object
+      properties:
+        resource:
+          $ref: '#/components/schemas/Resource'
+        metaData:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        version:
+          type: string
+        name:
+          type: string
+        packageName:
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+        knowledgeType:
+          type: string
+          enum:
+          - RULE
+          - TYPE
+          - WINDOW
+          - ENUM
+          - PROCESS
+          - FUNCTION
+          - QUERY
+        namespace:
+          type: string
+    ProcessEventListener:
+      type: object
+    ProcessInstance:
+      type: object
+      properties:
+        processName:
+          type: string
+        parentProcessInstanceId:
+          type: string
+        process:
+          $ref: '#/components/schemas/Process'
+        processId:
+          type: string
+        id:
+          type: string
+        state:
+          type: integer
+          format: int32
+        eventTypes:
+          type: array
+          items:
+            type: string
+    Query:
+      type: object
+      properties:
+        metaData:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        name:
+          type: string
+        packageName:
+          type: string
+        knowledgeType:
+          type: string
+          enum:
+          - RULE
+          - TYPE
+          - WINDOW
+          - ENUM
+          - PROCESS
+          - FUNCTION
+          - QUERY
+        namespace:
+          type: string
+        id:
+          type: string
+    Reader:
+      type: object
+    ReleaseId:
+      type: object
+      properties:
+        artifactId:
+          type: string
+        groupId:
+          type: string
+        snapshot:
+          type: boolean
+        version:
+          type: string
+    Resource:
+      type: object
+      properties:
+        sourcePath:
+          type: string
+        targetPath:
+          type: string
+        resourceType:
+          $ref: '#/components/schemas/ResourceType'
+        reader:
+          $ref: '#/components/schemas/Reader'
+        configuration:
+          $ref: '#/components/schemas/ResourceConfiguration'
+        inputStream:
+          $ref: '#/components/schemas/InputStream'
+    ResourceConfiguration:
+      type: object
+    ResourceType:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        defaultExtension:
+          type: string
+        defaultPath:
+          type: string
+        fullyCoveredByExecModel:
+          type: boolean
+        allExtensions:
+          type: array
+          items:
+            type: string
+    Rule:
+      type: object
+      properties:
+        metaData:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        name:
+          type: string
+        packageName:
+          type: string
+        knowledgeType:
+          type: string
+          enum:
+          - RULE
+          - TYPE
+          - WINDOW
+          - ENUM
+          - PROCESS
+          - FUNCTION
+          - QUERY
+        namespace:
+          type: string
+        id:
+          type: string
+    RuleRuntimeEventListener:
+      type: object
+    SessionClock:
+      type: object
+      properties:
+        currentTime:
+          type: integer
+          format: int64
+    WorkItemManager:
+      type: object
+    Response:
+      type: object

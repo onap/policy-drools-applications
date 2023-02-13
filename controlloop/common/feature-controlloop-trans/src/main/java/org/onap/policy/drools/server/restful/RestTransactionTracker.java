@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,6 @@
 
 package org.onap.policy.drools.server.restful;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -43,16 +41,15 @@ import org.onap.policy.drools.apps.controlloop.feature.trans.ControlLoopMetricsM
 @Path("/policy/pdp/engine/controllers/transactions")
 @Produces({MediaType.APPLICATION_JSON, YamlMessageBodyHandler.APPLICATION_YAML})
 @Consumes({MediaType.APPLICATION_JSON, YamlMessageBodyHandler.APPLICATION_YAML})
-@Api
-public class RestTransactionTracker {
+public class RestTransactionTracker implements PolicyApi {
 
     /**
      * GET transactions.
      */
 
+    @Override
     @GET
     @Path("inprogress")
-    @ApiOperation(value = "Retrieve in-progress transactions", responseContainer = "List")
     public Response transactions() {
         return Response.status(Response.Status.OK)
                        .entity(ControlLoopMetricsManager.getManager().getTransactions()).build();
@@ -62,11 +59,10 @@ public class RestTransactionTracker {
      * GET one transaction.
      */
 
+    @Override
     @GET
     @Path("inprogress/{transactionId}")
-    @ApiOperation(value = "Retrieve an in-progress transaction", response = VirtualControlLoopNotification.class)
-    public Response transactionId(
-          @ApiParam(value = "UUID", required = true) @PathParam("transactionId") String transactionId) {
+    public Response transactionId(@PathParam("transactionId") String transactionId) {
         VirtualControlLoopNotification notification =
                 ControlLoopMetricsManager.getManager().getTransaction(UUID.fromString(transactionId));
         return Response.status((notification != null) ? Response.Status.OK : Response.Status.NOT_FOUND)
@@ -77,11 +73,10 @@ public class RestTransactionTracker {
      * Resets the cache with a new cache size.
      */
 
+    @Override
     @PUT
     @Path("cacheSize/{cacheSize}")
-    @ApiOperation(value = "Sets the cache size", response = Integer.class)
-    public Response cacheSize(
-            @ApiParam(value = "cache size", required = true) @PathParam("cacheSize") int cacheSize) {
+    public Response cacheSize1(@PathParam("cacheSize") int cacheSize) {
         ControlLoopMetricsManager.getManager().resetCache(cacheSize,
                 ControlLoopMetricsManager.getManager().getTransactionTimeout());
         return Response.status(Response.Status.OK)
@@ -92,9 +87,9 @@ public class RestTransactionTracker {
      * GET the cache size.
      */
 
+    @Override
     @GET
     @Path("cacheSize")
-    @ApiOperation(value = "Gets the cache size", response = Integer.class)
     public Response cacheSize() {
         return Response.status(Response.Status.OK)
                        .entity(ControlLoopMetricsManager.getManager().getCacheSize()).build();
@@ -103,12 +98,10 @@ public class RestTransactionTracker {
     /**
      * Resets the cache with a new transaction timeout in seconds.
      */
-
+    @Override
     @PUT
     @Path("timeout/{timeoutSecs}")
-    @ApiOperation(value = "Sets the timeout in seconds", response = Integer.class)
-    public Response timeout(
-            @ApiParam(value = "timeout", required = true) @PathParam("timeoutSecs") long timeoutSecs) {
+    public Response timeout(@PathParam("timeoutSecs") long timeoutSecs) {
         ControlLoopMetricsManager.getManager().resetCache(
                 ControlLoopMetricsManager.getManager().getCacheSize(), timeoutSecs);
         return Response.status(Response.Status.OK)
@@ -118,12 +111,12 @@ public class RestTransactionTracker {
     /**
      * GET the cache timeout.
      */
-
+    @Override
     @GET
     @Path("timeout")
-    @ApiOperation(value = "Gets the cache timeout", response = Long.class)
-    public Response timeout() {
+    public Response timeout1() {
         return Response.status(Response.Status.OK)
                        .entity(ControlLoopMetricsManager.getManager().getTransactionTimeout()).build();
     }
+
 }

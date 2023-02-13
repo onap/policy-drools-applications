@@ -20,11 +20,6 @@
 
 package org.onap.policy.drools.server.restful;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -51,8 +46,7 @@ import org.slf4j.LoggerFactory;
 @Path("/policy/pdp")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Api
-public class RestControlLoopManager {
+public class RestControlLoopManager implements PolicyApi {
     private static final Logger logger = LoggerFactory.getLogger(RestControlLoopManager.class);
 
     /**
@@ -64,11 +58,9 @@ public class RestControlLoopManager {
      */
     @GET
     @Path("engine/controllers/{controller}/drools/facts/{session}/controlloops")
-    @ApiOperation(value = "Control Loops", notes = "Compact list", responseContainer = "List")
-    @ApiResponses(value = {@ApiResponse(code = 404, message = "Control Loops cannot be found")})
     public Response controlLoops(
-        @ApiParam(value = "Policy Controller Name", required = true) @PathParam("controller") String controllerName,
-        @ApiParam(value = "Drools Session Name", required = true) @PathParam("session") String sessionName) {
+        @PathParam("controller") String controllerName,
+        @PathParam("session") String sessionName) {
 
         try {
             List<String> controlLoopNames =
@@ -93,12 +85,10 @@ public class RestControlLoopManager {
      */
     @GET
     @Path("engine/controllers/{controller}/drools/facts/{session}/controlloops/{controlLoopName}")
-    @ApiOperation(value = "Control Loop", notes = "Control Loop Parameters", responseContainer = "List")
-    @ApiResponses(value = {@ApiResponse(code = 404, message = "The Control Loop cannot be found")})
     public Response controlLoop(
-        @ApiParam(value = "Policy Controller Name", required = true) @PathParam("controller") String controllerName,
-        @ApiParam(value = "Drools Session Name", required = true) @PathParam("session") String sessionName,
-        @ApiParam(value = "Control Loop Name", required = true) @PathParam("controlLoopName") String controlLoopName) {
+        @PathParam("controller") String controllerName,
+        @PathParam("session") String sessionName,
+        @PathParam("controlLoopName") String controlLoopName) {
 
         try {
             List<ControlLoopParams> controlLoopParams =
@@ -121,8 +111,7 @@ public class RestControlLoopManager {
      */
     @GET
     @Path("engine/tools/controlloops/aai/customQuery/{vserverId}")
-    @ApiOperation(value = "AAI Custom Query")
-    public Response aaiCustomQuery(@ApiParam(value = "vserver Identifier") String vserverId) {
+    public Response aaiCustomQuery(String vserverId) {
         var mgr = PolicyEngineConstants.getManager();
 
         return Response
