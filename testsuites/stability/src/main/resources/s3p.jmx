@@ -10,42 +10,42 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="API_HOST" elementType="Argument">
             <stringProp name="Argument.name">API_HOST</stringProp>
-            <stringProp name="Argument.value">10.0.9.49</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="API_PORT" elementType="Argument">
             <stringProp name="Argument.name">API_PORT</stringProp>
-            <stringProp name="Argument.value">30852</stringProp>
+            <stringProp name="Argument.value">30002</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PAP_HOST" elementType="Argument">
             <stringProp name="Argument.name">PAP_HOST</stringProp>
-            <stringProp name="Argument.value">10.0.9.49</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PAP_PORT" elementType="Argument">
             <stringProp name="Argument.name">PAP_PORT</stringProp>
-            <stringProp name="Argument.value">30504</stringProp>
+            <stringProp name="Argument.value">30003</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DMAAP_HOST" elementType="Argument">
             <stringProp name="Argument.name">DMAAP_HOST</stringProp>
-            <stringProp name="Argument.value">10.0.9.49</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DMAAP_PORT" elementType="Argument">
             <stringProp name="Argument.name">DMAAP_PORT</stringProp>
-            <stringProp name="Argument.value">30226</stringProp>
+            <stringProp name="Argument.value">30904</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DROOLS_HOST" elementType="Argument">
             <stringProp name="Argument.name">DROOLS_HOST</stringProp>
-            <stringProp name="Argument.value">10.0.9.49</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DROOLS_PORT" elementType="Argument">
             <stringProp name="Argument.name">DROOLS_PORT</stringProp>
-            <stringProp name="Argument.value">31295</stringProp>
+            <stringProp name="Argument.value">30005</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration" elementType="Argument">
