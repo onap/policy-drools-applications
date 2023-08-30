@@ -32,6 +32,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import jakarta.persistence.EntityManagerFactory;
 import java.time.Instant;
 import java.util.Properties;
 import java.util.UUID;
@@ -39,20 +40,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import javax.persistence.EntityManagerFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerParams.OperationHistoryDataManagerParamsBuilder;
 
-@RunWith(MockitoJUnitRunner.class)
 public class OperationHistoryDataManagerImplTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
@@ -67,8 +64,7 @@ public class OperationHistoryDataManagerImplTest {
 
     private static EntityManagerFactory emf;
 
-    @Mock
-    private Thread thread;
+    private Thread thread = mock(Thread.class);
 
     private OperationHistoryDataManagerParams params;
     private Consumer<EntityManagerFactory> threadFunction;

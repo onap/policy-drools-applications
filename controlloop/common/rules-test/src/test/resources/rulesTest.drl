@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +53,7 @@ rule "INSERT.PARAMS"
         $params : ControlLoopParams()
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
         + drools.getRule().getName(), $params.getToscaPolicy());
 end
@@ -67,7 +68,7 @@ rule "NEW.TOSCA.POLICY"
         $policy : ToscaPolicy()
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
                 $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
                 $policy.getVersion(), $policy);
@@ -87,7 +88,7 @@ rule "REMOVE.PARAMS"
         not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
                 $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
 
