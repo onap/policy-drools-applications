@@ -21,13 +21,13 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.policy.drools-applications.controlloop.packages</groupId>
         <artifactId>drools-applications-packages</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>docker-controlloop</artifactId>
     <packaging>pom</packaging>
@@ -36,7 +36,6 @@
     <description>ONAP Policy Control Loop PDP-D Docker Build</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dist.project.version>${project.version}</dist.project.version>
         <docker.skip>false</docker.skip>
@@ -76,7 +75,9 @@
              replace the parameterized base-image version. The fabric8.io docker-maven-plugin shall use this filtered file
              to build the image. After the image is built we perform a cleanup to remove the filtered file.-->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>update-parameterized-dockerfile</id>
@@ -85,13 +86,14 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <tasks>
-                                <copy file="src/main/docker/Dockerfile" toFile="${project.build.directory}/docker-tmp/Dockerfile">
+                            <target>
+                                <copy file="src/main/docker/Dockerfile"
+                                      toFile="${project.build.directory}/docker-tmp/Dockerfile">
                                     <filterset>
                                         <filter token="version.policy.drools-pdp" value="${version.policy.drools-pdp}"/>
                                     </filterset>
                                 </copy>
-                            </tasks>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>

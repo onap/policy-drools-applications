@@ -22,15 +22,15 @@
 package org.onap.policy.drools.apps.controlloop.feature.management;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature.Factory;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.system.PolicyController;
@@ -39,19 +39,19 @@ import org.springframework.test.util.ReflectionTestUtils;
 /**
  * Control Loop Management Feature Test.
  */
-public class ControlLoopManagementFeatureTest {
+class ControlLoopManagementFeatureTest {
     private static final String FACTORY_FIELD = "factory";
     private static final String SESSION_NAME = "my-session";
     private static final String CONTROLLER_NAME = "my-controller";
 
     private static Factory saveFactory;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         saveFactory = (Factory) ReflectionTestUtils.getField(ControlLoopManagementFeature.class, FACTORY_FIELD);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         ReflectionTestUtils.setField(ControlLoopManagementFeature.class, FACTORY_FIELD, saveFactory);
     }
@@ -60,21 +60,21 @@ public class ControlLoopManagementFeatureTest {
      * Sequence Number Test.
      */
     @Test
-    public void getSequenceNumber() {
-        Assert.assertEquals(1000, new ControlLoopManagementFeature().getSequenceNumber());
+    void getSequenceNumber() {
+        assertEquals(1000, new ControlLoopManagementFeature().getSequenceNumber());
     }
 
     /**
      * Name Test.
      */
     @Test
-    public void getName() {
-        Assert.assertEquals("controlloop-management", new ControlLoopManagementFeature().getName());
+    void getName() {
+        assertEquals("controlloop-management", new ControlLoopManagementFeature().getName());
     }
 
     @Test
-    public void testControlLoops_InvalidArgs() {
-        Factory factory = mock(Factory.class);
+    void testControlLoops_InvalidArgs() {
+        var factory = mock(Factory.class);
         ReflectionTestUtils.setField(ControlLoopManagementFeature.class, FACTORY_FIELD, factory);
 
         // returns null controller
@@ -84,9 +84,9 @@ public class ControlLoopManagementFeatureTest {
             .withMessage("Invalid Controller Name");
 
         // non-matching session name
-        PolicyController ctlr = mock(PolicyController.class);
-        DroolsController drools = mock(DroolsController.class);
+        var drools = mock(DroolsController.class);
         when(drools.getSessionNames()).thenReturn(Collections.emptyList());
+        var ctlr = mock(PolicyController.class);
         when(ctlr.getDrools()).thenReturn(drools);
         when(factory.getController(any())).thenReturn(ctlr);
         assertThatIllegalArgumentException()
@@ -95,7 +95,7 @@ public class ControlLoopManagementFeatureTest {
     }
 
     @Test
-    public void testFactoryGetController() {
+    void testFactoryGetController() {
         // invoking controlLoops() will invoke the factory.getController() method
         assertThatIllegalArgumentException().isThrownBy(
             () -> ControlLoopManagementFeature.controlLoops("unknown-controller", SESSION_NAME));

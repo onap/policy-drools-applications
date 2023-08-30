@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +24,10 @@ package org.onap.policy.drools.apps.controller.usecases.step;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -43,11 +44,8 @@ import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.LinkedBlockingQueue;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -70,8 +68,7 @@ import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
-@RunWith(MockitoJUnitRunner.class)
-public class Step2Test {
+class Step2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String POLICY_ACTOR = "my-actor";
     private static final String POLICY_OPERATION = "my-operation";
@@ -81,18 +78,12 @@ public class Step2Test {
     private static final String NO_SLASH = "noslash";
     private static final String ONE_SLASH = "/one";
 
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private ActorService actors;
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private AaiCqResponse aaicq;
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final ActorService actors = mock(ActorService.class);
+    private final StepContext stepContext = mock(StepContext.class);
+    private final AaiCqResponse aaicq = mock(AaiCqResponse.class);
 
     private Map<String, String> payload;
     private VirtualControlLoopEvent event;
@@ -104,7 +95,7 @@ public class Step2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         // configure policy operation
         when(actors.getActor(POLICY_ACTOR)).thenReturn(policyActor);
@@ -136,14 +127,14 @@ public class Step2Test {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertSame(stepContext, step.stepContext);
         assertSame(event, step.event);
         assertSame(actors, step.getParams().getActorService());
     }
 
     @Test
-    public void testConstructorStep2() {
+    void testConstructorStep2() {
         step = new Step2(step, "actorB", "operationB");
         assertSame(stepContext, step.stepContext);
         assertSame(event, step.event);
@@ -154,7 +145,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testAcceptsEvent() {
+    void testAcceptsEvent() {
         // it's a policy step, thus it accepts events
         assertTrue(step.acceptsEvent());
 
@@ -165,12 +156,12 @@ public class Step2Test {
     }
 
     @Test
-    public void testSuccess() {
+    void testSuccess() {
         assertThatCode(() -> step.success(null)).doesNotThrowAnyException();
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         // empty property list
         assertThat(step.getPropertyNames()).isEmpty();
 
@@ -180,11 +171,11 @@ public class Step2Test {
     }
 
     @Test
-    public void testSetProperties() {
-        CloudRegion cloudRegion = new CloudRegion();
+    void testSetProperties() {
+        var cloudRegion = new CloudRegion();
         when(aaicq.getDefaultCloudRegion()).thenReturn(cloudRegion);
 
-        Tenant tenant = new Tenant();
+        var tenant = new Tenant();
         when(aaicq.getDefaultTenant()).thenReturn(tenant);
 
         when(policyOperation.getPropertyNames()).thenReturn(
@@ -202,7 +193,7 @@ public class Step2Test {
      * Tests setProperties() when the property is unknown.
      */
     @Test
-    public void testSetPropertiesUnknown() {
+    void testSetPropertiesUnknown() {
         when(policyOperation.getPropertyNames()).thenReturn(List.of("unknown-property"));
 
         assertThatIllegalArgumentException().isThrownBy(() -> step.setProperties())
@@ -210,8 +201,8 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadCloudRegion_testGetCloudRegion() {
-        CloudRegion data = new CloudRegion();
+    void testLoadCloudRegion_testGetCloudRegion() {
+        var data = new CloudRegion();
         when(aaicq.getDefaultCloudRegion()).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_DEFAULT_CLOUD_REGION));
 
@@ -224,8 +215,8 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadTenant_testGetTenant() {
-        Tenant data = new Tenant();
+    void testLoadTenant_testGetTenant() {
+        var data = new Tenant();
         when(aaicq.getDefaultTenant()).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_DEFAULT_TENANT));
 
@@ -238,8 +229,8 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadPnf_testGetPnf() {
-        StandardCoderObject data = new StandardCoderObject();
+    void testLoadPnf_testGetPnf() {
+        var data = new StandardCoderObject();
         when(stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY)).thenReturn(MY_TARGET);
         when(stepContext.getProperty(AaiGetPnfOperation.getKey(MY_TARGET))).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_PNF));
@@ -253,9 +244,9 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadResourceVnf_testGetResourceVnf() {
+    void testLoadResourceVnf_testGetResourceVnf() {
         params.getTargetEntityIds().put(Step2.TARGET_RESOURCE_ID, "my-resource");
-        GenericVnf data = new GenericVnf();
+        var data = new GenericVnf();
         when(aaicq.getGenericVnfByModelInvariantId("my-resource")).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_RESOURCE_VNF));
 
@@ -280,8 +271,8 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadService_testGetService() {
-        ServiceInstance data = new ServiceInstance();
+    void testLoadService_testGetService() {
+        var data = new ServiceInstance();
         when(aaicq.getServiceInstance()).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_SERVICE));
 
@@ -294,12 +285,12 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadServiceModel_testGetServiceModel() {
-        ServiceInstance service = new ServiceInstance();
+    void testLoadServiceModel_testGetServiceModel() {
+        var service = new ServiceInstance();
         service.setModelVersionId("my-service-version");
         when(aaicq.getServiceInstance()).thenReturn(service);
 
-        ModelVer data = new ModelVer();
+        var data = new ModelVer();
         when(aaicq.getModelVerByVersionId("my-service-version")).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_SERVICE_MODEL));
 
@@ -320,8 +311,8 @@ public class Step2Test {
     }
 
     @Test
-    public void testGetVserver() {
-        Vserver vserver = new Vserver();
+    void testGetVserver() {
+        var vserver = new Vserver();
         when(aaicq.getVserver()).thenReturn(vserver);
 
         assertSame(vserver, step.getVServer());
@@ -332,7 +323,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testGetTargetEntity() {
+    void testGetTargetEntity() {
         when(stepContext.getProperty(OperationProperties.AAI_TARGET_ENTITY)).thenReturn(MY_TARGET);
 
         assertEquals(MY_TARGET, step.getTargetEntity());
@@ -343,9 +334,9 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadVnf_testGetVnf() {
+    void testLoadVnf_testGetVnf() {
         params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, "my-model-invariant");
-        GenericVnf data = new GenericVnf();
+        var data = new GenericVnf();
         when(aaicq.getGenericVnfByVfModuleModelInvariantId("my-model-invariant")).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_VNF));
 
@@ -370,13 +361,13 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadVnfModel_testGetVnfModel() {
+    void testLoadVnfModel_testGetVnfModel() {
         params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, "my-model-invariant");
-        GenericVnf vnf = new GenericVnf();
+        var vnf = new GenericVnf();
         when(aaicq.getGenericVnfByVfModuleModelInvariantId("my-model-invariant")).thenReturn(vnf);
 
         vnf.setModelVersionId("my-vnf-model-version-id");
-        ModelVer data = new ModelVer();
+        var data = new ModelVer();
         when(aaicq.getModelVerByVersionId("my-vnf-model-version-id")).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.AAI_VNF_MODEL));
 
@@ -393,10 +384,10 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadVserverLink_testGetVserverLink() {
+    void testLoadVserverLink_testGetVserverLink() {
         event.setAai(Map.of(Step2.VSERVER_VSERVER_NAME, "vserverB"));
 
-        StandardCoderObject tenant = mock(StandardCoderObject.class);
+        var tenant = mock(StandardCoderObject.class);
         when(stepContext.getProperty(AaiGetTenantOperation.getKey("vserverB"))).thenReturn(tenant);
 
         when(tenant.getString("result-data", 0, "resource-link")).thenReturn("/aai/v7/some/link/bbb");
@@ -428,7 +419,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadVfCount_testGetVfCount() {
+    void testLoadVfCount_testGetVfCount() {
         params.getTargetEntityIds().put(Step2.TARGET_MODEL_CUSTOMIZATION_ID, "vf-count-customization");
         params.getTargetEntityIds().put(Step2.TARGET_MODEL_INVARIANT_ID, "vf-count-invariant");
         params.getTargetEntityIds().put(Step2.TARGET_MODEL_VERSION_ID, "vf-count-version");
@@ -468,7 +459,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadEnrichment_testGetEnrichment() {
+    void testLoadEnrichment_testGetEnrichment() {
         event.setAai(Map.of("bandwidth", "bandwidth-value"));
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.ENRICHMENT_BANDWIDTH));
 
@@ -481,7 +472,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadAdditionalEventParams_testGetAdditionalEventParams() {
+    void testLoadAdditionalEventParams_testGetAdditionalEventParams() {
         Map<String, String> data = Map.of("addA", "add-valueA", "addB", "add-valueB");
         event.setAdditionalEventParams(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.EVENT_ADDITIONAL_PARAMS));
@@ -491,7 +482,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadEventPayload_testGetEventPayload() {
+    void testLoadEventPayload_testGetEventPayload() {
         event.setPayload("some-event-payload");
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.EVENT_PAYLOAD));
 
@@ -500,7 +491,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadOptCdsGrpcAaiProperties() {
+    void testLoadOptCdsGrpcAaiProperties() {
         when(policyOperation.getPropertyNames()).thenReturn(List.of(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
 
         step.setProperties();
@@ -508,8 +499,8 @@ public class Step2Test {
     }
 
     @Test
-    public void testLoadDefaultGenericVnf_testGetDefaultGenericVnf() {
-        GenericVnf data = new GenericVnf();
+    void testLoadDefaultGenericVnf_testGetDefaultGenericVnf() {
+        var data = new GenericVnf();
         when(aaicq.getDefaultGenericVnf()).thenReturn(data);
         when(policyOperation.getPropertyNames()).thenReturn(List.of(UsecasesConstants.AAI_DEFAULT_GENERIC_VNF));
 
@@ -522,7 +513,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testGetCustomQueryData() {
+    void testGetCustomQueryData() {
         assertSame(aaicq, step.getCustomQueryData());
 
         when(stepContext.getProperty(AaiCqResponse.CONTEXT_KEY)).thenReturn(null);
@@ -532,7 +523,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testVerifyNotNull() {
+    void testVerifyNotNull() {
         assertThatCode(() -> step.verifyNotNull("verifyA", "verify-value-A")).doesNotThrowAnyException();
 
         assertThatIllegalArgumentException().isThrownBy(() -> step.verifyNotNull("verifyB", null))
@@ -540,7 +531,7 @@ public class Step2Test {
     }
 
     @Test
-    public void testStripPrefix() {
+    void testStripPrefix() {
         assertEquals(NO_SLASH, Step2.stripPrefix(NO_SLASH, 0));
         assertEquals(NO_SLASH, Step2.stripPrefix(NO_SLASH, 1));
         assertEquals(NO_SLASH, Step2.stripPrefix(NO_SLASH, 2));
@@ -555,5 +546,4 @@ public class Step2Test {
 
         assertEquals("/and/more", Step2.stripPrefix("prefix/three/slashes/and/more", 3));
     }
-
 }

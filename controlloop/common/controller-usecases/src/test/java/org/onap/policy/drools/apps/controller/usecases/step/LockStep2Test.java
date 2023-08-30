@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +21,18 @@
 
 package org.onap.policy.drools.apps.controller.usecases.step;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -42,18 +41,13 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
-@RunWith(MockitoJUnitRunner.class)
-public class LockStep2Test {
+class LockStep2Test {
     private static final String MY_TARGET = "my-target";
 
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private Operation policyOper;
-    @Mock
-    private VirtualControlLoopEvent event;
-    @Mock
-    private Consumer<OperationOutcome> callback;
+    private final StepContext stepContext = mock(StepContext.class);
+    private final Operation policyOper = mock(Operation.class);
+    private final VirtualControlLoopEvent event = mock(VirtualControlLoopEvent.class);
+    private final Consumer<OperationOutcome> callback = mock();
 
     private ControlLoopOperationParams params;
     private CompletableFuture<OperationOutcome> future;
@@ -63,7 +57,7 @@ public class LockStep2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         future = new CompletableFuture<>();
 
@@ -86,7 +80,7 @@ public class LockStep2Test {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(ActorConstants.LOCK_ACTOR, step.getActorName());
         assertEquals(ActorConstants.LOCK_OPERATION, step.getOperationName());
         assertSame(stepContext, step.stepContext);
@@ -94,20 +88,20 @@ public class LockStep2Test {
     }
 
     @Test
-    public void testAcceptsEvent() {
+    void testAcceptsEvent() {
         // it should always accept events
         assertTrue(step.acceptsEvent());
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         // start the operation
         step.init();
         step.setProperties();
         assertTrue(step.start(100));
 
         // complete the operation's future
-        OperationOutcome outcome = step.makeOutcome();
+        var outcome = step.makeOutcome();
         outcome.setTarget(MY_TARGET);
 
         future.complete(outcome);
@@ -120,7 +114,7 @@ public class LockStep2Test {
      * Tests start when the operation throws an exception.
      */
     @Test
-    public void testStartNoFuture() {
+    void testStartNoFuture() {
         // start the operation
         step.init();
 

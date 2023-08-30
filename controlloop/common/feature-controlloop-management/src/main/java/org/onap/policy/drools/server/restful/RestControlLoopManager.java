@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +21,17 @@
 
 package org.onap.policy.drools.server.restful;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.drools.apps.controlloop.feature.management.ControlLoopManagementFeature;
@@ -111,7 +112,7 @@ public class RestControlLoopManager implements PolicyApi {
      */
     @GET
     @Path("engine/tools/controlloops/aai/customQuery/{vserverId}")
-    public Response aaiCustomQuery(String vserverId) {
+    public Response aaiCustomQuery(@PathParam("vserverId") String vserverId) {
         var mgr = PolicyEngineConstants.getManager();
 
         return Response

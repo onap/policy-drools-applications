@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +23,15 @@ package org.onap.policy.controlloop.eventmanager;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -43,11 +45,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
@@ -61,8 +60,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 
-@RunWith(MockitoJUnitRunner.class)
-public class StepTest {
+class StepTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String POLICY_ACTOR = "my-actor";
     private static final String POLICY_OPERATION = "my-operation";
@@ -72,14 +70,10 @@ public class StepTest {
     private static final long REMAINING_MS = 5000;
     private static final String EXPECTED_EXCEPTION = "expected exception";
 
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private ActorService actors;
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final ActorService actors = mock(ActorService.class);
 
     private CompletableFuture<OperationOutcome> future;
     private OperationalTarget target;
@@ -95,7 +89,7 @@ public class StepTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         future = new CompletableFuture<>();
 
@@ -133,7 +127,7 @@ public class StepTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertTrue(step.isPolicyStep());
         assertSame(params, step.getParams());
         assertNull(step.getParentStep());
@@ -150,12 +144,12 @@ public class StepTest {
     }
 
     @Test
-    public void testConstructorWithOtherStep_testInitStartTime_testGetStartTimeRef() {
-        Step step2 = new Step(step, "actorB", "operB");
+    void testConstructorWithOtherStep_testInitStartTime_testGetStartTimeRef() {
+        var step2 = new Step(step, "actorB", "operB");
         assertFalse(step2.isPolicyStep());
         assertSame(step, step2.getParentStep());
 
-        ControlLoopOperationParams params2 = step2.getParams();
+        var params2 = step2.getParams();
         assertEquals("actorB", params2.getActor());
         assertEquals("operB", params2.getOperation());
         assertNull(params2.getRetry());
@@ -173,7 +167,7 @@ public class StepTest {
         step2.init();
         step2.start(REMAINING_MS);
 
-        Instant instant = startTime.get();
+        var instant = startTime.get();
         assertNotNull(instant);
         assertSame(instant, step2.getStartTime());
 
@@ -187,13 +181,13 @@ public class StepTest {
     }
 
     @Test
-    public void testGetActorName_testGetOperationName() {
+    void testGetActorName_testGetOperationName() {
         assertEquals(POLICY_ACTOR, step.getActorName());
         assertEquals(POLICY_OPERATION, step.getOperationName());
     }
 
     @Test
-    public void testIsInitialized_testInit_testGetOperation() {
+    void testIsInitialized_testInit_testGetOperation() {
         assertFalse(step.isInitialized());
 
         // verify it's unchanged
@@ -217,7 +211,7 @@ public class StepTest {
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         assertThatIllegalStateException().isThrownBy(() -> step.start(REMAINING_MS))
                         .withMessage("step has not been initialized");
 
@@ -236,14 +230,14 @@ public class StepTest {
      * Tests start() when the operation.start() throws an exception.
      */
     @Test
-    public void testStartException() {
+    void testStartException() {
         when(policyOperation.start()).thenThrow(new RuntimeException());
         step.init();
 
         assertTrue(step.start(REMAINING_MS));
 
         // exception should be immediate
-        OperationOutcome outcome = completions.poll();
+        var outcome = completions.poll();
         assertNotNull(outcome);
 
         assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -255,14 +249,14 @@ public class StepTest {
      * Tests start() when the operation throws an asynchronous exception.
      */
     @Test
-    public void testStartAsyncException() {
+    void testStartAsyncException() {
         step.init();
         step.start(REMAINING_MS);
 
         future.completeExceptionally(new RuntimeException(EXPECTED_EXCEPTION));
 
         // exception should be immediate
-        OperationOutcome outcome = completions.poll();
+        var outcome = completions.poll();
         assertNotNull(outcome);
 
         assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -274,7 +268,7 @@ public class StepTest {
      * Tests handleException() when the exception is a CancellationException.
      */
     @Test
-    public void testHandleExceptionCancellationException() {
+    void testHandleExceptionCancellationException() {
         step.init();
         step.start(REMAINING_MS);
 
@@ -285,7 +279,7 @@ public class StepTest {
     }
 
     @Test
-    public void testHandleExceptionCauseCancellationException() {
+    void testHandleExceptionCauseCancellationException() {
         step.init();
         step.start(REMAINING_MS);
 
@@ -296,7 +290,7 @@ public class StepTest {
     }
 
     @Test
-    public void testHandleException() {
+    void testHandleException() {
         when(policyOperation.start()).thenThrow(new RuntimeException());
 
         step.init();
@@ -304,7 +298,7 @@ public class StepTest {
         assertTrue(step.start(REMAINING_MS));
 
         // exception should be immediate
-        OperationOutcome outcome = completions.poll();
+        var outcome = completions.poll();
         assertNotNull(outcome);
 
         assertNotEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -317,7 +311,7 @@ public class StepTest {
     }
 
     @Test
-    public void testHandleTimeout() throws InterruptedException {
+    void testHandleTimeout() throws InterruptedException {
         step.init();
 
         long tstart = System.currentTimeMillis();
@@ -325,7 +319,7 @@ public class StepTest {
         // give it a short timeout
         step.start(100);
 
-        OperationOutcome outcome = completions.poll(5, TimeUnit.SECONDS);
+        var outcome = completions.poll(5, TimeUnit.SECONDS);
         assertNotNull(outcome);
 
         // should not have timed out before 100ms
@@ -347,7 +341,7 @@ public class StepTest {
     }
 
     @Test
-    public void testCancel() {
+    void testCancel() {
         // should have no effect
         step.cancel();
 
@@ -360,18 +354,18 @@ public class StepTest {
     }
 
     @Test
-    public void testBuildOperation() {
+    void testBuildOperation() {
         assertSame(policyOperation, step.buildOperation());
     }
 
     @Test
-    public void testMakeOutcome() {
+    void testMakeOutcome() {
         step.init();
         assertEquals(MY_TARGET, step.makeOutcome().getTarget());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertNotNull(step.toString());
     }
 }

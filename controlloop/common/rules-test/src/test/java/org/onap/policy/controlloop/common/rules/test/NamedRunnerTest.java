@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,42 +21,42 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.AfterClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 
 /**
  * Tests NamedRunner. The tests don't do much, because all we really want to check is
  * which tests are executed based on the {@link TestNames} annotation.
  */
-@RunWith(NamedRunner.class)
+@ExtendWith(NamedRunner.class)
 @TestNames(names = {"testAbc", "testDef", "testIgnore"}, prefixes = {"testGhi", "testJkl"})
-public class NamedRunnerTest {
+class NamedRunnerTest {
 
     private static int testCount = 0;
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         assertEquals(5, testCount);
     }
 
     @Test
-    public void testAbc() {
+    void testAbc() {
         checkTest();
     }
 
     @Test
-    public void testAbc2() {
+    void testAbc2() {
         fail("should not run");
     }
 
     @Test
-    public void testDef() {
+    void testDef() {
         checkTest();
     }
 
@@ -64,23 +65,23 @@ public class NamedRunnerTest {
      * NamedRunner skips over it, hence the sonar issue is being suppressed.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testIgnore() {      // NOSONAR
         fail("should not run");
     }
 
     @Test
-    public void testGhi1() {
+    void testGhi1() {
         checkTest();
     }
 
     @Test
-    public void testGhi2() {
+    void testGhi2() {
         checkTest();
     }
 
     @Test
-    public void testJkl() {
+    void testJkl() {
         checkTest();
     }
 

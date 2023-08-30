@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +24,12 @@ package org.onap.policy.controlloop.eventmanager;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,18 +43,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
 import org.drools.core.WorkingMemory;
 import org.drools.core.common.InternalFactHandle;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
@@ -73,8 +71,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ClEventManagerWithEventTest {
+class ClEventManagerWithEventTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String CL_NAME = "my-closed-loop-name";
     private static final String POLICY_NAME = "my-policy-name";
@@ -91,30 +88,18 @@ public class ClEventManagerWithEventTest {
     private static final Coder yamlCoder = new StandardYamlCoder();
     private static final String OUTCOME_MSG = "my outcome message";
 
-    @Mock
-    private PolicyEngine engineMgr;
-    @Mock
-    private WorkingMemory workMem;
-    @Mock
-    private InternalFactHandle factHandle;
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private EventManagerServices services;
-    @Mock
-    private ActorService actors;
-    @Mock
-    private OperationHistoryDataManager dataMgr;
-    @Mock
-    private ExecutorService executor;
-    @Mock
-    private MyStep stepa;
-    @Mock
-    private MyStep stepb;
+    private final PolicyEngine engineMgr = mock(PolicyEngine.class);
+    private final WorkingMemory workMem = mock(WorkingMemory.class);
+    private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final EventManagerServices services = mock(EventManagerServices.class);
+    private final ActorService actors = mock(ActorService.class);
+    private final OperationHistoryDataManager dataMgr = mock(OperationHistoryDataManager.class);
+    private final ExecutorService executor = mock(ExecutorService.class);
+    private final MyStep stepa = mock(MyStep.class);
+    private final MyStep stepb = mock(MyStep.class);
 
     private List<LockImpl> locks;
     private ToscaPolicy tosca;
@@ -125,7 +110,7 @@ public class ClEventManagerWithEventTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws ControlLoopException, CoderException {
         when(services.getActorService()).thenReturn(actors);
         when(services.getDataManager()).thenReturn(dataMgr);
@@ -154,7 +139,7 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
         assertSame(event, mgr.getEvent());
 
@@ -168,7 +153,7 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testPopulateNotification() throws Exception {
+    void testPopulateNotification() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
         mgr = new MyManager(services, params, event, workMem);
 
@@ -228,7 +213,7 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testStoreInDataBase() throws ControlLoopException {
+    void testStoreInDataBase() throws ControlLoopException {
         mgr.start();
         OperationOutcome outcome = makeOutcome();
         mgr.addToHistory(outcome);
@@ -240,10 +225,10 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testMakeControlLoopResponse() {
-        final OperationOutcome outcome = new OperationOutcome();
+    void testMakeControlLoopResponse() {
+        final var outcome = new OperationOutcome();
 
-        ControlLoopResponse resp = mgr.makeControlLoopResponse(outcome);
+        var resp = mgr.makeControlLoopResponse(outcome);
         assertNotNull(resp);
         assertEquals("DCAE", resp.getTarget());
         assertEquals(event.getClosedLoopControlName(), resp.getClosedLoopControlName());
@@ -254,8 +239,8 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testOnNewEvent() {
-        VirtualControlLoopEvent event2 = new VirtualControlLoopEvent(event);
+    void testOnNewEvent() {
+        var event2 = new VirtualControlLoopEvent(event);
         assertEquals(NewEventStatus.FIRST_ONSET, mgr.onNewEvent(event2));
 
         event2.setPayload("other payload");
@@ -274,7 +259,7 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testCheckEventSyntax() {
+    void testCheckEventSyntax() {
         // initially, it's valid
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
@@ -296,7 +281,7 @@ public class ClEventManagerWithEventTest {
     }
 
     @Test
-    public void testValidateStatus() {
+    void testValidateStatus() {
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ONSET);
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
 
@@ -309,7 +294,7 @@ public class ClEventManagerWithEventTest {
     }
 
     private void loadPolicy(String fileName) throws CoderException {
-        ToscaServiceTemplate template =
+        var template =
                         yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
         tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
@@ -317,14 +302,14 @@ public class ClEventManagerWithEventTest {
     }
 
     private OperationOutcome makeCompletedOutcome() {
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         outcome.setEnd(outcome.getStart());
 
         return outcome;
     }
 
     private OperationOutcome makeOutcome() {
-        OperationOutcome outcome = new OperationOutcome();
+        var outcome = new OperationOutcome();
         outcome.setActor(SIMPLE_ACTOR);
         outcome.setOperation(SIMPLE_OPERATION);
         outcome.setMessage(OUTCOME_MSG);

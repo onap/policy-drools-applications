@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +23,14 @@ package org.onap.policy.controlloop.eventmanager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -39,18 +41,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
 import org.drools.core.WorkingMemory;
 import org.drools.core.common.InternalFactHandle;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.ControlLoopResponse;
-import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -65,8 +62,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ClEventManagerWithOutcomeTest {
+class ClEventManagerWithOutcomeTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String CL_NAME = "my-closed-loop-name";
     private static final String POLICY_NAME = "my-policy-name";
@@ -82,26 +78,16 @@ public class ClEventManagerWithOutcomeTest {
     private static final Coder yamlCoder = new StandardYamlCoder();
     private static final String OUTCOME_MSG = "my outcome message";
 
-    @Mock
-    private PolicyEngine engineMgr;
-    @Mock
-    private WorkingMemory workMem;
-    @Mock
-    private InternalFactHandle factHandle;
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private EventManagerServices services;
-    @Mock
-    private ExecutorService executor;
-    @Mock
-    private MyStep stepa;
-    @Mock
-    private MyStep stepb;
+    private final PolicyEngine engineMgr = mock(PolicyEngine.class);
+    private final WorkingMemory workMem = mock(WorkingMemory.class);
+    private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final EventManagerServices services = mock(EventManagerServices.class);
+    private final ExecutorService executor = mock(ExecutorService.class);
+    private final MyStep stepa = mock(MyStep.class);
+    private final MyStep stepb = mock(MyStep.class);
 
     private List<LockImpl> locks;
     private ToscaPolicy tosca;
@@ -111,7 +97,7 @@ public class ClEventManagerWithOutcomeTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws ControlLoopException, CoderException {
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
 
@@ -129,7 +115,7 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
 
         // invalid
@@ -138,7 +124,7 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testLoadNextPolicy_testGetFullHistory_testGetPartialHistory() throws Exception {
+    void testLoadNextPolicy_testGetFullHistory_testGetPartialHistory() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
         mgr = new MyManager(services, params, REQ_ID, workMem);
 
@@ -148,7 +134,7 @@ public class ClEventManagerWithOutcomeTest {
         assertNull(mgr.getFinalResult());
 
         // add an outcome
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         mgr.addToHistory(outcome);
 
         // indicate success and load next policy
@@ -162,7 +148,7 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testExecuteStep() {
+    void testExecuteStep() {
         mgr.bumpAttempts();
 
         // no steps to execute
@@ -171,7 +157,7 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testBumpAttempts() {
+    void testBumpAttempts() {
         assertEquals(0, mgr.getAttempts());
 
         mgr.bumpAttempts();
@@ -180,8 +166,8 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testIsAbort() {
-        OperationOutcome outcome = makeCompletedOutcome();
+    void testIsAbort() {
+        var outcome = makeCompletedOutcome();
 
         outcome.setResult(OperationResult.FAILURE);
         assertTrue(mgr.isAbort(outcome));
@@ -192,11 +178,11 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testAddToHistory() throws ControlLoopException {
+    void testAddToHistory() throws ControlLoopException {
         mgr.start();
 
         // add a "start" outcome
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         mgr.addToHistory(outcome);
 
         assertThat(mgr.getPartialHistory()).hasSize(1);
@@ -244,7 +230,7 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testMakeNotification() throws Exception {
+    void testMakeNotification() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
         mgr = new MyManager(services, params, REQ_ID, workMem);
 
@@ -258,7 +244,7 @@ public class ClEventManagerWithOutcomeTest {
         mgr.addToHistory(makeCompletedOutcome());
 
         // check notification while running
-        VirtualControlLoopNotification notif = mgr.makeNotification();
+        var notif = mgr.makeNotification();
         assertThat(notif.getMessage()).contains(SIMPLE_ACTOR);
         assertThat(notif.getHistory()).hasSize(3);
 
@@ -296,13 +282,13 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testGetOperationMessage() throws ControlLoopException {
+    void testGetOperationMessage() throws ControlLoopException {
         // no history yet
         assertNull(mgr.getOperationMessage());
 
         // add an outcome
         mgr.start();
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         mgr.addToHistory(outcome);
 
         assertThat(mgr.getOperationMessage()).contains("actor=" + SIMPLE_ACTOR)
@@ -310,32 +296,31 @@ public class ClEventManagerWithOutcomeTest {
     }
 
     @Test
-    public void testMakeControlLoopResponse() {
-        final OperationOutcome outcome = new OperationOutcome();
+    void testMakeControlLoopResponse() {
+        final var outcome = new OperationOutcome();
         outcome.setActor(SIMPLE_ACTOR);
 
-        ControlLoopResponse resp = mgr.makeControlLoopResponse(outcome);
+        var resp = mgr.makeControlLoopResponse(outcome);
         assertNotNull(resp);
         assertEquals(SIMPLE_ACTOR, resp.getFrom());
     }
 
     private void loadPolicy(String fileName) throws CoderException {
-        ToscaServiceTemplate template =
-                        yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
         tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
     }
 
     private OperationOutcome makeCompletedOutcome() {
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         outcome.setEnd(outcome.getStart());
 
         return outcome;
     }
 
     private OperationOutcome makeOutcome() {
-        OperationOutcome outcome = new OperationOutcome();
+        var outcome = new OperationOutcome();
         outcome.setActor(SIMPLE_ACTOR);
         outcome.setOperation(SIMPLE_OPERATION);
         outcome.setMessage(OUTCOME_MSG);
@@ -363,7 +348,7 @@ public class ClEventManagerWithOutcomeTest {
 
         @Override
         protected void makeLock(String targetEntity, String requestId, int holdSec, LockCallback callback) {
-            LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
+            var lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
         }

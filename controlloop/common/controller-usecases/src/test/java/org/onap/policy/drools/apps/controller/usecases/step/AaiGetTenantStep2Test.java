@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +23,12 @@ package org.onap.policy.drools.apps.controller.usecases.step;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,11 +36,8 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.aai.AaiActor;
@@ -52,25 +51,17 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AaiGetTenantStep2Test {
+class AaiGetTenantStep2Test {
     private static final String MY_VSERVER = "my-vserver";
     private static final UUID REQ_ID = UUID.randomUUID();
 
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private ActorService actors;
-    @Mock
-    private ControlLoopOperationParams params;
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private VirtualControlLoopEvent event;
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final ActorService actors = mock(ActorService.class);
+    private final ControlLoopOperationParams params = mock(ControlLoopOperationParams.class);
+    private final StepContext stepContext = mock(StepContext.class);
+    private final VirtualControlLoopEvent event = mock(VirtualControlLoopEvent.class);
 
     private CompletableFuture<OperationOutcome> future;
     private Step2 master;
@@ -79,7 +70,7 @@ public class AaiGetTenantStep2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         future = new CompletableFuture<>();
 
@@ -99,7 +90,7 @@ public class AaiGetTenantStep2Test {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(AaiActor.NAME, step.getActorName());
         assertEquals(AaiGetTenantOperation.NAME, step.getOperationName());
         assertSame(stepContext, step.stepContext);
@@ -117,12 +108,12 @@ public class AaiGetTenantStep2Test {
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         assertThat(step.getPropertyNames()).isEmpty();
     }
 
     @Test
-    public void testSetProperties() {
+    void testSetProperties() {
         step.init();
 
         step.setProperties();
@@ -131,7 +122,7 @@ public class AaiGetTenantStep2Test {
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         step.init();
         assertTrue(step.start(100));
         verify(policyOperation).start();
@@ -141,7 +132,7 @@ public class AaiGetTenantStep2Test {
      * Tests start() when the data has already been retrieved.
      */
     @Test
-    public void testStartAlreadyHaveData() {
+    void testStartAlreadyHaveData() {
         when(stepContext.contains(AaiGetTenantOperation.getKey(MY_VSERVER))).thenReturn(true);
 
         step.init();
@@ -150,9 +141,9 @@ public class AaiGetTenantStep2Test {
     }
 
     @Test
-    public void testSuccess() {
-        StandardCoderObject data = new StandardCoderObject();
-        OperationOutcome outcome = new OperationOutcome();
+    void testSuccess() {
+        var data = new StandardCoderObject();
+        var outcome = new OperationOutcome();
         outcome.setResponse(data);
 
         step.success(outcome);

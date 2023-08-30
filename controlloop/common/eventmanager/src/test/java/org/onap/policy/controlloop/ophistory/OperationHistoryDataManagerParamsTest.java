@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +22,16 @@
 package org.onap.policy.controlloop.ophistory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Consumer;
-import org.junit.Before;
-import org.junit.Test;
-import org.onap.policy.common.parameters.ValidationResult;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerParams.OperationHistoryDataManagerParamsBuilder;
 
-public class OperationHistoryDataManagerParamsTest {
+class OperationHistoryDataManagerParamsTest {
     private static final String CONTAINER = "my-container";
     private static final int BATCH_SIZE = 10;
     private static final int MAX_QUEUE_LENGTH = 20;
@@ -44,13 +44,13 @@ public class OperationHistoryDataManagerParamsTest {
 
     private OperationHistoryDataManagerParams params;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         params = makeBuilder().build();
     }
 
     @Test
-    public void test() {
+    void test() {
         assertEquals(BATCH_SIZE, params.getBatchSize());
         assertEquals(MAX_QUEUE_LENGTH, params.getMaxQueueLength());
         assertEquals(MY_PASS, params.getPassword());
@@ -71,7 +71,7 @@ public class OperationHistoryDataManagerParamsTest {
     }
 
     @Test
-    public void testValidate() {
+    void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
         testValidateField("url", "null", params2 -> params2.setUrl(null));
@@ -103,14 +103,14 @@ public class OperationHistoryDataManagerParamsTest {
                     Consumer<OperationHistoryDataManagerParams> makeInvalid) {
 
         // original params should be valid
-        ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        var result = params.validate(CONTAINER);
+        assertTrue(result.isValid());
 
         // make invalid params
-        OperationHistoryDataManagerParams params2 = makeBuilder().build();
+        var params2 = makeBuilder().build();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid());
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 

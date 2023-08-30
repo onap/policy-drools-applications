@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,32 +22,25 @@
 package org.onap.policy.drools.apps.controller.usecases.step;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.GetTargetEntityOperation2;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GetTargetEntityStep2Test {
-    @Mock
-    private ControlLoopOperationParams params;
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private VirtualControlLoopEvent event;
+class GetTargetEntityStep2Test {
+    private final ControlLoopOperationParams params = mock(ControlLoopOperationParams.class);
+    private final StepContext stepContext = mock(StepContext.class);
+    private final VirtualControlLoopEvent event = mock(VirtualControlLoopEvent.class);
 
     private Step2 master;
     private GetTargetEntityStep2 step;
@@ -54,7 +48,7 @@ public class GetTargetEntityStep2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         when(params.toBuilder()).thenReturn(ControlLoopOperationParams.builder());
 
@@ -63,7 +57,7 @@ public class GetTargetEntityStep2Test {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(UsecasesConstants.GET_TARGET_ENTITY_ACTOR, step.getActorName());
         assertEquals(UsecasesConstants.GET_TARGET_ENTITY_OPERATION, step.getOperationName());
         assertSame(stepContext, step.stepContext);
@@ -71,13 +65,13 @@ public class GetTargetEntityStep2Test {
     }
 
     @Test
-    public void testBuildOperation() {
-        Operation oper = step.buildOperation();
+    void testBuildOperation() {
+        var oper = step.buildOperation();
         assertTrue(oper instanceof GetTargetEntityOperation2);
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         assertThatIllegalStateException().isThrownBy(() -> step.start(200))
                         .withMessage("step has not been initialized");
 

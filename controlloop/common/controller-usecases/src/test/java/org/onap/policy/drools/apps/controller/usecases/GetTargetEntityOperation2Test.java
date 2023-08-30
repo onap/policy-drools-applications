@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,20 +24,18 @@ package org.onap.policy.drools.apps.controller.usecases;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -44,8 +43,7 @@ import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GetTargetEntityOperation2Test {
+class GetTargetEntityOperation2Test {
     private static final String GENERIC_VNF_ID = "generic-vnf.vnf-id";
     private static final String VSERVER_NAME = "vserver.vserver-name";
     private static final String GENERIC_VNF_NAME = "generic-vnf.vnf-name";
@@ -54,10 +52,8 @@ public class GetTargetEntityOperation2Test {
     private static final String MY_ACTOR = "my-actor";
     private static final String MY_OPERATION = "my-operation";
 
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private ControlLoopOperationParams params;
+    private final StepContext stepContext = mock(StepContext.class);
+    private final ControlLoopOperationParams params = mock(ControlLoopOperationParams.class);
 
     private VirtualControlLoopEvent event;
     private GenericVnf vnf;
@@ -66,7 +62,7 @@ public class GetTargetEntityOperation2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         event = new VirtualControlLoopEvent();
         event.setTarget("pnf.pnf-name");
@@ -83,7 +79,7 @@ public class GetTargetEntityOperation2Test {
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         // already have the data - no properties needed
         assertThat(oper.getPropertyNames()).isEmpty();
 
@@ -97,7 +93,7 @@ public class GetTargetEntityOperation2Test {
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         assertThatThrownBy(() -> oper.start()).isInstanceOf(UnsupportedOperationException.class)
                         .hasMessage("cannot start get-target-entity operation");
     }
@@ -106,7 +102,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmTarget() when the target has already been determined.
      */
     @Test
-    public void testDetmTargetRepeat() {
+    void testDetmTargetRepeat() {
         remakeWithoutData();
         assertFalse(oper.getPropertyNames().isEmpty());
 
@@ -122,7 +118,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmTarget() when the target type is {@code null}.
      */
     @Test
-    public void testDetmTargetNullType() {
+    void testDetmTargetNullType() {
         remakeWithoutData();
         when(params.getTargetType()).thenReturn(null);
 
@@ -134,7 +130,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmTarget() when the target type is VM and enrichment data is provided.
      */
     @Test
-    public void testDetmTargetVm() {
+    void testDetmTargetVm() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         enrichTarget(VSERVER_NAME);
         assertThat(oper.getPropertyNames()).isEmpty();
@@ -145,7 +141,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmTarget() when the target type is VNF and enrichment data is provided.
      */
     @Test
-    public void testDetmTargetVnf() {
+    void testDetmTargetVnf() {
         when(params.getTargetType()).thenReturn(TargetType.VNF);
         enrichTarget(VSERVER_NAME);
         assertThat(oper.getPropertyNames()).isEmpty();
@@ -157,7 +153,7 @@ public class GetTargetEntityOperation2Test {
      * provided.
      */
     @Test
-    public void testDetmTargetVfModule() {
+    void testDetmTargetVfModule() {
         when(params.getTargetType()).thenReturn(TargetType.VFMODULE);
         enrichTarget(VSERVER_NAME);
         assertThat(oper.getPropertyNames()).isEmpty();
@@ -168,7 +164,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmTarget() when the target type is unknown.
      */
     @Test
-    public void testDetmTargetUnknownType() {
+    void testDetmTargetUnknownType() {
         when(params.getTargetType()).thenReturn(TargetType.VFC);
         enrichTarget(VSERVER_NAME);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames())
@@ -176,7 +172,7 @@ public class GetTargetEntityOperation2Test {
     }
 
     @Test
-    public void testDetmPnfTargetPnf() {
+    void testDetmPnfTargetPnf() {
         assertThat(oper.getPropertyNames()).isEmpty();
         verifyTarget(MY_PNF);
     }
@@ -185,7 +181,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmPnfTarget() when the target name is incorrect.
      */
     @Test
-    public void testDetmPnfTargetInvalidName() {
+    void testDetmPnfTargetInvalidName() {
         event.setTarget("unknown-pnf");
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames())
                         .withMessage("Target does not match target type");
@@ -195,7 +191,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmPnfTarget() when the enrichment data is missing.
      */
     @Test
-    public void testDetmPnfTargetPnfNoEnrichment() {
+    void testDetmPnfTargetPnfNoEnrichment() {
         event.setAai(Map.of());
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames())
                         .withMessage("AAI section is missing pnf.pnf-name");
@@ -205,7 +201,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVfModuleTarget() when the target is null.
      */
     @Test
-    public void testDetmVfModuleTargetNullTarget() {
+    void testDetmVfModuleTargetNullTarget() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         event.setTarget(null);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames()).withMessage("Target is null");
@@ -215,7 +211,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVfModuleTarget() when the target is the vserver name.
      */
     @Test
-    public void testDetmVfModuleTargetVserverName() {
+    void testDetmVfModuleTargetVserverName() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         enrichTarget(VSERVER_NAME);
         assertThat(oper.getPropertyNames()).isEmpty();
@@ -226,7 +222,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVfModuleTarget() when the target is the VNF ID.
      */
     @Test
-    public void testDetmVfModuleTargetVnfId() {
+    void testDetmVfModuleTargetVnfId() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         enrichTarget(GENERIC_VNF_ID);
         assertThat(oper.getPropertyNames()).isEmpty();
@@ -238,7 +234,7 @@ public class GetTargetEntityOperation2Test {
      * data is actually stored in the VNF ID field.
      */
     @Test
-    public void testDetmVfModuleTargetVnfName() {
+    void testDetmVfModuleTargetVnfName() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         enrichTarget(GENERIC_VNF_ID);
 
@@ -253,7 +249,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVfModuleTarget() when the target is unknown.
      */
     @Test
-    public void testDetmVfModuleTargetUnknown() {
+    void testDetmVfModuleTargetUnknown() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         enrichTarget(VSERVER_NAME);
         event.setTarget("unknown-vnf");
@@ -265,7 +261,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVfModuleTarget() when the enrichment data is missing.
      */
     @Test
-    public void testDetmVfModuleTargetMissingEnrichment() {
+    void testDetmVfModuleTargetMissingEnrichment() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         event.setTarget(VSERVER_NAME);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames())
@@ -276,7 +272,7 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVnfName() when enrichment data is available.
      */
     @Test
-    public void testDetmVnfNameHaveData() {
+    void testDetmVnfNameHaveData() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         event.setTarget(GENERIC_VNF_NAME);
         event.setAai(Map.of(GENERIC_VNF_ID, MY_VNF));
@@ -288,14 +284,14 @@ public class GetTargetEntityOperation2Test {
      * Tests detmVnfName() when enrichment data is missing.
      */
     @Test
-    public void testDetmVnfNameNoData() {
+    void testDetmVnfNameNoData() {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         event.setTarget(GENERIC_VNF_NAME);
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(UsecasesConstants.AAI_DEFAULT_GENERIC_VNF));
     }
 
     @Test
-    public void testSetProperty() {
+    void testSetProperty() {
         event.setTarget(GENERIC_VNF_NAME);
 
         // not a property of interest - should be ignored
@@ -308,7 +304,7 @@ public class GetTargetEntityOperation2Test {
     }
 
     @Test
-    public void testGetActorName_testGetName() {
+    void testGetActorName_testGetName() {
         assertEquals(MY_ACTOR, oper.getActorName());
         assertEquals(MY_OPERATION, oper.getName());
     }

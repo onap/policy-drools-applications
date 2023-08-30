@@ -21,11 +21,12 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -37,14 +38,11 @@ import java.util.Queue;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmBody;
@@ -64,8 +62,7 @@ import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BaseTestTest {
+class BaseTestTest {
     private static final String POLICY_NAME = "my-policy-name";
 
     // saved values
@@ -81,33 +78,22 @@ public class BaseTestTest {
     private int permitCount;
     private int finalCount;
 
-    @Mock
-    private HttpClients httpClients;
-    @Mock
-    private Simulators simulators;
-    @Mock
-    private Topics topics;
-    @Mock
-    private Listener<VirtualControlLoopNotification> policyClMgt;
-    @Mock
-    private Listener<Request> appcClSink;
-    @Mock
-    private Listener<AppcLcmDmaapWrapper> appcLcmRead;
-    @Mock
-    private Listener<PciMessage> sdnrClSink;
-    @Mock
-    private DroolsController drools;
-    @Mock
-    private ToscaPolicy policy;
-    @Mock
-    private ToscaConceptIdentifier policyIdent;
-
+    private final HttpClients httpClients = mock(HttpClients.class);
+    private final Simulators simulators = mock(Simulators.class);
+    private final Topics topics = mock(Topics.class);
+    private final Listener<VirtualControlLoopNotification> policyClMgt = mock();
+    private final Listener<Request> appcClSink = mock();
+    private final Listener<AppcLcmDmaapWrapper> appcLcmRead = mock();
+    private final Listener<PciMessage> sdnrClSink = mock();
+    private final DroolsController drools = mock(DroolsController.class);
+    private final ToscaPolicy policy = mock(ToscaPolicy.class);
+    private final ToscaConceptIdentifier policyIdent = mock(ToscaConceptIdentifier.class);
 
     /**
      * Saves static values from the class.
      */
     @SuppressWarnings("unchecked")
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         httpClientMaker = (Supplier<HttpClients>) ReflectionTestUtils.getField(BaseTest.class, "httpClientMaker");
         simMaker = (Supplier<Simulators>) ReflectionTestUtils.getField(BaseTest.class, "simMaker");
@@ -117,7 +103,7 @@ public class BaseTestTest {
     /**
      * Restores static values.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         ReflectionTestUtils.setField(BaseTest.class, "httpClientMaker", httpClientMaker);
         ReflectionTestUtils.setField(BaseTest.class, "simMaker", simMaker);
@@ -127,7 +113,7 @@ public class BaseTestTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         when(topics.createListener(eq(BaseTest.POLICY_CL_MGT_TOPIC), eq(VirtualControlLoopNotification.class),
                         any(StandardCoder.class))).thenReturn(policyClMgt);
@@ -189,31 +175,31 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testInitStatics() {
+    void testInitStatics() {
         assertSame(httpClients, BaseTest.httpClients);
         assertSame(simulators, BaseTest.simulators);
     }
 
     @Test
-    public void testFinishStatics() {
+    void testFinishStatics() {
         BaseTest.finishStatics();
         verify(httpClients).destroy();
         verify(simulators).destroy();
     }
 
     @Test
-    public void testInit() {
+    void testInit() {
         assertSame(topics, BaseTest.getTopics());
     }
 
     @Test
-    public void testFinish() {
+    void testFinish() {
         base.finish();
         verify(topics).destroy();
     }
 
     @Test
-    public void testTestService123Compliant() {
+    void testTestService123Compliant() {
         enqueueAppcLcm("restart", "restart", "restart", "restart", "rebuild", "migrate");
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
@@ -234,9 +220,9 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestDuplicatesEvents() {
+    void testTestDuplicatesEvents() {
         // the test expects the count to be incremented by 2 between calls
-        AtomicLong count = new AtomicLong(5);
+        var count = new AtomicLong(5);
         base = spy(base);
         when(base.getCreateCount()).thenAnswer(args -> count.getAndAdd(2));
 
@@ -264,12 +250,12 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestVcpeSunnyDayCompliant() {
+    void testTestVcpeSunnyDayCompliant() {
         checkAppcLcmPolicy("restart", base::testVcpeSunnyDayCompliant);
     }
 
     @Test
-    public void testTestVcpeOnsetFloodPrevention() {
+    void testTestVcpeOnsetFloodPrevention() {
         enqueueAppcLcm("restart");
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
@@ -290,37 +276,37 @@ public class BaseTestTest {
     }
 
     @Test
-    public void testTestVdnsSunnyDayCompliant() {
+    void testTestVdnsSunnyDayCompliant() {
         checkHttpPolicy(base::testVdnsSunnyDayCompliant);
     }
 
     @Test
-    public void testTestVdnsRainyDayCompliant() {
+    void testTestVdnsRainyDayCompliant() {
         checkHttpPolicyCompliantFailure(base::testVdnsRainyDayCompliant);
     }
 
     @Test
-    public void testTestVfwSunnyDayCompliant() {
+    void testTestVfwSunnyDayCompliant() {
         checkAppcLegacyPolicy("ModifyConfig", base::testVfwSunnyDayCompliant);
     }
 
     @Test
-    public void testTestVfwRainyDayOverallTimeout() {
+    void testTestVfwRainyDayOverallTimeout() {
         checkAppcLegacyPolicyFinalFailure("ModifyConfig", base::testVfwRainyDayOverallTimeout);
     }
 
     @Test
-    public void testTestVfwRainyDayCompliantTimeout() {
+    void testTestVfwRainyDayCompliantTimeout() {
         checkAppcLegacyPolicyFinalFailure("ModifyConfig", base::testVfwRainyDayCompliantTimeout);
     }
 
     @Test
-    public void testTestVpciSunnyDayCompliant() {
+    void testTestVpciSunnyDayCompliant() {
         checkSdnrPolicy("ModifyConfig", base::testVpciSunnyDayCompliant);
     }
 
     @Test
-    public void testTestVsonhSunnyDayCompliant() {
+    void testTestVsonhSunnyDayCompliant() {
         checkSdnrPolicy("ModifyConfigANR", base::testVsonhSunnyDayCompliant);
     }
 
@@ -453,7 +439,7 @@ public class BaseTestTest {
     }
 
     private void enqueueClMgt(ControlLoopNotificationType type) {
-        VirtualControlLoopNotification notif = new VirtualControlLoopNotification();
+        var notif = new VirtualControlLoopNotification();
         notif.setNotification(type);
         notif.setPolicyName(POLICY_NAME + ".EVENT.MANAGER.FINAL");
 
@@ -461,17 +447,17 @@ public class BaseTestTest {
     }
 
     private void enqueueAppcLcm(String... operationNames) {
-        for (String oper : operationNames) {
-            AppcLcmDmaapWrapper req = new AppcLcmDmaapWrapper();
+        for (var oper : operationNames) {
+            var req = new AppcLcmDmaapWrapper();
             req.setRpcName(oper);
 
-            AppcLcmBody body = new AppcLcmBody();
+            var body = new AppcLcmBody();
             req.setBody(body);
 
-            AppcLcmInput input = new AppcLcmInput();
+            var input = new AppcLcmInput();
             body.setInput(input);
 
-            AppcLcmCommonHeader header = new AppcLcmCommonHeader();
+            var header = new AppcLcmCommonHeader();
             input.setCommonHeader(header);
 
             header.setSubRequestId("my-subrequest-id");
@@ -481,11 +467,11 @@ public class BaseTestTest {
     }
 
     private void enqueueAppcLegacy(String... operationNames) {
-        for (String oper : operationNames) {
-            Request req = new Request();
+        for (var oper : operationNames) {
+            var req = new Request();
             req.setAction(oper);
 
-            CommonHeader header = new CommonHeader();
+            var header = new CommonHeader();
             req.setCommonHeader(header);
 
             header.setSubRequestId("my-subrequest-id");
@@ -496,13 +482,13 @@ public class BaseTestTest {
 
     private void enqueueSdnr(String... operationNames) {
         for (String oper : operationNames) {
-            PciMessage pcimessage = new PciMessage();
-            PciRequest req = new PciRequest();
-            PciBody body = new PciBody();
+            var pcimessage = new PciMessage();
+            var req = new PciRequest();
+            var body = new PciBody();
             body.setInput(req);
             pcimessage.setBody(body);
             pcimessage.getBody().getInput().setAction(oper);
-            PciCommonHeader header = new PciCommonHeader();
+            var header = new PciCommonHeader();
             pcimessage.getBody().getInput().setCommonHeader(header);
 
             header.setSubRequestId("my-subrequest-id");
@@ -526,7 +512,7 @@ public class BaseTestTest {
     /*
      * We don't want junit trying to run this, so it's marked "Ignore".
      */
-    @Ignore
+    @Disabled
     private class MyTest extends BaseTest {
 
         @Override

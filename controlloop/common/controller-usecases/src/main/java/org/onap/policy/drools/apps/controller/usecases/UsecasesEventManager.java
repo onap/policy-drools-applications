@@ -252,8 +252,7 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
             throw new ControlLoopException("The Target type is null");
         }
         switch (event.getTargetType()) {
-            case VM:
-            case VNF:
+            case VM, VNF:
                 validateAaiVmVnfData(eventAai);
                 return;
             case PNF:

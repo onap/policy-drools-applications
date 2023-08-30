@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +23,12 @@ package org.onap.policy.controlloop.eventmanager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,14 +36,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
@@ -59,8 +57,7 @@ import org.onap.policy.drools.core.lock.LockState;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ControlLoopEventManagerTest {
+class ControlLoopEventManagerTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String CL_NAME = "my-closed-loop-name";
@@ -72,12 +69,9 @@ public class ControlLoopEventManagerTest {
     private static final Coder yamlCoder = new StandardYamlCoder();
     private static final String MY_KEY = "def";
 
-    @Mock
-    private ExecutorService executor;
-    @Mock
-    private EventManagerServices services;
-    @Mock
-    private OperationHistoryDataManager dataMgr;
+    private final ExecutorService executor = mock(ExecutorService.class);
+    private final EventManagerServices services = mock(EventManagerServices.class);
+    private final OperationHistoryDataManager dataMgr = mock(OperationHistoryDataManager.class);
 
     private long preCreateTimeMs;
     private List<LockImpl> locks;
@@ -88,7 +82,7 @@ public class ControlLoopEventManagerTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws ControlLoopException, CoderException {
         when(services.getDataManager()).thenReturn(dataMgr);
 
@@ -111,7 +105,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
 
         assertTrue(mgr.isActive());
@@ -124,7 +118,7 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testGetCreateCount() throws ControlLoopException {
+    void testGetCreateCount() throws ControlLoopException {
         long original = ControlLoopEventManager.getCreateCount();
 
         new MyManager(services, params, REQ_ID);
@@ -135,26 +129,26 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testIsActive() throws Exception {
+    void testIsActive() throws Exception {
         mgr = new ControlLoopEventManager(services, params, REQ_ID);
         assertTrue(mgr.isActive());
 
-        ControlLoopEventManager mgr2 = Serializer.roundTrip(mgr);
+        var mgr2 = Serializer.roundTrip(mgr);
         assertFalse(mgr2.isActive());
     }
 
     @Test
-    public void testDestroy() throws IOException {
+    void testDestroy() throws IOException {
         mgr.requestLock(LOCK1);
         mgr.requestLock(LOCK2);
         mgr.requestLock(LOCK1);
 
         // ensure destroy() doesn't throw an exception if the object is deserialized
-        ControlLoopEventManager mgr2 = Serializer.roundTrip(mgr);
+        var mgr2 = Serializer.roundTrip(mgr);
         assertThatCode(() -> mgr2.destroy()).doesNotThrowAnyException();
 
         // locks should not have been freed
-        for (LockImpl lock : locks) {
+        for (var lock : locks) {
             assertFalse(lock.isUnavailable());
         }
 
@@ -162,24 +156,24 @@ public class ControlLoopEventManagerTest {
 
         runExecutor();
 
-        for (LockImpl lock : locks) {
+        for (var lock : locks) {
             assertTrue(lock.isUnavailable());
         }
     }
 
     @Test
-    public void testDetmControlLoopTimeoutMs() throws Exception {
+    void testDetmControlLoopTimeoutMs() throws Exception {
         long timeMs = 1200 * 1000L;
         long end = mgr.getEndTimeMs();
         assertThat(end).isGreaterThanOrEqualTo(preCreateTimeMs + timeMs).isLessThan(preCreateTimeMs + timeMs + 5000);
     }
 
     @Test
-    public void testRequestLock() {
-        final CompletableFuture<OperationOutcome> future1 = mgr.requestLock(LOCK1);
+    void testRequestLock() {
+        final var future1 = mgr.requestLock(LOCK1);
         assertTrue(mgr.getOutcomes().isEmpty());
 
-        final CompletableFuture<OperationOutcome> future2 = mgr.requestLock(LOCK2);
+        final var future2 = mgr.requestLock(LOCK2);
         assertTrue(mgr.getOutcomes().isEmpty());
 
         assertSame(future1, mgr.requestLock(LOCK1));
@@ -198,18 +192,18 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testReleaseLock() {
+    void testReleaseLock() {
         mgr.requestLock(LOCK1);
         mgr.requestLock(LOCK2);
 
         // release one lock
-        final CompletableFuture<OperationOutcome> future = mgr.releaseLock(LOCK1);
+        final var future = mgr.releaseLock(LOCK1);
 
         // asynchronous, thus should not have executed yet
         assertThat(future.isDone()).isFalse();
 
         // asynchronous, thus everything should still be locked
-        for (LockImpl lock : locks) {
+        for (var lock : locks) {
             assertThat(lock.isUnavailable()).isFalse();
         }
 
@@ -229,8 +223,8 @@ public class ControlLoopEventManagerTest {
      * Tests releaseLock() when there is no lock.
      */
     @Test
-    public void testReleaseLockNotLocked() {
-        final CompletableFuture<OperationOutcome> future = mgr.releaseLock(LOCK1);
+    void testReleaseLockNotLocked() {
+        final var future = mgr.releaseLock(LOCK1);
 
         // lock didn't exist, so the request should already be complete
         assertThat(future.isDone()).isTrue();
@@ -243,14 +237,14 @@ public class ControlLoopEventManagerTest {
      * Tests releaseLock() when lock.free() throws an exception.
      */
     @Test
-    public void testReleaseLockException() throws ControlLoopException {
+    void testReleaseLockException() throws ControlLoopException {
         mgr = new MyManager(services, params, REQ_ID) {
             private static final long serialVersionUID = 1L;
 
             @Override
             protected void makeLock(String targetEntity, String requestId, int holdSec, LockCallback callback) {
 
-                LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback) {
+                var lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback) {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -267,7 +261,7 @@ public class ControlLoopEventManagerTest {
         mgr.requestLock(LOCK1);
 
         // release the lock
-        final CompletableFuture<OperationOutcome> future = mgr.releaseLock(LOCK1);
+        final var future = mgr.releaseLock(LOCK1);
 
         // asynchronous, thus should not have executed yet
         assertThat(future.isDone()).isFalse();
@@ -279,7 +273,7 @@ public class ControlLoopEventManagerTest {
     }
 
     private void verifyLock(OperationResult result, String lockOperation) {
-        OperationOutcome outcome = mgr.getOutcomes().poll();
+        var outcome = mgr.getOutcomes().poll();
         assertNotNull(outcome);
         assertEquals(ActorConstants.LOCK_ACTOR, outcome.getActor());
         assertEquals(lockOperation, outcome.getOperation());
@@ -289,9 +283,9 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testOnStart() {
-        OperationOutcome outcome1 = new OperationOutcome();
-        OperationOutcome outcome2 = new OperationOutcome();
+    void testOnStart() {
+        var outcome1 = new OperationOutcome();
+        var outcome2 = new OperationOutcome();
 
         mgr.onStart(outcome1);
         mgr.onStart(outcome2);
@@ -302,9 +296,9 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testOnComplete() {
-        OperationOutcome outcome1 = new OperationOutcome();
-        OperationOutcome outcome2 = new OperationOutcome();
+    void testOnComplete() {
+        var outcome1 = new OperationOutcome();
+        var outcome2 = new OperationOutcome();
 
         mgr.onComplete(outcome1);
         mgr.onComplete(outcome2);
@@ -315,14 +309,14 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testContains_testGetProperty_testSetProperty_testRemoveProperty() {
+    void testContains_testGetProperty_testSetProperty_testRemoveProperty() {
         mgr.setProperty("abc", "a string");
         mgr.setProperty(MY_KEY, 100);
 
         assertTrue(mgr.contains(MY_KEY));
         assertFalse(mgr.contains("ghi"));
 
-        String strValue = mgr.getProperty("abc");
+        var strValue = mgr.getProperty("abc");
         assertEquals("a string", strValue);
 
         int intValue = mgr.getProperty(MY_KEY);
@@ -336,7 +330,7 @@ public class ControlLoopEventManagerTest {
      * Tests getDataManager() when not disabled.
      */
     @Test
-    public void testGetDataManagerNotDisabled() throws ControlLoopException {
+    void testGetDataManagerNotDisabled() throws ControlLoopException {
         assertThat(mgr.getDataManager()).isSameAs(dataMgr);
     }
 
@@ -344,7 +338,7 @@ public class ControlLoopEventManagerTest {
      * Tests getDataManager() when guard.disabled=true.
      */
     @Test
-    public void testGetDataManagerDisabled() throws ControlLoopException {
+    void testGetDataManagerDisabled() throws ControlLoopException {
         mgr = new MyManager(services, params, REQ_ID) {
             private static final long serialVersionUID = 1L;
 
@@ -358,20 +352,19 @@ public class ControlLoopEventManagerTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertNotNull(mgr.toString());
     }
 
     private void loadPolicy(String fileName) throws CoderException {
-        ToscaServiceTemplate template =
-                        yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
         tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
     }
 
     private void runExecutor() {
-        ArgumentCaptor<Runnable> runCaptor = ArgumentCaptor.forClass(Runnable.class);
+        var runCaptor = ArgumentCaptor.forClass(Runnable.class);
         verify(executor).execute(runCaptor.capture());
 
         runCaptor.getValue().run();
@@ -396,7 +389,7 @@ public class ControlLoopEventManagerTest {
 
         @Override
         protected void makeLock(String targetEntity, String requestId, int holdSec, LockCallback callback) {
-            LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
+            var lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
         }

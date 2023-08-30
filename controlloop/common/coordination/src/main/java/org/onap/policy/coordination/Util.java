@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +33,10 @@ import java.util.stream.Stream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.inspector.TagInspector;
 
 
 public final class Util {
@@ -51,12 +54,16 @@ public final class Util {
      * @return the CoordinationDirective
      */
     public static CoordinationDirective loadCoordinationDirectiveFromFile(String directiveFilename) {
-        try (var is = new FileInputStream(new File(directiveFilename))) {
+        try (var is = new FileInputStream(directiveFilename)) {
+            var loaderoptions = new LoaderOptions();
+            TagInspector taginspector = tag -> tag.getClassName().equals(CoordinationDirective.class.getName());
+            loaderoptions.setTagInspector(taginspector);
+
             var contents = IOUtils.toString(is, StandardCharsets.UTF_8);
             //
             // Read the yaml into our Java Object
             //
-            var yaml = new Yaml(new Constructor(CoordinationDirective.class));
+            var yaml = new Yaml(new Constructor(CoordinationDirective.class, loaderoptions));
             Object obj = yaml.load(contents);
 
             logger.debug(contents);

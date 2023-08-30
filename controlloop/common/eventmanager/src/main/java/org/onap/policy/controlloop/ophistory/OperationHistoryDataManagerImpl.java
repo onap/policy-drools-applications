@@ -21,15 +21,15 @@
 
 package org.onap.policy.controlloop.ophistory;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -312,10 +312,10 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      */
     private Properties toProperties(OperationHistoryDataManagerParams params) {
         var props = new Properties();
-        props.put("javax.persistence.jdbc.driver",   params.getDriver());
-        props.put("javax.persistence.jdbc.url",      params.getUrl());
-        props.put("javax.persistence.jdbc.user",     params.getUserName());
-        props.put("javax.persistence.jdbc.password", params.getPassword());
+        props.put("jakarta.persistence.jdbc.driver",   params.getDriver());
+        props.put("jakarta.persistence.jdbc.url",      params.getUrl());
+        props.put("jakarta.persistence.jdbc.user",     params.getUserName());
+        props.put("jakarta.persistence.jdbc.password", params.getPassword());
         props.put("hibernate.dialect",               params.getDbHibernateDialect());
 
         return props;

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +61,7 @@ rule "CREATE.EVENT.SERVICES"
         not (EventManagerServices())
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}", drools.getRule().getName());
 
     try {
@@ -81,7 +82,7 @@ rule "INSERT.PARAMS"
         $params : ControlLoopParams()
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
         + drools.getRule().getName(), $params.getToscaPolicy());
 end
@@ -96,7 +97,7 @@ rule "NEW.TOSCA.POLICY"
         $policy : ToscaPolicy()
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
                 $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
                 $policy.getVersion(), $policy);
@@ -116,7 +117,7 @@ rule "REMOVE.PARAMS"
         not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
                 $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
 
@@ -138,7 +139,7 @@ rule "EVENT"
             getEvent() == $event ) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: event={}",
                 $clName, $params.getPolicyName(), drools.getRule().getName(),
                 $event);
@@ -231,7 +232,7 @@ rule "EVENT.MANAGER.NEW.EVENT"
             getEvent() == $event )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: event={} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $event, $manager);
@@ -286,7 +287,7 @@ rule "EVENT.MANAGER.LOAD.NEXT.POLICY"
                         getSteps().isEmpty() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $manager);
@@ -324,7 +325,7 @@ rule "EVENT.MANAGER.PREPROCESS"
                         !$step.isPreprocessed() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -368,7 +369,7 @@ rule "EVENT.MANAGER.ACCEPT"
                         $step.acceptsEvent() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -408,7 +409,7 @@ rule "EVENT.MANAGER.EXECUTE.STEP"
                         $step.isPreprocessed() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -470,7 +471,7 @@ rule "EVENT.MANAGER.GENERATE.SDNR.NOTIFICATION"
                         $outcome.isFor("SDNR", $step.getOperationName()) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -506,7 +507,7 @@ rule "EVENT.MANAGER.PROCESS.GUARD.OUTCOME"
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -562,7 +563,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.STARTED"
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -614,7 +615,7 @@ rule "EVENT.MANAGER.PROCESS.PREPROCESSOR.STARTED"
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -654,7 +655,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.SUCCESS"
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -715,7 +716,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
                         $step : getSteps().peek() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -740,7 +741,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
-                                .collect(Collectors.toList()));
+                                .toList());
 
         // trigger move to the next policy - clear all steps
         $manager.getSteps().clear();
@@ -780,7 +781,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
                         $step : getSteps().peek() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -799,7 +800,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
-                                .collect(Collectors.toList()));
+                                .toList());
 
         $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
 
@@ -834,7 +835,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.FAILURE"
                         $outcome.isFor($step.getActorName(), $step.getOperationName()) )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -883,7 +884,7 @@ rule "EVENT.MANAGER.DISCARD.OUTCOME"
                         $step : getSteps().peek() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $outcome.getResult(), $manager);
@@ -931,7 +932,7 @@ rule "EVENT.MANAGER.ABORT"
                         $step : getSteps().peek() )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: {} manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $step, $manager);
@@ -990,7 +991,7 @@ rule "EVENT.MANAGER.FINAL"
                         !isActive() || getState() == State.DONE )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}.{}: manager={}",
             $manager.getClosedLoopControlName(), $manager.getPolicyName(), drools.getRule().getName(),
             $manager);
@@ -1003,7 +1004,7 @@ rule "EVENT.MANAGER.FINAL"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getFullHistory().stream().map(OperationOutcome2::getClOperation)
-                                    .collect(Collectors.toList()));
+                                    .toList());
 
         OperationFinalResult finalResult = $manager.getFinalResult();
         if (finalResult == null) {
@@ -1054,7 +1055,7 @@ rule "EVENT.CLEANUP"
         $event : VirtualControlLoopEvent( $clName: closedLoopControlName )
     then
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackage());
+    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
     logger.info("{}: {}", $clName, drools.getRule().getName());
     logger.debug("{}: {}: orphan event={}",
                 $clName, drools.getRule().getName(), $event);

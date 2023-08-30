@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,44 +22,38 @@
 package org.onap.policy.controlloop.common.rules.test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.controlloop.common.rules.test.Simulators.SimulatorBuilder;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SimulatorsTest {
+class SimulatorsTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
 
-    @Mock
-    private HttpServletServer server1;
-    @Mock
-    private HttpServletServer server2;
-    @Mock
-    private HttpServletServer server3;
+    private final HttpServletServer server1 = mock(HttpServletServer.class);
+    private final HttpServletServer server2 = mock(HttpServletServer.class);
+    private final HttpServletServer server3 = mock(HttpServletServer.class);
 
     private Simulators simulators;
 
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         simulators = new Simulators();
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         simulators.start(() -> server1, () -> server2);
         assertEquals(List.of(server1, server2), simulators.getServers());
 
@@ -70,7 +65,7 @@ public class SimulatorsTest {
      * Tests start() when one of the builders throws an exception.
      */
     @Test
-    public void testStartException() {
+    void testStartException() {
         SimulatorBuilder exbuilder = () -> {
             throw new InterruptedException(EXPECTED_EXCEPTION);
         };
@@ -88,7 +83,7 @@ public class SimulatorsTest {
     }
 
     @Test
-    public void testDestroy() {
+    void testDestroy() {
         simulators.start(() -> server1, () -> server2, () -> server3);
 
         doThrow(new IllegalStateException(EXPECTED_EXCEPTION)).when(server2).shutdown();

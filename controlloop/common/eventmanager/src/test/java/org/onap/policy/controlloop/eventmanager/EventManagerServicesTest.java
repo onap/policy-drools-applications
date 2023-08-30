@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,24 +23,23 @@ package org.onap.policy.controlloop.eventmanager;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerImpl;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerStub;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 
-public class EventManagerServicesTest {
+class EventManagerServicesTest {
     private static final String FILEPFX = "eventService/";
     private static final IllegalArgumentException EXPECTED_EXCEPTION =
                     new IllegalArgumentException("expected exception");
@@ -49,29 +49,29 @@ public class EventManagerServicesTest {
     /**
      * Configures HTTP clients.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         // start with a clean slate
         HttpClientFactoryInstance.getClientFactory().destroy();
 
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
 
-        Properties props = SystemPersistenceConstants.getManager().getProperties("eventService/event-svc-http-client");
+        var props = SystemPersistenceConstants.getManager().getProperties("eventService/event-svc-http-client");
         HttpClientFactoryInstance.getClientFactory().build(props);
     }
 
-    @AfterClass
+    @AfterAll
     public static void teatDownBeforeClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         closeDb();
     }
 
     @Test
-    public void testEventManagerServices_testGetActorService() {
+    void testEventManagerServices_testGetActorService() {
         // try with guard disabled - should use DB stub
         services = new EventManagerServices(FILEPFX + "event-svc-guard-disabled");
         assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
@@ -84,13 +84,13 @@ public class EventManagerServicesTest {
     }
 
     @Test
-    public void testStartActorService() {
+    void testStartActorService() {
         // config file not found
         assertThatIllegalStateException().isThrownBy(() -> new EventManagerServices("missing-config-file"));
     }
 
     @Test
-    public void testIsGuardEnabled() {
+    void testIsGuardEnabled() {
         // cannot check guard
         services = new EventManagerServices(FILEPFX + "event-svc-no-guard-actor");
         assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
@@ -99,7 +99,7 @@ public class EventManagerServicesTest {
         services = new EventManagerServices(FILEPFX + "event-svc-with-db") {
             @Override
             public ActorService getActorService() {
-                ActorService svc = mock(ActorService.class);
+                var svc = mock(ActorService.class);
                 when(svc.getActor(any())).thenThrow(EXPECTED_EXCEPTION);
                 return svc;
             }
@@ -108,7 +108,7 @@ public class EventManagerServicesTest {
     }
 
     @Test
-    public void testMakeDataManager() {
+    void testMakeDataManager() {
         assertThatThrownBy(() -> new EventManagerServices(FILEPFX + "event-svc-invalid-db"))
                         .isInstanceOf(IllegalArgumentException.class);
     }
