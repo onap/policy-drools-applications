@@ -24,6 +24,7 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 
+import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +32,6 @@ import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import javax.ws.rs.core.Response.Status;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

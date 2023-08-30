@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ControlLoopUtilsFeature implements PolicyEngineFeatureApi {
 
-    private static Logger logger = LoggerFactory.getLogger(ControlLoopUtilsFeature.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControlLoopUtilsFeature.class);
 
     @Override
     public boolean afterStart(PolicyEngine engine) {
