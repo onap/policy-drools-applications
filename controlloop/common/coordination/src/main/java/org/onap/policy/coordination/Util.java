@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -51,12 +52,12 @@ public final class Util {
      * @return the CoordinationDirective
      */
     public static CoordinationDirective loadCoordinationDirectiveFromFile(String directiveFilename) {
-        try (var is = new FileInputStream(new File(directiveFilename))) {
+        try (var is = new FileInputStream(directiveFilename)) {
             var contents = IOUtils.toString(is, StandardCharsets.UTF_8);
             //
             // Read the yaml into our Java Object
             //
-            var yaml = new Yaml(new Constructor(CoordinationDirective.class));
+            var yaml = new Yaml(new Constructor(CoordinationDirective.class, new LoaderOptions()));
             Object obj = yaml.load(contents);
 
             logger.debug(contents);
