@@ -56,6 +56,30 @@
       },
       "revId": "893ac93047427c3622d2b04d2c13be2b2aa83c42",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bf567a5_2e26b3da",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-09-01T12:51:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ee6976_01dcf805",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "893ac93047427c3622d2b04d2c13be2b2aa83c42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
