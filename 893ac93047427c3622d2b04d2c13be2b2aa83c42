@@ -16,6 +16,46 @@
       "message": "A unit test is disabled with a TODO comment in the following file.\nBaseTest.java\nThis will be fixed in a separate review.",
       "revId": "893ac93047427c3622d2b04d2c13be2b2aa83c42",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f599ee1_c7c9b124",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2023-09-01T10:34:30Z",
+      "side": 1,
+      "message": "review the files for the Copyright header",
+      "revId": "893ac93047427c3622d2b04d2c13be2b2aa83c42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ee6976_01dcf805",
+        "filename": "controlloop/common/controller-usecases/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2023-09-01T10:34:30Z",
+      "side": 1,
+      "message": "you can use the ${version.drools} property from parent integration.pom",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "893ac93047427c3622d2b04d2c13be2b2aa83c42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
