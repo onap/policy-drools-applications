@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b41e5f1b_f24c3d20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-09-01T09:21:51Z",
+      "side": 1,
+      "message": "A unit test is disabled with a TODO comment in the following file.\nBaseTest.java\nThis will be fixed in a separate review.",
+      "revId": "893ac93047427c3622d2b04d2c13be2b2aa83c42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
