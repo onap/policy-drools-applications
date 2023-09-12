@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +23,10 @@ package org.onap.policy.controlloop.common.rules.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -42,11 +43,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
@@ -59,8 +59,6 @@ import org.kie.api.event.rule.ObjectUpdatedEvent;
 import org.kie.api.event.rule.RuleRuntimeEventListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.Match;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.onap.policy.controlloop.ControlLoopEvent;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
@@ -73,8 +71,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.slf4j.LoggerFactory;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RulesTest {
+class RulesTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String CONTROLLER_NAME = "rulesTest";
     private static final String POLICY_FILE = "src/test/resources/tosca-policy.json";
@@ -89,18 +86,12 @@ public class RulesTest {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(Rules.class);
     private static final ExtractAppender appender = new ExtractAppender();
 
-    @Mock
-    private PolicyEngine engine;
-    @Mock
-    private SystemPersistence repo;
-    @Mock
-    private PolicyController controller;
-    @Mock
-    private KieSession kieSession;
-    @Mock
-    private PolicyControllerFactory controllerFactory;
-    @Mock
-    private DroolsController drools;
+    private final PolicyEngine engine = mock(PolicyEngine.class);
+    private final SystemPersistence repo = mock(SystemPersistence.class);
+    private final PolicyController controller = mock(PolicyController.class);
+    private final KieSession kieSession = mock(KieSession.class);
+    private final PolicyControllerFactory controllerFactory = mock(PolicyControllerFactory.class);
+    private final DroolsController drools = mock(DroolsController.class);
 
     private List<Object> facts;
     private List<RuleRuntimeEventListener> ruleListeners;
@@ -113,7 +104,7 @@ public class RulesTest {
     /**
      * Attaches the appender to the logger.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         /*
          * Attach appender to the logger.
@@ -127,7 +118,7 @@ public class RulesTest {
     /**
      * Stops the appender.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         appender.stop();
     }
@@ -135,7 +126,7 @@ public class RulesTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         facts = new LinkedList<>();
         ruleListeners = new LinkedList<>();
@@ -148,13 +139,13 @@ public class RulesTest {
         when(controller.getDrools()).thenReturn(drools);
 
         when(drools.facts(eq(CONTROLLER_NAME), any())).thenAnswer(args -> {
-            Class<?> clazz = args.getArgument(1);
+            var clazz = args.getArgument(1);
             return facts.stream().filter(obj -> obj.getClass() == clazz).collect(Collectors.toList());
         });
 
         // notify listeners when objects are added to drools
         when(drools.offer(any())).thenAnswer(args -> {
-            Object object = args.getArgument(0);
+            var object = args.getArgument(0);
             notifyInserted(object);
 
             if (!(object instanceof ToscaPolicy)) {
@@ -162,8 +153,8 @@ public class RulesTest {
             }
 
             // "insert" Params objects associated with the policy (i.e., mimic the rules)
-            ToscaPolicy policy = (ToscaPolicy) object;
-            ControlLoopParams params = new ControlLoopParams();
+            var policy = (ToscaPolicy) object;
+            var params = new ControlLoopParams();
             params.setToscaPolicy(policy);
             notifyInserted(params);
 
@@ -171,7 +162,7 @@ public class RulesTest {
         });
 
         when(drools.delete(any())).thenAnswer(args -> {
-            Class<?> clazz = args.getArgument(0);
+            var clazz = args.getArgument(0);
             facts.removeIf(obj -> obj.getClass() == clazz);
             return null;
         });
@@ -200,7 +191,7 @@ public class RulesTest {
     }
 
     @Test
-    public void testRules() {
+    void testRules() {
         assertEquals(CONTROLLER_NAME, rules.getControllerName());
 
         assertSame(engine, rules.getPdpd());
@@ -209,7 +200,7 @@ public class RulesTest {
     }
 
     @Test
-    public void testStart() throws Exception {
+    void testStart() throws Exception {
         verify(repo).setConfigurationDir("src/test/resources/config");
         assertTrue(installed);
         verify(engine).configure(any(Properties.class));
@@ -221,7 +212,7 @@ public class RulesTest {
     }
 
     @Test
-    public void testDestroy() {
+    void testDestroy() {
         rules.destroy();
 
         verify(controllerFactory).shutdown(CONTROLLER_NAME);
@@ -229,7 +220,7 @@ public class RulesTest {
     }
 
     @Test
-    public void testResetFacts() {
+    void testResetFacts() {
         rules.resetFacts();
 
         verify(drools).delete(ToscaPolicy.class);
@@ -239,7 +230,7 @@ public class RulesTest {
     }
 
     @Test
-    public void testSetupPolicyFromTemplate_testGetPolicyFromTemplate() throws InterruptedException {
+    void testSetupPolicyFromTemplate_testGetPolicyFromTemplate() throws InterruptedException {
         rules.setupPolicyFromTemplate("tosca-template.json", MY_POLICY);
 
         assertThatIllegalArgumentException()
@@ -251,7 +242,7 @@ public class RulesTest {
     }
 
     @Test
-    public void testSetupPolicyFromFile_testGetPolicyFromFile_testSetupPolicy() throws InterruptedException {
+    void testSetupPolicyFromFile_testGetPolicyFromFile_testSetupPolicy() throws InterruptedException {
         assertNotNull(rules.setupPolicyFromFile(POLICY_FILE));
 
         assertThatIllegalArgumentException().isThrownBy(() -> rules.setupPolicyFromFile("missing-file.json"));
@@ -261,26 +252,26 @@ public class RulesTest {
     }
 
     @Test
-    public void testRuleListenerLogger() {
-        Rule rule = mock(Rule.class);
+    void testRuleListenerLogger() {
+        var rule = mock(Rule.class);
         when(rule.getName()).thenReturn(MY_RULE_NAME);
 
         // insertions - with and without rule name
-        ObjectInsertedEvent insert = mock(ObjectInsertedEvent.class);
+        var insert = mock(ObjectInsertedEvent.class);
         when(insert.getObject()).thenReturn(MY_TEXT);
         checkLogging("inserted", () -> ruleListeners.forEach(listener -> listener.objectInserted(insert)));
         when(insert.getRule()).thenReturn(rule);
         checkLogging("inserted", () -> ruleListeners.forEach(listener -> listener.objectInserted(insert)));
 
         // updates - with and without rule name
-        ObjectUpdatedEvent update = mock(ObjectUpdatedEvent.class);
+        var update = mock(ObjectUpdatedEvent.class);
         when(update.getObject()).thenReturn(MY_TEXT);
         checkLogging("updated", () -> ruleListeners.forEach(listener -> listener.objectUpdated(update)));
         when(update.getRule()).thenReturn(rule);
         checkLogging("updated", () -> ruleListeners.forEach(listener -> listener.objectUpdated(update)));
 
         // deletions - with and without rule name
-        ObjectDeletedEvent delete = mock(ObjectDeletedEvent.class);
+        var delete = mock(ObjectDeletedEvent.class);
         when(delete.getOldObject()).thenReturn(MY_TEXT);
         checkLogging("deleted", () -> ruleListeners.forEach(listener -> listener.objectDeleted(delete)));
         when(delete.getRule()).thenReturn(rule);
@@ -288,25 +279,25 @@ public class RulesTest {
     }
 
     @Test
-    public void testAgendaListenerLogger() {
-        Rule rule = mock(Rule.class);
+    void testAgendaListenerLogger() {
+        var rule = mock(Rule.class);
         when(rule.getName()).thenReturn(MY_RULE_NAME);
 
-        Match match = mock(Match.class);
+        var match = mock(Match.class);
         when(match.getRule()).thenReturn(rule);
 
         // create
-        MatchCreatedEvent create = mock(MatchCreatedEvent.class);
+        var create = mock(MatchCreatedEvent.class);
         when(create.getMatch()).thenReturn(match);
         checkLogging("match created", () -> agendaListeners.forEach(listener -> listener.matchCreated(create)));
 
         // cancel
-        MatchCancelledEvent cancel = mock(MatchCancelledEvent.class);
+        var cancel = mock(MatchCancelledEvent.class);
         when(cancel.getMatch()).thenReturn(match);
         checkLogging("match cancelled", () -> agendaListeners.forEach(listener -> listener.matchCancelled(cancel)));
 
         // before-fire
-        BeforeMatchFiredEvent before = mock(BeforeMatchFiredEvent.class);
+        var before = mock(BeforeMatchFiredEvent.class);
         when(before.getMatch()).thenReturn(match);
         // @formatter:off
         checkLogging("before match fired",
@@ -314,13 +305,13 @@ public class RulesTest {
         // @formatter:on
 
         // after-fire
-        AfterMatchFiredEvent after = mock(AfterMatchFiredEvent.class);
+        var after = mock(AfterMatchFiredEvent.class);
         when(after.getMatch()).thenReturn(match);
         checkLogging("after match fired", () -> agendaListeners.forEach(listener -> listener.afterMatchFired(after)));
     }
 
     @Test
-    public void testMakePdpd_testMakePdpdRepo() {
+    void testMakePdpd_testMakePdpdRepo() {
         // need rules that makes real objects
         rules = new Rules(CONTROLLER_NAME);
 
@@ -340,7 +331,7 @@ public class RulesTest {
 
         BlockingQueue<IllegalArgumentException> exceptions = new LinkedBlockingQueue<>();
 
-        Thread thread = new Thread(() -> {
+        var thread = new Thread(() -> {
             try {
                 command.run();
             } catch (IllegalArgumentException e) {
@@ -358,7 +349,7 @@ public class RulesTest {
     private void checkLogging(String expectedMsg, Runnable command) {
         appender.clearExtractions();
         command.run();
-        List<String> messages = appender.getExtracted();
+        var messages = appender.getExtracted();
         assertEquals(1, messages.size());
         assertThat(messages.get(0)).contains(expectedMsg);
     }
@@ -368,17 +359,17 @@ public class RulesTest {
         facts.add(object);
 
         // increase code coverage by adding random objects
-        ObjectInsertedEvent event0 = mock(ObjectInsertedEvent.class);
+        var event0 = mock(ObjectInsertedEvent.class);
         when(event0.getObject()).thenReturn(new Object());
         ruleListeners.forEach(listener -> listener.objectInserted(event0));
 
         // increase code coverage by adding a random object
-        ObjectInsertedEvent event = mock(ObjectInsertedEvent.class);
+        var event = mock(ObjectInsertedEvent.class);
         when(event.getObject()).thenReturn(object);
 
         if (object instanceof ToscaPolicy) {
             // increase code coverage by associating it with a random rule
-            Rule rule = mock(Rule.class);
+            var rule = mock(Rule.class);
             when(rule.getName()).thenReturn(MY_RULE_NAME);
             when(event.getRule()).thenReturn(rule);
         }

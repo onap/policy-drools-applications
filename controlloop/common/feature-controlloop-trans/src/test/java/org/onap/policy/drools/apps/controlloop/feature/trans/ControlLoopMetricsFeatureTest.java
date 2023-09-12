@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +22,20 @@
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -47,7 +48,7 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
 /**
  * ControlLoopMetrics Tests.
  */
-public class ControlLoopMetricsFeatureTest {
+class ControlLoopMetricsFeatureTest {
 
     private static final String POLICY_CL_MGT = "POLICY-CL-MGT";
     private static final Path configPath = SystemPersistenceConstants.getManager().getConfigurationPath();
@@ -66,39 +67,39 @@ public class ControlLoopMetricsFeatureTest {
     /**
      * Setup method.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
         testController = PolicyEngineConstants.getManager().createPolicyController("metrics",
                 SystemPersistenceConstants.getManager().getControllerProperties("metrics"));
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         SystemPersistenceConstants.getManager().setConfigurationDir(configPath.toString());
         resetStats();
     }
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         resetStats();
     }
 
     @Test
-    public void testCacheDefaults() {
+    void testCacheDefaults() {
         assertEquals(3, ControlLoopMetricsManager.getManager().getCacheSize());
         assertEquals(2, ControlLoopMetricsManager.getManager().getTransactionTimeout());
         assertEquals(0, ControlLoopMetricsManager.getManager().getCacheOccupancy());
     }
 
     @Test
-    public void testInvalidNotifications() {
-        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
-        VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
+    void testInvalidNotifications() {
+        var feature = new ControlLoopMetricsFeature();
+        var notification = new VirtualControlLoopNotification();
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
         this.testCacheDefaults();
 
-        UUID requestId = UUID.randomUUID();
+        var requestId = UUID.randomUUID();
         notification.setRequestId(requestId);
 
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
@@ -107,10 +108,10 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testValidActiveNotification() {
-        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
-        VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
-        UUID requestId = UUID.randomUUID();
+    void testValidActiveNotification() {
+        var feature = new ControlLoopMetricsFeature();
+        var notification = new VirtualControlLoopNotification();
+        var requestId = UUID.randomUUID();
         notification.setRequestId(requestId);
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
 
@@ -129,8 +130,8 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testReset() {
-        VirtualControlLoopNotification notification = this.generateNotification();
+    void testReset() {
+        var notification = this.generateNotification();
         new ControlLoopMetricsFeature().beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT,
                 notification);
 
@@ -143,8 +144,8 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testRemoveTransaction() {
-        VirtualControlLoopNotification notification = this.generateNotification();
+    void testRemoveTransaction() {
+        var notification = this.generateNotification();
         assertNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
         ControlLoopMetricsManager.getManager().removeTransaction(notification.getRequestId());
 
@@ -155,10 +156,10 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testEviction() {
-        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
+    void testEviction() {
+        var feature = new ControlLoopMetricsFeature();
         for (int i = 0; i < ControlLoopMetricsManager.getManager().getCacheSize(); i++) {
-            VirtualControlLoopNotification notification = generateNotification();
+            var notification = generateNotification();
             feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, notification);
             assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(notification.getRequestId()));
         }
@@ -166,7 +167,7 @@ public class ControlLoopMetricsFeatureTest {
         assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
                         ControlLoopMetricsManager.getManager().getCacheOccupancy());
 
-        VirtualControlLoopNotification overflowNotification = generateNotification();
+        var overflowNotification = generateNotification();
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, overflowNotification);
         assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
                         ControlLoopMetricsManager.getManager().getCacheOccupancy());
@@ -194,57 +195,57 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     private VirtualControlLoopNotification generateNotification() {
-        VirtualControlLoopNotification notification = new VirtualControlLoopNotification();
-        UUID requestId = UUID.randomUUID();
+        var notification = new VirtualControlLoopNotification();
+        var requestId = UUID.randomUUID();
         notification.setRequestId(requestId);
         notification.setNotification(ControlLoopNotificationType.ACTIVE);
         return notification;
     }
 
     @Test
-    public void getSequenceNumber() {
-        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
+    void getSequenceNumber() {
+        var feature = new ControlLoopMetricsFeature();
         assertEquals(ControlLoopMetricsFeature.FEATURE_SEQUENCE_PRIORITY, feature.getSequenceNumber());
     }
 
     @Test
-    public void testSuccessControlLoop() {
-        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
+    void testSuccessControlLoop() {
+        var feature = new ControlLoopMetricsFeature();
 
-        String activeNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-active.json");
-        VirtualControlLoopNotification active =
+        var activeNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-active.json");
+        var active =
                 Serialization.gsonPretty.fromJson(activeNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, active);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        String opStartNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-operation.json");
-        VirtualControlLoopNotification opStart =
+        var opStartNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-operation.json");
+        var opStart =
                 Serialization.gsonPretty.fromJson(opStartNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, opStart);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        String permitNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-permit.json");
-        VirtualControlLoopNotification permit =
+        var permitNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-permit.json");
+        var permit =
                 Serialization.gsonPretty.fromJson(permitNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, permit);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        String restartNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-restart.json");
-        VirtualControlLoopNotification restart =
+        var restartNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-restart.json");
+        var restart =
                 Serialization.gsonPretty.fromJson(restartNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, restart);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        String restartSuccessNotification =
+        var restartSuccessNotification =
                 ResourceUtils.getResourceAsString("policy-cl-mgt-restart-success.json");
-        VirtualControlLoopNotification restartSuccess =
+        var restartSuccess =
                 Serialization.gsonPretty.fromJson(restartSuccessNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, restartSuccess);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        String finalSuccessNotification =
+        var finalSuccessNotification =
                 ResourceUtils.getResourceAsString("policy-cl-mgt-final-success.json");
-        VirtualControlLoopNotification finalSuccess =
+        var finalSuccess =
                 Serialization.gsonPretty.fromJson(finalSuccessNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, finalSuccess);
         assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
@@ -264,20 +265,20 @@ public class ControlLoopMetricsFeatureTest {
     }
 
     @Test
-    public void testUntrackedNotifications() throws InterruptedException {
-        ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
+    void testUntrackedNotifications() throws InterruptedException {
+        var feature = new ControlLoopMetricsFeature();
 
-        String finalSuccessNotification =
+        var finalSuccessNotification =
                 ResourceUtils.getResourceAsString("policy-cl-mgt-final-success.json");
-        VirtualControlLoopNotification finalSuccess =
+        var finalSuccess =
                 Serialization.gsonPretty.fromJson(finalSuccessNotification, VirtualControlLoopNotification.class);
         finalSuccess.setRequestId(UUID.randomUUID());
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, finalSuccess);
         assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
 
-        String opStartNotification =
+        var opStartNotification =
                 ResourceUtils.getResourceAsString("policy-cl-mgt-operation.json");
-        VirtualControlLoopNotification opStart =
+        var opStart =
                 Serialization.gsonPretty.fromJson(opStartNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, CommInfrastructure.DMAAP, POLICY_CL_MGT, opStart);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
@@ -285,5 +286,4 @@ public class ControlLoopMetricsFeatureTest {
         Thread.sleep((ControlLoopMetricsManager.getManager().getTransactionTimeout() + 1) * 1000L);  // NOSONAR
         assertEquals(0, ControlLoopMetricsManager.getManager().getTransactionIds().size());
     }
-
 }

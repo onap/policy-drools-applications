@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +23,18 @@ package org.onap.policy.drools.apps.controller.usecases;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -43,17 +42,14 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
-@RunWith(MockitoJUnitRunner.class)
-public class LockOperation2Test {
+class LockOperation2Test {
     private static final String MY_PNF = "my-pnf";
     private static final String MY_VNF = "my-vnf";
     private static final String MY_ACTOR = "my-actor";
     private static final String MY_OPERATION = "my-operation";
 
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private ControlLoopOperationParams params;
+    private final StepContext stepContext = mock(StepContext.class);
+    private final ControlLoopOperationParams params = mock(ControlLoopOperationParams.class);
 
     private VirtualControlLoopEvent event;
     private CompletableFuture<OperationOutcome> future;
@@ -63,7 +59,7 @@ public class LockOperation2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         event = new VirtualControlLoopEvent();
         event.setTarget("pnf.pnf-name");
@@ -83,12 +79,12 @@ public class LockOperation2Test {
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_TARGET_ENTITY));
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         // missing data
         assertThatIllegalStateException().isThrownBy(() -> oper.start())
                         .withMessage("target lock entity has not been determined yet");
@@ -98,7 +94,7 @@ public class LockOperation2Test {
     }
 
     @Test
-    public void testSetProperty() {
+    void testSetProperty() {
         oper.setProperty("unknown-property", "some data");
         assertNull(oper.getTargetEntity());
 
@@ -107,7 +103,7 @@ public class LockOperation2Test {
     }
 
     @Test
-    public void testGetActorName_testGetName() {
+    void testGetActorName_testGetName() {
         assertEquals(MY_ACTOR, oper.getActorName());
         assertEquals(MY_OPERATION, oper.getName());
     }

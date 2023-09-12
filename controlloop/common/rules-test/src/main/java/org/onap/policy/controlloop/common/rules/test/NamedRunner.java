@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,36 +21,29 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import org.junit.Ignore;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.InitializationError;
+import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+import org.junit.jupiter.api.extension.ExecutionCondition;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * Runs tests listed via the {@link TestNames} annotation.
  */
-public class NamedRunner extends BlockJUnit4ClassRunner {
-
-    /**
-     * Constructs the object.
-     */
-    public NamedRunner(Class<?> testClass) throws InitializationError {
-        super(testClass);
-    }
+public class NamedRunner implements ExecutionCondition {
 
     @Override
-    protected void runChild(final FrameworkMethod method, RunNotifier notifier) {
-        var description = describeChild(method);
-
-        if (method.getAnnotation(Ignore.class) != null) {
-            notifier.fireTestIgnored(description);
-
-        } else if (!isNamed(description.getTestClass(), method.getName())) {
-            notifier.fireTestIgnored(description);
-
+    public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext extensionContext) {
+        var testClass = extensionContext.getTestClass();
+        if (testClass.isEmpty()) {
+            return ConditionEvaluationResult.enabled("Empty");
+        }
+        var method = extensionContext.getDisplayName().replace("()", "");
+        if (testClass.get().getSimpleName().equals(method)) {
+            return ConditionEvaluationResult.enabled("Class");
+        }
+        if (isNamed(testClass.get(), method)) {
+            return ConditionEvaluationResult.enabled("OK");
         } else {
-            runLeaf(methodBlock(method), description, notifier);
+            return ConditionEvaluationResult.disabled("Disabled");
         }
     }
 
@@ -61,7 +55,7 @@ public class NamedRunner extends BlockJUnit4ClassRunner {
      * @return {@code true} if the test is in the list, {@code false} otherwise
      */
     private boolean isNamed(Class<?> testClass, String testName) {
-        TestNames annot = testClass.getAnnotation(TestNames.class);
+        var annot = testClass.getAnnotation(TestNames.class);
         if (annot == null) {
             // no annotation - everything passes
             return true;

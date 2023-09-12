@@ -21,11 +21,12 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,15 +36,11 @@ import java.util.Queue;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.policy.appc.Request;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
@@ -53,13 +50,10 @@ import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.controller.DroolsController;
 import org.onap.policy.drools.system.PolicyController;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
-import org.onap.policy.sdnr.PciMessage;
 import org.springframework.test.util.ReflectionTestUtils;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DroolsRuleTestTest {
+class DroolsRuleTestTest {
 
     private static final String CONTROLLER_NAME = "my-controller-name";
     private static final String POLICY_NAME = "my-policy-name";
@@ -76,37 +70,21 @@ public class DroolsRuleTestTest {
     private int permitCount;
     private int finalCount;
 
-    @Mock
-    private PolicyController controller;
-    @Mock
-    private Rules rules;
-    @Mock
-    private HttpClients httpClients;
-    @Mock
-    private Simulators simulators;
-    @Mock
-    private Topics topics;
-    @Mock
-    private Listener<VirtualControlLoopNotification> policyClMgt;
-    @Mock
-    private Listener<Request> appcClSink;
-    @Mock
-    private Listener<AppcLcmDmaapWrapper> appcLcmRead;
-    @Mock
-    private Listener<PciMessage> sdnrClSink;
-    @Mock
-    private DroolsController drools;
-    @Mock
-    private ToscaPolicy policy;
-    @Mock
-    private ToscaConceptIdentifier policyIdent;
-
+    private final PolicyController controller = mock(PolicyController.class);
+    private final Rules rules = mock(Rules.class);
+    private final HttpClients httpClients = mock(HttpClients.class);
+    private final Simulators simulators = mock(Simulators.class);
+    private final Topics topics = mock(Topics.class);
+    private final Listener<VirtualControlLoopNotification> policyClMgt = mock();
+    private final Listener<AppcLcmDmaapWrapper> appcLcmRead = mock();
+    private final DroolsController drools = mock(DroolsController.class);
+    private final ToscaPolicy policy = mock(ToscaPolicy.class);
 
     /**
      * Saves static values from the class.
      */
     @SuppressWarnings("unchecked")
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         ruleMaker = (Function<String, Rules>) ReflectionTestUtils.getField(DroolsRuleTest.class, "ruleMaker");
         httpClientMaker = (Supplier<HttpClients>) ReflectionTestUtils.getField(DroolsRuleTest.class, "httpClientMaker");
@@ -117,7 +95,7 @@ public class DroolsRuleTestTest {
     /**
      * Restores static values.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         ReflectionTestUtils.setField(DroolsRuleTest.class, "ruleMaker", ruleMaker);
         ReflectionTestUtils.setField(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
@@ -128,7 +106,7 @@ public class DroolsRuleTestTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         when(rules.getController()).thenReturn(controller);
         when(rules.setupPolicyFromFile(any())).thenReturn(policy);
@@ -174,14 +152,14 @@ public class DroolsRuleTestTest {
     }
 
     @Test
-    public void testInitStatics() {
+    void testInitStatics() {
         assertSame(rules, DroolsRuleTest.rules);
         assertSame(httpClients, DroolsRuleTest.httpClients);
         assertSame(simulators, DroolsRuleTest.simulators);
     }
 
     @Test
-    public void testFinishStatics() {
+    void testFinishStatics() {
         DroolsRuleTest.finishStatics();
 
         verify(rules).destroy();
@@ -190,13 +168,13 @@ public class DroolsRuleTestTest {
     }
 
     @Test
-    public void testInit() {
+    void testInit() {
         assertSame(topics, BaseTest.getTopics());
         assertSame(controller, base.controller);
     }
 
     @Test
-    public void testDroolsTestService123Compliant() {
+    void testDroolsTestService123Compliant() {
         enqueueAppcLcm("restart", "restart", "restart", "restart", "rebuild", "migrate");
         enqueueClMgt(ControlLoopNotificationType.OPERATION_SUCCESS);
         enqueueClMgt(ControlLoopNotificationType.FINAL_SUCCESS);
@@ -263,7 +241,7 @@ public class DroolsRuleTestTest {
      * We don't want junit trying to run this, so it's marked "Ignore".
      */
 
-    @Ignore
+    @Disabled
     private class MyDroolsTest extends DroolsRuleTest {
 
         @Override

@@ -23,20 +23,18 @@ package org.onap.policy.drools.server.restful;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kie.api.builder.ReleaseId;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.logging.LoggerUtils;
@@ -52,7 +50,7 @@ import org.onap.policy.simulators.Util;
 /**
  * Test RestControlLoopManager.
  */
-public class RestControlLoopManagerTest {
+class RestControlLoopManagerTest {
 
     private static final String KSESSION = "op";
     private static final String KMODULE_DRL_PATH = "src/test/resources/op.drl";
@@ -92,7 +90,7 @@ public class RestControlLoopManagerTest {
      *
      * @throws Exception if failure to complete the set up.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         System.setProperty("kie.maven.settings.custom", "src/test/resources/settings.xml");
         LoggerUtils.setLevel(LoggerUtils.ROOT_LOGGER, "WARN");
@@ -101,11 +99,11 @@ public class RestControlLoopManagerTest {
         PolicyEngineConstants.getManager()
             .configure(PolicyEngineConstants.getManager().defaultTelemetryConfig());
 
-        ReleaseId releaseId = KieUtils.installArtifact(Paths.get(KMODULE_PATH).toFile(),
+        var releaseId = KieUtils.installArtifact(Paths.get(KMODULE_PATH).toFile(),
             Paths.get(KMODULE_POM_PATH).toFile(), KJAR_DRL_PATH,
             Paths.get(KMODULE_DRL_PATH).toFile());
 
-        Properties controllerProperties = new Properties();
+        var controllerProperties = new Properties();
         controllerProperties.put(DroolsPropertyConstants.RULES_GROUPID, releaseId.getGroupId());
         controllerProperties.put(DroolsPropertyConstants.RULES_ARTIFACTID,
             releaseId.getArtifactId());
@@ -134,7 +132,7 @@ public class RestControlLoopManagerTest {
     /**
      * test tear down.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         PolicyControllerConstants.getFactory().get(CONTROLLER).stop();
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive(), equalTo(Boolean.FALSE));
@@ -142,7 +140,7 @@ public class RestControlLoopManagerTest {
         PolicyEngineConstants.getManager().removePolicyController(CONTROLLER);
         PolicyEngineConstants.getManager().stop();
 
-        final Path controllerPath =
+        final var controllerPath =
             Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(),
                 CONTROLLER_FILE);
         try {
@@ -151,7 +149,7 @@ public class RestControlLoopManagerTest {
             /* to satisfy checkstyle */
         }
 
-        Path controllerBakPath =
+        var controllerBakPath =
             Paths.get(SystemPersistenceConstants.getManager().getConfigurationPath().toString(),
                 CONTROLLER_FILE_BAK);
 
@@ -166,7 +164,7 @@ public class RestControlLoopManagerTest {
      * Test Operational Policies.
      */
     @Test
-    public void testOperationalPolicy() throws IOException {
+    void testOperationalPolicy() throws IOException {
         assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
             .get(CONTROLLER).get(URL_CONTEXT_PATH_CONTROLLOOPS).getStatus());
 
@@ -181,7 +179,7 @@ public class RestControlLoopManagerTest {
      * Test AAI Custom Query.
      */
     @Test
-    public void testAaiCq() throws CoderException {
+    void testAaiCq() throws CoderException {
         assertEquals(Status.OK.getStatusCode(), HttpClientFactoryInstance.getClientFactory()
             .get(CONTROLLER).get(URL_CONTEXT_PATH_TOOLS_AAI_CQ + "dummy").getStatus());
     }

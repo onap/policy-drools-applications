@@ -21,24 +21,23 @@
 
 package org.onap.policy.drools.server.restful;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
-import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -50,12 +49,12 @@ import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.drools.system.PolicyEngineConstants;
 
-public class RestTransactionTrackerTest {
+class RestTransactionTrackerTest {
 
     private static PolicyController testController;
     private static HttpClient client;
 
-    @BeforeClass
+    @BeforeAll
     public static void testBeforeClass() throws Exception {
         SystemPersistenceConstants.getManager().setConfigurationDir("target/test-classes");
 
@@ -71,7 +70,7 @@ public class RestTransactionTrackerTest {
                         .managed(true)
                         .build());
 
-        HttpServletServer server =
+        var server =
                 HttpServletServerFactoryInstance
                         .getServerFactory()
                         .build("trans", "localhost", 8769, "/", true, true);
@@ -85,7 +84,7 @@ public class RestTransactionTrackerTest {
         client = HttpClientFactoryInstance.getClientFactory().get("trans");
     }
 
-    @AfterClass
+    @AfterAll
     public static void testAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
@@ -94,7 +93,7 @@ public class RestTransactionTrackerTest {
     }
 
     @Test
-    public void testConfiguration() {
+    void testConfiguration() {
         equals(get("cacheSize", Response.Status.OK.getStatusCode()), Integer.class, 3);
         equals(get("timeout", Response.Status.OK.getStatusCode()), Integer.class, 2);
 
@@ -112,7 +111,7 @@ public class RestTransactionTrackerTest {
     }
 
     @Test
-    public void testTransactions() {
+    void testTransactions() {
         equals(get("/inprogress", Response.Status.OK.getStatusCode()), List.class, Collections.emptyList());
 
         ControlLoopMetricsFeature feature = new ControlLoopMetricsFeature();
@@ -121,8 +120,8 @@ public class RestTransactionTrackerTest {
                 List.class).isEmpty());
         get("/inprogress/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.NOT_FOUND.getStatusCode());
 
-        String activeNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-active.json");
-        VirtualControlLoopNotification active =
+        var activeNotification = ResourceUtils.getResourceAsString("policy-cl-mgt-active.json");
+        var active =
                 Serialization.gsonPretty.fromJson(activeNotification, VirtualControlLoopNotification.class);
         feature.beforeDeliver(testController, Topic.CommInfrastructure.DMAAP, "POLICY-CL-MGT", active);
         assertEquals(1, ControlLoopMetricsManager.getManager().getTransactionIds().size());
@@ -134,12 +133,12 @@ public class RestTransactionTrackerTest {
     }
 
     private Response get(String contextPath, int statusCode) {
-        Response response = client.get(contextPath);
+        var response = client.get(contextPath);
         return checkResponse(statusCode, response);
     }
 
     private Response put(String contextPath, String body, int statusCode) {
-        Response response = client.put(contextPath, Entity.json(body), Collections.emptyMap());
+        var response = client.put(contextPath, Entity.json(body), Collections.emptyMap());
         return checkResponse(statusCode, response);
     }
 

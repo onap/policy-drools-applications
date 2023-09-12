@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,34 +21,33 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.AfterClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Tests NamedRunner when the TestNames annotation is missing - all tests should be
  * executed.
  */
-@RunWith(NamedRunner.class)
-public class NamedRunner2Test {
+@ExtendWith(NamedRunner.class)
+class NamedRunner2Test {
 
     private static int testCount = 0;
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         assertEquals(2, testCount);
     }
 
     @Test
-    public void testAbc() {
+    void testAbc() {
         checkTest();
     }
 
     @Test
-    public void testDef() {
+    void testDef() {
         checkTest();
     }
 

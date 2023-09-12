@@ -3,6 +3,7 @@
  * controlloop
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +22,19 @@
 package org.onap.policy.coordination;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class UtilTest {
+class UtilTest {
 
     @Test
-    public void test() {
+    void test() {
 
-        String filename = "src/test/resources/test_coordination_directive.yaml";
-        CoordinationDirective cd1 = Util.loadCoordinationDirectiveFromFile(filename);
+        var filename = "src/test/resources/test_coordination_directive.yaml";
+        var cd1 = Util.loadCoordinationDirectiveFromFile(filename);
 
         assertNotNull(cd1);
 
@@ -46,7 +47,7 @@ public class UtilTest {
         assertEquals("cf", cd1.getCoordinationFunction());
 
         filename = "src/test/resources/non_existent_coordination_directive.yaml";
-        CoordinationDirective cd2 = Util.loadCoordinationDirectiveFromFile(filename);
+        var cd2 = Util.loadCoordinationDirectiveFromFile(filename);
 
         assertNull(cd2);
 

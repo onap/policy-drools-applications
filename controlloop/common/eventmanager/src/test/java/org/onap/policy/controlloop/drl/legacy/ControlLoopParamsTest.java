@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +21,28 @@
 
 package org.onap.policy.controlloop.drl.legacy;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
-import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ControlLoopParamsTest {
+
+class ControlLoopParamsTest {
     private static final String CONTROL_LOOP_NAME = "c";
     private static final String POLICY_NAME = "m";
     private static final String POLICY_SCOPE = "s";
     private static final String POLICY_VERSION = "v";
 
-    private ControlLoopParams  clp = new ControlLoopParams();
+    private final ControlLoopParams  clp = new ControlLoopParams();
 
     /**
      * Prepare tests.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         clp.setClosedLoopControlName(CONTROL_LOOP_NAME);
         clp.setPolicyName(POLICY_NAME);
@@ -51,60 +51,60 @@ public class ControlLoopParamsTest {
     }
 
     @Test
-    public void testPojo() {
-        PojoClass controlLoopParams = PojoClassFactory.getPojoClass(ControlLoopParams.class);
-        Validator validator = ValidatorBuilder.create()
+    void testPojo() {
+        var controlLoopParams = PojoClassFactory.getPojoClass(ControlLoopParams.class);
+        var validator = ValidatorBuilder.create()
                                       .with(new SetterTester(), new GetterTester()).build();
         validator.validate(controlLoopParams);
     }
 
     @Test
-    public void getClosedLoopControlName() {
+    void getClosedLoopControlName() {
         assertEquals(CONTROL_LOOP_NAME, clp.getClosedLoopControlName());
     }
 
     @Test
-    public void getPolicyName() {
+    void getPolicyName() {
         assertEquals(POLICY_NAME, clp.getPolicyName());
     }
 
     @Test
-    public void getPolicyScope() {
+    void getPolicyScope() {
         assertEquals(POLICY_SCOPE, clp.getPolicyScope());
     }
 
     @Test
-    public void getPolicyVersion() {
+    void getPolicyVersion() {
         assertEquals(POLICY_VERSION, clp.getPolicyVersion());
     }
 
     @Test
-    public void setClosedLoopControlName() {
+    void setClosedLoopControlName() {
         clp.setClosedLoopControlName(CONTROL_LOOP_NAME.toUpperCase());
         assertEquals(CONTROL_LOOP_NAME.toUpperCase(), clp.getClosedLoopControlName());
     }
 
     @Test
-    public void setPolicyName() {
+    void setPolicyName() {
         clp.setPolicyName(POLICY_NAME.toUpperCase());
         assertEquals(POLICY_NAME.toUpperCase(), clp.getPolicyName());
     }
 
     @Test
-    public void setPolicyScope() {
+    void setPolicyScope() {
         clp.setPolicyScope(POLICY_SCOPE.toUpperCase());
         assertEquals(POLICY_SCOPE.toUpperCase(), clp.getPolicyScope());
     }
 
     @Test
-    public void setPolicyVersion() {
+    void setPolicyVersion() {
         clp.setPolicyVersion(POLICY_VERSION.toUpperCase());
         assertEquals(POLICY_VERSION.toUpperCase(), clp.getPolicyVersion());
     }
 
     @Test
-    public void testTwo() {
-        ControlLoopParams other = new ControlLoopParams();
+    void testTwo() {
+        var other = new ControlLoopParams();
         other.setClosedLoopControlName(CONTROL_LOOP_NAME);
         other.setPolicyName(POLICY_NAME);
         other.setPolicyScope(POLICY_SCOPE);

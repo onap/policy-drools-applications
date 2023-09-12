@@ -23,8 +23,8 @@ package org.onap.policy.controlloop.ophistory;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -40,17 +40,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.ControlLoopOperation;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManagerParams.OperationHistoryDataManagerParamsBuilder;
 
-public class OperationHistoryDataManagerImplTest {
+class OperationHistoryDataManagerImplTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
     private static final String MY_LOOP_NAME = "my-loop-name";
@@ -81,9 +80,9 @@ public class OperationHistoryDataManagerImplTest {
     /**
      * Sets up for all tests.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
-        OperationHistoryDataManagerParams params = makeBuilder().build();
+        var params = makeBuilder().build();
 
         // capture the entity manager factory for re-use
         new OperationHistoryDataManagerImpl(params) {
@@ -98,7 +97,7 @@ public class OperationHistoryDataManagerImplTest {
     /**
      * Restores the environment after all tests.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         emf.close();
     }
@@ -106,7 +105,7 @@ public class OperationHistoryDataManagerImplTest {
     /**
      * Sets up for an individual test.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(MY_LOOP_NAME);
@@ -131,13 +130,13 @@ public class OperationHistoryDataManagerImplTest {
         mgr.start();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         mgr.stop();
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         // use a thread and manager that haven't been started yet
         thread = mock(Thread.class);
         mgr = new PseudoThread();
@@ -157,7 +156,7 @@ public class OperationHistoryDataManagerImplTest {
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         // this should have no effect
         mgr.start();
 
@@ -168,7 +167,7 @@ public class OperationHistoryDataManagerImplTest {
     }
 
     @Test
-    public void testStore_testStop() throws InterruptedException {
+    void testStore_testStop() throws InterruptedException {
         // store
         mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
 
@@ -181,7 +180,7 @@ public class OperationHistoryDataManagerImplTest {
      * Tests stop() when the manager isn't running.
      */
     @Test
-    public void testStopNotRunning() {
+    void testStopNotRunning() {
         // use a manager that hasn't been started yet
         mgr = new PseudoThread();
         mgr.stop();
@@ -193,7 +192,7 @@ public class OperationHistoryDataManagerImplTest {
      * Tests store() when it is already stopped.
      */
     @Test
-    public void testStoreAlreadyStopped() throws InterruptedException {
+    void testStoreAlreadyStopped() throws InterruptedException {
         mgr.stop();
 
         // store
@@ -206,7 +205,7 @@ public class OperationHistoryDataManagerImplTest {
      * Tests store() when when the queue is full.
      */
     @Test
-    public void testStoreTooManyItems() throws InterruptedException {
+    void testStoreTooManyItems() throws InterruptedException {
         final int nextra = 5;
         for (int nitems = 0; nitems < MAX_QUEUE_LENGTH + nextra; ++nitems) {
             mgr.store(REQ_ID, event.getClosedLoopControlName(), event, MY_ENTITY, operation);
@@ -218,7 +217,7 @@ public class OperationHistoryDataManagerImplTest {
     }
 
     @Test
-    public void testRun() throws InterruptedException {
+    void testRun() throws InterruptedException {
 
         // trigger thread shutdown when it completes this batch
         when(emfSpy.createEntityManager()).thenAnswer(ans -> {
@@ -249,8 +248,8 @@ public class OperationHistoryDataManagerImplTest {
      * Tests run() when the entity manager throws an exception.
      */
     @Test
-    public void testRunException() throws InterruptedException {
-        AtomicInteger count = new AtomicInteger(0);
+    void testRunException() throws InterruptedException {
+        var count = new AtomicInteger(0);
 
         when(emfSpy.createEntityManager()).thenAnswer(ans -> {
             if (count.incrementAndGet() == 2) {
@@ -279,7 +278,7 @@ public class OperationHistoryDataManagerImplTest {
      * Tests storeRemainingRecords() when the entity manager throws an exception.
      */
     @Test
-    public void testStoreRemainingRecordsException() throws InterruptedException {
+    void testStoreRemainingRecordsException() throws InterruptedException {
         // arrange to throw an exception
         when(emfSpy.createEntityManager()).thenThrow(EXPECTED_EXCEPTION);
 
@@ -289,7 +288,7 @@ public class OperationHistoryDataManagerImplTest {
     }
 
     @Test
-    public void testStoreRecord() throws InterruptedException {
+    void testStoreRecord() throws InterruptedException {
         /*
          * Note: we change sub-request ID each time to guarantee that the records are
          * unique.
@@ -330,7 +329,7 @@ public class OperationHistoryDataManagerImplTest {
      * Tests storeRecord() when records are updated.
      */
     @Test
-    public void testStoreRecordUpdate() throws InterruptedException {
+    void testStoreRecordUpdate() throws InterruptedException {
         /*
          * Note: we do NOT change sub-request ID, so that records all refer to the same DB
          * record.
@@ -372,7 +371,7 @@ public class OperationHistoryDataManagerImplTest {
             return;
         }
 
-        Thread thread2 = new Thread(() -> {
+        var thread2 = new Thread(() -> {
             threadFunction.accept(emfSpy);
             finished.countDown();
         });

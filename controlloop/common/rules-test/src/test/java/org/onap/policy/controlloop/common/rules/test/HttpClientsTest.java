@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,51 +22,46 @@
 package org.onap.policy.controlloop.common.rules.test;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Properties;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.policy.common.endpoints.http.client.HttpClient;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClientConfigException;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.drools.persistence.SystemPersistenceConstants;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HttpClientsTest {
+class HttpClientsTest {
     private static final String CLIENT_NAME = "MY-CLIENT";
 
-    @Mock
-    private HttpClientFactory factory;
+    private final HttpClientFactory factory = mock(HttpClientFactory.class);
 
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         SystemPersistenceConstants.getManager().setConfigurationDir("src/test/resources");
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         HttpClientFactoryInstance.getClientFactory().destroy();
     }
 
     @Test
-    public void test() throws HttpClientConfigException {
+    void test() throws HttpClientConfigException {
         HttpClientFactoryInstance.getClientFactory().destroy();
 
-        HttpClients clients = new HttpClients();
+        var clients = new HttpClients();
 
         clients.addClients("my");
 
         // should find the client now
-        HttpClient client = HttpClientFactoryInstance.getClientFactory().get(CLIENT_NAME);
+        var client = HttpClientFactoryInstance.getClientFactory().get(CLIENT_NAME);
         assertNotNull(client);
 
         clients.destroy();
@@ -78,7 +74,7 @@ public class HttpClientsTest {
         assertThatIllegalArgumentException().isThrownBy(() -> clients.addClients("unknown"));
 
         // force exception from builder
-        HttpClients clients2 = new HttpClients() {
+        var clients2 = new HttpClients() {
             @Override
             protected HttpClientFactory getClientFactory() {
                 return factory;

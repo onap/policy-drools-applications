@@ -21,7 +21,7 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +36,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.collections.MapUtils;
 import org.awaitility.Awaitility;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.common.utils.coder.Coder;

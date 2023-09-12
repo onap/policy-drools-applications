@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,21 +25,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -46,11 +47,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
 import org.drools.core.WorkingMemory;
 import org.drools.core.common.InternalFactHandle;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
@@ -73,8 +71,7 @@ import org.onap.policy.drools.system.PolicyEngine;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ClEventManagerWithStepsTest {
+class ClEventManagerWithStepsTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String CL_NAME = "my-closed-loop-name";
     private static final String POLICY_NAME = "my-policy-name";
@@ -91,28 +88,17 @@ public class ClEventManagerWithStepsTest {
     private static final String OUTCOME_MSG = "my outcome message";
     private static final String MY_SINK = "my-topic-sink";
 
-    @Mock
-    private PolicyEngine engineMgr;
-    @Mock
-    private WorkingMemory workMem;
-    @Mock
-    private InternalFactHandle factHandle;
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private ExecutorService executor;
-    @Mock
-    private EventManagerServices services;
-    @Mock
-    private ActorService actors;
-    @Mock
-    private MyStep stepa;
-    @Mock
-    private MyStep stepb;
+    private final PolicyEngine engineMgr = mock(PolicyEngine.class);
+    private final WorkingMemory workMem = mock(WorkingMemory.class);
+    private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final ExecutorService executor = mock(ExecutorService.class);
+    private final EventManagerServices services = mock(EventManagerServices.class);
+    private final ActorService actors = mock(ActorService.class);
+    private MyStep stepa = mock(MyStep.class);
+    private final MyStep stepb = mock(MyStep.class);
 
     private List<LockImpl> locks;
     private ToscaPolicy tosca;
@@ -122,7 +108,7 @@ public class ClEventManagerWithStepsTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws ControlLoopException, CoderException {
         when(services.getActorService()).thenReturn(actors);
 
@@ -142,7 +128,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
 
         // invalid
@@ -151,7 +137,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testDestroy_testGetSteps() {
+    void testDestroy_testGetSteps() {
         // add some steps to the queue
         mgr.getSteps().add(stepa);
         mgr.getSteps().add(stepb);
@@ -167,8 +153,8 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testOnStart() throws ControlLoopException {
-        OperationOutcome outcome = makeOutcome();
+    void testOnStart() throws ControlLoopException {
+        var outcome = makeOutcome();
 
         mgr.start();
         mgr.onStart(outcome);
@@ -180,8 +166,8 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testOnComplete() throws ControlLoopException {
-        OperationOutcome outcome = makeCompletedOutcome();
+    void testOnComplete() throws ControlLoopException {
+        var outcome = makeCompletedOutcome();
 
         mgr.start();
         mgr.onComplete(outcome);
@@ -193,12 +179,12 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertNotNull(mgr.toString());
     }
 
     @Test
-    public void testStart() throws ControlLoopException {
+    void testStart() throws ControlLoopException {
         // start it
         mgr.start();
 
@@ -211,7 +197,7 @@ public class ClEventManagerWithStepsTest {
      * Tests start() when the manager is not in working memory.
      */
     @Test
-    public void testStartNotInWorkingMemory() throws ControlLoopException {
+    void testStartNotInWorkingMemory() throws ControlLoopException {
         when(workMem.getFactHandle(any())).thenReturn(null);
 
         assertThatCode(() -> mgr.start()).isInstanceOf(IllegalStateException.class)
@@ -222,10 +208,9 @@ public class ClEventManagerWithStepsTest {
      * Tests start() when the manager is not active.
      */
     @Test
-    public void testStartInactive() throws Exception {
+    void testStartInactive() throws Exception {
         // make an inactive manager by deserializing it
-        RealManager mgr2 = Serializer.roundTrip(new RealManager(services, params, REQ_ID, workMem));
-        mgr = mgr2;
+        mgr = Serializer.roundTrip(new RealManager(services, params, REQ_ID, workMem));
 
         // cannot re-start
         assertThatCode(() -> mgr.start()).isInstanceOf(IllegalStateException.class)
@@ -233,7 +218,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testAbort() {
+    void testAbort() {
         mgr.abort(ClEventManagerWithSteps.State.DONE, OperationFinalResult.FINAL_FAILURE_GUARD, "some message");
 
         assertEquals(ClEventManagerWithSteps.State.DONE, mgr.getState());
@@ -266,18 +251,18 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testLoadPolicy() throws ControlLoopException {
+    void testLoadPolicy() throws ControlLoopException {
         // start() will invoke loadPolicy()
         mgr.start();
 
         assertNull(mgr.getFinalResult());
 
-        MyStep step = mgr.getSteps().peek();
+        var step = mgr.getSteps().peek();
         assertNotNull(step);
         assertEquals("First", step.getActorName());
         assertEquals("OperationA", step.getOperationName());
 
-        ControlLoopOperationParams params2 = step.getParams();
+        var params2 = step.getParams();
         assertSame(actors, params2.getActorService());
         assertSame(REQ_ID, params2.getRequestId());
         assertSame(ForkJoinPool.commonPool(), params2.getExecutor());
@@ -291,7 +276,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testLoadPreprocessorSteps() {
+    void testLoadPreprocessorSteps() {
         stepa = new MyStep(mgr, ControlLoopOperationParams.builder().build()) {
             @Override
             protected Operation buildOperation() {
@@ -299,7 +284,7 @@ public class ClEventManagerWithStepsTest {
             }
         };
 
-        Deque<MyStep> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
         steps.add(stepa);
         steps.add(stepb);
 
@@ -320,7 +305,7 @@ public class ClEventManagerWithStepsTest {
      * Tests loadPreprocessorSteps() when there are too many steps in the queue.
      */
     @Test
-    public void testLoadPreprocessorStepsTooManySteps() {
+    void testLoadPreprocessorStepsTooManySteps() {
         stepa = new MyStep(mgr, ControlLoopOperationParams.builder().build()) {
             @Override
             protected Operation buildOperation() {
@@ -328,7 +313,7 @@ public class ClEventManagerWithStepsTest {
             }
         };
 
-        Deque<MyStep> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
 
         // load up a bunch of steps
         for (int nsteps = 0; nsteps < ClEventManagerWithSteps.MAX_STEPS; ++nsteps) {
@@ -353,7 +338,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testExecuteStep() {
+    void testExecuteStep() {
         // no steps to execute
         assertFalse(mgr.executeStep());
 
@@ -370,7 +355,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testNextStep() {
+    void testNextStep() {
         mgr.getSteps().add(stepa);
 
         mgr.nextStep();
@@ -379,7 +364,7 @@ public class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testDeliver() {
+    void testDeliver() {
         mgr.deliver(MY_SINK, null, "null notification", "null rule");
         verify(engineMgr, never()).deliver(any(), any());
 
@@ -392,22 +377,21 @@ public class ClEventManagerWithStepsTest {
     }
 
     private void loadPolicy(String fileName) throws CoderException {
-        ToscaServiceTemplate template =
-                        yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
         tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
     }
 
     private OperationOutcome makeCompletedOutcome() {
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         outcome.setEnd(outcome.getStart());
 
         return outcome;
     }
 
     private OperationOutcome makeOutcome() {
-        OperationOutcome outcome = new OperationOutcome();
+        var outcome = new OperationOutcome();
         outcome.setActor(SIMPLE_ACTOR);
         outcome.setOperation(SIMPLE_OPERATION);
         outcome.setMessage(OUTCOME_MSG);
@@ -435,7 +419,7 @@ public class ClEventManagerWithStepsTest {
 
         @Override
         protected void makeLock(String targetEntity, String requestId, int holdSec, LockCallback callback) {
-            LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
+            var lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
         }

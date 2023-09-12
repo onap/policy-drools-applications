@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +23,18 @@ package org.onap.policy.drools.apps.controller.usecases.step;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.RelatedToProperty;
@@ -55,8 +54,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.eventmanager.StepContext;
 import org.onap.policy.drools.apps.controller.usecases.UsecasesConstants;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GuardStep2Test {
+class GuardStep2Test {
     private static final String SOME_OTHER_VALUE = "some-other-value";
     private static final String SOME_OTHER_KEY = "some-other-key";
     private static final String CL_NAME = "my-closed-loop";
@@ -72,22 +70,16 @@ public class GuardStep2Test {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final int VF_COUNT = 10;
 
-    @Mock
-    private StepContext stepContext;
-    @Mock
-    private VirtualControlLoopEvent event;
-    @Mock
-    private Operation policyOper;
-    @Mock
-    private AaiCqResponse customQuery;
-    @Mock
-    private GenericVnf genericVnf;
-    @Mock
-    private CloudRegion cloudRegion;
-    @Mock Vserver theVserver;
+    private final StepContext stepContext = mock(StepContext.class);
+    private final VirtualControlLoopEvent event = mock(VirtualControlLoopEvent.class);
+    private final Operation policyOper = mock(Operation.class);
+    private final AaiCqResponse customQuery = mock(AaiCqResponse.class);
+    private final GenericVnf genericVnf = mock(GenericVnf.class);
+    private final CloudRegion cloudRegion = mock(CloudRegion.class);
+    private final Vserver theVserver = mock(Vserver.class);
 
-    TargetType target;
-    Map<String, String> aai = new HashMap<>();
+    private TargetType target;
+    private Map<String, String> aai = new HashMap<>();
 
     private ControlLoopOperationParams params;
     private Step2 master;
@@ -96,7 +88,7 @@ public class GuardStep2Test {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         aai.put("vserver.vserver-name", MY_SERVERNAME);
         when(event.getAai()).thenReturn(aai);
@@ -105,19 +97,19 @@ public class GuardStep2Test {
         when(genericVnf.getVnfType()).thenReturn(MY_TYPE);
         when(genericVnf.getNfNamingCode()).thenReturn(MY_CODE);
 
-        RelationshipList relList = new RelationshipList();
+        var relList = new RelationshipList();
         when(genericVnf.getRelationshipList()).thenReturn(relList);
 
         relList.getRelationship().add(new Relationship());
 
-        Relationship relationship = new Relationship();
+        var relationship = new Relationship();
         relList.getRelationship().add(relationship);
         relationship.setRelatedTo("vserver");
 
         relationship.getRelatedToProperty().add(new RelatedToProperty());
 
         // property key mismatch
-        RelatedToProperty relProp = new RelatedToProperty();
+        var relProp = new RelatedToProperty();
         relationship.getRelatedToProperty().add(relProp);
         relProp.setPropertyKey(SOME_OTHER_KEY);
         relProp.setPropertyValue(MY_NAME);
@@ -135,7 +127,7 @@ public class GuardStep2Test {
         relProp.setPropertyValue(MY_SERVERNAME);
 
         // data key mismatch
-        RelationshipData relData = new RelationshipData();
+        var relData = new RelationshipData();
         relationship.getRelationshipData().add(relData);
         relData.setRelationshipKey(SOME_OTHER_KEY);
         relData.setRelationshipValue(SOME_OTHER_VALUE);
@@ -181,7 +173,7 @@ public class GuardStep2Test {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(XacmlActor.NAME, step.getActorName());
         assertEquals(GuardOperation.NAME, step.getOperationName());
         assertSame(stepContext, step.stepContext);
@@ -191,7 +183,7 @@ public class GuardStep2Test {
         master = new Step2(stepContext, params, event);
         assertThatIllegalStateException().isThrownBy(() -> new GuardStep2(master, CL_NAME));
 
-        ControlLoopOperationParams params2 = step.getParams();
+        var params2 = step.getParams();
 
         // @formatter:off
         assertThat(params2.getPayload()).isEqualTo(Map.of(
@@ -203,13 +195,13 @@ public class GuardStep2Test {
     }
 
     @Test
-    public void testAcceptsEvent() {
+    void testAcceptsEvent() {
         // it should always accept events
         assertTrue(step.acceptsEvent());
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         // unmatching property names
         when(policyOper.getPropertyNames()).thenReturn(List.of("propA", "propB"));
         assertThat(step.getPropertyNames())
@@ -225,13 +217,13 @@ public class GuardStep2Test {
     }
 
     @Test
-    public void testLoadTargetEntity() {
+    void testLoadTargetEntity() {
         step.loadTargetEntity(OperationProperties.AAI_TARGET_ENTITY);
         assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_TARGET_ENTITY, MY_TARGET);
     }
 
     @Test
-    public void testLoadDefaultGenericVnf() {
+    void testLoadDefaultGenericVnf() {
         step.loadDefaultGenericVnf(OperationProperties.AAI_VNF);
         assertThat(step.getParams().getPayload())
                 .containsEntry(GuardStep2.PAYLOAD_KEY_VNF_ID, MY_TARGET)
@@ -242,7 +234,7 @@ public class GuardStep2Test {
     }
 
     @Test
-    public void testLoadCloudRegion() {
+    void testLoadCloudRegion() {
         step.loadCloudRegion(OperationProperties.AAI_DEFAULT_CLOUD_REGION);
         assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_CLOUD_REGION_ID, MY_REGION);
     }
@@ -251,7 +243,7 @@ public class GuardStep2Test {
      * Tests loadVfCount() when the policy operation is NOT "VF Module Create".
      */
     @Test
-    public void testLoadVfCountNotVfModuleCreate() {
+    void testLoadVfCountNotVfModuleCreate() {
         // should decrement the count
         step.loadVfCount("");
         assertThat(step.getParams().getPayload()).containsEntry(GuardStep2.PAYLOAD_KEY_VF_COUNT, VF_COUNT - 1);
@@ -261,7 +253,7 @@ public class GuardStep2Test {
      * Tests loadVfCount() when the policy operation is "VF Module Create".
      */
     @Test
-    public void testLoadVfCountVfModuleCreate() {
+    void testLoadVfCountVfModuleCreate() {
         when(policyOper.getName()).thenReturn(VfModuleCreate.NAME);
 
         // should increment the count

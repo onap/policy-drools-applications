@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021, 2023 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,19 +24,19 @@ package org.onap.policy.drools.apps.controller.usecases;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -43,18 +44,14 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import org.drools.core.WorkingMemory;
 import org.drools.core.common.InternalFactHandle;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopEventStatus;
 import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.ControlLoopResponse;
 import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -85,8 +82,7 @@ import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciMessage;
 import org.onap.policy.sdnr.PciResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class UsecasesEventManagerTest {
+class UsecasesEventManagerTest {
     private static final UUID REQ_ID = UUID.randomUUID();
     private static final String CL_NAME = "my-closed-loop-name";
     private static final String POLICY_NAME = "my-policy-name";
@@ -100,28 +96,17 @@ public class UsecasesEventManagerTest {
     private static final Coder yamlCoder = new StandardYamlCoder();
     private static final String OUTCOME_MSG = "my outcome message";
 
-    @Mock
-    private PolicyEngine engineMgr;
-    @Mock
-    private WorkingMemory workMem;
-    @Mock
-    private InternalFactHandle factHandle;
-    @Mock
-    private Operator policyOperator;
-    @Mock
-    private Operation policyOperation;
-    @Mock
-    private Actor policyActor;
-    @Mock
-    private EventManagerServices services;
-    @Mock
-    private OperationHistoryDataManager dataMgr;
-    @Mock
-    private ExecutorService executor;
-    @Mock
-    private Step2 stepa;
-    @Mock
-    private Step2 stepb;
+    private final PolicyEngine engineMgr = mock(PolicyEngine.class);
+    private final WorkingMemory workMem = mock(WorkingMemory.class);
+    private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
+    private final Operator policyOperator = mock(Operator.class);
+    private final Operation policyOperation = mock(Operation.class);
+    private final Actor policyActor = mock(Actor.class);
+    private final EventManagerServices services = mock(EventManagerServices.class);
+    private final OperationHistoryDataManager dataMgr = mock(OperationHistoryDataManager.class);
+    private final ExecutorService executor = mock(ExecutorService.class);
+    private Step2 stepa = mock(Step2.class);
+    private final Step2 stepb = mock(Step2.class);
 
     private List<LockImpl> locks;
     private ToscaPolicy tosca;
@@ -132,7 +117,7 @@ public class UsecasesEventManagerTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws ControlLoopException, CoderException {
         when(services.getDataManager()).thenReturn(dataMgr);
 
@@ -160,11 +145,11 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(POLICY_NAME, mgr.getPolicyName());
         assertSame(event, mgr.getEvent());
 
-        Map<String, String> orig = event.getAai();
+        var orig = event.getAai();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
@@ -211,7 +196,7 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testLoadPreprocessorSteps() {
+    void testLoadPreprocessorSteps() {
         stepa = new Step2(mgr, ControlLoopOperationParams.builder().build(), event) {
             @Override
             public List<String> getPropertyNames() {
@@ -229,7 +214,7 @@ public class UsecasesEventManagerTest {
 
         mgr.loadPreprocessorSteps();
 
-        Deque<Step2> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
 
         Step2 lockStep = steps.poll();
         assertNotNull(lockStep);
@@ -245,11 +230,11 @@ public class UsecasesEventManagerTest {
      * Tests loadPreprocessorSteps() when no additional steps are needed.
      */
     @Test
-    public void testLoadPreprocessorStepsNothingToLoad() {
+    void testLoadPreprocessorStepsNothingToLoad() {
         when(stepa.isPolicyStep()).thenReturn(false);
         when(stepa.getPropertyNames()).thenReturn(List.of("unknown-property"));
 
-        Deque<Step2> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
         steps.add(stepa);
         steps.add(stepb);
 
@@ -265,13 +250,13 @@ public class UsecasesEventManagerTest {
      * Tests loadPreprocessorSteps() when an A&AI custom query is needed.
      */
     @Test
-    public void testLoadPreprocessorStepsCq() {
+    void testLoadPreprocessorStepsCq() {
         loadStepsWithProperties(OperationProperties.AAI_DEFAULT_CLOUD_REGION, OperationProperties.AAI_DEFAULT_TENANT);
 
         setTargetEntity();
         mgr.loadPreprocessorSteps();
 
-        Deque<Step2> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
 
         assertThat(steps.poll()).isInstanceOf(AaiCqStep2.class);
         assertSame(stepa, steps.poll());
@@ -283,14 +268,14 @@ public class UsecasesEventManagerTest {
      * Tests loadPreprocessorSteps() when an A&AI PNF query is needed.
      */
     @Test
-    public void testLoadPreprocessorStepsPnf() {
+    void testLoadPreprocessorStepsPnf() {
         // doubling up the property to check both branches
         loadStepsWithProperties(OperationProperties.AAI_PNF, OperationProperties.AAI_PNF);
 
         setTargetEntity();
         mgr.loadPreprocessorSteps();
 
-        Deque<Step2> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
 
         assertThat(steps.poll()).isInstanceOf(AaiGetPnfStep2.class);
         assertSame(stepa, steps.poll());
@@ -302,7 +287,7 @@ public class UsecasesEventManagerTest {
      * Tests loadPreprocessorSteps() when an A&AI Tenant query is needed.
      */
     @Test
-    public void testLoadPreprocessorStepsTenant() {
+    void testLoadPreprocessorStepsTenant() {
         // doubling up the property to check both branches
         event.getAai().put(Step2.VSERVER_VSERVER_NAME, "my-vserver");
         loadStepsWithProperties(OperationProperties.AAI_VSERVER_LINK, OperationProperties.AAI_VSERVER_LINK);
@@ -310,7 +295,7 @@ public class UsecasesEventManagerTest {
         setTargetEntity();
         mgr.loadPreprocessorSteps();
 
-        Deque<Step2> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
 
         assertThat(steps.poll()).isInstanceOf(AaiGetTenantStep2.class);
         assertSame(stepa, steps.poll());
@@ -322,7 +307,7 @@ public class UsecasesEventManagerTest {
      * Tests loadPreprocessorSteps() when the target entity is unset.
      */
     @Test
-    public void testLoadPreprocessorStepsNeedTargetEntity() {
+    void testLoadPreprocessorStepsNeedTargetEntity() {
         stepa = new Step2(mgr, ControlLoopOperationParams.builder()
                         .targetType(TargetType.toTargetType(event.getTargetType())).targetEntityIds(Map.of()).build(),
                         event) {
@@ -342,7 +327,7 @@ public class UsecasesEventManagerTest {
             }
         };
 
-        Deque<Step2> steps = mgr.getSteps();
+        var steps = mgr.getSteps();
         steps.add(stepa);
         steps.add(stepb);
 
@@ -363,8 +348,8 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testIsAbort() {
-        OperationOutcome outcome = makeCompletedOutcome();
+    void testIsAbort() {
+        var outcome = makeCompletedOutcome();
         outcome.setResult(OperationResult.FAILURE);
 
         // closed loop timeout
@@ -381,9 +366,9 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testStoreInDataBase() throws ControlLoopException {
+    void testStoreInDataBase() throws ControlLoopException {
         mgr.start();
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         mgr.addToHistory(outcome);
 
         mgr.storeInDataBase(mgr.getPartialHistory().peekLast());
@@ -393,8 +378,8 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testMakeControlLoopResponse() {
-        final OperationOutcome outcome = new OperationOutcome();
+    void testMakeControlLoopResponse() {
+        final var outcome = new OperationOutcome();
 
         // no message - should return null
         checkResp(outcome, null);
@@ -406,13 +391,13 @@ public class UsecasesEventManagerTest {
         /*
          * now work with a PciMessage
          */
-        PciMessage msg = new PciMessage();
+        var msg = new PciMessage();
         outcome.setResponse(msg);
 
-        PciBody body = new PciBody();
+        var body = new PciBody();
         msg.setBody(body);
 
-        PciResponse output = new PciResponse();
+        var output = new PciResponse();
         body.setOutput(output);
 
         output.setPayload("my-payload");
@@ -437,7 +422,7 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testCheckEventSyntax() {
+    void testCheckEventSyntax() {
         /*
          * only need to check one success and one failure from the super class method
          */
@@ -459,7 +444,7 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testValidateStatus() {
+    void testValidateStatus() {
         /*
          * only need to check one success and one failure from the super class method
          */
@@ -472,7 +457,7 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testValidateAaiData() {
+    void testValidateAaiData() {
         event.setTargetType("unknown-target-type");
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
                         .hasMessage("The target type is not supported");
@@ -511,7 +496,7 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testValidateAaiVmVnfData() {
+    void testValidateAaiVmVnfData() {
         event.setTargetType(ControlLoopTargetType.VM);
         event.setAai(Map.of(UsecasesConstants.GENERIC_VNF_VNF_ID, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
@@ -528,7 +513,7 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testValidateAaiPnfData() {
+    void testValidateAaiPnfData() {
         event.setTargetType(ControlLoopTargetType.PNF);
         event.setAai(Map.of(UsecasesConstants.PNF_NAME, MY_TARGET));
         assertThatCode(() -> mgr.checkEventSyntax(event)).doesNotThrowAnyException();
@@ -539,8 +524,8 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testIsClosedLoopDisabled() {
-        Map<String, String> orig = event.getAai();
+    void testIsClosedLoopDisabled() {
+        var orig = event.getAai();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
@@ -556,8 +541,8 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testIsProvStatusInactive() {
-        Map<String, String> orig = event.getAai();
+    void testIsProvStatusInactive() {
+        var orig = event.getAai();
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "ACTIVE"));
         assertThatCode(() -> new UsecasesEventManager(services, params, event, workMem)).doesNotThrowAnyException();
@@ -575,10 +560,10 @@ public class UsecasesEventManagerTest {
     }
 
     @Test
-    public void testIsAaiTrue() {
-        Map<String, String> orig = event.getAai();
+    void testIsAaiTrue() {
+        var orig = event.getAai();
 
-        for (String value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
+        for (var value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
             event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
             assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
                             .isInstanceOf(IllegalStateException.class);
@@ -600,8 +585,7 @@ public class UsecasesEventManagerTest {
     }
 
     private void loadPolicy(String fileName) throws CoderException {
-        ToscaServiceTemplate template =
-                        yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
         tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
@@ -631,14 +615,14 @@ public class UsecasesEventManagerTest {
     }
 
     private OperationOutcome makeCompletedOutcome() {
-        OperationOutcome outcome = makeOutcome();
+        var outcome = makeOutcome();
         outcome.setEnd(outcome.getStart());
 
         return outcome;
     }
 
     private OperationOutcome makeOutcome() {
-        OperationOutcome outcome = new OperationOutcome();
+        var outcome = new OperationOutcome();
         outcome.setActor(SIMPLE_ACTOR);
         outcome.setOperation(SIMPLE_OPERATION);
         outcome.setMessage(OUTCOME_MSG);
@@ -650,7 +634,7 @@ public class UsecasesEventManagerTest {
     }
 
     private void checkResp(OperationOutcome outcome, String expectedPayload) {
-        ControlLoopResponse resp = mgr.makeControlLoopResponse(outcome);
+        var resp = mgr.makeControlLoopResponse(outcome);
         assertNotNull(resp);
         assertEquals(REQ_ID, resp.getRequestId());
         assertEquals(expectedPayload, resp.getPayload());
@@ -680,7 +664,7 @@ public class UsecasesEventManagerTest {
 
         @Override
         protected void makeLock(String targetEntity, String requestId, int holdSec, LockCallback callback) {
-            LockImpl lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
+            var lock = new LockImpl(LockState.ACTIVE, targetEntity, requestId, holdSec, callback);
             locks.add(lock);
             callback.lockAvailable(lock);
         }

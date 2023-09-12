@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +23,9 @@ package org.onap.policy.controlloop.common.rules.test;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,13 +35,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.ToString;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
@@ -53,8 +52,7 @@ import org.onap.policy.drools.protocol.coders.EventProtocolCoder;
 import org.onap.policy.drools.system.PolicyController;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TopicsTest {
+class TopicsTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String MY_SOURCE_TOPIC = "my-source-topic";
     private static final String MY_SINK_TOPIC = "my-sink-topic";
@@ -65,18 +63,12 @@ public class TopicsTest {
     private static final String INJECT_FILE = "src/test/resources/topics.json";
     private static final String POLICY_NAME = "my-policy";
 
-    @Mock
-    private DroolsController drools;
-    @Mock
-    private PolicyController controller;
-    @Mock
-    private EventProtocolCoder protocolCoder;
-    @Mock
-    private NoopTopicSink sink;
-    @Mock
-    private NoopTopicSource source;
-    @Mock
-    private TopicEndpoint mgr;
+    private final DroolsController drools = mock(DroolsController.class);
+    private final PolicyController controller = mock(PolicyController.class);
+    private final EventProtocolCoder protocolCoder = mock(EventProtocolCoder.class);
+    private final NoopTopicSink sink = mock(NoopTopicSink.class);
+    private final NoopTopicSource source = mock(NoopTopicSource.class);
+    private final TopicEndpoint mgr = mock(TopicEndpoint.class);
 
     private ToscaPolicy policy;
 
@@ -85,18 +77,18 @@ public class TopicsTest {
     /**
      * Creates topics.
      */
-    @BeforeClass
-    public static void setUpBeforeClass() {
+    @BeforeAll
+    static void setUpBeforeClass() {
         TopicEndpointManager.getManager().shutdown();
 
-        TopicParameters params = new TopicParameters();
+        var params = new TopicParameters();
         params.setTopic(MY_SOURCE_TOPIC);
         params.setManaged(true);
         params.setTopicCommInfrastructure("NOOP");
         TopicEndpointManager.getManager().addTopicSources(List.of(params));
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         TopicEndpointManager.getManager().shutdown();
     }
@@ -104,7 +96,7 @@ public class TopicsTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         policy = new ToscaPolicy();
         policy.setName(POLICY_NAME);
@@ -134,9 +126,9 @@ public class TopicsTest {
     }
 
     @Test
-    public void testDestroy() {
-        Listener<String> listener1 = topics.createListener(MY_SINK_TOPIC, msg -> msg);
-        Listener<String> listener2 = topics.createListener(MY_SINK_TOPIC, msg -> msg + "a suffix");
+    void testDestroy() {
+        var listener1 = topics.createListener(MY_SINK_TOPIC, msg -> msg);
+        var listener2 = topics.createListener(MY_SINK_TOPIC, msg -> msg + "a suffix");
 
         topics.destroy();
 
@@ -145,20 +137,20 @@ public class TopicsTest {
     }
 
     @Test
-    public void testInjectStringFile() throws IOException {
+    void testInjectStringFile() throws IOException {
         topics.inject(MY_SOURCE_TOPIC, INJECT_FILE);
 
         // nothing should have been replaced
-        String expected = new String(Files.readAllBytes(Paths.get(INJECT_FILE)));
+        var expected = new String(Files.readAllBytes(Paths.get(INJECT_FILE)));
         verify(source).offer(expected);
     }
 
     @Test
-    public void testInjectStringFileString() throws IOException {
+    void testInjectStringFileString() throws IOException {
         topics.inject(MY_SOURCE_TOPIC, INJECT_FILE, "hello");
 
         // text should have been replaced with "hello"
-        String expected = new String(Files.readAllBytes(Paths.get("src", "test", "resources", "topicsReplaced.json")));
+        var expected = new String(Files.readAllBytes(Paths.get("src", "test", "resources", "topicsReplaced.json")));
         verify(source).offer(expected);
 
         // exception reading file
@@ -167,19 +159,19 @@ public class TopicsTest {
     }
 
     @Test
-    public void testCreateListenerStringClassOfTPolicyController() {
-        Listener<String> listener = topics.createListener(MY_SINK_TOPIC, String.class, controller);
+    void testCreateListenerStringClassOfTPolicyController() {
+        var listener = topics.createListener(MY_SINK_TOPIC, String.class, controller);
         listener.onTopicEvent(CommInfrastructure.NOOP, MY_SINK_TOPIC, MESSAGE);
 
         assertEquals(TEXT, listener.await());
     }
 
     @Test
-    public void testCreateListenerStringClassOfTCoder() {
-        Listener<Data> listener = topics.createListener(MY_SINK_TOPIC, Data.class, new StandardCoder());
+    void testCreateListenerStringClassOfTCoder() {
+        var listener = topics.createListener(MY_SINK_TOPIC, Data.class, new StandardCoder());
         listener.onTopicEvent(CommInfrastructure.NOOP, MY_SINK_TOPIC, MESSAGE);
 
-        Data expected = new Data();
+        var expected = new Data();
         expected.text = TEXT;
         assertEquals(expected.toString(), listener.await().toString());
     }
@@ -188,15 +180,15 @@ public class TopicsTest {
      * Tests createListener() when the coder throws an exception.
      */
     @Test
-    public void testCreateListenerStringClassOfTCoderException() {
-        StandardCoder coder = new StandardCoder() {
+    void testCreateListenerStringClassOfTCoderException() {
+        var coder = new StandardCoder() {
             @Override
             public <T> T decode(String arg0, Class<T> arg1) throws CoderException {
                 throw new CoderException(EXPECTED_EXCEPTION);
             }
         };
 
-        Listener<Data> listener = topics.createListener(MY_SINK_TOPIC, Data.class, coder);
+        var listener = topics.createListener(MY_SINK_TOPIC, Data.class, coder);
 
         // onTopicEvent() should not throw an exception
         assertThatCode(() -> listener.onTopicEvent(CommInfrastructure.NOOP, MY_SINK_TOPIC, MESSAGE))
@@ -207,15 +199,15 @@ public class TopicsTest {
     }
 
     @Test
-    public void testCreateListenerStringFunctionOfStringT() {
-        Listener<String> listener = topics.createListener(MY_SINK_TOPIC, msg -> msg);
+    void testCreateListenerStringFunctionOfStringT() {
+        var listener = topics.createListener(MY_SINK_TOPIC, msg -> msg);
         listener.onTopicEvent(CommInfrastructure.NOOP, MY_SINK_TOPIC, MESSAGE);
 
         assertEquals(MESSAGE, listener.await());
     }
 
     @Test
-    public void testGetTopicManager_testGetProtocolCoder() {
+    void testGetTopicManager_testGetProtocolCoder() {
         // use a topic with a real manager
         topics = new Topics();
 

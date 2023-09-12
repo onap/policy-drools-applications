@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +21,11 @@
 
 package org.onap.policy.controlloop;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.onap.policy.controlloop.common.rules.test.DroolsRuleTest;
 import org.onap.policy.controlloop.common.rules.test.Listener;
 import org.onap.policy.controlloop.common.rules.test.NamedRunner;
@@ -39,17 +40,16 @@ import org.onap.policy.simulators.Util;
  * <p/>
  * Note: this runs ALL tests (i.e., any whose names start with "test").
  */
-@RunWith(NamedRunner.class)
+@ExtendWith(NamedRunner.class)
 @TestNames(prefixes = {"test"})
-
-public class UsecasesTest extends DroolsRuleTest {
+class UsecasesTest extends DroolsRuleTest {
     protected static final String CONTROLLER_NAME = "usecases";
 
 
     /**
      * Sets up statics.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         initStatics(CONTROLLER_NAME);
 
@@ -64,7 +64,7 @@ public class UsecasesTest extends DroolsRuleTest {
     /**
      * Cleans up statics.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         finishStatics();
     }
@@ -72,7 +72,7 @@ public class UsecasesTest extends DroolsRuleTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         init();
     }
@@ -80,7 +80,7 @@ public class UsecasesTest extends DroolsRuleTest {
     /**
      * Tears down.
      */
-    @After
+    @AfterEach
     public void tearDown() {
         finish();
     }

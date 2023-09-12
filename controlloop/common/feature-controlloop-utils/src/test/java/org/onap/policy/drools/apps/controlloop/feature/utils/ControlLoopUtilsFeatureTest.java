@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,9 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.utils;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.logging.LoggerUtils;
 import org.onap.policy.drools.system.PolicyEngineConstants;
@@ -31,13 +32,13 @@ import org.onap.policy.simulators.Util;
 /**
  * ControlLoopUtilsFeature JUnit Tests.
  */
-public class ControlLoopUtilsFeatureTest {
+class ControlLoopUtilsFeatureTest {
 
     @Test
-    public void testSimulate() {
+    void testSimulate() {
         LoggerUtils.setLevel("ROOT", "INFO");
         LoggerUtils.setLevel("org.eclipse.jetty", "WARN");
-        final ControlLoopUtilsFeature feature = new ControlLoopUtilsFeature();
+        final var feature = new ControlLoopUtilsFeature();
         feature.afterStart(PolicyEngineConstants.getManager());
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.AAISIM_SERVER_PORT));
         assertNotNull(HttpServletServerFactoryInstance.getServerFactory().get(Util.SOSIM_SERVER_PORT));

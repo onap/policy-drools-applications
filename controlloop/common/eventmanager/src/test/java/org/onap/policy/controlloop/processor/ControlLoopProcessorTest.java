@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,45 +22,42 @@
 package org.onap.policy.controlloop.processor;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.drools.domain.models.operational.Operation;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ControlLoopProcessorTest {
+class ControlLoopProcessorTest {
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopProcessorTest.class);
     private static final StandardCoder coder = new StandardCoder();
 
     @Test
-    public void testControlLoopProcessor() throws IOException, ControlLoopException {
-        String yamlString = Files.readString(new File("src/test/resources/test.yaml").toPath(), StandardCharsets.UTF_8);
+    void testControlLoopProcessor() throws IOException, ControlLoopException {
+        var yamlString = Files.readString(new File("src/test/resources/test.yaml").toPath(), StandardCharsets.UTF_8);
         this.testSuccess(yamlString);
         this.testFailure(yamlString);
     }
 
     private ToscaPolicy getPolicyFromResource(String resourcePath, String policyName) throws CoderException {
-        String policyJson = ResourceUtils.getResourceAsString(resourcePath);
-        ToscaServiceTemplate serviceTemplate = coder.decode(policyJson, ToscaServiceTemplate.class);
-        ToscaPolicy policy = serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyName);
+        var policyJson = ResourceUtils.getResourceAsString(resourcePath);
+        var serviceTemplate = coder.decode(policyJson, ToscaServiceTemplate.class);
+        var policy = serviceTemplate.getToscaTopologyTemplate().getPolicies().get(0).get(policyName);
         assertNotNull(policy);
 
         /*
@@ -78,7 +76,7 @@ public class ControlLoopProcessorTest {
     }
 
     @Test
-    public void testControlLoopFromToscaCompliant()
+    void testControlLoopFromToscaCompliant()
             throws CoderException, ControlLoopException {
         assertNotNull(
                 new ControlLoopProcessor(
@@ -101,28 +99,28 @@ public class ControlLoopProcessorTest {
     }
 
     @Test
-    public void testControlLoopFromToscaCompliantBad() throws CoderException {
-        ToscaPolicy toscaPolicy = getPolicyFromResource(
+    void testControlLoopFromToscaCompliantBad() throws CoderException {
+        var toscaPolicy = getPolicyFromResource(
                 "policies/vCPE.policy.operational.input.tosca.json", "operational.restart");
         toscaPolicy.setVersion(null);
         assertThatThrownBy(() -> new ControlLoopProcessor(toscaPolicy)).hasCauseInstanceOf(CoderException.class);
     }
 
     @Test
-    public void testControlLoopProcessorBadYaml() throws IOException {
-        InputStream is = new FileInputStream(new File("src/test/resources/string.yaml"));
-        String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+    void testControlLoopProcessorBadYaml() throws IOException {
+        var is = new FileInputStream(new File("src/test/resources/string.yaml"));
+        var yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
         assertThatThrownBy(() -> new ControlLoopProcessor(yamlString))
             .hasMessageEndingWith("Cannot decode yaml into ToscaServiceTemplate");
     }
 
     @Test
-    public void testControlLoopProcessorBadTriggerYaml() throws IOException, ControlLoopException {
-        String yamlString = Files.readString(new File("src/test/resources/badtriggerpolicy.yaml").toPath(),
+    void testControlLoopProcessorBadTriggerYaml() throws IOException, ControlLoopException {
+        var yamlString = Files.readString(new File("src/test/resources/badtriggerpolicy.yaml").toPath(),
                         StandardCharsets.UTF_8);
 
-        ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
+        var clProcessor = new ControlLoopProcessor(yamlString);
         assertNull(clProcessor.getCurrentPolicy());
 
         assertThatThrownBy(() -> clProcessor.nextPolicyForResult(OperationResult.SUCCESS))
@@ -130,27 +128,27 @@ public class ControlLoopProcessorTest {
     }
 
     @Test
-    public void testControlLoopProcessorNoPolicyYaml() throws IOException, ControlLoopException {
-        InputStream is = new FileInputStream(new File("src/test/resources/nopolicy.yaml"));
-        String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+    void testControlLoopProcessorNoPolicyYaml() throws IOException, ControlLoopException {
+        var is = new FileInputStream(new File("src/test/resources/nopolicy.yaml"));
+        var yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
-        ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
+        var clProcessor = new ControlLoopProcessor(yamlString);
         assertThatThrownBy(clProcessor::getCurrentPolicy)
             .hasMessage("There are no policies defined.");
     }
 
     @Test
-    public void testControlLoopProcessorNextPolicyForResult() throws IOException, ControlLoopException {
-        InputStream is = new FileInputStream(new File("src/test/resources/test.yaml"));
-        String yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+    void testControlLoopProcessorNextPolicyForResult() throws IOException, ControlLoopException {
+        var is = new FileInputStream(new File("src/test/resources/test.yaml"));
+        var yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
 
-        for (OperationResult result : OperationResult.values()) {
+        for (var result : OperationResult.values()) {
             checkResult(yamlString, result);
         }
     }
 
     private void checkResult(String yamlString, OperationResult result) throws ControlLoopException {
-        ControlLoopProcessor clProcessor = new ControlLoopProcessor(yamlString);
+        var clProcessor = new ControlLoopProcessor(yamlString);
         clProcessor.getCurrentPolicy();
         clProcessor.nextPolicyForResult(result);
     }
@@ -162,15 +160,15 @@ public class ControlLoopProcessorTest {
      * @throws ControlLoopException if an error occurs
      */
     public void testSuccess(String yaml) throws ControlLoopException {
-        ControlLoopProcessor processor = new ControlLoopProcessor(yaml);
+        var processor = new ControlLoopProcessor(yaml);
         logger.debug("testSuccess: {}", processor.getCurrentPolicy());
         while (true) {
-            OperationFinalResult result = processor.checkIsCurrentPolicyFinal();
+            var result = processor.checkIsCurrentPolicyFinal();
             if (result != null) {
                 logger.debug("{}", result);
                 break;
             }
-            Operation policy = processor.getCurrentPolicy();
+            var policy = processor.getCurrentPolicy();
             assertNotNull(policy);
             logger.debug("current policy is: {}", policy.getId());
             processor.nextPolicyForResult(OperationResult.SUCCESS);
@@ -184,15 +182,15 @@ public class ControlLoopProcessorTest {
      * @throws ControlLoopException if an error occurs
      */
     public void testFailure(String yaml) throws ControlLoopException {
-        ControlLoopProcessor processor = new ControlLoopProcessor(yaml);
+        var processor = new ControlLoopProcessor(yaml);
         logger.debug("testFailure: {}", processor.getCurrentPolicy());
         while (true) {
-            OperationFinalResult result = processor.checkIsCurrentPolicyFinal();
+            var result = processor.checkIsCurrentPolicyFinal();
             if (result != null) {
                 logger.debug("{}", result);
                 break;
             }
-            Operation policy = processor.getCurrentPolicy();
+            var policy = processor.getCurrentPolicy();
             assertNotNull(policy);
             logger.debug("current policy is: {}", policy.getId());
             processor.nextPolicyForResult(OperationResult.FAILURE);
