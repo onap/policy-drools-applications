@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import java.io.Serial;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedHashMap;
@@ -55,6 +57,7 @@ import org.slf4j.LoggerFactory;
 public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoopEventManager implements StepContext {
 
     private static final Logger logger = LoggerFactory.getLogger(ClEventManagerWithSteps.class);
+    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**
@@ -99,7 +102,7 @@ public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoo
 
     /**
      * Result of the last policy operation. This is just a place where the rules can store
-     * the value for passing to {@link #loadNextPolicy()}.
+     * the value for passing to {@link #loadNextPolicy(OperationResult)}.
      */
     @Getter
     @Setter
@@ -266,6 +269,7 @@ public abstract class ClEventManagerWithSteps<T extends Step> extends ControlLoo
         }
 
         // initialize the step so we can query its properties
+        assert getSteps().peek() != null;
         getSteps().peek().init();
     }
 

@@ -168,15 +168,15 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
      * Takes records from {@link #operations} and stores them in the queue. Continues to
      * run until {@link #stop()} is invoked, or the thread is interrupted.
      *
-     * @param emfactory entity manager factory
+     * @param factory entity manager factory
      */
-    private void run(EntityManagerFactory emfactory) {
-        try {
+    private void run(EntityManagerFactory factory) {
+        try (factory) {
             // store records until stopped, continuing if an exception occurs
             while (!stopped) {
                 try {
                     Record triple = operations.take();
-                    storeBatch(emfactory.createEntityManager(), triple);
+                    storeBatch(factory.createEntityManager(), triple);
 
                 } catch (RuntimeException e) {
                     logger.error("failed to save data to operation history table", e);
@@ -188,26 +188,27 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
                 }
             }
 
-            storeRemainingRecords(emfactory);
+            storeRemainingRecords(factory);
 
         } finally {
             synchronized (this) {
                 stopped = true;
             }
 
-            emfactory.close();
         }
     }
 
     /**
      * Store any remaining records, but stop at the first exception.
      *
-     * @param emfactory entity manager factory
+     * @param factory entity manager factory
      */
-    private void storeRemainingRecords(EntityManagerFactory emfactory) {
+    private void storeRemainingRecords(EntityManagerFactory factory) {
         try {
             while (!operations.isEmpty()) {
-                storeBatch(emfactory.createEntityManager(), operations.poll());
+                try (var em = factory.createEntityManager()) {
+                    storeBatch(em, operations.poll());
+                }
             }
 
         } catch (RuntimeException e) {
@@ -224,8 +225,8 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     private void storeBatch(EntityManager entityManager, Record firstRecord) {
         logger.info("store operation history record batch");
 
-        try (var emc = new EntityMgrCloser(entityManager);
-            var trans = new EntityTransCloser(entityManager.getTransaction())) {
+        try (var ignored = new EntityMgrCloser(entityManager);
+             var trans = new EntityTransCloser(entityManager.getTransaction())) {
 
             var nrecords = 0;
             var rec = firstRecord;

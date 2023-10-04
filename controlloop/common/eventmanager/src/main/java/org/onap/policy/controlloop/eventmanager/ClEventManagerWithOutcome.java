@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import java.io.Serial;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -40,22 +42,22 @@ import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 /**
  * Manager for a single control loop event, with operation outcomes.
  */
+@Getter
 public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventManagerWithSteps<T>
                 implements StepContext {
 
+    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**
      * Number of attempts, so far, for the current step.
      */
-    @Getter
     private int attempts;
 
     /**
      * Full history of operations that have been processed by the rules. This includes the
      * items in {@link #partialHistory}.
      */
-    @Getter
     private final transient Deque<OperationOutcome2> fullHistory = new LinkedList<>();
 
     /**
@@ -63,7 +65,6 @@ public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventM
      * When a step is started, its "start" outcome is added. However, once it completes,
      * its "start" outcome is removed and the "completed" outcome is added.
      */
-    @Getter
     private final transient Deque<OperationOutcome2> partialHistory = new LinkedList<>();
 
 

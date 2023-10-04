@@ -38,9 +38,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.Serial;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -60,9 +62,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationFinalResult;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
@@ -91,9 +91,7 @@ class ClEventManagerWithStepsTest {
     private final PolicyEngine engineMgr = mock(PolicyEngine.class);
     private final WorkingMemory workMem = mock(WorkingMemory.class);
     private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
-    private final Operator policyOperator = mock(Operator.class);
     private final Operation policyOperation = mock(Operation.class);
-    private final Actor policyActor = mock(Actor.class);
     private final ExecutorService executor = mock(ExecutorService.class);
     private final EventManagerServices services = mock(EventManagerServices.class);
     private final ActorService actors = mock(ActorService.class);
@@ -101,7 +99,6 @@ class ClEventManagerWithStepsTest {
     private final MyStep stepb = mock(MyStep.class);
 
     private List<LockImpl> locks;
-    private ToscaPolicy tosca;
     private ControlLoopParams params;
     private ClEventManagerWithSteps<MyStep> mgr;
 
@@ -231,18 +228,18 @@ class ClEventManagerWithStepsTest {
     }
 
     @Test
-    public void testLoadNextPolicy() throws Exception {
+    void testLoadNextPolicy() throws Exception {
         loadPolicy(EVENT_MGR_MULTI_YAML);
         mgr = new MyManager(services, params, REQ_ID, workMem);
 
         // start and load step for first policy
         mgr.start();
-        assertEquals("OperationA", mgr.getSteps().poll().getOperationName());
+        assertEquals("OperationA", Objects.requireNonNull(mgr.getSteps().poll()).getOperationName());
         assertNull(mgr.getFinalResult());
 
         // indicate success and load next policy
         mgr.loadNextPolicy(OperationResult.SUCCESS);
-        assertEquals("OperationB", mgr.getSteps().poll().getOperationName());
+        assertEquals("OperationB", Objects.requireNonNull(mgr.getSteps().poll()).getOperationName());
         assertNull(mgr.getFinalResult());
 
         // indicate failure - should go to final failure
@@ -378,7 +375,7 @@ class ClEventManagerWithStepsTest {
 
     private void loadPolicy(String fileName) throws CoderException {
         var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
-        tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+        ToscaPolicy tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
     }
@@ -404,6 +401,7 @@ class ClEventManagerWithStepsTest {
 
 
     private class MyManager extends ClEventManagerWithSteps<MyStep> {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         public MyManager(EventManagerServices services, ControlLoopParams params, UUID requestId, WorkingMemory workMem)
@@ -437,6 +435,7 @@ class ClEventManagerWithStepsTest {
 
 
     private static class RealManager extends ClEventManagerWithSteps<MyStep> {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         public RealManager(EventManagerServices services, ControlLoopParams params, UUID requestId,
