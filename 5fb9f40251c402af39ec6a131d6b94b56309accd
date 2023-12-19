@@ -22,6 +22,30 @@
       },
       "revId": "5fb9f40251c402af39ec6a131d6b94b56309accd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7ad9912_01868958",
+        "filename": "controlloop/common/feature-controlloop-management/src/main/feature/config/A1-P-topic.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2023-12-19T12:07:22Z",
+      "side": 1,
+      "message": "It can be renamed. When we rmeove the dmaap dependencies, we can rename this env variable as well.",
+      "parentUuid": "eb5856c3_89c04bcf",
+      "range": {
+        "startLine": 27,
+        "startChar": 39,
+        "endLine": 27,
+        "endChar": 52
+      },
+      "revId": "5fb9f40251c402af39ec6a131d6b94b56309accd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
