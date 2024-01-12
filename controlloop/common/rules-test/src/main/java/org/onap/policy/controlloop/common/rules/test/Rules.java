@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Mechanism by which junit tests can manage the rule engine.
  */
+@Getter
 public class Rules {
     private static final Logger logger = LoggerFactory.getLogger(Rules.class);
     private static final StandardCoder coder = new StandardCoder();
@@ -79,20 +80,16 @@ public class Rules {
     /**
      * PDP-D Engine.
      */
-    @Getter
     private final PolicyEngine pdpd = makeEngine();
 
     /**
      * PDP-D Configuration Repository.
      */
-    @Getter
     private final SystemPersistence pdpdRepo = makePdpdRepo();
 
 
-    @Getter
     private final String controllerName;
 
-    @Getter
     private PolicyController controller;
 
 

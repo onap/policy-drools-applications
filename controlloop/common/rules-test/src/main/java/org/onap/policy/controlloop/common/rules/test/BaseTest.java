@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -66,15 +65,15 @@ public abstract class BaseTest {
     /*
      * Canonical Topic Names.
      */
-    protected static final String DCAE_TOPIC = "DCAE_TOPIC";
-    protected static final String APPC_LCM_WRITE_TOPIC = "APPC-LCM-WRITE";
-    protected static final String POLICY_CL_MGT_TOPIC = "POLICY-CL-MGT";
-    protected static final String APPC_LCM_READ_TOPIC = "APPC-LCM-READ";
-    protected static final String APPC_CL_TOPIC = "APPC-CL";
-    protected static final String SDNR_CL_TOPIC = "SDNR-CL";
-    protected static final String SDNR_CL_RSP_TOPIC = "SDNR-CL-RSP";
-    protected static final String A1P_CL_TOPIC = "A1-P";
-    protected static final String A1P_CL_RSP_TOPIC = "A1-P-RSP";
+    protected static final String DCAE_TOPIC = "dcae_topic";
+    protected static final String APPC_LCM_WRITE_TOPIC = "appc-lcm-write";
+    protected static final String POLICY_CL_MGT_TOPIC = "policy-cl-mgt";
+    protected static final String APPC_LCM_READ_TOPIC = "appc-lcm-read";
+    protected static final String APPC_CL_TOPIC = "appc-cl";
+    protected static final String SDNR_CL_TOPIC = "sdnr-cl";
+    protected static final String SDNR_CL_RSP_TOPIC = "sdnr-cl-rsp";
+    protected static final String A1P_CL_TOPIC = "a1-p";
+    protected static final String A1P_CL_RSP_TOPIC = "a1-p-rsp";
 
     /*
      * Constants for each test case.
@@ -289,7 +288,7 @@ public abstract class BaseTest {
 
         // get the list of target names, so we can ensure there's one of each
         List<String> actual = Stream.of(notif1, notif2).map(notif -> notif.getAai().get("generic-vnf.vnf-id"))
-                        .sorted().collect(Collectors.toList());
+                        .sorted().toList();
 
         assertEquals(List.of("duplicate-VNF", "vCPE_Infrastructure_vGMUX_demo_app").toString(), actual.toString());
 

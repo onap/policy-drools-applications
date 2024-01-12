@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +37,7 @@ import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.VSERVER_PROV_STATUS;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.VSERVER_VSERVER_NAME;
 
+import java.io.Serial;
 import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
@@ -70,6 +72,7 @@ import org.onap.policy.sdnr.PciMessage;
  */
 public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> implements StepContext {
 
+    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**
