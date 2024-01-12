@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b671e7_ac4f7498",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/controlloop/UsecasesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-01-12T16:50:19Z",
+      "side": 1,
+      "message": "Do we require this import?",
+      "range": {
+        "startLine": 24,
+        "startChar": 28,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "8ab06b6d0aef0638d69324438723d67f92ff7017",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
