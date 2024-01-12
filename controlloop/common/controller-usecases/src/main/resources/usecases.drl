@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -210,7 +210,7 @@ rule "EVENT"
     //
     try {
         if (notification != null) {
-            PolicyEngineConstants.getManager().deliver("POLICY-CL-MGT", notification);
+            PolicyEngineConstants.getManager().deliver("policy-cl-mgt", notification);
         }
 
     } catch(RuntimeException e) {
@@ -382,7 +382,7 @@ rule "EVENT.MANAGER.ACCEPT"
         notification.setPolicyScope(drools.getRule().getName());
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
@@ -478,7 +478,7 @@ rule "EVENT.MANAGER.GENERATE.SDNR.NOTIFICATION"
 
     try {
         ControlLoopResponse clResponse = $manager.makeControlLoopResponse($outcome);
-        $manager.deliver("DCAE_CL_RSP", clResponse, "SDNR notification", drools.getRule().getName());
+        $manager.deliver("dcae_cl_rsp", clResponse, "SDNR notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception generating SDNR Response notification",
@@ -536,7 +536,7 @@ rule "EVENT.MANAGER.PROCESS.GUARD.OUTCOME"
                                         + " is Deny");
         }
 
-        $manager.deliver("POLICY-CL-MGT", notification, "GUARD notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "GUARD notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception generating GUARD notification",
@@ -585,7 +585,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.STARTED"
         notification.setHistory(Collections.emptyList());
         notification.setMessage($manager.getOperationMessage());
 
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
@@ -684,7 +684,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.SUCCESS"
 
         $manager.setState(State.POLICY_LOADED);
 
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
@@ -747,7 +747,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
         $manager.getSteps().clear();
         $manager.setState(State.POLICY_LOADED);
 
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
@@ -802,7 +802,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
                                 .toList());
 
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
@@ -856,7 +856,7 @@ rule "EVENT.MANAGER.PROCESS.POLICY.FAILURE"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
 
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception processing operation outcome",
@@ -959,7 +959,7 @@ rule "EVENT.MANAGER.ABORT"
 
             // aborted while processing the SDNR step - generate a notification
             ControlLoopResponse clResponse = $manager.makeControlLoopResponse($outcome);
-            $manager.deliver("DCAE_CL_RSP", clResponse, "SDNR notification", drools.getRule().getName());
+            $manager.deliver("dcae_cl_rsp", clResponse, "SDNR notification", drools.getRule().getName());
         }
 
         if ($step != null) {
@@ -1032,7 +1032,7 @@ rule "EVENT.MANAGER.FINAL"
             notification.setMessage($manager.getFinalMessage());
         }
 
-        $manager.deliver("POLICY-CL-MGT", notification, "notification", drools.getRule().getName());
+        $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
     } catch(RuntimeException e) {
         logger.warn("{}: {}.{}: manager={} exception generating final notification",
