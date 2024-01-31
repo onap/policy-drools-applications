@@ -174,7 +174,7 @@ rule "EVENT"
                 manager.start();
 
                 if (manager.getSteps().isEmpty()) {
-                    // no steps implies no policies, thus go straight to DONE state
+                    // no steps imply no policies, thus go straight to DONE state
                     manager.setState(State.DONE);
 
                     manager.setAccepted(true);
@@ -1095,7 +1095,7 @@ end
 rule "APPC-LCM.Response.CLEANUP"
     salience 1
     when
-        $msg : org.onap.policy.appclcm.AppcLcmDmaapWrapper( )
+        $msg : org.onap.policy.appclcm.AppcLcmMessageWrapper( )
     then
         retract($msg);
 end

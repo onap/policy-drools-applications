@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021,2023 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,8 @@ import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
-import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
+import org.onap.policy.appclcm.AppcLcmMessageWrapper;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
@@ -72,7 +72,7 @@ class BaseTestTest {
 
     private BaseTest base;
     private LinkedList<VirtualControlLoopNotification> clMgtQueue;
-    private Queue<AppcLcmDmaapWrapper> appcLcmQueue;
+    private Queue<AppcLcmMessageWrapper> appcLcmQueue;
     private Queue<Request> appcLegacyQueue;
     private Queue<PciMessage> sdnrQueue;
     private int permitCount;
@@ -83,7 +83,7 @@ class BaseTestTest {
     private final Topics topics = mock(Topics.class);
     private final Listener<VirtualControlLoopNotification> policyClMgt = mock();
     private final Listener<Request> appcClSink = mock();
-    private final Listener<AppcLcmDmaapWrapper> appcLcmRead = mock();
+    private final Listener<AppcLcmMessageWrapper> appcLcmRead = mock();
     private final Listener<PciMessage> sdnrClSink = mock();
     private final DroolsController drools = mock(DroolsController.class);
     private final ToscaPolicy policy = mock(ToscaPolicy.class);
@@ -117,7 +117,7 @@ class BaseTestTest {
     public void setUp() {
         when(topics.createListener(eq(BaseTest.POLICY_CL_MGT_TOPIC), eq(VirtualControlLoopNotification.class),
                         any(StandardCoder.class))).thenReturn(policyClMgt);
-        when(topics.createListener(eq(BaseTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
+        when(topics.createListener(eq(BaseTest.APPC_LCM_READ_TOPIC), eq(AppcLcmMessageWrapper.class),
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
         when(topics.createListener(eq(BaseTest.APPC_CL_TOPIC), eq(Request.class),
                         any(StandardCoderInstantAsMillis.class))).thenReturn(appcClSink);
@@ -145,8 +145,8 @@ class BaseTestTest {
         });
 
         when(appcLcmRead.await(any())).thenAnswer(args -> {
-            AppcLcmDmaapWrapper req = appcLcmQueue.remove();
-            Predicate<AppcLcmDmaapWrapper> pred = args.getArgument(0);
+            AppcLcmMessageWrapper req = appcLcmQueue.remove();
+            Predicate<AppcLcmMessageWrapper> pred = args.getArgument(0);
             assertTrue(pred.test(req));
             return req;
         });
@@ -448,7 +448,7 @@ class BaseTestTest {
 
     private void enqueueAppcLcm(String... operationNames) {
         for (var oper : operationNames) {
-            var req = new AppcLcmDmaapWrapper();
+            var req = new AppcLcmMessageWrapper();
             req.setRpcName(oper);
 
             var body = new AppcLcmBody();

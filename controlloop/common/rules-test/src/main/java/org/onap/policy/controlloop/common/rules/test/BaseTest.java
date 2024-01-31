@@ -37,7 +37,7 @@ import org.apache.commons.collections.MapUtils;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.appc.Request;
-import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
+import org.onap.policy.appclcm.AppcLcmMessageWrapper;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -161,7 +161,7 @@ public abstract class BaseTest {
     // used to wait for messages on SINK topics
     protected Listener<VirtualControlLoopNotification> policyClMgt;
     protected Listener<Request> appcClSink;
-    protected Listener<AppcLcmDmaapWrapper> appcLcmRead;
+    protected Listener<AppcLcmMessageWrapper> appcLcmRead;
     protected Listener<PciMessage> sdnrClSink;
 
     /*
@@ -212,7 +212,7 @@ public abstract class BaseTest {
     //TODO This test needs to be enabled in java-17 branch
     public void testService123Compliant() {
         policyClMgt = createNoficationTopicListener();
-        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
+        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmMessageWrapper.class, APPC_LCM_CODER);
         policy = checkPolicy(SERVICE123_TOSCA_COMPLIANT_POLICY);
 
         // inject an ONSET event over the DCAE topic
@@ -223,13 +223,13 @@ public abstract class BaseTest {
 
         // restart request should be sent and fail four times (i.e., because retry=3)
         for (var count = 0; count < 4; ++count) {
-            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
+            AppcLcmMessageWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_RESTART_FAILURE,
                             appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
         }
         // rebuild request should be sent and fail once
-        AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> "rebuild".equals(req.getRpcName()));
+        AppcLcmMessageWrapper appcreq = appcLcmRead.await(req -> "rebuild".equals(req.getRpcName()));
         topics.inject(APPC_LCM_WRITE_TOPIC, SERVICE123_APPC_REBUILD_FAILURE,
                         appcreq.getBody().getInput().getCommonHeader().getSubRequestId());
         // migrate request should be sent and succeed
@@ -258,7 +258,7 @@ public abstract class BaseTest {
     //TODO This test needs to be enabled in java-17 branch
     public void testDuplicatesEvents() {
         policyClMgt = createNoficationTopicListener();
-        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
+        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmMessageWrapper.class, APPC_LCM_CODER);
 
         policy = checkPolicy(DUPLICATES_TOSCA_COMPLIANT_POLICY);
 
@@ -275,7 +275,7 @@ public abstract class BaseTest {
 
         // should see two restarts
         for (var count = 0; count < 2; ++count) {
-            AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
+            AppcLcmMessageWrapper appcreq = appcLcmRead.await(req -> APPC_RESTART_OP.equals(req.getRpcName()));
 
             // indicate success
             topics.inject(APPC_LCM_WRITE_TOPIC, DUPLICATES_APPC_SUCCESS,
@@ -422,7 +422,7 @@ public abstract class BaseTest {
      */
     protected void appcLcmSunnyDay(String policyFile, List<String> onsetFiles, String operation) {
         policyClMgt = createNoficationTopicListener();
-        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmDmaapWrapper.class, APPC_LCM_CODER);
+        appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmMessageWrapper.class, APPC_LCM_CODER);
 
         policy = checkPolicy(policyFile);
 
@@ -438,7 +438,7 @@ public abstract class BaseTest {
         /*
          * Ensure that an APPC RESTART request was sent in response to the matching ONSET
          */
-        AppcLcmDmaapWrapper appcreq = appcLcmRead.await(req -> operation.equals(req.getRpcName()));
+        AppcLcmMessageWrapper appcreq = appcLcmRead.await(req -> operation.equals(req.getRpcName()));
 
         /*
          * Inject a 400 APPC Response Return over the APPC topic, with appropriate

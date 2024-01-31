@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import java.io.Serial;
 import java.util.HashMap;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,20 +42,20 @@ import org.slf4j.LoggerFactory;
  * Manager for a single control loop event. Once this has been created, the event can be
  * retracted from working memory.
  */
+@Getter
 public abstract class ClEventManagerWithEvent<T extends Step> extends ClEventManagerWithOutcome<T>
                 implements StepContext {
 
     private static final Logger logger = LoggerFactory.getLogger(ClEventManagerWithEvent.class);
+    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     public enum NewEventStatus {
         FIRST_ONSET, SUBSEQUENT_ONSET, FIRST_ABATEMENT, SUBSEQUENT_ABATEMENT, SYNTAX_ERROR
     }
 
-    @Getter
     private final VirtualControlLoopEvent event;
 
-    @Getter
     @Setter(AccessLevel.PROTECTED)
     private VirtualControlLoopEvent abatement = null;
 

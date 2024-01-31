@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +58,7 @@ public class Simulators {
     }
 
     /**
-     * Stops all of the simulators.
+     * Stops all the simulators.
      */
     public void destroy() {
         for (HttpServletServer server : servers) {
@@ -72,7 +73,7 @@ public class Simulators {
     }
 
     @FunctionalInterface
-    public static interface SimulatorBuilder {
-        public HttpServletServer build() throws InterruptedException;
+    public interface SimulatorBuilder {
+        HttpServletServer build() throws InterruptedException;
     }
 }

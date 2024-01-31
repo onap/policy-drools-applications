@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021,2023 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
-import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
+import org.onap.policy.appclcm.AppcLcmMessageWrapper;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
@@ -66,7 +66,7 @@ class DroolsRuleTestTest {
 
     private DroolsRuleTest base;
     private LinkedList<VirtualControlLoopNotification> clMgtQueue;
-    private Queue<AppcLcmDmaapWrapper> appcLcmQueue;
+    private Queue<AppcLcmMessageWrapper> appcLcmQueue;
     private int permitCount;
     private int finalCount;
 
@@ -76,7 +76,7 @@ class DroolsRuleTestTest {
     private final Simulators simulators = mock(Simulators.class);
     private final Topics topics = mock(Topics.class);
     private final Listener<VirtualControlLoopNotification> policyClMgt = mock();
-    private final Listener<AppcLcmDmaapWrapper> appcLcmRead = mock();
+    private final Listener<AppcLcmMessageWrapper> appcLcmRead = mock();
     private final DroolsController drools = mock(DroolsController.class);
     private final ToscaPolicy policy = mock(ToscaPolicy.class);
 
@@ -113,7 +113,7 @@ class DroolsRuleTestTest {
 
         when(topics.createListener(DroolsRuleTest.POLICY_CL_MGT_TOPIC,
              VirtualControlLoopNotification.class, controller)).thenReturn(policyClMgt);
-        when(topics.createListener(eq(DroolsRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmDmaapWrapper.class),
+        when(topics.createListener(eq(DroolsRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmMessageWrapper.class),
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
 
         Function<String, Rules> ruleMaker = this::makeRules;
@@ -137,8 +137,8 @@ class DroolsRuleTestTest {
         });
 
         when(appcLcmRead.await(any())).thenAnswer(args -> {
-            AppcLcmDmaapWrapper req = appcLcmQueue.remove();
-            Predicate<AppcLcmDmaapWrapper> pred = args.getArgument(0);
+            AppcLcmMessageWrapper req = appcLcmQueue.remove();
+            Predicate<AppcLcmMessageWrapper> pred = args.getArgument(0);
             assertTrue(pred.test(req));
             return req;
         });
@@ -204,7 +204,7 @@ class DroolsRuleTestTest {
 
     private void enqueueAppcLcm(String... operationNames) {
         for (String oper : operationNames) {
-            AppcLcmDmaapWrapper req = new AppcLcmDmaapWrapper();
+            AppcLcmMessageWrapper req = new AppcLcmMessageWrapper();
             req.setRpcName(oper);
 
             AppcLcmBody body = new AppcLcmBody();

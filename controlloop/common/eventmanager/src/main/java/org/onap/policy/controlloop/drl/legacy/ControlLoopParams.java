@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.controlloop.drl.legacy;
 
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @NoArgsConstructor
 public class ControlLoopParams implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 970755684770982776L;
 
     private String closedLoopControlName;

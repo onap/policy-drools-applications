@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Deque;
@@ -61,6 +63,7 @@ import org.slf4j.LoggerFactory;
 public class ControlLoopEventManager implements StepContext, Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager.class);
+    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**
@@ -81,7 +84,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      * otherwise. This will be {@code false} if this object is reconstituted from a
      * persistent store or by transfer from another server.
      */
-    private transient boolean createdByThisJvmInstance;
+    private final transient boolean createdByThisJvmInstance;
 
     private final transient EventManagerServices services;
 
@@ -115,7 +118,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
     /**
      * Set of properties used while processing the event.
      */
-    private Map<String, Serializable> properties = new ConcurrentHashMap<>();
+    private final Map<String, Serializable> properties = new ConcurrentHashMap<>();
 
     /**
      * Unprocessed outcomes from the operations. Outcomes are added to this each time the
@@ -192,7 +195,7 @@ public class ControlLoopEventManager implements StepContext, Serializable {
      */
     private long detmControlLoopTimeoutMs() {
         // validation checks preclude null or 0 timeout values in the policy
-        Integer timeout = processor.getPolicy().getProperties().getTimeout();
+        int timeout = processor.getPolicy().getProperties().getTimeout();
         return TimeUnit.MILLISECONDS.convert(timeout, TimeUnit.SECONDS);
     }
 
