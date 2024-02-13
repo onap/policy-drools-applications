@@ -18,7 +18,7 @@
   limitations under the License.
   ============LICENSE_END=========================================================
   -->
-<jmeterTestPlan version="1.2" properties="3.1" jmeter="3.1 r1770033">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
@@ -79,27 +79,27 @@
           </elementProp>
           <elementProp name="uebServer" elementType="Argument">
             <stringProp name="Argument.name">uebServer</stringProp>
-            <stringProp name="Argument.value">message-router</stringProp>
+            <stringProp name="Argument.value">kafka</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="notifyTopic" elementType="Argument">
             <stringProp name="Argument.name">notifyTopic</stringProp>
-            <stringProp name="Argument.value">POLICY-CL-MGT</stringProp>
+            <stringProp name="Argument.value">policy-cl-mgmt</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="eventTopic" elementType="Argument">
             <stringProp name="Argument.name">eventTopic</stringProp>
-            <stringProp name="Argument.value">unauthenticated.DCAE_CL_OUTPUT</stringProp>
+            <stringProp name="Argument.value">unauthenticated.dcae_cl_output</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="appcRespTopic" elementType="Argument">
             <stringProp name="Argument.name">appcRespTopic</stringProp>
-            <stringProp name="Argument.value">APPC-LCM-WRITE</stringProp>
+            <stringProp name="Argument.value">appc-lcm-write</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="appcRespTopic2" elementType="Argument">
             <stringProp name="Argument.name">appcRespTopic2</stringProp>
-            <stringProp name="Argument.value">APPC-CL</stringProp>
+            <stringProp name="Argument.value">appc-cl</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="vCPEName" elementType="Argument">
@@ -135,6 +135,7 @@
             <stringProp name="Authorization.realm"></stringProp>
           </elementProp>
         </collectionProp>
+        <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
       </AuthManager>
       <hashTree/>
       <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults - PDPD" enabled="true">
@@ -143,19 +144,14 @@
         </elementProp>
         <stringProp name="HTTPSampler.domain">${pdpdServer}</stringProp>
         <stringProp name="HTTPSampler.port">9696</stringProp>
-        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-        <stringProp name="HTTPSampler.response_timeout"></stringProp>
         <stringProp name="HTTPSampler.protocol">http</stringProp>
-        <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-        <stringProp name="HTTPSampler.path"></stringProp>
-        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
       </ConfigTestElement>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${rampUpSec}</stringProp>
@@ -164,6 +160,8 @@
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.delayedStart">false</boolProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
         <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="declare request params" enabled="true">
@@ -186,31 +184,34 @@
           </collectionProp>
         </Arguments>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Establish consumer group with DMaaP" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Establish consumer group with Kafka" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-          <stringProp name="HTTPSampler.port">3904</stringProp>
-          <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-          <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-          <stringProp name="HTTPSampler.protocol"></stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.port">9092</stringProp>
           <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1?timeout=5000&amp;limit=1</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.monitor">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+          <boolProp name="HTTPSampler.image_parser">false</boolProp>
+          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <boolProp name="HTTPSampler.md5">false</boolProp>
+          <intProp name="HTTPSampler.ipSourceType">0</intProp>
+          <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate thread params" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
             <stringProp name="script">import java.util.UUID;
 vars.put(&quot;consumerGroup&quot;, &quot;policy-${__machineName}-${__threadNum}&quot;);
 </stringProp>
@@ -223,6 +224,7 @@ vars.put(&quot;consumerGroup&quot;, &quot;policy-${__machineName}-${__threadNum}
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
@@ -265,27 +267,25 @@ vars.put(&quot;consumerGroup&quot;, &quot;policy-${__machineName}-${__threadNum}
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate request params" enabled="true">
                   <stringProp name="scriptLanguage">groovy</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
                   <stringProp name="script">import java.util.UUID;
 String reqid = UUID.randomUUID().toString();
 vars.put(&quot;requestId&quot;, reqid);
@@ -295,6 +295,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await APPC begin" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -307,19 +308,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert start notification" enabled="true">
@@ -329,6 +332,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -365,23 +369,22 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${appcRespTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await APPC finish" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -394,19 +397,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert finish notification" enabled="true">
@@ -416,6 +421,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -446,23 +452,22 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await FINAL" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -475,19 +480,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert final notification" enabled="true">
@@ -497,6 +504,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -533,27 +541,25 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate request params" enabled="true">
                   <stringProp name="scriptLanguage">groovy</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
                   <stringProp name="script">import java.util.UUID;
 String reqid = UUID.randomUUID().toString();
 vars.put(&quot;requestId&quot;, reqid);
@@ -563,6 +569,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await APPC begin" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -575,19 +582,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert start notification" enabled="true">
@@ -597,6 +606,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -633,23 +643,22 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${appcRespTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await FINAL" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -662,19 +671,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert final notification" enabled="true">
@@ -684,6 +695,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -723,27 +735,25 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate request params" enabled="true">
                   <stringProp name="scriptLanguage">groovy</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
                   <stringProp name="script">import java.util.UUID;
 String reqid = UUID.randomUUID().toString();
 vars.put(&quot;requestId&quot;, reqid);
@@ -753,6 +763,7 @@ vars.put(&quot;vserverName&quot;, &quot;vserver-&quot;+reqid);
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await FINAL" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -765,19 +776,21 @@ vars.put(&quot;vserverName&quot;, &quot;vserver-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert final notification" enabled="true">
@@ -787,6 +800,7 @@ vars.put(&quot;vserverName&quot;, &quot;vserver-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -826,27 +840,25 @@ vars.put(&quot;vserverName&quot;, &quot;vserver-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate request params" enabled="true">
                   <stringProp name="scriptLanguage">groovy</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
                   <stringProp name="script">import java.util.UUID;
 String reqid = UUID.randomUUID().toString();
 vars.put(&quot;requestId&quot;, reqid);
@@ -856,6 +868,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await APPC begin" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -868,19 +881,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert start notification" enabled="true">
@@ -890,6 +905,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -945,23 +961,22 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${appcRespTopic2}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await FINAL" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -974,19 +989,21 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert final notification" enabled="true">
@@ -996,6 +1013,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -1032,27 +1050,25 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate request params" enabled="true">
                   <stringProp name="scriptLanguage">groovy</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
                   <stringProp name="script">import java.util.UUID;
 String reqid = UUID.randomUUID().toString();
 vars.put(&quot;requestId&quot;, reqid);
@@ -1062,6 +1078,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await APPC begin" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -1075,18 +1092,20 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
                 <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert start notification" enabled="true">
@@ -1096,6 +1115,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -1151,23 +1171,22 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${appcRespTopic2}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await FINAL" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -1181,18 +1200,20 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
                 <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert final notification" enabled="true">
@@ -1202,6 +1223,7 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -1244,27 +1266,25 @@ vars.put(&quot;vnfId&quot;, &quot;vnf-&quot;+reqid);
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">policy/pdp/engine/topics/sources/ueb/${eventTopic}/events</stringProp>
                 <stringProp name="HTTPSampler.method">PUT</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="generate request params" enabled="true">
                   <stringProp name="scriptLanguage">groovy</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
                   <stringProp name="script">import java.util.UUID;
 String reqid = UUID.randomUUID().toString();
 vars.put(&quot;requestId&quot;, reqid);
@@ -1275,6 +1295,7 @@ vars.put(&quot;serviceInstanceId&quot;, &quot;ssi-&quot;+reqid);
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Await FINAL" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="filter" elementType="HTTPArgument">
@@ -1287,19 +1308,21 @@ vars.put(&quot;serviceInstanceId&quot;, &quot;ssi-&quot;+reqid);
                   </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${uebServer}</stringProp>
-                <stringProp name="HTTPSampler.port">3904</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.port">9902</stringProp>
                 <stringProp name="HTTPSampler.path">/events/${notifyTopic}/${consumerGroup}/1</stringProp>
                 <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
+                <boolProp name="HTTPSampler.image_parser">false</boolProp>
+                <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <boolProp name="HTTPSampler.md5">false</boolProp>
+                <intProp name="HTTPSampler.ipSourceType">0</intProp>
+                <stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+                <stringProp name="HTTPSampler.response_timeout">20000</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="assert final notification" enabled="true">
@@ -1309,6 +1332,7 @@ vars.put(&quot;serviceInstanceId&quot;, &quot;ssi-&quot;+reqid);
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <boolProp name="Assertion.assume_success">false</boolProp>
                   <intProp name="Assertion.test_type">16</intProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
