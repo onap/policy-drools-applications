@@ -741,7 +741,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.ACCEPTED"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
-                                .toList());
+                                .collect(Collectors.toList()));
 
         // trigger move to the next policy - clear all steps
         $manager.getSteps().clear();
@@ -800,7 +800,7 @@ rule "EVENT.MANAGER.PROCESS.FINAL.FAILURE.REJECTED"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getPartialHistory().stream().map(OperationOutcome2::getClOperation)
-                                .toList());
+                                .collect(Collectors.toList()));
 
         $manager.deliver("policy-cl-mgt", notification, "notification", drools.getRule().getName());
 
@@ -1004,7 +1004,7 @@ rule "EVENT.MANAGER.FINAL"
         notification.setPolicyName($manager.getPolicyName());
         notification.setPolicyVersion($manager.getPolicyVersion());
         notification.setHistory($manager.getFullHistory().stream().map(OperationOutcome2::getClOperation)
-                                    .toList());
+                    .collect(Collectors.toList()));
 
         OperationFinalResult finalResult = $manager.getFinalResult();
         if (finalResult == null) {

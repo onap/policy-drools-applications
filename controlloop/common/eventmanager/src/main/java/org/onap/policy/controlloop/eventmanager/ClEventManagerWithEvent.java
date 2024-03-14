@@ -21,7 +21,6 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import java.io.Serial;
 import java.util.HashMap;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,7 +46,6 @@ public abstract class ClEventManagerWithEvent<T extends Step> extends ClEventMan
                 implements StepContext {
 
     private static final Logger logger = LoggerFactory.getLogger(ClEventManagerWithEvent.class);
-    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     public enum NewEventStatus {

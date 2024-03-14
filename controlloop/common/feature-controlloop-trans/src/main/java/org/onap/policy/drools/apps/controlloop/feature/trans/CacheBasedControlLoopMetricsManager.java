@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2019-2022 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -167,10 +167,16 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         setNotificationValues(controller, notification);
 
         switch (notification.getNotification()) {
-            case REJECTED, FINAL_FAILURE, FINAL_SUCCESS, FINAL_OPENLOOP:
+            case REJECTED:
+            case FINAL_FAILURE:
+            case FINAL_SUCCESS:
+            case FINAL_OPENLOOP:
                 endTransaction(controller, notification);
                 break;
-            case ACTIVE, OPERATION, OPERATION_SUCCESS, OPERATION_FAILURE:
+            case ACTIVE:
+            case OPERATION:
+            case OPERATION_SUCCESS:
+            case OPERATION_FAILURE:
                 /* any other value is an in progress transaction */
                 inProgressTransaction(notification);
                 break;
@@ -353,14 +359,14 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 .setEndTime(notification.getNotificationTime().toInstant());
 
         switch (notification.getNotification()) {
-            case FINAL_OPENLOOP,
+            case FINAL_OPENLOOP:
                  /* fall through */
-                 FINAL_SUCCESS:
+            case FINAL_SUCCESS:
                 trans.setStatusCode(true);
                 break;
-            case FINAL_FAILURE,
+            case FINAL_FAILURE:
                  /* fall through */
-                 REJECTED:
+            case REJECTED:
                 trans.setStatusCode(false);
                 break;
             default:

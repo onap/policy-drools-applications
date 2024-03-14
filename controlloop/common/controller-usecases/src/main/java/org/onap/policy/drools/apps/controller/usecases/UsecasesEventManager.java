@@ -37,7 +37,6 @@ import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.VSERVER_PROV_STATUS;
 import static org.onap.policy.drools.apps.controller.usecases.UsecasesConstants.VSERVER_VSERVER_NAME;
 
-import java.io.Serial;
 import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +71,6 @@ import org.onap.policy.sdnr.PciMessage;
  */
 public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> implements StepContext {
 
-    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**
@@ -255,7 +253,8 @@ public class UsecasesEventManager extends ClEventManagerWithEvent<Step2> impleme
             throw new ControlLoopException("The Target type is null");
         }
         switch (event.getTargetType()) {
-            case VM, VNF:
+            case VM:
+            case VNF:
                 validateAaiVmVnfData(eventAai);
                 return;
             case PNF:

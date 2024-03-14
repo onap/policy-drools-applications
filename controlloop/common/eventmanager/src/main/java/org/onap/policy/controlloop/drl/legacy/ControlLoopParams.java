@@ -21,7 +21,6 @@
 
 package org.onap.policy.controlloop.drl.legacy;
 
-import java.io.Serial;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @NoArgsConstructor
 public class ControlLoopParams implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 970755684770982776L;
 
     private String closedLoopControlName;

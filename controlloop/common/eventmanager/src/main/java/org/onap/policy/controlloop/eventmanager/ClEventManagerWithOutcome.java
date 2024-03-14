@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import java.io.Serial;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -46,7 +45,6 @@ import org.onap.policy.drools.domain.models.operational.OperationalTarget;
 public abstract class ClEventManagerWithOutcome<T extends Step> extends ClEventManagerWithSteps<T>
                 implements StepContext {
 
-    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**

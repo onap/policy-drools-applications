@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,11 +93,16 @@ public class GetTargetEntityOperation2 extends OperationPartial {
             throw new IllegalArgumentException("The target type is null");
         }
 
-        return switch (targetType) {
-            case PNF -> detmPnfTarget();
-            case VM, VNF, VFMODULE -> detmVfModuleTarget();
-            default -> throw new IllegalArgumentException("The target type is not supported");
-        };
+        switch (targetType) {
+            case PNF:
+                return detmPnfTarget();
+            case VM:
+            case VNF:
+            case VFMODULE:
+                return detmVfModuleTarget();
+            default:
+                throw new IllegalArgumentException("The target type is not supported");
+        }
     }
 
     /**

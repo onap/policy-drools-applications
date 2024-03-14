@@ -21,7 +21,6 @@
 
 package org.onap.policy.controlloop.eventmanager;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Deque;
@@ -63,7 +62,6 @@ import org.slf4j.LoggerFactory;
 public class ControlLoopEventManager implements StepContext, Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ControlLoopEventManager.class);
-    @Serial
     private static final long serialVersionUID = -1216568161322872641L;
 
     /**

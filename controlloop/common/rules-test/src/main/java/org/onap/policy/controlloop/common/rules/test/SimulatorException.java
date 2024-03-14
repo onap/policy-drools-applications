@@ -21,13 +21,10 @@
 
 package org.onap.policy.controlloop.common.rules.test;
 
-import java.io.Serial;
-
 /**
  * Exception thrown by <i>Simulators</i>.
  */
 public class SimulatorException extends RuntimeException {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     public SimulatorException() {

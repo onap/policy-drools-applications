@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -209,7 +210,7 @@ public abstract class BaseTest {
     /**
      * Service123 with Tosca Compliant Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testService123Compliant() {
         policyClMgt = createNoficationTopicListener();
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmMessageWrapper.class, APPC_LCM_CODER);
@@ -255,7 +256,7 @@ public abstract class BaseTest {
      * to obtain a lock since it is a different target. After processing of all events
      * there should only be the policy and params objects left in memory.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testDuplicatesEvents() {
         policyClMgt = createNoficationTopicListener();
         appcLcmRead = topics.createListener(APPC_LCM_READ_TOPIC, AppcLcmMessageWrapper.class, APPC_LCM_CODER);
@@ -288,7 +289,7 @@ public abstract class BaseTest {
 
         // get the list of target names, so we can ensure there's one of each
         List<String> actual = Stream.of(notif1, notif2).map(notif -> notif.getAai().get("generic-vnf.vnf-id"))
-                        .sorted().toList();
+                        .sorted().collect(Collectors.toList());
 
         assertEquals(List.of("duplicate-VNF", "vCPE_Infrastructure_vGMUX_demo_app").toString(), actual.toString());
 
@@ -303,7 +304,7 @@ public abstract class BaseTest {
     /**
      * Sunny Day with Tosca Compliant Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testVcpeSunnyDayCompliant() {
         appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, VCPE_ONSET_1, APPC_RESTART_OP);
     }
@@ -313,7 +314,7 @@ public abstract class BaseTest {
      * simulate the flooding behavior of the DCAE TCA microservice. TCA could blast tens
      * or hundreds of ONSETs within sub-second intervals.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testVcpeOnsetFloodPrevention() {
         appcLcmSunnyDay(VCPE_TOSCA_COMPLIANT_POLICY, List.of(VCPE_ONSET_1, VCPE_ONSET_2, VCPE_ONSET_3),
                         APPC_RESTART_OP);
@@ -324,7 +325,7 @@ public abstract class BaseTest {
     /**
      * Sunny Day with Tosca Compliant Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testVdnsSunnyDayCompliant() {
         httpSunnyDay(VDNS_TOSCA_COMPLIANT_POLICY, VDNS_ONSET);
     }
@@ -343,7 +344,7 @@ public abstract class BaseTest {
     /**
      * VFW Sunny Day with Tosca Compliant Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testVfwSunnyDayCompliant() {
         appcLegacySunnyDay(VFW_TOSCA_COMPLIANT_POLICY, VFW_ONSET, APPC_MODIFY_CONFIG_OP);
     }
@@ -367,7 +368,7 @@ public abstract class BaseTest {
     /**
      * VPCI Sunny Day Tosca Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testVpciSunnyDayCompliant() {
         sdnrSunnyDay(VPCI_TOSCA_COMPLIANT_POLICY, VPCI_ONSET, VPCI_SDNR_SUCCESS,
             SDNR_MODIFY_CONFIG_OP, SDNR_CL_TOPIC, SDNR_CL_RSP_TOPIC);
@@ -378,7 +379,7 @@ public abstract class BaseTest {
     /**
      * VSONH Sunny Day with Tosca Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void testVsonhSunnyDayCompliant() {
         sdnrSunnyDay(VSONH_TOSCA_COMPLIANT_POLICY, VSONH_ONSET, VSONH_SDNR_SUCCESS,
             SNDR_MODIFY_CONFIG_ANR_OP, SDNR_CL_TOPIC, SDNR_CL_RSP_TOPIC);
@@ -387,7 +388,7 @@ public abstract class BaseTest {
     /**
      * Sunny day 5G SON 01 Modify01Config Operational Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void test5gSonO1SunnyDayCompliant() {
         sdnrSunnyDay(V5G_SON_O1_TOSCA_POLICY, V5G_SON_O1_ONSET, V5G_SON_O1_SDNR_SUCCESS,
             MODIFY_O1_CONFIG_OPERATION, SDNR_CL_TOPIC, SDNR_CL_RSP_TOPIC);
@@ -396,7 +397,7 @@ public abstract class BaseTest {
     /**
      * Sunny day 5G SON A1 ModifyA1Policy Operational Policy.
      */
-    //TODO This test needs to be enabled in java-17 branch
+    @Test
     public void test5gSonA1SunnyDayCompliant() {
         sdnrSunnyDay(V5G_SON_A1_TOSCA_POLICY, V5G_SON_A1_ONSET, V5G_SON_A1_SDNR_SUCCESS,
             PUT_A1_POLICY_OPERATION, A1P_CL_TOPIC, A1P_CL_RSP_TOPIC);
