@@ -119,6 +119,7 @@
                                 <dateLibrary>java17</dateLibrary>
                                 <interfaceOnly>true</interfaceOnly>
                                 <jakarta>true</jakarta>
+                                <skipIfSpecIsUnchanged>false</skipIfSpecIsUnchanged>
                             </configOptions>
                         </configuration>
                     </execution>
