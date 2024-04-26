@@ -22,6 +22,30 @@
       },
       "revId": "da1d314d190a328a0f78995b0cce573599ed5556",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210ff58c_b01784f0",
+        "filename": "controlloop/packages/docker-controlloop/pom.xml.versionsBackup",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-04-26T10:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18e7c987_ad462aaa",
+      "range": {
+        "startLine": 3,
+        "startChar": 2,
+        "endLine": 3,
+        "endChar": 6
+      },
+      "revId": "da1d314d190a328a0f78995b0cce573599ed5556",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
