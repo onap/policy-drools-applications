@@ -30,7 +30,6 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -150,7 +149,6 @@ class RestTransactionTrackerTest {
         assertNotNull(HttpClient.getBody(response, clazz));
     }
 
-    @NotNull
     private Response checkResponse(int statusCode, Response response) {
         assertEquals(statusCode, response.getStatus());
         return response;
