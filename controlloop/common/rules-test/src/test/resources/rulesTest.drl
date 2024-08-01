@@ -40,7 +40,7 @@ import org.onap.policy.drools.system.PolicyEngineConstants;
 rule "STARTED"
     when
     then
-    System.out.println(drools.getRule().getName());
+        System.out.println(drools.getRule().getName());
 end
 
 /*
@@ -52,10 +52,9 @@ rule "INSERT.PARAMS"
     when
         $params : ControlLoopParams()
     then
-
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
-    logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
-        + drools.getRule().getName(), $params.getToscaPolicy());
+        Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
+        logger.info("{}: {} : TOSCA-POLICY=[{}]", $params.getClosedLoopControlName(), $params.getPolicyName() + "."
+            + drools.getRule().getName(), $params.getToscaPolicy());
 end
 
 /*
@@ -67,16 +66,15 @@ rule "NEW.TOSCA.POLICY"
     when
         $policy : ToscaPolicy()
     then
+        Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
+        logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
+                    $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
+                    $policy.getVersion(), $policy);
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
-    logger.info("{}: [{}|{}|{}|{}]: CONTENT: {}", drools.getRule().getName(),
-                $policy.getType(), $policy.getTypeVersion(), $policy.getName(),
-                $policy.getVersion(), $policy);
-
-    ControlLoopParams params = ControlLoopUtils.toControlLoopParams($policy);
-    if (params != null) {
-        insert(params);
-    }
+        ControlLoopParams params = ControlLoopUtils.toControlLoopParams($policy);
+        if (params != null) {
+            insert(params);
+        }
 end
 
 /*
@@ -87,10 +85,9 @@ rule "REMOVE.PARAMS"
         $params : ControlLoopParams( $policyName :  getPolicyName(), $policyVersion : getPolicyVersion() )
         not ( ToscaPolicy( getName() == $policyName, getVersion() == $policyVersion ) )
     then
+        Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
+        logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
+                    $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
 
-    Logger logger = LoggerFactory.getLogger(drools.getRule().getPackageName());
-    logger.info("{}: [{}|{}|{}]", drools.getRule().getName(),
-                $params.getPolicyScope(), $params.getPolicyName(), $params.getPolicyVersion());
-
-    retract($params);
+        retract($params);
 end

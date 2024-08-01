@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,12 +55,9 @@ import org.onap.policy.controlloop.ControlLoopTargetType;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ClEventManagerWithEvent.NewEventStatus;
 import org.onap.policy.controlloop.ophistory.OperationHistoryDataManager;
@@ -82,27 +79,21 @@ class ClEventManagerWithEventTest {
     private static final String TARGET_PROP = "my-target-property";
     private static final String MY_TARGET = "my-target";
     private static final String EVENT_MGR_MULTI_YAML =
-                    "../eventmanager/src/test/resources/eventManager/event-mgr-multi.yaml";
+        "../eventmanager/src/test/resources/eventManager/event-mgr-multi.yaml";
     private static final String EVENT_MGR_SIMPLE_YAML =
-                    "../eventmanager/src/test/resources/eventManager/event-mgr-simple.yaml";
+        "../eventmanager/src/test/resources/eventManager/event-mgr-simple.yaml";
     private static final Coder yamlCoder = new StandardYamlCoder();
     private static final String OUTCOME_MSG = "my outcome message";
 
     private final PolicyEngine engineMgr = mock(PolicyEngine.class);
     private final WorkingMemory workMem = mock(WorkingMemory.class);
     private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
-    private final Operator policyOperator = mock(Operator.class);
-    private final Operation policyOperation = mock(Operation.class);
-    private final Actor policyActor = mock(Actor.class);
     private final EventManagerServices services = mock(EventManagerServices.class);
     private final ActorService actors = mock(ActorService.class);
     private final OperationHistoryDataManager dataMgr = mock(OperationHistoryDataManager.class);
     private final ExecutorService executor = mock(ExecutorService.class);
-    private final MyStep stepa = mock(MyStep.class);
-    private final MyStep stepb = mock(MyStep.class);
 
     private List<LockImpl> locks;
-    private ToscaPolicy tosca;
     private ControlLoopParams params;
     private VirtualControlLoopEvent event;
     private ClEventManagerWithEvent<MyStep> mgr;
@@ -149,7 +140,7 @@ class ClEventManagerWithEventTest {
         // invalid
         event.setTarget("");
         assertThatThrownBy(() -> new MyManager(services, params, event, workMem))
-                        .isInstanceOf(ControlLoopException.class);
+            .isInstanceOf(ControlLoopException.class);
     }
 
     @Test
@@ -209,7 +200,7 @@ class ClEventManagerWithEventTest {
 
         // null case
         assertThatThrownBy(() -> mgr.loadNextPolicy(null)).isInstanceOf(NullPointerException.class)
-                        .hasMessageContaining("lastResult");
+            .hasMessageContaining("lastResult");
     }
 
     @Test
@@ -218,10 +209,12 @@ class ClEventManagerWithEventTest {
         OperationOutcome outcome = makeOutcome();
         mgr.addToHistory(outcome);
 
-        mgr.storeInDataBase(mgr.getPartialHistory().peekLast(), MY_TARGET);
+        var peeked = mgr.getPartialHistory().peekLast();
+        assertNotNull(peeked);
+        mgr.storeInDataBase(peeked, MY_TARGET);
 
         verify(dataMgr).store(REQ_ID.toString(), event.getClosedLoopControlName(), event, MY_TARGET,
-                        mgr.getPartialHistory().peekLast().getClOperation());
+            peeked.getClOperation());
     }
 
     @Test
@@ -265,7 +258,7 @@ class ClEventManagerWithEventTest {
 
         event.setTarget(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("No target field");
+            .hasMessage("No target field");
 
         // abated supersedes previous errors - so it shouldn't throw an exception
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
@@ -273,11 +266,11 @@ class ClEventManagerWithEventTest {
 
         event.setRequestId(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("No request ID");
+            .hasMessage("No request ID");
 
         event.setClosedLoopControlName(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("No control loop name");
+            .hasMessage("No control loop name");
     }
 
     @Test
@@ -290,13 +283,12 @@ class ClEventManagerWithEventTest {
 
         event.setClosedLoopEventStatus(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("Invalid value in closedLoopEventStatus");
+            .hasMessage("Invalid value in closedLoopEventStatus");
     }
 
     private void loadPolicy(String fileName) throws CoderException {
-        var template =
-                        yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
-        tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
+        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+        ToscaPolicy tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
     }
@@ -325,7 +317,7 @@ class ClEventManagerWithEventTest {
         private static final long serialVersionUID = 1L;
 
         public MyManager(EventManagerServices services, ControlLoopParams params, VirtualControlLoopEvent event,
-                        WorkingMemory workMem) throws ControlLoopException {
+                         WorkingMemory workMem) throws ControlLoopException {
 
             super(services, params, event, workMem);
         }

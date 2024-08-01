@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -151,8 +151,8 @@ class OperationHistoryDataManagerImplTest {
 
         // invalid properties
         params.setUrl(null);
-        assertThatCode(() -> new PseudoThread()).isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("data-manager-properties");
+        assertThatCode(PseudoThread::new).isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("data-manager-properties");
     }
 
     @Test
@@ -192,7 +192,7 @@ class OperationHistoryDataManagerImplTest {
      * Tests store() when it is already stopped.
      */
     @Test
-    void testStoreAlreadyStopped() throws InterruptedException {
+    void testStoreAlreadyStopped() {
         mgr.stop();
 
         // store
@@ -202,7 +202,7 @@ class OperationHistoryDataManagerImplTest {
     }
 
     /**
-     * Tests store() when when the queue is full.
+     * Tests store() when the queue is full.
      */
     @Test
     void testStoreTooManyItems() throws InterruptedException {
@@ -217,7 +217,7 @@ class OperationHistoryDataManagerImplTest {
     }
 
     @Test
-    void testRun() throws InterruptedException {
+    void testRun() {
 
         // trigger thread shutdown when it completes this batch
         when(emfSpy.createEntityManager()).thenAnswer(ans -> {
@@ -248,7 +248,7 @@ class OperationHistoryDataManagerImplTest {
      * Tests run() when the entity manager throws an exception.
      */
     @Test
-    void testRunException() throws InterruptedException {
+    void testRunException() {
         var count = new AtomicInteger(0);
 
         when(emfSpy.createEntityManager()).thenAnswer(ans -> {
@@ -385,16 +385,15 @@ class OperationHistoryDataManagerImplTest {
     }
 
     private static OperationHistoryDataManagerParamsBuilder makeBuilder() {
-        // @formatter:off
         return OperationHistoryDataManagerParams.builder()
-                        .url("jdbc:h2:mem:" + OperationHistoryDataManagerImplTest.class.getSimpleName())
-                        .dbType("H2")
-                        .driver("org.h2.Driver")
-                        .userName("sa")
-                        .password("")
-                        .batchSize(BATCH_SIZE)
-                        .maxQueueLength(MAX_QUEUE_LENGTH);
-        // @formatter:on
+            .url("jdbc:h2:mem:" + OperationHistoryDataManagerImplTest.class.getSimpleName())
+            .dbType("H2")
+            .driver("org.h2.Driver")
+            .userName("sa")
+            .password("")
+            .persistenceUnit("OperationsHistoryTest")
+            .batchSize(BATCH_SIZE)
+            .maxQueueLength(MAX_QUEUE_LENGTH);
     }
 
     /**
