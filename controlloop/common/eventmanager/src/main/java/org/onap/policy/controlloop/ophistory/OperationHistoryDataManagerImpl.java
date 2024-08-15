@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,14 +85,14 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
 
     /**
      * Number of records that have been inserted into the DB by this data manager
-     * instance, whether or not they were committed.
+     * instance, whether they were committed.
      */
     @Getter
     private long recordsInserted = 0;
 
     /**
      * Number of records that have been updated within the DB by this data manager
-     * instance, whether or not they were committed.
+     * instance, whether they were committed.
      */
     @Getter
     private long recordsUpdated = 0;
@@ -317,7 +317,6 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
         props.put("jakarta.persistence.jdbc.url",      params.getUrl());
         props.put("jakarta.persistence.jdbc.user",     params.getUserName());
         props.put("jakarta.persistence.jdbc.password", params.getPassword());
-        props.put("hibernate.dialect",               params.getDbHibernateDialect());
 
         return props;
     }
@@ -337,6 +336,8 @@ public class OperationHistoryDataManagerImpl implements OperationHistoryDataMana
     // the following may be overridden by junit tests
 
     protected EntityManagerFactory makeEntityManagerFactory(String opsHistPu, Properties props) {
+        logger.info("Starting persistence unit {}", opsHistPu);
+        logger.info("Properties {}", props);
         return Persistence.createEntityManagerFactory(opsHistPu, props);
     }
 

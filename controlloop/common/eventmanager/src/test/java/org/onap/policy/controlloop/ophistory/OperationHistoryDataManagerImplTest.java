@@ -387,7 +387,6 @@ class OperationHistoryDataManagerImplTest {
     private static OperationHistoryDataManagerParamsBuilder makeBuilder() {
         return OperationHistoryDataManagerParams.builder()
             .url("jdbc:h2:mem:" + OperationHistoryDataManagerImplTest.class.getSimpleName())
-            .dbType("H2")
             .driver("org.h2.Driver")
             .userName("sa")
             .password("")

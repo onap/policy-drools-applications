@@ -27,7 +27,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.onap.policy.guard.OperationsHistory</class>
         <properties>
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
             <property name="hibernate.show_sql" value="false"/>
         </properties>
     </persistence-unit>
