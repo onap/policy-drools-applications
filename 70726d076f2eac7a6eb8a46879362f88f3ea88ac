@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06825382_da766059",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ophistory/OperationHistoryDataManagerParams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-08-19T14:48:07Z",
+      "side": 1,
+      "message": "Can this be defaulted to mariadb driver? Should we remove this?",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "70726d076f2eac7a6eb8a46879362f88f3ea88ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
