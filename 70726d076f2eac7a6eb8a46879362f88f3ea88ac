@@ -22,6 +22,30 @@
       },
       "revId": "70726d076f2eac7a6eb8a46879362f88f3ea88ac",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8346c3cd_bc9b6585",
+        "filename": "controlloop/common/eventmanager/src/main/java/org/onap/policy/controlloop/ophistory/OperationHistoryDataManagerParams.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-22T07:58:13Z",
+      "side": 1,
+      "message": "changing this would break other stuff that is not changed to postgresql. All the other components still default to mariadb. we can change all the configuration files to use postgresql as default later.",
+      "parentUuid": "06825382_da766059",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "70726d076f2eac7a6eb8a46879362f88f3ea88ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
