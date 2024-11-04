@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
 import org.onap.policy.drools.features.PolicyControllerFeatureApi;
 import org.onap.policy.drools.system.PolicyController;

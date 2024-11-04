@@ -33,11 +33,11 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.endpoints.event.comm.Topic;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.message.bus.event.Topic;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
@@ -96,14 +96,14 @@ class RestTransactionTrackerTest {
         equals(get("cacheSize", Response.Status.OK.getStatusCode()), Integer.class, 3);
         equals(get("timeout", Response.Status.OK.getStatusCode()), Integer.class, 2);
 
-        put("cacheSize/10", "", Response.Status.OK.getStatusCode());
-        put("timeout/20", "", Response.Status.OK.getStatusCode());
+        put("cacheSize/10", Response.Status.OK.getStatusCode());
+        put("timeout/20", Response.Status.OK.getStatusCode());
 
         equals(get("cacheSize", Response.Status.OK.getStatusCode()), Integer.class, 10);
         equals(get("timeout", Response.Status.OK.getStatusCode()), Integer.class, 20);
 
-        put("cacheSize/3", "", Response.Status.OK.getStatusCode());
-        put("timeout/2", "", Response.Status.OK.getStatusCode());
+        put("cacheSize/3", Response.Status.OK.getStatusCode());
+        put("timeout/2", Response.Status.OK.getStatusCode());
 
         equals(get("cacheSize", Response.Status.OK.getStatusCode()), Integer.class, 3);
         equals(get("timeout", Response.Status.OK.getStatusCode()), Integer.class, 2);
@@ -127,30 +127,31 @@ class RestTransactionTrackerTest {
 
         assertFalse(HttpClient.getBody(get("/inprogress", Response.Status.OK.getStatusCode()),
                 List.class).isEmpty());
-        notNull(get("/inprogress/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.OK.getStatusCode()),
-                String.class);
+        notNull(get("/inprogress/664be3d2-6c12-4f4b-a3e7-c349acced200", Response.Status.OK.getStatusCode())
+        );
     }
 
     private Response get(String contextPath, int statusCode) {
         var response = client.get(contextPath);
-        return checkResponse(statusCode, response);
+        checkResponse(statusCode, response);
+        return response;
     }
 
-    private Response put(String contextPath, String body, int statusCode) {
-        var response = client.put(contextPath, Entity.json(body), Collections.emptyMap());
-        return checkResponse(statusCode, response);
+    private void put(String contextPath, int statusCode) {
+        var response = client.put(contextPath, Entity.json(""), Collections.emptyMap());
+        checkResponse(statusCode, response);
+        response.close();
     }
 
     private <T, Y> void equals(Response response, Class<T> clazz, Y expected) {
         assertEquals(expected, HttpClient.getBody(response, clazz));
     }
 
-    private <T> void notNull(Response response, Class<T> clazz) {
-        assertNotNull(HttpClient.getBody(response, clazz));
+    private <T> void notNull(Response response) {
+        assertNotNull(HttpClient.getBody(response, (Class<T>) String.class));
     }
 
-    private Response checkResponse(int statusCode, Response response) {
+    private void checkResponse(int statusCode, Response response) {
         assertEquals(statusCode, response.getStatus());
-        return response;
     }
 }

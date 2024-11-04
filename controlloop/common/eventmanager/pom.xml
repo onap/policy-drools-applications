@@ -34,18 +34,40 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <groupId>org.onap.policy.drools-pdp</groupId>
+            <artifactId>policy-core</artifactId>
+            <version>${version.policy.drools-pdp}</version>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>provided</scope>
+            <groupId>org.onap.policy.drools-pdp</groupId>
+            <artifactId>policy-utils</artifactId>
+            <version>${version.policy.drools-pdp}</version>
         </dependency>
         <dependency>
-            <!-- less than 1.9.4 has security vulnerabilities -->
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
+            <groupId>org.onap.policy.drools-pdp</groupId>
+            <artifactId>policy-management</artifactId>
+            <version>${version.policy.drools-pdp}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.drools-pdp</groupId>
+            <artifactId>policy-domains</artifactId>
+            <version>${version.policy.drools-pdp}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-decisions</artifactId>
+            <version>${policy.models.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-examples</artifactId>
+            <version>${policy.models.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-tosca</artifactId>
+            <version>${policy.models.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
@@ -159,11 +181,6 @@
             <artifactId>blueprint-proto</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>aai</artifactId>
             <version>${policy.models.version}</version>
@@ -176,32 +193,25 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models</groupId>
-            <artifactId>policy-models-decisions</artifactId>
+            <groupId>org.onap.policy.models.policy-models-interactions</groupId>
+            <artifactId>simulators</artifactId>
             <version>${policy.models.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5</artifactId>
-            <scope>provided</scope>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>common-parameters</artifactId>
+            <version>${version.policy.common}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>policy-endpoints</artifactId>
             <version>${version.policy.common}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.drools-pdp</groupId>
-            <artifactId>policy-management</artifactId>
-            <version>${version.policy.drools-pdp}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.drools-pdp</groupId>
-            <artifactId>policy-domains</artifactId>
-            <version>${version.policy.drools-pdp}</version>
-            <scope>provided</scope>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.policy.common}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
@@ -210,21 +220,58 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions</groupId>
-            <artifactId>simulators</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>test</scope>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models</groupId>
-            <artifactId>policy-models-examples</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>test</scope>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.openpojo</groupId>
+            <artifactId>openpojo</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 </project>
