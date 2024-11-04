@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,11 +39,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
-import org.onap.policy.common.endpoints.event.comm.bus.NoopTopicSink;
-import org.onap.policy.common.endpoints.parameters.TopicParameters;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.TopicEndpoint;
+import org.onap.policy.common.message.bus.event.TopicEndpointManager;
+import org.onap.policy.common.message.bus.event.noop.NoopTopicSink;
+import org.onap.policy.common.parameters.topic.TopicParameters;
 
 class ListenerTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -139,7 +139,7 @@ class ListenerTest {
      */
     @Test
     void testAwaitLongTimeUnitPredicateInterrupted() throws InterruptedException {
-        listener = new Listener<String>(MY_TOPIC, msg -> msg) {
+        listener = new Listener<>(MY_TOPIC, msg -> msg) {
             @Override
             protected String pollMessage(long remainingMs) throws InterruptedException {
                 throw new InterruptedException(EXPECTED_EXCEPTION);
@@ -149,20 +149,17 @@ class ListenerTest {
         AtomicReference<TopicException> exref = new AtomicReference<>();
         var interrupted = new CountDownLatch(1);
 
-        var thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    listener.await();
-                } catch (TopicException e) {
-                    exref.set(e);
-                }
-
-                if (Thread.currentThread().isInterrupted()) {
-                    interrupted.countDown();
-                }
+        var thread = new Thread(() -> {
+            try {
+                listener.await();
+            } catch (TopicException e) {
+                exref.set(e);
             }
-        };
+
+            if (Thread.currentThread().isInterrupted()) {
+                interrupted.countDown();
+            }
+        });
 
         thread.start();
         assertTrue(interrupted.await(5, TimeUnit.SECONDS));

@@ -188,7 +188,7 @@
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>utils-test</artifactId>
-            <version>${version.policy.common}</version>
+            <version>${policy.common.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -204,6 +204,11 @@
             <groupId>org.drools</groupId>
             <artifactId>drools-model-compiler</artifactId>
             <version>${version.drools}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

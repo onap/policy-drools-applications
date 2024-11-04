@@ -53,6 +53,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>message-bus</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
@@ -79,12 +84,12 @@
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>utils</artifactId>
-            <version>${version.policy.common}</version>
+            <version>${policy.common.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>policy-endpoints</artifactId>
-            <version>${version.policy.common}</version>
+            <version>${policy.common.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions</groupId>
@@ -107,7 +112,7 @@
         <dependency>
             <groupId>org.onap.policy.common</groupId>
             <artifactId>utils-test</artifactId>
-            <version>${version.policy.common}</version>
+            <version>${policy.common.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
