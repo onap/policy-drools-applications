@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============LICENSE_START=======================================================
-#  Copyright (C) 2023 Nordix Foundation. All rights reserved.
+#  Copyright (C) 2023-2025 Nordix Foundation. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,28 +22,45 @@ if [ -z "${WORKSPACE}" ]; then
     export WORKSPACE=$(git rev-parse --show-toplevel)
 fi
 
+export PROJECT="drools-pdp"
 export TESTDIR=${WORKSPACE}/testsuites
 export DROOLS_PERF_TEST_FILE=$TESTDIR/performance/src/main/resources/amsterdam/policyMTPerformanceTestPlan.jmx
 export DROOLS_STAB_TEST_FILE=$TESTDIR/stability/src/main/resources/s3p.jmx
 
-if [ $1 == "run" ]
-then
+function run_tests() {
+    local test_type=$1
+    local test_file=$2
 
-  mkdir automate-performance;cd automate-performance;
-  git clone "https://gerrit.onap.org/r/policy/docker"
-  cd docker/csit
+    mkdir -p automate-s3p-test
+    cd automate-s3p-test || exit 1
+    git clone "https://gerrit.onap.org/r/policy/docker"
+    cd docker/csit || exit 1
 
-  if [ $2 == "performance" ]
-  then
-    bash start-s3p-tests.sh run $DROOLS_PERF_TEST_FILE drools-applications;
-  elif [ $2 == "stability" ]
-  then
-    bash start-s3p-tests.sh run $DROOLS_STAB_TEST_FILE drools-applications;
-  else
-    echo "echo Invalid arguments provided. Usage: $0 [option..] {performance | stability}"
-  fi
+    bash run-s3p-tests.sh test "$test_file" $PROJECT
+}
 
-else
-  echo "Invalid arguments provided. Usage: $0 [option..] {run | uninstall}"
-fi
+function clean() {
+    cd $TESTDIR/automate-s3p-test/docker/csit
+    bash run-s3p-tests.sh clean
+}
+
+echo "==========================="
+echo "Running tests for: $PROJECT"
+echo "==========================="
+
+case $1 in
+    performance)
+        run_tests "performance" "$DROOLS_PERF_TEST_FILE"
+        ;;
+    stability)
+        run_tests "stability" "$DROOLS_STAB_TEST_FILE"
+        ;;
+    clean)
+        clean
+        ;;
+    *)
+        echo "Invalid arguments provided. Usage: $0 {performance | stability | clean}"
+        exit 1
+        ;;
+esac
 
