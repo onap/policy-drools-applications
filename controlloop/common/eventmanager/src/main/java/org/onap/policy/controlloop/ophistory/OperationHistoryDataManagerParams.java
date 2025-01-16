@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import org.onap.policy.common.parameters.annotations.NotNull;
 @AllArgsConstructor
 public class OperationHistoryDataManagerParams {
     public static final String DEFAULT_PU = "OperationsHistoryPU";
-    public static final String DEFAULT_DRIVER = "org.mariadb.jdbc.Driver";
+    public static final String DEFAULT_DRIVER = "org.postgresql.jdbc.Driver";
 
     @NotBlank
     private String url;
