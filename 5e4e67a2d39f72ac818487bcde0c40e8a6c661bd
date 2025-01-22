@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "968e139d_1c763e53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2025-01-22T15:56:04Z",
+      "side": 1,
+      "message": "Thanks for spotting these Adheli. Left over variable from a previous implementation I tried initially - forgot to remove.",
+      "revId": "5e4e67a2d39f72ac818487bcde0c40e8a6c661bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
