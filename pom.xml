@@ -3,7 +3,7 @@
   drools-pdp-apps
   ================================================================================
   Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2019, 2023-2025 Nordix Foundation.
+  Modifications Copyright (C) 2019, 2023-2025 OpenInfra Foundation Europe. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>5.1.2-SNAPSHOT</version>
+        <version>5.1.2</version>
         <relativePath />
     </parent>
 
@@ -49,9 +49,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>3.1.2-SNAPSHOT</version.policy.common>
-        <policy.models.version>4.1.2-SNAPSHOT</policy.models.version>
-        <version.policy.drools-pdp>3.1.2-SNAPSHOT</version.policy.drools-pdp>
+        <version.policy.common>3.1.2</version.policy.common>
+        <policy.models.version>4.1.2</policy.models.version>
+        <version.policy.drools-pdp>3.1.2</version.policy.drools-pdp>
         <surefireArgLine>
             --add-opens java.base/java.lang=ALL-UNNAMED
         </surefireArgLine>
