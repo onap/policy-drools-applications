@@ -30,7 +30,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications.controlloop.packages</groupId>
         <artifactId>drools-applications-packages</artifactId>
-        <version>3.2.0-SNAPSHOT</version>
+        <version>3.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>basex-controlloop</artifactId>
