@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023,2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,44 +31,30 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.onap.aai.domain.yang.GenericVnf;
-import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.eventmanager.StepContext;
 
 class LockOperation2Test {
-    private static final String MY_PNF = "my-pnf";
-    private static final String MY_VNF = "my-vnf";
     private static final String MY_ACTOR = "my-actor";
     private static final String MY_OPERATION = "my-operation";
 
     private final StepContext stepContext = mock(StepContext.class);
     private final ControlLoopOperationParams params = mock(ControlLoopOperationParams.class);
 
-    private VirtualControlLoopEvent event;
     private CompletableFuture<OperationOutcome> future;
-    private GenericVnf vnf;
     private LockOperation2 oper;
 
     /**
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
-        event = new VirtualControlLoopEvent();
-        event.setTarget("pnf.pnf-name");
-        event.setAai(Map.of("pnf.pnf-name", MY_PNF));
-
+    void setUp() {
         future = new CompletableFuture<>();
-
-        vnf = new GenericVnf();
-        vnf.setVnfId(MY_VNF);
 
         when(stepContext.requestLock(anyString())).thenReturn(future);
 

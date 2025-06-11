@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import org.onap.policy.controlloop.common.rules.test.DroolsRuleTest;
 import org.onap.policy.controlloop.common.rules.test.Listener;
 import org.onap.policy.controlloop.common.rules.test.NamedRunner;
 import org.onap.policy.controlloop.common.rules.test.TestNames;
-import org.onap.policy.drools.apps.controller.usecases.UsecasesEventManager;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.simulators.Util;
 
@@ -50,13 +49,13 @@ class UsecasesTest extends DroolsRuleTest {
      * Sets up statics.
      */
     @BeforeAll
-    public static void setUpBeforeClass() {
+    static void setUpBeforeClass() {
         initStatics(CONTROLLER_NAME);
 
         rules.configure("src/main/resources");
         httpClients.addClients("usecases");
-        simulators.start(Util::buildAaiSim, Util::buildSoSim, Util::buildVfcSim, Util::buildXacmlSim,
-                        Util::buildSdncSim);
+        simulators.start(Util::buildAaiSim, Util::buildSoSim, Util::buildXacmlSim,
+            Util::buildSdncSim);
 
         rules.start();
     }
@@ -65,7 +64,7 @@ class UsecasesTest extends DroolsRuleTest {
      * Cleans up statics.
      */
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         finishStatics();
     }
 
@@ -73,7 +72,7 @@ class UsecasesTest extends DroolsRuleTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         init();
     }
 
@@ -81,7 +80,7 @@ class UsecasesTest extends DroolsRuleTest {
      * Tears down.
      */
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         finish();
     }
 
@@ -90,37 +89,33 @@ class UsecasesTest extends DroolsRuleTest {
         String policyName = policy.getIdentifier().getName();
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.ACTIVE
-                        && "EVENT.MANAGER.ACCEPT".equals(notif.getPolicyScope())
-                        && policyName.equals(notif.getPolicyName()));
+            && "EVENT.MANAGER.ACCEPT".equals(notif.getPolicyScope())
+            && policyName.equals(notif.getPolicyName()));
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
-                        && "EVENT.MANAGER.PROCESS.GUARD.OUTCOME".equals(notif.getPolicyScope())
-                        && policyName.equals(notif.getPolicyName())
-                        && notif.getMessage().startsWith("Sending guard query"));
+            && "EVENT.MANAGER.PROCESS.GUARD.OUTCOME".equals(notif.getPolicyScope())
+            && policyName.equals(notif.getPolicyName())
+            && notif.getMessage().startsWith("Sending guard query"));
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
-                        && "EVENT.MANAGER.PROCESS.GUARD.OUTCOME".equals(notif.getPolicyScope())
-                        && policyName.equals(notif.getPolicyName())
-                        && notif.getMessage().startsWith("Guard result")
-                        && notif.getMessage().endsWith("Permit"));
+            && "EVENT.MANAGER.PROCESS.GUARD.OUTCOME".equals(notif.getPolicyScope())
+            && policyName.equals(notif.getPolicyName())
+            && notif.getMessage().startsWith("Guard result")
+            && notif.getMessage().endsWith("Permit"));
 
         policyClMgt.await(notif -> notif.getNotification() == ControlLoopNotificationType.OPERATION
-                        && "EVENT.MANAGER.PROCESS.POLICY.STARTED".equals(notif.getPolicyScope())
-                        && policyName.equals(notif.getPolicyName())
-                        && notif.getMessage().startsWith("actor="));
+            && "EVENT.MANAGER.PROCESS.POLICY.STARTED".equals(notif.getPolicyScope())
+            && policyName.equals(notif.getPolicyName())
+            && notif.getMessage().startsWith("actor="));
     }
 
     @Override
     protected VirtualControlLoopNotification waitForFinal(ToscaPolicy policy,
-                    Listener<VirtualControlLoopNotification> policyClMgt, ControlLoopNotificationType finalType) {
+                                                          Listener<VirtualControlLoopNotification> policyClMgt,
+                                                          ControlLoopNotificationType finalType) {
 
         return policyClMgt.await(notif -> notif.getNotification() == finalType
-                        && "EVENT.MANAGER.FINAL".equals(notif.getPolicyScope())
-                        && (policy.getIdentifier().getName()).equals(notif.getPolicyName()));
-    }
-
-    @Override
-    protected long getCreateCount() {
-        return UsecasesEventManager.getCreateCount();
+            && "EVENT.MANAGER.FINAL".equals(notif.getPolicyScope())
+            && (policy.getIdentifier().getName()).equals(notif.getPolicyName()));
     }
 }

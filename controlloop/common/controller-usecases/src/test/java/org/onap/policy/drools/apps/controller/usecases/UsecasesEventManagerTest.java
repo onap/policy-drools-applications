@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021, 2023 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,10 +58,8 @@ import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.controlloop.eventmanager.ActorConstants;
 import org.onap.policy.controlloop.eventmanager.EventManagerServices;
@@ -92,16 +90,14 @@ class UsecasesEventManagerTest {
     private static final String SIMPLE_OPERATION = "OperationA";
     private static final String MY_TARGET = "my-target";
     private static final String EVENT_MGR_SIMPLE_YAML =
-                    "../eventmanager/src/test/resources/eventManager/event-mgr-simple.yaml";
+        "../eventmanager/src/test/resources/eventManager/event-mgr-simple.yaml";
     private static final Coder yamlCoder = new StandardYamlCoder();
     private static final String OUTCOME_MSG = "my outcome message";
 
     private final PolicyEngine engineMgr = mock(PolicyEngine.class);
     private final WorkingMemory workMem = mock(WorkingMemory.class);
     private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
-    private final Operator policyOperator = mock(Operator.class);
     private final Operation policyOperation = mock(Operation.class);
-    private final Actor policyActor = mock(Actor.class);
     private final EventManagerServices services = mock(EventManagerServices.class);
     private final OperationHistoryDataManager dataMgr = mock(OperationHistoryDataManager.class);
     private final ExecutorService executor = mock(ExecutorService.class);
@@ -118,7 +114,7 @@ class UsecasesEventManagerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() throws ControlLoopException, CoderException {
+    void setUp() throws ControlLoopException, CoderException {
         when(services.getDataManager()).thenReturn(dataMgr);
 
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
@@ -137,7 +133,7 @@ class UsecasesEventManagerTest {
         params.setPolicyScope(POLICY_SCOPE);
         params.setPolicyVersion(POLICY_VERSION);
 
-        loadPolicy(EVENT_MGR_SIMPLE_YAML);
+        loadPolicy();
 
         locks = new ArrayList<>();
 
@@ -153,37 +149,37 @@ class UsecasesEventManagerTest {
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
+            .hasMessage("is-closed-loop-disabled is set to true on VServer or VNF");
 
         // vserver ACTIVE
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS,
-                        UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
+            UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
         assertThatCode(() -> new UsecasesEventManager(services, params, event, workMem)).doesNotThrowAnyException();
 
         // vserver active
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS,
-                        UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
+            UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
         assertThatCode(() -> new UsecasesEventManager(services, params, event, workMem)).doesNotThrowAnyException();
 
         // vserver inactive
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .hasMessage("prov-status is not ACTIVE on VServer or VNF");
+            .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
         // vnf ACTIVE
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS,
-                        UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
+            UsecasesConstants.PROV_STATUS_ACTIVE.toUpperCase()));
         assertThatCode(() -> new UsecasesEventManager(services, params, event, workMem)).doesNotThrowAnyException();
 
         // vnf active
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS,
-                        UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
+            UsecasesConstants.PROV_STATUS_ACTIVE.toLowerCase()));
         assertThatCode(() -> new UsecasesEventManager(services, params, event, workMem)).doesNotThrowAnyException();
 
         // vnf inactive
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .hasMessage("prov-status is not ACTIVE on VServer or VNF");
+            .hasMessage("prov-status is not ACTIVE on VServer or VNF");
 
         // valid
         event.setAai(orig);
@@ -192,7 +188,7 @@ class UsecasesEventManagerTest {
         // invalid
         event.setTarget("unknown-target");
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .isInstanceOf(ControlLoopException.class);
+            .isInstanceOf(ControlLoopException.class);
     }
 
     @Test
@@ -309,8 +305,8 @@ class UsecasesEventManagerTest {
     @Test
     void testLoadPreprocessorStepsNeedTargetEntity() {
         stepa = new Step2(mgr, ControlLoopOperationParams.builder()
-                        .targetType(TargetType.toTargetType(event.getTargetType())).targetEntityIds(Map.of()).build(),
-                        event) {
+            .targetType(TargetType.toTargetType(event.getTargetType())).targetEntityIds(Map.of()).build(),
+            event) {
             @Override
             public List<String> getPropertyNames() {
                 return List.of(OperationProperties.AAI_TARGET_ENTITY);
@@ -373,10 +369,13 @@ class UsecasesEventManagerTest {
         var outcome = makeOutcome();
         mgr.addToHistory(outcome);
 
-        mgr.storeInDataBase(mgr.getPartialHistory().peekLast());
+        var historyLast = mgr.getPartialHistory().peekLast();
+        assertNotNull(historyLast);
+
+        mgr.storeInDataBase(historyLast);
 
         verify(dataMgr).store(REQ_ID.toString(), event.getClosedLoopControlName(), event, null,
-                        mgr.getPartialHistory().peekLast().getClOperation());
+            historyLast.getClOperation());
     }
 
     @Test
@@ -434,15 +433,15 @@ class UsecasesEventManagerTest {
 
         event.setTarget("unknown-target");
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("target field invalid");
+            .hasMessage("target field invalid");
 
         event.setTarget(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("No target field");
+            .hasMessage("No target field");
 
         event.setRequestId(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("No request ID");
+            .hasMessage("No request ID");
     }
 
     @Test
@@ -455,22 +454,22 @@ class UsecasesEventManagerTest {
 
         event.setClosedLoopEventStatus(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("Invalid value in closedLoopEventStatus");
+            .hasMessage("Invalid value in closedLoopEventStatus");
     }
 
     @Test
     void testValidateAaiData() {
         event.setTargetType("unknown-target-type");
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("The target type is not supported");
+            .hasMessage("The target type is not supported");
 
         event.setTargetType(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("The Target type is null");
+            .hasMessage("The Target type is null");
 
         event.setAai(null);
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("AAI is null");
+            .hasMessage("AAI is null");
 
         // VM case
         event.setTargetType(ControlLoopTargetType.VM);
@@ -511,7 +510,7 @@ class UsecasesEventManagerTest {
 
         event.setAai(Map.of());
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class).hasMessage(
-                        "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
+            "generic-vnf.vnf-id or generic-vnf.vnf-name or vserver.vserver-name information missing");
     }
 
     @Test
@@ -522,7 +521,7 @@ class UsecasesEventManagerTest {
 
         event.setAai(Map.of());
         assertThatCode(() -> mgr.checkEventSyntax(event)).isInstanceOf(ControlLoopException.class)
-                        .hasMessage("AAI PNF object key pnf-name is missing");
+            .hasMessage("AAI PNF object key pnf-name is missing");
     }
 
     @Test
@@ -531,15 +530,15 @@ class UsecasesEventManagerTest {
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "true"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .isInstanceOf(IllegalStateException.class);
+            .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_IS_CLOSED_LOOP_DISABLED, "true"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .isInstanceOf(IllegalStateException.class);
+            .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, UsecasesConstants.PNF_IS_IN_MAINT, "true"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .isInstanceOf(IllegalStateException.class);
+            .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
@@ -551,14 +550,14 @@ class UsecasesEventManagerTest {
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .isInstanceOf(IllegalStateException.class);
+            .isInstanceOf(IllegalStateException.class);
 
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "ACTIVE"));
         assertThatCode(() -> new UsecasesEventManager(services, params, event, workMem)).doesNotThrowAnyException();
 
         event.setAai(addAai(orig, UsecasesConstants.GENERIC_VNF_PROV_STATUS, "inactive"));
         assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                        .isInstanceOf(IllegalStateException.class);
+            .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
@@ -568,7 +567,7 @@ class UsecasesEventManagerTest {
         for (var value : Arrays.asList("yes", "y", "true", "t", "yEs", "trUe")) {
             event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, value));
             assertThatThrownBy(() -> new UsecasesEventManager(services, params, event, workMem))
-                            .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalStateException.class);
         }
 
         event.setAai(addAai(orig, UsecasesConstants.VSERVER_IS_CLOSED_LOOP_DISABLED, "false"));
@@ -579,15 +578,15 @@ class UsecasesEventManagerTest {
     }
 
 
-
     private Map<String, String> addAai(Map<String, String> original, String key, String value) {
         Map<String, String> map = new TreeMap<>(original);
         map.put(key, value);
         return map;
     }
 
-    private void loadPolicy(String fileName) throws CoderException {
-        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+    private void loadPolicy() throws CoderException {
+        var template = yamlCoder.decode(ResourceUtils.getResourceAsString(
+            UsecasesEventManagerTest.EVENT_MGR_SIMPLE_YAML), ToscaServiceTemplate.class);
         tosca = template.getToscaTopologyTemplate().getPolicies().get(0).values().iterator().next();
 
         params.setToscaPolicy(tosca);
@@ -654,7 +653,7 @@ class UsecasesEventManagerTest {
         private static final long serialVersionUID = 1L;
 
         public MyManager(EventManagerServices services, ControlLoopParams params, VirtualControlLoopEvent event,
-                        WorkingMemory workMem) throws ControlLoopException {
+                         WorkingMemory workMem) throws ControlLoopException {
 
             super(services, params, event, workMem);
         }

@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023,2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ class GetTargetEntityOperation2Test {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         event = new VirtualControlLoopEvent();
         event.setTarget("pnf.pnf-name");
         event.setAai(Map.of("pnf.pnf-name", MY_PNF));
@@ -160,17 +160,6 @@ class GetTargetEntityOperation2Test {
         verifyTarget(MY_VNF);
     }
 
-    /**
-     * Tests detmTarget() when the target type is unknown.
-     */
-    @Test
-    void testDetmTargetUnknownType() {
-        when(params.getTargetType()).thenReturn(TargetType.VFC);
-        enrichTarget(VSERVER_NAME);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames())
-                        .withMessage("The target type is not supported");
-    }
-
     @Test
     void testDetmPnfTargetPnf() {
         assertThat(oper.getPropertyNames()).isEmpty();
@@ -205,17 +194,6 @@ class GetTargetEntityOperation2Test {
         when(params.getTargetType()).thenReturn(TargetType.VM);
         event.setTarget(null);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.getPropertyNames()).withMessage("Target is null");
-    }
-
-    /**
-     * Tests detmVfModuleTarget() when the target is the vserver name.
-     */
-    @Test
-    void testDetmVfModuleTargetVserverName() {
-        when(params.getTargetType()).thenReturn(TargetType.VM);
-        enrichTarget(VSERVER_NAME);
-        assertThat(oper.getPropertyNames()).isEmpty();
-        verifyTarget(MY_VNF);
     }
 
     /**
