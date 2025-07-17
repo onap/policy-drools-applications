@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ class ClEventManagerWithStepsTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() throws ControlLoopException, CoderException {
+    void setUp() throws ControlLoopException, CoderException {
         when(services.getActorService()).thenReturn(actors);
 
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
@@ -193,7 +193,7 @@ class ClEventManagerWithStepsTest {
      * Tests start() when the manager is not in working memory.
      */
     @Test
-    void testStartNotInWorkingMemory() throws ControlLoopException {
+    void testStartNotInWorkingMemory() {
         when(workMem.getFactHandle(any())).thenReturn(null);
 
         assertThatCode(() -> mgr.start()).isInstanceOf(IllegalStateException.class)
@@ -273,7 +273,7 @@ class ClEventManagerWithStepsTest {
 
     @Test
     void testLoadPreprocessorSteps() {
-        stepa = new MyStep(mgr, ControlLoopOperationParams.builder().build()) {
+        stepa = new MyStep(ControlLoopOperationParams.builder().build()) {
             @Override
             protected Operation buildOperation() {
                 return policyOperation;
@@ -302,7 +302,7 @@ class ClEventManagerWithStepsTest {
      */
     @Test
     void testLoadPreprocessorStepsTooManySteps() {
-        stepa = new MyStep(mgr, ControlLoopOperationParams.builder().build()) {
+        stepa = new MyStep(ControlLoopOperationParams.builder().build()) {
             @Override
             protected Operation buildOperation() {
                 return policyOperation;
@@ -427,7 +427,7 @@ class ClEventManagerWithStepsTest {
 
         @Override
         protected void loadPolicyStep(ControlLoopOperationParams params) {
-            getSteps().add(new MyStep(this, params));
+            getSteps().add(new MyStep(params));
         }
     }
 
@@ -443,12 +443,12 @@ class ClEventManagerWithStepsTest {
 
         @Override
         protected void loadPolicyStep(ControlLoopOperationParams params) {
-            getSteps().add(new MyStep(this, params));
+            getSteps().add(new MyStep(params));
         }
     }
 
     private static class MyStep extends Step {
-        public MyStep(StepContext stepContext, ControlLoopOperationParams params) {
+        public MyStep(ControlLoopOperationParams params) {
             super(params, new AtomicReference<>());
         }
     }

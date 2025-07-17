@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ class ListenerTest {
      * Creates topics.
      */
     @BeforeAll
-    public static void setUpBeforeClass() {
+    static void setUpBeforeClass() {
         TopicEndpointManager.getManager().shutdown();
 
         var params = new TopicParameters();
@@ -75,7 +75,7 @@ class ListenerTest {
     }
 
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         TopicEndpointManager.getManager().shutdown();
     }
 
@@ -83,7 +83,7 @@ class ListenerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(mgr.getNoopTopicSink(MY_TOPIC)).thenReturn(sink);
 
         listener = new Listener<>(MY_TOPIC, msg -> msg + MSG_SUFFIX) {

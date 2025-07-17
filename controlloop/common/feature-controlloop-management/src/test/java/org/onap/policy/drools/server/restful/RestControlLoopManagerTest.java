@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ class RestControlLoopManagerTest {
      * @throws Exception if failure to complete the setup.
      */
     @BeforeAll
-    public static void setUp() throws Exception {
+    static void setUp() throws Exception {
         System.setProperty("kie.maven.settings.custom", "src/test/resources/settings.xml");
         LoggerUtils.setLevel(LoggerUtils.ROOT_LOGGER, "WARN");
 
@@ -132,7 +132,7 @@ class RestControlLoopManagerTest {
      * test tear down.
      */
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         PolicyControllerConstants.getFactory().get(CONTROLLER).stop();
         await().atMost(1, TimeUnit.MINUTES).until(isContainerAlive(), equalTo(Boolean.FALSE));
 

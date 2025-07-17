@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021, 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,6 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderInstantAsMillis;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 import org.onap.policy.controlloop.VirtualControlLoopNotification;
-import org.onap.policy.drools.controller.DroolsController;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.sdnr.PciBody;
 import org.onap.policy.sdnr.PciCommonHeader;
@@ -85,16 +83,13 @@ class BaseTestTest {
     private final Listener<Request> appcClSink = mock();
     private final Listener<AppcLcmMessageWrapper> appcLcmRead = mock();
     private final Listener<PciMessage> sdnrClSink = mock();
-    private final DroolsController drools = mock(DroolsController.class);
-    private final ToscaPolicy policy = mock(ToscaPolicy.class);
-    private final ToscaConceptIdentifier policyIdent = mock(ToscaConceptIdentifier.class);
 
     /**
      * Saves static values from the class.
      */
     @SuppressWarnings("unchecked")
     @BeforeAll
-    public static void setUpBeforeClass() {
+    static void setUpBeforeClass() {
         httpClientMaker = (Supplier<HttpClients>) ReflectionTestUtils.getField(BaseTest.class, "httpClientMaker");
         simMaker = (Supplier<Simulators>) ReflectionTestUtils.getField(BaseTest.class, "simMaker");
         topicMaker = (Supplier<Topics>) ReflectionTestUtils.getField(BaseTest.class, "topicMaker");
@@ -104,7 +99,7 @@ class BaseTestTest {
      * Restores static values.
      */
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         ReflectionTestUtils.setField(BaseTest.class, "httpClientMaker", httpClientMaker);
         ReflectionTestUtils.setField(BaseTest.class, "simMaker", simMaker);
         ReflectionTestUtils.setField(BaseTest.class, "topicMaker", topicMaker);
@@ -114,7 +109,7 @@ class BaseTestTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(topics.createListener(eq(BaseTest.POLICY_CL_MGT_TOPIC), eq(VirtualControlLoopNotification.class),
                         any(StandardCoder.class))).thenReturn(policyClMgt);
         when(topics.createListener(eq(BaseTest.APPC_LCM_READ_TOPIC), eq(AppcLcmMessageWrapper.class),
@@ -124,13 +119,13 @@ class BaseTestTest {
         when(topics.createListener(eq(BaseTest.SDNR_CL_TOPIC), eq(PciMessage.class), any(StandardCoder.class)))
                         .thenReturn(sdnrClSink);
 
-        Supplier<HttpClients> httpClientMaker = this::makeHttpClients;
-        Supplier<Simulators> simMaker = this::makeSim;
-        Supplier<Topics> topicMaker = this::makeTopics;
+        Supplier<HttpClients> localHttpClientMaker = this::makeHttpClients;
+        Supplier<Simulators> localSimMaker = this::makeSim;
+        Supplier<Topics> localTopicMaker = this::makeTopics;
 
-        ReflectionTestUtils.setField(BaseTest.class, "httpClientMaker", httpClientMaker);
-        ReflectionTestUtils.setField(BaseTest.class, "simMaker", simMaker);
-        ReflectionTestUtils.setField(BaseTest.class, "topicMaker", topicMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "httpClientMaker", localHttpClientMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "simMaker", localSimMaker);
+        ReflectionTestUtils.setField(BaseTest.class, "topicMaker", localTopicMaker);
 
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();
