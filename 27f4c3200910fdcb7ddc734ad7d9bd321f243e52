@@ -22,6 +22,30 @@
       },
       "revId": "27f4c3200910fdcb7ddc734ad7d9bd321f243e52",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3865b15_e3dd32b2",
+        "filename": "controlloop/common/controller-usecases/src/test/java/org/onap/policy/drools/apps/controller/usecases/step/GuardStep2Test.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-07-18T13:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e1ac91_8b539ece",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "27f4c3200910fdcb7ddc734ad7d9bd321f243e52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
