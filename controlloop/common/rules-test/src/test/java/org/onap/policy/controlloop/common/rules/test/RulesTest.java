@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ class RulesTest {
      * Attaches the appender to the logger.
      */
     @BeforeAll
-    public static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() {
         /*
          * Attach appender to the logger.
          */
@@ -119,7 +119,7 @@ class RulesTest {
      * Stops the appender.
      */
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         appender.stop();
     }
 
@@ -127,7 +127,7 @@ class RulesTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         facts = new LinkedList<>();
         ruleListeners = new LinkedList<>();
         agendaListeners = new LinkedList<>();
@@ -200,7 +200,7 @@ class RulesTest {
     }
 
     @Test
-    void testStart() throws Exception {
+    void testStart() {
         verify(repo).setConfigurationDir("src/test/resources/config");
         assertTrue(installed);
         verify(engine).configure(any(Properties.class));

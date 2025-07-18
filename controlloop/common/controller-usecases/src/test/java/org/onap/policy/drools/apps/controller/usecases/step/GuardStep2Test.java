@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ import org.onap.aai.domain.yang.RelatedToProperty;
 import org.onap.aai.domain.yang.Relationship;
 import org.onap.aai.domain.yang.RelationshipData;
 import org.onap.aai.domain.yang.RelationshipList;
-import org.onap.aai.domain.yang.Vserver;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.controlloop.VirtualControlLoopEvent;
 import org.onap.policy.controlloop.actor.so.VfModuleCreate;
@@ -76,7 +75,6 @@ class GuardStep2Test {
     private final AaiCqResponse customQuery = mock(AaiCqResponse.class);
     private final GenericVnf genericVnf = mock(GenericVnf.class);
     private final CloudRegion cloudRegion = mock(CloudRegion.class);
-    private final Vserver theVserver = mock(Vserver.class);
 
     private TargetType target;
     private Map<String, String> aai = new HashMap<>();
@@ -89,7 +87,7 @@ class GuardStep2Test {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         aai.put("vserver.vserver-name", MY_SERVERNAME);
         when(event.getAai()).thenReturn(aai);
 

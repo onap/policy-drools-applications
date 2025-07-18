@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ class OperationHistoryDataManagerImplTest {
      * Sets up for all tests.
      */
     @BeforeAll
-    public static void setUpBeforeClass() {
+    static void setUpBeforeClass() {
         var params = makeBuilder().build();
 
         // capture the entity manager factory for re-use
@@ -98,7 +98,7 @@ class OperationHistoryDataManagerImplTest {
      * Restores the environment after all tests.
      */
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         emf.close();
     }
 
@@ -106,7 +106,7 @@ class OperationHistoryDataManagerImplTest {
      * Sets up for an individual test.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         event = new VirtualControlLoopEvent();
         event.setClosedLoopControlName(MY_LOOP_NAME);
         event.setRequestId(UUID.randomUUID());
@@ -131,7 +131,7 @@ class OperationHistoryDataManagerImplTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         mgr.stop();
     }
 

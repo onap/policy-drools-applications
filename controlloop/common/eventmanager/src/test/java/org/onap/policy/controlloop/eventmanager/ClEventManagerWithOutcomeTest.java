@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021, 2023 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import static org.mockito.Mockito.when;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,12 +49,9 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardYamlCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.ControlLoopException;
-import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
-import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.onap.policy.controlloop.drl.legacy.ControlLoopParams;
 import org.onap.policy.drools.core.lock.LockCallback;
 import org.onap.policy.drools.core.lock.LockImpl;
@@ -81,13 +79,8 @@ class ClEventManagerWithOutcomeTest {
     private final PolicyEngine engineMgr = mock(PolicyEngine.class);
     private final WorkingMemory workMem = mock(WorkingMemory.class);
     private final InternalFactHandle factHandle = mock(InternalFactHandle.class);
-    private final Operator policyOperator = mock(Operator.class);
-    private final Operation policyOperation = mock(Operation.class);
-    private final Actor policyActor = mock(Actor.class);
     private final EventManagerServices services = mock(EventManagerServices.class);
     private final ExecutorService executor = mock(ExecutorService.class);
-    private final MyStep stepa = mock(MyStep.class);
-    private final MyStep stepb = mock(MyStep.class);
 
     private List<LockImpl> locks;
     private ToscaPolicy tosca;
@@ -98,7 +91,7 @@ class ClEventManagerWithOutcomeTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() throws ControlLoopException, CoderException {
+    void setUp() throws ControlLoopException, CoderException {
         when(workMem.getFactHandle(any())).thenReturn(factHandle);
 
         params = new ControlLoopParams();
@@ -130,7 +123,7 @@ class ClEventManagerWithOutcomeTest {
 
         // start and load step for first policy
         mgr.start();
-        assertEquals("OperationA", mgr.getSteps().poll().getOperationName());
+        assertEquals("OperationA", Objects.requireNonNull(mgr.getSteps().poll()).getOperationName());
         assertNull(mgr.getFinalResult());
 
         // add an outcome
@@ -139,7 +132,7 @@ class ClEventManagerWithOutcomeTest {
 
         // indicate success and load next policy
         mgr.loadNextPolicy(OperationResult.SUCCESS);
-        assertEquals("OperationB", mgr.getSteps().poll().getOperationName());
+        assertEquals("OperationB", Objects.requireNonNull(mgr.getSteps().poll()).getOperationName());
         assertNull(mgr.getFinalResult());
 
         // loadPolicy() should clear the partial history, but not the full history
@@ -195,6 +188,7 @@ class ClEventManagerWithOutcomeTest {
         assertThat(mgr.getPartialHistory()).hasSize(1);
         assertThat(mgr.getFullHistory()).hasSize(1);
         assertSame(outcome, mgr.getPartialHistory().peek().getOutcome());
+        assertNotNull(mgr.getFullHistory().peek());
         assertSame(outcome, mgr.getFullHistory().peek().getOutcome());
 
         // add another start
@@ -204,6 +198,7 @@ class ClEventManagerWithOutcomeTest {
         assertThat(mgr.getPartialHistory()).hasSize(2);
         assertThat(mgr.getFullHistory()).hasSize(2);
         assertSame(outcome, mgr.getPartialHistory().peekLast().getOutcome());
+        assertNotNull(mgr.getFullHistory().peekLast());
         assertSame(outcome, mgr.getFullHistory().peekLast().getOutcome());
 
         // remove the last item from the full history and then add a "completion"
@@ -226,6 +221,7 @@ class ClEventManagerWithOutcomeTest {
         assertThat(mgr.getPartialHistory()).hasSize(4);
         assertThat(mgr.getFullHistory()).hasSize(4);
         assertSame(outcome, mgr.getPartialHistory().peekLast().getOutcome());
+        assertNotNull(mgr.getFullHistory().peekLast());
         assertSame(outcome, mgr.getFullHistory().peekLast().getOutcome());
     }
 
@@ -360,13 +356,13 @@ class ClEventManagerWithOutcomeTest {
 
         @Override
         protected void loadPolicyStep(ControlLoopOperationParams params) {
-            getSteps().add(new MyStep(this, params));
+            getSteps().add(new MyStep(params));
         }
     }
 
 
     private static class MyStep extends Step {
-        public MyStep(StepContext stepContext, ControlLoopOperationParams params) {
+        public MyStep(ControlLoopOperationParams params) {
             super(params, new AtomicReference<>());
         }
     }

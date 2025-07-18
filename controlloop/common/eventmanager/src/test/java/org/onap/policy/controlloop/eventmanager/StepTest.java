@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ class StepTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         future = new CompletableFuture<>();
 
         // configure policy operation
@@ -154,7 +154,7 @@ class StepTest {
         assertEquals("operB", params2.getOperation());
         assertNull(params2.getRetry());
         assertNull(params2.getTimeoutSec());
-        assertEquals(target.getTargetType().toString(), params2.getTargetType().toString());
+        assertEquals(target.getTargetType(), params2.getTargetType().toString());
         assertSame(entityIds, params2.getTargetEntityIds());
         assertTrue(params2.getPayload().isEmpty());
 

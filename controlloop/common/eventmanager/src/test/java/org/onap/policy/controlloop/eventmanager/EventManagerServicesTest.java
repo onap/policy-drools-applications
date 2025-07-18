@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ package org.onap.policy.controlloop.eventmanager;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -50,7 +50,7 @@ class EventManagerServicesTest {
      * Configures HTTP clients.
      */
     @BeforeAll
-    public static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() throws Exception {
         // start with a clean slate
         HttpClientFactoryInstance.getClientFactory().destroy();
 
@@ -61,12 +61,12 @@ class EventManagerServicesTest {
     }
 
     @AfterAll
-    public static void teatDownBeforeClass() {
+    static void teatDownBeforeClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         closeDb();
     }
 
@@ -74,12 +74,12 @@ class EventManagerServicesTest {
     void testEventManagerServices_testGetActorService() {
         // try with guard disabled - should use DB stub
         services = new EventManagerServices(FILEPFX + "event-svc-guard-disabled");
-        assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
+        assertInstanceOf(OperationHistoryDataManagerStub.class, services.getDataManager());
         assertNotNull(services.getActorService());
 
         // try with guard enabled - should create a DB connection
         services = new EventManagerServices(FILEPFX + "event-svc-with-db");
-        assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerImpl);
+        assertInstanceOf(OperationHistoryDataManagerImpl.class, services.getDataManager());
         assertNotNull(services.getActorService());
     }
 
@@ -93,7 +93,7 @@ class EventManagerServicesTest {
     void testIsGuardEnabled() {
         // cannot check guard
         services = new EventManagerServices(FILEPFX + "event-svc-no-guard-actor");
-        assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
+        assertInstanceOf(OperationHistoryDataManagerStub.class, services.getDataManager());
 
         // force exception when checking for guard operator
         services = new EventManagerServices(FILEPFX + "event-svc-with-db") {
@@ -104,7 +104,7 @@ class EventManagerServicesTest {
                 return svc;
             }
         };
-        assertTrue(services.getDataManager() instanceof OperationHistoryDataManagerStub);
+        assertInstanceOf(OperationHistoryDataManagerStub.class, services.getDataManager());
     }
 
     @Test

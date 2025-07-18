@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021, 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ class DroolsRuleTestTest {
      */
     @SuppressWarnings("unchecked")
     @BeforeAll
-    public static void setUpBeforeClass() {
+    static void setUpBeforeClass() {
         ruleMaker = (Function<String, Rules>) ReflectionTestUtils.getField(DroolsRuleTest.class, "ruleMaker");
         httpClientMaker = (Supplier<HttpClients>) ReflectionTestUtils.getField(DroolsRuleTest.class, "httpClientMaker");
         simMaker = (Supplier<Simulators>) ReflectionTestUtils.getField(DroolsRuleTest.class, "simMaker");
@@ -96,7 +96,7 @@ class DroolsRuleTestTest {
      * Restores static values.
      */
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         ReflectionTestUtils.setField(DroolsRuleTest.class, "ruleMaker", ruleMaker);
         ReflectionTestUtils.setField(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
         ReflectionTestUtils.setField(DroolsRuleTest.class, "simMaker", simMaker);
@@ -107,7 +107,7 @@ class DroolsRuleTestTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(rules.getController()).thenReturn(controller);
         when(rules.setupPolicyFromFile(any())).thenReturn(policy);
 
@@ -116,15 +116,15 @@ class DroolsRuleTestTest {
         when(topics.createListener(eq(DroolsRuleTest.APPC_LCM_READ_TOPIC), eq(AppcLcmMessageWrapper.class),
                         any(StandardCoder.class))).thenReturn(appcLcmRead);
 
-        Function<String, Rules> ruleMaker = this::makeRules;
-        Supplier<HttpClients> httpClientMaker = this::makeHttpClients;
-        Supplier<Simulators> simMaker = this::makeSim;
-        Supplier<Topics> topicMaker = this::makeTopics;
+        Function<String, Rules> localRuleMaker = this::makeRules;
+        Supplier<HttpClients> localHttpClientMaker = this::makeHttpClients;
+        Supplier<Simulators> localSimMaker = this::makeSim;
+        Supplier<Topics> localTopicMaker = this::makeTopics;
 
-        ReflectionTestUtils.setField(DroolsRuleTest.class, "ruleMaker", ruleMaker);
-        ReflectionTestUtils.setField(DroolsRuleTest.class, "httpClientMaker", httpClientMaker);
-        ReflectionTestUtils.setField(DroolsRuleTest.class, "simMaker", simMaker);
-        ReflectionTestUtils.setField(DroolsRuleTest.class, "topicMaker", topicMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "ruleMaker", localRuleMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "httpClientMaker", localHttpClientMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "simMaker", localSimMaker);
+        ReflectionTestUtils.setField(DroolsRuleTest.class, "topicMaker", localTopicMaker);
 
         clMgtQueue = new LinkedList<>();
         appcLcmQueue = new LinkedList<>();

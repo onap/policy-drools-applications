@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ class ControlLoopEventManagerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() throws ControlLoopException, CoderException {
+    void setUp() throws ControlLoopException, CoderException {
         when(services.getDataManager()).thenReturn(dataMgr);
 
         params = new ControlLoopParams();
@@ -145,7 +145,7 @@ class ControlLoopEventManagerTest {
 
         // ensure destroy() doesn't throw an exception if the object is deserialized
         var mgr2 = Serializer.roundTrip(mgr);
-        assertThatCode(() -> mgr2.destroy()).doesNotThrowAnyException();
+        assertThatCode(mgr2::destroy).doesNotThrowAnyException();
 
         // locks should not have been freed
         for (var lock : locks) {
@@ -162,7 +162,7 @@ class ControlLoopEventManagerTest {
     }
 
     @Test
-    void testDetmControlLoopTimeoutMs() throws Exception {
+    void testDetmControlLoopTimeoutMs() {
         long timeMs = 1200 * 1000L;
         long end = mgr.getEndTimeMs();
         assertThat(end).isGreaterThanOrEqualTo(preCreateTimeMs + timeMs).isLessThan(preCreateTimeMs + timeMs + 5000);
@@ -330,7 +330,7 @@ class ControlLoopEventManagerTest {
      * Tests getDataManager() when not disabled.
      */
     @Test
-    void testGetDataManagerNotDisabled() throws ControlLoopException {
+    void testGetDataManagerNotDisabled() {
         assertThat(mgr.getDataManager()).isSameAs(dataMgr);
     }
 
