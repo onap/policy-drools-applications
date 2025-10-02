@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications.controlloop.common</groupId>
         <artifactId>drools-applications-common</artifactId>
-        <version>3.2.1-SNAPSHOT</version>
+        <version>3.2.1</version>
     </parent>
 
     <artifactId>eventmanager</artifactId>
