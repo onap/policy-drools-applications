@@ -109,12 +109,6 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
-            <artifactId>actor.vfc</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actor.sdnc</artifactId>
             <version>${policy.models.version}</version>
             <scope>provided</scope>
@@ -153,12 +147,6 @@
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
             <artifactId>guard</artifactId>
             <version>${policy.models.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-            <artifactId>vfc</artifactId>
-            <version>${policy.models.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
