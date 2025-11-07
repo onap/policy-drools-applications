@@ -1,0 +1,11 @@
+Code-Review+1: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Code-Review+2: Adheli Tavares <adheli.tavares@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Adam Kenihan <adam.kenihan@est.tech>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Fri, 07 Nov 2025 09:58:14 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/drools-applications/+/142382
+Project: policy/drools-applications
+Branch: refs/heads/master
