@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>5.2.2-SNAPSHOT</version>
+        <version>5.2.2</version>
         <relativePath />
     </parent>
 
@@ -49,9 +49,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Project common dependency versions -->
-        <version.policy.common>3.2.2-SNAPSHOT</version.policy.common>
-        <policy.models.version>4.2.2-SNAPSHOT</policy.models.version>
-        <version.policy.drools-pdp>3.2.2-SNAPSHOT</version.policy.drools-pdp>
+        <version.policy.common>3.2.2</version.policy.common>
+        <policy.models.version>4.2.2</policy.models.version>
+        <version.policy.drools-pdp>3.2.2</version.policy.drools-pdp>
         <surefireArgLine>
             --add-opens java.base/java.lang=ALL-UNNAMED
         </surefireArgLine>
