@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.policy.drools-applications</groupId>
         <artifactId>drools-applications-testsuites</artifactId>
-        <version>3.2.2-SNAPSHOT</version>
+        <version>3.2.3-SNAPSHOT</version>
     </parent>
     <artifactId>drools-applications-performance</artifactId>
     <build>
