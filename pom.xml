@@ -40,6 +40,9 @@
     <packaging>pom</packaging>
 
     <properties>
+        <surefireArgLine>
+            --add-opens java.base/java.lang=ALL-UNNAMED
+        </surefireArgLine>
         <!-- Project path properties -->
         <nexusproxy>https://nexus.onap.org</nexusproxy>
         <sitePath>/content/sites/site/${project.groupId}/${project.artifactId}/${project.version}</sitePath>
@@ -64,14 +67,6 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip/>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>
