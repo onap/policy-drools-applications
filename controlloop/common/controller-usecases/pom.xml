@@ -43,7 +43,6 @@
             <plugin>
                 <groupId>org.kie</groupId>
                 <artifactId>kie-maven-plugin</artifactId>
-                <version>${version.drools}</version>
                 <extensions>true</extensions>
             </plugin>
         </plugins>
@@ -194,7 +193,6 @@
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-model-compiler</artifactId>
-            <version>${version.drools}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -212,51 +210,4 @@
             <version>3.8.6</version>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <!--This profile is used to store Eclipse m2e settings only. It has no
-                influence on the Maven build itself. -->
-            <id>only-eclipse</id>
-            <activation>
-                <property>
-                    <name>m2e.version</name>
-                </property>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.eclipse.m2e</groupId>
-                            <artifactId>lifecycle-mapping</artifactId>
-                            <configuration>
-                                <lifecycleMappingMetadata>
-                                    <pluginExecutions>
-                                        <pluginExecution>
-                                            <pluginExecutionFilter>
-                                                <groupId>org.kie</groupId>
-                                                <artifactId>kie-maven-plugin</artifactId>
-                                                <goals>
-                                                    <goal>build</goal>
-                                                    <goal>generateANC</goal>
-                                                    <goal>generateDMNModel</goal>
-                                                    <goal>generateModel</goal>
-                                                    <goal>generatePMMLModel</goal>
-                                                    <goal>injectreactive</goal>
-                                                    <goal>validateDMN</goal>
-                                                </goals>
-                                            </pluginExecutionFilter>
-                                            <action>
-                                                <ignore/>
-                                            </action>
-                                        </pluginExecution>
-                                    </pluginExecutions>
-                                </lifecycleMappingMetadata>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
 </project>
