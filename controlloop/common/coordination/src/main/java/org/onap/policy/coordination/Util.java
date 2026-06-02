@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -59,7 +58,7 @@ public final class Util {
             TagInspector taginspector = tag -> tag.getClassName().equals(CoordinationDirective.class.getName());
             loaderoptions.setTagInspector(taginspector);
 
-            var contents = IOUtils.toString(is, StandardCharsets.UTF_8);
+            var contents = new String(is.readAllBytes(), StandardCharsets.UTF_8);
             //
             // Read the yaml into our Java Object
             //

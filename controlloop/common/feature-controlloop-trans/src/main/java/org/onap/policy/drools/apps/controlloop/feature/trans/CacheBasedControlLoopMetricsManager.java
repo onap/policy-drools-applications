@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2019-2022 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,9 @@
 
 package org.onap.policy.drools.apps.controlloop.feature.trans;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalListener;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     private static final Logger logger = LoggerFactory.getLogger(CacheBasedControlLoopMetricsManager.class);
 
-    private LoadingCache<UUID, VirtualControlLoopNotification> cache;
+    private Cache<UUID, VirtualControlLoopNotification> cache;
 
     @Getter
     private long cacheSize = ControlLoopMetricsFeature.CL_CACHE_TRANS_SIZE_DEFAULT;
@@ -115,22 +114,14 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
         this.cacheSize = cacheSize;
         this.transactionTimeout = transactionTimeout;
 
-        CacheLoader<UUID, VirtualControlLoopNotification> loader = new CacheLoader<>() {
-
-            @Override
-            public VirtualControlLoopNotification load(UUID key) {
-                return null;
-            }
-        };
-
-        RemovalListener<UUID, VirtualControlLoopNotification> listener = notification -> {
-            if (notification.wasEvicted()) {
-                evicted(notification.getValue());
-            } else if (logger.isInfoEnabled()) {
-                logger.info("REMOVAL: {} because of {}", notification.getValue().getRequestId(),
-                                notification.getCause().name());
-            }
-        };
+        RemovalListener<UUID, VirtualControlLoopNotification> listener =
+                (key, value, cause) -> {
+                    if (cause.wasEvicted()) {
+                        evicted(value);
+                    } else if (logger.isInfoEnabled()) {
+                        logger.info("REMOVAL: {} because of {}", value.getRequestId(), cause.name());
+                    }
+                };
 
         synchronized (this) {
             if (this.cache != null) {
@@ -138,8 +129,8 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
                 this.cache.invalidateAll();
             }
 
-            this.cache = CacheBuilder.newBuilder().maximumSize(this.cacheSize)
-                    .expireAfterWrite(transactionTimeout, TimeUnit.SECONDS).removalListener(listener).build(loader);
+            this.cache = Caffeine.newBuilder().maximumSize(this.cacheSize)
+                    .expireAfterWrite(transactionTimeout, TimeUnit.SECONDS).removalListener(listener).build();
         }
     }
 
@@ -274,7 +265,7 @@ class CacheBasedControlLoopMetricsManager implements ControlLoopMetrics {
 
     @Override
     public long getCacheOccupancy() {
-        return this.cache.size();
+        return this.cache.estimatedSize();
     }
 
     protected void metric(VirtualControlLoopNotification notification) {

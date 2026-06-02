@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -109,7 +108,7 @@ class ControlLoopProcessorTest {
     @Test
     void testControlLoopProcessorBadYaml() throws IOException {
         var is = new FileInputStream(new File("src/test/resources/string.yaml"));
-        var yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+        var yamlString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
         assertThatThrownBy(() -> new ControlLoopProcessor(yamlString))
             .hasMessageEndingWith("Cannot decode yaml into ToscaServiceTemplate");
@@ -130,7 +129,7 @@ class ControlLoopProcessorTest {
     @Test
     void testControlLoopProcessorNoPolicyYaml() throws IOException, ControlLoopException {
         var is = new FileInputStream(new File("src/test/resources/nopolicy.yaml"));
-        var yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+        var yamlString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
         var clProcessor = new ControlLoopProcessor(yamlString);
         assertThatThrownBy(clProcessor::getCurrentPolicy)
@@ -140,7 +139,7 @@ class ControlLoopProcessorTest {
     @Test
     void testControlLoopProcessorNextPolicyForResult() throws IOException, ControlLoopException {
         var is = new FileInputStream(new File("src/test/resources/test.yaml"));
-        var yamlString = IOUtils.toString(is, StandardCharsets.UTF_8);
+        var yamlString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
         for (var result : OperationResult.values()) {
             checkResult(yamlString, result);
