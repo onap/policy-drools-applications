@@ -4,7 +4,7 @@
   ONAP
   ================================================================================
   Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+  Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -198,16 +198,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-core</artifactId>
-            <version>3.8.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-compat</artifactId>
-            <version>3.8.6</version>
         </dependency>
     </dependencies>
 </project>
