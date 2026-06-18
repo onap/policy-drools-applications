@@ -23,12 +23,9 @@ package org.onap.policy.controlloop.drl.legacy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.openpojo.reflection.impl.PojoClassFactory;
-import com.openpojo.validation.ValidatorBuilder;
-import com.openpojo.validation.test.impl.GetterTester;
-import com.openpojo.validation.test.impl.SetterTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.onap.policy.common.utils.test.PojoTester;
 
 
 class ControlLoopParamsTest {
@@ -52,10 +49,7 @@ class ControlLoopParamsTest {
 
     @Test
     void testPojo() {
-        var controlLoopParams = PojoClassFactory.getPojoClass(ControlLoopParams.class);
-        var validator = ValidatorBuilder.create()
-                                      .with(new SetterTester(), new GetterTester()).build();
-        validator.validate(controlLoopParams);
+        PojoTester.testPojos(ControlLoopParams.class.getPackageName());
     }
 
     @Test
