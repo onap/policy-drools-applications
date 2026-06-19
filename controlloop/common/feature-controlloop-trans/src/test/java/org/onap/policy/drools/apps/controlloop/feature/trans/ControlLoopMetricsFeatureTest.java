@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2018-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+ * Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,6 +87,7 @@ class ControlLoopMetricsFeatureTest {
 
     @Test
     void testCacheDefaults() {
+        ControlLoopMetricsManager.getManager().refresh();
         assertEquals(3, ControlLoopMetricsManager.getManager().getCacheSize());
         assertEquals(2, ControlLoopMetricsManager.getManager().getTransactionTimeout());
         assertEquals(0, ControlLoopMetricsManager.getManager().getCacheOccupancy());
