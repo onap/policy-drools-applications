@@ -56,6 +56,30 @@
       },
       "revId": "98548750477721099245bee4ce8e1be8f2cf221a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c88b07_cd113a96",
+        "filename": "controlloop/common/feature-controlloop-trans/src/test/java/org/onap/policy/drools/apps/controlloop/feature/trans/ControlLoopMetricsFeatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-06-19T12:55:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6fd9c50a_cabd67a0",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "98548750477721099245bee4ce8e1be8f2cf221a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
