@@ -82,7 +82,9 @@ class ControlLoopMetricsFeatureTest {
 
     @BeforeEach
     void beforeTest() {
-        ControlLoopMetricsManager.getManager().refresh();
+        ControlLoopMetricsManager.getManager().resetCache(
+                ControlLoopMetricsManager.getManager().getCacheSize(),
+                ControlLoopMetricsManager.getManager().getTransactionTimeout());
         resetStats();
     }
 
@@ -171,6 +173,7 @@ class ControlLoopMetricsFeatureTest {
 
         var overflowNotification = generateNotification();
         feature.beforeDeliver(testController, CommInfrastructure.NOOP, POLICY_CL_MGT, overflowNotification);
+        ControlLoopMetricsManager.getManager().refresh();
         assertEquals(ControlLoopMetricsManager.getManager().getCacheOccupancy(),
                         ControlLoopMetricsManager.getManager().getCacheOccupancy());
         assertNotNull(ControlLoopMetricsManager.getManager().getTransaction(overflowNotification.getRequestId()));

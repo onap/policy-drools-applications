@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+ * Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
@@ -89,6 +90,13 @@ class RestTransactionTrackerTest {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
 
         SystemPersistenceConstants.getManager().setConfigurationDir(null);
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        ControlLoopMetricsManager.getManager().resetCache(
+                ControlLoopMetricsManager.getManager().getCacheSize(),
+                ControlLoopMetricsManager.getManager().getTransactionTimeout());
     }
 
     @Test
